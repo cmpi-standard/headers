@@ -35,7 +35,7 @@
  * (incorporating any subsequent Technical Corrigenda), the Technical Standard
  * shall be definitive.
  */
- 
+
 #ifndef _CMPIOS_H_
 #define _CMPIOS_H_
 
@@ -54,11 +54,11 @@
  *   * CMPI_COND_TYPE - Type for the handle of a condition.
  *
  * For details, see CMPI specification.
- * 
+ *
  * Note that some of the symbol definitions shown in the documentation generated
  * from this header file depend on the platform (see cmpipl.h), and are shown
  * for CMPI_PLATFORM_LINUX_GENERIC_GNU. For details, examine the source code of
- * cmpios.h. 
+ * cmpios.h.
  */
 #define CMPI_THREAD_TYPE        void*
 #if defined(CMPI_PLATFORM_WIN32_IX86_MSVC)
@@ -129,11 +129,11 @@ struct timespec {
  *     purposes.
  *
  * For details, see CMPI specification.
- * 
+ *
  * Note that some of the symbol definitions shown in the documentation generated
  * from this header file depend on the platform (see cmpipl.h), and are shown
  * for CMPI_PLATFORM_LINUX_GENERIC_GNU. For details, examine the source code of
- * cmpios.h. 
+ * cmpios.h.
  */
 #if defined(CMPI_PLATFORM_WIN32_IX86_MSVC)
 #  define CMPI_EXPORT __declspec(dllexport)

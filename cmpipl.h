@@ -35,7 +35,7 @@
  * (incorporating any subsequent Technical Corrigenda), the Technical Standard
  * shall be definitive.
  */
- 
+
 #ifndef _CMPIPL_H_
 #define _CMPIPL_H_
 

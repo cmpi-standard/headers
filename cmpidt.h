@@ -26,7 +26,7 @@
  * @file cmpidt.h
  * @brief Defines CMPI data types;
  * MIs do not need to include this header because it is included by cmpift.h.
- * 
+ *
  * This header file belongs to the Technical Standard: Systems Management:
  * Common Manageability Programming Interface (CMPI) Issue 2 Version 1.
  *
@@ -35,7 +35,7 @@
  * (incorporating any subsequent Technical Corrigenda), the Technical Standard
  * shall be definitive.
  */
- 
+
 #ifndef _CMPIDT_H_
 #define _CMPIDT_H_
 
@@ -65,7 +65,7 @@ extern "C" {
 
 /**
  * The current CMPI version, as a numeric CMPI version number.
- * 
+ *
  * This is the CMPI version to which this version of the header files belong.
  * At the same time, this is the highest CMPI version supported by these
  * header files.
@@ -86,20 +86,20 @@ extern "C" {
 #endif
 
 /**
- * @defgroup def-version-checkers Definition of symbols for 
+ * @defgroup def-version-checkers Definition of symbols for
  * checking CMPI version dependent features
  * @{
  * Boolean flags for testing whether CMPI version dependent features should be
  * available (that is, defined in the header files and subsequently supported
  * in the MB or MI implementation).
- * 
+ *
  * A symbol for a particular version (e.g. CMPI_VER_200) is defined if its
  * version is lower than or equal to the CMPI version that is implemented (as
  * indicated by @ref CMPI_VERSION). Otherwise, it is undefined.
  *
  * This allows a feature that was introduced in a particular CMPI version to
  * be defined like in the following example:
- * 
+ *
  *     #ifdef CMPI_VER_200
  *     // definition of feature that was added in CMPI 2.0.0
  *     #endif
@@ -258,7 +258,7 @@ typedef struct _CMPIIndicationMIFT CMPIIndicationMIFT;
  * @{
  * These types cover most CIM data types. The remaining CIM data types
  * are defined elsewhere:
- * 
+ *
  *   * [CMPIString](@ref _CMPIString) is an encapsulated data type.
  *   * [CMPIDateTime](@ref _CMPIDateTime) is an encapsulated data type.
  *   * [CMPIObjectPath](@ref _CMPIObjectPath) (for reference
@@ -269,7 +269,7 @@ typedef struct _CMPIIndicationMIFT CMPIIndicationMIFT;
  * Note that some of the types shown in the documentation generated
  * from this header file depend on the platform (see cmpipl.h), and are shown
  * for CMPI_PLATFORM_LINUX_GENERIC_GNU. For details, examine the source code of
- * cmpidt.h. 
+ * cmpidt.h.
  */
 /// CIM data type boolean
 typedef unsigned char CMPIBoolean;
@@ -380,8 +380,8 @@ typedef union _CMPIValue {
 /**
  * CMPIType - Integral bitmask type representing a CMPI type.
  *
- * CMPIType is used mainly in CMPI data items (see @ref 
- * CMPIData) and is also used standalone in some cases. 
+ * CMPIType is used mainly in CMPI data items (see @ref
+ * CMPIData) and is also used standalone in some cases.
  *
  * Test masks for CMPIType are defined [here](@ref def-cmpitype-symbols).
  */
@@ -502,8 +502,8 @@ typedef unsigned short CMPIType;
 /**
  * CMPIValueState - Integral bitmask type representing the state of a value in
  * a [CMPIData](@ref _CMPIData) object.
- * 
- * Test masks for CMPIValueState are defined 
+ *
+ * Test masks for CMPIValueState are defined
  * [here](@ref def-cmpivaluestate-symbols).
  */
 typedef unsigned short CMPIValueState;
@@ -579,7 +579,7 @@ typedef void CMPIGcStat;
  *
  * The CMPIFlags value is passed to MIs via the [CMPIContext](@ref _CMPIContext)
  * object, using the context data entry @ref CMPIInvocationFlags.
- * 
+ *
  * Test masks for CMPIFlags are defined [here](@ref def-cmpiflags-symbols).
  */
 typedef unsigned int CMPIFlags;
@@ -776,7 +776,7 @@ typedef struct _CMPIStatus {
 /**
  * @}
  */
- 
+
 /**
  * CMPIPredOP - Enumeration type that defines predicate operators in parsed
  * queries.
@@ -835,7 +835,7 @@ typedef enum _CMPILevel {
  *
  * Deprecated: This enumeration is not part of the CMPI Technical Standard;
  * it is defined for backward compatibility and its use is deprecated.
- * 
+ *
  * It is defined conditionally, when the CMPI_DEFINE_CMPISelectCondType
  * symbol is defined.
  */
@@ -872,7 +872,7 @@ typedef enum _CMPIErrorType {
     SecurityError = 7,
     /** Over subscription error */
     OversubscriptionError = 8,
-    Oversubscription_Error = OversubscriptionError, 
+    Oversubscription_Error = OversubscriptionError,
         // Deprecated, use OversubscriptionError instead
     /** Unavailable resource */
     UnavailableResourceError = 9,
