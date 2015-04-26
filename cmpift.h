@@ -1165,26 +1165,52 @@ struct _CMPIBrokerEncFT {
      */
 
     /** @brief Create a new CMPIError object initialized with
-     *         attributes defined by the input parameters
-     * Error factory service.
+           attributes defined by the input parameters.
+
+     The CMPIBrokerEncFT.newCMPIError() function creates a new CMPIError
+     object that is initialized with certain core attributes.
+
+     The input data may (or may not) be defined in a DMTF message
+     registry (see DSP0228 for the format of message registries,
+     and DSP8016 for the messages defined for the MI functions of CMPI).
+
      @param mb Pointer to the broker.
      @param owner A string specifying the value for the OwningEntity attribute
-     @param msgID A string which uniquely identifies the*
-     *   MessageID attribute of the CMPIError object For a description of
-     *   the MessageID attribute, see the description of the
-     *   MessageID property in the CIM_Error class in the CIM
-     *   Schema. If the error message is defined in a DMTF message
-     *   registry, the string value of the msgID argument shall be
-     *   the message ID defined for the message in the registry
-     *   (that is, the concatenation of the values of the PREFIX and
-     *   SEQUENCE_NUMBER attributes of the MESSAGE_ID element for
-     *   the message).
+     @param msgID A string which uniquely identifies the
+         MessageID attribute of the CMPIError object For a description of
+         the MessageID attribute, see the description of the
+         MessageID property in the CIM_Error class in the CIM
+         Schema. If the error message is defined in a DMTF message
+         registry, the string value of the msgID argument shall be
+         the message ID defined for the message in the registry
+         (that is, the concatenation of the values of the PREFIX and
+         SEQUENCE_NUMBER attributes of the MESSAGE_ID element for
+         the message).
      @param msg A string which represenst the formatted message.
      @param sev The percieved severity of the error.
      @param pc The probably cause of this error
      @param cimStatusCode CIM status code to be associated with this error.
-     @param rc Service return status.
-     @return The newly created Error.
+     @param rc Output: Service return status.
+     @return If successful, returns a pointer to the new CMPIError object.
+
+     The new object will be released automatically by the MB, as described
+     in Subclause 4.1.7. There is no function to explicitly release the
+     new object.
+
+     If not successful, NULL will be returned.
+
+    The function return status will indicate one of the following CMPIrc codes:
+    <ul>
+        <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt>	The mb argument is invalid.
+        <li><tt>CMPI_RC_ERR_INVALID_PARAMETER</tt>	One of the parameters is
+            invalid.
+        <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt>	Function is not supported
+        by the MB. In CMPI 2.1, this return code has been deprecated; It
+        will not be returned because the Extended Errors capability will
+        be available. <b>(Deprecated)</b>
+        <li><tt>CMPI_RC_ERR_FAILED</tt>	A generic error occurred.
+    </ul>
+
      */
     CMPIError* (*newCMPIError) (
         const CMPIBroker* mb,
@@ -2313,8 +2339,9 @@ struct _CMPIErrorFT {
     /** @brief Create an independent copy of a CMPIError object.
         Create an independent copy of this Error object.
      @param er Pointer to the CMPIError object to be copied.
-     @param rc if not NULL, points to a CMPIStatus structure that upon return
-         will have been updated with the function return status.
+     @param rc Output: if not NULL, points to a CMPIStatus*
+     *   structure* that upon return will have been updated with the
+     *   function return status.
      @return If successful, a pointer to the copied CMPIError object. The
          returned CMPIError object shall be explicitly released by the MI
          using CMPIErrorFT.release().If not successful, NULL will be returned.
@@ -2324,8 +2351,8 @@ struct _CMPIErrorFT {
     /** @brief Get the ErrorType attribute of a CMPIError object.
          Gets the type of this Error
      @param er Pointer to the CMPIError object for this function
-     @param rc if not NULL, points to a CMPIStatus structure that updated wit
-         the function return status.
+     @param rc Output: If not NULL, points to a CMPIStatus*
+     *   structure* that updated wit the function return status.
      @return If successful, returns a CMPIErrorType enumeration value,
          indicating the value of the ErrorType attribute in the CMPIError
          object.
@@ -4811,20 +4838,21 @@ struct _CMPIInstanceMIFT {
          this CMPIObjectPath object is deprecated since CMPI 2.1; this key
          component should not be provided by MBs and should not be used by
          MIs. <b>(Deprecated)</b>
-     @param inst Pointer to a CMPIInstance object specifying*
-     *   property values for the new instance. The object path
-     *   component within this CMPIInstance object has no meaning;
-     *   it should not be provided by MBs and should not be used by
-     *   MIs
+     @param inst Pointer to a CMPIInstance object specifying
+         property values for the new instance. The object path
+         component within this CMPIInstance object has no meaning;
+         it should not be provided by MBs and should not be used by
+         MIs
      @return Function return status.
      The following CMPIrc codes shall be recognized:
-     <code>
-     CMPI_RC_OK Operation successful.
-     CMPI_RC_ERR_NOT_SUPPORTED Operation not supported by this MI.
-     CMPI_RC_ERR_ACCESS_DENIED Not Authorized (CMPI 2.1)
-     CMPI_RC_ERR_ALREADY_EXISTS Instance already exists.
-     CMPI_RC_ERR_FAILED Unspecific error occurred.
-     </code>
+     <ul>
+     <li><tt>CMPI_RC_OK</tt> Operation successful.
+     <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> Operation not supported by
+         this MI.
+     <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt> Not Authorized (CMPI 2.1)
+     <li><tt>CMPI_RC_ERR_ALREADY_EXISTS</tt> Instance already exists.
+     <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
+     </ul>
      */
     CMPIStatus (*createInstance) (CMPIInstanceMI* mi, const CMPIContext* ctx,
             const CMPIResult* rslt, const CMPIObjectPath* classPath,
@@ -4899,11 +4927,13 @@ struct _CMPIInstanceMIFT {
      @return CMPIStatus structure indicating the function return status.
 
      The following CMPIrc codes shall be recognized:
-     CMPI_RC_OK Operation successful.
-     CMPI_RC_ERR_NOT_SUPPORTED Operation not supported by this MI.
-     CMPI_RC_ERR_ACCESS_DENIED Not Authorized (CMPI 2.1)
-     CMPI_RC_ERR_NOT_FOUND Instance not found.
-     CMPI_RC_ERR_FAILED Unspecific error occurred.
+     <ul>
+     <li><tt>CMPI_RC_OK</tt> Operation successful.
+     <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> Operation not supported by this MI.
+     <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt> Not Authorized (CMPI 2.1)
+     <li><tt>CMPI_RC_ERR_NOT_FOUND</tt> Instance not found.
+     <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
+     </ul>
      */
     CMPIStatus (*deleteInstance) (CMPIInstanceMI* mi, const CMPIContext* ctx,
             const CMPIResult* rslt, const CMPIObjectPath* op);
@@ -4937,12 +4967,15 @@ struct _CMPIInstanceMIFT {
      @return CMPIStatus structure indicating the function return status.
 
      The following CMPIrc codes shall be recognized:
-     CMPI_RC_OK Operation successful.
-     CMPI_RC_ERR_NOT_SUPPORTED Operation not supported by this MI.
-     CMPI_RC_ERR_ACCESS_DENIED Not authorized.
-     CMPI_RC_ERR_FAILED Unspecific error
-     CMPI_RC_ERR_QUERY_LANGUAGE_NOT_SUPPORTED Query language not supported.
-     CMPI_RC_ERR_INVALID_QUERY Invalid query.
+     <ul>
+     <li><tt>CMPI_RC_OK</tt> Operation successful.
+     <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> Operation not supported by this MI.
+     <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt> Not authorized.
+     <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error
+     <li><tt>CMPI_RC_ERR_QUERY_LANGUAGE_NOT_SUPPORTED</tt> Query language
+         not supported.
+     <li><tt>CMPI_RC_ERR_INVALID_QUERY</tt> Invalid query.
+     </ul>
      */
     CMPIStatus (*execQuery) (CMPIInstanceMI* mi, const CMPIContext* ctx,
             const CMPIResult* rslt, const CMPIObjectPath* classPath,
@@ -5050,7 +5083,8 @@ struct _CMPIAssociationMIFT {
             CMPIBoolean terminating);
 
     /** TODO: Sync description with spec.
-     * Enumerate ObjectPaths associated with the Instance defined by <tt>op</tt>.
+     
+     Enumerate ObjectPaths associated with the Instance defined by <tt>op</tt>.
      @param mi Provider this pointer.
      @param ctx Invocation Context
      @param rslt Result data container.
@@ -5081,11 +5115,13 @@ struct _CMPIAssociationMIFT {
      the returned Object MUST match the value of this parameter).
      @return Function return status.
      The following CMPIrc codes shall be recognized:
-     CMPI_RC_OK Operation successful.
-     CMPI_RC_ERR_FAILED Unspecific error occurred.
-     CMPI_RC_ERR_NOT_SUPPORTED Operation not supported by this MI.
-     CMPI_RC_ERR_ACCESS_DENIED Not authorized.
-     CMPI_RC_ERR_NOT_FOUND Instance not found.
+     <ul>
+     <li><tt>CMPI_RC_OK</tt> Operation successful.
+     <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
+     <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> Operation not supported by this MI.
+     <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt> Not authorized.
+     <li><tt>CMPI_RC_ERR_NOT_FOUND</tt> Instance not found.*
+     </ul>
      */
     CMPIStatus (*associators) (CMPIAssociationMI* mi, const CMPIContext* ctx,
             const CMPIResult* rslt, const CMPIObjectPath* op,
@@ -5516,16 +5552,17 @@ struct _CMPIPropertyMIFT {
      @return CMPIStatus structure indicating the function return
      status. The following CMPIrc codes shall be recognized:
      <ul>
-     <li>CMPI_RC_OK Operation successful.
-     <li>CMPI_RC_ERR_FAILED Unspecific error occurred.
-     <li>CMPI_RC_ERR_ACCESS_DENIED Not authorized.
-     <li>CMPI_RC_ERR_INVALID_NAMESPACE The namespace is invalid.
-     <li>CMPI_RC_ERR_INVALID_PARAMETER The parameter is invalid.
-     <li>CMPI_RC_ERR_INVALID_CLASS The CIM class does not exist in the
-         specified namespace.
-     <li>CMPI_RC_ERR_NOT_FOUND Instance not found.
-     <li>CMPI_RC_ERR_NO_SUCH_PROPERTY Entry not found.
-     </ul>*
+     <li><tt>CMPI_RC_OK</tt> Operation successful.
+     <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
+     <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt> Not authorized.
+     <li><tt>CMPI_RC_ERR_INVALID_NAMESPACE</tt> The namespace is
+     invalid.
+     <li><tt>CMPI_RC_ERR_INVALID_PARAMETER</tt> The parameter is invalid.
+     <li><tt>CMPI_RC_ERR_INVALID_CLASS</tt> The CIM class does not exist
+        in the specified namespace.
+     <li><tt>CMPI_RC_ERR_NOT_FOUND</tt> Instance not found.
+     <li><tt>CMPI_RC_ERR_NO_SUCH_PROPERTY</tt> Entry not found.
+     </ul>
      @deprecated In CMPI 2.1, in accord with the deprecation of property
          client operations in DMTF specifications.
      */
@@ -5648,12 +5685,12 @@ struct _CMPIIndicationMIFT {
      @return CMPIStatus structure indicating the function return status.
      The following CMPIrc codes shall be recognized:
      <ul>
-     <li>CMPI_RC_OK Operation successful.
-     <li>CMPI_RC_ERR_FAILED Unspecific error occurred.
-     <li>CMPI_RC_DO_NOT_UNLOAD Function successful, do not unload now; the
-         MB may retry an unload later..
-     <li>CMPI_RC_NEVER_UNLOAD Function successful, never unload; the MB will
-         not retry an unload later unless it shuts down.
+     <li><tt>CMPI_RC_OK</tt> Operation successful.
+     <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
+     <li><tt>CMPI_RC_DO_NOT_UNLOAD</tt> Function successful, do not
+        unload now; the MB may retry an unload later..
+     <li><tt>CMPI_RC_NEVER_UNLOAD</tt> Function successful, never unload;
+        the MB will not retry an unload later unless it shuts down.
      </ul>
      */
     CMPIStatus (*cleanup) (CMPIIndicationMI* mi, const CMPIContext* ctx,
@@ -5710,11 +5747,13 @@ struct _CMPIIndicationMIFT {
      @return This function shall structure containing the service return
      status.
      The following CMPIrc codes shall be recognized:
-     CMPI_RC_OK Operation successful.
-     CMPI_RC_ERR_FAILED Unspecific error occurred.
-     CMPI_RC_ERR_NOT_SUPPORTED Operation not supported by this
-     CMPI_RC_ERR_ACCESS_DENIED Not authorized.
-     CMPI_RC_ERR_INVALID_QUERY Invalid query or too complex.
+     <ul>
+     <li><tt>CMPI_RC_OK</tt> Operation successful.
+     <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
+     <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> Operation not supported by this
+     <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt> Not authorized.
+     <li><tt>CMPI_RC_ERR_INVALID_QUERY</tt> Invalid query or too complex.
+     </ul>
      */
     CMPIStatus (*authorizeFilter) (CMPIIndicationMI* mi,
             const CMPIContext* ctx,  const CMPISelectExp* filter,
@@ -5742,37 +5781,78 @@ struct _CMPIIndicationMIFT {
      @return This function shall return a CMPIStatus structure containing
      the service return status.
      The following CMPIrc codes shall be recognized:
-     CMPI_RC_OK Operation successful.
-     CMPI_RC_ERR_FAILED Unspecific error occurred.
-     CMPI_RC_ERR_NOT_SUPPORTED Operation not supported by this MI.
-     CMPI_RC_ERR_ACCESS_DENIED Not authorized.
-     CMPI_RC_ERR_INVALID_QUERY Invalid query or too complex.
+     <ul>
+     <li><tt>CMPI_RC_OK</tt> Operation successful.
+     <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
+     <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> Operation not supported by this MI.
+     <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt> Not authorized.
+     <li><tt>CMPI_RC_ERR_INVALID_QUERY</tt> Invalid query or too complex.
+     </ul>*
+     @deprecated // KS_TODO when and why deprecated
      */
     CMPIStatus (*mustPoll) (CMPIIndicationMI* mi, const CMPIContext* ctx,
             const CMPISelectExp* filter, const char* className,
             const CMPIObjectPath* classPath);
 
-    /** TODO: Sync description with spec.
-     * Ask the provider to begin monitoring a resource.
-     The function shall begin monitoring the resource according to the
-     filter express only.
-     @param mi The mi argument is a pointer to a CMPIIndicationMI structure.
-     @param ctx The ctx argument is a pointer to a CMPIContext structure
-     containing the Invocation Context.
-     @param filter The filter argument contains the filter specification for
-     this subscription to become active.
-     @param className The class name extracted from the filter FROM clause.
-     @param classPath The name of the class for which monitoring is required.
-     Only the namespace part is set if eventType is a process indication.
-     @param firstActivation Set to true if this is the first filter for
+    /** @brief informs the MI that an indication filter has become active.
+
+     The CMPIIndicationMIFT.activateFilter() MI function informs the MI
+     that the specified indication filter has become active. This function
+     shall be called by the MB when a client creates a subscription to
+     an indication filter, and if persisted subscriptions are supported
+     by the MB, for any persisted subscriptions to indication filters
+     when the MB starts up.
+
+     An MB implementation is free to choose whether this function
+     is called upon each subscription to a particular filter, or only upon
+     the first subscription (see the firstActivation argument). As a result,
+     the MI will always be informed about the first activation of the filter
+     after having been inactive, but has no guarantee to be informed about
+     subsequent activations of the same filter.
+
+     Generally, MIs should disable the monitoring of any resources for
+     indications if there is no interest in them. Consequently, in this
+     function the MI needs to start the monitoring of any resources that
+     trigger indications that are covered by the specified indication
+     filter, during the first activation of the filter. For the concept
+     of coverage of indications by an indication filter, see DSP1054.
+
+     @param mi Pointer to a CMPIIndicationMI structure.
+     @param ctx Pointer to a CMPIContext structure containing the Invocation
+         Context.
+     @param filter Pointer to a CMPISelectExp object containing the filter
+         specification defined by the indication filter that is activated.
+     @param className argument points to a string specifying the class name
+         extracted from the FROM clause of the filter specification contained
+         in the filter argument. If the filter specification contains joins,
+         it is undefined which of the joined classes is used for this argument.
+     @param classPath Pointer to a CMPIObjectPath object that is a
+         reference to a class or to a namespace, as follows:
+         <ul>
+            <li>If the filter specification covers lifecycle indications,
+            the CMPIObjectPath object specifies the class path of the class
+            for which lifecycle monitoring is required. Note that this class
+            may be a subclass of the class specified in the <tt>>className</tt>
+            argument, for example when the filter query constrains the
+            class to be monitored using constructs such as the <tt>ISA</tt>
+            operator of CQL.
+            <li>If the filter specification covers process indications,
+            the CMPIObjectPath object specifies the namespace path of
+            the origin namespace of the process indications.
+        </ul>
      <tt>className</tt>.
      @return CMPIStatus structure containing the function return status.
      The following CMPIrc codes shall be recognized:
-     CMPI_RC_OK Operation successful.
-     CMPI_RC_ERR_FAILED Unspecific error occurred.
-     CMPI_RC_ERR_NOT_SUPPORTED Operation not supported by this MI.
-     CMPI_RC_ERR_ACCESS_DENIED Not authorized.
-     CMPI_RC_ERR_INVALID_QUERY Invalid query or too complex.
+     <ul>
+     <li><tt>CMPI_RC_OK</tt> Operation successful.
+     <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
+     <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> Operation Function or filter is
+         not supported by this MI.
+     <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt> Not authorized.Note: This return code
+         indicates general authorization related issues and does not
+         specifically indicate that the filter itself would not be authorized.
+     <li><tt>CMPI_RC_ERR_INVALID_QUERY</tt> Invalid query or too complex.
+     </ul>
      */
     CMPIStatus (*activateFilter) (CMPIIndicationMI* mi,
             const CMPIContext* ctx, const CMPISelectExp* filter,
@@ -5999,15 +6079,16 @@ struct _CMPIIndicationMIFT {
 
      The following CMPIrc codes shall be recognized:
      <ul>
-        <li>CMPI_RC_OK	Function successful.
-        <li>CCMPI_RC_ERR_FAILED	Unspecific error occurred.
-        <li>CCMPI_RC_ERR_NOT_SUPPORTED	Function is not supported by this MI, or
-            filter collection is not supported by this MI.
-        <li>CCMPI_RC_ERR_ACCESS_DENIED	Not authorized.
+        <li><tt>CMPI_RC_OK</tt>	Function successful.
+        <li><tt>CMPI_RC_ERR_FAILED</tt>	Unspecific error occurred.
+        <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt>	Function is not
+            supported by this MI, or filter collection is not
+            supported by this MI.
+        <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt>	Not authorized.
         Note: This return code indicates general authorization related issues
             and does not specifically indicate that the filter collection
             itself would not be authorized.
-        <li>CCMPI_RC_ERR_INVALID_PARAMETER	Invalid indication filter
+        <li>CCMPI_RC_ERR_INVALID_PARAMETER</tt>	Invalid indication filter
             collection.
        </ul>
        @version 2.1
@@ -6017,7 +6098,83 @@ struct _CMPIIndicationMIFT {
             const CMPIContext* ctx, const CMPIInstance* collInst,
             CMPIBoolean firstActivation);
 
-    /** TODO: Add description from spec. */
+    /** @brief  Informs the MI that an indication filter collection has
+       become inactive.
+
+    The CMPIIndicationMIFT.deActivateFilterCollection() function informs
+    the MI that the specified indication filter collection has become
+    inactive. This function shall be called by the MB when a client
+    deletes a subscription to an indication filter collection, and for
+    any existing subscriptions to indication filter collections when
+    the MB shuts down.
+
+    This function is called either when a client deletes a subscription
+    to an indication filter collection, or when the MB shuts down
+    and deactivates a subscription.
+
+    An MB implementation is free to choose whether this function is
+    called upon each deletion of a subscription to a particular
+    filter collection, or only upon the last deletion
+    (see the lastDeActivation argument). As a result, the MI will
+    always be informed about the last deactivation of the filter
+    collection, but has no guarantee to be informed about prior
+    deactivations of the same filter collection.
+
+    Generally, MIs should disable the monitoring of any resources for
+    indications if there is no interest in them. Consequently, in this
+    function the MI should stop the monitoring of any resources that
+    trigger indications that are covered by the specified indication
+    filter collection, during the last deactivation of the filter. For
+    the concept of coverage of indications by an indication filter
+    collection, see DSP1054.
+
+    As described in DSP1054, a filter collection conceptually has
+    members, but these members do not need to be instantiated using CIM.
+    An MB shall handle deletions to subscriptions to a filter collection
+    by calling CMPIIndicationMIFT.deActivateFilterCollection() for that
+    filter collection; the MB shall not additionally call the deactivation
+    functions for the individual members of the filter collection.
+    The implementation of CMPIIndicationMIFT.deActivateFilterCollection()
+    is responsible for deactivating the entire filter collection including
+    all of its members (regardless of whether or not these members are
+    instantiated using CIM).
+    @param mi Pointer to a CMPIIndicationMI structure
+    @param ctx Pointer to a CMPIContext encapsulated data object containing
+       the context data for the invocation (see Subclause 8.1). If the
+       filter collection is activated because a client creates a
+       subscription to the filter collection, the client operation
+       that creates the subscription determines the context data.
+       If the filter collection is activated during MB startup on
+       behalf of a persisted earlier subscription, the client operation
+       that originally created the subscription determines the context
+       data.
+    @param collInst Pointer to a CMPIInstance object with the
+       CIM_FilterCollection instance representing the indication
+       filter collection. Note that the indication filter collection
+       can be identified by inspecting the CollectionName property
+       of this instance.
+    @param lastDeactivation set to true if this is the last deactivation
+    of this indication filter collection after having been active;
+    set to false otherwise.
+    @return  CMPIStatus structure containing the service return status.
+
+    The following CMPIrc codes shall be recognized:
+    <ul>
+    <li><tt>CMPI_RC_OK</tt>	Function successful.
+    <li><ttCMPI_RC_ERR_FAILED</tt>	Unspecific error occurred.
+    <li><ttCMPI_RC_ERR_NOT_SUPPORTED</tt>	Function is not supported by
+        this MI, or filter collection is not supported by this MI.
+    <li><ttCMPI_RC_ERR_ACCESS_DENIED</tt>	Not authorized. Note: This
+        return code indicates general authorization related issues and
+        does not specifically indicate that the filter collection itself
+        would not be authorized.
+    <li><ttCMPI_RC_ERR_INVALID_PARAMETER</tt>	Invalid indication
+        filter collection.
+    </ul>
+
+
+     @version 2.1
+     */
     CMPIStatus (*deActivateFilterCollection) (CMPIIndicationMI* mi,
             const CMPIContext* ctx, const CMPIInstance* collInst,
             CMPIBoolean lastDeActivation);
