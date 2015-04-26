@@ -126,34 +126,56 @@ struct _CMPIBrokerFT {
      * @{
      */
 
-    /** @brief prepare the MB to accept a new thread that will use
-     *         MB functions
-     * This function prepares the CMPI run time system to accept
-     a thread that will be using CMPI services. The returned
-     CMPIContext object must be used by the subsequent attachThread()
-     and detachThread() invocations.
+    /** @brief Prepare the MB to accept a new thread that will use
+           MB functions.
+
+     The CMPIBrokerFT.prepareAttachThread() function prepares the CMPI run
+     time system to accept a thread that will be using CMPI services.
+     The returned CMPIContext object must be used by the subsequent
+     attachThread() and detachThread() invocations.
      @param mb Pointer to the broker.
-     @param ctx Old Context object
-     @return New Context object to be used by thread to be attached.
+     @param ctx Pointer to the CMPIContext object that was used to invoke
+         the MI function that calls this MB function (see Subclause 8.1).
+     @return If successful, returns new Context object to be used by thread
+         to be attached.
+
+         If not successful, NULL will be returned.
+
+    The function return status will indicate one of the following CMPIrc codes:
+    <ul>
+    <li><tt>CMPI_RC_OK</tt>	Function successful.
+    <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt>	Invalid encapsulated data type
+        handle.
+    </ul>
+
      */
     CMPIContext* (*prepareAttachThread) (const CMPIBroker* mb,
             const CMPIContext* ctx);
 
-    /** @brief inform the MB that the current thread will begin
-     *         using MB functions
-     * This function informs the CMPI run time system that the current
-     thread with Context will begin using CMPI services.
+    /** @brief Inform the MB that the current thread will begin
+           using MB functions.
+
+     The CMPIBrokerFT.attachThread()  function informs the CMPI run time
+     system that the current thread with <tt>ctx<//tt>, Context,
+     will begin using CMPI services.
      @param mb Pointer to the broker.
      @param ctx Context object returned by a prior call to
-         prepareAttachThread()
-     @return Service return status.
+         prepareAttachThread().
+     @return CMPIStatus structure indicating the function return status.
+
+    The function return status will indicate one of the following CMPIrc codes:
+    <ul>
+    <li><tt>CMPI_RC_OK</tt>	Function successful.
+    <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt>	The <tt>mb</tt> handle or
+        <tt>ctx</tt> handle is invalid.
+    </ul>
      */
     CMPIStatus (*attachThread) (const CMPIBroker* mb, const CMPIContext* ctx);
 
-    /** @brief inform the MB that the current thread will no longer
-               use MB functions
-     *
-     * This function informs the CMPI run time system that the current thread
+    /** @brief Inform the MB that the current thread will no longer
+               use MB functions.
+
+     This function informs the CMPI run time system that the current thread
      will not be using CMPI services anymore. The Context object will be
      freed during this operation.
      @param mb Pointer to the broker.
@@ -165,24 +187,62 @@ struct _CMPIBrokerFT {
 
      /**
      * @}
-     * @defgroup broker-indications MB indications services
+     * @defgroup broker-indications MB indication services
      * @{
      */
 
-    /** @brief request delivery of an indication.
+    /** @brief Request delivery of an indication.
 
-     This function requests delivery of an Indication. The MB will
-     locate pertinent subscribers and notify them about the event.
+     The CMPIBrokerFT.deliverIndication() function requests delivery of an
+     indication. The MB will locate pertinent subscribers and notify
+     them about the event.
+
+     This function may be called by an MI regardless of whether or not there
+     are any active indication filters or indication filter collections
+     that cover the indication to be delivered. If there are no such filters
+     or filter collections, this will not cause the function to fail. For
+     the concept of coverage of indications by an indication filter or
+     indication filter collection, see DSP1054.
+
+     This function may be called by an MI regardless of whether or not
+     the MB is ready for processing the delivery of indications, as
+     communicated to the MI via CMPIIndicationMIFT.enableIndications()
+     and  CMPIIndicationMIFT.disableIndications(). If the MB is not
+     ready for processing the delivery of indications, this will not
+     cause the function to fail. The MB implementation may choose to
+     drop the indication in this case, or to queue the indication for
+     later delivery.
+
+     This function may be called by any MI function, and by any threads
+     created by MIs that are registered with the MB (see Subclause 9.13).
+
      This function shall be suppored by the MB if the Indications
      capability is available otherwise it shall not be supported.
+
      @param mb Pointer to the broker.
-     @param ctx Context object
-     @param ns pointer to a string specifying the name of the origin
+     @param ctx pointer to the CMPIContext object that was used to invoke
+         the MI function that calls this MB function (see Subclause 8.1),
+         or that was used to register the thread that calls this MB function.
+     @param ns Pointer to a string specifying the name of the origin
          namespace of the indication.
      @param ind pointer to a CMPIInstance containing the indication
          instance. Any instance path in the instance will be ignored
          by the MB ignored.
-     @return Service return status.
+     @return A CMPIStatus structure indicating the function return status.
+
+    The function return status will indicate one of the following CMPIrc codes:
+    <ul>
+        <li><tt>CMPI_RC_OK</tt>	Function successful. Note: If the MB is not
+            ready for processing the delivery of indications, it may drop
+            the indication and still return success.
+        <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt>	Function is not supported
+        by the MB.
+        <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt>	The handle specified by
+        the ind argument is invalid.
+        <li><tt>CMPI_RC_ERR_INVALID_PARAMETER</tt>	The namespace specified
+        by the <tt>ns</tt> argument is invalid, or the indication instance
+        specified by the <tt>ind</tt> argument is invalid.
+     </ul>
      */
     CMPIStatus (*deliverIndication) (const CMPIBroker* mb,
             const CMPIContext* ctx, const char* ns, const CMPIInstance* ind);
@@ -193,92 +253,266 @@ struct _CMPIBrokerFT {
      * @{
      */
 
-    /** @brief enumerate instance paths of the instances of a given
+    /** @brief Enumerate instance paths of instances of a given
             class (and its subclasses).
-     
-     Enumerate Instance Names of the class (and subclasses) defined by
-         &lt;op&gt;.
+
+     The CMPIBrokerFT.enumerateInstanceNames() function enumerates
+     instance names of the class (and subclasses) defined by
+         <tt>classPath</tt>.
      @param mb Pointer to the broker.
-     @param ctx Context object
-     @param classPath CMPIObjectPath containing namespace
-         and classname* components.
-     @param rc Output: Service return status (suppressed when NULL).
-     @return If successful returns pointer to a new* CIMEnumeration
+     @param ctx Pointer to a CMPIContext object that specifies the same
+         principal, role, accept language, and content language as the
+         CMPIContext object that was used to invoke the MI function
+         that calls this MB function (see Subclause 8.1). Any
+         invocation flags in the <tt>ctx</tt> argument will be ignored
+         by this function.
+     @param classPath Pointer to a CMPIObjectPath object that references
+         the given class and that shall contain the namespace and
+         class name components. The hostname and key components,
+         if present, will be ignored by the MB.
+     @param rc Output: If not NULL, points to a CMPIStatus structure that
+         upon return will have been updated with the function return status.
+     @return If successful returns pointer to a new CIMEnumeration
          object containing CMPIObjectPaths objects that represent the
          enumerated instance paths. The new object will be released
-         automatically by the MBB. If not successfull NULL will be returned.
+         automatically by the MB.
+
+    The function return status will indicate one of the following CMPIrc codes:
+    <ul>
+    <li><tt>CMPI_RC_OK</tt>	Function successful.
+    <li><tt>CMPI_RC_ERR_FAILED</tt>	Unspecific error occurred.
+    <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt>	Function is not supported by this MI.
+    <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt>	Not authorized.
+    <li><tt>CMPI_RC_ERR_INVALID_NAMESPACE</tt>	The namespace specified in
+    the <tt>classPath</tt> argument does not exist.
+    <li><tt>CMPI_RC_ERR_INVALID_CLASS</tt>	The class specified in the
+        <tt>classPath</tt> argument does not exist.
+    <li><tt>CMPI_RC_ERR_NOT_FOUND</tt>	Instance not found.
+    <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt>	Invalid encapsulated data type
+    handle.
+    </ul>
+
+    Extended error handling is not supported by this MB function;
+    thus, any CMPIError objects returned by the targeted MI cannot
+    be made available to the calling MI
      */
     CMPIEnumeration* (*enumerateInstanceNames) (const CMPIBroker* mb,
             const CMPIContext* ctx, const CMPIObjectPath* classPath,
             CMPIStatus* rc);
 
-    /** @brief get a given instance.
-     *
-     * Get Instance using &lt;instPath&gt; as reference. Instance
-     structure can be controled using the CMPIInvocationFlags
-     entry in &lt;ctx&gt;.
+    /** @brief Get a given instance.
+
+     The CMPIBrokerFT.getInstance() function gets  anInstance using
+     <tt>instPath</tt> as reference. Instance structure can be controled
+     using the CMPIInvocationFlags in <tt>ctx</tt>.
+
      @param mb Pointer to the broker.
-     @param ctx Context object
-     @param instPath ObjectPath containing namespace, classname and*
-     *        key* components.
+     @param ctx Pointer to a CMPIContext object that specifies the
+         same principal, role, accept language, and content language as
+         the CMPIContext object that was used to invoke the MI function
+         that calls this MB function (see Subclause 8.1). The MI may
+         specify invocation flags as needed.
+     @param instPath points to a CMPIObjectPath object that references the
+         given instance and that shall contain the namespace, class name,
+         and key components. The hostname component, if present,
+         will be ignored by the MB.
      @param properties If not NULL, the members of the array define
      one or more Property names. Each returned Object MUST NOT
      include elements for any Properties missing from this list
-     @param rc Output: Service return status (suppressed when NULL).
-     @return If successful, pointer to a new CMPIInstance. The new*
-     *       object will be released automatically by the MB. If not
-     *       successful NULL will be returned.
+     @param rc Output:  if not NULL, points to a CMPIStatus structure that
+         upon return will have been updated with the function return status.
+     @return If successful, returns a pointer to a new CMPIInstance object
+        containing the retrieved instance.
+
+    The new object will be released automatically by the MB.
+    There is no function to explicitly  release the new object. Specifically,
+    the MI shall not use CMPIBrokerMemFT.freeInstance() on the new object.
+
+    If not successful, NULL will be returned.
+
+    The function return status indicates one of the following CMPIrc codes:
+    <ul>
+    <li><tt>CMPI_RC_OK</tt>	Function successful.
+    <li><tt>CMPI_RC_ERR_FAILED</tt>	Unspecific error occurred.
+    <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt>	Function is not supported by
+    this MI. CMPI_RC_ERR_ACCESS_DENIED</tt>	Not authorized.
+    <li><tt>CMPI_RC_ERR_INVALID_NAMESPACE</tt>	The namespace specified
+    in the <tt>instPath</tt> argument does not exist.
+    <li><tt>CMPI_RC_ERR_INVALID_CLASS</tt>	The class specified in the
+        <tt>instPath</tt> argument does not exist.
+    <li><tt>CMPI_RC_ERR_INVALID_PARAMETER</tt>	The property list specified
+        in the <tt>properties</tt> argument is invalid.
+    <li><tt>CMPI_RC_ERR_NOT_FOUND</tt>	Instance not found.
+    <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt>	Invalid encapsulated data type handle.
+    </ul>
+
+    Extended error handling is not supported by this MB function; thus,
+    any CMPIError objects returned by the targeted MI cannot be made
+    available to the calling MI.
      */
+
     CMPIInstance* (*getInstance) (const CMPIBroker* mb, const CMPIContext* ctx,
             const CMPIObjectPath* instPath, const char** properties,
             CMPIStatus* rc);
 
-    /* @brief create an instance of a given class.
-     
-     MI function creates an instance of a given class in the namespace
-     of that class, by creating the underlying managed elements.
-     
-     Creates instance from &lt;inst&gt; using &lt;op&gt; as reference.
-     
+    /** @brief Create an instance of a given class.
+
+     The CMPIBrokerFT.createInstance() function creates an instance
+     of a given class. The target MI is identified by the MB based
+     on the classPath argument function creates an instance of a
+     given class in the namespace of that class, by creating the
+     underlying managed elements.
+
      @param mb Pointer to the broker.
-     @param ctx &lt;CMPIContext&gt; object containing the context data for
-         the invocation
-     @param op &lt;CMPIObjectPath&gt; containing namespace, classname and
-         key components.
-     @param inst Complete instance.
-     @param rc Output: Service return status (suppressed when NULL).
-     @return The assigned instance reference.
+     @param ctx <tt>CMPIContext</tt> object that specifies the same
+         principal, role, accept language, and content language as the
+         CMPIContext object that was used to invoke the MI function that
+         calls this MB function (see Subclause 8.1). Any invocation flags
+         in the ctx argument will be ignored by this function.
+     @param classPath points to a CMPIObjectPath object that references
+     the class of the instance to be created and that shall contain
+     the namespace and class name components. The hostname and key
+     components, if present, will be ignored by the MBs.
+     @param newInstnst  points to a CMPIInstance object specifying property
+         values for the new instance. The object path component within
+         this CMPIInstance object has no meaning; it should not be provided
+         by the calling MIs. The MB will pass the definition of the new
+         instance on to the target MI, unchanged.
+     @param rc Output: if not NULL, points to a CMPIStatus structure that
+         upon return will have been updated with the function return status.
+     @return If successful, a pointer to a new CMPIObjectPath object
+         containing the assigned instance path will be returned.
+
+         The new object will be released automatically by the MB, as
+         described in Subclause 4.1.7. There is no function to
+         explicitly release the new object. Specifically, the MI
+         shall not use CMPIBrokerMemFT.freeObjectPath() on the new object.
+
+        If not successful, NULL will be returned.
+        <ul>
+        The function return status will indicate one of the following CMPIrc codes:
+        <li><tt>CMPI_RC_OK</tt>	Function successful.
+        <li><tt>CMPI_RC_ERR_FAILED</tt>	Unspecific error occurred.
+        <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt>	Function is not supported
+        by this MI.
+        <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt>	Not authorized.
+        <li><tt>CMPI_RC_ERR_INVALID_NAMESPACE</tt>	The namespace specified
+        in the classPath argument does not exist.
+        <li><tt>CMPI_RC_ERR_INVALID_CLASS</tt>	The class specified in the
+        classPath argument does not exist.
+        <li><tt>CMPI_RC_ERR_INVALID_PARAMETER</tt>	The instance specified
+        in the inst argument is invalid.
+        <li><tt>CMPI_RC_ERR_ALREADY_EXISTS</tt>	Instance already exists.
+        <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt>	Invalid encapsulated data
+        type handle.
+
+        Extended error handling is not supported by this MB function; thus,
+        any CMPIError objects returned by the targeted MI cannot be made
+        available to the calling MI.
+        </ul>
      */
     CMPIObjectPath* (*createInstance) (const CMPIBroker* mb,
-            const CMPIContext* ctx, const CMPIObjectPath* op,
-            const CMPIInstance* inst, CMPIStatus* rc);
+            const CMPIContext* ctx, const CMPIObjectPath* classPath,
+            const CMPIInstance* newInst, CMPIStatus* rc);
 
-    /** TODO: Sync description with spec.
-       Replace an existing Instance from &lt;inst&gt; using
-       &lt;op&gt; as reference.
+    /** @brief Modify property values of a given instance.
+
+     The CMPIBrokerFT.modifyInstance() function modifies property values
+     of a given instance. The target MI is identified by the MB based on
+     the <tt>instPath</tt> argument.
+
      @param mb Pointer to the broker.
-     @param ctx Context object
-     @param op ObjectPath containing namespace, classname and key components.
-     @param inst Complete instance.
-     @return Service return status.
+     @param ctx Pointer to a CMPIContext object that specifies the same
+         principal, role, accept language, and content language as the
+         CMPIContext object that was used to invoke the MI function that
+         calls this MB function (see Subclause 8.1). Any invocation flags
+         in the ctx argument will be ignored by this function.
+     @param instPath Pointer to a CMPIObjectPath object that references
+         the given instance and that shall contain the namespace, class name,
+         and key components. The hostname component, if present, will be
+         ignored by the MB.
+     @param modInst Pointer to a CMPIInstance object specifying new
+         values for the properties to be modified. The object path
+         component within this CMPIInstance object has no meaning; it
+         should not be provided by the calling MIs and should not
+         be used by the MB.
+     @param properties  if not NULL, defines the list of property names to
+         be modified. If NULL, all properties will be modified. The end of
+         the list is signalled by a NULL character pointer.
+     @return CMPIStatus structure indicating the function return status.
+
+        The function return status indicates one of the following CMPIrc codes:
+        <ul>
+        <li><tt>CMPI_RC_OK</tt>	Function successful.
+        <li><tt>CMPI_RC_ERR_FAILED</tt>	Unspecific error occurred.
+        <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt>	Function is not
+            supported by this MI.
+        <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt>	Not authorized.
+        <li><tt>CMPI_RC_ERR_INVALID_NAMESPACE</tt>	The namespace specified
+            in the <tt>instPath</tt> argument does not exist.
+        <li><tt>CMPI_RC_ERR_INVALID_CLASS</tt>	The class specified in
+            the <tt>instPath</tt> argument does not exist.
+        <li><tt>CMPI_RC_ERR_INVALID_PARAMETER</tt>	The instance specified
+             in the <tt>modInst argument</tt>, or the properties specified in
+             propertyList are invalid.
+        <li><tt>CMPI_RC_ERR_NOT_FOUND</tt>	Instance not found.
+        <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt>	Invalid encapsulated
+        data type handle.
+        </ul>
+
+        Extended error handling is not supported by this MB function; thus,
+            any CMPIError objects returned by the targeted MI cannot be made
+            available to the calling MI
      */
+
+    // KS_TODO review the above.
     CMPIStatus (*modifyInstance) (const CMPIBroker* mb, const CMPIContext* ctx,
-            const CMPIObjectPath* op, const CMPIInstance* inst,
+            const CMPIObjectPath* instPath, const CMPIInstance* modInst,
             const char** properties);
 
-    /** TODO: Sync description with spec.
-     * Delete an existing Instance using &lt;op&gt; as reference.
+    /** @brief delete a given instance.
+
+     The CMPIBrokerFT.deleteInstance() function deletes a given instance.
+     The target MI is identified by the MB based on the <tt>instPath</tt>
+     argument.
+
      @param mb Pointer to the broker.
-     @param ctx Context object
-     @param op ObjectPath containing namespace, classname and key components.
-     @return Service return status.
-     */
+     @param ctx Pointer to a CMPIContext object that specifies the same
+         principal, role, accept language, and content language as the
+         CMPIContext object that was used to invoke the MI function that
+         calls this MB function (see Subclause 8.1). Any invocation flags
+         in the ctx argument will be ignored by this function.
+     @param instPath Pointer to a CMPIObjectPath object that references
+         the given instance and that shall contain the namespace, class name,
+         and key components. The hostname component, if present, will be
+         ignored by the MB.
+     @return CMPIStatus structure indicating the function return status.
+
+        The function return status indicates one of the following CMPIrc codes:
+        <ul>
+        <li> <tt>CMPI_RC_OK</tt>	Function successful.
+        <li> <tt>CMPI_RC_ERR_FAILED</tt>	Unspecific error occurred.
+        <li> <tt>CMPI_RC_ERR_NOT_SUPPORTED</tt>	Function is not supported
+            by this MI.
+        <li> <tt>CMPI_RC_ERR_ACCESS_DENIED</tt>	Not authorized.
+        <li> <tt>CMPI_RC_ERR_INVALID_NAMESPACE</tt>	The namespace specified
+            in the <tt>instPath</tt> argument does not exist.
+        <li> <tt>CMPI_RC_ERR_INVALID_CLASS</tt>	The class specified in
+            the <tt>instPath</tt> argument does not exist.
+        <li> <tt>CMPI_RC_ERR_NOT_FOUND</tt>	Instance not found.
+        <li> <tt>CMPI_RC_ERR_INVALID_HANDLE</tt>	Invalid encapsulated
+        data type handle.
+        </ul>
+        Extended error handling is not supported by this MB function; thus,
+            any CMPIError objects returned by the targeted MI cannot be made
+            available to the calling MI
+    */
     CMPIStatus (*deleteInstance) (const CMPIBroker* mb, const CMPIContext* ctx,
-            const CMPIObjectPath* op);
+            const CMPIObjectPath* instPath);
 
     /** TODO: Sync description with spec.
      * Query the enumeration of instances of the class (and subclasses) defined
-     by &lt;op&gt; using &lt;query&gt; expression.
+     by <tt>op</tt> using <tt>query</tt> expression.
      @param mb Pointer to the broker.
      @param ctx Context object
      @param op ObjectPath containing namespace and classname components.
@@ -291,46 +525,92 @@ struct _CMPIBrokerFT {
             const CMPIContext* ctx, const CMPIObjectPath* op,
             const char* query, const char* lang, CMPIStatus* rc);
 
-    /** @brief enumerate the instances of a given class (and its
-     *         subclasses).
-     *
-     * Enumerate Instances of the class (and subclasses) defined by &lt;op&gt;.
-     Instance structure and inheritance scope can be controled using the
-     CMPIInvocationFlags entry in &lt;ctx&gt;.
+    /** @brief Enumerate the instances of a given class (and its
+               subclasses).
+
+     The CMPIBrokerFT.enumerateInstances() function enumerates the
+     instances of a given class (and its subclasses). The set of properties
+     in the result instances can be controlled using the
+     LocalOnly and DeepInheritance flags in the CMPIInvocationFlags
+     entry in <tt>ctx</tt> and the properties argument. The target MIs
+     are identified by the MB based on the <tt>classPath</tt> argument.
+
      @param mb Pointer to the broker.
-     @param ctx Context object
-     @param classPath ObjectPath containing namespace and classname
-         components.
+     @param ctx points to a CMPIContext object that specifies the same
+         principal, role, accept language, and content language as the
+         CMPIContext object that was used to invoke the MI function that
+         calls this MB function (see Subclause 8.1). The MI may specify
+         invocation flags as needed.
+     @param classPath points to a CMPIObjectPath object that references
+         the given class and that shall contain the namespace and class
+         name components. The hostname and key components, if present,
+         will be ignored by the MB.
      @param properties If not NULL, the members of the array define one or more
      property names. Each returned Object MUST NOT include elements
      for any Properties missing from this list.  The end of the
      array is identified by a NULL pointer. If NULL all properties
      will be returned.
-     @param rc Output: Service return status (suppressed when NULL).
-     @return If successful a pointer to a new CMPIEnumerationObject*
-         will be returned containing CMPIInstance objects that
-         represent the enumerated instances. The new object will be
-         released automatically by the MB.  If not successful NULL
-         will be returned.
+     @param rc Output: If not NULL, points to a CMPIStatus structure that
+         upon return has been updated with the function return status.
+     @return If successful returns a pointer to a new CMPIEnumerationObject
+          containing CMPIInstance objects that represent the enumerated
+          instances. The new object will be released automatically by the MB.
+
+          If not successful NULL will be returned.
+
+     The function return status will indicate one of the following CMPIrc codes:
+     <ul>
+        <li><tt>CMPI_RC_OK</tt>	Function successful.
+        <li><tt>CMPI_RC_ERR_FAILED</tt>	Unspecific error occurred.
+        <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt>	Function is not supported
+            by this MI.
+        <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt>	Not authorized.
+        <li><tt>CMPI_RC_ERR_INVALID_NAMESPACE</tt>	The namespace specified
+            in the classPath argument does not exist.
+        <li><tt>CMPI_RC_ERR_INVALID_CLASS</tt>	The class specified in the
+            classPath argument does not exist.
+        <li><tt>CMPI_RC_ERR_INVALID_PARAMETER</tt>	The property list
+            specified in the properties argument is invalid.
+        <li><tt>CMPI_RC_ERR_NOT_FOUND</tt>	Instance not found.
+        <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt>	Invalid encapsulated
+            data type handle.
+    </ul>
+    Extended error handling is not supported by this MB function; thus,
+    any CMPIError objects returned by the targeted MI cannot be made
+    available to the calling MI
      */
     CMPIEnumeration* (*enumerateInstances) (const CMPIBroker* mb,
             const CMPIContext* ctx, const CMPIObjectPath* classPath,
             const char** properties, CMPIStatus* rc);
 
-    /** TODO: Sync description with spec.
-     * Enumerate instances associated with the Instance defined by the
-     * &lt;op&gt;.
+    /** @brief Enumerate the instances associated with a given source instance.
+
+
+     The CMPIBrokerFT.associators() function enumerates the instances
+     associated with a given source instance. The target MIs are identified
+     by the MB based on the Mtt>instPath</tt> argument.
      @param mb Pointer to the broker.
-     @param ctx Context object
-     @param op Source ObjectPath containing namespace, classname and key
-     components.
-     @param assocClass If not NULL, MUST be a valid Association Class name.
-     It acts as a filter on the returned set of Objects by mandating that
+     @param ctx Pointer to a CMPIContext object that specifies the same
+     principal, role, accept language, and content language as the
+     CMPIContext object that was used to invoke the MI function that
+     calls this MB function (see Subclause 8.1). Any invocation flags
+     in the ctx argument will be ignored by this function.
+     @param instPath Pointer to a CMPIObjectPath object that references
+     the given source instance and that shall contain the namespace,
+     class name, and key components. The hostname component, if present,
+     will be ignored by the MB.
+
+     If the source instance does not exist,
+     this function shall either return success with an empty result set
+     or CMPI_RC_ERR_NOT_FOUND. (Deprecated)
+
+     @param assocClass If not NULL, MUST be a valid association class name.
+     It acts as a filter on the returned set of objects by mandating that
      each returned Object MUST be associated to the source Object via an
      Instance of this Class or one of its subclasses.
-     @param resultClass If not NULL, MUST be a valid Class name.
+     @param resultClass If not NULL, MUST be a valid class name.
      It acts as a filter on the returned set of Objects by mandating that
-     each returned Object MUST be either an Instance of this Class (or one
+     each returned Object MUST be either an instance of this class (or one
      of its subclasses).
      @param role If not NULL, MUST be a valid Property name.
      It acts as a filter on the returned set of Objects by mandating
@@ -347,20 +627,60 @@ struct _CMPIBrokerFT {
      @param properties If not NULL, the members of the array define one or more
      Property names. Each returned Object MUST NOT include elements for any
      Properties missing from this list.
-     @param rc Output: Service return status (suppressed when NULL).
-     @return Enumeration of Instances.
+     @param rc Output: if not NULL, points to a CMPIStatus structure that
+     upon return will have been updated with the function return status.
+     @return If successful, returns a pointer to a new CMPIEnumeration
+         object, containing CMPIInstance objects that represent the
+         enumerated instances.
+
+    The new object will be released automatically by the MB,
+    as described in Subclause 4.1.7. There is no function to explicitly
+    release the new object.
+
+    If not successful, NULL will be returned.
+
+    The function return status will indicate one of the following CMPIrc codes:
+    <ul>
+    <li><tt>CMPI_RC_OK</tt>	Function successful.
+    <li><tt>CMPI_RC_ERR_FAILED</tt>	Unspecific error occurred.
+    <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt>	Function is not supported by this MI.
+    <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt>	Not authorized.
+    <li><tt>CMPI_RC_ERR_INVALID_NAMESPACE</tt>	The namespace specified in the instPath argument does not exist.
+    <li><tt>CMPI_RC_ERR_INVALID_CLASS</tt>	The class specified in the instPath argument does not exist.
+    <li><tt>CMPI_RC_ERR_INVALID_PARAMETER</tt>	The assocClass, resultClass, role, resultRole, or properties arguments are invalid.
+    <li><tt>CMPI_RC_ERR_NOT_FOUND</tt>	Instance not found. Instead of using this return code if the source instance does not exist, the MB should return success with an empty result set. The MI shall treat this return code as a successful return of an empty result set. (Deprecated)
+    <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt>	Invalid encapsulated data type handle.
+    </ul>
+    Extended error handling is not supported by this MB function; thus,
+    any CMPIError objects returned by the targeted MI cannot be made
+    available to the calling MI.
      */
     CMPIEnumeration* (*associators) (const CMPIBroker* mb,
-            const CMPIContext* ctx, const CMPIObjectPath* op,
+            const CMPIContext* ctx, const CMPIObjectPath* instPath,
             const char* assocClass, const char* resultClass, const char* role,
             const char* resultRole, const char** properties, CMPIStatus* rc);
 
-    /** TODO: Sync description with spec.
-     * Enumerate ObjectPaths associated with the Instance defined by &lt;op&gt;.
+    /** @brief Enumerate the instance paths of the instances
+           associated with a given source instance.
+
+     The CMPIBrokerFT.associatorNames() function enumerates the instance
+        paths of the instances associated with a given source instance.
+        The target MIs are identified by the MB based on the
+        <tt>instPath</tt> argument.
      @param mb Pointer to the broker.
-     @param ctx Context object
-     @param op Source ObjectPath containing namespace, classname and key
-     components.
+     @param ctx point to a CMPIContext object that specifies the same
+     principal, role, accept language, and content language as th
+     e CMPIContext object that was used to invoke the MI function that
+     calls this MB function (see Subclause 8.1). Any invocation flags
+     in the ctx argument will be ignored by this function.
+     @param instPath points to a CMPIObjectPath object that references
+         the given source instance and that shall contain the namespace,
+         class name, and key components. The hostname component, if present,
+         will be ignored by the MB.
+
+         If the source instance does not exist, this function shall either return
+         success with an empty result set or
+         CMPI_RC_ERR_NOT_FOUND.<b>(Deprecated) </b>.
      @param assocClass If not NULL, MUST be a valid Association Class name.
      It acts as a filter on the returned set of Objects by mandating that
      each returned Object MUST be associated to the source Object via an
@@ -381,17 +701,45 @@ struct _CMPIBrokerFT {
      via an Association in which the returned Object plays the specified role
      (i.e. the name of the Property in the Association Class that refers to
      the returned Object MUST match the value of this parameter).
-     @param rc Output: Service return status (suppressed when NULL).
-     @return Enumeration of ObjectPaths.
+     @param rc Output:  if not NULL, points to a CMPIStatus structure that
+         upon return has been updated with the function return status.
+     @return  if not NULL, points to a CMPIStatus structure that upon
+         return has been updated with the function return status.
+
+     The function return status will indicate one of the following CMPIrc codes:
+     <ul>
+    <li><tt>CMPI_RC_OK</tt>	Function successful.
+    <li><tt>CMPI_RC_ERR_FAILED</tt>	Unspecific error occurred.
+    <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt>	Function is not supported
+        by this MI.
+    <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt>	Not authorized.
+    <li><tt>CMPI_RC_ERR_INVALID_NAMESPACE</tt>	The namespace specified
+        in the <tt>instPath</tt> argument does not exist.
+    <li><tt>CMPI_RC_ERR_INVALID_CLASS</tt>	The class specified in the
+        <tt>instPath</tt> argument does not exist.
+    <li><tt>CMPI_RC_ERR_INVALID_PARAMETER</tt>	The <tt>assocClass</tt>,
+        <tt>resultClass</tt>, <tt>role</tt>, or <tt>resultRole</tt> arguments
+        are invalid.
+    <li><tt>CMPI_RC_ERR_NOT_FOUND</tt>	Instance not found.
+    Instead of using this return code if the source instance does not exist,
+    the MB should return success with an empty result set. The MI shall
+    treat this return code as a successful return of an empty result set.
+        <b>(Deprecated)</b>
+    <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt>	Invalid encapsulated data
+        type handle.
+    </ul>
+    Extended error handling is not supported by this MB function; thus, any
+    CMPIError objects returned by the targeted MI cannot be made available
+    to the calling MI.
      */
     CMPIEnumeration* (*associatorNames) (const CMPIBroker* mb,
-            const CMPIContext* ctx, const CMPIObjectPath* op,
+            const CMPIContext* ctx, const CMPIObjectPath* instPath,
             const char* assocClass, const char* resultClass, const char* role,
             const char* resultRole, CMPIStatus* rc);
 
     /** TODO: Sync description with spec.
      Enumerates the association instances that refer to the instance defined
-     by &lt;op&gt;.
+     by <tt>op</tt>.
      @param mb Pointer to the broker.
      @param ctx Context object
      @param op Source ObjectPath containing namespace, classname and key
@@ -419,7 +767,7 @@ struct _CMPIBrokerFT {
 
     /** TODO: Sync description with spec.
      Enumerates the association ObjectPaths that refer to the
-     instance defined by &lt;op&gt;.*
+     instance defined by <tt>op</tt>.*
      @param mb Pointer to the broker.
      @param ctx Context object
      @param op Source ObjectPath containing namespace, classname and key
@@ -443,7 +791,7 @@ struct _CMPIBrokerFT {
 
     /** TODO: Sync description with spec.
      * Invoke a named, extrinsic method of an Instance
-     defined by the &lt;op&gt; parameter.
+     defined by the <tt>op</tt> parameter.
      @param mb Pointer to the broker.
      @param ctx Context object
      @param objPath ObjectPath containing namespace, classname and key
@@ -458,35 +806,50 @@ struct _CMPIBrokerFT {
             const CMPIObjectPath* objPath, const char* method,
             const CMPIArgs* in, CMPIArgs* out, CMPIStatus* rc);
 
-    /** @brief set a property of a given instance (Deprecated)
-     * Set the named property value of an Instance defined by the
-     &lt;instPath&gt; parameter.*
+    /** @brief Set a property of a given instance <b>(Deprecated)</b>.
+
+     Set the named property value of an instance defined by the
+     <tt>instPath</tt> parameter.*
+
      @param mb Pointer to the broker.
      @param ctx Context object
-     @param instPath ObjectPath containing namespace, classname and*
-     *        key* components.
+     @param instPath ObjectPath containing namespace, classname and
+         key components.
      @param name Property name
      @param value Value.
      @param type Value type.
      @return Service return status.
+     @deprecated In CMPI 2.1, in accord with the deprecation of property
+         client operations in DMTF specifications. MBs shall implement
+         the CMPIBrokerFT.setProperty() function by invoking the
+         modifyInstance() MI function if the setProperty() MI function
+         is not implemented by the target MI. New MIs should
+         replace the use of CMPIBrokerFT.setProperty()with the use of
+         CMPIBrokerFT.modifyInstance().
      */
     CMPIStatus (*setProperty) (const CMPIBroker* mb, const CMPIContext* ctx,
             const CMPIObjectPath* instPath, const char* name,
             const CMPIValue* value, CMPIType type);
 
-    /** @brief get the named property of a given
-               instance(Deprecated).
-     *
-     * Get the named property value of an Instance defined by the
-     &lt;instPath&gt; parameter.*
+    /** @brief Get the named property of a given instance <b>(Deprecated)</b>.
+
+     Get the named property value of an Instance defined by the
+     <tt>instPath</tt> parameter.
      @param mb Pointer to the broker.
      @param ctx Context object
-     @param instPath ObjectPath containing namespace, classname*
-     *        and* key components.
+     @param instPath ObjectPath containing namespace, classname
+      and key components.
      @param name Property name
      @param rc Output: Service return status (suppressed when NULL).
-     @return If successfulProperty value. If not successful*
-     *       CMPIData.state will have CMPI_BadValue flag set to true
+     @return If successful, Property value. If not successful
+         CMPIData.state will have CMPI_BadValue flag set to true
+     @deprecated In CMPI 2.1, in accord with the deprecation of property
+         client operations in DMTF specifications. MBs shall implement
+         the CMPIBrokerFT.getProperty() function by invoking the
+         getInstance() MI function if the getProperty() MI function
+         is not implemented by the target MI. New MIs should replace
+         the use of CMPIBrokerFT.getProperty()with the use of
+         CMPIBrokerFT.getInstance()
      */
     CMPIData (*getProperty) (const CMPIBroker* mb, const CMPIContext* ctx,
             const CMPIObjectPath* instPath, const char* name, CMPIStatus* rc);
@@ -519,7 +882,7 @@ struct _CMPIBrokerEncFT {
      * @{
      */
 
-    /** @brief create a new CMPIInstance object initialized to a
+    /** @brief Create a new CMPIInstance object initialized to a
      *         given instance path
      *
      * Instance factory service that creates a new CMPIInstance
@@ -537,7 +900,7 @@ struct _CMPIBrokerEncFT {
     CMPIInstance* (*newInstance) (const CMPIBroker* mb,
             const CMPIObjectPath* instPath, CMPIStatus* rc);
 
-    /** @brief create a new CMPIObjectPath initialized to a given
+    /** @brief Create a new CMPIObjectPath initialized to a given
      *         namespace and class name
      *
      * ObjectPath factory service that creates a new CMPIObjectPath.
@@ -551,10 +914,11 @@ struct _CMPIBrokerEncFT {
     CMPIObjectPath* (*newObjectPath) (const CMPIBroker* mb, const char* ns,
             const char* cn, CMPIStatus* rc);
 
-    /** @brief create a new CMPIArgs object initialized to have no
-     *         method parameters
-     * Args container factory service to create a new CMPIArgs
-     * object with no method parameters
+    /** @brief Create a new CMPIArgs object initialized to have no
+           method parameters.
+
+     Args container factory service to create a new CMPIArgs
+     object with no method parameters
      @param mb Pointer to the broker.
      @param rc Output: Service return status (suppressed when NULL).
      @return If successful, returns the newly created CMPIArgs
@@ -562,10 +926,9 @@ struct _CMPIBrokerEncFT {
      */
     CMPIArgs* (*newArgs) (const CMPIBroker* mb, CMPIStatus* rc);
 
-    /** @brief create a new CMPIString object initialized from a
-     *         C-language string.
-     * String container factory service that creates a new
-     * CMPIString.
+    /** @brief Create a new CMPIString object initialized from a
+           C-language string.
+     String container factory service that creates a new CMPIString.
      @param mb Pointer to the broker.
      @param data String data
      @param rc Output: Service return status (suppressed when NULL).
@@ -575,12 +938,14 @@ struct _CMPIBrokerEncFT {
     CMPIString* (*newString) (const CMPIBroker* mb, const char* data,
             CMPIStatus* rc);
 
-    /** @brief create a new CMPIArray object of a given fixed array
-     *         size for a given type of elements.
-     * Array container factory service returns a new CMPIArray
-     * object. Once created, the size of the array is fixed and all
-     * elements are of the same time. The array in initialized to
-     * ahve no array elements.
+    /** @brief Create a new CMPIArray object of a given fixed array
+          size for a given type of elements.
+
+     Array container factory service returns a new CMPIArray
+     object. Once created, the size of the array is fixed and all
+     elements are of the same time. The array in initialized to
+     have no array elements.
+
      @param mb Pointer to the broker.
      @param size Number of elements
      @param type Element type
@@ -591,54 +956,57 @@ struct _CMPIBrokerEncFT {
     CMPIArray* (*newArray) (const CMPIBroker* mb, CMPICount size,
             CMPIType type, CMPIStatus* rc);
 
-    /** @brief create a new CMPIDataTime object with current date
-     *         and time
-     * DateTime factory service. Initialized with the current time
-     * of day.
+    /** @brief Create a new CMPIDataTime object with current date
+       and time.
+
+     DateTime factory service. Initialized with the current time * of day.
+
      @param mb Pointer to the broker.
      @param rc Output: Service return status (suppressed when NULL).
-     @return If successful returns the newly created DateTime. If*
-     *       not successful returns NULL.
+     @return If successful returns the newly created DateTime. If
+         not successful returns NULL.
      */
     CMPIDateTime* (*newDateTime) (const CMPIBroker* mb, CMPIStatus* rc);
 
-    /** @brief create a new CMPIdateTime object initialized to a
-     *         specific alue
-     * DateTime factory service. Initialized from &lt;binTime&gt;.
+    /** @brief Create a new CMPIdateTime object initialized to a
+         specific value.
+
+      factory service. Initialized from <tt>binTime</tt>;.
      @param mb Pointer to the broker.
      @param binTime Date/Time definition in binary format in microsecods
      starting since 00:00:00 GMT, Jan 1,1970.
      @param interval Wenn true, defines Date/Time definition to be an interval
      value
      @param rc Output: Service return status (suppressed when NULL).
-     @return If successful returns the newly created DateTime. If*
-     *       not succesful, returns NULL.
+     @return If successful returns the newly created CMPIDateTime. If
+       not succesful, returns NULL.
      */
     CMPIDateTime* (*newDateTimeFromBinary) (const CMPIBroker* mb,
             CMPIUint64 binTime, CMPIBoolean interval, CMPIStatus* rc);
 
-    /** @brief create a new CMPIDateTime object initialized from
-     *         input
-     * DateTime factory service. Is initialized from &lt;utcTime&gt;.
+    /** @brief Create a new CMPIDateTime object initialized from input/
+
+     DateTime factory service. Is initialized from <tt>utcTime</tt>.
      @param mb Pointer to the broker.
      @param datetime Date/Time definition in CIM datetime string format.
      @param rc Output: Service return status (suppressed when NULL).
-     @return If successful returns the newly created DateTime. If*
-     *       not successful returns NULL.
+     @return If successful returns the newly created DateTime. If
+       not successful returns NULL.
      */
     CMPIDateTime* (*newDateTimeFromChars) (const CMPIBroker* mb,
             const char* datetime, CMPIStatus* rc);
 
-    /** @brief create a new CMPISelectExp object initialized from a
-     *         select expression
-     * SelectExp factory service. TODO
+    /** @brief Create a new CMPISelectExp object initialized from a
+       select expression.
+
+     SelectExp factory service. KS_TODO
      @param mb Pointer to the broker.
      @param query The select expression.
      @param lang The query language.
      @param projection Output: Projection specification (suppressed when NULL).
      @param rc Output: Service return status (suppressed when NULL).
-     @return If successful returns the newly created SelectExp. If*
-     *       not successful returns NULL.
+     @return If successful returns the newly created SelectExp. If
+       not successful returns NULL.
      */
     CMPISelectExp* (*newSelectExp) (const CMPIBroker* mb, const char* query,
             const char* lang, CMPIArray** projection, CMPIStatus* st);
@@ -649,10 +1017,11 @@ struct _CMPIBrokerEncFT {
      * conversion, tracing and logging) @{
      */
 // TODO next one was complete change. confirm KS
-    /** @brief determine if a class path is of a specific class or
-     *         its subclasses
-     * Function to determine whether a &lt;className&gt: is of
-     &lt;classPath&gt; or any of &lt;classPath&gt; subclasses.*
+    /** @brief Determine if a class path is of a specific class or
+         its subclasses.
+
+     Function to determine whether a <tt>className&gt: is of
+     <tt>classPath</tt> or any of <tt>classPath</tt> subclasses.*
      @param mb Pointer to the broker.
      @param classPath The class path (namespace and classname components).
      @param char* className
@@ -663,8 +1032,9 @@ struct _CMPIBrokerEncFT {
         const CMPIObjectPath* classPath, const char* className,
         CMPIStatus* rc);
 
-    /** @brief convert CMPIEncapsulated data type object int a
-     *         string representation.
+    /** @brief Convert CMPIEncapsulated data type object int a
+     *         string
+     *         representation.
      *
      * Attempts to transforms an CMPI object to a broker specific
      * string format. Intended for debugging purposes only.
@@ -672,17 +1042,17 @@ struct _CMPIBrokerEncFT {
      @param object A valid CMPI object.
      @param rc Output: Service return status (suppressed when NULL).
      @return If successful returns CMPIString from representation*
-     *       of* &lt;object&gt;. If not successful returns NULL.
+     *       of* <tt>object</tt>. If not successful returns NULL.
      */
     CMPIString* (*toString) (
         const CMPIBroker* mb,
         const void* object,
         CMPIStatus* rc);
 
-    /** @brief tests whether a CMPI encapsulated data type object is
+    /** @brief Tests whether a CMPI encapsulated data type object is
      *     of a specified CMPI type.
      *
-     * Verifies whether &lt;object&gt; is of CMPI type &lt;type&gt;.
+     * Verifies whether <tt>object</tt> is of CMPI type <tt>type</tt>.
      Intended for debugging purposes only.
      @param mb Pointer to the broker.
      @param object A valid CMPI object.
@@ -696,10 +1066,10 @@ struct _CMPIBrokerEncFT {
         const void* object,
         const char* type, CMPIStatus* rc);
 
-    /** @brief get the type name of a CMPI ensapsulated data type
+    /** @brief Get the type name of a CMPI ensapsulated data type
      *         object.
      *
-     * Retrieves the CMPI type of &lt;object&gt;. The returned
+     * Retrieves the CMPI type of <tt>object</tt>. The returned
      * CMPIString object shall not be explicitly released by the MI,
      * because it may be an internal object of the CMPI encapsulated
      * data type object which will be released along with that
@@ -717,11 +1087,12 @@ struct _CMPIBrokerEncFT {
         const void* object,
         CMPIStatus* rc);
 
-    /** @brief get a translated MB implementation specific message
-     *         text (Deprecated)
-     *
-     * Retrieves translated message defined by &lt;msgId&gt;
-     * Use CMPIBrokerEncFT.getMessage2() in place of this function.
+    /** @brief Get translated MB implementation specific message text
+       <b>(Deprecated)</b>.
+
+     Retrieves translated message defined by <tt>msgId</tt>
+
+     Use CMPIBrokerEncFT.getMessage2() in place of this function.
      @param mb Pointer to the broker.
      @param msgId The message identifier.
      @param defMsg The default message. Used when message*
@@ -738,21 +1109,21 @@ struct _CMPIBrokerEncFT {
         CMPIStatus* rc,
         CMPICount count, ...);
 
-    /** @brief log a diagnostic message
-     *
-     * This function logs a diagnostic message defined by the input
-     * arguments. It exists to provide a mechanism to MIs to
-     * provider information about errors, status, etc.
-     * This function is supported by the MB if the Logging
-     * capability is available.@param mb The mb argument points to a
-     * CMPIBroker structure.
+    /** @brief Log a diagnostic message.
+
+     This function logs a diagnostic message defined by the input
+     arguments. It exists to provide a mechanism to MIs to
+     provider information about errors, status, etc.
+     This function is supported by the MB if the Logging
+     capability is available.@param mb The mb argument points to a
+     CMPIBroker structure.
      @param severity  The level argument describes the level of
          logmessage. Levels are defined in Section 4.9.
      @param id The component argument, if not NULL, is the component ID.
      @param text  The text argument, if not NULL, is the message text to be
      logged.
      @param string The string argument, if not NULL, is the message text to be
-     logged. string will be ignored when text is not NULL.
+         logged. string will be ignored when text is not NULL.
      @return Service return status.
      */
     CMPIStatus (*logMessage) (
@@ -762,16 +1133,16 @@ struct _CMPIBrokerEncFT {
         const char* text,
         const CMPIString* string);
 
-    /** @brief trace a diagnostic message with a specific trace
-     *         level and component definition.
-     * Logs a trace entry. Intended for debugging purposes.
-     * This function is supported by the MB if the Tracing
-     * capability is available.
+    /** @brief Trace a diagnostic message with a specific trace
+           level and component definition.
+     Logs a trace entry. Intended for debugging purposes.
+     This function is supported by the MB if the Tracing
+     capability is available.
      @param mb The mb argument points to a CMPIBroker structure.
      @param level  The level argument describes the level of log message.
          Levels are defined in Section 4.9.
-     @param component The component argument, if not NULL, is*
-     *                the*implementation specific component ID.
+     @param component The component argument, if not NULL, is
+         the implementation specific component ID.
      @param text  The text argument, if not NULL, is the message text to be
          output.
      @param string The string argument, if not NULL, is the message text to
@@ -793,7 +1164,7 @@ struct _CMPIBrokerEncFT {
      * @{
      */
 
-    /* @brief create a new CMPIError object initialized with
+    /** @brief Create a new CMPIError object initialized with
      *         attributes defined by the input parameters
      * Error factory service.
      @param mb Pointer to the broker.
@@ -831,7 +1202,7 @@ struct _CMPIBrokerEncFT {
      * @{
      */
 
-    /** @brief open a message file and return a handle to the file
+    /** @brief Open a message file and return a handle to the file
      * Opens a message file.
      @param mb pointer to the broker
      @param msgFile The message file identifier.
@@ -843,7 +1214,7 @@ struct _CMPIBrokerEncFT {
         const char* msgFile,
         CMPIMsgFileHandle* msgFileHandle);
 
-    /** @brief cloase a message file.
+    /** @brief Close a message file.
      *
      * Closes a message file previously opened by
      * CMPIBrokerEncFt.openMessageFile(). If the message file handle
@@ -857,7 +1228,7 @@ struct _CMPIBrokerEncFT {
         const CMPIBroker* mb,
         const CMPIMsgFileHandle msgFileHandle);
 
-    /** @brief get a translated message text from an open message
+    /** @brief Get a translated message text from an open message
      *         file by message ID
      *
      * Retrieves translated message.
@@ -903,12 +1274,12 @@ struct _CMPIBrokerEncFT {
      * @{
      */
 
-    /** @brief create a new CIMPropertyList object initialized to a
+    /** @brief Create a new CIMPropertyList object initialized to a
      *         list of property names
      *
      * This function creates a new CMPIPropertyList that is
      * initialized to a list of property names specified by
-     * &lt;properties&gt;
+     * <tt>properties</tt>
      * @param mb pointer to the broker
      * @param properties pointer to the first entry of a
      *                   NULL-terminated array of pointers to C
@@ -921,7 +1292,7 @@ struct _CMPIBrokerEncFT {
     CMPIPropertyList* (*newPropertyList) (const CMPIBroker* mb,
             const char** properties, CMPIStatus* rc);
 
-    /** @brief create a new CMPIString object from a C-language
+    /** @brief Create a new CMPIString object from a C-language
      *         string in a specific codepage
      *
      * @param mb TODO
@@ -933,19 +1304,19 @@ struct _CMPIBrokerEncFT {
     CMPIString* (*newStringCP) (const CMPIBroker* mb, const char* data,
             const CMPICodepageID cpid, CMPIStatus* rc);
 
-    /** @brief  create a new CMPIEnumerationFilter object
-     *          initialized with a filter query
-     *
-     *  create a new CMPIEnumerationFilter object initialized with
-     *  &lt;filterquery&gt; argument if the
-     *  &lt;filterQueryLanguage&gt; argument is valid. if the
-     *  &lt;filterquery&gt; is NULL the new object will be set to do
-     *  no filtering
-     * @param mb TODO
-     * @param filterQueryLanguage
-     * @param filterQuery
-     * @param rc
-     * @return
+    /** @brief  Create a new CMPIEnumerationFilter object initialized
+           with a filter query.
+
+     create a new CMPIEnumerationFilter object initialized with
+       <tt>filterquery</tt> argument if the
+       <tt>filterQueryLanguage</tt> argument is valid. if the
+       <tt>filterquery</tt> is NULL the new object will be set to do
+       no filtering
+     @param mb TODO
+     @param filterQueryLanguage
+     @param filterQuery
+     @param rc
+     @return
      */
     CMPIEnumerationFilter* (*newEnumerationFilter) (const CMPIBroker* mb,
             const char* filterQueryLanguage, const char* filterQuery,
@@ -983,11 +1354,11 @@ struct _CMPIBrokerExtFT {
      * services for library name resolution @{
      */
 
-    /* @brief resolve a generic load library name to its file name
+    /** @brief Resolve a generic load library name to its file name
      * This function complements a generic dynamic library name to its
          OS-dependent native format.
      @param filename Pointer to the generic library name,
-     @return The returned char* pointer points to the complemented library
+     @return The returned char* Pointer to the complemented library
          name in native OS format.
      Space for this string has been obtained using malloc() and must be
          released using free() by the caller.
@@ -1019,7 +1390,7 @@ struct _CMPIBrokerExtFT {
             (CMPI_THREAD_RETURN (CMPI_THREAD_CDECL* start)(void*),
             void* parm, int detached);
 
-    /** @brief wait until the specified thread ends.
+    /** @brief Wait until the specified thread ends.
 
      Suspends the current thread until the specified thread ends using
          the POSIX threading semantics.
@@ -1031,21 +1402,21 @@ struct _CMPIBrokerExtFT {
      */
     int (*joinThread) (CMPI_THREAD_TYPE thread, CMPI_THREAD_RETURN* retval);
 
-    /** @brief cause the current thread to exit with the passed-in return code,
+    /** @brief Cause current thread to exit with the passed-in return code,
 
     Causes the current thread to exit with the passed in return
        code using POSIX threading semantics.
 
     The current thread can also exit by simply returning from its thread
-     function; the purpose of the &lt;CMPIBrokerExtFT.exitThread()&gt; function
+     function; the purpose of the &lt;CMPIBrokerExtFT.exitThread()</tt> function
      is to make premature returns more convenient.
      @param return_code Is the return code that should be used for the thread.
      @return The function never returns, regardless of whether it is
-         successful or encounters errors. .
+         successful or encounters errors.
      */
     int (*exitThread) (CMPI_THREAD_RETURN return_code);
 
-    /** @brief cancel a running thread.
+    /** @brief Cancel a running thread.
 
      Cancel the thread using the POSIX threading semantics.
      @param thread  The thread to be canceled.
@@ -1054,8 +1425,7 @@ struct _CMPIBrokerExtFT {
      */
     int (*cancelThread) (CMPI_THREAD_TYPE thread);
 
-    /** @brief  suspend execution of the current thread for a
-                specified duration.
+    /** @brief Suspend execution of current thread for a specified duration.
 
      Suspends the execution of the current thread for the specified duration.
      @param msec The suspend duration in milliseconds.
@@ -1065,7 +1435,7 @@ struct _CMPIBrokerExtFT {
      */
     int (*threadSleep) (CMPIUint32 msec);
 
-    /** @brief call a function once for a given once-object.
+    /** @brief Call a function once for a given once-object.
 
        Executes the specified function procedure only once during the lifetime
            of the thread. The once-object is an integer that initially
@@ -1077,7 +1447,7 @@ struct _CMPIBrokerExtFT {
            been updated to indicate that. Subsequent calls to
            &lt;CMPIBrokerExtFT.threadOnce()&gt; by any thread within the
            process with that once-object will not call the specified function.
-     @param once Pointer to the &lt;int&gt; once object.
+     @param once Pointer to the <tt>int</tt> once object.
      @param function The function to be called
      @return If successful, zero will be returned.
          If not successful, a non-zero error code will be returned.
@@ -1085,8 +1455,8 @@ struct _CMPIBrokerExtFT {
      */
     int (*threadOnce) (int* once, void (*function) (void));
 
-    /** @brief create a POSIX threading-conformant thread key for accessing
-       the thread local store.
+    /** @brief Create a POSIX threading-conformant thread key for
+       accessing the thread local store.
 
      Create a POSIX threading conformant thread key. This key can be used as
          a key to access the thread local store.
@@ -1115,7 +1485,8 @@ struct _CMPIBrokerExtFT {
      */
     void* (*getThreadSpecific) (CMPI_THREAD_KEY_TYPE key);
 
-    /** @brief set a data pointer in the thread local store using a thread key.
+    /** @brief Set a data pointer in the thread local store using a
+               thread key.
 
      Set a data pointer in the therad local store using a POSIX
          threading-conformant  thread key.
@@ -1135,66 +1506,69 @@ struct _CMPIBrokerExtFT {
      * for POSIX-conformant mutexes @{
      */
 
-    /** @brief create a POSIX thread conformant  mutex.
-     
+    /** @brief Create a POSIX thread conformant  mutex.
+
      Create a POSIX threading conformant recursive mutex.
-     
+
      The mutex that is created shall exhibits the following behavior:
-      
-     <ul> 
+
+     <ul>
      <li>For locking a locked mutex: A thread that holds a lock on a
      mutex and attempts to lock that mutex again without first
      unlocking it shall* succeed in locking the mutex. Multiple
      locks of the mutex (by the* same thread) shall require the same
      number of unlocks (by that same* thread) to release the mutex
      before another thread can acquire the mutex.
-     
+
      <li>For unlocking an unlocked mutex: A thread attempting to
      unlock a mutex that is not locked by that thread (that is, the
      mutex is either entirely unlocked or locked by another thread)
      shall fail in unlocking the mutex.
-     </ul> 
+     </ul>
 
      @param opt For future use. It should be ignored by the MB, and
          MIs should pass a value of 0
-     
+
      @return If successful, the handle of the new mutex will be returned.
          If not successful, NULL will be returned.
      */
     CMPI_MUTEX_TYPE (*newMutex) (int opt);
 
-    /* @brief destroy a POSIX threading-conformant mutex. (Deprecated)
-     
+    /** @brief Destroy a POSIX threading-conformant mutex <b>(Deprecated)</b>.
+
      Destroy a POSIX threading conformant mutex. This function is deprecated
      because it does not indicate whether it succeeded or failed.
      Use &lt;CMPIBrokerExtFT.destroyMutex2()&gt; instead
      @param mutex The mutex to be destroyed.
+
+     @deprecated In CMPI 2.1, in favor of  CMPIBrokerExtFT.destroyMutex2
+         client operations in DMTF specifications.
      */
     void (*destroyMutex) (CMPI_MUTEX_TYPE mutex);
 
-    /* @briefLock a POSIX threading-conformant mutex. (Deprecated)
-     
+    /** @brief Lock a POSIX threading-conformant mutex. <b>(Deprecated)</b>
+
      If the mutex is locked by another thread, the current thread is suspended
      until the lock is granted. The behavior in case the mutex is already
      locked by the current thread is defined in the description of
      &lt;CMPIBrokerExtFT.newMutex()&gt;.
-     
+
      This function is deprecated because it does not indicate whether it
-     succeeded or failed. Use CMPIBrokerExtFT.lockMutex2() instead. (Deprecated)
+     succeeded or failed. Use CMPIBrokerExtFT.lockMutex2() instead. <b>(Deprecated)</b>
 
      @param mutex The mutex to be locked.
      */
     void (*lockMutex) (CMPI_MUTEX_TYPE mutex);
 
-    /** @brief unlock a POSIX threading-conformant mutex (Deprecated)
-                                          .
+    /** @brief Unlock a POSIX threading-conformant mutex <b>(Deprecated)</b>.
+
      Release control of the mutex. The behavior in case the mutex is not
      locked by the current thread is defined in the description of
      &lt;CMPIBrokerExtFT.newMutex()&gt;.
-     
+
      This function is deprecated because it does not indicate whether it
      succeeded or failed. Use &lt;CMPIBrokerExtFT.unlockMutex2()&gt;
-     instead. (Deprecated)
+     instead. <b>(Deprecated)</b>
 
      @param mutex The mutex to be unlocked.
      */
@@ -1207,7 +1581,7 @@ struct _CMPIBrokerExtFT {
      */
 
     /** @brief  Create a new condition variable.
-     
+
      Create a new POSIX threading-conformant condition variable
      @param opt for future use. It should be ignored by the MB, and MIs
      should pass a value of 0..
@@ -1216,10 +1590,10 @@ struct _CMPIBrokerExtFT {
      */
     CMPI_COND_TYPE (*newCondition) (int opt);
 
-    /** @brief Destroy a condition variable (Deprecated)
-     
-     Destroy a POSIX threading conformant condition variable(Deprecated).
-     
+    /** @brief Destroy a condition variable <b>(Deprecated)</b>
+
+     Destroy a POSIX threading conformant condition variable<b>(Deprecated)</b>.
+
      Deprecated because it does not indicate whether it succeeded
      or failed. Use CMPIBrokerExtFt.destroyCondition2() instead.
      @param cond The condition variable to be destroyed.
@@ -1227,7 +1601,7 @@ struct _CMPIBrokerExtFT {
     void (*destroyCondition) (CMPI_COND_TYPE cond);
 
     /** @brief Wait until condition is signalled.
-     
+
      This function waits until he condition has been signalled. If the
      condition variable has been signalled already, the function returns
      immediately; otherwise, it suspends the current thread to wait for
@@ -1245,34 +1619,34 @@ struct _CMPIBrokerExtFT {
 
     /** @brief Wait until the condition is signalled using a timeout
                value.
-     
+
      This function waits until a POSIX threading-conformant condition
          variable is signalled. If the condition variable has been signalled
          already, the function returns immediately; otherwise, it suspends the
          current thread to wait for the signal and then returns. The function
          returns when the timeout expires before the condition is signalled.
-     
+
      @param cond Specifies the handle of the condition variable to be used.
      @param mutex Specifies the handle of a locked mutex guarding*
-     *            thiscondition variable.
+         this condition variable.
      @param wait Specifies the timeout value.
      @return If successful, zero will be returned.
          If not successful, a non-zero error code will be returned. Error
-         codes are defined in &lt;<errno.h>&gt;, specifically for the
+         codes are defined in <tt><errno.h></tt>, specifically for the
          &lt;pthread_cond_timedwait()&gt; function; both are defined in
          IEEE 1003.1.
      */
     int (*timedCondWait) (CMPI_COND_TYPE cond, CMPI_MUTEX_TYPE mutex,
             struct timespec* wait);
 
-    /* @brief Sends a signal to a condition variable.
-     
+    /** @brief Sends a signal to a condition variable.
+
      Sends a signal to a POSIX threading-conformant condition variable.
      @param cond Specifies the handle of the condition variable to
                  send thesignal.
      @return If successful, zero will be returned.
          If not successful, a non-zero error code will be returned. Error
-         codes are defined in &lt;<errno.h>&gt;, specifically for the
+         codes are defined in <tt><errno.h></tt>, specifically for the
          &lt;pthread_cond_signal()&gt; function; both are defined in
          IEEE 1003.1.
     */
@@ -1286,11 +1660,11 @@ struct _CMPIBrokerExtFT {
      * @{
      */
 
-    /** @brief destroy a POSIX threading-conformant mutex.
-     
+    /** @brief Destroy a POSIX threading-conformant mutex.
+
      Destroy a POSIX threading conformant mutex.
      @param mutex The mutex to be destroyed. This function superceedes the
-     original &lt;destroyMutex&gt;.
+     original &lt;destroyMutex&gt; function.
      @return If successful, zero will be returned.
          If not successful, a non-zero error code will be returned. Error codes
             are defined in <errno.h>, specifically for the
@@ -1300,13 +1674,14 @@ struct _CMPIBrokerExtFT {
     int (*destroyMutex2) (CMPI_MUTEX_TYPE mutex);
 
     /** @brief Lock a POSIX threading-conformant mutex.
-     
+
      Lock a POSIX threading conformant mutex. If the mutex is locked by another
      thread, the current thread is suspended until the lock is granted.
      The behavior in case the mutex is already locked by the current thread
      is defined in the description of &lt;CMPIBrokerExtFT.newMutex()&gt;.
 
-     This function superceedes the original &lt;lockMutex&gt;.
+     This function superceedes the original &lt;lockMutex()&gt;*
+     function.
      @param mutex The mutex to be locked.
      @return If successful, zero will be returned.
          If not successful, a non-zero error code will be returned. Error codes
@@ -1317,12 +1692,13 @@ struct _CMPIBrokerExtFT {
     int (*lockMutex2) (CMPI_MUTEX_TYPE mutex);
 
     /** @brief Unlock a POSIX threading-conformant mutex.
-     
+
      Unlock a POSIX threading conformant mutex. The behavior in case the mutex
      is not locked by the current thread is defined in the description of
-     &lt;CMPIBrokerExtFT.newMutex()&gt;. 
+     &lt;CMPIBrokerExtFT.newMutex()&gt;.
 
-     This function superceedes the original &lt;unlockMutex&gt;.
+     This function superceedes the original &lt;unlockMutex()&gt;
+     function.
      @return If successful, zero will be returned.
          If not successful, a non-zero error code will be returned. Error codes
             are defined in <errno.h>, specifically for the
@@ -1337,17 +1713,20 @@ struct _CMPIBrokerExtFT {
      * @{
      */
 
-    /* @brief function destroys a POSIX threading-conformant ondition variable.
-     
-     This function function destroys a POSIX threading-conformant condition
+    /** @brief Destroy a POSIX threading-conformant condition
+               variable.
+
+     This function destroys a POSIX threading-conformant condition
      variable.
-     
-     This function superceedes the original &lt;unlockMutex&gt;.
+
+     This function superceedes the original &lt;unlockMutex()&gt;
+     function.
      @return If successful, zero will be returned.
          If not successful, a non-zero error code will be returned. Error codes
             are defined in <errno.h>, specifically for the
             &lt;pthread_cond_destroy()&gt; function; both are defined in
-            IEEE 1003.1.
+           IEEE 1003.1.
+     /version 2.1
      */
     int (*destroyCondition2) (CMPI_COND_TYPE cond);
 
@@ -1382,25 +1761,25 @@ struct _CMPIBrokerMemFT {
      * @{
      */
 
-    /** @brief mark a new object lifecycle level for subsequent
+    /** @brief Mark a new object lifecycle level for subsequent
            newly created CMPI encapsulated data type objects.
-     
+
      Invoking this function marks a new object lifecycle level for the
      calling MI. Subsequent newly created CMPI encapsulated data type objects
      in that MI will be associated with that new object lifecycle level.
      A subsequent invocation of the &lt;CMPIBrokerMemFT.release()&gt; function
-     with the returned &lt;CMPIGcStat&gt; pointer will release only the
+     with the returned <tt>CMPIGcStat</tt> pointer will release only the
      objects associated with that object lifecycle level.
-     
+
      The &lt;mark()&gt; and &lt;release()&gt; function calls may be stacked.
-     
+
      Stacked object lifecycle levels shall not overlap.
 
      @param mb The broker.
      @param rc Output: Service return status (suppressed when NULL).
-     @return If successful, a pointer to a &lt;CMPIGcStat&gt; structure will be
+     @return If successful, a pointer to a <tt>CMPIGcStat</tt> structure will be
      returned, for use with the &lt;CMPIBrokerMemFT.release()&gt; function.
-     
+
      If not successful, NULL will be returned.
 
      */
@@ -1408,7 +1787,7 @@ struct _CMPIBrokerMemFT {
 
     /** @brief Release all CMPI encapsulated data type objects created at the
        specified object lifecycle level, and remove that level.
-     
+
      This function releases all CMPI encapsulated data type objects created
      other than with &lt;clone()&gt; at the specified object lifecycle level,
      and removes that object lifecycle level. This indicates to the MB that
@@ -1416,19 +1795,18 @@ struct _CMPIBrokerMemFT {
      used by the MI. The MB may free the resources associated with these
      objects during the call to this function, or later during some garbage
      collection cycle.
-     
+
      The &lt;mark()&gt; and &lt;release()&gt; function calls may be stacked.
 
      @param mb Pointer to the broker.
      @param gc The handle returned from the &lt;mark()&gt; operation.
-     @return &lt;CMPIStatus&gt; structure indicating the function return status .
+     @return <tt>CMPIStatus</tt> structure indicating the function return status.
      @sa CMPIBrokerMemFT.mark()
      */
     CMPIStatus (*release) (const CMPIBroker* mb, const CMPIGcStat* gc);
 
-    /** @brief allocate an uninitalized memory block of the
-               specified size.
-     
+    /** @brief Allocate an uninitalized memory block of specified size.
+
      This function allocates an uninitalized memory block of the specified
          size. This function behaves consistently with the POSIX
          &lt; malloc()&gt; function (see IEEE 1003.1)
@@ -1439,12 +1817,12 @@ struct _CMPIBrokerMemFT {
      */
     void* (*cmpiMalloc) (const CMPIBroker* mb, size_t size);
 
-    /* @brief Change the size of a memory block.
+    /** @brief Change the size of a memory block.
      * This function function changes the size of the memory block pointed
      to by ptr which shall have been returned by a previous call to
      &lt;cmpiMalloc()&gt; or &lt;cmpiCalloc()&gt;. This function behaves
      consistently with the POSIX &lt;realloc()&gt; function (see IEEE 1003.1).
-     
+
      The function may move the memory block to a new location (whose address
      is returned by the function). The content of the memory block is
      preserved up to the lesser of the new and old sizes, even if the
@@ -1459,13 +1837,13 @@ struct _CMPIBrokerMemFT {
      */
     void* (*cmpiCalloc) (const CMPIBroker* mb, size_t nElems, size_t sizeElem);
 
-    /* @brief Change the size of a memory block.
-     
+    /** @brief Change the size of a memory block.
+
      This function function changes the size of the memory block pointed
      to by ptr which shall have been returned by a previous call to
      &lt;cmpiMalloc()&gt; or &lt;cmpiCalloc()&gt;. This function behaves
      consistently with the POSIX &lt;realloc()&gt; function (see IEEE 1003.1).
-     
+
      The function may move the memory block to a new location (whose address
      is returned by the function). The content of the memory block is
      preserved up to the lesser of the new and old sizes, even if the
@@ -1479,7 +1857,7 @@ struct _CMPIBrokerMemFT {
      @param size The new size of the memory block in Bytes.
      @return If successful, a pointer to the resized allocated memory block
      NULL if the new memory is not allcoated. If the function fails
-     the original &lt;ptr&gt; argument is unchanged.
+     the original <tt>ptr</tt> argument is unchanged.
      */
     void* (*cmpiRealloc) (const CMPIBroker* mb, void* ptr, size_t size);
 
@@ -1496,7 +1874,7 @@ struct _CMPIBrokerMemFT {
     /** @brief Free a memory block
      * This function frees memory allocated via the &lt;cmpiMalloc()&gt;,
      &lt;cmpiCalloc()&gt; or *lt;cmpiRealloc()&gt; functions.
-     
+
      This function behaves consistently with the POSIX &lt;free()&gt; function
      (see IEEE 1003.1).
      @param mb The broker.
@@ -1506,45 +1884,47 @@ struct _CMPIBrokerMemFT {
      */
     void (*cmpiFree) (const CMPIBroker* mb, void* ptr);
 
-    /** @brief Release a &lt;CMPIInstance&gt; object.
-     
-     This function releases a CMPIInstance object. This indicates to the 
-     MB that the object (including any objects it contains) will no 
-     longer be used by the MI. The MB may free the resources 
-     associated with the object during the call to this function, or 
-     later during some garbage collection cycle. 
-     
-     Allows a MI to free memory associated to a &lt;CMPIInstance&gt; which was
-     allocated via &lt;CMPIBrokerEncFT.newInstance()&gt;. this function should
-     be called when an instance is no longer being used by the MI. This
-     function will free all contained objects (e.g. properties).
+    /** @brief Release a <tt>CMPIInstance</tt> object.
+
+     This function releases a CMPIInstance object. This indicates to the
+     MB that the object (including any objects it contains) will no
+     longer be used by the MI. The MB may free the resources
+     associated with the object during the call to this function, or
+     later during some garbage collection cycle.
+
+     Allows a MI to free memory associated to a <tt>CMPIInstance</tt></tt>
+     which was allocated via &lt;CMPIBrokerEncFT.newInstance()&gt;.
+     this function should be called when an instance is no longer
+     being used by the MI. This function will free all contained
+     objects (e.g. properties).
      @param mb the broker.
      @param inst The instance to free.
      @return None
      */
     void (*freeInstance) (const CMPIBroker* mb, CMPIInstance* inst);
 
-    /** @brief Release a &lt;CMPIObjectPath&gt; object.
-     
-     This function releases a &lt;CMPIObjectPath&gt; object. This 
-     indicates to the MB that the object (including any objects it 
-     contains) will no longer be used by the MI. The MB may free the 
-     resources associated with the object during the call to this 
-     function, or later during some garbage collection cycle. 
-     
-     Allows a MI to free memory associated to a &lt;CMPIObjectPath&gt which was
-     allocated via &lt;CMPIBrokerEncFT.newObjectPath()&gt;. this function
-     should be called when a &lt;CMPIObjectPath&gt; is no longer being used by
-     the MI. This function will free all contained objects.
+    /** @brief Release a <tt>CMPIObjectPath</tt> object.
+
+     This function releases a <tt>CMPIObjectPath</tt> object. This
+     indicates to the MB that the object (including any objects it
+     contains) will no longer be used by the MI. The MB may free the
+     resources associated with the object during the call to this
+     function, or later during some garbage collection cycle.
+
+     Allows a MI to free memory associated to a
+     <tt>CMPIObjectPath</tt> which was allocated via
+     &lt;CMPIBrokerEncFT.newObjectPath()&gt;. this function should
+     be called when a <tt>CMPIObjectPath</tt> is no longer being
+     used by the MI. This function will free all contained objects.
      @param mb the broker.
      @param obj The object path to free.
      @return None
      */
     void (*freeObjectPath) (const CMPIBroker* mb, CMPIObjectPath* obj);
 
-    /** @brief Release a &lt;CMPIArgs&gt; object.
-     
-     Allows an MI to free memory associated to a &lt;MPIArgs&gt; which was
+    /** @brief Release a <tt>CMPIArgs</tt> object.
+
+     Allows an MI to free memory associated to a <tt>MPIArgs</tt> which was
      allocated via CMPIBrokerEncFT.newArgs. this function should be called
      when an instance is no longer being used by the MI. This function will
      free all contained objects.
@@ -1554,9 +1934,9 @@ struct _CMPIBrokerMemFT {
      */
     void (*freeArgs) (const CMPIBroker* mb, CMPIArgs* args);
 
-    /** @brief release a &lt;CMPIString&gt; object.
-     
-     Allows an MI to free memory associated to a &lt;CMPIString&gt; which was
+    /** @brief Release a <tt>CMPIString</tt> object.
+
+     Allows an MI to free memory associated to a <tt>CMPIString</tt> which was
      allocated via &lt;CMPIBrokerEncFT.newString()&gt;. this function should be
      called when an instance is no longer being used by the MI. This
      function will free all contained objects.
@@ -1566,46 +1946,46 @@ struct _CMPIBrokerMemFT {
      */
     void (*freeString) (const CMPIBroker* mb, CMPIString* str);
 
-    /** @brief release a &lt;CMPIArray&gt; object.
-     
-     Allows a MI to free memory associated to a &lt;CMPIArray&gt; which was
+    /** @brief Release a <tt>CMPIArray</tt> object.
+
+     Allows a MI to free memory associated to a <tt>CMPIArray</tt> which was
      allocated via &lt;CMPIBrokerEncFT.newArray()&gt;. this function should
      be called when an instance is no longer being used by the MI. This
      function will free all contained objects (e.g. the array elements).
-     
+
      The MB may free the resources associated with the object during the call
-     to this function, or later during some garbage collection cycle 
+     to this function, or later during some garbage collection cycle
      @param mb Pointer to the broker.
      @param args The string to free.
      @return None.
      */
     void (*freeArray) (const CMPIBroker* mb, CMPIArray* array);
 
-    /** @brief release a &lt;CMPIDateTime&gt; object.
-     
+    /** @brief Release a <tt>CMPIDateTime</tt> object.
+
      Allows a MI to free memory associated to a CMPIDateTime which was
      allocated via CMPIBrokerEncFT.newDateTime functions. this function
      should be called when an instance is no longer being used by the MI.
      This function will free all contained objects.
-     
+
      The MB may free the resources associated with the object during the call
-     to this function, or later during some garbage collection cycle 
+     to this function, or later during some garbage collection cycle
      @param mb the broker.
      @param args The string to free.
      @return None.
      */
     void (*freeDateTime) (const CMPIBroker* mb, CMPIDateTime* date);
 
-    /** @brief release a &lt;CMPISelectExp&gt; object.
-     
+    /** @brief Release a <tt>CMPISelectExp</tt> object.
+
      Allows a MI to free memory associated to a CMPISelectExp which was
      allocated via CMPIBrokerEncFT.newSelectExp functions. this function
      should be called when an instance is no longer being used by the MI.
-     
+
      This function will free all contained objects.
-     
+
      The MB may free the resources associated with the object during the call
-     to this function, or later during some garbage collection cycle 
+     to this function, or later during some garbage collection cycle
      @param mb the broker.
      @param args The string to free.
      @return None.
@@ -1614,19 +1994,20 @@ struct _CMPIBrokerMemFT {
 
 #ifdef CMPI_VER_210
 
-    /** @brief free the memory of a C-language string.
-     
+    /** @brief Free the memory of a C-language string.
+
      function releases a C-language string. This indicates to the MB that
      the string will no longer be used by the MI. The MB may free the
      memory associated with the string during the call to this function,
      or later during some garbage collection cycle.
-     
+
      This function shall be supported by the MB if the Codepage Conversion
      capability is available; otherwise, it shall not be supported.
      Availability of the Codepage Conversion capability can be queried by
      an MI using the CMPI_MB_CodepageConversion test mask on the
-     &lt;brokerCapabilitie&gt;s member of the &lt;CMPIBrokerFT structure&gt;.
-     
+     <tt>brokerCapabilities</tt> member of the <tt>CMPIBrokerFT</tt>
+     structure.
+
      @param mb Pointer to the broker.
      @param chars The C language string to free.
      @return None.
@@ -1682,29 +2063,31 @@ struct _CMPIContextFT {
      */
     CMPIVersion ftVersion;
 
-    /** @brief Release a &lt;CMPIContext&gt; object.
-     
+    /** @brief Release a <tt>CMPIContext</tt> object.
+
      The Context object will not be used any further and may be freed by
      CMPI run time system.
-     @param ctx Pointer to &lt;CMPIContext&gt; to be released.
-     @return &lt;CMPIStatus&gt; structure indication the function return status.
+     @param ctx Pointer to <tt>CMPIContext</tt> to be released.
+     @return <tt>CMPIStatus</tt> structure indicating the function
+       return status.
      */
     CMPIStatus (*release) (CMPIContext* ctx);
 
-    /** @brief Create an independent copy of a &lt;CMPIContext&gt;
+    /** @brief Create an independent copy of a <tt>CMPIContext</tt>
                object.
-     
-     Create an independent copy of the Context object.
+
+     Creates an independent copy of the CMPIContext object.
      @param ctx Context this pointer.
-     @param rc Output: Service return status (suppressed when NULL).
-     @return Pointer to copied &lt;CMPIContext&gt; object. The returned
-         &lt;CMPIContext&gt; object shall be explicity released by the
+     @param rc Output: If not NULL, points to a CMPIStatus structure that
+         upon return has been updated with the function return status..
+     @return Pointer to copied <tt>CMPIContext</tt> object. The returned
+         <tt>CMPIContext</tt> object shall be explicity released by the
          MI using &lt;CMPIContextFT.release()&gt;.
      */
     CMPIContext* (*clone) (const CMPIContext* ctx, CMPIStatus* rc);
 
-    /** @brief get a context entry in a CMPIContext object by name.
-     
+    /** @brief Get a context entry in a CMPIContext object by name.
+
      Gets a context entry in a CMPIContext object by supplying its name.
      @param ctx CMPIContext object for this function
      @param name string specifying the context entry name.
@@ -1725,7 +2108,8 @@ struct _CMPIContextFT {
          internal data array. The order of context entries in the internal
          data array is implementation-defined.
      @param name Output: Returned Context entry name (suppressed when NULL).
-     @param rc Output: Service return status (suppressed when NULL).
+     @param rc Output: If not NULL, points to a CMPIStatus structure that
+         upon return has been updated with the function return status..
      @return if not NULL, points to a CMPIStatus structure that upon return
          updated with the function return status.
      */
@@ -1742,7 +2126,7 @@ struct _CMPIContextFT {
      */
     CMPICount (*getEntryCount) (const CMPIContext* ctx, CMPIStatus* rc);
 
-    /** @brief add or replace a context entry in a CMPIContext
+    /** @brief Add or replace a context entry in a CMPIContext
      *         object
      * Adds/replaces a named Context entry in a CMPIContext object
      @param ctx Context this pointer.
@@ -1791,27 +2175,38 @@ struct _CMPIResultFT {
      */
     CMPIVersion ftVersion;
 
-    /** @brief  release a CMPIResult object
-       The Result object will not be used any further and may be freed by
-     CMPI run time system.
-     @param rslt Result this pointer.
+    /** @brief  release a CMPIResult object.
+
+     Releases a CMPIResult object. This indicates to the MB that
+         the object (including any objects it contains) will no longer
+         be used by the MI. The MB may free the resources associated with
+         the object during the call to this function, or later during
+         some garbage collection cycle.
+     @param rslt Pointer to the CMPIResult object to be released.
      @return CMPIStatus structure indicating the function return status.
      */
     CMPIStatus (*release) (CMPIResult* rslt);
 
-    /** @brief create an independent copy of a CMPIResult object.
+    /** @brief Create an independent copy of a CMPIResult object.
      *         KS_TODO
-     
-     Create an independent copy of the CMPIResult object defined by 
-     &lt;rslt&gt;. 
+
+     Create an independent copy of the CMPIResult object defined by
+     <tt>rslt</tt>.
      @param rslt Pointer to CMPIResult object to be copied.
-     @param rc Output: Service return status (suppressed when NULL)
-     @return If not NULL, points to cloned CMPIResult object.
-     */ 
+     @param rc Output: If not NULL, points to a CMPIStatus structure that upon
+         return has been updated with the function return status.
+     @return If successful, returns a pointer to the copied CMPIPropertyList
+         object.
+
+         The returned CMPIResult object shall be explicitly released by
+         the MI using CMPIResultFT.release().
+
+         If not successful, NULL will be returned.
+     */
     CMPIResult* (*clone) (const CMPIResult* rslt, CMPIStatus* rc);
 
-    /** @brief add a value/type pair to a CMPIResult object
-         Adds a value/type pair to be returned to the MB, to a CMPIResult      .
+    /** @brief Add a value/type pair to a CMPIResult object
+         Adds a value/type pair to be returned to the MB, to a CMPIResult.
          object.
      @param rslt CMPIResult object for this function.
      @param value Pointer to CMPIValue structure specifying the non-NULL value
@@ -1829,7 +2224,7 @@ struct _CMPIResultFT {
         Adds an instance to be returned to the MB, to a CMPIResult object
      @param rslt Result this pointer.
      @param inst Instance to be returned.
-     @return CMPIStatus structure indicating the function return status .
+     @return CMPIStatus structure indicating the function return status.
      */
     CMPIStatus (*returnInstance) (const CMPIResult* rslt,
             const CMPIInstance* inst);
@@ -1911,11 +2306,11 @@ struct _CMPIErrorFT {
          object during the call to this function, or later during some garbage
          collection cycle.
      @param er Pointer to the CMPIError object to be released.
-     @return CMPIStatus structure indicating the function return status .
+     @return CMPIStatus structure indicating the function return status.
      */
     CMPIStatus (*release) (CMPIError* er);
 
-    /** @brief create an independent copy of a CMPIError object.
+    /** @brief Create an independent copy of a CMPIError object.
         Create an independent copy of this Error object.
      @param er Pointer to the CMPIError object to be copied.
      @param rc if not NULL, points to a CMPIStatus structure that upon return
@@ -1953,7 +2348,7 @@ struct _CMPIErrorFT {
      */
     CMPIString* (*getOtherErrorType) (const CMPIError* er, CMPIStatus* rc);
 
-    /** @brief get the OwningEntity attribute of a CMPIError object.
+    /** @brief Get the OwningEntity attribute of a CMPIError object.
         Returns a string which describes the owning entity
      @param er Error this pointer
      @param rc Output: if not NULL, points to a CMPIStatus structure
@@ -1968,7 +2363,7 @@ struct _CMPIErrorFT {
      */
     CMPIString* (*getOwningEntity) (const CMPIError* er, CMPIStatus* rc);
 
-    /** @brief get the MessageID attribute of a CMPIError object
+    /** @brief Get the MessageID attribute of a CMPIError object
         Returns a string which is the message ID.
      @param er Pointer to the CMPIError object for this function
      @param rc Output: , if not NULL, points to a CMPIStatus structure that
@@ -1986,7 +2381,7 @@ struct _CMPIErrorFT {
      */
     CMPIString* (*getMessageID) (const CMPIError* er, CMPIStatus* rc);
 
-    /** @brief get the Message attribute of a CMPIError object
+    /** @brief Get the Message attribute of a CMPIError object
      Returns a string comnating an error message.
      @param er Pointer to the CMPIError object for this function.
      @param rc Output: if not NULL, points to a CMPIStatus structure updated
@@ -2000,9 +2395,9 @@ struct _CMPIErrorFT {
      */
     CMPIString* (*getMessage) (const CMPIError* er, CMPIStatus* rc);
 
-    /** @brief Get the PerceivedSeverity attribute of a CMPIError
-     object. Returns the PerceivedSeverity attribute of a CMPIError
-     object.
+    /** @brief Get the PerceivedSeverity attribute of a CMPIError object
+
+     Returns the PerceivedSeverity attribute of a CMPIError object.
      @param er  points to the CMPIError object for this function
      @param rc Output: , if not NULL, points to a CMPIStatus structure updated
          with the function return status.
@@ -2014,7 +2409,8 @@ struct _CMPIErrorFT {
     CMPIErrorSeverity (*getPerceivedSeverity) (const CMPIError* er,
             CMPIStatus* rc);
 
-    /** @brief get the ProbableCause attribute of a CMPIError object
+    /** @brief Get the ProbableCause attribute of a CMPIError object.
+
      Returns the ProbableCause attribute of a CMPIError object
      @param er Pointer to the CMPIError object for this function.
      @param rc Output: If not NULL, points to a CMPIStatus structure
@@ -2061,7 +2457,7 @@ struct _CMPIErrorFT {
      */
     CMPIArray* (*getRecommendedActions) (const CMPIError* er, CMPIStatus* rc);
 
-    /** @brief get the ErrorSource attribute of a CMPIError object
+    /** @brief Get the ErrorSource attribute of a CMPIError object
      Returns a string which describes the Error source of the
          CMPIError object.
      @param er Pointer to the CMPIError object for this function.
@@ -2076,22 +2472,22 @@ struct _CMPIErrorFT {
      */
     CMPIString* (*getErrorSource) (const CMPIError* er, CMPIStatus* rc);
 
-    /** @brief get the ErrorSourceFormat attribute of a CMPIError bject
-     Returns a the format that the error src is in.
+    /** @brief Get the ErrorSourceFormat attribute of a CMPIError
+     bject Returns a the format that the error src is in.
      @param er Pointer to the CMPIError object for this function.
      @param rc Output: If not NULL, points to a CMPIStatus
          structure updated with the function return status.
      @return If successful, a CMPIErrorSrcFormat enumeration value will be
          returned, indicating the value of the ErrorSourceFormat attribute of
-         the CMPIError object .
+         the CMPIError object.
          If not successful, the returned value is undefined.
      */
     CMPIErrorSrcFormat (*getErrorSourceFormat) (const CMPIError* er,
             CMPIStatus* rc);
 
-    /** @brief get the OtherErrorSourceFormat attribute of a CMPIError object
-     Returns a string which describes the 'other' format, only available if
-         the error source is OTHER.
+    /** @brief Get the OtherErrorSourceFormat attribute of a
+     CMPIError object Returns a string which describes the 'other'
+         format, only available if the error source is OTHER.
      @param er Pointer to the CMPIError object for this function.
      @param rc Output: If not NULL, points to a CMPIStatus
          structure updated with the function return status.
@@ -2118,8 +2514,10 @@ struct _CMPIErrorFT {
      */
     CMPIrc (*getCIMStatusCode) (const CMPIError* er, CMPIStatus* rc);
 
-    /** @brief get the CIMStatusCodeDescription attribute of a CMPIError object.
-     Returns a string which describes the status code error.
+    /** @brief Get CIMStatusCodeDescription attribute of a CMPIError object.
+
+     Returns a string which describes the status
+     code error.
      @param er Pointer to the CMPIError object for this function.
      @param rc Output: If not NULL, points to a CMPIStatus
          structure updated with the function return status.
@@ -2136,7 +2534,7 @@ struct _CMPIErrorFT {
     CMPIString* (*getCIMStatusCodeDescription) (const CMPIError* er,
             CMPIStatus* rc);
 
-    /** @brief get the MessageArguments array attribute of a
+    /** @brief Get the MessageArguments array attribute of a
      CMPIError object Returns an array which contains the dynamic
      content of the message.
      @param er Pointer to the CMPIError object for this function.
@@ -2154,7 +2552,7 @@ struct _CMPIErrorFT {
      */
     CMPIArray* (*getMessageArguments) (const CMPIError* er, CMPIStatus* rc);
 
-    /** @brief set the ErrorType attribute of a CMPIError object
+    /** @brief Get the ErrorType attribute of a CMPIError object
      Sets the error type of this error object.
      @param er Pointer to the CMPIError object for this function.
      @param et CMPIErrorType enumeration value specifying the new value for
@@ -2169,13 +2567,13 @@ struct _CMPIErrorFT {
     /** @brief  set the OtherErrorType attribute of a CMPIError
      object Sets the 'other' error type of this error object.
      @param er Pointer to the CMPIError object for this function.
-     @param oet points to a string specifying the new non-NULL value for the
-         OtherErrorType attribute, or is NULL specifying that the attribute
-         will be set to NULL. If the error message is defined in a DMTF
-         message registry, the string value of the oet argument shall be
-         the content of the OTHER_ERROR_TYPE element defined for the message
-         in the registry
-         It is only valid when error type is "OTHER"
+     @param oet Pointer to a string specifying the new non-NULL*
+     *   value for the OtherErrorType attribute, or is NULL
+     *   specifying that the attribute will be set to NULL. If the
+     *   error message is defined in a DMTF message registry, the
+     *   string value of the oet argument shall be the content of
+     *   the OTHER_ERROR_TYPE element defined for the message in the
+         registry It is only valid when error type is "OTHER"
      @return Output: CMPIStatus structure indicating the function return status
      */
     CMPIStatus (*setOtherErrorType) (const CMPIError* er, const char* oet);
@@ -2193,7 +2591,7 @@ struct _CMPIErrorFT {
     CMPIStatus (*setProbableCauseDescription) (const CMPIError* er,
             const char* pcd);
 
-    /** @brief set the RecommendedActions array attribute of a
+    /** @brief Set the RecommendedActions array attribute of a
          CMPIError object.
 
      Sets the recommended actions array. For a description of the
@@ -2213,7 +2611,7 @@ struct _CMPIErrorFT {
     CMPIStatus (*setRecommendedActions) (const CMPIError* er,
             const CMPIArray* ra);
 
-    /** @brief set the ErrorSource attribute of a CMPIError object.
+    /** @brief Set the ErrorSource attribute of a CMPIError object.
 
      Specifies a string which specifes The identifying information
      of the entity (i.e., the instance) generating the error..*
@@ -2227,7 +2625,7 @@ struct _CMPIErrorFT {
      */
     CMPIStatus (*setErrorSource) (const CMPIError* er, const char* es);
 
-    /** @brief set the &lt;ErrorSourceFormat&gt; attribute of a
+    /** @brief Set the <tt>ErrorSourceFormat</tt> attribute of a
          CMPIError object.
 
      Sets the source format of the error object. For a
@@ -2245,59 +2643,59 @@ struct _CMPIErrorFT {
     CMPIStatus (*setErrorSourceFormat) (const CMPIError* er,
             const CMPIErrorSrcFormat esf);
 
-    /** @brief set the &lt;OtherErrorSourceFormat&gt; attribute of a
-     &lt;CMPIError&gt; object
+    /** @brief Set the <tt>OtherErrorSourceFormat</tt> attribute of a
+     <tt>CMPIError</tt> object
 
-     Specifies a string defining "Other" values for &lt;ErrorSourceFormat&gt;
-     @param er Pointer to the &lt;CMPIError&gt; object for this function.
+     Specifies a string defining "Other" values for <tt>ErrorSourceFormat</tt>
+     @param er Pointer to the <tt>CMPIError</tt> object for this function.
      @param oef Pointer to a string specifying the new non-NULL value for
-         the &lt;OtherErrorSourceFormat&gt; attribute, or NULL specifying
+         the <tt>OtherErrorSourceFormat</tt> attribute, or NULL specifying
          that the attribute will be set to NULL. If the error message is
          defined in a DMTF message registry, the string value of the
-         &lt;oef&gt; argument shall be the content of the
+         <tt>oef</tt> argument shall be the content of the
          OTHER_ERROR_SOURCE_FORMAT element defined for the message in the
          registry.
-     @return &lt;CMPIStatus&gt; structure indicating the function return status.
+     @return <tt>CMPIStatus</tt> structure indicating the function return status.
      */
     CMPIStatus (*setOtherErrorSourceFormat) (const CMPIError* er,
             const char* oef);
 
-    /** @brief set the &lt;CIMStatusCodeDescription&gt; attribute of a
-       &lt;CMPIError&gt; object
+    /** @brief Set the <tt>CIMStatusCodeDescription</tt> attribute of
+       a <tt>CMPIError</tt> object
 
      Sets the description of the status code. For a description of the
-         &lt;CIMStatusCodeDescription&gt; attribute, see the description of the
-         &lt;CIMStatusCodeDescription&gt; property in the &lt;CIM_Error&gt;
+         <tt>CIMStatusCodeDescription</tt> attribute, see the description of the
+         <tt>CIMStatusCodeDescription</tt> property in the <tt>CIM_Error</tt>
          class in the CIM Schema.
-     @param er Pointer to the &lt;CMPIError&gt; object for this function.
+     @param er Pointer to the <tt>CMPIError</tt> object for this function.
      @param scd A Pointer to a string specifying the new non-NULL value
-         for the &lt;CIMStatusCodeDescription&gt; attribute, or NULL specifying
+         for the <tt>CIMStatusCodeDescription</tt> attribute, or NULL specifying
          that the attribute will be set to NULL. If the error message is defined
          in a DMTF message registry, note that the string value of the
-         &lt;scd&gt; argument is not defined in the message in the registry.
-     @return &lt;CMPIStatus&gt; structure indicating the function return status.
+         <tt>scd</tt> argument is not defined in the message in the registry.
+     @return <tt>CMPIStatus</tt> structure indicating the function return status.
      */
     CMPIStatus (*setCIMStatusCodeDescription) (const CMPIError* er,
             const char* scd);
 
-    /** @brief set the &lt;MessageArguments&gt; array attribute of a
-           &lt;CMPIError&gt; object.
+    /** @brief Get the <tt>MessageArguments</tt> array attribute of a
+           <tt>CMPIError</tt> object.
 
      Sets an array of strings for the dynamic content of the message. For a
-         description of the &lt;MessageArguments&gt; attribute, see the
-         description of the &lt;MessageArguments&gt; property in the
-         &lt;CIM_Error&gt; class in the CIM Schema.
-     @param er Pointer to the &lt;CMPIError&gt; object for this function.
-     @param values &lt;CMPIArray&gt; object specifying the new array value
-         for the &lt;MessageArguments&gt; array attribute. The &lt;CMPIArray&gt;
-         object contains &lt;CMPIString&gt; objects or NULL values as array
+         description of the <tt>MessageArguments</tt> attribute, see the
+         description of the <tt>MessageArguments</tt> property in the
+         <tt>CIM_Error</tt> class in the CIM Schema.
+     @param er Pointer to the <tt>CMPIError</tt> object for this function.
+     @param values <tt>CMPIArray</tt> object specifying the new array value
+         for the <tt>MessageArguments</tt> array attribute. The <tt>CMPIArray</tt>
+         object contains <tt>CMPIString</tt> objects or NULL values as array
          elements. The values argument may be NULL, specifying that the
-         &lt;MessageArguments&gt; array attribute will be set to NULL. If the
+         <tt>MessageArguments</tt> array attribute will be set to NULL. If the
          error message is defined in a DMTF message registry, the values
          argument shall reflect the values defined in the DYNAMIC_ELEMENT
          elements defined for the message in the registry, in the order
          defined there.
-     @return &lt;CMPIStatus&gt; structure indicating the function return status.
+     @return <tt>CMPIStatus</tt> structure indicating the function return status.
      */
     CMPIStatus (*setMessageArguments) (const CMPIError* er,
             const CMPIArray* values);
@@ -2337,8 +2735,8 @@ struct _CMPIInstanceFT {
      */
     CMPIVersion ftVersion;
 
-    /* @brief Release a &lt:CMPIInstance&gt; object.
-     
+    /** @brief Release a <tt>CMPIInstance</tt> object.
+
      The Instance object will not be used any further and may be freed by
      CMPI run time system. This will also release the contained objects.
      @param inst Pointer to CMPIInstance to be releases.
@@ -2346,73 +2744,74 @@ struct _CMPIInstanceFT {
      */
     CMPIStatus (*release) (CMPIInstance* inst);
 
-    /* @brief Create an independent copy of a &lt:CMPIInstance&gt; object
-     
+    /** @brief Create an independent copy of a <tt>CMPIInstance</tt> object.
+
      Create an independent copy of this Instance object. The resulting
      object must be released explicitly.
-     @param inst Pointer to the &lt:CMPIInstance&gt; to be cloned.
+     @param inst Pointer to the <tt>CMPIInstance</tt> to be cloned.
      @param rc Output: Service return status (suppressed when NULL).
-     @return Pointer to copied &lt:CMPIInstance&gt; object.
+     @return Pointer to copied <tt>CMPIInstance</tt> object.
      */
     CMPIInstance* (*clone) (const CMPIInstance* inst, CMPIStatus* rc);
 
-    /** @brief get a property in a &lt;CMPIInstance&gt; object by
+    /** @brief Get a property in a <tt>CMPIInstance</tt> object by
                name.
-     
+
      Gets a named property value from an instance.
      @param inst Instance this pointer.
      @param name Points to a string containing the property name.
-     @param rc Output: if not NULL, points to a &lt;CMPIStatus&gt; structure
+     @param rc Output: if not NULL, points to a <tt>CMPIStatus</tt> structure
      that upon return is updated with the function return status.
      @return If successful, a CMPIData structure containing the specified
      property will be returned.
-     
+
      If not successful, CMPIData.state will have the CMPI_badValue flag
      set to true.
      */
     CMPIData (*getProperty) (const CMPIInstance* inst, const char* name,
             CMPIStatus* rc);
 
-    /** @brief get a property in a &lt;CMPIInstance&gt; object by index.
+    /** @brief Get a property in a <tt>CMPIInstance</tt> object by
+               index.
 
      Gets a Property value defined by its index.
      @param inst Pointer to the instance.
      @param index Zero-based index number of the property in the internal
          data array.
-     @param name Output: If not NULL, points to a &lt;CMPIString&gt; pointer
-     that upon success is updated to point to a &lt;CMPIString&gt; object
-     containing the property name. The returned &lt;CMPIString&gt; object
+     @param name Output: If not NULL, points to a <tt>CMPIString</tt> pointer
+     that upon success is updated to point to a <tt>CMPIString</tt> object
+     containing the property name. The returned <tt>CMPIString</tt> object
      shall not be explicitly released by the MI, because it may be an internal
-     object of the &lt;CMPIString&gt; object which will be released
+     object of the <tt>CMPIString</tt> object which will be released
      along with that object, or a new object created by the MB which will be
      released automatically by the MB.
      @param rc Output: If not NULL, points to a CMPIStatus structure
      updated with the function return status.
-     @return If successful, a &lt;CMPIData&gt; structure containing the
+     @return If successful, a <tt>CMPIData</tt> structure containing the
      specified property.
-     If not successful, &lt;CMPIData&gt;  state will have the
-     &lt;CMPI_badValue&gt; flag set to true
+     If not successful, <tt>CMPIData</tt>  state will have the
+     <tt>CMPI_badValue</tt> flag set to true
      */
     CMPIData (*getPropertyAt)
     (const CMPIInstance* inst, CMPICount index, CMPIString** name,
             CMPIStatus* rc);
 
-    /** @brief get the number of properties in a CMPIInstance
-                                                                   object.
-     . Gets the number of properties contained in this Instance. 
+    /** @brief Get the number of properties in a CMPIInstance
+     *         object.
+
+     Gets the number of properties contained in this instance.
      @param inst Pointer to the instance.
-     @param rc Output: If not NULL, points to a &lt;CMPIStatus&gt; structure
+     @param rc Output: If not NULL, points to a <tt>CMPIStatus</tt> structure
      updated with the function return status.
-     @return If successful, a &lt;CMPICount&gt; value indicating the number
+     @return If successful, a <tt>CMPICount</tt> value indicating the number
      of properties in the instance. If not successful, 0.
      */
     CMPICount (*getPropertyCount) (const CMPIInstance* inst, CMPIStatus* rc);
 
-    /** @brief add/replace a property value in a &lt;CMPIInstance&gt;
-       object by name.
-                                            .
+    /** @brief Set a property value in a <tt>CMPIInstance</tt> object by name.
+
      Adds or replace the named Property in the instanced defined by
-         &lt;inst&gt;. If the property is a key property, the function may
+         <tt>inst</tt>. If the property is a key property, the function may
          or may not in addition add or update the key binding in the object
          path of the instance. In order for MIs not to be dependent on this
          behavior, MIs should set key property values in instances and key
@@ -2420,60 +2819,61 @@ struct _CMPIInstanceFT {
          be set during CMPIBrokerEncFT.newInstance() and by using
          &lt;CMPIInstanceFT.setObjectPath()*gt;. The MI shall specify
          consistent values for key bindings and key properties.
-     @param inst pointer to the &lt;CMPIInstance&gt;.
+     @param inst pointer to the <tt>CMPIInstance</tt>.
      @param name Pointer to a string containing the property name.
-     @param value &lt;CMPIValue&gt; structure containing the non-NULL
+     @param value <tt>CMPIValue</tt> structure containing the non-NULL
          value to be assigned to the property, or NULL to specify that
          NULL is to be assigned.
-     @param type &lt;CMPIType&gt; value specifying the type of the value to
+     @param type <tt>CMPIType</tt> value specifying the type of the value to
         be assigned to the property. All types of CIM values are supported.
-     
-        If the value of the type argument is &lt;CMPI&gt;_chars or
-        &lt;CMPI_charsA&gt;, the C-language string to which the chars member
+
+        If the value of the type argument is <tt>CMPI_chars</tt> or
+        <tt>CMPI_charsA</tt>, the C-language string to which the chars member
         of the value argument points is copied by this function and the
         original string memory may be freed by the MI right after
         this function returns.
-     @return &ltCMPIStatus&gt structure indicating the function return status.
+     @return <tt>CMPIStatus</tt> structure indicating the function
+         return status.
      */
     CMPIStatus (*setProperty) (const CMPIInstance* inst, const char* name,
             const CMPIValue* value, CMPIType type);
 
-    /** @brief Get a &lt;CMPIObjecPath&gt; object from a &lt;CMPIInstance&gt;
+    /** @brief Get a <tt>CMPIObjecPath</tt> object from a <tt>CMPIInstance</tt>
        object.
-     
-     Generates a &lt;CMPIObjectPath&gt; object from the namespace, class name,
-         and key properties of a &lt;CMPIInstance&gt; object.
-     @param inst Pointer to the %lt;CMPIInstance&gt;.
-     @param rc Output: , If not NULL, points to a &lt;CMPIStatus&gt; structure
+
+     Generates a <tt>CMPIObjectPath</tt> object from the namespace, class name,
+         and key properties of a <tt>CMPIInstance</tt> object.
+     @param inst Pointer to the <tt>CMPIInstance</tt>>.
+     @param rc Output: , If not NULL, points to a <tt>CMPIStatus</tt> structure
         that upon return has been updated with the function return status.
-     @return If successful, a pointer to a &lt;CMPIObjectPath&gt; object
-     representing the instance path of the &lt;CMPIInstance&gt;.
-    The returned &lt;CMPIObjectPath&gt; object shall not be explicitly 
-    released by the MI, because it may be an internal object of the 
-    &lt;CMPIInstance&gt; object which will be released along with that object, 
-    or a new object created by the MB which will be released automatically 
+     @return If successful, a pointer to a <tt>CMPIObjectPath</tt> object
+     representing the instance path of the <tt>CMPIInstance</tt>.
+    The returned <tt>CMPIObjectPath</tt> object shall not be explicitly
+    released by the MI, because it may be an internal object of the
+    <tt>CMPIInstance</tt> object which will be released along with that object,
+    or a new object created by the MB which will be released automatically
     by the MB.
      */
     CMPIObjectPath* (*getObjectPath) (const CMPIInstance* inst,
             CMPIStatus* rc);
 
-    /** @brief Attach a property filter to a &lt;CMPIInstance&gt
+    /** @brief Attach a property filter to a <tt>CMPIInstance</tt>
                object.
-     
-     This function attaches a property filter to a &lt;CMPIInstance&gt object,
-         replacing any previous property filter settings for this object.
-         By calling this function, the MI delegates property list filtering
-         to the MB for this CMPIInstance object, for all of its properties
-         including those that had already been set before the call to
-         &lt;setPropertyFilter()&gt;.
-     
-         Filtering directs CMPI to ignore any setProperty operations for this
-         instance for any properties not in this list.
-     
-         Support for this function is optional. Availability of this support is
-         indicated by the CMPI_MB_PropertyFiltering flag in
-         CMPIBrokerFT.brokerCapabilities
-     
+
+     This function attaches a property filter to a <tt>CMPIInstance</tt> object,
+     replacing any previous property filter settings for this object.
+     By calling this function, the MI delegates property list filtering
+     to the MB for this CMPIInstance object, for all of its properties
+     including those that had already been set before the call to
+     <tt>setPropertyFilter()</tt>.
+
+     Filtering directs CMPI to ignore any setProperty operations for this
+     instance for any properties not in this list.
+
+     Support for this function is optional. Availability of this support is
+     indicated by the CMPI_MB_PropertyFiltering flag in
+     CMPIBrokerFT.brokerCapabilities
+
      @param inst Pointer to the instance.
      @param propertyList If not NULL, the members of the array define one
      or more Property names to be accepted by setProperty operations. A NULL
@@ -2486,16 +2886,11 @@ struct _CMPIInstanceFT {
     CMPIStatus (*setPropertyFilter) (const CMPIInstance* inst,
             const char** propertyList, const char** keys);
 
-    /** @brief Set the instance path component of a CMPIInstance object.
-     
+    /** @brief Set the instance path component of a CMPIInstance
+               object.
+
      Set or replace the CMPIObjectPath component in an instance.
-     @param inst Pointer to the CMPIInstance object.
-     @param op The CMPIObjectPath structure. This objectpath
-     shall contain a non-NULL namespace, non-NULL classname, as well as all
-     keys for the specified instance. The object path may specify a non-NULL
-     host for the instance (this is used for instances returned by
-     cross-host associations).
-     
+
      The function may or may not in addition update the key property
      values in the instance to the values of the key bindings in the object
      path. In order for MIs not to be dependent on this behavior, MIs should
@@ -2504,19 +2899,26 @@ struct _CMPIInstanceFT {
      &lt;CMPIInstanceFT.setProperty()&gt; or
      &lt;CMPIInstanceFT.setPropertyWithOrigin()&gt;. The MI shall specify
      consistent values for key bindings and key properties.
+
+     @param inst Pointer to the CMPIInstance object.
+     @param op Pointer to CMPIObjectPath structure. This objectpath
+     shall contain a non-NULL namespace, non-NULL classname, as well as all
+     keys for the specified instance. The object path may specify a non-NULL
+     host for the instance (this is used for instances returned by
+     cross-host associations).
+
      @return  CMPIStatus structure indicating the function return status.
-.
      */
     CMPIStatus (*setObjectPath) (const CMPIInstance* inst,
             const CMPIObjectPath* op);
 
 #ifdef CMPI_VER_200
 
-    /** @brief add or replace a property value in a CMPIInstance
+    /** @brief Add or replace a property value in a CMPIInstance
                object by name.
-     
+
      Adds or replaces a Property value and origin.
-     
+
      If the property is a key property, the function may or may not in addition
      add or update the key binding in the object path of the instance. In
      order for MIs not to be dependent on this behavior, MIs should set
@@ -2532,8 +2934,8 @@ struct _CMPIInstanceFT {
      @param type CMPIType structure defining the type of the value.
      @param origin specifies the instance origin. If NULL, then
      no origin is attached to  the property.
-     @return CMPIStatus structure indicating the function return status.*  
-     @version CMPI 2.0 
+     @return CMPIStatus structure indicating the function return status.*
+     @version CMPI 2.0
      */
     CMPIStatus (*setPropertyWithOrigin) (const CMPIInstance* inst,
             const char* name, const CMPIValue* value, const CMPIType type,
@@ -2575,69 +2977,66 @@ struct _CMPIObjectPathFT {
     CMPIVersion ftVersion;
 
     /** @brief  release a CMPIObjectPath object.
-     
-     The CMPIObjectPath object will not be used any further and 
+
+     The CMPIObjectPath object will not be used any further and
      may be freed by CMPI run time system.
      @param op Pointer to CMPIObjectPath.
      @return CMPIStatus structure indicating the function return status.
      */
     CMPIStatus (*release) (CMPIObjectPath* op);
 
-    /** @brief create an independent copy of a CMPIObjectPath
-               object.
-     
+    /** @brief Create an independent copy of a CMPIObjectPath
+     *         object.
+
      Create an independent copy of this CMPI ObjectPath object. The resulting
      object must be released explicitly.
      @param op Pointer to CMPIObjectPath to be cloned.
      @param rc Output: Service return status (suppressed when NULL).
-     @return CMPIStatus structure indicating the function return*  
+     @return CMPIStatus structure indicating the function return*
          status.
      */
     CMPIObjectPath* (*clone) (const CMPIObjectPath* op, CMPIStatus* rc);
 
-    /** @brief Add the namespace component to a &lt;CIMObjectPath&gt;
+    /** @brief Add the namespace component to a <tt>CIMObjectPath</tt>
            object.
-     
+
      Set or replace the namespace component in the CMPIObjectPath object
-     defined by &lt;op&gt;.
+     defined by <tt>op</tt>.
      @param op Pointer to the CMPIObjectPath object.
      @param ns CMPI String containing the namespace to add.
-     @return CMPIStatus structure indicating the function return*  
+     @return CMPIStatus structure indicating the function return*
          status.
      */
     CMPIStatus (*setNameSpace) (const CMPIObjectPath* op, const char* ns);
 
-    /** @brief Get the namespace component from a
-     *       &lt;CIMObjectPath&gt;
+    /** @brief Get the namespace component from a <tt>CIMObjectPath</tt>.
            object.
 
-     Get the namespace component.
-     @param op Pointer to the CMPIObjectPath object.
+     Get the namespace component from a <tt>CIMObjectPath</tt> object.
+     @param op Pointer to the <tt>CIMObjectPath</tt> object.
      @param rc Output: Service return status (suppressed when NULL).
-     @return If successful, a pointer to a CMPIString object containing*  
+     @return If successful, a pointer to a CMPIString object containing*
          the namespace component of the object path will be returned.
          The returned CMPIString object shall not be explicitly released
          by the MI, because it may be an internal object of the
          CMPIObjectPath object which will be released along with that object,
          or a new object created by the MB which will be released
          automatically by the MB.
-.
      */
     CMPIString* (*getNameSpace) (const CMPIObjectPath* op, CMPIStatus* rc);
 
-    /** @brief Set the host name component in a &lt;CIMObjectPath&gt
-        object.
-     
-     Set or replace the host name component in a CMPIObjectPath object.
+    /** @brief Set the host name component in a <tt>CIMObjectPath</tt> object.
+
+     Set or replace the host name component in  <tt>op</tt> a
+         <tt>CIMObjectPath</tt> object with <tt>hn</tt>.
      @param op Pointer to the CMPIObjectPath.
      @param hn Pointer to a CMPIString containing the host name.
-     @return CMPIStatus structure indicating the function return status .
+     @return CMPIStatus structure indicating the function return status.
      */
     CMPIStatus (*setHostname) (const CMPIObjectPath* op, const char* hn);
 
-    /** @brief get the host name component  in a
-        &lt;CIMObjectPath&gt object.
-     
+    /** @brief Get the host name component  in a <tt>CIMObjectPath</tt> object.
+
      Get the host name component.
      @param op Pointer to CMPIObjectPath.
      @param rc Output: Service return status (suppressed when NULL).
@@ -2648,25 +3047,25 @@ struct _CMPIObjectPathFT {
      CMPIObjectPath object which will be released along with that
      object, or a new object created by the MB which will be
      released automatically by the MB.
-     
+
      If not successful, returns NULL.
      */
     CMPIString* (*getHostname) (const CMPIObjectPath* op, CMPIStatus* rc);
 
-    /** @brief Set class name component in a &lt;CIMObjectPath&gt
+    /** @brief Set class name component in a <tt>CIMObjectPath</tt>
         object.
-     
-     Set/replace the class name component in the &lt;CIMObjectPath&gt
+
+     Set/replace the class name component in the <tt>CIMObjectPath</tt>
         object.
      @param op Pointer to CMPIObjectPath.
      @param cn CMPIString containing the class name.
-     @return CMPIStatus structure indicating the function return status .
+     @return CMPIStatus structure indicating the function return status.
      */
     CMPIStatus (*setClassName) (const CMPIObjectPath* op, const char* cn);
 
-    /** @brief Set class name component in a &lt;CIMObjectPath&gt
-                                                                   object.
-     . Get the classname componentin a &lt;CIMObjectPath&gt object. 
+    /** @brief Set class name component in a <tt>CIMObjectPath</tt>  object.
+
+     Get the classname componentin a <tt>CIMObjectPath</tt> object.
      @param op Pointer to CMPIObjectPath.
      @param rc Output: Service return status (suppressed when NULL).
      @return If successful, returns a pointer to a CMPIString object
@@ -2675,16 +3074,16 @@ struct _CMPIObjectPathFT {
         by the MI, because it may be an internal object of the
         CMPIObjectPath object which will be released along with
         that object, or a new object created by the MB which will be
-        released automatically by the MB 
+        released automatically by the MB
      */
     CMPIString* (*getClassName) (const CMPIObjectPath* op, CMPIStatus* rc);
 
-    /** @brief add a key binding in a CMPIObjectPath object.
-                                            .
+    /** @brief Add a key binding in a CMPIObjectPath object.
+
      Adds or replaces a key binding in a CMPIObjectPath object.
      @param op Pointer to CMPIObjectPath.
      @param name Pointer to string containing key name.
-     @param value CMPIValue containing the value to be assigned to the                 .
+     @param value CMPIValue containing the value to be assigned to the
         key binding Key binding values must NOT be NULL.
      @param type Value type to be assigned to the key binding. All types of CIM
          values are valid for keys are supported. If the value of the type
@@ -2692,49 +3091,49 @@ struct _CMPIObjectPathFT {
          to which the chars member of the value argument points is
          copied by this function and the original string memory
          may be freed by the MI right after this function returns
-     @return CMPIStatus structure indicating the function return status .
+     @return CMPIStatus structure indicating the function return status.
      */
     CMPIStatus (*addKey) (const CMPIObjectPath* op, const char* name,
             const CMPIValue* value, const CMPIType type);
 
-    /** @brief get a key binding in a CMPIObjectPath object by name.
-                                                                   .
+    /** @brief Get a key binding in a CMPIObjectPath object by name.
+
      Gets a key binding named key property value.
      @param op Pointer to CMPIObjectPath.
      @param name Key property name.
      @param rc Output: If not NULL, points to a CMPIStatus structure
-         that upon
-         . return will have been updated with the function return
+         that upon return will have been updated with the function return
          status.
-     @return If successful, returns a CMPIData structure containing the                                                                     .
-     specified key binding                                                                                                                  .
-                                                                                                                                            .
-     If not successful, returns CMPIData.state will have the CMPI_badValue                                                                  .
+     @return If successful, returns a CMPIData structure containing the
+         specified key binding.
+
+     If not successful, returns CMPIData.state will have the CMPI_badValue
      flag set to true.
-     
-    The MB will attempt to set the type in the returned CMPIData structure 
-    to the precise CIM type, if available. Versions of the CIM-XML protocol 
-    before DSP0200 Version 1.4 did not mandate the presence of the precise 
-    CIM type. In those versions, the precise CIM type was only recommended 
-    to be present. If the precise CIM type is not available to the MB, it 
-    will use the following more general types in the returned CMPIData 
-    structure: 
-    <code> 
-    #define CMPI_keyInteger   (CMPI_sint64)
-    #define CMPI_keyString    (CMPI_string)
-    #define CMPI_keyBoolean   (CMPI_boolean)
-    #define CMPI_keyRef       (CMPI_ref) 
-    </endcode> 
-     
-    In addition, the CMPI_keyValue flag will be set in CMPIData.state to 
+
+    The MB will attempt to set the type in the returned CMPIData structure
+    to the precise CIM type, if available. Versions of the CIM-XML protocol
+    before DSP0200 Version 1.4 did not mandate the presence of the precise
+    CIM type. In those versions, the precise CIM type was only recommended
+    to be present. If the precise CIM type is not available to the MB, it
+    will use the following more general types in the returned CMPIData
+    structure:
+    <code>
+        #define CMPI_keyInteger   (CMPI_sint64)
+        #define CMPI_keyString    (CMPI_string)
+        #define CMPI_keyBoolean   (CMPI_boolean)
+        #define CMPI_keyRef       (CMPI_ref)
+    </code>
+    // KS_TODO above gens warning about link to define
+
+    In addition, the CMPI_keyValue flag will be set in CMPIData.state to
     indicate that the value is a key binding
 
      */
     CMPIData (*getKey) (const CMPIObjectPath* op, const char* name,
             CMPIStatus* rc);
 
-    /** @brief get a key binding in a CMPIObjectPath object by index.
-     
+    /** @brief Get a key binding in a CMPIObjectPath object by index.
+
      Gets a key binding value defined by its index.
      @param op Pointer to CMPIObjectPath.
      @param index Zero-based position of the key in the CMPIObjectPath object.
@@ -2744,74 +3143,74 @@ struct _CMPIObjectPathFT {
      because it may be an internal object of the CMPIObjectPath object
      which will be released along with that object, or a new object
      created by the MB which will be released automatically by the MB.
-     @param rc Output: If not NULL, points to a CMPIStatus structure that upon                                                              .
+     @param rc Output: If not NULL, points to a CMPIStatus structure that upon
          return  updated with the function return status.
      @return If successful, returns a CMPIData structure containing the
      specified key binding.
-     
-    If not successful, CMPIData.state will have the CMPI_badValue flag 
-    set to true. 
-     
-    The MB will attempt to set the type in the returned CMPIData 
-    structure to the precise CIM type, if available. Versions of the 
-    CIM-XML protocol before DSP0200 Version 1.4 did not mandate 
-    the presence of the precise CIM type. In those versions, 
-    the precise CIM type was only recommended to be present. 
-    If the precise CIM type is not available to the MB, it will 
-    use the following more general types in the returned CMPIData structure: 
-    <code> 
+
+    If not successful, CMPIData.state will have the CMPI_badValue flag
+    set to true.
+
+    The MB will attempt to set the type in the returned CMPIData
+    structure to the precise CIM type, if available. Versions of the
+    CIM-XML protocol before DSP0200 Version 1.4 did not mandate
+    the presence of the precise CIM type. In those versions,
+    the precise CIM type was only recommended to be present.
+    If the precise CIM type is not available to the MB, it will
+    use the following more general types in the returned CMPIData structure:
+    <code>
         #define CMPI_keyInteger   (CMPI_sint64)
         #define CMPI_keyString    (CMPI_string)
         #define CMPI_keyBoolean   (CMPI_boolean)
         #define CMPI_keyRef       (CMPI_ref)
-    </code> 
-     
-    In addition, the CMPI_keyValue flag will be set in CMPIData.state 
+    </code>
+
+    In addition, the CMPI_keyValue flag will be set in CMPIData.state
     to indicate that the value is a key binding.
      */
     CMPIData (*getKeyAt) (const CMPIObjectPath* op, CMPICount index,
             CMPIString** name, CMPIStatus* rc);
 
     /** @brief  get the number of key bindings in a CMPIObjectPath object.
-                                                                     .
+
      Gets the number of key bindingscontained in this CMPIObjectPath.
-     @param op Pointer to &lt;CMPIObjectPath&gt;.
+     @param op Pointer to <tt>CMPIObjectPath</tt>.
      @param rc Output: If not NULL, points to a CMPIStatus structure
          that upon return is updated with the function return
          status.
-     @return If successful, a CMPICount value indicating the number of                                                                                                                                  .
-         key bindings will be returned. If the CMPIObjectPath object                                                                                                                                    .
-         does not have a key component, the function will succeed and                                                                                                                                   .
-         return 0                                                                                                                                                                                       .
-                                                                                                                                                                                                        .
+     @return If successful, a CMPICount value indicating the number of
+         key bindings will be returned. If the CMPIObjectPath object
+         does not have a key component, the function will succeed and
+         return 0.
+
          If not successful, 0 will be returned.
      */
     CMPICount (*getKeyCount) (const CMPIObjectPath* op, CMPIStatus* rc);
 
     /** @brief ? set or replace the namespace and class name components in a
        CMPIObjectPath object from another CMPIObjectPath object
-     
+
        Set or replace namespace and classname components in CMPIObjectPath
-         &lt;op&gt; from CMPIObjectPath &lt;src&gt;.
-     @param op Pointer to &lt;CMPIObjectPath&gt;.
+         <tt>op</tt> from CMPIObjectPath <tt>src</tt>.
+     @param op Pointer to <tt>CMPIObjectPath</tt>.
      @param src a CMPIObjectPath object used as the source for the new
          namespace and class name components.
-     @return CMPIStatus structure indicating the function return status .
+     @return CMPIStatus structure indicating the function return status.
      */
     CMPIStatus (*setNameSpaceFromObjectPath) (const CMPIObjectPath* op,
             const CMPIObjectPath* src);
 
-    /** @brief set host name, namespace, and class name components
+    /** @brief Set host name, namespace, and class name components
        in a CMPIObjectPath object from another CMPIObjectPath
        object.
-     
+
        Set/replace hostname, namespace and classname components in the
-       CMPIObjectPath &lt;op&gt; from the CMPIObjectPath &lt;src&gt;.
+       CMPIObjectPath <tt>op</tt> from the CMPIObjectPath <tt>src</tt>.
      @param op Pointer to CMPIObjectPath object to be modified..
 
      @param src CMPIObjectPath object used as the source for the new host name,
          namespace, and class name components.
-     @return CMPIStatus structure indicating the function return status .
+     @return CMPIStatus structure indicating the function return status.
      */
     CMPIStatus (*setHostAndNameSpaceFromObjectPath) (const CMPIObjectPath* op,
             const CMPIObjectPath* src);
@@ -2819,12 +3218,12 @@ struct _CMPIObjectPathFT {
     // optional qualifier support  KS_TODO be sure the optional is clear in doc
 
     /** @brief Get a class qualifier.
-     
+
      Gets a class qualifier in the class identified by this object path
          This function shall be supported by the MB if the Basic Qualifier
          capability is available; otherwise, it shall not be supported.
-     @param op Pointer to &lt;CMPIObjectPath&gt;.
-     @param op Pointer to &lt;CMPIObjectPath&gt;.
+     @param op Pointer to <tt>CMPIObjectPath</tt>.
+     @param op Pointer to <tt>CMPIObjectPath</tt>.
      @param qName Qualifier name.
      @param rc Output: If not NULL, points to a CMPIStatus structure that upon
          return is updated with the function return status..
@@ -2841,7 +3240,7 @@ struct _CMPIObjectPathFT {
      object path. This function shall be supported by the MB if the
      Basic Qualifier.* capability is available; otherwise, it
      shall not be supported.
-     @param op Pointer to &lt;CMPIObjectPath&gt;object that references the
+     @param op Pointer to <tt>CMPIObjectPath</tt>object that references the
          class and that shall contain the namespace and class components.
          The hostname and key components, if present, will be ignored by the MB.
      @param pName Property name.
@@ -2850,17 +3249,16 @@ struct _CMPIObjectPathFT {
      @return If successful, returns a CMPIData structure containing
      the specified qualifier will be returned.
 
-     If not successful, returns CMPIData.state with CMPI_badValue flag set 
+     If not successful, returns CMPIData.state with CMPI_badValue flag set
       to true.
-.
      */
     CMPIData (*getPropertyQualifier) (const CMPIObjectPath* op,
             const char* pName, const char* qName, CMPIStatus* rc);
 
-    /** @brief get a method qualifier.
-                                                                   .
+    /** @brief Get a method qualifier.
+
      Get method qualifier value.
-     @param op Pointer to &lt;CMPIObjectPath&gt;.
+     @param op Pointer to <tt>CMPIObjectPath</tt>.
      @param mName Method name.
      @param qName Qualifier name.
      @param rc Output: Service return status (suppressed when NULL).
@@ -2869,11 +3267,11 @@ struct _CMPIObjectPathFT {
     CMPIData (*getMethodQualifier) (const CMPIObjectPath* op,
             const char* methodName, const char* qName, CMPIStatus* rc);
 
-    /** @brief get a parameter qualifier.
+    /** @brief Get a parameter qualifier.
 
      Gets a parameter qualifier in the class identified by this
      object path.
-     @param op Pointer to &lt;CMPIObjectPath&gt;.
+     @param op Pointer to <tt>CMPIObjectPath</tt>.
      @param mName Method name.
      @param pName Parameter name.
      @param qName Qualifier name.
@@ -2881,7 +3279,7 @@ struct _CMPIObjectPathFT {
      @return If successful, returns a CMPIData structure containing
      the specified qualifier will be returned.
 
-     If not successful, returns CMPIData.state with CMPI_badValue flag set 
+     If not successful, returns CMPIData.state with CMPI_badValue flag set
       to true..
      */
     CMPIData (*getParameterQualifier) (const CMPIObjectPath* op,
@@ -2889,20 +3287,20 @@ struct _CMPIObjectPathFT {
             CMPIStatus* rc);
 
     /** @brief Convert a CMPIObjectPath object into a string format.
-     
+
      Generates a well formed implementation-specific string representation
      of this CMPIObjectPath.
-     @param op Pointer to &lt;CMPIObjectPath&gt;.
+     @param op Pointer to <tt>CMPIObjectPath</tt>.
      @param rc Output: Service return status (suppressed when NULL).
      @return If successful, a pointer to a CMPIString object containing
          the string representation of the object path.
-     
+
      The returned CMPIString object shall not be explicitly released
      by the MI, because it may be an internal object of the CMPIObjectPath
      object which will be released along with that object, or a
      new object created by the MB which will be released automatically
-     by the MB 
-     
+     by the MB
+
      If not successful, returns NULL.
      */
     CMPIString* (*toString) (const CMPIObjectPath* op, CMPIStatus* rc);
@@ -2941,7 +3339,7 @@ struct _CMPISelectExpFT {
     CMPIVersion ftVersion;
 
     /** @brief  release a CMPISelectExp object.
-     
+
      The SelectExp object will not be used any further and may be freed by
      CMPI run time system.
      @param se SelectExp this pointer.
@@ -2949,7 +3347,7 @@ struct _CMPISelectExpFT {
      */
     CMPIStatus (*release) (CMPISelectExp* se);
 
-    /** @brief create an independent copy of a CMPISelectExp object.
+    /** @brief Create an independent copy of a CMPISelectExp object.
 
      Create an independent copy of this CMPISelectExp object. The resulting
          object must be released explicitly.
@@ -2959,11 +3357,11 @@ struct _CMPISelectExpFT {
      */
     CMPISelectExp* (*clone) (const CMPISelectExp* se, CMPIStatus* rc);
 
-    /** @brief test whether an instance matches the select
+    /** @brief Test whether an instance matches the select
        expression in a CMPISelectExp object.
 
      Evaluates the instance &ltinst& using this select expression.
-     This unction shall be supported by the MB if the Query Normalization     
+     This unction shall be supported by the MB if the Query Normalization
         capability is available); otherwise, it shall not be supported
      @param se Pointer to CMPISelectExp.
      @param inst Instance to be evaluated.
@@ -2977,10 +3375,10 @@ struct _CMPISelectExpFT {
     CMPIBoolean (*evaluate) (const CMPISelectExp* se, const CMPIInstance* inst,
             CMPIStatus* rc);
 
-    /** @brief get the select expression in a CMPISelectExp object as a string
+    /** @brief Get the select expression in a CMPISelectExp object as a string.
 
      Return the select expression in string format
-     
+
      This function shall be supported by the MB if the Query Normalization
      capability is available; otherwise, it shall not be supported
      @param se SelectExp this pointer.
@@ -2989,21 +3387,21 @@ struct _CMPISelectExpFT {
          status.
      @return If successful, returns a pointer to a CMPIString object cointaining
          the select expression in string format.
-     
+
      The returned CMPIString object shall not be explicitly released by
      the MI, because it may be an internal object of the CMPISelectExp
      object which will be released along with that object, or a new
      object created by the MB which will be released automatically by the MB.
-     
+
      If not successful, returns NULL.
      */
     CMPIString* (*getString) (const CMPISelectExp* se, CMPIStatus* rc);
 
-    /** @brief get the select expression in a CMPISelectExp object
+    /** @brief Get the select expression in a CMPISelectExp object
        as a disjunction of conjunctions.
 
      Return the select expression as disjunction of conjunctions.
-     
+
      This function shall be supported by the MB if the Query Normalization
      capability is available.
 
@@ -3013,23 +3411,23 @@ struct _CMPISelectExpFT {
          status..
      @return If successful, returns a pointer to a CMPISelectCond object
      containing the transformed select expression.
-     
+
      The returned CMPISelectCond object shall not be explicitly released
      by the MI, because it may be an internal object of the
      CMPISelectExp object which will be released along with that
      object, or a new object created by the MB which will be
      released automatically by the MB.
-     
+
     If not successful, NULL will be returned.
 
      */
     CMPISelectCond* (*getDOC) (const CMPISelectExp* se, CMPIStatus* rc);
 
-    /** @brief get the select expression in a CMPISelectExp object as a
-       conjunction of disjunctions.
-     
+    /** @brief Get the select expression in a CMPISelectExp object as
+       a conjunction of disjunctions.
+
      Return the select expression as conjunction of disjunctions.
-     
+
      This function shall be supported by the MB if the Query Normalization
      capability is available.
      @param se SelectExp this pointer.
@@ -3038,18 +3436,18 @@ struct _CMPISelectExpFT {
          status.
      @return If successful, returns a pointer to a CMPISelectCond object
      containing the transformed select expression.
-     
+
      The returned CMPISelectCond object shall not be explicitly released
      by the MI, because it may be an internal object of the
      CMPISelectExp object which will be released along with that
      object, or a new object created by the MB which will be
      released automatically by the MB.
-     
+
     If not successful, NULL will be returned.
      */
     CMPISelectCond* (*getCOD) (const CMPISelectExp* se, CMPIStatus* rc);
 
-    /** @brief test whether the properties returned by an accessor
+    /** @brief Test whether the properties returned by an accessor
            function match the select expression in a CMPISelectExp
            object.
 
@@ -3057,7 +3455,7 @@ struct _CMPISelectExpFT {
      function match the select expression in a CMPISelectExp object.
      This function is a variation of CMPISelectExpFT.evaluate(). it enables
      evaluation without the need to create a CMPIInstance object
-     
+
      This function shall be supported by the MB if the Query Normalization
      capability is available.
      @param se SelectExp this pointer.
@@ -3070,9 +3468,8 @@ struct _CMPISelectExpFT {
      result will be returned, as follows: True indicates that the
      properties returned by the accessor function match the select
      expression; False indicates that this is not the case.
-     
+
      If not successful, False will be returned
-.
      */
     CMPIBoolean (*evaluateUsingAccessor) (const CMPISelectExp* se,
             CMPIAccessor* accessor, void* parm, CMPIStatus* rc);
@@ -3110,8 +3507,8 @@ struct _CMPISelectCondFT {
      */
     CMPIVersion ftVersion;
 
-    /** @brief  release a &lt;CMPISelectCond&gt; object.
-     
+    /** @brief  release a <tt>CMPISelectCond</tt> object.
+
      The SelectCond object will not be used any further and may be freed by
      CMPI run time system.
      @param sc SelectCond this pointer.
@@ -3119,9 +3516,9 @@ struct _CMPISelectCondFT {
      */
     CMPIStatus (*release) (CMPISelectCond* sc);
 
-    /** @brief create an independent copy of a
-               &lt;CMPISelectCond&gt; object.
-     
+    /** @brief Create an independent copy of a
+               <tt>CMPISelectCond</tt> object.
+
      *Create an independent copy of this SelectCond object. The resulting
      object must be released explicitly. KS_TODO
      @param sc SelectCond this pointer.
@@ -3130,13 +3527,13 @@ struct _CMPISelectCondFT {
      */
     CMPISelectCond* (*clone) (const CMPISelectCond* sc, CMPIStatus* rc);
 
-    /** @brief get the number and type of subconditions in a
+    /** @brief Get the number and type of subconditions in a
        CMPISelectCond object.
 
      Return the number of subconditions that are part of this SelectCond.
      Optionally, the SelectCond type (COD or DOC) will be returned. KS_TODO
 
-     This function shall be supported by the MB if the Query Normalization     
+     This function shall be supported by the MB if the Query Normalization
         capability is available; otherwise, it shall not be
         supported.
      @param sc SelectCond this pointer.
@@ -3144,31 +3541,30 @@ struct _CMPISelectCondFT {
      @param rc Output: Service return status (suppressed when NULL).
      @return If successful, returns a CMPICount value indicating the number of
      subconditions.
-     
+
      If not successful, returns 0.
-.
      */
     CMPICount (*getCountAndType) (const CMPISelectCond* sc, int* type,
             CMPIStatus* rc);
 
-    /** @brief get a subcondition in a CMPISelectCond object by
+    /** @brief Get a subcondition in a CMPISelectCond object by
                index.
 
      Return a SubCond element based on its index.
-     
-     This function shall be supported by the MB if the Query Normalization     
+
+     This function shall be supported by the MB if the Query Normalization
         capability is available; otherwise, it shall not be supported.
      @param sc SelectCond this pointer.
      @param index Position in the internal SubCoind array.
      @param rc Output: Service return status (suppressed when NULL).
      @return If successful, returns a pointer to the specified CMPISubCond
      object will be returned.
-     
+
      The returned CMPISubCond object shall not be explicitly released
      by the MI, because it may be an internal object of the CMPISelectCond
      object which will be released along with that object, or a new object
      created by the MB which will be released automatically by the MB.
-     
+
      If not successful, NULL will be returned.
 
      */
@@ -3208,8 +3604,8 @@ struct _CMPISubCondFT {
      */
     CMPIVersion ftVersion;
 
-    /** @brief  release a &lt;CMPISubCond&gt; object.
-     
+    /** @brief  release a <tt>CMPISubCond</tt> object.
+
      The SubCond object will not be used any further and may be freed by
      CMPI run time system.
      @param sc SubCond this pointer.
@@ -3217,9 +3613,9 @@ struct _CMPISubCondFT {
      */
     CMPIStatus (*release) (CMPISubCond* sc);
 
-    /** @brief create an independent copy of a &lt;CMPISubCond&gt;
+    /** @brief Create an independent copy of a <tt>CMPISubCond</tt>
                object.
-     
+
      Create an independent copy of this SubCond object. The resulting
      object must be released explicitly.
      @param se SubCond this pointer.
@@ -3228,10 +3624,10 @@ struct _CMPISubCondFT {
      */
     CMPISubCond* (*clone) (const CMPISubCond* sc, CMPIStatus* rc);
 
-    /** @brief get the number of predicates in a CMPISubCond object.
+    /** @brief Get the number of predicates in a CMPISubCond object.
 
      Return the number of predicates that are part of sub condition.
-     
+
      This function shall be supported by the MB if the Query Normalization
      capability is available; otherwise, it shall
      not be supported. KS_TODO add to others
@@ -3241,11 +3637,12 @@ struct _CMPISubCondFT {
      */
     CMPICount (*getCount) (const CMPISubCond* sc, CMPIStatus* rc);
 
-    /** @brief get a predicate in a &lt;CMPISubCond&gt object by index.
+    /** @brief Get a predicate in a <tt>CMPISubCond</tt> object by
+               index.
 
      Return a Predicate element based on its index. KS_TOD word
      predicate
-     
+
      This function shall be supported by the MB if the Query Normalization
          capability is available; otherwise, it shall not be supported.
      @param sc SubCond this pointer.
@@ -3253,24 +3650,24 @@ struct _CMPISubCondFT {
      @param rc Output: Service return status (suppressed when NULL).
      @return If successful, returns a pointer to a CMPIPredicate object
          containing the specified predicate will be returned.
-     
+
          The returned CMPIPredicate object shall not be explicitly
          released by the MI, because it may be an internal object of
          the CMPISubCond object which will be released along with that
          object, or a new object created by the MB which will be released
          automatically by the MB.
-     
+
          If not successful, NULL will be returned.
 
      */
     CMPIPredicate* (*getPredicateAt) (const CMPISubCond* sc, CMPICount index,
             CMPIStatus* rc);
 
-    /** @brief get a predicate in a &lt;CMPISubCond&gt; object by name.
+    /** @brief Get a predicate in a <tt>CMPISubCond</tt> object by name.
 
-     Returns a predicate element in a &lt;CMPISubCond&gt; based on name
-     in &lt;name&gt;
-     
+     Returns a predicate element in a <tt>CMPISubCond</tt> based on name
+     in <tt>name</tt>
+
      This function shall be supported by the MB if the Query Normalization
          capability is available; otherwise, it shall not be supported.
      @param sc SubCond this pointer.
@@ -3278,12 +3675,12 @@ struct _CMPISubCondFT {
      @param rc Output: Service return status (suppressed when NULL).
      @return If successful, returns a pointer to a CMPIPredicate object
      containing the specified predicate.
-     
+
      The returned CMPIPredicate object shall not be explicitly released
      by the MI, because it may be an internal object of the CMPISubCond
      object which will be released along with that object, or a new object
      created by the MB which will be released automatically by the MB.
-     
+
      If not successful, returns NULL.
      */
     CMPIPredicate* (*getPredicate) (const CMPISubCond* sc, const char* name,
@@ -3323,7 +3720,7 @@ struct _CMPIPredicateFT {
     CMPIVersion ftVersion;
 
     /** @brief  release a CMPPredicate object.
-     
+
      The Predicate object will not be used any further and may be freed by
      CMPI run time system.
      @param pr Predicate this pointer.
@@ -3331,7 +3728,7 @@ struct _CMPIPredicateFT {
      */
     CMPIStatus (*release) (CMPIPredicate* pr);
 
-    /* @brief create an independent copy of a CMPIPredicate object.
+    /** @brief Create an independent copy of a CMPIPredicate object.
 
      Create an independent copy of this Predicate object. The resulting
      object must be released explicitly.
@@ -3341,7 +3738,7 @@ struct _CMPIPredicateFT {
      */
     CMPIPredicate* (*clone) (const CMPIPredicate* pr, CMPIStatus* rc);
 
-    /** @brief get the predicate components of a CMPIPredicate object.
+    /** @brief Get the predicate components of a CMPIPredicate object.
 
      Get the predicate components. KS_TODO
 
@@ -3355,11 +3752,11 @@ struct _CMPIPredicateFT {
     CMPIStatus (*getData) (const CMPIPredicate* pr, CMPIType* type,
             CMPIPredOp* prop, CMPIString** lhs, CMPIString** rhs);
 
-    /** @brief test whether the properties returned by an accessor
+    /** @brief Test whether the properties returned by an accessor
            function match the predicate in a CMPIPredicate object.
-     
+
      Evaluate the predicate using a property data accessor function.
-     
+
      @param pr Predicate this pointer.
      @param accessorFnc Pointer to a property value accessor
      function. The evaluation process will invoke this function to
@@ -3408,7 +3805,7 @@ struct _CMPIArgsFT {
     CMPIVersion ftVersion;
 
     /** @brief  release a CMPIArgs object.
-     
+
      The Args object will not be used any further and may be freed by
      CMPI run time system.
      @param as Args this pointer.
@@ -3416,7 +3813,7 @@ struct _CMPIArgsFT {
      */
     CMPIStatus (*release) (CMPIArgs* as);
 
-    /** @brief create an independent copy of a CMPIResult object.
+    /** @brief Create an independent copy of a CMPIResult object.
 
      Create an independent copy of this Args object. The resulting
      object must be released explicitly.
@@ -3426,7 +3823,7 @@ struct _CMPIArgsFT {
      */
     CMPIArgs* (*clone) (const CMPIArgs* as, CMPIStatus* rc);
 
-    /** @brief set a method parameter in a CMPIArgs object.
+    /** @brief Set a method parameter in a CMPIArgs object.
 
      Adds or replaces a method parameter in a CMPIArgs object.
      @param as Args this pointer.
@@ -3435,14 +3832,14 @@ struct _CMPIArgsFT {
          assigned to the method parameter, or is NULL to specify
          that NULL is to be assigned.
      @param type type of the method parameter. All types of CIM values are
-         supported 
+         supported
      @return CMPIStatus structure indicating the function return status.
      */
     CMPIStatus (*addArg) (const CMPIArgs* as, const char* name,
             const CMPIValue* value,
             const CMPIType type);
 
-    /** @brief get a method parameter in a CMPIArgs object by name.
+    /** @brief Get a method parameter in a CMPIArgs object by name.
 
      This function gets a method parameter in a CMPIArgs object,
         by its name..
@@ -3451,14 +3848,13 @@ struct _CMPIArgsFT {
      @param rc Output: Service return status (suppressed when NULL).
      @return If successful,returns a CMPIData structure containing the
      specified method parameter.
-     
-    If not successful, CMPIData.state will have the CMPI_badValue flag 
+
+    If not successful, CMPIData.state will have the CMPI_badValue flag
     set to true
-.
      */
     CMPIData (*getArg) (const CMPIArgs* as, const char* name, CMPIStatus* rc);
 
-    /** @brief get a method parameter in a CMPIArgs object by index.
+    /** @brief Get a method parameter in a CMPIArgs object by index.
 
      Gets a Argument value defined by its index.
      @param as Args this pointer.
@@ -3467,22 +3863,22 @@ struct _CMPIArgsFT {
      @param rc Output: Service return status (suppressed when NULL).
      @return If successful, returns a CMPIData structure containing the
      specified method parameter.
-     
-    If not successful, CMPIData.state will have the CMPI_badValue flag 
+
+    If not successful, CMPIData.state will have the CMPI_badValue flag
     set to true
      */
     CMPIData (*getArgAt) (const CMPIArgs* as, CMPICount index,
             CMPIString** name, CMPIStatus* rc);
 
-    /** @brief get a method parameter in a CMPIArgs object by index.
+    /** @brief Get a method parameter in a CMPIArgs object by index.
 
      Gets the number of arguments contained in this CMPIArgs object.
      @param as Args this pointer.
      @param rc Output: Service return status (suppressed when NULL).
      @return If successful, returns a CMPIData structure containing the
      specified method parameter.
-     
-    If not successful, CMPIData.state will have the CMPI_badValue flag 
+
+    If not successful, CMPIData.state will have the CMPI_badValue flag
     set to true
      */
     CMPICount (*getArgCount) (const CMPIArgs* as, CMPIStatus* rc);
@@ -3537,7 +3933,7 @@ struct _CMPIStringFT {
      */
     CMPIString* (*clone) (const CMPIString* st, CMPIStatus* rc);
 
-    /** @brief get a pointer to a C-language string representation of a
+    /** @brief Get a pointer to a C-language string representation of a
        CMPIString object.
 
      Get a pointer to a C char* representation of this CMPIString object.
@@ -3545,30 +3941,30 @@ struct _CMPIStringFT {
      @param rc Output: Service return status (suppressed when NULL).
      @return If successful, returns a pointer to a C-language string
      will be returned. KS_TODO ref to where defined.
-     
+
      The character array of the returned string shall not be explicitly
      released by the MI, because it may point to an internal data area in the
      CMPIString object which will be released along with that object, or it
      may point to a new character array created by the MB which will be
      released automatically by the MB.
-     
+
      If not successful, NULL will be returned.
      */
     const char* (*getCharPtr) (const CMPIString* st, CMPIStatus* rc);
 
 #ifdef CMPI_VER_210
 
-    /* @brief create a C-language string that has converted a CMPIString
+    /** @brief Create a C-language string that has converted a CMPIString
            object into a specific codepage
-     
+
      Creates a new C-language string (see Subclause 5.2.1) that contains
      the string in a CMPIString object, converted into a specific codepage.
-     
+
      This function shall be supported by the MB if the Codepage Conversion
      capability is available; otherwise, it shall not be supported.
-     
+
      @param str Pointer to the CMPIString object for this function.
-     @param cpid &lt;CMPICodePageID&gt; specifies the CMPI-specific codepage
+     @param cpid <tt>CMPICodePageID</tt> specifies the CMPI-specific codepage
          ID for the codepage to convert to. See the CMPI Specification
          section 5.2.2 (CodePage for a list of supported codepages and their codepage
          ID values.
@@ -3578,7 +3974,7 @@ struct _CMPIStringFT {
      specified in the cpid argument.
      The returned C-language string must be freed by the MI using
      &lt;CMPIBrokerMemFT.freeChars()&gt;.
-     
+
      If not successful, NULL will be returned.
      @version CMPI specification 2.1
      */
@@ -3620,37 +4016,36 @@ struct _CMPIArrayFT {
      */
     CMPIVersion ftVersion;
 
-    /** @brief  release a &lt;CMPIArray&gt; object.
+    /** @brief  release a <tt>CMPIArray</tt> object.
 
      The Array object will not be used any further and may be freed by
      CMPI run time system.
-     @param ar Pointer to this &lt;CMPIArray&gt;.
+     @param ar Pointer to this <tt>CMPIArray</tt>.
      @return Service return status.
      */
     CMPIStatus (*release) (CMPIArray* ar);
 
-    /** @brief create an independent copy of a &lt;CMPIArray&gt; object.
+    /** @brief Create an independent copy of a <tt>CMPIArray</tt> object.
 
      Create an independent copy of this Array object. The resulting
      object must be released explicitly.
-     @param ar Pointer to this &lt;CMPIArray&gt; object.
+     @param ar Pointer to this <tt>CMPIArray</tt> object.
      @param rc Output: Service return status (suppressed when NULL).
      @return Pointer to copied Array object.
      */
     CMPIArray* (*clone) (const CMPIArray* ar, CMPIStatus* rc);
 
-    /** @brief get the number of array elements in a CMPIArray
+    /** @brief Get the number of array elements in a CMPIArray
                object.
-     
+
      Gets the number of elements contained in this Array.
      @param ar Array this pointer.
      @param rc Output: If not NULL, points to a CMPIStatus structure that
      upon return has been updated with the function return status.
      @return If successful, a CMPICount value indicating the number of
          array elements will be returned.
-     
-         If not successful, 0 will be returned
-.
+
+         If not successful, 0 will be returned.
      */
     CMPICount (*getSize) (const CMPIArray* ar, CMPIStatus* rc);
 
@@ -3662,11 +4057,11 @@ struct _CMPIArrayFT {
      */
     CMPIType (*getSimpleType) (const CMPIArray* ar, CMPIStatus* rc);
 
-    /** @brief get the value of an array element in a CMPIArray
+    /** @brief Get the value of an array element in a CMPIArray
                object by index.
 
      Gets the value of an array element defined by the zero-based position
-     &lt;index&gt; of the array element in a CMPIArray object &lt;ar&gt;.
+     <tt>index</tt> of the array element in a CMPIArray object <tt>ar</tt>.
      @param ar Pointer to the CMPIArray for this function.
      @param index Zero-based position in the CMPIArray. The position shall
          be equal to or greater than 0 and less than the size of the array.
@@ -3675,20 +4070,43 @@ struct _CMPIArrayFT {
          upon return has been updated with the function return status.
      @return If successful, returns a CMPIData structure containing the
          specified array element.
-     
+
          If not successful, CMPIData.state will have the CMPI_badValue flag
          set to true
      */
     CMPIData (*getElementAt) (const CMPIArray* ar, CMPICount index,
             CMPIStatus* rc);
 
-    /* TODO: Sync description with spec.
-     * Sets an element value defined by its index.
-     @param ar Array this pointer.
-     @param index Position in the internal Data array.
-     @param value Address of value structure.
-     @param type Value type.
-     @return Service return status.
+    /** @brief Set the value of an existing array element in a CMPIArray
+       object by index
+
+     This function sets the value <tt>value</tt> and <tt>type</tt>*
+     *   into an existing element defined by  &ltindex</tt> in the
+     *   array object defined by <tt>ar</tt>.
+     @param ar Pointer to CMPIArray.
+     @param index zero-based position of the existing element in the
+         CMPIArray object. The position shall be equal to or greater than
+         0 and less than the size of the array.
+     @param value argument points to a CMPIValue structure containing
+     the non-NULL value to be assigned to the element, or is NULL to
+     specify that the element will be set to NULL.
+     @param type Either the simple base type of the array or CMPI_null.
+
+         The use of CMPI_null for the type argument is deprecated.
+         Specify the simple base type of the array instead. <b>(Deprecated)</b>.
+
+        If the value of the type argument is CMPI_chars, the C-language
+        string to which the chars member of the value argument points is
+        copied by this function and the original string memory may be
+        freed by the MI right after this function returns
+
+     @return A CMPIStatus structure indicating the function return status.
+
+     If not successful, the array element?s state shall be set to
+     CMPI_nullValue, if possible. This behavior has been deprecated in
+     CMPI 2.1, and callers should now assume that it is undefined whether
+     the array element's state has changed in case of error.
+     <b>(Deprecated)</b>.
      */
     CMPIStatus (*setElementAt) (const CMPIArray* ar, CMPICount index,
             const CMPIValue* value, CMPIType type);
@@ -3725,44 +4143,86 @@ struct _CMPIEnumerationFT {
      */
     CMPIVersion ftVersion;
 
-    /** TODO: Sync description with spec.
-     * The Enumeration object will not be used any further and may be freed by
-     CMPI run time system.
-     @param en Enumeration this pointer.
-     @return Service return status.
+    /** @brief Release a <tt>CMPIEnumeration</tt> object.
+
+     releases a CMPIEnumeration object. This indicates to the MB that
+     the object (including any objects it contains) will no longer
+     be used by the MI. The MB may free the resources associated with
+     the object during the call to this function, or later during some
+     garbage collection cycle.
+     @param en argument points to the <tt>CMPIEnumeration</tt> object to be
+        released. That object shall have been created using
+         &lt;CMPIEnumerationFT.clone()&gt;.
+     @return CMPIStatus structure indicating the function return status.
      */
     CMPIStatus (*release) (CMPIEnumeration* en);
 
-    /** TODO: Sync description with spec.
-     * Create an independent copy of this Enumeration object. The resulting
-     object must be released explicitly.
-     @param en Enumeration this pointer.
-     @param rc Output: Service return status (suppressed when NULL).
-     @return Pointer to copied Enumeration object.
+    /** @brief Create an independent copy of a
+               <tt>CMPIEnumeration</tt> object.
+
+     Creates an independent copy of this <tt>CMPIEnumeration</tt> object.
+         The resulting object must be released explicitly.
+     @param en Pointer to the <tt>CMPIEnumeration</tt> object to be copied.
+     @param rc Output: If not NULL, points to a CMPIStatus structure that upon
+        return has been updated with the function return status.
+     @return If successful, returns a pointer to the copied
+     CMPIEnumeration object.
+
+     The returned CMPIEnumeration object shall be explicitly released by
+     the MI using CMPIEnumerationFT.release().
+
+     If not successful, NULL will be returned.
      */
     CMPIEnumeration* (*clone) (const CMPIEnumeration* en, CMPIStatus* rc);
 
-    /** TODO: Sync description with spec.
-     * Get the next element of this Enumeration.
-     @param en Enumeration this pointer.
-     @param rc Output: Service return status (suppressed when NULL).
-     @return Element value.
+    /** @brief  Get the next element in a CMPIEnumeration object.
+
+     Get the next element of the CMPIEnumeration &lten&gt.
+     @param en Pointer to the CMPIEnumeration object for this function.
+     @param rc Output: If not NULL, points to a CMPIStatus
+         structure that upon return will have been updated with the function
+         return status.
+     @return If successful, a CMPIData structure containing the next
+         element will be returned.
+
+         If not successful, CMPIData.state will have the CMPI_badValue
+         flag set to true
      */
     CMPIData (*getNext) (const CMPIEnumeration* en, CMPIStatus* rc);
 
-    /** TODO: Sync description with spec.
-     * Test for any elements left in this Enumeration.
-     @param en Enumeration this pointer.
-     @param rc Output: Service return status (suppressed when NULL).
-     @return True or false.
+    /** @brief Test for any elements left in a CMPIEnumeration object.
+
+     Test for any elements left in <tt>en</tt> the CMPIEnumeration object.
+     @param en Pointer to the CMPIEnumeration object for this function.
+     @param rc Output: If not NULL, points to a CMPIStatus
+         structure that upon return will have been updated with the function
+         return status.
+     @return If successful, returns a CMPIBoolean value indicating the
+     test result will be returned, as follows: True indicates that the
+     enumeration has more elements left; False indicates that this is
+     not the case.
+
+     If not successful, False will be returned
      */
     CMPIBoolean (*hasNext) (const CMPIEnumeration* en, CMPIStatus* rc);
 
-    /** TODO: Sync description with spec.
-     * Convert this Enumeration into an Array.
-     @param en Enumeration this pointer.
-     @param rc Output: Service return status (suppressed when NULL).
-     @return The Array.
+    /** @brief Convert a CMPIEnumeration object to a CMPIArray object.
+
+     Converts <tt>en</tt> the Enumeration into a CMPIArray.
+     @param en Pointer to the CMPIEnumeration object for this function.
+     @param rc Output: If not NULL, points to a CMPIStatus
+         structure that upon return will have been updated with the function
+         return status.
+     @return If successful, a pointer to a CMPIArray object containing
+     the elements from the CMPIEnumeration object will be returned.
+
+     The returned CMPIArray object shall not be explicitly released by
+     the MI, because it may be an internal object of the CMPIEnumeration
+     object which will be released along with that object, or a new object
+     created by the MB which will be released automatically by the MB
+     (see Subclause 4.1.7).
+
+     If not successful, NULL will be returned.
      */
     CMPIArray* (*toArray) (const CMPIEnumeration* en, CMPIStatus* rc);
 };
@@ -3798,46 +4258,87 @@ struct _CMPIDateTimeFT {
      */
     CMPIVersion ftVersion;
 
-    /** TODO: Sync description with spec.
-     * The DateTime object will not be used any further and may be freed by
-     CMPI run time system.
-     @param dt DateTime this pointer.
-     @return Service return status.
+    /** @brief Release a <tt>CMPIDateTime</tt> object.
+
+     Releases a CMPIDateTime object. This indicates to the MB that the
+     object (including any objects it contains) will no longer be used
+     by the MI. The MB may free the resources associated with the object
+     during the call to this function, or later during some
+     garbage collection cycle.
+     @param dt Pointer to the CMPIDateTime object to be released. That
+        object shall have been created using CMPIDateTimeFT.clone()..
+     @return CMPIStatus structure indicating the function return status.
      */
     CMPIStatus (*release) (CMPIDateTime* dt);
 
-    /** TODO: Sync description with spec.
-     * Create an independent copy of this DateTime object. The resulting
-     object must be released explicitly.
+    /** @brief Create an independent copy of a CMPIDateTime object.
+
+     Create an independent copy of <tt>dt</tt> a CMPIDateTime object. The
+         resulting object must be released explicitly.
      @param dt DateTime this pointer.
-     @param rc Output: Service return status (suppressed when NULL).
-     @return Pointer to copied DateTime object.
+     @param rc Output: If not NULL, points to a CMPIStatus structure that
+         upon return has been updated with the function return status..
+     @return If successful,returns a pointer to the copied CMPIDateTime object.
+
+         The returned CMPIDateTime object shall be explicitly released by the MI
+         using CMPIDateTimeFT.release().
+
+         If not successful, NULL will be returned
      */
     CMPIDateTime* (*clone) (const CMPIDateTime* dt, CMPIStatus* rc);
 
-    /** TODO: Sync description with spec.
-     * Get DateTime setting in binary format (in microsecods
-     starting since 00:00:00 GMT, Jan 1,1970).
-     @param dt DateTime this pointer.
-     @param rc Output: Service return status (suppressed when NULL).
-     @return DateTime in binary.
+    /** @brief Get the value of a CMPIDateTime object in binary format.
+     Gets the value of a CMPIDateTime object as a 64-bit unsigned
+         integer in microseconds starting since 00:00:00 GMT, January 1, 1970,
+         or as an interval in microseconds, depending on what kind of
+         value the CMPIDateTime object contains
+     @param dt  points to the CMPIDateTime object for this function.
+     @param rc Output: If not NULL, points to a CMPIStatus structure that
+         upon return has been updated with the function return status.
+     @return If successful, returns a CMPIUint64 value containing the value of
+         the CMPIDateTime object in binary format.
+
+         If not successful, returns 0.
      */
     CMPIUint64 (*getBinaryFormat) (const CMPIDateTime* dt,
             CMPIStatus* rc);
+// KS_TODO how to spec DSP0004 in standard way
+    /** @brief Get the value of a CMPIDateTime object in the string
+          format defined for the CIM datetime type.
 
-    /** TODO: Sync description with spec.
-     * Get DateTime setting in UTC string format.
-     @param dt DateTime this pointer.
-     @param rc Output: Service return status (suppressed when NULL).
-     @return DateTime as UTC string.
+     Gets the value of a CMPIDateTime object as a string in the format defined
+     in DMTF specification DSP0004 for the CIM datetime type.
+     @param dt Pointer to the CMPIDateTime object for this function.
+     @param rc Output: If not NULL, points to a CMPIStatus structure that
+         upon return has been updated with the function return status.
+     @return If successful, a pointer to a CMPIString object containing
+     the value of a CMPIDateTime object in the format defined in DSP0004
+     for the CIM datetime type will be returned.
+
+     The returned CMPIString object shall not be explicitly released by
+     the MI, because it may be an internal object of the CMPIDateTime
+     object which will be released along with that object, or a new
+     object created by the MB which will be released automatically by
+     the MB (see Subclause 4.1.7).
+
+     If not successful, NULL will be returned
      */
     CMPIString* (*getStringFormat) (const CMPIDateTime* dt, CMPIStatus* rc);
 
-    /** TODO: Sync description with spec.
-     * Tests whether DateTime is an interval value.
+    /** @brief Test whether a CMPIDateTime object contains an interval value.
+
+     Tests whether DateTime is an interval value.
      @param dt DateTime this pointer.
      @param rc Output: Service return status (suppressed when NULL).
-     @return True if interval value.
+     @return If successful, returns a CMPIBoolean value indicating the test
+         result, as follows:
+         <ul>
+         <li>True indicates that the CMPIDateTime object contains an interval
+         value;
+         <li>False indicates that this is not an interval.
+         </ul>
+
+    If not successful, False will be returned.
      */
     CMPIBoolean (*isInterval) (const CMPIDateTime* dt, CMPIStatus* rc);
 };
@@ -3875,20 +4376,83 @@ struct _CMPIPropertyListFT {
      */
     CMPIVersion ftVersion;
 
-    /** TODO: Add description
+    /**  @brief  release a CMPIPropertyList object.
+
+     Releases <tt>plist</tt>, a CMPIPropertyList object.
+         This indicates to the MB that the object (including any objects it
+         contains) will no longer be used by the MI. The MB may free
+         the resources associated with the object during the call to
+         this function, or later during some garbage collection cycle.
+     @param plist Pointer to the CMPIPropertyList object to be released.
+     @return CMPIStatus structure indicating the function return status.
      */
     CMPIStatus (*release) (CMPIPropertyList* plist);
 
-    /** TODO: Add description
+    /** @brief  create an independent copy of a CMPIPropertyList
+                object.
+
+     Creates an independent copy of <tt>plist</tt>, the CMPIPropertyList object.
+     @param plist Pointer to the CMPIPropertyList object to be copied.
+     @param rc Output: If not NULL, points to a CMPIStatus structure that upon
+         return has been updated with the function return status
+     @return If successful, returns a pointer to the copied CMPIPropertyList
+         object.
+
+         The returned CMPIPropertyList object shall be explicitly released by
+         the MI using CMPIPropertyListFT.release().
+
+         If not successful, NULL will be returned.
      */
     CMPIPropertyList* (*clone) (const CMPIPropertyList* plist, CMPIStatus* rc);
 
-    /** TODO: Add description
+    /** @brief Test whether a property is in the property list represented
+           by a CMPIPropertyList object
+
+       This function tests whether a property is in the property list
+       represented by a CMPIPropertyList object.
+
+       The MB's implementation of this function should be efficient. However,
+       it is recommended that MIs when returning many instances invoke this
+       function only once for each property, and cache the result.
+
+     @param plist Pointer to the CMPIPropertyList object to be for this function.
+     @param pname a CMPISstring specifying the name of the property to be
+         tested.
+     @param rc Output: If not NULL, points to a CMPIStatus structure that upon
+         return has been updated with the function return status
+     @return If successful, a CMPIBoolean value indicating the test result
+     will be returned, as follows: True indicates that the property is in
+     the property list; False indicates that this is not the case.
+
+     If not successful, False will be returned
      */
     CMPIBoolean (*isPropertyInList) (const CMPIPropertyList* plist,
             const char* pname, CMPIStatus* rc);
 
-    /** TODO: Add description
+    /** @brief Get CMPIPropertyList as an array of strings.
+
+     Returns the property list represented by <tt>plist</tt>
+           CMPIPropertyList object as a NULL-terminated array of
+           pointers to strings.
+     @param plist Pointer to the CMPIResult object to be for this function.
+     @param rc Output: If not NULL, points to a CMPIStatus structure that upon
+         return has been updated with the function return status
+     @return If successful, returns a pointer to the first entry of a
+         NULL-terminated array of pointers to strings that represent the
+         property names in the property list represented by the
+         CMPIPropertyList object.
+
+        The entries in that array may be in any order and in any lexical case
+        (possibly different than originally specified in the
+        &lt;CMPIBrokerEncFT.newPropertyList()&gt; factory function).
+
+        The returned array shall not be explicitly released by the MI, because
+        it may point to an internal data area in the CMPIPropertyList object
+        which will be released along with that object, or it may point to a
+        new array created by the MB which will be released automatically
+        by the MB (see Subclause 4.1.7). KS_TODO
+
+        If not successful, NULL will be returned.
      */
     const char** (*getProperties) (const CMPIPropertyList* plist,
             CMPIStatus* rc);
@@ -3927,16 +4491,53 @@ struct _CMPIEnumerationFilterFT {
      */
     CMPIVersion ftVersion;
 
-    /** TODO: Add description
+    /** @brief  release a CMPIResult object.
+
+     Releases a CMPIResult object. This indicates to the MB that
+         the object (including any objects it contains) will no longer
+         be used by the MI. The MB may free the resources associated with
+         the object during the call to this function, or later during
+         some garbage collection cycle.
+     @param rslt Pointer to the CMPIResult object to be released.
+     @return CMPIStatus structure indicating the function return status.
      */
     CMPIStatus (*release) (CMPIEnumerationFilter* ef);
 
-    /** TODO: Add description
+    /** @brief Create an independent copy of a CMPIEnumerationFilter
+               object.
+
+     Create an independent copy of the CMPIEnumerationFilter object defined by
+     <tt>rslt</tt>.
+     @param rslt Pointer to CMPIEnumerationFilter object to be copied.
+     @param rc Output: If not NULL, points to a CMPIStatus structure that upon
+         return has been updated with the function return status.
+     @return If successful, returns a pointer to the copied
+         CMPIEnumerationFilter object.
+
+         The returned CMPIEnumerationFilter object shall be explicitly
+         released by the MI using CMPIEnumerationFilter.release().
+
+         If not successful, NULL will be returned.
      */
     CMPIEnumerationFilter* (*clone) (const CMPIEnumerationFilter* ef,
             CMPIStatus* rc);
 
-    /** TODO: Add description
+    /** @brief Instance matches the filter represented by a
+           CMPIEnumerationFilter object
+
+       This function tests whether an instance matches the filter
+       represented by the CMPIEnumerationFilter object <tt>ef</tt>.
+       The filter matches the instance if the conditions defined in the
+       filter are met by the properties of the instance.
+       @param ef Pointer to the CMPIEnumerationFilter object for this function.
+       @param inst CMPIInstance object to be tested against the filter.
+       @param Output: If not NULL, points to a CMPIStatus structure that upon
+         return has been updated with the function return status.
+       @return If successful, returns a CMPIBoolean value indicating the test
+       result as follows: True indicates that the instance
+       matches the filter; False indicates that this is not the case.
+
+       If not successful, returns False.
      */
     CMPIBoolean (*match) (const CMPIEnumerationFilter* ef,
             const CMPIInstance* inst, CMPIStatus* rc);
@@ -3998,161 +4599,353 @@ struct _CMPIInstanceMIFT {
      */
     const char* miName;
 
-    /** TODO: Sync description with spec.
-     * The CMPIInstanceMIFT.cleanup() function shall perform any necessary
-     cleanup operation prior to the unloading of the library of which this MI
-     group is part.
-     This function is called prior to the unloading of the provider.
-     @param mi The mi argument is a pointer to a CMPIInstanceMI structure.
-     @param ctx The ctx argument is a pointer to a CMPIContext structure
-     containing the Invocation Context.
-     @param terminating When true, the terminating argument indicates that
-     the MB is in the process of terminating and that cleanup must be done.
-     When set to false, the MI may respond with CMPI_IRC_DO_NOT_UNLOAD, or
-     CMPI_IRC_NEVER_UNLOAD, indicating that unload will interfere with current
-     MI processing.
+    /** @brief Perform cleanup for an Instance MI.
+
+     This function shall perform any necessary cleanup operation
+     of the library of which this Instance MI <tt>mi</tt> unless the MI
+     postpones the cleanup.
+
+     While this function executes, the MB will not call any other MI functions
+     for this MI. After this function returns, the MB may unload the load
+     library this MI is part of, unless the MI postpones the cleanup
+     @param mi Pointer to a CMPIInstanceMI structure.
+     @param ctx Pointer to a CMPIContext object containing the context data for
+     the invocation(see Subclause 8.1).
+
+     @param terminating When  is true, the MB is in the process of shutting
+     down. The MI shall perform any necessary cleanup and shall not postpone
+     the cleanup. After this function returns (successful or in error), the
+     MB will consider this MI to be uninitialized and will not call further
+     MI functions for this MI.
+
+     When terminating is false, the MI can choose to perform or postpone the
+     cleanup, by performing one of these actions:
+     <ul>
+     <li>The MI performs any necessary cleanup and does not request postponing
+     the cleanup. After this function returns (successful or in error),
+     the MB will consider this MI to be uninitialized and will not call further
+     MI functions for this MI.
+
+     <li>The MI does not perform any cleanup and temporarily postpones
+     the cleanup, by returning CMPI_RC_DO_NOT_UNLOAD. This will cause
+     the MB to consider this MI still to be initialized, and the MB may call
+     further MI functions of this MI. The MB may call this function again
+     after some MB implementation-specific time.
+
+     <li>The MI does not perform any cleanup and permanently postpones the
+     cleanup, by returning <tt>CMPI_RC_NEVER_UNLOAD</tt>. This will cause the
+     MB to consider this MI still to be initialized, and the MB may call
+     further MI functions of this MI. The MB will not call this function again
+     until the MB terminates (at which time the MB calls this function with
+     terminating set to true).
+    </ul>
      @return Function return status.
      The following CMPIrc codes shall be recognized:
-     CMPI_RC_OK Operation successful.
-     CMPI_RC_ERR_FAILED Unspecific error occurred.
-     CMPI_RC_DO_NOT_UNLOAD Operation successful - do not unload now.
-     CMPI_RC_NEVER_UNLOAD Operation successful -  never unload.o
+     <ul>
+     <li> <tt>CMPI_RC_OK</tt> Operation successful.
+     <li> <tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
+     <li> <tt>CMPI_RC_DO_NOT_UNLOAD</tt> Operation successful - do
+         not unload now.
+     <li> <tt>CMPI_RC_NEVER_UNLOAD</tt> Operation successful -  never unload.
+     </ul>
      */
     CMPIStatus (*cleanup) (CMPIInstanceMI* mi, const CMPIContext* ctx,
             CMPIBoolean terminating);
 
-    /** TODO: Sync description with spec.
-     * Enumerate ObjectPaths of Instances serviced by this provider.
-     @param mi Provider this pointer.
-     @param ctx Invocation Context.
-     @param rslt Result data container.
-     @param op ObjectPath containing namespace and classname components.
-     @return Function return status.
-     The following CMPIrc codes shall be recognized:
-     CMPI_RC_OK Operation successful.
-     CMPI_RC_ERR_FAILED Unspecific error occurred.
-     CMPI_RC_ERR_NOT_SUPPORTED Operation not supported by this MI.
-     CMPI_RC_ERR_ACCESS_DENIED Not authorized.
-     CMPI_RC_ERR_NOT_FOUND Instance not found.
+    /** @brief Enumerate instance paths of instances of a given
+       class serviced by this MI.
+
+     Enumerate the instance paths of instances of a given class define by
+         <tt>op>/tt> that are serviced by this MI <tt>mi</tt>>, by
+         accessing the underlying managed elements.
+
+         This function is provided by the MI in <tt>mi</tt> the context
+         of a particular MI name.
+
+         The class of the <tt>op</tt>> argument for which this
+         function will be called by the MB depends on the specifics
+         of how the MB relates classes and MI names, which is out of
+         scope for this standard. As a result, the MB may call this
+         function for classes for which the MI is not responsible.
+         In order for an MI to be portable across MB implementations
+         with different approaches to relate MI names and classes,
+         the MI must check whether it services the class specified
+         in the classPath argument.
+     @param mi Pointer to a CMPIInstanceMI structure.
+     @param ctx Pointer to a CMPIContext object containing the context data
+         for the invocation.
+     @param rslt Pointer to a CMPIResult object that is the result data
+         container. Upon successful return, the MI shall have put all instance
+         paths representing the result set into this container.
+     @param op CMPIObjectPath containing namespace and classname components.
+         Hostname and key components, if present, have no meaning and
+         should be ignored.
+     @return CMPIStatus structure indicating the function return
+     status. The following CMPIrc codes shall be recognized:
+     <ul>
+     <li><tt>CMPI_RC_OK</tt> Operation successful.
+     <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
+     <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> Operation not supported
+     by this MI.
+     <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt> Not authorized.
+     <li><tt>CMPI_RC_ERR_NOT_FOUND</tt> Instance not found.
+     </ul>
      */
     CMPIStatus (*enumerateInstanceNames) (CMPIInstanceMI* mi,
             const CMPIContext* ctx, const CMPIResult* rslt,
             const CMPIObjectPath* op);
 
-    /** TODO: Sync description with spec.
-     * Enumerate the Instances serviced by this provider.
-     @param mi Provider this pointer.
-     @param ctx Invocation Context.
-     @param rslt Result data container.
-     @param op ObjectPath containing namespace and classname components.
-     @param properties If not NULL, the members of the array define one or
-     more Property names. Each returned Object MUST NOT include elements
-     for any Properties missing from this list.
-     @return Function return status.
+    /** @brief Enumerate the instances of a given class serviced by this MI.
+
+     This MI function shall enumerate the instances of a given class that are
+         serviced by this MI, by accessing the underlying managed elements.
+
+         This function is provided by the MI in context of <tt>mi</tt>
+         a particular MI name.
+
+         The class of the <tt>op</tt> argument for which this
+         function will be called by the MB depends on the specifics
+         of how the MB relates classes and MI names, which is out of
+         scope for this standard. As a result, the MB may call this
+         function for classes for which the MI is not responsible.
+         In order for an MI to be portable across MB implementations
+         with different approaches to relate MI names and classes,
+         the MI must check whether it services the class specified
+         in the classPath argument.
+     @param mi Pointer to a CMPIInstanceMI structure.
+     @param ctx Pointer to a CMPIContext object containing the context data
+         for the invocation.
+     @param rslt Pointer to a CMPIResult object that is the result data
+         container. Upon successful return, the MI shall have put all instances
+         representing the result set into this container.
+     @param op CMPIObjectPath containing namespace and classname components.
+         Hostname and key components, if present, have no meaning and
+         should be ignored.
+     @param properties If not NULL, an array of zero or more pointers
+         to strings, each specifying a property name. The members of the
+         array define one or more property names. Each returned object
+         MUST NOT include elements for any properties missing from this list.
+     @return CMPIStatus structure indicating the function return status.
      The following CMPIrc codes shall be recognized:
-     CMPI_RC_OK Operation successful.
-     CMPI_RC_ERR_FAILED Unspecific error occurred.
-     CMPI_RC_ERR_NOT_SUPPORTED Operation not supported by this MI.
-     CMPI_RC_ERR_ACCESS_DENIED Not authorized.
-     CMPI_RC_ERR_NOT_FOUND Instance not found.
+     <ul>
+     <li> <tt>CMPI_RC_OK</tt> Operation successful.
+     <li> <tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
+     <li> <tt>CMPI_RC_ERR_NOT_SUPPORTED</tt>D Operation not supported by this MI.
+     <li> <tt>CMPI_RC_ERR_ACCESS_DENIED</tt> Not authorized.
+     <li> <tt>CMPI_RC_ERR_NOT_FOUND</tt> Instance not found.
+     </ul>
      */
     CMPIStatus (*enumerateInstances) (CMPIInstanceMI* mi,
             const CMPIContext* ctx, const CMPIResult* rslt,
             const CMPIObjectPath* op, const char** properties);
 
-    /** TODO: Sync description with spec.
-     * Get the Instances defined by &lt;op&gt;.
-     @param mi Provider this pointer.
-     @param ctx Invocation Context.
-     @param rslt Result data container.
-     @param op ObjectPath containing namespace, classname and key components.
-     @param properties If not NULL, the members of the array define one or
-     more Property names. Each returned Object MUST NOT include elements
-     for any Properties missing from this list.
-     @return Function return status.
+    /** @brief Get a given instance.
+
+     Get the instance defined by  the CMPIObjectPath <tt>op</tt>.
+         This function is provided by the MI in context of <tt>mi</tt>
+         a particular MI name.
+
+         The class of the <tt>op</tt> argument for which this function will
+         be called by the MB depends on the specifics of how the MB relates
+         classes and MI names, which is out of scope for this standard.
+         As a result, the MB may call this function for classes for which
+         the MI is not responsible. In order for an MI to be portable across
+         MB implementations with different approaches to relate MI names
+         and classes, the MI must check whether it services the class
+         specified in the classPath argument.
+
+     @param mi Pointer to a CMPIInstanceMI structure.
+     @param ctx Pointer to a CMPIContext object containing the context data
+         for the invocation.
+     @param rslt Pointer to a CMPIResult object that is the result data
+         container. Upon successful return, the MI shall have put the instance
+         representing the result set into this container.
+     @param op CMPIObjectPath containing namespace and classname components.
+         Hostname and key components, if present, have no meaning and
+         should be ignored.
+     @param properties If not NULL,  an array of zero or more pointers
+         to strings, each specifying a property name. The members of the
+         array define one or more Property names. Each returned object
+         MUST NOT include elements for any Properties missing from this list..
+     @return CMPIStatus structure indicating the function return status.
      The following CMPIrc codes shall be recognized:
-     CMPI_RC_OK Operation successful.
-     CMPI_RC_ERR_FAILED Unspecific error occurred.
-     CMPI_RC_ERR_NOT_SUPPORTED Operation not supported by this MI.
-     CMPI_RC_ERR_ACCESS_DENIED Not authorized.
-     CMPI_RC_ERR_NOT_FOUND Instance not found.
+     <ul>
+     <li> <tt>CMPI_RC_OK</tt> Operation successful.
+     <li> <tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
+     <li> <tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> Operation not supported
+     by this MI.
+     <li> <tt>CMPI_RC_ERR_ACCESS_DENIED</tt> Not authorized.
+     <li> <tt>CMPI_RC_ERR_NOT_FOUND</tt> Instance not found.
+     </ul>
      */
     CMPIStatus (*getInstance) (CMPIInstanceMI* mi, const CMPIContext* ctx,
             const CMPIResult* rslt, const CMPIObjectPath* op,
             const char** properties);
+// KS_TODO should we change to classPath as property name.
+// KS_TODO Clarify formatting for error codes and also CMPIError usage
+    /** @brief Create an instance of a given class.
 
-    /** TODO: Sync description with spec.
-     * Create Instance from &lt;inst&gt; using &lt;op&gt; as reference.
-     @param mi Provider this pointer.
-     @param ctx Invocation Context.
-     @param rslt Result data container.
-     @param op ObjectPath containing namespace, classname and key components.
-     @param inst The Instance.
+     Create an instance of a given class <tt>op</tt> in the namespace of
+     that class defined in <tt>op</tt> and the properties defined in
+         <tt>inst</tt>.
+
+         This function is provided by the MI in context of a particular MI
+         name. The class of the classPath argument for which this function
+         will be called by the MB depends on the specifics of how the MB
+         relates classes and MI names, which is out of scope for this
+         standard. As a result, the MB may call this function for classes
+         for which the MI is not responsible. In order for an MI to be
+         portable across MB implementations with different approaches to
+         relate MI names and classes, the MI must check whether it services
+         the class specified in the classPath argument.
+     @param mi Pointer to a CMPIInstanceMI structure.
+     @param ctx Pointer to a CMPIContext object containing the context data
+         for the invocation (see Subclause 8.1)..
+     @param rslt Pointer to a CMPIResult object that is the result data
+         container. Upon successful return, the MI shall have put the
+         instance path of the created instance into this container
+         (see Subclause 8.2).
+     @param classPath Pointer to a CMPIObjectPath object that references
+         the given class. The hostname and key components, if present, have
+         no meaning and should be ignored. The use of the key component within
+         this CMPIObjectPath object is deprecated since CMPI 2.1; this key
+         component should not be provided by MBs and should not be used by
+         MIs. <b>(Deprecated)</b>
+     @param inst Pointer to a CMPIInstance object specifying*
+     *   property values for the new instance. The object path
+     *   component within this CMPIInstance object has no meaning;
+     *   it should not be provided by MBs and should not be used by
+     *   MIs
      @return Function return status.
      The following CMPIrc codes shall be recognized:
+     <code>
      CMPI_RC_OK Operation successful.
-     CMPI_RC_ERR_FAILED Unspecific error occurred.
      CMPI_RC_ERR_NOT_SUPPORTED Operation not supported by this MI.
+     CMPI_RC_ERR_ACCESS_DENIED Not Authorized (CMPI 2.1)
      CMPI_RC_ERR_ALREADY_EXISTS Instance already exists.
+     CMPI_RC_ERR_FAILED Unspecific error occurred.
+     </code>
      */
     CMPIStatus (*createInstance) (CMPIInstanceMI* mi, const CMPIContext* ctx,
-            const CMPIResult* rslt, const CMPIObjectPath* op,
+            const CMPIResult* rslt, const CMPIObjectPath* classPath,
             const CMPIInstance* inst);
 
-    /** TODO: Sync description with spec.
-     * Replace an existing Instance from &lt;inst&gt; using &lt;op&gt; as reference.
-     @param mi Provider this pointer.
-     @param ctx Invocation Context.
-     @param rslt Result data container.
-     @param op ObjectPath containing namespace, classname and key components.
-     @param inst The Instance.
-     @param properties If not NULL, the members of the array define one or
-     more Property names. The process MUST NOT replace elements
-     for any Properties missing from this list. If NULL all properties
-     will be replaced.
-     @return Function return status.
+    /** @brief Modify property values of a given instance.
+
+     Modify property values of <tt>mi</tt>, a given instance with properties
+     defined in <tt>modInst</tt> and using <tt>properties</tt>, an array of
+     pointers to property names, as a filter,
+
+     This function is provided by the MI in context of a particular MI name.
+     The class in the instPath argument for which this function will be called
+     by the MB depends on the specifics of how the MB relates classes and MI
+     names, which is out of scope for this standard. As a result, the MB may
+     call this function for classes for which the MI is not responsible. In
+     order for an MI to be portable across MB implementations with different
+     approaches to relate MI names and classes, the MI must check whether
+     it services the class specified in the instPath argument.
+
+     @param mi Pointer to a CMPIInstanceMI structure.
+     @param ctx Pointer to a CMPIContext object containing the context data
+         for the invocation (see Subclause 8.1).
+     @param rslt Pointer to a CMPIResult object that is the result data
+         container. Upon successful return, the MI shall have left this
+         container empty.
+     @param instPath Pointer to a CMPIObjectPath object that references
+         the given instance and that contains the namespace, class name,
+         and key components. The hostname component, if present, has no
+         meaning and should be ignored.
+     @param modInst Pointer to a CMIPInstance object specifying new values
+         for the properties to be modified. The object path component within
+         this CMPIInstance object has no meaning; it should not be provided by
+         MBs and should not be used by MIs.
+     @param properties if not NULL, is an array of zero or more pointers to
+         strings, each specifying a property name. The end of the array is
+         identified by a NULL pointer. The invocation flags specified in
+         the CMPIInvocationFlags entry of the ctx argument have no meaning
+         for this function. The function shall not modify elements for any
+         properties missing from this list. If the properties argument
+         is NULL, this indicates that all properties specified in
+         <tt>modInst</tt> are modified
+
+     @return CMPIStatus structure indicating the function return status.
      */
     CMPIStatus (*modifyInstance) (CMPIInstanceMI* mi, const CMPIContext* ctx,
-            const CMPIResult* rslt, const CMPIObjectPath* op,
-            const CMPIInstance* inst, const char** properties);
+            const CMPIResult* rslt, const CMPIObjectPath* instPath,
+            const CMPIInstance* modInst, const char** properties);
 
-    /** TODO: Sync description with spec.
-     * Delete an existing Instance defined by &lt;op&gt;.
-     @param mi Provider this pointer.
-     @param ctx Invocation Context.
-     @param rslt Result data container.
-     @param op ObjectPath containing namespace, classname and key components.
-     @return Function return status.
+    /** @brief Delete a given instance.
+
+     Delete an existing instance defined by <tt>instPath</tt>.
+
+     This function is provided by the MI in context of a particular MI name.
+     The class in the instPath argument for which this function will be called
+     by the MB depends on the specifics of how the MB relates classes and MI
+     names, which is out of scope for this standard. As a result, the MB may
+     call this function for classes for which the MI is not responsible. In
+     order for an MI to be portable across MB implementations with different
+     approaches to relate MI names and classes, the MI must check whether
+     it services the class specified in the instPath argument.
+     @param mi Pointer to a CMPIInstanceMI structure.
+     @param ctx Pointer to a CMPIContext object containing the context data
+         for the invocation (see Subclause 8.1).
+     @param rslt Pointer to a CMPIResult object that is the result data
+         container. Upon successful return, the MI shall have left this
+         container empty.
+     @param instPath Pointer to a CMPIObjectPath object that references
+         the given instance and that contains the namespace, class name,
+         and key components. The hostname component, if present, has no
+         meaning and should be ignored.
+     @return CMPIStatus structure indicating the function return status.
+
      The following CMPIrc codes shall be recognized:
      CMPI_RC_OK Operation successful.
-     CMPI_RC_ERR_FAILED Unspecific error occurred.
      CMPI_RC_ERR_NOT_SUPPORTED Operation not supported by this MI.
-     CMPI_RC_ERR_ACCESS_DENIED Not authorized.
+     CMPI_RC_ERR_ACCESS_DENIED Not Authorized (CMPI 2.1)
      CMPI_RC_ERR_NOT_FOUND Instance not found.
+     CMPI_RC_ERR_FAILED Unspecific error occurred.
      */
     CMPIStatus (*deleteInstance) (CMPIInstanceMI* mi, const CMPIContext* ctx,
             const CMPIResult* rslt, const CMPIObjectPath* op);
 
-    /** TODO: Sync description with spec.
-     * Query the enumeration of instances of the class (and subclasses) defined
-     by &lt;op&gt; using &lt;query&gt; expression.
-     @param mi Provider this pointer.
-     @param ctx Context object
-     @param rslt Result data container.
-     @param op ObjectPath containing namespace and classname components.
-     @param query Query expression
-     @param lang Query language
-     @return Function return status.
+    /** @brief  execute a query on a given class and return the
+                query result.
+
+     Query the enumeration of instances of the class (and subclasses) defined
+     by <tt>op</tt> using <tt>query</tt> expression.
+
+     This function is provided by the MI in context of a particular MI name.
+     The class in the instPath argument for which this function will be called
+     by the MB depends on the specifics of how the MB relates classes and MI
+     names, which is out of scope for this standard. As a result, the MB may
+     call this function for classes for which the MI is not responsible. In
+     order for an MI to be portable across MB implementations with different
+     approaches to relate MI names and classes, the MI must check whether
+     it services the class specified in the instPath argument.
+     @param mi Pointer to a CMPIInstanceMI structure.
+     @param ctx Pointer to a CMPIContext object containing the context data
+         for the invocation (see Subclause 8.1).
+     @param rslt Pointer to a CMPIResult object that is the result data
+         container. Upon successful return, the MI shall have left this
+         container empty.
+     @param classPath Pointer to a CMPIObjectPath object that references
+         the given class. The hostname and key components, if present, have
+         no meaning and should be ignored.
+     @param query Pointer to a string containing the select expression.
+     @param lang Pointer to a case-sensitive string containing the query
+     language.
+     @return CMPIStatus structure indicating the function return status.
+
      The following CMPIrc codes shall be recognized:
      CMPI_RC_OK Operation successful.
-     CMPI_RC_ERR_FAILED Unspecific error
      CMPI_RC_ERR_NOT_SUPPORTED Operation not supported by this MI.
      CMPI_RC_ERR_ACCESS_DENIED Not authorized.
+     CMPI_RC_ERR_FAILED Unspecific error
      CMPI_RC_ERR_QUERY_LANGUAGE_NOT_SUPPORTED Query language not supported.
      CMPI_RC_ERR_INVALID_QUERY Invalid query.
      */
     CMPIStatus (*execQuery) (CMPIInstanceMI* mi, const CMPIContext* ctx,
-            const CMPIResult* rslt, const CMPIObjectPath* op,
+            const CMPIResult* rslt, const CMPIObjectPath* classPath,
             const char* query, const char* lang);
 
 };
@@ -4201,31 +4994,68 @@ struct _CMPIAssociationMIFT {
      */
     const char* miName;
 
-    /** TODO: Sync description with spec.
-     * Cleanup is called prior to unloading of the provider.
-     This function shall perform any necessary cleanup
-     operations prior to the unloading of the library of which this MI group is part.
-     @param mi This argument is a pointer to a CMPIAssociationMI structure.
-     @param ctx This argument is a pointer to a CMPIContext structure containing the Invocation Context.
-     @param terminating When true, the terminating argument indicates that the MB is in the process of
-     terminating and that cleanup must be done. When set to false, the MI may respond with
-     CMPI_IRC_DO_NOT_UNLOAD, or CMPI_IRC_NEVER_UNLOAD, indicating that unload will
-     interfere with current MI processing.
-     @return Function return status. The following CMPIrc codes shall be recognized:
-     CMPI_RC_OK Operation successful.
-     CMPI_RC_ERR_FAILED Unspecific error occurred.
-     CMPI_RC_DO_NOT_UNLOAD Operation successful - do not unload now.
-     CMPI_RC_NEVER_UNLOAD Operation successful - never unload.
+    /** @brief Perform cleanup for an @ref CMPIAssociationMI object.
+
+     This function shall perform any necessary cleanup operations prior to the
+     unloading of the library of which this MI group is part.
+
+     While this function executes, the MB will not call any other MI functions
+         for this MI. This function will be called once for a specific MI
+         (unless the MI postpones the cleanup), even if that MI services more
+         than one namespace. After this function returns, the MB may unload
+         the load library this MI is part of, unless the MI postpones the
+         cleanup.
+     @param mi Pointer to a CMPIAssociationMI structure.
+     @param ctx Pointer to a CMPIContext object containing the context data
+         for the invocation (see Subclause 8.1). The context data entries
+         are MB implementation-specific.
+     @param terminating When true, the MB is in the process of shutting down.
+         The MI shall perform any necessary cleanup and shall not postpone
+         the cleanup. After this function returns (successful or in error),
+         the MB will consider this MI to be uninitialized and will not call
+         further MI functions for this MI.
+
+    When false, the MI can choose to perform or postpone the cleanup, by
+    performing one of these actions:
+    <ul>
+    <li>The MI performs any necessary cleanup and does not request postponing
+    the cleanup. After this function returns (successful or in error), the
+    MB will consider this MI to be uninitialized and will not call further
+    MI functions for this MI.
+    <li>The MI does not perform any cleanup and temporarily postpones the
+    cleanup, by returning CMPI_RC_DO_NOT_UNLOAD. This will cause the MB
+    to consider this MI still to be initialized, and the MB may call further
+    MI functions of this MI. The MB may call this function again after
+    some MB implementation-specific time.
+    <li>The MI does not perform any cleanup and permanently postpones the
+    cleanup, by returning CMPI_RC_NEVER_UNLOAD. This will cause the MB
+    to consider this MI still to be initialized, and the MB may call
+    further MI functions of this MI. The MB will not call this function
+    again, until the MB terminates (at which time the MB calls this function
+    with terminating set to true).
+     </ul>
+     @return CMPIStatus structure indicating the function return status.
+     The following CMPIrc codes shall be recognized:
+     <ul>
+         <li>CMPI_RC_OK Operation successful.
+         <li>CMPI_RC_ERR_FAILED Unspecific error occurred.
+         <li>CMPI_RC_DO_NOT_UNLOAD Function successful, do not unload
+             now; the MB may retry an unload later..
+         <li>CMPI_RC_NEVER_UNLOAD Function successful, never unload;
+            the* MB will not retry an unload later unless it shuts
+            down.
+     </ul>
      */
     CMPIStatus (*cleanup) (CMPIAssociationMI* mi, const CMPIContext* ctx,
             CMPIBoolean terminating);
 
     /** TODO: Sync description with spec.
-     * Enumerate ObjectPaths associated with the Instance defined by &lt;op&gt;.
+     * Enumerate ObjectPaths associated with the Instance defined by <tt>op</tt>.
      @param mi Provider this pointer.
      @param ctx Invocation Context
      @param rslt Result data container.
-     @param op Source ObjectPath containing namespace, classname and key components.
+     @param op Source ObjectPath containing namespace, classname and key
+         components.
      @param assocClass If not NULL, MUST be a valid Association Class name.
      It acts as a filter on the returned set of Objects by mandating that
      each returned Object MUST be associated to the source Object via an
@@ -4263,7 +5093,7 @@ struct _CMPIAssociationMIFT {
             const char* resultRole, const char** properties);
 
     /** TODO: Sync description with spec.
-     * Enumerate ObjectPaths associated with the Instance defined by &lt;op&gt;.
+     * Enumerate ObjectPaths associated with the Instance defined by <tt>op</tt>.
      @param mi Provider this pointer.
      @param ctx Invocation Context
      @param rslt Result data container.
@@ -4304,7 +5134,7 @@ struct _CMPIAssociationMIFT {
 
     /** TODO: Sync description with spec.
      * Enumerates the association instances that refer to the instance defined by
-     &lt;op&gt;.
+     <tt>op</tt>.
      @param mi Provider this pointer.
      @param ctx Invocation Context
      @param rslt Result data container.
@@ -4337,7 +5167,7 @@ struct _CMPIAssociationMIFT {
 
     /** TODO: Sync description with spec.
      * Enumerates the association ObjectPaths that refer to the instance defined by
-     &lt;op&gt;.
+     <tt>op</tt>.
      @param mi Provider this pointer.
      @param ctx Invocation Context
      @param rslt Result data container.
@@ -4364,7 +5194,6 @@ struct _CMPIAssociationMIFT {
             const CMPIContext* ctx, const CMPIResult* rslt,
             const CMPIObjectPath* op, const char* resultClass,
             const char* role);
-
 };
 
 /**
@@ -4411,47 +5240,99 @@ struct _CMPIMethodMIFT {
      */
     const char* miName;
 
-    /** TODO: Sync description with spec.
-     * The CMPIMethodMIFT.cleanup() function shall perform any necessary cleanup operation
-     prior to the unloading of the library of which this MI group is part. This function is called
+    /** @brief Perform cleanup for an Instance MI.
+
+     The CMPIMethodMIFT.cleanup() function shall perform any
+     necessary cleanup operation prior to the unloading of the
+     library of which this MI group is part. This function is called
      prior to the unloading of the provider.
 
      @param mi The mi argument is a pointer to a CMPIMethodMI structure.
-     @param ctx The ctx argument is a pointer to a CMPIContext structure containing the Invocation
-     Context.
-     @param terminating When true, the terminating argument indicates that the MB is in the process of
-     terminating and that cleanup must be done. When set to false, the MI may respond with
-     CMPI_IRC_DO_NOT_UNLOAD, or CMPI_IRC_NEVER_UNLOAD, indicating that unload will
+     @param ctx The ctx argument is a pointer to a CMPIContext structure
+     containing the Invocation Context.
+     @param terminating When true, the terminating argument indicates that
+     the MB is in the process of terminating and that cleanup must be done.
+     When set to false, the MI may respond with CMPI_IRC_DO_NOT_UNLOAD,
+     or CMPI_IRC_NEVER_UNLOAD, indicating that unload will
      interfere with current MI processing.
      @return Function return status.
+
      The following CMPIrc codes shall be recognized:
-     CMPI_RC_OK Operation successful.
-     CMPI_RC_ERR_FAILED Unspecific error occurred.
-     CMPI_RC_DO_NOT_UNLOAD Operation successful - do not unload now.
-     CMPI_RC_NEVER_UNLOAD Operation successful - never unload.
+     <ul>
+     <li><tt>CMPI_RC_OK</tt> Operation successful.
+     <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
+     <li><tt>CMPI_RC_DO_NOT_UNLOAD</tt> Operation successful - do not unload
+         now.
+     <li><tt>CMPI_RC_NEVER_UNLOAD</tt> Operation successful - never unload.
+     </ul>
      */
     CMPIStatus (*cleanup) (CMPIMethodMI* mi, const CMPIContext* ctx,
             CMPIBoolean terminating);
 
-    /** TODO: Sync description with spec.
-     * Invoke a named, extrinsic method of an Instance
-     defined by the &lt;op&gt; parameter.
-     @param mi Provider this pointer.
-     @param ctx Invocation Context
-     @param rslt Result data container.
-     @param objPath ObjectPath containing namespace, classname and key components.
-     @param method Method name
-     @param in Input parameters.
-     @param out Output parameters.
-     @return Function return status. The following CMPIrc codes shall be recognized:
-     CMPI_RC_OK Operation successful.
-     CMPI_RC_ERR_FAILED Unspecific error occurred.
-     CMPI_RC_ERR_NOT_SUPPORTED Operation not supported by this MI.
-     CMPI_RC_ERR_ACCESS_DENIED Not authorized.
-     CMPI_RC_ERR_NOT_FOUND Instance not found.
-     CMPI_RC_ERR_METHOD_NOT_AVAILABLE Method not available.
-     CMPI_RC_ERR_METHOD_NOT_FOUND Method not found.
+    /** @brief Invoke a method on a target object.
+
+     The CMPIMethodMIFT.invokeMethod() MI function shall invoke a named,
+     extrinsic method on a target object, by accessing the underlying
+     managed elements. Instance methods (i.e., non-static methods)
+     can be invoked only on instances. Class methods (i.e., static methods)
+     can be invoked on instances and classes
+
+     This function is provided by the MI in context of a particular
+     MI name. The class of the objPath argument for which this function
+     will be called by the MB depends on the specifics of how the MB
+     relates classes and MI names, which is out of scope for this
+     standard. As a result, the MB may call this function for classes
+     for which the MI is not responsible. In order for an MI to be
+     portable across MB implementations with different approaches
+     to relate MI names and classes, the MI must check whether
+     it services the class specified in the objPath argument.
+
+     @param mi Pointer to a CMPIMethodMI object.
+     @param ctx Pointer to a CMPIContext object containing the context
+         data for the invocation
+     @param rslt Pointer to a CMPIResult object that is the result
+         data container. Upon successful return, the MI shall have put the
+         return value of the method into this container (see Subclause 8.2).
+         The CMPIResultFT function to be used for that depends on the
+         data type of the method return, as follows:
+    <ul>
+    <li>Return values declared as embedded instances (see Subclause 4.1.3)
+        shall be returned using CMPIResultFT.returnInstance().
+    <li>Return values declared with type <tt>ref</tt>
+         &lt;classname&gt; (see Subclause 4.1.3) shall be returned
+         using CMPIResultFT.returnObjectPath().
+    <li>Any other return values shall be returned using
+        CMPIResultFT.returnData().
+    </ul>
+     @param objPath points to the CMPIObjectPath object that references
+         the target object on which the method is invoked. If the target
+         object is an instance, this object path will contain the namespace,
+         class name, and key components. The hostname component, if present,
+         has no meaning and should be ignored. If the target object is
+         a class, this object path will contain the namespace and
+         class name components. The hostname and key components,
+         if present, have no meaning and should be ignored.
+     @param method points to a string containing the method name.
+     @param in points to a CMPIArgs object (whether the method has any
+         input parameters or not) that contains the method input parameters.
+     @param out[in out] points to an empty CMPIArgs object (whether the method has
+         any output parameters or not) that, upon successful return
+         of the method, shall have been updated by the MI to contain
+         the method output parameters.
+     @return CMPIStatus structure indicating the function return status.
+
+     The following CMPIrc codes shall be recognized:
+     <ul>
+     <li><tt>CMPI_RC_OK</tt> Operation successful.
+     <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
+     <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> Operation not supported by this MI.
+     <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt> Not authorized.
+     <li><tt>CMPI_RC_ERR_NOT_FOUND</tt> Instance not found.
+     <li><tt>CMPI_RC_ERR_METHOD_NOT_AVAILABLE</tt> Method not available.
+     <li><tt>CMPI_RC_ERR_METHOD_NOT_FOUND</tt> Method not found.
+     </ul>
      */
+    // KS_TODO fix the error codes.
     CMPIStatus (*invokeMethod) (CMPIMethodMI* mi, const CMPIContext* ctx,
             const CMPIResult* rslt, const CMPIObjectPath* objPath,
             const char* method, const CMPIArgs* in, CMPIArgs* out);
@@ -4504,67 +5385,162 @@ struct _CMPIPropertyMIFT {
      */
     const char* miName;
 
-    /** TODO: Sync description with spec.
-     * Cleanup is called prior to unloading of the provider.
-     @param mi Provider this pointer.
-     @param ctx Invocation Context
-     @param terminating When true, the terminating argument indicates that the MB is in the process of
-     terminating and that cleanup must be done. When set to false, the MI may respond with
-     CMPI_IRC_DO_NOT_UNLOAD, or CMPI_IRC_NEVER_UNLOAD, indicating that unload will
-     interfere with current MI processing.
-     @return Function return status.
+    /** @brief Perform cleanup for a Property MI
+               <b>(Deprecated)</b>.
+
+     This function shall perform any necessary cleanup operations prior to the
+     unloading of the library of which this MI group is part.
+
+     While this function executes, the MB will not call any other MI functions
+         for this MI. This function will be called once for a specific MI
+         (unless the MI postpones the cleanup), even if that MI services more
+         than one namespace. After this function returns, the MB may unload
+         the load library this MI is part of, unless the MI postpones the
+         cleanup.
+     @param mi Pointer to a CMPIPropertyMI structure.
+     @param ctx Pointer to a CMPIContext object containing the context data
+         for the invocation (see Subclause 8.1). The context data entries
+         are MB implementation-specific.
+     @param terminating When true, the MB is in the process of shutting down.
+         The MI shall perform any necessary cleanup and shall not postpone
+         the cleanup. After this function returns (successful or in error),
+         the MB will consider this MI to be uninitialized and will not call
+         further MI functions for this MI.
+
+    When false, the MI can choose to perform or postpone the cleanup, by
+    performing one of these actions:
+    <ul>
+    <li>The MI performs any necessary cleanup and does not request postponing
+    the cleanup. After this function returns (successful or in error), the
+    MB will consider this MI to be uninitialized and will not call further
+    MI functions for this MI.
+    <li>The MI does not perform any cleanup and temporarily postpones the
+    cleanup, by returning CMPI_RC_DO_NOT_UNLOAD. This will cause the MB
+    to consider this MI still to be initialized, and the MB may call further
+    MI functions of this MI. The MB may call this function again after
+    some MB implementation-specific time.
+    <li>The MI does not perform any cleanup and permanently postpones the
+    cleanup, by returning CMPI_RC_NEVER_UNLOAD. This will cause the MB
+    to consider this MI still to be initialized, and the MB may call
+    further MI functions of this MI. The MB will not call this function
+    again, until the MB terminates (at which time the MB calls this function
+    with terminating set to true).
+     </ul>
+     @return CMPIStatus structure indicating the function return status.
      The following CMPIrc codes shall be recognized:
-     CMPI_RC_OK Operation successful.
-     CMPI_RC_ERR_FAILED Unspecific error occurred.
-     CMPI_RC_DO_NOT_UNLOAD Operation successful - do not unload now.
-     CMPI_RC_NEVER_UNLOAD Operation successful  -  never unload.
+     <ul>
+     <li><tt>CMPI_RC_OK</tt> Operation successful.
+     <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
+     <li><tt>CMPI_RC_DO_NOT_UNLOAD</tt> Function successful - do not unload
+         now; the MB may retry an unload later..
+     <li><tt>CMPI_RC_NEVER_UNLOAD</tt> Function successful - never unload;
+         the MB will not retry an unload later unless it shuts down.
+     </ul>
+     @deprecated In CMPI 2.1, in accord with the deprecation of property
+         client operations in DMTF specifications.
      */
     CMPIStatus (*cleanup) (CMPIPropertyMI* mi, const CMPIContext* ctx,
-            CMPIBoolean terminating);
+            CMPIBoolean terminating); // Deprecated
 
-    /** TODO: Sync description with spec.
-     * Set the named property value of an Instance defined by the &lt;op&gt; parameter.
-     @param mi Provider this pointer.
-     @param ctx Invocation Context
-     @param rslt Result data container.
-     @param op ObjectPath containing namespace, classname and key components.
-     @param name Property name
-     @param data Property value.
-     @return Function return status. The following CMPIrc codes shall be recognized:
-     CMPI_RC_OK Operation successful.
-     CMPI_RC_ERR_TYPE_MISATCH type does not correspond to class-defined type.
-     CMPI_RC_ERR_INVALID_HANDLE The inst handle is invalid.
+    /** @brief Set or modify the value of a property of a given
+               instance <b>(Deprecated)</b>.
+
+     Set or modify the named property value of an instance defined by
+     the <tt>instPath</tt> parameter.
+
+     This function is provided by the MI in context of a particular MI name.
+         The class of the instPath argument for which this function will be
+         called by the MB depends on the specifics of how the MB relates
+         classes and MI names, which is out of scope for this standard. As
+         a result, the MB may call this function for classes for which the
+         MI is not responsible. In order for an MI to be portable across
+         MB implementations with different approaches to relate MI names
+         and classes, the MI must check whether it services the class
+         specified in the instPath argument.
+     @param mi Pointer to a <tt>CMPIPropertyMI</tt>structure.
+     @param ctx Pointer to a CMPIContext object containing the context data
+     for the invocation.
+     @param rslt Pointer to a CMPIResult object that is the result data
+     container. Upon successful return, the MI shall have left this
+     container empty.
+     @param instPath Pointer to a CMPIObjectPath object that references
+         the given instance and that contains the namespace, class name,
+         and key components. The hostname component, if present, has no
+         meaning and should be ignored.
+     @param name Pointer to a string specifying the property name.
+     @param data CMPIData structure specifying the value to be assigned
+         to the property
+     @return CMPIStatus structure indicating the function return
+     status. The following CMPIrc codes shall be recognized:
+     <ul>
+     <li><tt>CMPI_RC_OK</tt> Operation successful.
+     <li><tt>CMPI_RC_ERR_TYPE_MISATCH</tt> type does not correspond
+     to class-defined type.
+     <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> The <tt>inst</tt> handle is
+         invalid.
+    </ul>
+     @deprecated In CMPI 2.1, in accord with the deprecation of property
+         client operations in DMTF specifications.
      */
+    // KS_TODO. The list of error codes is very inaccurate
     CMPIStatus (*setProperty) (CMPIPropertyMI* mi, const CMPIContext* ctx,
             const CMPIResult* rslt, const CMPIObjectPath* op, const char* name,
             const CMPIData data);
 
-    /** TODO: Sync description with spec.
-     * Get the named property value of an Instance defined by the &lt;op&gt; parameter.
+    /** @brief Retrieve property value of a given instance
+               <b>(Deprecated)</b>.
+
+     Get the named property value of an instance defined by the
+         <tt>>instPath</tt> parameter.
      @param mi Provider this pointer.
      @param ctx Invocation Context
-     @param rslt Result data container.
-     @param instPath ObjectPath containing namespace, classname and key components.
-     @param name Property name
-     @return Function return status. The following CMPIrc codes shall be recognized:
-     CMPI_RC_OK Operation successful.
-     CMPI_RC_ERR_FAILED Unspecific error occurred.
-     CMPI_RC_ERR_ACCESS_DENIED Not authorized.
-     CMPI_RC_ERR_INVALID_NAMESPACE The namespace is invalid.
-     CMPI_RC_ERR_INVALID_PARAMETER The parameter is invalid.
-     CMPI_RC_ERR_INVALID_CLASS The CIM class does not exist in the specified
-     namespace.
-     CMPI_RC_ERR_NOT_FOUND Instance not found.
-     CMPI_RC_ERR_NO_SUCH_PROPERTY Entry not found.
+     @param rslt points to a CMPIResult object that is the result data
+         container. Upon successful return, the MI shall have put the
+         retrieved property value into this container (see Subclause 8.2).
+         The CMPIResultFT function to be used for that depends on the data
+         type of the property, as follows:
+         <ul>
+         <li>The values of properties declared as embedded instances
+            (see Subclause 4.1.3) shall be returned using
+            CMPIResultFT.returnInstance().
+         <li>The values of references (see Subclause 4.1.3) shall be returned
+            using CMPIResultFT.returnObjectPath().
+         <li>Any other property values shall be returned using
+            CMPIResultFT.returnData().
+        </ul>
+     @param instPath Pointer to a CMPIObjectPath object that references
+         the given instance and that contains the namespace, class name,
+         and key components. The hostname component, if present, has no
+         meaning and should be ignored.
+     @param name Pointer to a string specifying the property name
+     @return CMPIStatus structure indicating the function return
+     status. The following CMPIrc codes shall be recognized:
+     <ul>
+     <li>CMPI_RC_OK Operation successful.
+     <li>CMPI_RC_ERR_FAILED Unspecific error occurred.
+     <li>CMPI_RC_ERR_ACCESS_DENIED Not authorized.
+     <li>CMPI_RC_ERR_INVALID_NAMESPACE The namespace is invalid.
+     <li>CMPI_RC_ERR_INVALID_PARAMETER The parameter is invalid.
+     <li>CMPI_RC_ERR_INVALID_CLASS The CIM class does not exist in the
+         specified namespace.
+     <li>CMPI_RC_ERR_NOT_FOUND Instance not found.
+     <li>CMPI_RC_ERR_NO_SUCH_PROPERTY Entry not found.
+     </ul>*
+     @deprecated In CMPI 2.1, in accord with the deprecation of property
+         client operations in DMTF specifications.
      */
     CMPIStatus (*getProperty) (CMPIPropertyMI* mi, const CMPIContext* ctx,
             const CMPIResult* rslt, const CMPIObjectPath* instPath,
             const char* name);
 
 #ifdef CMPI_VER_200
+    // KS_TODO resolve what to do about this function
+    /** @brief Set or modify the value of a property of a given
+               instance
+       <b>(Deprecated)</b>.
 
-    /** TODO: Sync description with spec.
-     * add/replace a named Property value and origin
+     Add/replace a named Property value and origin. Removed in CMPI
+     2.1
      @param mi Provider this pointer.
      @param ctx Invocation Context
      @param rslt Result data container.
@@ -4629,39 +5605,107 @@ struct _CMPIIndicationMIFT {
      */
     const char* miName;
 
-    /** TODO: Sync description with spec.
-     * Cleanup is called prior to unloading of the provider.
-     This function shall perform any necessary cleanup
-     operation prior to the unloading of the library of which this MI group is part.
+    /** @brief Perform cleanup for an Indication MI.
 
-     @param mi The mi argument is a pointer to a CMPIIndicationMI structure.
-     @param ctx The ctx argument is a pointer to a CMPIContext structure
-     containing the Invocation Context.
-     @param terminating When true, the terminating argument indicates that
-     the MB is in the process of terminating and that cleanup must be done.
-     When set to false, the MI may respond with
-     CMPI_RC_DO_NOT_UNLOAD, or CMPI_RC_NEVER_UNLOAD, indicating that
-     unload will interfere with current MI processing.
-     @return Function return status.
+     This function shall perform any necessary cleanup operations prior to the
+     unloading of the library of which this MI group is part.
+
+     While this function executes, the MB will not call any other MI functions
+         for this MI. This function will be called once for a specific MI
+         (unless the MI postpones the cleanup), even if that MI services more
+         than one namespace. After this function returns, the MB may unload
+         the load library this MI is part of, unless the MI postpones the
+         cleanup.
+     @param mi Pointer to a CMPIIndicationMI structure.
+     @param ctx Pointer to a CMPIContext object containing the context data
+         for the invocation (see Subclause 8.1). The context data entries
+         are MB implementation-specific.
+     @param terminating When true, the MB is in the process of shutting down.
+         The MI shall perform any necessary cleanup and shall not postpone
+         the cleanup. After this function returns (successful or in error),
+         the MB will consider this MI to be uninitialized and will not call
+         further MI functions for this MI.
+
+    When false, the MI can choose to perform or postpone the cleanup, by
+    performing one of these actions:
+    <ul>
+    <li>The MI performs any necessary cleanup and does not request postponing
+    the cleanup. After this function returns (successful or in error), the
+    MB will consider this MI to be uninitialized and will not call further
+    MI functions for this MI.
+    <li>The MI does not perform any cleanup and temporarily postpones the
+    cleanup, by returning CMPI_RC_DO_NOT_UNLOAD. This will cause the MB
+    to consider this MI still to be initialized, and the MB may call further
+    MI functions of this MI. The MB may call this function again after
+    some MB implementation-specific time.
+    <li>The MI does not perform any cleanup and permanently postpones the
+    cleanup, by returning CMPI_RC_NEVER_UNLOAD. This will cause the MB
+    to consider this MI still to be initialized, and the MB may call
+    further MI functions of this MI. The MB will not call this function
+    again, until the MB terminates (at which time the MB calls this function
+    with terminating set to true).
+     </ul>
+     @return CMPIStatus structure indicating the function return status.
      The following CMPIrc codes shall be recognized:
-     CMPI_RC_OK Operation successful.
-     CMPI_RC_ERR_FAILED Unspecific error occurred.
-     CMPI_RC_DO_NOT_UNLOAD Operation successful do not unload now.
-     CMPI_RC_NEVER_UNLOAD Operation successful never unload
+     <ul>
+     <li>CMPI_RC_OK Operation successful.
+     <li>CMPI_RC_ERR_FAILED Unspecific error occurred.
+     <li>CMPI_RC_DO_NOT_UNLOAD Function successful, do not unload now; the
+         MB may retry an unload later..
+     <li>CMPI_RC_NEVER_UNLOAD Function successful, never unload; the MB will
+         not retry an unload later unless it shuts down.
+     </ul>
      */
     CMPIStatus (*cleanup) (CMPIIndicationMI* mi, const CMPIContext* ctx,
             CMPIBoolean terminating);
 
-    /** TODO: Sync description with spec.
-     * Ask the provider to verify whether this filter is allowed.
-     @param mi The mi argument is a pointer to a CMPIIndicationMI structure.
-     @param ctx The ctx argument is a pointer to a CMPIContext structure
-     containing the Invocation Context.
-     @param filter Contains the filter that must be authorized.
-     @param className Contains the class name extracted from the filter FROM
-     clause.
-     @param op The name of the class for which monitoring is required. Only
-     the namespace part is set if className is a process indication.
+    /** @brief Ask an MI to verify whether an indication filter is
+       supported by the MI.
+
+     This MI function shall verify whether  an indication filter is
+         supported by the MI.
+
+     An MB implementation is free to choose whether this function is called
+         when the MB starts up independently of whether or not there are
+         any subscriptions for the filter, or only when the first
+         subscription to the filter is made.
+
+     In any case, for any particular filter this function is called on,
+     it shall be called by the MB before CMPIIndicationMIFT.activateFilter()
+     is called for the first time on the same filter.
+
+     @param mi Pointer to a CMPIIndicationMI structure.
+     @param ctx Pointer to a CMPIContext structure containing the
+         Invocation Context. There is no defined client operation that
+         determines the context data. As a result, not all context data
+         entries may be present.
+     @param filter Pointer to a CMPISelectExp object containing the filter
+         specification defined by the indication filter that is being
+         suthorized.
+     @param className Pointer to a string specifying the class name extracted
+         from the FROM clause of the filter specification contained in the
+         filter argument. If the filter specification contains joins, it
+         is undefined which of the joined classes is used for this argument.
+     @param classPath points to a CMPIObjectPath object that is a reference
+         to a class or to a namespace, as follows:
+         <ul>
+            <li>If the filter specification covers lifecycle indications,
+            the CMPIObjectPath object specifies the class path of the class
+            for which lifecycle monitoring is required. Note that this class
+            may be a subclass of the class specified in the className argument,
+            for example when the filter query constrains the class to be
+            monitored using constructs such as the ISA operator of CQL.
+            <li>If the filter specification covers process indications,
+            the CMPIObjectPath object specifies the namespace path of the
+            origin namespace of the process indications.
+         </ul>
+      @param owner The owner argument points to a string specifying the
+          destination owner.
+          Deprecated: The owner argument has been deprecated in CMPI 2.1.
+          MBs may pass an empty string in the owner argument. For
+          compatibility reasons, MBs shall not pass a NULL pointer
+          in the owner argument.
+
      @param owner The owner argument is the destination owner.
      @return This function shall structure containing the service return
      status.
@@ -4674,15 +5718,19 @@ struct _CMPIIndicationMIFT {
      */
     CMPIStatus (*authorizeFilter) (CMPIIndicationMI* mi,
             const CMPIContext* ctx,  const CMPISelectExp* filter,
-            const char* className,  const CMPIObjectPath* op,
+            const char* className,  const CMPIObjectPath* classPath,
             const char* owner);
 
-    /** TODO: Sync description with spec.
-     * Ask the MI whether polling mode should be used.
+    /** @brief Ask the MI whether indication polling should be used
+       for an indication filter. <b>(Deprecated)</b>
+
+     Ask the MI whether polling mode should be used.
+
      This function enables very simple MIs to support indications without
      providing a complete indication support implementation. When true
      is returned, the MB will enumerate the instances of this MI at
      regular intervals and apply indication filters.
+
      @param mi The mi argument is a pointer to a CMPIIndicationMI structure.
      @param ctx The ctx argument is a pointer to a CMPIContext structure
      containing the Invocation Context.
@@ -4717,9 +5765,8 @@ struct _CMPIIndicationMIFT {
      @param classPath The name of the class for which monitoring is required.
      Only the namespace part is set if eventType is a process indication.
      @param firstActivation Set to true if this is the first filter for
-     className.
-     @return The function shall return a CMPIStatus structure containing
-     the service return status.
+     <tt>className</tt>.
+     @return CMPIStatus structure containing the function return status.
      The following CMPIrc codes shall be recognized:
      CMPI_RC_OK Operation successful.
      CMPI_RC_ERR_FAILED Unspecific error occurred.
@@ -4732,22 +5779,60 @@ struct _CMPIIndicationMIFT {
             const char* className, const CMPIObjectPath* classPath,
             CMPIBoolean firstActivation);
 
-    /** TODO: Sync description with spec.
-     * Inform the MI that monitoring using this filter should stop.
+    /** @brief Inform the MI that an indication filter has become
+               inactive.
+
+     Inform the MI that monitoring using this filter should stop.
+         This function shall be called by the MB when a client deletes a
+         subscription to an indication filter, and for any existing
+         subscriptions to indication filters when the MB shuts down.
+
      The function invocation mandates the MI to stop monitoring the resource
      using this filter.
-     @param mi The mi argument is a pointer to a CMPIIndicationMI structure.
-     @param ctx The ctx argument is a pointer to a CMPIContext structure
-     containing the Invocation Context.
-     @param filter The filter argument contains the filter specification for
-     this subscription to become active.
-     @param className The class name extracted from the filter FROM clause.
-     @param classPath The name of the class for which monitoring is required.
-     Only the namespace part is set if className is a process indication.
+
+     An MB implementation is free to choose whether this function is called
+     for each deletion of a subscription to a particular filter, or
+     only upon the last deletion (see the lastDeActivation argument).
+     As a result, the MI will always be informed about the last
+     deactivation of the filter, but has no guarantee to be informed
+     about prior deactivations of the same filter.
+
+     Generally, MIs should disable the monitoring of any resources for
+     indications if there is no interest in them. Consequently, in this
+     function the MI should stop the monitoring of any resources that
+     trigger indications that are covered by the specified indication
+     filter, during the last deactivation of the filter. For the concept
+     of coverage of indications by an indication filter, see DSP1054.
+
+     @param mi Pointer to a CMPIIndicationMI structure.
+     @param ctx Pointer to a CMPIContext structure containing the
+         Invocation Context. If the filter is deactivated
+         because a client deletes a subscription to the filter, the client
+         operation that deletes the subscription determines the context data.
+         If the filter is deactivated during MB shutdown, the client operation
+         that originally created the subscription determines the context data
+     @param filter Pointer to a CMPISelectExp object containing the filter
+         specification defined by the indication filter that is deactivated.
+     @param className Pointer to a string specifying the class name extracted
+        from the FROM clause of the filter specification contained in the
+        filter argument. If the filter specification contains joins,
+        it is undefined which of the joined classes is used for this argument.
+     @param classPath Pointer to a CMPIObjectPath object is a reference to
+     a class or to a namespace, as follows:
+     <ul>
+        <li>If the filter specification covers lifecycle indications, the
+        CMPIObjectPath object specifies the class path of the class for which
+        lifecycle monitoring is required.  Note that this class may be a
+        subclass of the class specified in the className argument, for example
+        when the filter query constrains the class to be monitored using
+        constructs such as the ISA operator of CQL.
+        <li>If the filter specification covers process indications, the
+        CMPIObjectPath object specifies the namespace path of the origin
+        namespace of the process indications
+    </ul>
      @param lastActiviation Set to true if this is the last filter for
      className.
-     @return The function shall return a CMPIStatus structure containing the
-     service return status.
+     @return  CMPIStatus structure containing the function return status.
      The following CMPIrc codes shall be recognized:
      CMPI_RC_OK Operation successful.
      CMPI_RC_ERR_FAILED Unspecific error occurred.
@@ -4760,18 +5845,26 @@ struct _CMPIIndicationMIFT {
             const char* className, const CMPIObjectPath* classPath,
             CMPIBoolean lastDeActiviation);
 
-    /** TODO: Sync description with spec.
-     * Tell the MI that indications can now be generated.  The MB is now
-     prepared
-     to process indications. The function is normally called by the MB
-     after having done its intialization and processing of persistent
-     subscription requests.
-     @param mi The mi argument is a pointer to a CMPIIndicationMI
-     structure.
-     @param ctx The ctx argument is a pointer to a CMPIContext
-     structure containing the Invocation Context.
-     @return The function shall return a CMPIStatus structure containing the
-     service return status.
+    /** @brief Inform the MI that the MB is now ready to process the
+           delivery of indications.
+
+    Informs the MI that the MB is now ready to process the delivery of
+        indications. This function is typically called when the MB is starting
+        up its indication services (from either a permanent or temporary
+        shutdown of its indication services).
+
+        The relative order in which an MB enables indications using this
+        function and activates filters and filter collections is not defined.
+        As a result, MIs need to track the readiness of the MB to process
+        the delivery of indications and check that readiness before calling
+        the CMPIBrokerFT.deliverIndication() function.
+
+     @param mi Pointer to a CMPIIndicationMI structure.
+     @param ctx Pointer to a CMPIContext object containing the context data
+         for the invocation (see Subclause 8.1). There is no defined client
+         operation that determines the context data. As a result, not all
+         context data entries may be present.
+     @return CMPIStatus structure indicating the function return status.
      The following CMPIrc codes shall be recognized:
      CMPI_RC_OK Operation successful.
      CMPI_RC_ERR_FAILED Unspecific error occurred.
@@ -4780,16 +5873,25 @@ struct _CMPIIndicationMIFT {
     CMPIStatus (*enableIndications) (CMPIIndicationMI* mi,
             const CMPIContext* ctx);
 
-    /** TODO: Sync description with spec.
-     * Tell the MI to stop generating indications.  MB will not accept any
-     indications until enabled again. The function is normally called
-     when the MB is shutting down indication services either temporarily
-     or permanently.
-     @param mi The mi argument is a pointer to a CMPIIndicationMI structure.
+    /** @brief Inform the MI that the MB is no longer ready to
+           process the delivery of indications.
+
+    Informs the MI that the MB is no longer ready to process the delivery of
+        indications.  This function is typically called when the MB is shutting
+        down its indication services either temporarily or permanently.
+
+    The relative order in which an MB disables indications using this
+        function and deactivates filters and filter collections is not
+        defined. As a result, MIs need to track the readiness of the MB
+        to process the delivery of indications and check that readiness
+        before calling the CMPIBrokerFT.deliverIndication() function.
+
+     @param mi Pointer to a CMPIIndicationMI structure.
      @param ctx The ctx argument is a pointer to a CMPIContext structure
-     containing the Invocation Context.
-     @return The function shall return a CMPIStatus structure containing the
-     service return status.
+       containing the Invocation Context.   There is no defined client
+       operation that determines the context data. As a result, not all
+       context data entries may be present.
+     @return CMPIStatus structure containing the function return status.
      The following CMPIrc codes shall be recognized:
      CMPI_RC_OK Operation successful.
      CMPI_RC_ERR_FAILED Unspecific error occurred.
@@ -4798,11 +5900,119 @@ struct _CMPIIndicationMIFT {
     CMPIStatus (*disableIndications) (CMPIIndicationMI* mi,
             const CMPIContext* ctx);
 
-    /** TODO: Add description from spec. */
+    /** @brief Ask an MI to verify whether an indication filter
+           collection is supported by the MI.
+
+       This function shall verify whether an indication filter collection
+       is supported by the MI.
+
+    An MB implementation is free to choose whether this function
+       is called when the MB starts up independently of whether or not
+       there are any subscriptions for the filter collection, or only
+       when the first subscription to the filter collection is made.
+
+       In any case, for any particular filter collection this function
+       is called on, it shall be called by the MB before
+       CMPIIndicationMIFT.activateFilterCollection() is called for the
+       first time on the same filter collection.
+     @param mi Pointer to a CMPIIndicationMI structure.
+     @param ctx The ctx argument is a pointer to a CMPIContext structure
+       containing the Invocation Context.   There is no defined client
+       operation that determines the context data. As a result, not all
+       context data entries may be present.
+       @param collInst Pointer to a CMPIInstance object with the
+           CIM_FilterCollection instance representing the indication
+           filter collection. Note that the indication filter collection
+           can be identified by inspecting the CollectionName property
+           of this instance
+      @return CMPIStatus structure containing the service return status.
+
+        The following CMPIrc codes shall be recognized:
+        CMPI_RC_OK	Function successful, filter collection is supported by the MI.
+        CMPI_RC_ERR_FAILED	Unspecific error occurred.
+        CMPI_RC_ERR_NOT_SUPPORTED	Function is not supported by this MI, or filter collection is not supported by this MI.
+        CMPI_RC_ERR_ACCESS_DENIED	Not authorized.
+            Note: This return code indicates general authorization related issues and does not specifically indicate that the filter collection itself would not be authorized.
+        CMPI_RC_ERR_INVALID_PARAMETER	Invalid indication filter collection.
+     @version 2.1
+        */
     CMPIStatus (*authorizeFilterCollection) (CMPIIndicationMI* mi,
             const CMPIContext* ctx, const CMPIInstance* collInst);
 
-    /** TODO: Add description from spec. */
+    /** @brief Inform the MI that an indication filter collection
+           has become active.
+
+       The CMPIIndicationMIFT.activateFilterCollection() function informs the
+       MI that the specified indication filter collection has become active.
+       This function shall be called by the MB when a client creates a
+       subscription to an indication filter collection, and if persisted
+       subscriptions are supported by the MB, for any persisted subscriptions
+       to indication filter collections when the MB starts up.
+
+       An MB implementation is free to choose whether this function is
+       called upon each subscription to a particular filter collection, or
+       only upon the first subscription (see the <tt>firstActivation</tt>
+       argument).
+
+       As a result, the MI will always be informed about the first
+       activation of the filter collection, but has no guarantee to be
+       informed about subsequent activations of the same filter collection.
+
+       Generally, MIs should disable the monitoring of any resources for
+       indications if there is no interest in them. Consequently, in this
+       function the MI needs to start the monitoring of any resources that
+       trigger indications that are covered by the specified indication
+       filter collection, during the first activation of the filter
+       collection. For the concept of coverage of indications by an
+       indication filter collection, see DSP1054.
+
+       As described in DSP1054, a filter collection conceptually has
+       members, but these members do not need to be instantiated using
+       CIM. An MB shall handle subscriptions to a filter collection by
+       calling CMPIIndicationMIFT.activateFilterCollection() for that
+       filter collection; the MB shall not additionally call the activation
+       functions for the individual members of the filter collection.
+       The implementation of CMPIIndicationMIFT.activateFilterCollection()
+       is responsible for activating the entire filter collection including
+       all of its members (regardless of whether or not these members are
+       instantiated using CIM).
+
+       @param mi Pointer to a CMPIIndicationMI structure
+       @param ctx Pointer to a CMPIContext encapsulated data object containing
+           the context data for the invocation (see Subclause 8.1). If the
+           filter collection is activated because a client creates a
+           subscription to the filter collection, the client operation
+           that creates the subscription determines the context data.
+           If the filter collection is activated during MB startup on
+           behalf of a persisted earlier subscription, the client operation
+           that originally created the subscription determines the context
+           data.
+       @param collInst Pointer to a CMPIInstance object with the
+           CIM_FilterCollection instance representing the indication
+           filter collection. Note that the indication filter collection
+           can be identified by inspecting the CollectionName property
+           of this instance.
+       @param firstActivation set to true if this is the first activation
+           of this indication filter collection after having been inactive,
+           and is set to false otherwise
+       @return CMPIStatus structure containing the function return status
+
+     The following CMPIrc codes shall be recognized:
+     <ul>
+        <li>CMPI_RC_OK	Function successful.
+        <li>CCMPI_RC_ERR_FAILED	Unspecific error occurred.
+        <li>CCMPI_RC_ERR_NOT_SUPPORTED	Function is not supported by this MI, or
+            filter collection is not supported by this MI.
+        <li>CCMPI_RC_ERR_ACCESS_DENIED	Not authorized.
+        Note: This return code indicates general authorization related issues
+            and does not specifically indicate that the filter collection
+            itself would not be authorized.
+        <li>CCMPI_RC_ERR_INVALID_PARAMETER	Invalid indication filter
+            collection.
+       </ul>
+       @version 2.1
+       */
+    // KS_TODO formt the above codes
     CMPIStatus (*activateFilterCollection) (CMPIIndicationMI* mi,
             const CMPIContext* ctx, const CMPIInstance* collInst,
             CMPIBoolean firstActivation);

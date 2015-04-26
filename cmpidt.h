@@ -87,7 +87,7 @@ extern "C" {
 
 /**
  * @defgroup def-version-checkers Definition of symbols for
- * checking CMPI version dependent features
+ * checking CMPI version dependent features.
  * @{
  * Boolean flags for testing whether CMPI version dependent features should be
  * available (that is, defined in the header files and subsequently supported
