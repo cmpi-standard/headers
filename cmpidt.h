@@ -873,8 +873,8 @@ typedef enum _CMPIErrorType {
     /** Over subscription error */
     OversubscriptionError = 8,
     Oversubscription_Error = OversubscriptionError,
-        // Deprecated, use OversubscriptionError instead
-    /** Unavailable resource */
+    /** Unavailable resource  Deprecated, use
+     *  OversubscriptionError instea */
     UnavailableResourceError = 9,
     /** Unsupported operation */
     UnsupportedOperationError = 10
