@@ -1517,8 +1517,8 @@ struct _CMPIBrokerExtFT {
      @param filename Pointer to the generic library name,
      @return The returned char* pointer to the complemented library
          name in native OS format.
-     Space for this string has been obtained using malloc() and must be
-         released using free() by the caller.
+     Space for this string has been obtained using <tt>malloc()</tt> and must
+         be released using <tt>free()</tt> by the caller.
      In case no storage could be obtained for the complemented library
          name, returns NULL.
      */
@@ -1556,7 +1556,9 @@ struct _CMPIBrokerExtFT {
      @param retval Pointer to the return value of the thread.
      @return If successful, zero will be returned.
          If not successful, a non-zero error code will be returned.
-
+     
+    The Error codes are defined in <errno.h>, specifically for 
+    the <tt>pthread_join()</tt> function; both are defined in IEEE 1003.1. 
      */
     int (*joinThread) (CMPI_THREAD_TYPE thread, CMPI_THREAD_RETURN* retval);
 
@@ -1566,8 +1568,9 @@ struct _CMPIBrokerExtFT {
        code using POSIX threading semantics.
 
     The current thread can also exit by simply returning from its thread
-     function; the purpose of the &lt;CMPIBrokerExtFT.exitThread()</tt> function
-     is to make premature returns more convenient.
+     function; the purpose of the
+     <tt>CMPIBrokerExtFT.exitThread()</tt> function is to make  
+     premature returns more convenient.  
      @param return_code Is the return code that should be used for the thread.
      @return The function never returns, regardless of whether it is
          successful or encounters errors.
