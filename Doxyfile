@@ -38,13 +38,13 @@ PROJECT_NAME           = "OpenGroup CMPI Standard Headers"
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         =
+PROJECT_NUMBER         = 2.1
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
 # quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF          =  OpenGrop CMPI Work Group
+PROJECT_BRIEF          =  OpenGroup CMPI Work Group
 
 # With the PROJECT_LOGO tag one can specify an logo or icon that is included in
 # the documentation. The maximum height of the logo should not exceed 55 pixels
@@ -270,7 +270,7 @@ OPTIMIZE_OUTPUT_VHDL   = NO
 # Note that for custom extensions you also need to set FILE_PATTERNS otherwise
 # the files are not read by doxygen.
 
-EXTENSION_MAPPING      = h=c
+EXTENSION_MAPPING      = h=C
 
 # If the MARKDOWN_SUPPORT tag is enabled then doxygen pre-processes all comments
 # according to the Markdown format, which allows for more readable
@@ -371,7 +371,8 @@ INLINE_SIMPLE_STRUCTS  = NO
 # types are typedef'ed and only the typedef is referenced, never the tag name.
 # The default value is: NO.
 
-TYPEDEF_HIDES_STRUCT   = NO
+#### KS_TOD test this
+TYPEDEF_HIDES_STRUCT   = YES
 
 # The size of the symbol lookup cache can be set using LOOKUP_CACHE_SIZE. This
 # cache is used to resolve symbols given their name and scope. Since this can be
@@ -494,6 +495,7 @@ CASE_SENSE_NAMES       = YES
 # scope will be hidden.
 # The default value is: NO.
 
+#### KS_TODO maybe we should use this one
 HIDE_SCOPE_NAMES       = NO
 
 # If the SHOW_INCLUDE_FILES tag is set to YES then doxygen will put a list of
@@ -526,7 +528,7 @@ INLINE_INFO            = YES
 # name. If set to NO the members will appear in declaration order.
 # The default value is: YES.
 
-SORT_MEMBER_DOCS       = YES
+SORT_MEMBER_DOCS       = NO
 
 # If the SORT_BRIEF_DOCS tag is set to YES then doxygen will sort the brief
 # descriptions of file, namespace and class members alphabetically by member
@@ -1167,7 +1169,7 @@ DOCSET_FEEDNAME        = "Doxygen generated docs"
 # The default value is: org.doxygen.Project.
 # This tag requires that the tag GENERATE_DOCSET is set to YES.
 
-DOCSET_BUNDLE_ID       = org.doxygen.Project
+DOCSET_BUNDLE_ID       = org.OpenGroup.CMPI
 
 # The DOCSET_PUBLISHER_ID tag specifies a string that should uniquely identify
 # the documentation publisher. This should be a reverse domain-name style
@@ -1175,13 +1177,13 @@ DOCSET_BUNDLE_ID       = org.doxygen.Project
 # The default value is: org.doxygen.Publisher.
 # This tag requires that the tag GENERATE_DOCSET is set to YES.
 
-DOCSET_PUBLISHER_ID    = org.doxygen.Publisher
+DOCSET_PUBLISHER_ID    = org.OpenGroup.Publisher
 
 # The DOCSET_PUBLISHER_NAME tag identifies the documentation publisher.
 # The default value is: Publisher.
 # This tag requires that the tag GENERATE_DOCSET is set to YES.
 
-DOCSET_PUBLISHER_NAME  = Publisher
+DOCSET_PUBLISHER_NAME  = OpenGroup
 
 # If the GENERATE_HTMLHELP tag is set to YES then doxygen generates three
 # additional HTML index files: index.hhp, index.hhc, and index.hhk. The
@@ -1935,7 +1937,7 @@ INCLUDE_FILE_PATTERNS  =
 # recursively expanded use the := operator instead of the = operator.
 # This tag requires that the tag ENABLE_PREPROCESSING is set to YES.
 
-PREDEFINED             =
+PREDEFINED             = DOC_ONLY
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then this
 # tag can be used to specify a list of macro names that should be expanded. The
