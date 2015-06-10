@@ -233,12 +233,13 @@ struct _CMPIBrokerFT {
      capability is available otherwise it shall not be supported.
 
      @param mb Pointer to the broker.
-     @param ctx pointer to the CMPIContext object that was used to invoke
-         the MI function that calls this MB function (see Subclause 8.1),
-         or that was used to register the thread that calls this MB function.
+     @param ctx Pointer to the CMPIContext object that was used to
+         invoke the MI function that calls this MB function (see
+         Subclause 8.1), or that was used to register the thread
+         that calls this MB function.
      @param ns Pointer to a string specifying the name of the origin
          namespace of the indication.
-     @param ind pointer to a CMPIInstance containing the indication
+     @param ind Pointer to a CMPIInstance containing the indication
          instance. Any instance path in the instance will be ignored
          by the MB ignored.
      @return A CMPIStatus structure indicating the function return status.
@@ -325,10 +326,10 @@ struct _CMPIBrokerFT {
          the CMPIContext object that was used to invoke the MI function
          that calls this MB function (see Subclause 8.1). The MI may
          specify invocation flags as needed.
-     @param instPath points to a CMPIObjectPath object that references the
-         given instance and that shall contain the namespace, class name,
-         and key components. The hostname component, if present,
-         will be ignored by the MB.
+     @param instPath Pointer to a CMPIObjectPath object that
+         references the given instance and that shall contain the
+         namespace, class name, and key components. The hostname
+         component, if present, will be ignored by the MB.
      @param properties If not NULL, the members of the array define
      one or more Property names. Each returned Object MUST NOT
      include elements for any Properties missing from this list
@@ -538,12 +539,12 @@ struct _CMPIBrokerFT {
          CMPIContext object that was used to invoke the MI function that
          calls this MB function (see Subclause 8.1). Any invocation flags
          in the ctx argument will be ignored by this function.
-     @param classPath points to a CMPIObjectPath object that references
+     @param classPath Pointer to to a CMPIObjectPath object that references
          the given class to be queried and that shall contain the namespace
          and class name components. The hostname and key components,
          if present, will be ignored by the MB..
-     @param query points to a string containing the select expression
-     @param lang points to a string containing the query language
+     @param query Pointer to to a string containing the select expression
+     @param lang Pointer to to a string containing the query language
      @param rc Output: if not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return If successful, returns a pointer to a new CMPIEnumeration object, containing CMPIInstance objects that represent the query result.
@@ -589,12 +590,12 @@ struct _CMPIBrokerFT {
      are identified by the MB based on the <tt>classPath</tt> argument.
 
      @param mb Pointer to the broker.
-     @param ctx points to a CMPIContext object that specifies the same
+     @param ctx Pointer to to a CMPIContext object that specifies the same
          principal, role, accept language, and content language as the
          CMPIContext object that was used to invoke the MI function that
          calls this MB function (see Subclause 8.1). The MI may specify
          invocation flags as needed.
-     @param classPath points to a CMPIObjectPath object that references
+     @param classPath Pointer to to a CMPIObjectPath object that references
          the given class and that shall contain the namespace and class
          name components. The hostname and key components, if present,
          will be ignored by the MB.
@@ -731,12 +732,13 @@ struct _CMPIBrokerFT {
         The target MIs are identified by the MB based on the
         <tt>instPath</tt> argument.
      @param mb Pointer to the broker.
-     @param ctx point to a CMPIContext object that specifies the same
-     principal, role, accept language, and content language as th
-     e CMPIContext object that was used to invoke the MI function that
-     calls this MB function (see Subclause 8.1). Any invocation flags
-     in the ctx argument will be ignored by this function.
-     @param instPath points to a CMPIObjectPath object that references
+     @param ctx Pointer to a CMPIContext object that specifies the*
+     same principal, role, accept language, and content language as*  
+     th* e CMPIContext object that was used to invoke the MI*  
+     function that* calls this MB function (see Subclause 8.1). Any*  
+     invocation flags* in the ctx argument will be ignored by this*  
+     function.**  
+     @param instPath Pointer to to a CMPIObjectPath object that references
          the given source instance and that shall contain the namespace,
          class name, and key components. The hostname component, if present,
          will be ignored by the MB.
@@ -764,8 +766,8 @@ struct _CMPIBrokerFT {
      via an Association in which the returned Object plays the specified role
      (i.e. the name of the Property in the Association Class that refers to
      the returned Object MUST match the value of this parameter).
-     @param rc Output:  if not NULL, points to a CMPIStatus structure that
-         upon return has been updated with the function return status.
+     @param rc Output:  If not NULL, points to a CMPIStatus structure that
+        upon return has been updated with the function return status.
      @return  if not NULL, points to a CMPIStatus structure that upon
          return has been updated with the function return status.
 
@@ -940,10 +942,10 @@ struct _CMPIBrokerFT {
      @param ctx Context object
      @param objPath ObjectPath containing namespace, classname and key
      components.
-     @param points to a string containing the method name.
+     @param Pointer to to a string containing the method name.
      @param Pointer to a CMPIArgs object containing the method input
          parameters.
-     @param out points to an empty CMPIArgs object that, upon successful
+     @param out Pointer to to an empty CMPIArgs object that, upon successful
          return of the method, will have been updated to contain the
          method output parameters. The returned CMPIArgs object shall
          not be explicitly released by the MI, because it will be
@@ -1098,7 +1100,7 @@ struct _CMPIBrokerFT {
 
    The CMPIBrokerEncFT is the function table used as an anchor for these
    services. It is made available to MI via the
-   <tt><mi name>_Create_<mi type>MI()</tt> functions.
+   <tt>\<mi name\>_Create_\<mi type\>MI()</tt> functions.
 
    For functions that are not supported, their function pointers in the
    CMPIBrokerEncFT function table shall not be NULL, but shall point to
@@ -1325,7 +1327,7 @@ struct _CMPIBrokerEncFT {
      The CMPIBrokerEncFT.newDateTimeFromChars() function creates a new
      CMPIDateTime object that is initialized with the the argument
      <tt>utcTime</tt>, the specified date and time.
-.
+
      @param mb Pointer to the broker.
      @param datetime Date/Time definition in CIM datetime string format.
      @param rc Output: Service return status (suppressed when NULL).
@@ -1364,9 +1366,9 @@ struct _CMPIBrokerEncFT {
      member of the CMPIBrokerFT structure.
      
      @param mb Pointer to the CMPIBroker .
-     @param query Points to a string containing the select expression.
-     @param lang Points to a string containing the query language.
-     @param projection Output: points to a CMPIArray pointer that upon
+     @param query Pointer to a string containing the select expression.
+     @param lang Pointer to a string containing the query language.
+     @param projection Output: Pointer to to a CMPIArray pointer that upon
          success will have been updated to point to a new CMPIArray
          object of CMPIString entries containing the projection specification.
          The pointer will be set to NULL if no projection was specified in
@@ -1375,7 +1377,7 @@ struct _CMPIBrokerEncFT {
          output array CMPIString might be different depending on the query
          language. Be sure to check the lang argument for the query
          language your MI will support.
-     @param rc Output: if not NULL, points to a CMPIStatus structure that
+     @param rc Output: If not NULL, points to a CMPIStatus structure that
          upon return will have been updated with the function return status.
      @return If successful,returns a pointer to the new CMPIArray object.
      
@@ -1401,10 +1403,13 @@ struct _CMPIBrokerEncFT {
     CMPISelectExp* (*newSelectExp) (const CMPIBroker* mb, const char* query,
             const char* lang, CMPIArray** projection, CMPIStatus* st);
 
-     /**
-     * @}
-     * @defgroup brokerenc-misc MB miscellaneous services (test,
-     * conversion, tracing and logging) @{
+     /*
+     * @} 
+     *  
+     * @defgroup brokerenc-misc MB miscellaneous services
+     *  
+     * Includes test, conversion, tracing and logging
+     * @{
      */
 // todo next one was complete change. confirm KS
     /** @brief Determine if a class path is of a specific class or
@@ -1487,8 +1492,8 @@ struct _CMPIBrokerEncFT {
      Use CMPIBrokerEncFT.getMessage2() in place of this function.
      @param mb Pointer to the broker.
      @param msgId The message identifier.
-     @param defMsg The default message. Used when message*
-     *             translation is not supported
+     @param defMsg The default message. Used when message
+         translation is not supported
      @param rc Output: Service return status (suppressed when NULL).
      @param count The number of message substitution values.
      @return If successful returns the translated
@@ -1529,14 +1534,14 @@ struct _CMPIBrokerEncFT {
      Logs a trace entry. Intended for debugging purposes.
      This function is supported by the MB if the Tracing
      capability is available.
-     @param mb The mb argument points to a CMPIBroker structure.
-     @param level  The level argument describes the level of log message.
+     @param mb Pointer to to a CMPIBroker structure.
+     @param level  Describes the level of log message.
          Levels are defined in Section 4.9.
-     @param component The component argument, if not NULL, is
+     @param component If not NULL, is
          the implementation specific component ID.
-     @param text  The text argument, if not NULL, is the message text to be
+     @param text  If not NULL, is the message text to be
          output.
-     @param string The string argument, if not NULL, is the message text to
+     @param string If not NULL, is the message text to
         be output. string will be ignored when text is not NULL.
      @return Service return status.
      @todo add status codes
@@ -1716,8 +1721,8 @@ struct _CMPIBrokerEncFT {
        CMPIString object that is initialized from a C-language
        string in a specific codepage
 
-       @param mb points to a CMPIBroker object.
-       @param data points to a string that is represented in the
+       @param mb Pointer to to a CMPIBroker object.
+       @param data Pointer to to a string that is represented in the
        codepage specified in the cpid argument. The data argument
            is used to initialize the new CMPIString object after
            converting it from its codepage to UTF-8.
@@ -1813,7 +1818,7 @@ struct _CMPIBrokerEncFT {
  */
 /**
  * @defgroup def_CMPIBrokerExt CMPIBrokerExt struct and its  functions
- @{
+ * @{
 */
 
 struct timespec;
@@ -1855,8 +1860,9 @@ struct _CMPIBrokerExtFT {
      */
     char* (*resolveFileName) (const char* filename);
 
-     /*
-     * @}
+     /**
+     * @} end defgroup brokerext-lib
+     *  
      * @defgroup brokerext-thread MB OS encapsulation POSIX-conformant threads 
      * @{
      */
@@ -1865,7 +1871,7 @@ struct _CMPIBrokerExtFT {
 
      Start a new thread using the POSIX threading semantics.
      @param start Pointer to the function to be started as a thread.
-     @param parm Pointer to argument(s) to be passed to that function..
+     @param parm Pointer to argument(s) to be passed to that function.
      @param detached If not zero, defines that the thread should run
          in detached mode. In detached mode, termination of the
          thread that called this function does not cause the new
@@ -2000,14 +2006,14 @@ struct _CMPIBrokerExtFT {
      */
     int (*setThreadSpecific) (CMPI_THREAD_KEY_TYPE key, void* value);
 
-     /*
+     /**
      * @} defgroup end brokerext-thread
      *  
      * @defgroup brokerext-mutex MB OS POSIX-conformant mutexes Services 
      * @{ 
      */
 
-    /** @brief Create a POSIX thread conformant  mutex.
+    /** @brief Create a POSIX thread conformant mutex.
 
      Create a POSIX threading conformant recursive mutex.
 
@@ -2057,7 +2063,8 @@ struct _CMPIBrokerExtFT {
      &lt;CMPIBrokerExtFT.newMutex()&gt;.
 
      This function is deprecated because it does not indicate whether it
-     succeeded or failed. Use CMPIBrokerExtFT.lockMutex2() instead. <b>(Deprecated)</b>
+     succeeded or failed. Use CMPIBrokerExtFT.lockMutex2() instead.
+     <b>(Deprecated)</b>
 
      @param mutex The mutex to be locked.
      @todo add status codes
@@ -2155,7 +2162,7 @@ struct _CMPIBrokerExtFT {
          IEEE 1003.1.
      */
     // KS_TODO we do not specify the timeout value characteristics either
-    // here or in the spec.
+    // here or in the spec. Commented in FINAL RC3 vote
     int (*timedCondWait) (CMPI_COND_TYPE cond, CMPI_MUTEX_TYPE mutex,
             struct timespec* wait);
 
@@ -2165,7 +2172,7 @@ struct _CMPIBrokerExtFT {
      to a POSIX threading-conformant condition variable.
      
      @param cond Specifies the handle of the condition variable to
-                 send thesignal.
+                 send the signal.
      @return If successful, zero will be returned.
          If not successful, a non-zero error code will be returned. Error
          codes are defined in <tt><errno.h></tt>, specifically for the
@@ -2464,7 +2471,7 @@ struct _CMPIBrokerMemFT {
      being used by the MI. This function will free all contained
      objects (e.g. properties).
      @param mb Pointer to a CMPIBroker structure.
-     @param inst points to the CMPIInstance object to be released.
+     @param inst Pointer to to the CMPIInstance object to be released.
          This object shall have been created via CMPIBrokerEncFT.newInstance().
      @return None.  Does not indicate whether it succeeded or failed.
      */
@@ -2500,7 +2507,7 @@ struct _CMPIBrokerMemFT {
     or later during some garbage collection cycle (see Subclause 4.1.7). 
      
      @param mb Pointer to a CMPIBroker structure.
-     @param args points to the CMPIArgs object that is to be released. This
+     @param args Pointer to to the CMPIArgs object that is to be released. This
          object shall have been created via CMPIBrokerEncFT.newArgs().
      @return None.
      */
@@ -2538,7 +2545,7 @@ struct _CMPIBrokerMemFT {
      function will free all contained objects (e.g. the array elements).
 
      @param mb Pointer to a CMPIBroker structure.
-     @param array points to the CMPIArray object that is to be released. This
+     @param array Pointer to to the CMPIArray object that is to be released. This
      object shall have been created via CMPIBrokerEncFT.newArray().
      @return None.
      */
@@ -2558,7 +2565,7 @@ struct _CMPIBrokerMemFT {
      This function will free all contained objects.
 
      @param mb Pointer to a CMPIBroker structure.
-     @param dt points to the CMPIDateTime object that is to be released.
+     @param dt Pointer to to the CMPIDateTime object that is to be released.
          This object shall have been created via CMPIBrokerEncFT.newDateTime().
      @return None.
      */
@@ -2579,7 +2586,7 @@ struct _CMPIBrokerMemFT {
      This function will free all contained objects.
 
      @param mb Pointer to a CMPIBroker structure.
-     @param se points to the CMPISelectExp object that is to be released.
+     @param se Pointer to to the CMPISelectExp object that is to be released.
          This object shall have been created via CMPIBrokerEncFT.newSelectExp().
      @return None.
      */
@@ -2603,7 +2610,7 @@ struct _CMPIBrokerMemFT {
      structure.
 
      @param mb Pointer to a CMPIBroker structure.
-     @param chars points to the C-language string to be released.
+     @param chars Pointer to to the C-language string to be released.
          This C-language string shall have been created via
          CMPIStringFT.newCharsCP()..
      @return None.
@@ -3023,7 +3030,7 @@ struct _CMPIErrorFT {
     /** @brief Get the PerceivedSeverity attribute of a CMPIError object
 
      Returns the PerceivedSeverity attribute of a CMPIError object.
-     @param er  points to the CMPIError object for this function
+     @param er  Pointer to to the CMPIError object for this function
      @param rc Output: , if not NULL, points to a CMPIStatus structure updated
          with the function return status.
      @return If successful, a CMPIErrorSeverity enumeration value will be
@@ -3592,7 +3599,7 @@ struct _CMPIInstanceFT {
      values for key bindings and key properties.
      @param inst Pointer to the CMPIInstance object.
      @param name CMPIString containing the property name.
-     @param value points to a CMPIValue structure containing the value
+     @param value Pointer to to a CMPIValue structure containing the value
      to be assigned to the property.
      @param type CMPIType structure defining the type of the value.
      @param origin the name of the class in which this property was
@@ -3819,7 +3826,7 @@ struct _CMPIObjectPathFT {
      Gets a key binding value defined by its index.
      @param op Pointer to CMPIObjectPath.
      @param index Zero-based position of the key in the CMPIObjectPath object.
-     @param name Output: points to a CMPIString object that upon success will
+     @param name Output: Pointer to to a CMPIString object that upon success will
      have been updated with the name of the key binding. The returned
      CMPIString object shall not be explicitly released by the MI,
      because it may be an internal object of the CMPIObjectPath object
@@ -4687,8 +4694,8 @@ struct _CMPIStringFT {
          ID for the codepage to convert to. See the CMPI Specification
          section 5.2.2 (CodePage for a list of supported codepages and their codepage
          ID values.
-     @param rc , If not NULL, points to a CMPIStatus structure that upon
-     return has been updated with the function return status.
+     @param rc If not NULL, points to a CMPIStatus structure that 
+     upon return has been updated with the function return status. 
      @return If successful, returns a new C-language string, in the codepage
      specified in the cpid argument.
      The returned C-language string must be freed by the MI using
@@ -4820,7 +4827,7 @@ struct _CMPIArrayFT {
      @param index zero-based position of the existing element in the
          CMPIArray object. The position shall be equal to or greater than
          0 and less than the size of the array.
-     @param value argument points to a CMPIValue structure containing
+     @param value Pointer to to a CMPIValue structure containing
      the non-NULL value to be assigned to the element, or is NULL to
      specify that the element will be set to NULL.
      @param type Either the simple base type of the array or CMPI_null.
@@ -4897,7 +4904,7 @@ struct _CMPIEnumerationFT {
      be used by the MI. The MB may free the resources associated with
      the object during the call to this function, or later during some
      garbage collection cycle.
-     @param en argument points to the <tt>CMPIEnumeration</tt> object to be
+     @param en Pointer to to the <tt>CMPIEnumeration</tt> object to be
         released. That object shall have been created using
          CMPIEnumerationFT.clone().
      @return CMPIStatus structure indicating the function return status.
@@ -5070,7 +5077,7 @@ struct _CMPIDateTimeFT {
          GMT, January 1, 1970, or as an interval in microseconds,
          depending on what kind of value the CMPIDateTime object
          contains
-     @param dt  points to the CMPIDateTime object for this function.
+     @param dt  Pointer to to the CMPIDateTime object for this function.
      @param rc Output: If not NULL, points to a CMPIStatus structure that
          upon return has been updated with the function return status.
      @return If successful, returns a CMPIUint64 value containing the value of
@@ -5966,12 +5973,12 @@ struct _CMPIInstanceMIFT {
       shall have their instance paths set. If no such instances are found,
       the function shall return success with an empty result data container.
      
-     @param mi points to a CMPIInstanceMI structure.
-     @param ctx points to a CMPIContext object containing the invocation context.
-     @param rslt points to a CMPIResult object that is the result data
+     @param mi Pointer to to a CMPIInstanceMI structure.
+     @param ctx Pointer to to a CMPIContext object containing the invocation context.
+     @param rslt Pointer to to a CMPIResult object that is the result data
          container. Upon successful return the MI shall have put all
          instances representing the result set into this container (see Subclause 8.2).
-     @param classPath points to a CMPIObjectPath object that references
+     @param classPath Pointer to to a CMPIObjectPath object that references
      the given class and that contains namespace and class name components.
      The hostname and key components, if present, have no meaning and
      should be ignored.
@@ -6164,7 +6171,7 @@ struct _CMPIAssociationMIFT {
          container. Upon successful return, the MI shall have put all
          instance paths representing the result set into this container
          (see Subclause 8.2).
-     @param instPath points to a CMPIObjectPath object that references the
+     @param instPath Pointer to to a CMPIObjectPath object that references the
          given source instance and that contains the namespace, class name,
          and key components. The hostname component, if present,
          has no meaning and should be ignored. If the source instance
@@ -6239,7 +6246,7 @@ struct _CMPIAssociationMIFT {
          container. Upon successful return, the MI shall have put all
          instance paths representing the result set into this container
          (see Subclause 8.2).
-     @param instPath points to a CMPIObjectPath object that references the
+     @param instPath Pointer to to a CMPIObjectPath object that references the
          given source instance and that contains the namespace, class name,
          and key components. The hostname component, if present,
          has no meaning and should be ignored. If the source instance
@@ -6395,7 +6402,7 @@ struct _CMPIAssociationMIFT {
          container. Upon successful return, the MI shall have put all
          instance paths representing the result set into this container
          (see Subclause 8.2).
-     @param instPath points to a CMPIObjectPath object that references the
+     @param instPath Pointer to to a CMPIObjectPath object that references the
          given source instance and that contains the namespace, class name,
          and key components. The hostname component, if present,
          has no meaning and should be ignored. If the source instance
@@ -6587,7 +6594,7 @@ struct _CMPIMethodMIFT {
     <li>Any other return values shall be returned using
         CMPIResultFT.returnData().
     </ul>
-     @param objPath points to the CMPIObjectPath object that references
+     @param objPath Pointer to to the CMPIObjectPath object that references
          the target object on which the method is invoked. If the target
          object is an instance, this object path will contain the namespace,
          class name, and key components. The hostname component, if present,
@@ -6595,10 +6602,10 @@ struct _CMPIMethodMIFT {
          a class, this object path will contain the namespace and
          class name components. The hostname and key components,
          if present, have no meaning and should be ignored.
-     @param method points to a string containing the method name.
-     @param in points to a CMPIArgs object (whether the method has any
+     @param method Pointer to to a string containing the method name.
+     @param in Pointer to to a CMPIArgs object (whether the method has any
          input parameters or not) that contains the method input parameters.
-     @param out[in out] points to an empty CMPIArgs object (whether the method has
+     @param out[in out] Pointer to to an empty CMPIArgs object (whether the method has
          any output parameters or not) that, upon successful return
          of the method, shall have been updated by the MI to contain
          the method output parameters.
@@ -6783,7 +6790,7 @@ struct _CMPIPropertyMIFT {
          <tt>>instPath</tt> parameter.
      @param mi Provider this pointer.
      @param ctx Invocation Context
-     @param rslt points to a CMPIResult object that is the result data
+     @param rslt Pointer to to a CMPIResult object that is the result data
          container. Upon successful return, the MI shall have put the
          retrieved property value into this container (see Subclause 8.2).
          The CMPIResultFT function to be used for that depends on the data
@@ -6982,7 +6989,7 @@ struct _CMPIIndicationMIFT {
          from the FROM clause of the filter specification contained in the
          filter argument. If the filter specification contains joins, it
          is undefined which of the joined classes is used for this argument.
-     @param classPath points to a CMPIObjectPath object that is a reference
+     @param classPath Pointer to to a CMPIObjectPath object that is a reference
          to a class or to a namespace, as follows:
          <ul>
             <li>If the filter specification covers lifecycle indications,

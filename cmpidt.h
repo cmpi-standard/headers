@@ -45,9 +45,9 @@
 extern "C" {
 #endif
 
-/**
- * @defgroup def-version-values Symbols that define CMPI versions
- * values @{
+/*
+ * @defgroup def-version-values Symbols that define CMPI versions values.
+ * @{
  * These symbols encapsulate the values for the numeric CMPI version numbers.
  *
  * Note: Historical CMPI levels (before the first CMPI Technical Standard, e.g.
@@ -295,6 +295,7 @@ typedef double CMPIReal64;             ///< CIM data type real64
  * @}
  *
  * @defgroup value-defs KS_TODO
+ * @{
  */
 
 /**
@@ -375,7 +376,9 @@ typedef union _CMPIValue {
  */
 typedef unsigned short CMPIType;
 
-/**
+/** 
+ * @} 
+ *  
  * @anchor def-cmpitype-symbols
  * @name Test masks for CMPIType
  * @{
