@@ -1,4 +1,4 @@
 *.zip
 latex/
 html/
-
+*.log
