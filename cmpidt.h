@@ -45,7 +45,7 @@
 extern "C" {
 #endif
 
-/*
+/**
  * @defgroup def-version-values Symbols that define CMPI versions values.
  * @{
  * These symbols encapsulate the values for the numeric CMPI version numbers.
@@ -60,7 +60,7 @@ extern "C" {
 ///  CMPI 2.1.0
 #define CMPIVersion210 210
 /**
- * @}   End defgroup def-version-values
+ * @}
  */
 
 /**
@@ -121,8 +121,9 @@ extern "C" {
 #else
 #  error Unsupported CMPI version defined in CMPI_VERSION symbol
 #endif
+
 /**
- * @}  End defgroup def-version-tests
+ * @}
  */
 
 /**
@@ -324,7 +325,7 @@ typedef struct _CMPIValuePtr {
 
 } CMPIValuePtr;
 
-/* 
+/**
  * @brief Union type representing possible types of CMPI Value.
  *
  * Is used in CMPI data items ([CMPIData](@ref _CMPIData)) but also standalone.
@@ -519,7 +520,7 @@ typedef unsigned short CMPIValueState;
  */
 
 /**
- * @} end defgroup value-defs
+ * @}
  *
  * @defgroup more-misc-defs   KS_TODO
  * @{
@@ -607,17 +608,18 @@ typedef unsigned int CMPIFlags;
 typedef int CMPIVersion;
 
 /**
- * @}  end defgroup more-misc-defs
+ * @}
  */
 
-/** @defgroup def_context-fieldnames Names of CMPIContext fields
-* @{
-*
-* The entries in a [CMPIContext](@ref _CMPIContext) are set and accessed by name
-* using the the  addEntry() and getEntry() functions.
-*
-* These definitions are the ASCII strings representing these CMPIContext types.
-*/
+/**
+ * @defgroup def_context-fieldnames Names of CMPIContext fields
+ * @{
+ *
+ * The entries in a [CMPIContext](@ref _CMPIContext) are set and accessed by name
+ * using the the  addEntry() and getEntry() functions.
+ *
+ * These definitions are the ASCII strings representing these CMPIContext types.
+ */
 // KS_TODO review the above
 /** Namespace for which the MI is started. */
 #define CMPIInitNameSpace   "CMPIInitNameSpace"
@@ -633,7 +635,7 @@ typedef int CMPIVersion;
 #define CMPIContentLanguage "CMPIContentLanguage"
 
 /**
- * @} end defgroup def_context_fieldnames
+ * @}
  *
  * @defgroup def-CMPIStatus Definition of CMPIStatus and its components.
  * @{
@@ -737,8 +739,7 @@ typedef struct _CMPIStatus {
 } CMPIStatus;
 
 /**
- *
- * @}     defgroup CMPI-Status end
+ * @}
  *
  * @defgroup def-mb-capabilities Definition of test masks for MB capabilities
  * @{
@@ -793,14 +794,13 @@ typedef struct _CMPIStatus {
 #endif
 
 /**
- * @}    defgroup end def-mb-capabilities
+ * @}
  *
  * @defgroup other-enums Other CMPI enum definitions
  * @{
- *
  */
 
- /**
+/**
  * CMPIPredOP - Enumeration type that defines predicate operators in parsed
  * queries.
  */
@@ -1215,7 +1215,7 @@ typedef enum _CMPIErrorSrcFormat {
 #endif // CMPI_VER_200
 
  /**
-  *  @} // end defgroup def-cim_error_data
+  * @}
   */
 
 #ifdef CMPI_VER_210
