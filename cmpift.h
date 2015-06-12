@@ -65,10 +65,16 @@ extern "C" {
  *   @{
  *   @}
  * @}
+ * @defgroup mb-capabilities MB Capabilities (Sect. 7.1)
+ * @{
+ * @}
  * @defgroup mb-edt MB Encapsulated Data Type Support (Sect. 8)
  * @{
  *   @defgroup edt-context CMPIContext Support (Sect 8.1)
  *   @{
+ *     @defgroup def-context-fieldnames Names of CMPIContext fields
+ *     @{
+ *     @}
  *   @}
  *   @defgroup edt-result CMPIResult Support (Sect 8.2)
  *   @{
@@ -158,8 +164,7 @@ extern "C" {
  */
 
 /**
- * @addtogroup mb-tables // This outer clause catches all the CMPIBroker*
- *                       // tables, except for their function pointers.
+ * @addtogroup mb-tables
  * @{
  */
 
@@ -217,7 +222,7 @@ struct _CMPIBrokerFT {
     /**
      * MB capabilities.
      *
-     * See the @link def-mb-capabilities definition of test masks for MB
+     * See the @link mb-capabilities definition of test masks for MB
      * capabilities @endlink.
      */
     unsigned int brokerCapabilities;
@@ -310,7 +315,7 @@ struct _CMPIBrokerFT {
     CMPIStatus (*detachThread) (const CMPIBroker* mb, const CMPIContext* ctx);
 
     /**
-     *   @} // broker-thread-reg
+     *   @}
      *   @addtogroup broker-indications
      *   @{
      */
@@ -373,7 +378,7 @@ struct _CMPIBrokerFT {
             const CMPIContext* ctx, const char* ns, const CMPIInstance* ind);
 
     /**
-     *   @} // broker-indications
+     *   @}
      *   @addtogroup broker-client
      *   @{
      */
@@ -1193,7 +1198,7 @@ struct _CMPIBrokerFT {
             const CMPIObjectPath* instPath, const char* name, CMPIStatus* rc);
 
     /**
-     *   @} // broker-client
+     *   @}
      */
 
 };
@@ -1511,7 +1516,7 @@ struct _CMPIBrokerEncFT {
             const char* lang, CMPIArray** projection, CMPIStatus* st);
 
     /**
-     *   @} // brokerenc-factory
+     *   @}
      *   @addtogroup brokerenc-misc
      *   @{
      */
@@ -1658,7 +1663,7 @@ struct _CMPIBrokerEncFT {
 #ifdef CMPI_VER_200
 
     /**
-     *   @} // brokerenc-misc
+     *   @}
      *   @addtogroup brokerenc-factory
      *   @{
      */
@@ -1721,7 +1726,7 @@ struct _CMPIBrokerEncFT {
         CMPIStatus* rc);
 
     /**
-     *   @} // brokerenc-factory
+     *   @}
      *   @addtogroup brokerenc-misc
      *   @{
      */
@@ -1792,7 +1797,7 @@ struct _CMPIBrokerEncFT {
 #endif /*CMPI_VER_200*/
 
     /**
-     *   @} // brokerenc-misc
+     *   @}
      *   @addtogroup brokerenc-factory
      *   @{
      */
@@ -1915,7 +1920,7 @@ struct _CMPIBrokerEncFT {
 #endif /*CMPI_VER_210*/
 
     /**
-     *   @} // brokerenc-factory
+     *   @}
      */
 
 };
@@ -1960,7 +1965,7 @@ struct _CMPIBrokerExtFT {
     char* (*resolveFileName) (const char* filename);
 
     /**
-     *   @} // brokerext-lib
+     *   @}
      *   @addtogroup brokerext-thread
      *   @{
      */
@@ -2105,7 +2110,7 @@ struct _CMPIBrokerExtFT {
     int (*setThreadSpecific) (CMPI_THREAD_KEY_TYPE key, void* value);
 
     /**
-     *   @} // brokerext-thread
+     *   @}
      *   @addtogroup brokerext-mutex
      *   @{
      */
@@ -2184,7 +2189,7 @@ struct _CMPIBrokerExtFT {
     void (*unlockMutex) (CMPI_MUTEX_TYPE mutex);
 
     /**
-     *   @} // brokerext-mutex
+     *   @}
      *   @addtogroup brokerext-condition
      *   @{
      */
@@ -2278,7 +2283,7 @@ struct _CMPIBrokerExtFT {
     int (*signalCondition) (CMPI_COND_TYPE cond);
 
     /**
-     *   @} // brokerext-condition
+     *   @}
      *   @addtogroup brokerext-mutex
      *   @{
      */
@@ -2336,7 +2341,7 @@ struct _CMPIBrokerExtFT {
     int (*unlockMutex2) (CMPI_MUTEX_TYPE mutex);
 
     /**
-     *   @} // brokerext-mutex
+     *   @}
      *   @addtogroup brokerext-condition
      *   @{
      */
@@ -2361,7 +2366,7 @@ struct _CMPIBrokerExtFT {
 #endif /*CMPI_VER_210*/
 
     /**
-     *   @} // brokerext-condition
+     *   @}
      */
 
 };
@@ -2711,7 +2716,7 @@ struct _CMPIBrokerMemFT {
 #endif /*CMPI_VER_210*/
 
     /**
-     *   @} // brokermem-all
+     *   @}
      */
 
 };
@@ -2719,7 +2724,7 @@ struct _CMPIBrokerMemFT {
 #endif /*CMPI_VER_200*/
 
 /**
- * @} // mb-tables
+ * @}
  * @addtogroup edt-context
  * @{
  */
@@ -2854,7 +2859,7 @@ struct _CMPIContextFT {
 };
 
 /**
- * @} // edt-context
+ * @}
  * @addtogroup edt-result
  * @{
  */
@@ -2991,7 +2996,7 @@ struct _CMPIResultFT {
 };
 
 /**
- * @} // edt-result
+ * @}
  * @addtogroup edt-error
  * @{
  */
@@ -3472,7 +3477,7 @@ struct _CMPIErrorFT {
 #endif /*CMPI_VER_200*/
 
 /**
- * @} // edt-error
+ * @}
  * @addtogroup edt-instance
  * @{
  */
@@ -3736,7 +3741,7 @@ struct _CMPIInstanceFT {
 };
 
 /**
- * @} // edt-instance
+ * @}
  * @addtogroup edt-objectpath
  * @{
  */
@@ -4123,7 +4128,7 @@ struct _CMPIObjectPathFT {
 };
 
 /**
- * @} // edt-objectpath
+ * @}
  * @addtogroup qualifier-services
  * @{
  *   The qualifier services are the following member functions from the
@@ -4134,7 +4139,7 @@ struct _CMPIObjectPathFT {
  *     <LI>@ref _CMPIObjectPathFT::getMethodQualifier
  *     <LI>@ref _CMPIObjectPathFT::getParameterQualifier
  *     </UL>
- *   @} // qualifier-services
+ *   @}
  *   @addtogroup edt-selectexp
  *   @{
  */
@@ -4315,7 +4320,7 @@ struct _CMPISelectExpFT {
 };
 
 /**
- * @} // edt-selectexp
+ * @}
  * @addtogroup edt-selectcond
  * @{
  */
@@ -4424,7 +4429,7 @@ struct _CMPISelectCondFT {
 };
 
 /**
- * @} // edt-selectcond
+ * @}
  * @addtogroup edt-subcond
  * @{
  */
@@ -4551,7 +4556,7 @@ struct _CMPISubCondFT {
 };
 
 /**
- * @} // edt-subcond
+ * @}
  * @addtogroup edt-predicate
  * @{
  */
@@ -4647,7 +4652,7 @@ struct _CMPIPredicateFT {
 };
 
 /**
- * @} // edt-predicate
+ * @}
  * @addtogroup edt-args
  * @{
  */
@@ -4770,7 +4775,7 @@ struct _CMPIArgsFT {
 };
 
 /**
- * @} // edt-args
+ * @}
  * @addtogroup edt-string
  * @{
  */
@@ -4882,7 +4887,7 @@ struct _CMPIStringFT {
 };
 
 /**
- * @} // edt-string
+ * @}
  * @addtogroup edt-array
  * @{
  */
@@ -5039,7 +5044,7 @@ struct _CMPIArrayFT {
 };
 
 /**
- * @} // edt-array
+ * @}
  * @addtogroup edt-enumeration
  * @{
  */
@@ -5169,7 +5174,7 @@ struct _CMPIEnumerationFT {
 };
 
 /**
- * @} // edt-enumeration
+ * @}
  * @addtogroup edt-datetime
  * @{
  */
@@ -5327,7 +5332,7 @@ struct _CMPIDateTimeFT {
 };
 
 /**
- * @} // edt-datetime
+ * @}
  * @addtogroup edt-propertylist
  * @{
  */
@@ -5475,7 +5480,7 @@ struct _CMPIPropertyListFT {
 };
 
 /**
- * @} // edt-propertylist
+ * @}
  * @addtogroup edt-enumerationfilter
  * @{
  */
@@ -5595,7 +5600,7 @@ struct _CMPIEnumerationFilterFT {
 #endif /*CMPI_VER_210*/
 
 /**
- * @} // edt-enumerationfilter
+ * @}
  * @addtogroup instance-mi
  * @{
  */
@@ -6210,7 +6215,7 @@ struct _CMPIInstanceMIFT {
 };
 
 /**
- * @} // instance-mi
+ * @}
  * @addtogroup association-mi
  * @{
  */
@@ -6649,7 +6654,7 @@ struct _CMPIAssociationMIFT {
 };
 
 /**
- * @} // association-mi
+ * @}
  * @addtogroup method-mi
  * @{
  */
@@ -6798,7 +6803,7 @@ struct _CMPIMethodMIFT {
 };
 
 /**
- * @} // method-mi
+ * @}
  * @addtogroup property-mi
  * @{
  */
@@ -7028,7 +7033,7 @@ struct _CMPIPropertyMIFT {
 };
 
 /**
- * @} // property-mi
+ * @}
  * @addtogroup indication-mi
  * @{
  */
@@ -7615,7 +7620,7 @@ struct _CMPIIndicationMIFT {
 };
 
 /**
- * @} // indication-mi
+ * @}
  */
 
 /** @todo KS_todo cmpimacs not required. Removed
