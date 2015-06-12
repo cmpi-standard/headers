@@ -1141,12 +1141,14 @@ struct _CMPIBrokerFT {
     Extended error handling is not supported by this MB function; thus, any
     CMPIError objects returned by the targeted MI cannot be made available
     to the calling MI.
-     @deprecated In CMPI 2.1, in accord with the deprecation of property
+
+     @deprecated This function is deprecated since CMPI 2.1,
+     in accord with the deprecation of property
      client operations in DMTF specifications. MBs shall implement
      the CMPIBrokerFT.setProperty() function by invoking the
      modifyInstance() MI function if the setProperty() MI function
      is not implemented by the target MI. New MIs should
-     replace the use of CMPIBrokerFT.setProperty()with the use of
+     replace the use of CMPIBrokerFT.setProperty() with the use of
      CMPIBrokerFT.modifyInstance().
      */
     CMPIStatus (*setProperty) (const CMPIBroker* mb, const CMPIContext* ctx,
@@ -1186,13 +1188,14 @@ struct _CMPIBrokerFT {
     CMPIError objects returned by the targeted MI cannot be made available
     to the calling MI.
 
-     @deprecated In CMPI 2.1, in accord with the deprecation of property
-         client operations in DMTF specifications. MBs shall implement
-         the CMPIBrokerFT.getProperty() function by invoking the
-         getInstance() MI function if the getProperty() MI function
-         is not implemented by the target MI. New MIs should replace
-         the use of CMPIBrokerFT.getProperty()with the use of
-         CMPIBrokerFT.getInstance()
+     @deprecated This function is deprecated since CMPI 2.1,
+     in accord with the deprecation of property
+     client operations in DMTF specifications. MBs shall implement
+     the CMPIBrokerFT.getProperty() function by invoking the
+     getInstance() MI function if the getProperty() MI function
+     is not implemented by the target MI. New MIs should replace
+     the use of CMPIBrokerFT.getProperty() with the use of
+     CMPIBrokerFT.getInstance()
      */
     CMPIData (*getProperty) (const CMPIBroker* mb, const CMPIContext* ctx,
             const CMPIObjectPath* instPath, const char* name, CMPIStatus* rc);
@@ -2146,14 +2149,17 @@ struct _CMPIBrokerExtFT {
 
     /** @brief Destroy a POSIX threading-conformant mutex <b>(Deprecated)</b>.
 
-     Destroy a POSIX threading conformant mutex. This function is deprecated
-     because it does not indicate whether it succeeded or failed.
-     Use &lt;CMPIBrokerExtFT.destroyMutex2()&gt; instead
+     Destroy a POSIX threading conformant mutex.
+
      @param mutex The mutex to be destroyed.
 
-     @deprecated In CMPI 2.1, in favor of  CMPIBrokerExtFT.destroyMutex2
-         client operations in DMTF specifications.
      @todo add status codes
+
+     @deprecated This function is deprecated since CMPI 2.1,
+     because it does not indicate whether it succeeded or failed.
+     Use CMPIBrokerExtFT::destroyMutex2() instead.
+
+     @see destroyMutex2()
      */
     void (*destroyMutex) (CMPI_MUTEX_TYPE mutex);
 
@@ -2164,11 +2170,14 @@ struct _CMPIBrokerExtFT {
      locked by the current thread is defined in the description of
      &lt;CMPIBrokerExtFT.newMutex()&gt;.
 
-     This function is deprecated because it does not indicate whether it
-     succeeded or failed. Use CMPIBrokerExtFT.lockMutex2() instead.
-     <b>(Deprecated)</b>
-
      @param mutex The mutex to be locked.
+
+     @deprecated This function is deprecated since CMPI 2.1,
+     because it does not indicate whether it succeeded or failed.
+     Use CMPIBrokerExtFT::lockMutex2() instead.
+
+     @see lockMutex2()
+
      @todo add status codes
      */
     void (*lockMutex) (CMPI_MUTEX_TYPE mutex);
@@ -2179,12 +2188,15 @@ struct _CMPIBrokerExtFT {
      locked by the current thread is defined in the description of
      &lt;CMPIBrokerExtFT.newMutex()&gt;.
 
-     This function is deprecated because it does not indicate whether it
-     succeeded or failed. Use &lt;CMPIBrokerExtFT.unlockMutex2()&gt;
-     instead. <b>(Deprecated)</b>
-
      @param mutex The mutex to be unlocked.
+
      @todo add status codes
+
+     @deprecated This function is deprecated since CMPI 2.1,
+     because it does not indicate whether it succeeded or failed.
+     Use CMPIBrokerExtFT::unlockMutex2() instead.
+
+     @see unlockMutex2()
      */
     void (*unlockMutex) (CMPI_MUTEX_TYPE mutex);
 
@@ -2226,10 +2238,6 @@ struct _CMPIBrokerExtFT {
      immediately; otherwise, it suspends the current thread to wait for
      the signal and then returns.
 
-     This function is deprecated because it does not indicate whether it
-     succeeded or failed. Use CMPIBrokerExtFT.destroyCondition2()
-     instead. (Deprecated)
-
      @param cond  The handle of the condition variable to be used.
      @param mutex  The handle of a locked mutex guarding this
          condition variable.
@@ -2237,7 +2245,11 @@ struct _CMPIBrokerExtFT {
         If not successful, returns a non-zero error code will be returned.
         For historical reasons, this function does not indicate whether it
         succeeded or failed.
-     @deprecated Deprecated in favor of destryCondition2()
+
+     @deprecated This function is deprecated since CMPI 2.1,
+     because it does not indicate whether it succeeded or failed.
+     Use destroyCondition2() instead.
+
      @see destroyCondition2()
      */
     int (*condWait) (CMPI_COND_TYPE cond, CMPI_MUTEX_TYPE mutex);
@@ -3887,38 +3899,35 @@ struct _CMPIObjectPathFT {
      */
     CMPIString* (*getClassName) (const CMPIObjectPath* op, CMPIStatus* rc);
 
-    /** @brief Add a key binding in a CMPIObjectPath object.
+    /** @brief Add or replace a key binding in a CMPIObjectPath object.
 
-     Adds or replaces a key binding in a CMPIObjectPath object.
-     @param op Pointer to CMPIObjectPath.
-     @param name Pointer to string containing key name.
-     @param value CMPIValue containing the value to be assigned to the
+    @param op Pointer to CMPIObjectPath.
+    @param name Pointer to string containing key name.
+    @param value CMPIValue containing the value to be assigned to the
         key binding Key binding values must NOT be NULL.
-     @param type Value type to be assigned to the key binding. All types of CIM
-         values are valid for keys are supported. If the value of the type
-         argument is CMPI_chars or CMPI_charsA, the C-language string
-         to which the chars member of the value argument points is
-         copied by this function and the original string memory
-         may be freed by the MI right after this function returns
-     @return CMPIStatus structure indicating the function return status.
-     @todo add status codes
-     */
+    @param type Value type to be assigned to the key binding. All types of CIM
+        values are valid for keys are supported. If the value of the type
+        argument is CMPI_chars or CMPI_charsA, the C-language string
+        to which the chars member of the value argument points is
+        copied by this function and the original string memory
+        may be freed by the MI right after this function returns
+    @return CMPIStatus structure indicating the function return status.
+    @todo add status codes
+    */
     CMPIStatus (*addKey) (const CMPIObjectPath* op, const char* name,
             const CMPIValue* value, const CMPIType type);
 
     /** @brief Get a key binding in a CMPIObjectPath object by name.
 
-     Gets a key binding named key property value.
-     @param op Pointer to CMPIObjectPath.
-     @param name Key property name.
-     @param rc Output: If not NULL, points to a CMPIStatus structure
-         that upon return will have been updated with the function return
-         status.
-     @return If successful, returns a CMPIData structure containing the
-         specified key binding.
+    @param op Points to the CMPIObjectPath object for this function.
+    @param name Name of the key binding.
+    @param rc Output: If not NULL, points to a CMPIStatus structure
+        that upon return will have been updated with the function return
+        status.
+    @return A CMPIData structure
 
-     If not successful, returns CMPIData.state will have the CMPI_badValue
-     flag set to true.
+    If successful, the returned CMPIData structure contains the value of the
+    key binding.
 
     The MB will attempt to set the type in the returned CMPIData structure
     to the precise CIM type, if available. Versions of the CIM-XML protocol
@@ -3927,59 +3936,75 @@ struct _CMPIObjectPathFT {
     to be present. If the precise CIM type is not available to the MB, it
     will use the following more general types in the returned CMPIData
     structure:
-    <code>
+    <pre>
         #define CMPI_keyInteger   (CMPI_sint64)
         #define CMPI_keyString    (CMPI_string)
         #define CMPI_keyBoolean   (CMPI_boolean)
         #define CMPI_keyRef       (CMPI_ref)
-    </code>
-    @todo above generates doxygen warning about link to define.
+    </pre>
 
     In addition, the CMPI_keyValue flag will be set in CMPIData.state to
-    indicate that the value is a key binding
+    indicate that the value is a key binding.
 
-     @todo add status codes
-     */
+    If not successful, CMPIData.state will have the CMPI_badValue flag set to
+    true.
+
+    The function return status will indicate one of the following CMPIrc codes:
+    <ul>
+    <li><tt>CMPI_RC_OK</tt>	Function successful.
+    <li><tt>CMPI_RC_ERR_NO_SUCH_PROPERTY</tt> Key not found.
+    <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> The `op` handle is invalid.
+    </ul>
+    */
     CMPIData (*getKey) (const CMPIObjectPath* op, const char* name,
             CMPIStatus* rc);
 
     /** @brief Get a key binding in a CMPIObjectPath object by index.
 
-     Gets a key binding value defined by its index.
-     @param op Pointer to CMPIObjectPath.
-     @param index Zero-based position of the key in the CMPIObjectPath object.
-     @param name Output: Pointer to to a CMPIString object that upon success will
-     have been updated with the name of the key binding. The returned
-     CMPIString object shall not be explicitly released by the MI,
-     because it may be an internal object of the CMPIObjectPath object
-     which will be released along with that object, or a new object
-     created by the MB which will be released automatically by the MB.
-     @param rc Output: If not NULL, points to a CMPIStatus structure that upon
-         return  updated with the function return status.
-     @return If successful, returns a CMPIData structure containing the
-     specified key binding.
+    @param op Points to the CMPIObjectPath object for this function.
+    @param index Zero-based position of the key binding within the internal data
+        array.
+    @param name Output: Points to a CMPIString pointer that upon success
+        will have been updated to point to a CMPIString object specifying the
+        name of the key binding. That CMPIString object shall not be explicitly
+        released by the MI, because it may be an internal object of the
+        CMPIObjectPath object which will be released along with that object, or
+        a new object created by the MB which will be released automatically by
+        the MB.
+    @param rc Output: If not NULL, points to a CMPIStatus structure that upon
+        return will have been updated with the function return status.
+    @return A CMPIData structure.
 
-    If not successful, CMPIData.state will have the CMPI_badValue flag
-    set to true.
+    If successful, the returned CMPIData structure will contain the value of the
+    key binding.
 
-    The MB will attempt to set the type in the returned CMPIData
-    structure to the precise CIM type, if available. Versions of the
-    CIM-XML protocol before DSP0200 Version 1.4 did not mandate
-    the presence of the precise CIM type. In those versions,
-    the precise CIM type was only recommended to be present.
-    If the precise CIM type is not available to the MB, it will
-    use the following more general types in the returned CMPIData structure:
-    <code>
+    The MB will attempt to set the type in the returned CMPIData structure
+    to the precise CIM type, if available. Versions of the CIM-XML protocol
+    before DSP0200 Version 1.4 did not mandate the presence of the precise
+    CIM type. In those versions, the precise CIM type was only recommended
+    to be present. If the precise CIM type is not available to the MB, it
+    will use the following more general types in the returned CMPIData
+    structure:
+    <pre>
         #define CMPI_keyInteger   (CMPI_sint64)
         #define CMPI_keyString    (CMPI_string)
         #define CMPI_keyBoolean   (CMPI_boolean)
         #define CMPI_keyRef       (CMPI_ref)
-    </code>
+    </pre>
 
     In addition, the CMPI_keyValue flag will be set in CMPIData.state
     to indicate that the value is a key binding.
-     @todo add status codes
-     */
+
+    If not successful, CMPIData.state will have the CMPI_badValue flag set to
+    true.
+
+    The function return status will indicate one of the following CMPIrc codes:
+    <ul>
+    <li><tt>CMPI_RC_OK</tt>	Function successful.
+    <li><tt>CMPI_RC_ERR_NO_SUCH_PROPERTY</tt> Key not found.
+    <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> The `op` handle is invalid.
+    </ul>
+    */
     CMPIData (*getKeyAt) (const CMPIObjectPath* op, CMPICount index,
             CMPIString** name, CMPIStatus* rc);
 
@@ -5009,35 +5034,38 @@ struct _CMPIArrayFT {
          CMPIArray object. The position shall be equal to or greater than
          0 and less than the size of the array.
      @param value Pointer to to a CMPIValue structure containing
-     the non-NULL value to be assigned to the element, or is NULL to
-     specify that the element will be set to NULL.
+        the non-NULL value to be assigned to the element, or is NULL to
+        specify that the element will be set to NULL.
      @param type Either the simple base type of the array or CMPI_null.
-
-     The use of CMPI_null for the type argument is deprecated.
-         Specify the simple base type of the array instead. <b>(Deprecated)</b>.
-
-     If the value of the type argument is CMPI_chars, the C-language
+        If the value of the type argument is CMPI_chars, the C-language
         string to which the chars member of the value argument points is
         copied by this function and the original string memory may be
         freed by the MI right after this function returns
 
      @return A CMPIStatus structure indicating the function return status.
 
-     If not successful, the array element?s state shall be set to
-     CMPI_nullValue, if possible. This behavior has been deprecated in
-     CMPI 2.1, and callers should now assume that it is undefined whether
-     the array element's state has changed in case of error.
-     <b>(Deprecated)</b>.
+     If not successful, the array element's state shall be set to
+     CMPI_nullValue, if possible.
 
-    The function return status will indicate one of the following CMPIrc codes:
-    <ul>
-    <li><tt>CMPI_RC_OK</tt>	Function successful.
-    <li><tt>CMPI_RC_ERR_NO_SUCH_PROPERTY</tt>	<tt>index</tt> value out of
-        range.
-    <li><tt>CMPI_RC_ERR_TYPE_MISMATCH</tt>	<tt>type</tt> does not correspond
-        to the simple base type of <tt>ar</tt>.
-    <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt>	The <tt>ar</tt> handle is invalid.
-    </ul>
+     The function return status will indicate one of the following CMPIrc codes:
+     <ul>
+     <li><tt>CMPI_RC_OK</tt>	Function successful.
+     <li><tt>CMPI_RC_ERR_NO_SUCH_PROPERTY</tt>	<tt>index</tt> value out of
+         range.
+     <li><tt>CMPI_RC_ERR_TYPE_MISMATCH</tt>	<tt>type</tt> does not correspond
+         to the simple base type of <tt>ar</tt>.
+     <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt>	The <tt>ar</tt> handle is invalid.
+     </ul>
+
+     @deprecated The use of CMPI_null for the `type` argument is deprecated
+     since CMPI 2.1.
+     Specify the simple base type of the array instead.
+
+     @deprecated The behavior of setting the array element's state to
+     CMPI_nullValue when the function was not successful, is deprecated
+     since CMPI 2.1.
+     Instead, callers should assume that it is undefined whether the array
+     element's state has changed when the function was not successful.
      */
     CMPIStatus (*setElementAt) (const CMPIArray* ar, CMPICount index,
             const CMPIValue* value, CMPIType type);
@@ -5899,17 +5927,14 @@ struct _CMPIInstanceMIFT {
          the class specified in the classPath argument.
      @param mi Pointer to a CMPIInstanceMI structure.
      @param ctx Pointer to a CMPIContext object containing the context data
-         for the invocation (see Subclause 8.1)..
+         for the invocation (see Subclause 8.1).
      @param rslt Pointer to a CMPIResult object that is the result data
          container. Upon successful return, the MI shall have put the
          instance path of the created instance into this container
          (see Subclause 8.2).
      @param classPath Pointer to a CMPIObjectPath object that references
          the given class. The hostname and key components, if present, have
-         no meaning and should be ignored. The use of the key component within
-         this CMPIObjectPath object is deprecated since CMPI 2.1; this key
-         component should not be provided by MBs and should not be used by
-         MIs. <b>(Deprecated)</b>
+         no meaning and should be ignored.
      @param inst Pointer to a CMPIInstance object specifying
          property values for the new instance. The object path
          component within this CMPIInstance object has no meaning;
@@ -5941,6 +5966,10 @@ struct _CMPIInstanceMIFT {
      <TR><TD><tt>CMPI_RC_ERR_FAILED</tt></TD><TD>WIPG0227+implementation
      specific message</TD> <TD>Other error occurred.</TD></TR>
      </TABLE>
+
+     @deprecated The use of the key component in the `classPath` argument is
+     deprecated since CMPI 2.1; the key component should not be provided by MBs
+     and should not be used by MIs.
      */
     CMPIStatus (*createInstance) (CMPIInstanceMI* mi, const CMPIContext* ctx,
             const CMPIResult* rslt, const CMPIObjectPath* classPath,
@@ -6815,7 +6844,9 @@ struct _CMPIMethodMIFT {
  * (see CMPI specification), in order to make its MI functions available to the
  * MB.
  *
- * Note: Property MIs are deprecated in CMPI.
+ * @deprecated Property MIs are deprecated since CMPI 2.1,
+ * in accord with the deprecation of property client operations in DMTF
+ * specifications.
  */
 typedef struct _CMPIPropertyMI {
 
@@ -6904,8 +6935,10 @@ struct _CMPIPropertyMIFT {
      <li><tt>CMPI_RC_NEVER_UNLOAD</tt> Function successful - never unload;
          the MB will not retry an unload later unless it shuts down.
      </ul>
-     @deprecated In CMPI 2.1, in accord with the deprecation of property
-         client operations in DMTF specifications.
+
+     @deprecated This function is deprecated since CMPI 2.1,
+     in accord with the deprecation of property client operations in DMTF
+     specifications.
      */
     CMPIStatus (*cleanup) (CMPIPropertyMI* mi, const CMPIContext* ctx,
             CMPIBoolean terminating); /*Deprecated*/
@@ -6946,10 +6979,12 @@ struct _CMPIPropertyMIFT {
      to class-defined type.
      <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> The <tt>inst</tt> handle is
          invalid.
-    </ul>
-     @deprecated In CMPI 2.1, in accord with the deprecation of property
-         client operations in DMTF specifications.
-    @todo KS_todo. The list of error codes is very inaccurate
+     </ul>
+     @todo KS_todo. The list of error codes is very inaccurate
+
+     @deprecated This function is deprecated since CMPI 2.1,
+     in accord with the deprecation of property client operations in DMTF
+     specifications.
      */
     CMPIStatus (*setProperty) (CMPIPropertyMI* mi, const CMPIContext* ctx,
             const CMPIResult* rslt, const CMPIObjectPath* op, const char* name,
@@ -6995,8 +7030,10 @@ struct _CMPIPropertyMIFT {
      <li><tt>CMPI_RC_ERR_NOT_FOUND</tt> Instance not found.
      <li><tt>CMPI_RC_ERR_NO_SUCH_PROPERTY</tt> Entry not found.
      </ul>
-     @deprecated In CMPI 2.1, in accord with the deprecation of property
-         client operations in DMTF specifications.
+
+     @deprecated This function is deprecated since CMPI 2.1,
+     in accord with the deprecation of property client operations in DMTF
+     specifications.
      */
     CMPIStatus (*getProperty) (CMPIPropertyMI* mi, const CMPIContext* ctx,
             const CMPIResult* rslt, const CMPIObjectPath* instPath,
@@ -7084,24 +7121,24 @@ struct _CMPIIndicationMIFT {
 
     /** @brief Perform cleanup for an Indication MI.
 
-     This function shall perform any necessary cleanup operations prior to the
-     unloading of the library of which this MI group is part.
+    This function shall perform any necessary cleanup operations prior to the
+    unloading of the library of which this MI group is part.
 
-     While this function executes, the MB will not call any other MI functions
-         for this MI. This function will be called once for a specific MI
-         (unless the MI postpones the cleanup), even if that MI services more
-         than one namespace. After this function returns, the MB may unload
-         the load library this MI is part of, unless the MI postpones the
-         cleanup.
-     @param mi Pointer to a CMPIIndicationMI structure.
-     @param ctx Pointer to a CMPIContext object containing the context data
-         for the invocation (see Subclause 8.1). The context data entries
-         are MB implementation-specific.
-     @param terminating When true, the MB is in the process of shutting down.
-         The MI shall perform any necessary cleanup and shall not postpone
-         the cleanup. After this function returns (successful or in error),
-         the MB will consider this MI to be uninitialized and will not call
-         further MI functions for this MI.
+    While this function executes, the MB will not call any other MI functions
+    for this MI. This function will be called once for a specific MI
+    (unless the MI postpones the cleanup), even if that MI services more
+    than one namespace. After this function returns, the MB may unload
+    the load library this MI is part of, unless the MI postpones the
+    cleanup.
+    @param mi Pointer to a CMPIIndicationMI structure.
+    @param ctx Pointer to a CMPIContext object containing the context data
+        for the invocation (see Subclause 8.1). The context data entries
+        are MB implementation-specific.
+    @param terminating When true, the MB is in the process of shutting down.
+        The MI shall perform any necessary cleanup and shall not postpone
+        the cleanup. After this function returns (successful or in error),
+        the MB will consider this MI to be uninitialized and will not call
+        further MI functions for this MI.
 
     When false, the MI can choose to perform or postpone the cleanup, by
     performing one of these actions:
@@ -7121,18 +7158,19 @@ struct _CMPIIndicationMIFT {
     further MI functions of this MI. The MB will not call this function
     again, until the MB terminates (at which time the MB calls this function
     with terminating set to true).
-     </ul>
-     @return CMPIStatus structure indicating the function return status.
-     The following CMPIrc codes shall be recognized:
-     <ul>
-     <li><tt>CMPI_RC_OK</tt> Operation successful.
-     <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
-     <li><tt>CMPI_RC_DO_NOT_UNLOAD</tt> Function successful, do not
+    </ul>
+
+    @return CMPIStatus structure indicating the function return status.
+    The following CMPIrc codes shall be recognized:
+    <ul>
+    <li><tt>CMPI_RC_OK</tt> Operation successful.
+    <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
+    <li><tt>CMPI_RC_DO_NOT_UNLOAD</tt> Function successful, do not
         unload now; the MB may retry an unload later..
-     <li><tt>CMPI_RC_NEVER_UNLOAD</tt> Function successful, never unload;
+    <li><tt>CMPI_RC_NEVER_UNLOAD</tt> Function successful, never unload;
         the MB will not retry an unload later unless it shuts down.
-     </ul>
-     */
+    </ul>
+    */
     CMPIStatus (*cleanup) (CMPIIndicationMI* mi, const CMPIContext* ctx,
             CMPIBoolean terminating);
 
@@ -7178,22 +7216,22 @@ struct _CMPIIndicationMIFT {
          </ul>
       @param owner The owner argument points to a string specifying the
           destination owner.
-          Deprecated: The owner argument has been deprecated in CMPI 2.1.
-          MBs may pass an empty string in the owner argument. For
-          compatibility reasons, MBs shall not pass a NULL pointer
-          in the owner argument.
+      @param owner The owner argument is the destination owner.
+      @return This function shall structure containing the service return
+      status.
+      The following CMPIrc codes shall be recognized:
+      <ul>
+      <li><tt>CMPI_RC_OK</tt> Operation successful.
+      <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
+      <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> Operation not supported by this
+      <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt> Not authorized.
+      <li><tt>CMPI_RC_ERR_INVALID_QUERY</tt> Invalid query or too complex.
+      </ul>
 
-     @param owner The owner argument is the destination owner.
-     @return This function shall structure containing the service return
-     status.
-     The following CMPIrc codes shall be recognized:
-     <ul>
-     <li><tt>CMPI_RC_OK</tt> Operation successful.
-     <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
-     <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> Operation not supported by this
-     <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt> Not authorized.
-     <li><tt>CMPI_RC_ERR_INVALID_QUERY</tt> Invalid query or too complex.
-     </ul>
+      @deprecated The `owner` argument is deprecated since CMPI 2.1.
+      MBs may pass an empty string in the owner argument. For
+      compatibility reasons, MBs shall not pass a NULL pointer
+      in the owner argument.
      */
     CMPIStatus (*authorizeFilter) (CMPIIndicationMI* mi,
             const CMPIContext* ctx,  const CMPISelectExp* filter,
@@ -7227,8 +7265,10 @@ struct _CMPIIndicationMIFT {
      <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> Operation not supported by this MI.
      <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt> Not authorized.
      <li><tt>CMPI_RC_ERR_INVALID_QUERY</tt> Invalid query or too complex.
-     </ul>*
-     @deprecated /* KS_todo when and why deprecated */
+     </ul>
+
+     @deprecated This function is deprecated since CMPI 2.1,
+     because the concept of indication polling has been deprecated in CMPI 2.1.
      */
     CMPIStatus (*mustPoll) (CMPIIndicationMI* mi, const CMPIContext* ctx,
             const CMPISelectExp* filter, const char* className,
