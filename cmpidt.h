@@ -77,9 +77,15 @@ extern "C" {
  *     @defgroup type-accessor CMPIAccessor
  *     @{
  *     @}
+ */
+#ifdef CMPI_DEFINE_CMPISelectCondType
+/**
  *     @defgroup type-select-cond-type CMPISelectCondType
  *     @{
  *     @}
+ */
+#endif
+/**
  *   @}
  *   @defgroup types-data-items CMPI Data Items (Sect. 5.6)
  *   @{
@@ -155,9 +161,9 @@ extern "C" {
  * @todo TODO_AM Description above is assigned to first symbol, but should be for all of them.
  *   @{
  */
-#define CMPIVersion100 100  ///<  CMPI 1.0.0
-#define CMPIVersion200 200  ///<  CMPI 2.0.0
-#define CMPIVersion210 210  ///<  CMPI 2.1.0
+#define CMPIVersion100 100  ///< CMPI 1.0.0
+#define CMPIVersion200 200  ///< CMPI 2.0.0
+#define CMPIVersion210 210  ///< CMPI 2.1.0
 
 /**
  *   @}
@@ -219,22 +225,15 @@ extern "C" {
  *
  * @todo TODO_AM Description above is assigned to first symbol, but should be for all of them.
  */
-
 #if (CMPI_VERSION == CMPIVersion210)
-///  Check for features introduced in CMPI 2.1.0
-#  define CMPI_VER_210 1
-///  Check for features introduced in CMPI 2.0.0
-#  define CMPI_VER_200 1
-///  Check for features introduced in CMPI 1.0.0
-#  define CMPI_VER_100 1
+#  define CMPI_VER_210 1  ///< Check for features introduced in CMPI 2.1.0
+#  define CMPI_VER_200 1  ///< Check for features introduced in CMPI 2.0.0
+#  define CMPI_VER_100 1  ///< Check for features introduced in CMPI 1.0.0
 #elif (CMPI_VERSION == CMPIVersion200)
-///  Check for features introduced in CMPI 2.0.0
-#  define CMPI_VER_200 1
-///  Check for features introduced in CMPI 1.0.0
-#  define CMPI_VER_100 1
+#  define CMPI_VER_200 1  ///< Check for features introduced in CMPI 2.0.0
+#  define CMPI_VER_100 1  ///< Check for features introduced in CMPI 1.0.0
 #elif (CMPI_VERSION == CMPIVersion100)
-///  Check for features introduced in CMPI 1.0.0
-#  define CMPI_VER_100 1
+#  define CMPI_VER_100 1  ///< Check for features introduced in CMPI 1.0.0
 #else
 #  error Unsupported CMPI version defined in CMPI_VERSION symbol
 #endif
@@ -790,8 +789,9 @@ typedef int CMPIVersion;
  * using the the  addEntry() and getEntry() functions.
  *
  * These definitions are the ASCII strings representing these CMPIContext types.
+ *
+ * @todo KS_TODO review the above
  */
-// KS_TODO review the above
 /** Namespace for which the MI is started. */
 #define CMPIInitNameSpace   "CMPIInitNameSpace"
 /** Invocation flags as specified by the WBEM client; see @ref CMPIFlags. */
@@ -1053,11 +1053,12 @@ typedef enum _CMPILevel {
  * @brief An enumeration defining the normalization type a query
  * expression is normalized to.
  *
- * Deprecated: This enumeration is not part of the CMPI Technical Standard;
- * it is defined for backward compatibility and its use is deprecated.
- *
  * It is defined conditionally, when the CMPI_DEFINE_CMPISelectCondType
  * symbol is defined.
+ *
+ * @deprecated This enumeration has never been part of the CMPI Technical
+ * Standard; it is defined for backward compatibility of the CMPI header files,
+ * and its use is deprecated.
  */
 typedef enum _CMPISelectCondType {
     /** Disjuntion Of Conjunctions */
@@ -1076,6 +1077,7 @@ typedef enum _CMPISelectCondType {
 
 /**
  * @addtogroup type-error-type
+ * @{
  */
 
 /**
@@ -1112,6 +1114,7 @@ typedef enum _CMPIErrorType {
 /**
  * @}
  * @addtogroup type-error-severity
+ * @{
  */
 
 /**
@@ -1134,6 +1137,7 @@ typedef enum _CMPIErrorSeverity {
 /**
  * @}
  * @addtogroup type-error-probable-cause
+ * @{
  */
 
 /**
