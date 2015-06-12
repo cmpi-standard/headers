@@ -744,6 +744,9 @@ WARN_LOGFILE           =
 # directories like /usr/src/myproject. Separate the files or directories with
 # spaces.
 # Note: If this tag is empty the current directory is searched.
+# If single files are listed, that determines the order in which content appears
+# in the oputput. It does not determine the order in which files are listed
+# in the Files tab of the output.
 
 INPUT                  = cmpidt.h cmpift.h cmpios.h cmpipl.h cmpimacs.h
 
@@ -765,7 +768,7 @@ INPUT_ENCODING         = UTF-8
 # *.md, *.mm, *.dox, *.py, *.f90, *.f, *.for, *.tcl, *.vhd, *.vhdl, *.ucf,
 # *.qsf, *.as and *.js.
 
-FILE_PATTERNS          = cmpi*.h
+FILE_PATTERNS          =
 
 # The RECURSIVE tag can be used to specify whether or not subdirectories should
 # be searched for input files as well.
@@ -1937,7 +1940,10 @@ INCLUDE_FILE_PATTERNS  =
 # recursively expanded use the := operator instead of the = operator.
 # This tag requires that the tag ENABLE_PREPROCESSING is set to YES.
 
-PREDEFINED             = DOC_ONLY
+PREDEFINED             = DOC_ONLY \
+                         CMPI_NO_SYNONYM_SUPPORT \
+
+# undefined:             CMPI_DEFINE_CMPISelectCondType
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then this
 # tag can be used to specify a list of macro names that should be expanded. The
