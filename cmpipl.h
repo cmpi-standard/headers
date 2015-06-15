@@ -43,7 +43,7 @@
 /**
  * @addtogroup symbols
  * @{
- *   @defgroup sym-platform CMPI_PLATFORM_{os}_{mach}_{comp} - Symbols for specifying a platform.
+ *   @defgroup sym-platform CMPI_PLATFORM_{xxx} - Symbols for specifying a platform
  *   @{
  *     The platform symbols have names of the format:<br/>
  *

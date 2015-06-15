@@ -84,7 +84,8 @@ The CMPI header files are:
   * `cmpios.h` - OS-specific defines (for threading structures, etc.); is
     included by `cmpift.h`.
   * `cmpipl.h` - Platform checker. This header verifies that a valid
-    CMPI_PLATFORM has been specified; is included by `cmpidt.h` and `cmpios.h`.
+    CMPI_PLATFORM_{xxx} symbol has been defined; is included by `cmpidt.h`
+    and `cmpios.h`.
   * `cmpimacs.h` - CMPI macro functions. A set of macro functions to ease the
     use of the various function tables.
 
@@ -106,7 +107,7 @@ CMPI header files:
     The CMPI header files define a default for this symbol, which is the
     current version of CMPI.
 
-  * @ref sym-platform "CMPI_PLATFORM_{os}_{mach}_{comp}"
+  * @ref sym-platform "CMPI_PLATFORM_{xxx}"
 
     The platform for which CMPI is compiled.
 
