@@ -101,15 +101,15 @@ CMPI header files:
 
   * @ref sym-version "CMPI_VERSION"
 
-    CMPI version that is implemented by an MB or MI, as a numeric
-    CMPI version (see Subclause 1.6).
+    CMPI version that is implemented by an MB or MI, as a numeric CMPI version
+    (see Subclause 1.6).
 
-    The CMPI header files define a default for this symbol, which is the
-    current version of CMPI.
+    The default for this symbol is the current version of CMPI
+    (see @ref sym-current-version "CMPICurrentVersion").
 
   * @ref sym-platform "CMPI_PLATFORM_{xxx}"
 
     The platform for which CMPI is compiled.
 
-    There is no default platform; one of these symbols must be defined by users
-    of CMPI. See @ref sym-platform for details.
+    There is no default platform; one of the platform symbols must be defined
+    by users of CMPI. See @ref sym-platform for details.
