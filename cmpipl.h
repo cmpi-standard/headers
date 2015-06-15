@@ -24,7 +24,7 @@
 
 /**
  * @file cmpipl.h
- * @brief This header verifies that a valid CMPI_PLATFORM_{os}_{mach}_{comp}
+ * @brief This header verifies that a valid CMPI_PLATFORM_{xxx}
  * symbol has been defined; MIs do not need to include this header because it
  * is included by `cmpift.h`.
  *
