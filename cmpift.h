@@ -52,7 +52,7 @@ extern "C" {
  *   @defgroup instance-mi Instance MI Functions (Subclause 6.3)
  *   @{
  *   @}
- *   @defgroup association-mi Association MI Functions (Sect 6.4)
+ *   @defgroup association-mi Association MI Functions (Subclause 6.4)
  *   @{
  *   @}
  *   @defgroup method-mi Method MI Functions (Subclause 6.5)
@@ -70,55 +70,55 @@ extern "C" {
  * @}
  * @defgroup mb-edt MB Encapsulated Data Type Support (Subclause 8)
  * @{
- *   @defgroup edt-context CMPIContext Support (Sect 8.1)
+ *   @defgroup edt-context CMPIContext Support (Subclause 8.1)
  *   @{
  *     @defgroup def-context-fieldnames Names of CMPIContext fields
  *     @{
  *     @}
  *   @}
- *   @defgroup edt-result CMPIResult Support (Sect 8.2)
+ *   @defgroup edt-result CMPIResult Support (Subclause 8.2)
  *   @{
  *   @}
- *   @defgroup edt-string CMPIString Support (Sect 8.3)
+ *   @defgroup edt-string CMPIString Support (Subclause 8.3)
  *   @{
  *   @}
- *   @defgroup edt-array CMPIArray Support (Sect 8.4)
+ *   @defgroup edt-array CMPIArray Support (Subclause 8.4)
  *   @{
  *   @}
- *   @defgroup edt-enumeration CMPIEnumeration Support (Sect 8.5)
+ *   @defgroup edt-enumeration CMPIEnumeration Support (Subclause 8.5)
  *   @{
  *   @}
- *   @defgroup edt-instance CMPIInstance Support (Sect 8.6)
+ *   @defgroup edt-instance CMPIInstance Support (Subclause 8.6)
  *   @{
  *   @}
- *   @defgroup edt-objectpath CMPIObjectPath Support (Sect 8.7)
+ *   @defgroup edt-objectpath CMPIObjectPath Support (Subclause 8.7)
  *   @{
  *   @}
- *   @defgroup edt-args CMPIArgs Support (Sect 8.8)
+ *   @defgroup edt-args CMPIArgs Support (Subclause 8.8)
  *   @{
  *   @}
- *   @defgroup edt-datetime CMPIDateTime Support (Sect 8.9)
+ *   @defgroup edt-datetime CMPIDateTime Support (Subclause 8.9)
  *   @{
  *   @}
- *   @defgroup edt-selectexp CMPISelectExp Support (Sect 8.10)
+ *   @defgroup edt-selectexp CMPISelectExp Support (Subclause 8.10)
  *   @{
  *   @}
- *   @defgroup edt-selectcond CMPISelectCond Support (Sect 8.11)
+ *   @defgroup edt-selectcond CMPISelectCond Support (Subclause 8.11)
  *   @{
  *   @}
- *   @defgroup edt-subcond CMPISubCond Support (Sect 8.12)
+ *   @defgroup edt-subcond CMPISubCond Support (Subclause 8.12)
  *   @{
  *   @}
- *   @defgroup edt-predicate CMPIPredicate Support (Sect 8.13)
+ *   @defgroup edt-predicate CMPIPredicate Support (Subclause 8.13)
  *   @{
  *   @}
- *   @defgroup edt-error CMPIError Support (Sect 8.14)
+ *   @defgroup edt-error CMPIError Support (Subclause 8.14)
  *   @{
  *   @}
- *   @defgroup edt-propertylist CMPIPropertyList Support (Sect 8.15)
+ *   @defgroup edt-propertylist CMPIPropertyList Support (Subclause 8.15)
  *   @{
  *   @}
- *   @defgroup edt-enumerationfilter CMPIEnumerationFilter Support (Sect 8.16)
+ *   @defgroup edt-enumerationfilter CMPIEnumerationFilter Support (Subclause 8.16)
  *   @{
  *   @}
  * @}
@@ -1627,7 +1627,7 @@ struct _CMPIBrokerEncFT {
      capability is available.@param mb The mb argument points to a
      CMPIBroker structure.
      @param severity  The level argument describes the level of
-         logmessage. Levels are defined in Section 4.9.
+         logmessage. Levels are defined in Subclause 4.9.
      @param id The component argument, if not NULL, is the component ID.
      @param text  The text argument, if not NULL, is the message text to be
      logged.
@@ -1649,7 +1649,7 @@ struct _CMPIBrokerEncFT {
      capability is available.
      @param mb Pointer to to a CMPIBroker structure.
      @param level  Describes the level of log message.
-         Levels are defined in Section 4.9.
+         Levels are defined in Subclause 4.9.
      @param component If not NULL, is
          the implementation specific component ID.
      @param text  If not NULL, is the message text to be
