@@ -47,28 +47,28 @@ extern "C" {
 #endif
 
 /**
- * @defgroup mi-functions MI Functions (Sect. 6)
+ * @defgroup mi-functions MI Functions (Subclause 6)
  * @{
- *   @defgroup instance-mi Instance MI Functions (Sect. 6.3)
+ *   @defgroup instance-mi Instance MI Functions (Subclause 6.3)
  *   @{
  *   @}
  *   @defgroup association-mi Association MI Functions (Sect 6.4)
  *   @{
  *   @}
- *   @defgroup method-mi Method MI Functions (Sect. 6.5)
+ *   @defgroup method-mi Method MI Functions (Subclause 6.5)
  *   @{
  *   @}
- *   @defgroup indication-mi Indication MI support (Sect. 6.6)
+ *   @defgroup indication-mi Indication MI support (Subclause 6.6)
  *   @{
  *   @}
- *   @defgroup property-mi Property MI functions (Sect. 6.7) (Deprecated)
+ *   @defgroup property-mi Property MI functions (Subclause 6.7) (Deprecated)
  *   @{
  *   @}
  * @}
- * @defgroup mb-capabilities MB Capabilities (Sect. 7.1)
+ * @defgroup mb-capabilities MB Capabilities (Subclause 7.1)
  * @{
  * @}
- * @defgroup mb-edt MB Encapsulated Data Type Support (Sect. 8)
+ * @defgroup mb-edt MB Encapsulated Data Type Support (Subclause 8)
  * @{
  *   @defgroup edt-context CMPIContext Support (Sect 8.1)
  *   @{
@@ -122,42 +122,42 @@ extern "C" {
  *   @{
  *   @}
  * @}
- * @defgroup mb-services MB Services (Sect. 9)
+ * @defgroup mb-services MB Services (Subclause 9)
  * @{
- *   @defgroup brokerenc-factory Factory Services (Sect. 9.1)
+ *   @defgroup brokerenc-factory Factory Services (Subclause 9.1)
  *   @{
  *   @}
- *   @defgroup brokerenc-misc Miscellaneous Services (Sect. 9.1)
+ *   @defgroup brokerenc-misc Miscellaneous Services (Subclause 9.1)
  *   @{
  *   @}
- *   @defgroup mb-tables CMPIBroker and its MB Function Tables (Sect. 9.2)
+ *   @defgroup mb-tables CMPIBroker and its MB Function Tables (Subclause 9.2)
  *   @{
  *   @}
- *   @defgroup broker-indications Indications Services (Sect. 9.3)
+ *   @defgroup broker-indications Indications Services (Subclause 9.3)
  *   @{
  *   @}
- *   @defgroup broker-client Client Services ("up-calls") (Sect. 9.4 - 9.11)
+ *   @defgroup broker-client Client Services ("up-calls") (Subclause 9.4 - 9.11)
  *   @{
  *   @}
- *   @defgroup qualifier-services Qualifier Services (Sect. 9.12)
+ *   @defgroup qualifier-services Qualifier Services (Subclause 9.12)
  *   @{
  *   @}
- *   @defgroup broker-thread-reg Thread Registration Services (Sect. 9.13)
+ *   @defgroup broker-thread-reg Thread Registration Services (Subclause 9.13)
  *   @{
  *   @}
- *   @defgroup brokerext-lib OS Encapsulation Services - Library Resolution (Sect. 9.14)
+ *   @defgroup brokerext-lib OS Encapsulation Services - Library Resolution (Subclause 9.14)
  *   @{
  *   @}
- *   @defgroup brokerext-thread OS Encapsulation Services - POSIX-conformant Threads (Sect. 9.14)
+ *   @defgroup brokerext-thread OS Encapsulation Services - POSIX-conformant Threads (Subclause 9.14)
  *   @{
  *   @}
- *   @defgroup brokerext-mutex OS Encapsulation Services - POSIX-conformant Mutexes (Sect. 9.14)
+ *   @defgroup brokerext-mutex OS Encapsulation Services - POSIX-conformant Mutexes (Subclause 9.14)
  *   @{
  *   @}
- *   @defgroup brokerext-condition OS Encapsulation Services - POSIX-conformant Conditions (Sect. 9.14)
+ *   @defgroup brokerext-condition OS Encapsulation Services - POSIX-conformant Conditions (Subclause 9.14)
  *   @{
  *   @}
- *   @defgroup brokermem-all Memory Enhancement Services (Sect. 9.15)
+ *   @defgroup brokermem-all Memory Enhancement Services (Subclause 9.15)
  *   @{
  *   @}
  * @}
@@ -5208,7 +5208,7 @@ struct _CMPIEnumerationFT {
  */
 
 /**
- * @brief CMPIDateTime Support. Sect. 8.9
+ * @brief CMPIDateTime Support (Subclause 8.9)
  */
 struct _CMPIDateTime {
 
@@ -5514,7 +5514,7 @@ struct _CMPIPropertyListFT {
  */
 
 /**
- * @brief CMPIEnumerationFilter Support Sect. 8.16
+ * @brief CMPIEnumerationFilter Support (Subclause 8.16)
  */
 struct _CMPIEnumerationFilter {
 

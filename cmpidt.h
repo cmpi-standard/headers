@@ -61,15 +61,15 @@ extern "C" {
  *   @{
  *   @}
  * @}
- * @defgroup data-types Data Types (Sect. 5)
+ * @defgroup data-types Data Types (Subclause 5)
  * @{
- *   @defgroup type-codepage-id Codepage Conversion (Sect. 5.2.2)
+ *   @defgroup type-codepage-id Codepage Conversion (Subclause 5.2.2)
  *   @{
  *   @}
- *   @defgroup types-cim-types C Data Types for CIM Data Types (Sect. 5.4)
+ *   @defgroup types-cim-types C Data Types for CIM Data Types (Subclause 5.4)
  *   @{
  *   @}
- *   @defgroup types-misc CMPI Miscellaneous Data Types (Sect. 5.5)
+ *   @defgroup types-misc CMPI Miscellaneous Data Types (Subclause 5.5)
  *   @{
  *     @defgroup type-valueptr CMPIValuePtr
  *     @{
@@ -87,7 +87,7 @@ extern "C" {
 #endif
 /**
  *   @}
- *   @defgroup types-data-items CMPI Data Items (Sect. 5.6)
+ *   @defgroup types-data-items CMPI Data Items (Subclause 5.6)
  *   @{
  *     @defgroup type-data CMPIData
  *     @{
@@ -117,31 +117,31 @@ extern "C" {
  *     @{
  *     @}
  *   @}
- *   @defgroup type-status CMPIStatus (Sect. 5.8)
+ *   @defgroup type-status CMPIStatus (Subclause 5.8)
  *   @{
  *   @}
- *   @defgroup type-rc CMPIRc (Return Codes) (Sect. 5.9)
+ *   @defgroup type-rc CMPIRc (Return Codes) (Subclause 5.9)
  *   @{
  *   @}
- *   @defgroup type-severity CMPISeverity (Severity Codes) (Sect. 5.10)
+ *   @defgroup type-severity CMPISeverity (Severity Codes) (Subclause 5.10)
  *   @{
  *   @}
- *   @defgroup type-level CMPILevel (Trace Levels) (Sect. 5.11)
+ *   @defgroup type-level CMPILevel (Trace Levels) (Subclause 5.11)
  *   @{
  *   @}
- *   @defgroup type-error-type CMPIErrorType (Extended Error Types) (Sect. 5.12)
+ *   @defgroup type-error-type CMPIErrorType (Extended Error Types) (Subclause 5.12)
  *   @{
  *   @}
- *   @defgroup type-error-severity CMPIErrorSeverity (Extended Error Severity Levels) (Sect. 5.13)
+ *   @defgroup type-error-severity CMPIErrorSeverity (Extended Error Severity Levels) (Subclause 5.13)
  *   @{
  *   @}
- *   @defgroup type-error-probable-cause CMPIErrorProbableCause (Extended Error Probable Causes) (Sect. 5.14)
+ *   @defgroup type-error-probable-cause CMPIErrorProbableCause (Extended Error Probable Causes) (Subclause 5.14)
  *   @{
  *   @}
- *   @defgroup type-error-src-format CMPIErrorSrcFormat (Extended Error Source Formats) (Sect. 5.15)
+ *   @defgroup type-error-src-format CMPIErrorSrcFormat (Extended Error Source Formats) (Subclause 5.15)
  *   @{
  *   @}
- *   @defgroup type-flags CMPIFlags (Sect. 5.16)
+ *   @defgroup type-flags CMPIFlags (Subclause 5.16)
  *   @{
  *   @}
  * @}
