@@ -53,33 +53,35 @@ extern "C" {
  *     @defgroup sym-version-nnn CMPIVersion{NNN}
  *     @{
  *       @brief These symbols encapsulate the values for the numeric CMPI
- *       version numbers.
+ *       version numbers
  *
  *       Note: Historical CMPI levels (before the first CMPI Standard, e.g.
  *       86, 90) are not supported by this header file.
  *     @}
  *     @defgroup sym-current-version CMPICurrentVersion
  *     @{
- *       @brief The CMPI version to which this version of the header files
- *       belong.
- * 
- *       At the same time, this is the highest CMPI version supported by these
- *       header files.
+ *       @brief The current CMPI version
+ *
+ *       The current CMPI version is the version described by this version of
+ *       the online documentation.
+ *
+ *       At the same time, this is the highest CMPI version supported by the
+ *       corresponding CMPI header files. See @ref sym-version "CMPI_VERSION"
+ *       for implementing a lower CMPI version.
  *     @}
  *     @defgroup sym-version CMPI_VERSION
  *     @{
- *       @brief The CMPI version that is implemented by the MI or MB code using
- *       these header files.
+ *       @brief The CMPI version that is implemented
  *
  *       This symbol is only set in this header file if not set outside of this
- *       header file. Its default value is @ref CMPICurrentVersion, and it can
- *       be overridden outside of the CMPI header files if an older CMPI version
- *       is intended to be implemented.
+ *       header file. Its default value is @ref sym-current-version
+ *       "CMPICurrentVersion", and it can be overridden outside of the CMPI
+ *       header files if a lower CMPI version is intended to be implemented.
  *     @}
  *     @defgroup sym-ver-nnn CMPI_VER_{NNN}
  *     @{
  *       @brief Boolean flags for testing whether CMPI version dependent
- *       features should be available, given the implemented version.
+ *       features should be available, given the implemented version
  *
  *       The term 'available' as used here means that the feature is defined in
  *       the header files and subsequently can be supported in the MB or MI
