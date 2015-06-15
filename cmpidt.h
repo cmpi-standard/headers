@@ -48,17 +48,54 @@ extern "C" {
 /**
  * @defgroup symbols Preprocessor Symbols
  * @{
- *   @defgroup sym-version-nnn CMPIVersionNNN - Symbols encapsulating the numerical CMPI versions
+ *   @defgroup symbols-versioning Symbols related to CMPI versioning
  *   @{
- *   @}
- *   @defgroup sym-current-version CMPICurrentVersion - Symbol defining the current CMPI version
- *   @{
- *   @}
- *   @defgroup sym-version CMPI_VERSION - Symbol defining the implemented CMPI version
- *   @{
- *   @}
- *   @defgroup sym-ver-nnn CMPI_VER_NNN - Symbols for testing CMPI version-dependent features
- *   @{
+ *     @defgroup sym-version-nnn CMPIVersion{NNN}
+ *     @{
+ *       @brief These symbols encapsulate the values for the numeric CMPI
+ *       version numbers.
+ *
+ *       Note: Historical CMPI levels (before the first CMPI Standard, e.g.
+ *       86, 90) are not supported by this header file.
+ *     @}
+ *     @defgroup sym-current-version CMPICurrentVersion
+ *     @{
+ *       @brief The CMPI version to which this version of the header files
+ *       belong.
+ * 
+ *       At the same time, this is the highest CMPI version supported by these
+ *       header files.
+ *     @}
+ *     @defgroup sym-version CMPI_VERSION
+ *     @{
+ *       @brief The CMPI version that is implemented by the MI or MB code using
+ *       these header files.
+ *
+ *       This symbol is only set in this header file if not set outside of this
+ *       header file. Its default value is @ref CMPICurrentVersion, and it can
+ *       be overridden outside of the CMPI header files if an older CMPI version
+ *       is intended to be implemented.
+ *     @}
+ *     @defgroup sym-ver-nnn CMPI_VER_{NNN}
+ *     @{
+ *       @brief Boolean flags for testing whether CMPI version dependent
+ *       features should be available, given the implemented version.
+ *
+ *       The term 'available' as used here means that the feature is defined in
+ *       the header files and subsequently can be supported in the MB or MI
+ *       implementation.
+ *
+ *       A symbol for a particular version (e.g. CMPI_VER_200) is defined if its
+ *       version is lower than or equal to the CMPI version that is implemented
+ *       (as indicated by @ref CMPI_VERSION). Otherwise, it is undefined.
+ *
+ *       This allows a feature that was introduced in a particular CMPI version
+ *       to be defined like in the following example:
+ *
+ *           #ifdef CMPI_VER_200
+ *           // definition of feature that was added in CMPI 2.0.0
+ *           #endif
+ *     @}
  *   @}
  * @}
  * @defgroup data-types Data Types (Subclause 5)
@@ -151,79 +188,27 @@ extern "C" {
  * @addtogroup sym-version-nnn
  * @{
  */
-
-/**
- * @brief These symbols encapsulate the values for the numeric CMPI version numbers.
- *
- * Note: Historical CMPI levels (before the first CMPI Technical Standard, e.g.
- * 86, 90) are not supported by this header file.
- *
- * @todo TODO_AM Description above is assigned to first symbol, but should be for all of them.
- *   @{
- */
 #define CMPIVersion100 100  ///< CMPI 1.0.0
 #define CMPIVersion200 200  ///< CMPI 2.0.0
 #define CMPIVersion210 210  ///< CMPI 2.1.0
-
 /**
- *   @}
  * @}
  * @addtogroup sym-current-version
  * @{
  */
-
-/**
- * @brief The CMPI version to which this version of the header files belong.
- * 
- * At the same time, this is the highest CMPI version supported by these
- * header files.
- */
 #define CMPICurrentVersion CMPIVersion210
-
 /**
  * @}
  * @addtogroup sym-version
  * @{
  */
-
-/**
- * @brief The CMPI version that is implemented by the MI or MB code using these
- * header files.
- *
- * This symbol is only set in this header file if not set outside of this header
- * file. Its default value defined here is @ref CMPICurrentVersion, and it can
- * be overridden outside of the CMPI header files if an older CMPI version is
- * intended to be implemented.
- */
 #ifndef CMPI_VERSION
 #  define CMPI_VERSION CMPICurrentVersion
 #endif
-
 /**
  * @}
  * @addtogroup sym-ver-nnn
  * @{
- */
-
-/**
- * @brief Boolean flags for testing whether CMPI version dependent features
- * should be available, given the implemented version.
- *
- * Available means that the feature is defined in the header files and
- * subsequently can be supported in the MB or MI implementation.
- *
- * A symbol for a particular version (e.g. CMPI_VER_200) is defined if its
- * version is lower than or equal to the CMPI version that is implemented (as
- * indicated by @ref CMPI_VERSION). Otherwise, it is undefined.
- *
- * This allows a feature that was introduced in a particular CMPI version to
- * be defined like in the following example:
- *
- *     #ifdef CMPI_VER_200
- *     // definition of feature that was added in CMPI 2.0.0
- *     #endif
- *
- * @todo TODO_AM Description above is assigned to first symbol, but should be for all of them.
  */
 #if (CMPI_VERSION == CMPIVersion210)
 #  define CMPI_VER_210 1  ///< Check for features introduced in CMPI 2.1.0
@@ -237,7 +222,6 @@ extern "C" {
 #else
 #  error Unsupported CMPI version defined in CMPI_VERSION symbol
 #endif
-
 /**
  * @}
  */
@@ -382,10 +366,6 @@ typedef struct _CMPIIndicationMIFT CMPIIndicationMIFT;
  *   * [CMPIObjectPath](@ref _CMPIObjectPath) - CIM data type reference
  *   * [CMPIInstance](@ref _CMPIInstance) - for embedded instances
  *
- * Note that the underlying data type for some of these types depends on the
- * platform (see @ref sym-platform).
- * For details, examine the source code of `cmpidt.h`.
- *
  * @todo TODO_AM Description above is assigned to first type, but should be for all of them.
  */
 typedef unsigned char CMPIBoolean;     ///< CIM data type boolean
@@ -393,19 +373,37 @@ typedef unsigned short CMPIChar16;     ///< CIM data type char16
 typedef unsigned char CMPIUint8;       ///< CIM data type uint8
 typedef unsigned short CMPIUint16;     ///< CIM data type uint16
 typedef unsigned int CMPIUint32;       ///< CIM data type uint32
+
+/**
+ * CIM data type uint64
+ *
+ * @platformspecific The underlying data type for the
+ * CMPIUint64 typedef depends on the platform (see @ref sym-platform).
+ * For details, examine the source code of `cmpidt.h`.
+ */
 #ifndef CMPI_PLATFORM_WIN32_IX86_MSVC
-typedef unsigned long long CMPIUint64; ///< CIM data type uint64
+typedef unsigned long long CMPIUint64;
 #else
-typedef unsigned __int64 CMPIUint64;   ///< CIM data type uint64
+typedef unsigned __int64 CMPIUint64;
 #endif
+
 typedef signed char CMPISint8;         ///< CIM data type sint8
- typedef short CMPISint16;             ///< CIM data type sint16
- typedef signed int CMPISint32;        ///< CIM data type sint32
+typedef short CMPISint16;              ///< CIM data type sint16
+typedef signed int CMPISint32;         ///< CIM data type sint32
+
+/**
+ * CIM data type sint64
+ *
+ * @platformspecific The underlying data type for the
+ * CMPISint64 typedef depends on the platform (see @ref sym-platform).
+ * For details, examine the source code of `cmpidt.h`.
+ */
 #ifndef CMPI_PLATFORM_WIN32_IX86_MSVC
-typedef long long CMPISint64;          ///< CIM data type sint64
+typedef long long CMPISint64;
 #else
-typedef __int64 CMPISint64;            ///< CIM data type sint64 
+typedef __int64 CMPISint64;
 #endif
+
 typedef float CMPIReal32;              ///< CIM data type real32
 typedef double CMPIReal64;             ///< CIM data type real64
 

@@ -44,21 +44,52 @@
 #include <stdlib.h>          // To get size_t
 
 /**
- * @name Definitions related to Operating System Encapsulation Services
+ * @addtogroup symbols
  * @{
- *   * CMPI_THREAD_TYPE - Type for the handle of a thread.
- *   * CMPI_THREAD_RETURN - Type for the return value of a thread function.
- *   * CMPI_THREAD_CDECL - Calling convention for a thread function.
- *   * CMPI_THREAD_KEY_TYPE - Type for a thread key of a thread.
- *   * CMPI_MUTEX_TYPE - Type for the handle of a mutex.
- *   * CMPI_COND_TYPE - Type for the handle of a condition.
+ */
+
+/**
+ * @defgroup symbols-os-encapsulation Symbols related to Operating System Encapsulation Services
+ * @{
+ *   @defgroup sym-thread-type CMPI_THREAD_TYPE
+ *   @{
+ *     @brief Type for the handle of a thread.
+ *   @}
+ *   @defgroup sym-thread-return CMPI_THREAD_RETURN
+ *   @{
+ *     @brief Type for the return value of a thread function.
  *
- * For details, see CMPI specification.
+ *     @platformspecific The definition of the
+ *     @ref sym-thread-return "CMPI_THREAD_RETURN"
+ *     symbol depends on the platform (see @ref sym-platform).
+ *     For details, examine the source code of `cmpios.h`.
+ *   @}
+ *   @defgroup sym-thread-cdecl CMPI_THREAD_CDECL
+ *   @{
+ *     @brief Modifier defining the calling convention for a thread function.
  *
- * Note that some of the symbol definitions shown in the documentation generated
- * from this header file depend on the platform (see cmpipl.h), and are shown
- * for CMPI_PLATFORM_LINUX_GENERIC_GNU. For details, examine the source code of
- * cmpios.h.
+ *     @platformspecific The definition of the
+ *     @ref sym-thread-cdecl "CMPI_THREAD_CDECL"
+ *     symbol depends on the platform (see @ref sym-platform).
+ *     For details, examine the source code of `cmpios.h`.
+ *   @}
+ *   @defgroup sym-thread-key-type CMPI_THREAD_KEY_TYPE
+ *   @{
+ *     @brief Type for a thread key of a thread.
+ *
+ *     @platformspecific The definition of the
+ *     @ref sym-thread-key-type "CMPI_THREAD_KEY_TYPE"
+ *     symbol depends on the platform (see @ref sym-platform).
+ *     For details, examine the source code of `cmpios.h`.
+ *   @}
+ *   @defgroup sym-mutex-type CMPI_MUTEX_TYPE
+ *   @{
+ *     @brief Type for the handle of a mutex.
+ *   @}
+ *   @defgroup sym-cond-type CMPI_COND_TYPE
+ *   @{
+ *     @brief Type for the handle of a condition.
+ *   @}
  */
 #define CMPI_THREAD_TYPE        void*
 #if defined(CMPI_PLATFORM_WIN32_IX86_MSVC)
@@ -95,45 +126,60 @@ struct timespec {
  */
 
 /**
- * @name Definitions for exporting and importing symbols
+ * @defgroup symbols-export-import Symbols for exporting and importing symbols
  * @{
- *
- *   * CMPI_EXTERN_C - Modifier for specifying the linkage of C functions that
- *     are to be exported from MI load libraries (in both C and C++ compile
- *     mode).
+ *   @defgroup sym-extern-c CMPI_EXTERN_C
+ *   @{
+ *     @brief Modifier for specifying the linkage of CMPI functions
+ *     that are to be exported from MI load libraries
  *
  *     This modifier needs to be specified on the MI factory functions provided
  *     by MI load libraries.  MB functions and other MI functions do not need to
  *     specifiy this modifier.
+ *     @todo Add descriptions for the MI factory functions
+ *           (See `<mi-name>_Create_<mi-type>MI()` and
+ *           `<mi-name>_Create_<mi-type>MI()`).
  *
- *   * CMPI_EXPORT - Modifier for specifying the linkage of functions and data
- *     that are to be made visible ("exported") to users of a load library when
- *     compiling that load library.
+ *     @cxxspecific The definition of the @ref sym-extern-c "CMPI_EXTERN_C"
+ *     symbol depends on whether the headers are compiled for C or C++.
+ *     For details, examine the source code of `cmpios.h`.
+ *
+ *     @platformspecific The definition of the @ref sym-extern-c "CMPI_EXTERN_C"
+ *     symbol depends on the platform (see @ref sym-platform).
+ *     For details, examine the source code of `cmpios.h`.
+ *   @}
+ *   @defgroup sym-export CMPI_EXPORT
+ *   @{
+ *     @brief Modifier on non-CMPI functions or data that are to be exported
+ *     from MI load libraries
  *
  *     The compile mode (C vs. C++) needs to match between the exporter and the
- *     importer (see CMPI_IMPORT).
+ *     importer (see @ref sym-import "CMPI_IMPORT").
  *
  *     CMPI related data or functions do not need to be exported by MBs or MIs
  *     using this modifier; however, it can be used for non-CMPI-related
  *     purposes.
  *
- *   * CMPI_IMPORT - Modifier for specifying the linkage of functions and data
- *     that are used ("imported") by a program or load library, when compiling
- *     that program or load library.
+ *     @platformspecific The definition of the @ref sym-export "CMPI_EXPORT"
+ *     symbol depends on the platform (see @ref sym-platform).
+ *     For details, examine the source code of `cmpios.h`.
+ *   @}
+ *   @defgroup sym-import CMPI_IMPORT
+ *   @{
+ *     @brief Modifier on non-CMPI functions or data that are to be imported
+ *     into MI load libraries
  *
  *     The compile mode (C vs. C++) needs to match between the exporter and the
- *     importer (see CMPI_EXPORT).
+ *     importer (see @ref sym-export "CMPI_EXPORT").
  *
  *     CMPI related data or functions do not need to be exported by MBs or MIs
  *     using this modifier; however, it can be used for non-CMPI-related
  *     purposes.
  *
- * For details, see CMPI specification.
- *
- * Note that some of the symbol definitions shown in the documentation generated
- * from this header file depend on the platform (see cmpipl.h), and are shown
- * for CMPI_PLATFORM_LINUX_GENERIC_GNU. For details, examine the source code of
- * cmpios.h.
+ *     @platformspecific The definition of the @ref sym-import "CMPI_IMPORT"
+ *     symbol depends on the platform (see @ref sym-platform).
+ *     For details, examine the source code of `cmpios.h`.
+ *   @}
  */
 #if defined(CMPI_PLATFORM_WIN32_IX86_MSVC)
 #  define CMPI_EXPORT __declspec(dllexport)
@@ -151,6 +197,7 @@ struct timespec {
 #  define CMPI_EXTERN_C CMPI_EXPORT
 #endif
 /**
+ * @}
  * @}
  */
 

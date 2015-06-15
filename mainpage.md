@@ -113,36 +113,3 @@ CMPI header files:
 
     There is no default platform; one of these symbols must be defined by users
     of CMPI. See @ref sym-platform for details.
-
-The following C preprocessor symbols can be used by users of the CMPI header
-files for exporting and importing symbols from and to load libraries and
-programs:
-
-  * @ref sym-extern-c "CMPI_EXTERN_C"
-
-    Modifier for specifying the linkage of C functions that are
-    to be exported from MI load libraries (in both C and C++ compile mode). This
-    modifier (or an equivalent modifier) needs to be specified on the MI factory
-    functions provided by MI load libraries (see Subclause 6.2). MB functions
-    and other MI functions do not need to specify this modifier.
-
-  * @ref sym-export "CMPI_EXPORT"
-
-    Modifier for specifying the linkage of functions and data that
-    are to be made visible (“exported”) to users of a load library when
-    compiling that load library.
-    The compile mode (C versus C++) needs to match between the exporter and
-    the importer (see @ref sym-import "CMPI_IMPORT").
-    CMPI-related data or functions do not need to be exported by MBs or MIs
-    using this modifier; however, it can be used for non-CMPI-related purposes.
-
-  * @ref sym-import "CMPI_IMPORT"
-
-    Modifier for specifying the linkage of functions and data that
-    are used (“imported”) by a program or load library, when compiling that
-    program or load library.
-    The compile mode (C versus C++) needs to match between the exporter and
-    the importer (see @ref sym-export "CMPI_EXPORT").
-    CMPI-related data or functions do not need to be imported by MBs or MIs
-    using this modifier; however, it can be used for non-CMPI-related purposes.
-

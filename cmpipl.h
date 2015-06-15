@@ -41,10 +41,41 @@
 #define _CMPIPL_H_
 
 /**
+ * @page platformspecific
+ * @brief List of definitions that depend on the platform
+ *
+ * Some definitions in the CMPI header files depend on the specified platform
+ * (see @ref sym-platform).
+ *
+ * This online documentation is generated for the platform
+ * CMPI_PLATFORM_LINUX_GENERIC_GNU.
+ *
+ * Platform dependencies are mentioned where applicable, but those descriptions
+ * may not be fully specific as to what the exact changes for each platform are.
+ * For details, the respective CMPI header file needs to be examined.
+ */
+
+/**
+ * @page cxxspecific
+ * @brief List of definitions that depend on compiling for C or C++
+ *
+ * Some definitions in the CMPI header files depend on whether they are compiled
+ * for C or for C++.
+ *
+ * The code shown in this online documentation is for C++.
+ *
+ * Such dependencies are mentioned where applicable, but those descriptions
+ * may not be fully specific as to what the exact changes are.
+ * For details, the respective CMPI header file needs to be examined.
+ */
+
+/**
  * @addtogroup symbols
  * @{
- *   @defgroup sym-platform CMPI_PLATFORM_{xxx} - Symbols for specifying a platform
+ *   @defgroup sym-platform CMPI_PLATFORM_{xxx}
  *   @{
+ *     @brief Symbols for specifying a platform
+ *
  *     The platform symbols have names of the format:<br/>
  *
  *     <div style="margin-left:20px">
@@ -73,13 +104,6 @@
  *     There is no default platform; the `cmpipl.h` header file verifies that a
  *     valid platform symbol has been defined by the user of the CMPI header
  *     files.
- *
- *     Some definitions in the CMPI header files depend on the platform. This
- *     online documentation is generated for the platform
- *     CMPI_PLATFORM_LINUX_GENERIC_GNU. Platform dependencies are mentioned
- *     where applicable, but they may not be fully specific as to what the
- *     exact changes for each platform are. For details, the respective
- *     CMPI header file needs to be examined.
  *   @}
  * @}
  */

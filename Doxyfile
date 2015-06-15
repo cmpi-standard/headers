@@ -222,6 +222,16 @@ TAB_SIZE               = 4
 
 ALIASES                =
 
+# The following alias defines a @platformspecific special command that is used to
+# indicate platform-specific definitions. Their list will be linked from the
+# "Related Pages" tab:
+ALIASES               += "platformspecific=@xrefitem platformspecific \"Platform-specific definition\" \"List of Platform-specific Definitions\"" 
+
+# The following alias defines a @cxxspecific special command that is used to
+# indicate whether a definition is specific to whether the headers are compiled
+# for C or for C++. Their list will be linked from the "Related Pages" tab:
+ALIASES               += "cxxspecific=@xrefitem cxxspecific \"C/C++-specific definition\" \"List of C/C++-specific Definitions\"" 
+
 # This tag can be used to specify a number of word-keyword mappings (TCL only).
 # A mapping has the form "name=value". For example adding "class=itcl::class"
 # will allow you to use the command class in the itcl::class meaning.
@@ -1943,6 +1953,7 @@ INCLUDE_FILE_PATTERNS  =
 PREDEFINED             = DOC_ONLY \
                          CMPI_NO_SYNONYM_SUPPORT \
                          CMPI_PLATFORM_LINUX_GENERIC_GNU \
+                         __cplusplus \
 
 # undefined:             CMPI_DEFINE_CMPISelectCondType
 
