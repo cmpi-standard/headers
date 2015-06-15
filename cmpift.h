@@ -231,7 +231,7 @@ struct _CMPIBrokerFT {
      * CMPI version supported by the MB for this function table.
      *
      * Any earlier CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      *
      * Note: This is not the version of the MB.
@@ -1227,7 +1227,7 @@ struct _CMPIBrokerEncFT {
     /**
      * CMPI version supported by the MB for this function table.
      * Any earlier CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -1943,7 +1943,7 @@ struct _CMPIBrokerExtFT {
     /**
      * CMPI version supported by the MB for this function table.
      * Any earlier CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -2396,7 +2396,7 @@ struct _CMPIBrokerMemFT {
     /**
      * CMPI version supported by the MB for this function table.
      * Any earlier CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -2770,7 +2770,7 @@ struct _CMPIContextFT {
     /**
      * CMPI version supported by the MB for this function table.
      * Any earlier CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -2902,7 +2902,7 @@ struct _CMPIResultFT {
     /**
      * CMPI version supported by the MB for this function table.
      * Any earlier CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -3041,7 +3041,7 @@ struct _CMPIErrorFT {
     /**
      * CMPI version supported by the MB for this function table.
      * Any earlier CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -3520,7 +3520,7 @@ struct _CMPIInstanceFT {
     /**
      * CMPI version supported by the MB for this function table.
      * Any earlier CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -3784,7 +3784,7 @@ struct _CMPIObjectPathFT {
     /**
      * CMPI version supported by the MB for this function table.
      * Any earlier CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -4195,7 +4195,7 @@ struct _CMPISelectExpFT {
     /**
      * CMPI version supported by the MB for this function table.
      * Any earlier CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -4376,7 +4376,7 @@ struct _CMPISelectCondFT {
     /**
      * CMPI version supported by the MB for this function table.
      * Any earlier CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -4485,7 +4485,7 @@ struct _CMPISubCondFT {
     /**
      * CMPI version supported by the MB for this function table.
      * Any earlier CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -4612,7 +4612,7 @@ struct _CMPIPredicateFT {
     /**
      * CMPI version supported by the MB for this function table.
      * Any earlier CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -4708,7 +4708,7 @@ struct _CMPIArgsFT {
     /**
      * CMPI version supported by the MB for this function table.
      * Any earlier CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -4831,7 +4831,7 @@ struct _CMPIStringFT {
     /**
      * CMPI version supported by the MB for this function table.
      * Any earlier CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -4943,7 +4943,7 @@ struct _CMPIArrayFT {
     /**
      * CMPI version supported by the MB for this function table.
      * Any earlier CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -5103,7 +5103,7 @@ struct _CMPIEnumerationFT {
     /**
      * CMPI version supported by the MB for this function table.
      * Any earlier CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -5233,7 +5233,7 @@ struct _CMPIDateTimeFT {
     /**
      * CMPI version supported by the MB for this function table.
      * Any earlier CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -5393,7 +5393,7 @@ struct _CMPIPropertyListFT {
     /**
      * CMPI version supported by the MB for this function table.
      * Any earlier CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -5540,7 +5540,7 @@ struct _CMPIEnumerationFilterFT {
     /**
      * CMPI version supported by the MB for this function table.
      * Any earlier CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -5662,7 +5662,7 @@ struct _CMPIInstanceMIFT {
     /**
      * CMPI version supported by the MI for this function table.
      * Any later CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -6278,7 +6278,7 @@ struct _CMPIAssociationMIFT {
     /**
      * CMPI version supported by the MI for this function table.
      * Any later CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -6717,7 +6717,7 @@ struct _CMPIMethodMIFT {
     /**
      * CMPI version supported by the MI for this function table.
      * Any later CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -6870,7 +6870,7 @@ struct _CMPIPropertyMIFT {
     /**
      * CMPI version supported by the MI for this function table.
      * Any later CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -7104,7 +7104,7 @@ struct _CMPIIndicationMIFT {
     /**
      * CMPI version supported by the MI for this function table.
      * Any later CMPI versions are implicitly also supported.
-     * See the CMPIVersion<nnn> symbols in cmpidt.h for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;

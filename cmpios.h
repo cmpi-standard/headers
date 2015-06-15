@@ -138,7 +138,7 @@ struct timespec {
  *     specifiy this modifier.
  *     @todo Add descriptions for the MI factory functions
  *           (See `<mi-name>_Create_<mi-type>MI()` and
- *           `<mi-name>_Create_<mi-type>MI()`).
+ *           `_Generic_Create_<mi-type>MI()`).
  *
  *     @cxxspecific The definition of the @ref sym-extern-c "CMPI_EXTERN_C"
  *     symbol depends on whether the headers are compiled for C or C++.
