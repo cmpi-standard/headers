@@ -382,10 +382,9 @@ typedef struct _CMPIIndicationMIFT CMPIIndicationMIFT;
  *   * [CMPIObjectPath](@ref _CMPIObjectPath) - CIM data type reference
  *   * [CMPIInstance](@ref _CMPIInstance) - for embedded instances
  *
- * Note that some of the types shown in the documentation generated
- * from this header file depend on the platform (see cmpipl.h), and are shown
- * for CMPI_PLATFORM_LINUX_GENERIC_GNU. For details, examine the source code of
- * cmpidt.h.
+ * Note that the underlying data type for some of these types depends on the
+ * platform (see @ref sym-platform).
+ * For details, examine the source code of `cmpidt.h`.
  *
  * @todo TODO_AM Description above is assigned to first type, but should be for all of them.
  */

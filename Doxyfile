@@ -1942,6 +1942,7 @@ INCLUDE_FILE_PATTERNS  =
 
 PREDEFINED             = DOC_ONLY \
                          CMPI_NO_SYNONYM_SUPPORT \
+                         CMPI_PLATFORM_LINUX_GENERIC_GNU \
 
 # undefined:             CMPI_DEFINE_CMPISelectCondType
 

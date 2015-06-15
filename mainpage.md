@@ -106,31 +106,16 @@ CMPI header files:
     The CMPI header files define a default for this symbol, which is the
     current version of CMPI.
 
-  * @ref sym-platform-xxx "CMPI_PLATFORM_<os>_<mach>_<comp>"
+  * @ref sym-platform "CMPI_PLATFORM_{os}_{mach}_{comp}"
 
-    Platform for which CMPI is compiled.
-    <os> indicates the operating system, <mach> indicates the machine
-    architecture, <comp> indicates the C/C++ compiler.
+    The platform for which CMPI is compiled.
 
-    The following platform symbols (defined in `cmpipl.h`) are valid.
     There is no default platform; one of these symbols must be defined by users
-    of CMPI:
+    of CMPI. See @ref sym-platform for details.
 
-      - CMPI_PLATFORM_LINUX_GENERIC_GNU
-      - CMPI_PLATFORM_HPUX_ACC
-      - CMPI_PLATFORM_WIN32_IX86_MSVC
-      - CMPI_PLATFORM_SOLARIS_SPARC_GNU
-      - CMPI_PLATFORM_SOLARIS_SPARC_CC
-      - CMPI_PLATFORM_AIX_RS_IBMCXX
-      - CMPI_PLATFORM_ZOS_ZSERIES_IBM
-      - CMPI_PLATFORM_TRU64_ALPHA_DECCXX
-      - CMPI_PLATFORM_OS400_ISERIES_IBM
-      - CMPI_PLATFORM_DARWIN_PPC_GNU
-      - CMPI_PLATFORM_VMS_ALPHA_DECCXX
-      - CMPI_PLATFORM_VMS_IA64_DECCXX
-
-The following C preprocessor symbols can be used for exporting and importing
-symbols from and to load libraries and programs:
+The following C preprocessor symbols can be used by users of the CMPI header
+files for exporting and importing symbols from and to load libraries and
+programs:
 
   * @ref sym-extern-c "CMPI_EXTERN_C"
 

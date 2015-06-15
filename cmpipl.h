@@ -24,8 +24,9 @@
 
 /**
  * @file cmpipl.h
- * @brief This header verifies that a valid CMPI_PLATFORM has been specified;
- * MIs do not need to include this header because it is included by cmpift.h.
+ * @brief This header verifies that a valid CMPI_PLATFORM_{os}_{mach}_{comp}
+ * symbol has been defined; MIs do not need to include this header because it
+ * is included by `cmpift.h`.
  *
  * This header file belongs to the Technical Standard: Systems Management:
  * Common Manageability Programming Interface (CMPI) Issue 2 Version 1.
@@ -39,12 +40,50 @@
 #ifndef _CMPIPL_H_
 #define _CMPIPL_H_
 
-/*
- * Check the supported platforms.
+/**
+ * @addtogroup symbols
+ * @{
+ *   @defgroup sym-platform CMPI_PLATFORM_{os}_{mach}_{comp} - Symbols for specifying a platform.
+ *   @{
+ *     The platform symbols have names of the format:<br/>
  *
- * One of the CMPI_PLATFORM_<xxx> symbols must be specified outside of the
- * CMPI header files.
+ *     <div style="margin-left:20px">
+ *       <b>CMPI_PLATFORM_{os}_{mach}_{comp}</b><br/>
+ *     </div>
+ *
+ *     where <b>{os}</b> indicates the operating system,
+ *     <b>{mach}</b> indicates the machine architecture,
+ *     and <b>{comp}</b> indicates the C/C++ compiler.
+ *
+ *     The valid platform symbols are:
+ *
+ *       * CMPI_PLATFORM_LINUX_GENERIC_GNU
+ *       * CMPI_PLATFORM_HPUX_ACC
+ *       * CMPI_PLATFORM_WIN32_IX86_MSVC
+ *       * CMPI_PLATFORM_SOLARIS_SPARC_GNU
+ *       * CMPI_PLATFORM_SOLARIS_SPARC_CC
+ *       * CMPI_PLATFORM_AIX_RS_IBMCXX
+ *       * CMPI_PLATFORM_ZOS_ZSERIES_IBM
+ *       * CMPI_PLATFORM_TRU64_ALPHA_DECCXX
+ *       * CMPI_PLATFORM_OS400_ISERIES_IBM
+ *       * CMPI_PLATFORM_DARWIN_PPC_GNU
+ *       * CMPI_PLATFORM_VMS_ALPHA_DECCXX
+ *       * CMPI_PLATFORM_VMS_IA64_DECCXX
+ *
+ *     There is no default platform; the `cmpipl.h` header file verifies that a
+ *     valid platform symbol has been defined by the user of the CMPI header
+ *     files.
+ *
+ *     Some definitions in the CMPI header files depend on the platform. This
+ *     online documentation is generated for the platform
+ *     CMPI_PLATFORM_LINUX_GENERIC_GNU. Platform dependencies are mentioned
+ *     where applicable, but they may not be fully specific as to what the
+ *     exact changes for each platform are. For details, the respective
+ *     CMPI header file needs to be examined.
+ *   @}
+ * @}
  */
+
 #if !defined(CMPI_PLATFORM_LINUX_GENERIC_GNU) && !defined(CMPI_PLATFORM_HPUX_ACC) && \
     !defined(CMPI_PLATFORM_WIN32_IX86_MSVC) && !defined(CMPI_PLATFORM_SOLARIS_SPARC_GNU) && \
     !defined(CMPI_PLATFORM_SOLARIS_SPARC_CC) && !defined(CMPI_PLATFORM_AIX_RS_IBMCXX) && \
