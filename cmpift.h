@@ -49,6 +49,11 @@ extern "C" {
 /**
  * @defgroup mi-functions MI Functions (Subclause 6)
  * @{
+ *
+ * @todo TBD: Should we keep the `defgroup` statements (which are used to define
+ *     the order of groups, e.g. in the Modules tab) in the `cmpift.h` header
+ *     file or move them to the `mainpage.md` file?
+ *
  *   @defgroup instance-mi Instance MI Functions (Subclause 6.3)
  *   @{
  *   @}
@@ -161,10 +166,6 @@ extern "C" {
  *   @{
  *   @}
  * @}
- *
- * @todo TBD: Should we keep the `defgroup` statements (which are used to define
- *     the order of groups, e.g. in the Modules tab) in the `cmpift.h` header
- *     file or move them to the `mainpage.md` file?
  */
 
 /**

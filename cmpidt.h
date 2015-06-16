@@ -48,6 +48,14 @@ extern "C" {
 /**
  * @defgroup symbols Preprocessor Symbols
  * @{
+ *
+ * @todo TBD: Should we keep the `defgroup` statements (which are used to define
+ *     the order of groups, e.g. in the Modules tab) in the `cmpidt.h` header
+ *     file or move them to the `mainpage.md` file? One difficulty when moving
+ *     is the conditional definition of the group section for
+ *     CMPISelectCondType, which depends on the CMPI_DEFINE_CMPISelectCondType
+ *     symbol.
+ *
  *   @defgroup symbols-versioning Symbols related to CMPI versioning
  *   @{
  *     @defgroup sym-version-nnn CMPIVersion{NNN}
@@ -57,6 +65,18 @@ extern "C" {
  *
  *       Note: Historical CMPI levels (before the first CMPI Standard, e.g.
  *       86, 90) are not supported by this header file.
+ *
+ *       @todo TBD: The description of CMPIVersion{NNN} is in its `defgroup`
+ *           statement, which causes the "Modules" tab to show its brief
+ *           description in a second column.
+ *           The description of CMPICurrentVersion is where its symbol
+ *           definition is, i.e. within an `addtogroup` statement. That causes
+ *           the "Modules" tab not to show its brief description; however
+ *           the description needs to be there, otherwise the references to
+ *           the symbol (via its group name) do not work.
+ *           So we cannot have both the references work and the brief
+ *           description showing up in the "Modules" tab. Should we leave
+ *           it inconsistent or remove the brief description anywhere?
  *     @}
  *     @defgroup sym-current-version CMPICurrentVersion
  *     @{
@@ -170,13 +190,6 @@ extern "C" {
  *   @{
  *   @}
  * @}
- *
- * @todo TBD: Should we keep the `defgroup` statements (which are used to define
- *     the order of groups, e.g. in the Modules tab) in the `cmpidt.h` header
- *     file or move them to the `mainpage.md` file? One difficulty when moving
- *     is the conditional definition of the group section for
- *     CMPISelectCondType, which depends on the CMPI_DEFINE_CMPISelectCondType
- *     symbol.
  */
 
 /**
