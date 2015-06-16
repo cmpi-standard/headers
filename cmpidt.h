@@ -943,6 +943,7 @@ typedef struct _CMPIStatus {
  * These definitions are test masks for MB capabilities, for use on the
  * _CMPIBrokerFT::brokerCapabilities member.
  * The test mask for each capability includes any prerequisite capabilities.
+ * @todo Add descriptions for each capabilities test mask symbol.
  */
 #define CMPI_MB_BasicRead                   0x00000001
 #define CMPI_MB_BasicWrite                  0x00000003

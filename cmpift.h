@@ -1997,6 +1997,10 @@ struct _CMPIBrokerExtFT {
          for details on detached mode.
      @return If successful, the handle of the started thread will be returned.
          If not successful, returns NULL.
+     @todo TBD: Doxygen does not deal well with arguments that are
+         function pointers (`start` in this case). It generates warnings
+         and (worse!) the generated function prototype is incorrect.
+         How about a typedef for the function pointer?
      */
     CMPI_THREAD_TYPE (*newThread)
             (CMPI_THREAD_RETURN (CMPI_THREAD_CDECL* start)(void*),
@@ -4026,6 +4030,10 @@ struct _CMPIObjectPathFT {
         #define CMPI_keyBoolean   (CMPI_boolean)
         #define CMPI_keyRef       (CMPI_ref)
     </pre>
+
+    @todo TBD: The inline code with the defines creates doxygen warnings
+        "explicit link request to 'define' could not be resolved".
+        How to resolve this?
 
     In addition, the CMPI_keyValue flag will be set in CMPIData.state
     to indicate that the value is a key binding.
