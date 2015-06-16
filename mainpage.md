@@ -92,7 +92,7 @@ The CMPI header files are:
 
 For the benefit of developers, copies of these header files are downloadable
 from the CMPI website
-([http://www.opengroup.org/tech/management/cmpi](www.opengroup.org/tech/management/cmpi)).
+([www.opengroup.org/tech/management/cmpi](http://www.opengroup.org/tech/management/cmpi)).
 These files are provided as a convenience only. In the case of any discrepancy
 between the header files and the CMPI Standard (incorporating any subsequent
 Technical Corrigenda), the CMPI Standard shall be definitive.
