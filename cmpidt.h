@@ -60,23 +60,9 @@ extern "C" {
  *     @}
  *     @defgroup sym-current-version CMPICurrentVersion
  *     @{
- *       @brief The current CMPI version
- *
- *       The current CMPI version is the version described by this version of
- *       the online documentation.
- *
- *       At the same time, this is the highest CMPI version supported by the
- *       corresponding CMPI header files. See @ref sym-version "CMPI_VERSION"
- *       for implementing a lower CMPI version.
  *     @}
  *     @defgroup sym-version CMPI_VERSION
  *     @{
- *       @brief The CMPI version that is implemented
- *
- *       This symbol is only set in this header file if not set outside of this
- *       header file. Its default value is @ref sym-current-version
- *       "CMPICurrentVersion", and it can be overridden outside of the CMPI
- *       header files if a lower CMPI version is intended to be implemented.
  *     @}
  *     @defgroup sym-ver-nnn CMPI_VER_{NNN}
  *     @{
@@ -205,11 +191,29 @@ extern "C" {
  * @addtogroup sym-current-version
  * @{
  */
+/**
+ *   @brief The current CMPI version
+ *
+ *   The current CMPI version is the version described by this version of
+ *   the online documentation.
+ *
+ *   At the same time, this is the highest CMPI version supported by the
+ *   corresponding CMPI header files. See @ref sym-version "CMPI_VERSION"
+ *   for implementing a lower CMPI version.
+ */
 #define CMPICurrentVersion CMPIVersion210
 /**
  * @}
  * @addtogroup sym-version
  * @{
+ */
+/**
+ *   @brief The CMPI version that is implemented
+ *
+ *   This symbol is only set in this header file if not set outside of this
+ *   header file. Its default value is @ref sym-current-version
+ *   "CMPICurrentVersion", and it can be overridden outside of the CMPI
+ *   header files if a lower CMPI version is intended to be implemented.
  */
 #ifndef CMPI_VERSION
 #  define CMPI_VERSION CMPICurrentVersion
@@ -1466,7 +1470,8 @@ typedef enum _CMPIErrorSrcFormat {
 typedef enum _CMPICodepageID {
     /** Current system codepage for the MB */
     CMPI_CPID_SYSTEM = 1,
-    /** 7-bit US-ASCII as defined in @ref ref-iso-iec-646 "ISO/IEC 646" */
+    /** 7-bit US-ASCII as defined in
+        @ref ref-iso-iec-646-1991 "ISO/IEC 646:1991" */
     CMPI_CPID_USASCII = 2,
     /** UTF-16 */
     CMPI_CPID_UTF16 = 3
