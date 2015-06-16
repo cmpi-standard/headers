@@ -1,6 +1,6 @@
 /* ------------------------------------------------------------------------- */
 /*                                                                           */
-/* Copyright (c) 2006-2014 The Open Group                                    */
+/* Copyright (c) 2006-2015 The Open Group                                    */
 /*                                                                           */
 /* Permission is hereby granted, free of charge, to any person obtaining a   */
 /* copy of this software (the "Software"), to deal in the Software without   */
