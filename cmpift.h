@@ -331,7 +331,7 @@ struct _CMPIBrokerFT {
      that cover the indication to be delivered. If there are no such filters
      or filter collections, this will not cause the function to fail. For
      the concept of coverage of indications by an indication filter or
-     indication filter collection, see DSP1054.
+     indication filter collection, see @ref ref-dmtf-dsp1054 "DSP1054".
 
      This function may be called by an MI regardless of whether or not
      the MB is ready for processing the delivery of indications, as
@@ -1678,8 +1678,9 @@ struct _CMPIBrokerEncFT {
      object that is initialized with certain core attributes.
 
      The input data may (or may not) be defined in a DMTF message
-     registry (see DSP0228 for the format of message registries,
-     and DSP8016 for the messages defined for the MI functions of CMPI).
+     registry (see @ref ref-dmtf-dsp0228 "DSP0228" for the format of message
+     registries, and @ref ref-dmtf-dsp8016 "DSP8016" for the messages defined
+     for the MI functions of CMPI).
 
      @param mb Pointer to the broker.
      @param owner A string specifying the value for the OwningEntity attribute
@@ -1981,8 +1982,8 @@ struct _CMPIBrokerExtFT {
      @param detached If not zero, defines that the thread should run
          in detached mode. In detached mode, termination of the
          thread that called this function does not cause the new
-         thread to be canceled. See IEEE 1003.1 for details on
-         detached mode.
+         thread to be canceled. See @ref ref-ieee-1003-1 "IEEE 1003.1"
+         for details on detached mode.
      @return If successful, the handle of the started thread will be returned.
          If not successful, returns NULL.
      */
@@ -1999,8 +2000,9 @@ struct _CMPIBrokerExtFT {
      @return If successful, zero will be returned.
          If not successful, a non-zero error code will be returned.
 
-    The Error codes are defined in <errno.h>, specifically for
-    the <tt>pthread_join()</tt> function; both are defined in IEEE 1003.1.
+     The Error codes are defined in <errno.h>, specifically for
+     the <tt>pthread_join()</tt> function; both are defined in
+     @ref ref-ieee-1003-1 "IEEE 1003.1".
      @todo add status codes
      */
     int (*joinThread) (CMPI_THREAD_TYPE thread, CMPI_THREAD_RETURN* retval);
@@ -2107,7 +2109,7 @@ struct _CMPIBrokerExtFT {
          If not successful, returns a non-zero error code. Error
          codes are defined in <errno.h>, specifically for the
          &lt;pthread_setspecific()&gt; function; both are defined in
-         IEEE 1003.1.
+         @ref ref-ieee-1003-1 "IEEE 1003.1".
      @todo add status codes
      */
     int (*setThreadSpecific) (CMPI_THREAD_KEY_TYPE key, void* value);
@@ -2272,7 +2274,7 @@ struct _CMPIBrokerExtFT {
          If not successful, a non-zero error code will be returned. Error
          codes are defined in <tt><errno.h></tt>, specifically for the
          &lt;pthread_cond_timedwait()&gt; function; both are defined in
-         IEEE 1003.1.
+         @ref ref-ieee-1003-1 "IEEE 1003.1".
      @todo we do not specify the timeout value characteristics either
            here or in the spec. Commented in FINAL RC3 vote.
      */
@@ -2290,7 +2292,7 @@ struct _CMPIBrokerExtFT {
          If not successful, a non-zero error code will be returned. Error
          codes are defined in <tt><errno.h></tt>, specifically for the
          &lt;pthread_cond_signal()&gt; function; both are defined in
-         IEEE 1003.1.
+         @ref ref-ieee-1003-1 "IEEE 1003.1".
     */
     int (*signalCondition) (CMPI_COND_TYPE cond);
 
@@ -2311,7 +2313,7 @@ struct _CMPIBrokerExtFT {
          If not successful, a non-zero error code will be returned. Error codes
             are defined in <errno.h>, specifically for the
             &lt;pthread_mutex_destroy()&gt; function; both are defined in
-            IEEE 1003.1.
+         @ref ref-ieee-1003-1 "IEEE 1003.1".
      @version 2.1
      */
     int (*destroyMutex2) (CMPI_MUTEX_TYPE mutex);
@@ -2330,7 +2332,7 @@ struct _CMPIBrokerExtFT {
          If not successful, a non-zero error code will be returned. Error codes
             are defined in <errno.h>, specifically for the
             &lt;pthread_mutex_lock()&gt; function; both are defined in
-            IEEE 1003.1.
+         @ref ref-ieee-1003-1 "IEEE 1003.1".
      @version 2.1
      */
     int (*lockMutex2) (CMPI_MUTEX_TYPE mutex);
@@ -2347,7 +2349,7 @@ struct _CMPIBrokerExtFT {
          If not successful, a non-zero error code will be returned. Error codes
             are defined in <errno.h>, specifically for the
             &lt;pthread_mutex_lock()&gt; function; both are defined in
-            IEEE 1003.1.
+         @ref ref-ieee-1003-1 "IEEE 1003.1".
      @version 2.1
      */
     int (*unlockMutex2) (CMPI_MUTEX_TYPE mutex);
@@ -2368,9 +2370,9 @@ struct _CMPIBrokerExtFT {
      function.
      @return If successful, zero will be returned.
          If not successful, a non-zero error code will be returned. Error codes
-            are defined in <errno.h>, specifically for the
-            &lt;pthread_cond_destroy()&gt; function; both are defined in
-           IEEE 1003.1.
+         are defined in <errno.h>, specifically for the
+         &lt;pthread_cond_destroy()&gt; function; both are defined in
+         @ref ref-ieee-1003-1 "IEEE 1003.1".
      @version 2.1
      */
     int (*destroyCondition2) (CMPI_COND_TYPE cond);
@@ -2467,7 +2469,7 @@ struct _CMPIBrokerMemFT {
 
      This function allocates an uninitalized memory block of the specified
      size. This function behaves consistently with the POSIX
-     &lt; malloc()&gt; function (see IEEE 1003.1).
+     &lt; malloc()&gt; function (see @ref ref-ieee-1003-1 "IEEE 1003.1").
 
      The allocated memory block can be explicitly released by the MI using
      CMPIBrokerMemFT.cmpiFree(), or will be automatically released by the
@@ -2485,7 +2487,7 @@ struct _CMPIBrokerMemFT {
      the memory block pointed to by ptr which had been returned by a previous
      call to &lt;cmpiMalloc()&gt; or &lt;cmpiCalloc()&gt;. This function
      behaves consistently with the POSIX &lt;realloc()&gt; function
-     (see IEEE 1003.1).
+     (see @ref ref-ieee-1003-1 "IEEE 1003.1").
 
      The function may move the memory block to a new location (whose address
      is returned by the function). The content of the memory block is
@@ -2507,7 +2509,7 @@ struct _CMPIBrokerMemFT {
      the memory block pointed to by <tt>ptr</tt> which had returned by a
      previous call to &lt;cmpiMalloc()&gt; or &lt;cmpiCalloc()&gt;. This
      function behaves consistently with the POSIX &lt;realloc()&gt; function
-     (see IEEE 1003.1).
+     (see @ref ref-ieee-1003-1 "IEEE 1003.1").
 
      The function may move the memory block to a new location (whose address
      is returned by the function). The content of the memory block is
@@ -2531,7 +2533,8 @@ struct _CMPIBrokerMemFT {
      The CMPIBrokerMemFT.cmpiStrDup() function function allocates a memory
      block and initializes it by copying a C-language string into it. This
      function behaves consistently with the POSIX strdup() function
-     (see IEEE 1003.1). The allocated memory block can be explicitly
+     (see @ref ref-ieee-1003-1 "IEEE 1003.1").
+     The allocated memory block can be explicitly
      released by the MI using  CMPIBrokerMemFT.cmpiFree(), or will be
      automatically released by the MB after cleanup of the MI.
 
@@ -2549,7 +2552,8 @@ struct _CMPIBrokerMemFT {
      <tt>cmpiRealloc()</tt> functions.
 
      This function behaves consistently with the POSIX free() function
-     (see IEEE 1003.1). This indicates to the MB that the memory block will
+     (see @ref ref-ieee-1003-1 "IEEE 1003.1").
+     This indicates to the MB that the memory block will
      no longer be used by the MI. The MB may free (=reclaim) the memory
      block during the call to this function, or later during some garbage
      collection cycle (see Subclause 4.1.7). Memory blocks that have not
@@ -3931,7 +3935,8 @@ struct _CMPIObjectPathFT {
 
     The MB will attempt to set the type in the returned CMPIData structure
     to the precise CIM type, if available. Versions of the CIM-XML protocol
-    before DSP0200 Version 1.4 did not mandate the presence of the precise
+    before @ref ref-dmtf-dsp0200 "DSP0200" Version 1.4 did not mandate the
+    presence of the precise
     CIM type. In those versions, the precise CIM type was only recommended
     to be present. If the precise CIM type is not available to the MB, it
     will use the following more general types in the returned CMPIData
@@ -3980,7 +3985,8 @@ struct _CMPIObjectPathFT {
 
     The MB will attempt to set the type in the returned CMPIData structure
     to the precise CIM type, if available. Versions of the CIM-XML protocol
-    before DSP0200 Version 1.4 did not mandate the presence of the precise
+    before @ref ref-dmtf-dsp0200 "DSP0200" Version 1.4 did not mandate the
+    presence of the precise
     CIM type. In those versions, the precise CIM type was only recommended
     to be present. If the precise CIM type is not available to the MB, it
     will use the following more general types in the returned CMPIData
@@ -5307,16 +5313,14 @@ struct _CMPIDateTimeFT {
     /** @brief Get the value of a CMPIDateTime object in the string
           format defined for the CIM datetime type.
 
-     @todo KS_todo how to spec DSP0004 in standard way
-
      Gets the value of a CMPIDateTime object as a string in the format defined
-     in DMTF specification DSP0004 for the CIM datetime type.
+     in @ref ref-dmtf-dsp0004 "DSP0004" for the CIM datetime type.
      @param dt Pointer to the CMPIDateTime object for this function.
      @param rc Output: If not NULL, points to a CMPIStatus structure that
          upon return has been updated with the function return status.
      @return If successful, returns a pointer to a CMPIString object
      containing the value of a CMPIDateTime object in the format
-     defined in DSP0004 for the CIM datetime type.
+     defined in @ref ref-dmtf-dsp0004 "DSP0004" for the CIM datetime type.
 
      The returned CMPIString object shall not be explicitly released by
      the MI, because it may be an internal object of the CMPIDateTime
@@ -7295,7 +7299,8 @@ struct _CMPIIndicationMIFT {
      function the MI needs to start the monitoring of any resources that
      trigger indications that are covered by the specified indication
      filter, during the first activation of the filter. For the concept
-     of coverage of indications by an indication filter, see DSP1054.
+     of coverage of indications by an indication filter, see
+     @ref ref-dmtf-dsp1054 "DSP1054".
 
      @param mi Pointer to a CMPIIndicationMI structure.
      @param ctx Pointer to a CMPIContext structure containing the Invocation
@@ -7362,7 +7367,8 @@ struct _CMPIIndicationMIFT {
      function the MI should stop the monitoring of any resources that
      trigger indications that are covered by the specified indication
      filter, during the last deactivation of the filter. For the concept
-     of coverage of indications by an indication filter, see DSP1054.
+     of coverage of indications by an indication filter, see
+     @ref ref-dmtf-dsp1054 "DSP1054".
 
      @param mi Pointer to a CMPIIndicationMI structure.
      @param ctx Pointer to a CMPIContext structure containing the
@@ -7524,7 +7530,7 @@ struct _CMPIIndicationMIFT {
        trigger indications that are covered by the specified indication
        filter collection, during the first activation of the filter
        collection. For the concept of coverage of indications by an
-       indication filter collection, see DSP1054.
+       indication filter collection, see @ref ref-dmtf-dsp1054 "DSP1054".
 
        As described in DSP1054, a filter collection conceptually has
        members, but these members do not need to be instantiated using
@@ -7606,7 +7612,7 @@ struct _CMPIIndicationMIFT {
     trigger indications that are covered by the specified indication
     filter collection, during the last deactivation of the filter. For
     the concept of coverage of indications by an indication filter
-    collection, see DSP1054.
+    collection, see @ref ref-dmtf-dsp1054 "DSP1054".
 
     As described in DSP1054, a filter collection conceptually has
     members, but these members do not need to be instantiated using CIM.

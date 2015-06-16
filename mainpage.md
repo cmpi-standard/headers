@@ -72,8 +72,9 @@ C/C++ Language Considerations and Header Files (Subclause 4.7)
 --------------------------------------------------------------
 
 CMPI is a C Language API. The CMPI header files are usable for both C and C++.
-The minimum language level that is required for CMPI is C99. However, not all
-language features of C99 are used in the CMPI header files.
+The minimum language level that is required for CMPI is C99 (see
+@ref ref-iso-iec-9899-1999 "ISO/IEC 9899:1999"). However, not all language
+features of C99 are used in the CMPI header files.
 
 The CMPI header files are:
 
@@ -113,3 +114,65 @@ CMPI header files:
 
     There is no default platform; one of the platform symbols must be defined
     by users of CMPI. See @ref sym-platform for details.
+
+References
+----------
+
+  * @anchor ref-ansi-ieee-754
+    ANSI/IEEE Std 754-1985: *IEEE Standard for Binary Floating-Point
+    Arithmetic*, August 1985;<br/>
+    http://ieeexplore.ieee.org/xpl/freeabs_all.jsp?arnumber=30711
+
+  * @anchor ref-dmtf-dsp0004
+    DMTF DSP0004: *CIM Infrastructure*, Version 2.8.0;<br/>
+    http://www.dmtf.org/standards/published_documents/DSP0004_2.8.0.pdf
+
+  * @anchor ref-dmtf-dsp0200
+    DMTF DSP0200: *CIM Operations over HTTP*, Version 1.4.0;<br/>
+    http://www.dmtf.org/standards/published_documents/DSP0200_1.4.0.pdf
+
+  * @anchor ref-dmtf-dsp0201
+    DMTF DSP0201: *Representation of CIM in XML*, Version 2.4.0;<br/>
+    http://www.dmtf.org/standards/published_documents/DSP0201_2.4.0.pdf
+
+  * @anchor ref-dmtf-dsp0202
+    DMTF DSP0202: *CIM Query Language Specification*, Version 1.0.0;<br/>
+    http://www.dmtf.org/standards/published_documents/DSP0202_1.0.0.pdf
+
+  * @anchor ref-dmtf-dsp0212
+    DMTF DSP0212: *Filter Query Language*, Version 1.0.1;<br/>
+    http://www.dmtf.org/standards/published_documents/DSP0212_1.0.1.pdf
+
+  * @anchor ref-dmtf-dsp0223
+    DMTF DSP0223: *Generic Operations*, Version 1.1.0;<br/>
+    http://www.dmtf.org/standards/published_documents/DSP0223_1.1.0.pdf
+
+  * @anchor ref-dmtf-dsp0228
+    DMTF DSP0228: *Message Registry XML Schema*, Version 1.2.0;<br/>
+    http://schemas.dmtf.org/wbem/messageregistry/1/dsp0228_1.2.0.xsd
+
+  * @anchor ref-dmtf-dsp1054
+    DMTF DSP1054: *Indications Profile*, Version 1.2.2;<br/>
+    http://www.dmtf.org/standards/published_documents/DSP1054_1.2.2.pdf
+
+  * @anchor ref-dmtf-dsp8016
+    DMTF DSP8016: *WBEM Operations Message Registry*, Version 1.1.0;<br/>
+    http://schemas.dmtf.org/wbem/messageregistry/1/dsp8016_1.1.0.xml
+
+  * @anchor ref-ieee-1003-1
+    IEEE 1003.1-2008: *Standard for Information Technology – Portable Operating
+    System Interface (POSIX)*;<br/>
+    http://www.opengroup.org/onlinepubs/9699919799/
+
+  * @anchor ref-ietf-rfc-2616
+    IETF RFC 2616: *Hypertext Transfer Protocol – HTTP/1.1*, June 1999;<br/>
+    http://tools.ietf.org/html/rfc2616
+
+  * @anchor ref-iso-iec-646-1991
+    ISO/IEC 646:1991: *Information Technology – ISO 7-bit Coded Character Set
+    for Information Interchange*;<br/>
+    http://www.iso.org/iso/catalogue_detail.htm?csnumber=4777
+
+  * @anchor ref-iso-iec-9899-1999
+    ISO/IEC 9899:1999: <em>(C99) Programming Languages – C</em>;<br/>
+    http://www.iso.org/iso/catalogue_detail.htm?csnumber=29237

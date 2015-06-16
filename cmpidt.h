@@ -754,7 +754,7 @@ typedef unsigned int CMPIFlags;
  *   @{
  *
  * They are used on @ref CMPIFlags. For a description of LocalOnly etc., see
- * [DSP0200].
+ * @ref ref-dmtf-dsp0200 "DSP0200".
  */
 #define CMPI_FLAG_LocalOnly          1
 #define CMPI_FLAG_DeepInheritance    2
@@ -1448,7 +1448,7 @@ typedef enum _CMPIErrorSrcFormat {
 typedef enum _CMPICodepageID {
     /** Current system codepage for the MB */
     CMPI_CPID_SYSTEM = 1,
-    /** 7-bit US-ASCII as defined in ISO/IEC 646 */
+    /** 7-bit US-ASCII as defined in @ref ref-iso-iec-646 "ISO/IEC 646" */
     CMPI_CPID_USASCII = 2,
     /** UTF-16 */
     CMPI_CPID_UTF16 = 3
