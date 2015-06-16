@@ -25,7 +25,7 @@
 /**
  * @file cmpios.h
  * @brief Defines OS-specific symbols for threading structures, etc.;
- * MIs do not need to include this header because it is included by cmpift.h.
+ * MIs do not need to include this header because it is included by `cmpift.h`.
  *
  * This header file belongs to the Technical Standard: Systems Management:
  * Common Manageability Programming Interface (CMPI) Issue 2 Version 1.

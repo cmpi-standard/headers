@@ -161,6 +161,10 @@ extern "C" {
  *   @{
  *   @}
  * @}
+ *
+ * @todo TBD: Should we keep the `defgroup` statements (which are used to define
+ *     the order of groups, e.g. in the Modules tab) in the `cmpift.h` header
+ *     file or move them to the `mainpage.md` file?
  */
 
 /**
@@ -1150,6 +1154,10 @@ struct _CMPIBrokerFT {
      is not implemented by the target MI. New MIs should
      replace the use of CMPIBrokerFT.setProperty() with the use of
      CMPIBrokerFT.modifyInstance().
+
+     @todo TBD: Review and agree on the way this function is documented to be
+           deprecated since CMPI 2.1 (using the `deprecated` statement with
+           descriptive text).
      */
     CMPIStatus (*setProperty) (const CMPIBroker* mb, const CMPIContext* ctx,
             const CMPIObjectPath* instPath, const char* name,
@@ -1713,7 +1721,7 @@ struct _CMPIBrokerEncFT {
         <li><tt>CMPI_RC_ERR_INVALID_PARAMETER</tt>	One of the parameters is
             invalid.
         <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt>	Function is not supported
-        by the MB. In CMPI 2.1, this return code has been deprecated; It
+        by the MB. This return code is deprecated since CMPI 2.1; It
         will not be returned because the Extended Errors capability will
         be available. <b>(Deprecated)</b>
         <li><tt>CMPI_RC_ERR_FAILED</tt>	A generic error occurred.
@@ -1821,7 +1829,7 @@ struct _CMPIBrokerEncFT {
      *                   the property list.
      * @param rc Output: Service return status (suppressed when
      *           NULL).
-     * @return KS_todo
+     * @return xxx
      @todo add status codes
      @todo add return description
      */
@@ -1869,7 +1877,10 @@ struct _CMPIBrokerEncFT {
                 the codepage specified in the cpid argument
                 (e.g., 7-bit US-ASCII), or that cannot be represented in UTF-8.
         </ul>
-       @version Added in CMPI 2.1
+       @version Added in CMPI 2.1.
+       @todo TBD: Review and agree on the way this function is documented to be
+           added in CMPI 2.1 (using the `version` statement with descriptive
+           text).
      */
     CMPIString* (*newStringCP) (const CMPIBroker* mb, const char* data,
             const CMPICodepageID cpid, CMPIStatus* rc);
@@ -2314,7 +2325,7 @@ struct _CMPIBrokerExtFT {
             are defined in <errno.h>, specifically for the
             &lt;pthread_mutex_destroy()&gt; function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
-     @version 2.1
+     @version Added in CMPI 2.1.
      */
     int (*destroyMutex2) (CMPI_MUTEX_TYPE mutex);
 
@@ -2333,7 +2344,7 @@ struct _CMPIBrokerExtFT {
             are defined in <errno.h>, specifically for the
             &lt;pthread_mutex_lock()&gt; function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
-     @version 2.1
+     @version Added in CMPI 2.1.
      */
     int (*lockMutex2) (CMPI_MUTEX_TYPE mutex);
 
@@ -2350,7 +2361,7 @@ struct _CMPIBrokerExtFT {
             are defined in <errno.h>, specifically for the
             &lt;pthread_mutex_lock()&gt; function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
-     @version 2.1
+     @version Added in CMPI 2.1.
      */
     int (*unlockMutex2) (CMPI_MUTEX_TYPE mutex);
 
@@ -2373,7 +2384,7 @@ struct _CMPIBrokerExtFT {
          are defined in <errno.h>, specifically for the
          &lt;pthread_cond_destroy()&gt; function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
-     @version 2.1
+     @version Added in CMPI 2.1.
      */
     int (*destroyCondition2) (CMPI_COND_TYPE cond);
 
@@ -2725,7 +2736,7 @@ struct _CMPIBrokerMemFT {
          This C-language string shall have been created via
          CMPIStringFT.newCharsCP()..
      @return None.
-     @version 2.1
+     @version Added in CMPI 2.1.
      */
     void (*freeChars) (const CMPIBroker* mb, char* chars);
 
@@ -3746,7 +3757,7 @@ struct _CMPIInstanceFT {
             to class-defined type.
         <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt>	The inst handle is invalid.
     </ul>
-     @version CMPI 2.0
+     @version Added in CMPI 2.0.
      */
     CMPIStatus (*setPropertyWithOrigin) (const CMPIInstance* inst,
             const char* name, const CMPIValue* value, const CMPIType type,
@@ -3921,46 +3932,64 @@ struct _CMPIObjectPathFT {
     CMPIStatus (*addKey) (const CMPIObjectPath* op, const char* name,
             const CMPIValue* value, const CMPIType type);
 
-    /** @brief Get a key binding in a CMPIObjectPath object by name.
-
-    @param op Points to the CMPIObjectPath object for this function.
-    @param name Name of the key binding.
-    @param rc Output: If not NULL, points to a CMPIStatus structure
-        that upon return will have been updated with the function return
-        status.
-    @return A CMPIData structure
-
-    If successful, the returned CMPIData structure contains the value of the
-    key binding.
-
-    The MB will attempt to set the type in the returned CMPIData structure
-    to the precise CIM type, if available. Versions of the CIM-XML protocol
-    before @ref ref-dmtf-dsp0200 "DSP0200" Version 1.4 did not mandate the
-    presence of the precise
-    CIM type. In those versions, the precise CIM type was only recommended
-    to be present. If the precise CIM type is not available to the MB, it
-    will use the following more general types in the returned CMPIData
-    structure:
-    <pre>
-        #define CMPI_keyInteger   (CMPI_sint64)
-        #define CMPI_keyString    (CMPI_string)
-        #define CMPI_keyBoolean   (CMPI_boolean)
-        #define CMPI_keyRef       (CMPI_ref)
-    </pre>
-
-    In addition, the CMPI_keyValue flag will be set in CMPIData.state to
-    indicate that the value is a key binding.
-
-    If not successful, CMPIData.state will have the CMPI_badValue flag set to
-    true.
-
-    The function return status will indicate one of the following CMPIrc codes:
-    <ul>
-    <li><tt>CMPI_RC_OK</tt>	Function successful.
-    <li><tt>CMPI_RC_ERR_NO_SUCH_PROPERTY</tt> Key not found.
-    <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> The `op` handle is invalid.
-    </ul>
-    */
+    /**
+     * @brief Get a key binding in a @ref _CMPIObjectPath "CMPIObjectPath"
+     *     object by name.
+     *
+     * @param op Points to the @ref _CMPIObjectPath "CMPIObjectPath" object for
+     *     this function.
+     * @param name Name of the key binding.
+     * @param rc Output: If not NULL, points to a CMPIStatus structure that upon
+     *     return will have been updated with the function return status.
+     * @return A CMPIData structure.
+     *
+     * If successful, the returned CMPIData structure contains the value of the
+     * key binding.
+     *
+     * The MB will attempt to set the type in the returned CMPIData structure
+     * to the precise CIM type, if available. Versions of the CIM-XML protocol
+     * before @ref ref-dmtf-dsp0200 "DSP0200" Version 1.4 did not mandate the
+     * presence of the precise CIM type. In those versions, the precise CIM type
+     * was only recommended to be present. If the precise CIM type is not
+     * available to the MB, it will use the following more general types in the
+     * returned CMPIData structure:
+     * <pre>
+     *     #define CMPI_keyInteger   (CMPI_sint64)
+     *     #define CMPI_keyString    (CMPI_string)
+     *     #define CMPI_keyBoolean   (CMPI_boolean)
+     *     #define CMPI_keyRef       (CMPI_ref)
+     * </pre>
+     *
+     * In addition, the CMPI_keyValue flag will be set in CMPIData.state to
+     * indicate that the value is a key binding.
+     *
+     * If not successful, CMPIData.state will have the CMPI_badValue flag set to
+     * true.
+     *
+     * The function return status will indicate one of the following
+     * @ref CMPIrc codes:
+     *
+     *   * `CMPI_RC_OK` - Function successful.
+     *   * `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Key not found.
+     *   * `CMPI_RC_ERR_INVALID_HANDLE` - The `op` handle is invalid.
+     *
+     * @todo TBD: Review and agree upon way the CMPIObjectPathFT.getKey()
+     *     function is documented, as a template for all other functions.<br/>
+     *     Specifically:
+     *     - Source formatting:
+     *       - With vertical `*` line at the left.
+     *       - 4 spaces of indentation if doxygen commands exceed the right
+     *         boundary.
+     *       - Prefer markdown over HTML tags, e.g. for return code lists.
+     *     - Text is copied from spec but argument names are not repeated.
+     *     - No repetition of brief description in long description.
+     *     - Return statement just mentions datatype and description text covers
+     *       "if successful ...".
+     *     - Explicit linking where it does not work automatically (possibly the
+     *       alternative can be used to move typedef into struct definition
+     *       statement.
+     *     - Dash between CMPIrc code name and description.
+     */
     CMPIData (*getKey) (const CMPIObjectPath* op, const char* name,
             CMPIStatus* rc);
 
@@ -4907,7 +4936,7 @@ struct _CMPIStringFT {
      &lt;CMPIBrokerMemFT.freeChars()&gt;.
 
      If not successful, returns NULL.
-     @version CMPI specification 2.1
+     @version Added in CMPI 2.1.
      @todo add status codes
      */
     char* (*newCharsCP) (const CMPIString* str, const CMPICodepageID cpid,
@@ -4992,7 +5021,7 @@ struct _CMPIArrayFT {
 
     /**
      Gets the element type.
-     @todo Sync description with spec. KS_todo not in spec.
+     @todo Sync description with spec. KS_todo not in spec. TBD: What do you mean with "not in spec"?
      @param ar Array this pointer.
      @param rc Output: Service return status (suppressed when NULL).
      @return Number of elements.
@@ -5537,7 +5566,7 @@ struct _CMPIEnumerationFilter {
  * @brief Function table of
  * [CMPIEnumerationFilter encapsulated data type object]
  * (@ref _CMPIEnumerationFilter).
- * @version 2.1
+ * @version Added in CMPI 2.1.
  */
 struct _CMPIEnumerationFilterFT {
 
@@ -5564,7 +5593,7 @@ struct _CMPIEnumerationFilterFT {
          <li>CMPI_RC_OK Operation successful.
          <li>CMPI_RC_ERR_INVALID_HANDLE The <tt>ef</tt> handle is invalid.
      </ul>
-     @version 2.1
+     @version Added in CMPI 2.1.
      */
     CMPIStatus (*release) (CMPIEnumerationFilter* ef);
 
@@ -5589,7 +5618,7 @@ struct _CMPIEnumerationFilterFT {
          <li>CMPI_RC_OK Operation successful.
          <li>CMPI_RC_ERR_INVALID_HANDLE The <tt>ef</tt> handle is invalid.
      </ul>
-     @version 2.1
+     @version Added in CMPI 2.1.
      */
     CMPIEnumerationFilter* (*clone) (const CMPIEnumerationFilter* ef,
             CMPIStatus* rc);
@@ -5622,7 +5651,7 @@ struct _CMPIEnumerationFilterFT {
             language is not supported.
         <li>CMPI_RC_FAILED	Error not defined by one of the above codes occurred.
     </ul>
-     @version 2.1
+     @version Added in CMPI 2.1.
      */
     CMPIBoolean (*match) (const CMPIEnumerationFilter* ef,
             const CMPIInstance* inst, CMPIStatus* rc);
@@ -5906,8 +5935,8 @@ struct _CMPIInstanceMIFT {
      <TR><TD><tt>CMPI_RC_ERR_FAILED</tt></TD><TD>WIPG0227+implementation
      specific message</TD> <TD>Other error occurred.</TD></TR>
      </TABLE>
-    @todo KS_TODD Why no server limits exceeded
-    @todo KS_todo should we change to classPath as property name.
+    @todo TBD: KS_TODO Why no server limits exceeded
+    @todo TBD: KS_todo should we change to classPath as property name.
     @todo KS_todo Clarify formatting for error codes and also CMPIError usage
      */
     CMPIStatus (*getInstance) (CMPIInstanceMI* mi, const CMPIContext* ctx,
@@ -6236,7 +6265,7 @@ struct _CMPIInstanceMIFT {
      <TR><TD><tt>CMPI_RC_ERR_INVALID_QUERY</tt></TD>
          <TD>WIPG0223</TD><TD>Invalid query.</TD></TR>
      </TABLE>
-     @version 2.1
+     @version Added in CMPI 2.1.
      */
     CMPIStatus (*enumerateInstancesFiltered) (CMPIInstanceMI* mi,
          const CMPIContext* ctx, const CMPIResult* rslt,
@@ -6659,8 +6688,8 @@ struct _CMPIAssociationMIFT {
 
 #ifdef CMPI_VER_210
 
-    /** @brief TODO
-     @todo KS_TODO
+    /**
+     @todo KS_TODO add description
      */
     CMPIStatus (*associatorsFiltered)
         ( CMPIAssociationMI* mi, const CMPIContext* ctx, const CMPIResult* rslt,
@@ -6673,7 +6702,7 @@ struct _CMPIAssociationMIFT {
      *         given source instance that are serviced by this MI,
      *         returning only those instances that match the
      *         filterQuery argument
-     *  @todo KS_TODO
+     *  @todo KS_TODO complete the description
      */
     CMPIStatus (*referencesFiltered)
         ( CMPIAssociationMI* mi, const CMPIContext* ctx, const CMPIResult* rslt,
@@ -7500,7 +7529,7 @@ struct _CMPIIndicationMIFT {
         CMPI_RC_ERR_ACCESS_DENIED	Not authorized.
             Note: This return code indicates general authorization related issues and does not specifically indicate that the filter collection itself would not be authorized.
         CMPI_RC_ERR_INVALID_PARAMETER	Invalid indication filter collection.
-     @version 2.1
+     @version Added in CMPI 2.1.
         */
     CMPIStatus (*authorizeFilterCollection) (CMPIIndicationMI* mi,
             const CMPIContext* ctx, const CMPIInstance* collInst);
@@ -7577,7 +7606,7 @@ struct _CMPIIndicationMIFT {
         <li><tt>CMPI_RC_ERR_INVALID_PARAMETER</tt>	Invalid
             indication filter collection.
        </ul>
-       @version 2.1
+       @version Added in CMPI 2.1.
        @todo fix format codes.
        */
     CMPIStatus (*activateFilterCollection) (CMPIIndicationMI* mi,
@@ -7657,7 +7686,7 @@ struct _CMPIIndicationMIFT {
     <li><tt>CMPI_RC_ERR_INVALID_PARAMETER</tt>	Invalid indication
         filter collection.
     </ul>
-     @version 2.1
+     @version Added in CMPI 2.1.
      */
     CMPIStatus (*deActivateFilterCollection) (CMPIIndicationMI* mi,
             const CMPIContext* ctx, const CMPIInstance* collInst,
@@ -7669,7 +7698,7 @@ struct _CMPIIndicationMIFT {
  * @}
  */
 
-/** @todo KS_todo cmpimacs not required. Removed
+/** @todo KS_todo cmpimacs not required. Removed. TBD: Can we remove this todo and the include statement?
  #include "cmpimacs.h"
  */
 

@@ -25,7 +25,7 @@
 /**
  * @file cmpidt.h
  * @brief Defines CMPI data types;
- * MIs do not need to include this header because it is included by cmpift.h.
+ * MIs do not need to include this header because it is included by `cmpift.h`.
  *
  * This header file belongs to the Technical Standard: Systems Management:
  * Common Manageability Programming Interface (CMPI) Issue 2 Version 1.
@@ -184,6 +184,13 @@ extern "C" {
  *   @{
  *   @}
  * @}
+ *
+ * @todo TBD: Should we keep the `defgroup` statements (which are used to define
+ *     the order of groups, e.g. in the Modules tab) in the `cmpidt.h` header
+ *     file or move them to the `mainpage.md` file? One difficulty when moving
+ *     is the conditional definition of the group section for
+ *     CMPISelectCondType, which depends on the CMPI_DEFINE_CMPISelectCondType
+ *     symbol.
  */
 
 /**
@@ -465,7 +472,7 @@ typedef struct _CMPIValuePtr {
  * CMPIValue is used in [CMPIData](@ref type-data), but also standalone.
  */
 typedef union _CMPIValue {
-    CMPIBoolean boolean; ///< boolean CMPIvalue. Corresponds to CIMBoolean type
+    CMPIBoolean boolean; ///< boolean CMPIValue. Corresponds to CIMBoolean type
     CMPIChar16 char16;   ///< char16 CIMType
     CMPIUint8 uint8;     ///< uint8 CIMType
     CMPIUint16 uint16;   ///< uint16 CIMType
@@ -478,8 +485,8 @@ typedef union _CMPIValue {
     CMPIReal32 real32;   ///< real32 CIMType
     CMPIReal64 real64;   ///< real64 CIMType
 
-    CMPIInstance* inst;     ///< pointer to CMPIInstance
-    CMPIObjectPath* ref;    ///< pointer to CMPIObjectPath
+    CMPIInstance* inst;     ///< Pointer to CMPIInstance
+    CMPIObjectPath* ref;    ///< Pointer to CMPIObjectPath
     CMPIArgs* args;         ///< Pointer to CMPIArgs
     CMPISelectExp* filter;  ///< Pointer to CMPISelectExp
     CMPIEnumeration* Enum;  ///< Pointer to CMPIEnumeration
@@ -489,15 +496,26 @@ typedef union _CMPIValue {
     CMPIDateTime* dateTime; ///< Pointer to CMPIDateTIme
     CMPIValuePtr dataPtr;   ///< Pointer to CMPIValue
 
-    // Deprecated: The following union members
-    // are deprecated. Use the members defined
-    // earlier in this union, instead.
-    CMPISint8  Byte;   ///< Deprecated: Use sint8
-    CMPISint16 Short;  ///< Deprecated: Use sint16
-    CMPISint32 Int;    ///< Deprecated: Use sint32
-    CMPISint64 Long;   ///< Deprecated: Use sint64
-    CMPIReal32 Float;  ///< Deprecated: Use real32
-    CMPIReal64 Double; ///< Deprecated: Use real64
+    /**
+     * @defgroup type-value-dep1 Deprecated members of the CMPIValue union
+     * @{
+     *   These members of the @ref CMPIValue union are deprecated.
+     */
+    CMPISint8  Byte;   ///< @deprecated This member is deprecated since
+                       ///      CMPI 2.1. Use sint8 instead.
+    CMPISint16 Short;  ///< @deprecated This member is deprecated since
+                       ///      CMPI 2.1. Use sint16 instead.
+    CMPISint32 Int;    ///< @deprecated This member is deprecated since
+                       ///      CMPI 2.1. Use sint32 instead.
+    CMPISint64 Long;   ///< @deprecated This member is deprecated since
+                       ///      CMPI 2.1. Use sint64 instead.
+    CMPIReal32 Float;  ///< @deprecated This member is deprecated since
+                       ///      CMPI 2.1. Use real32 instead.
+    CMPIReal64 Double; ///< @deprecated This member is deprecated since
+                       ///      CMPI 2.1. Use real64 instead.
+    /**
+     * @}
+     */
 
 } CMPIValue;
 
@@ -654,8 +672,8 @@ typedef unsigned short CMPIValueState;
 #define CMPI_nullValue (1<<8) /**< Flag indicating that the data item is NULL */
 #define CMPI_keyValue  (2<<8) /**< Flag indicating that the data item is a key
                                    binding */
-#define CMPI_notFound  (4<<8) /**< CMPI_notFound has been deprecated in CMPI
-                                   2.1; Use the return code to indicate that a
+#define CMPI_notFound  (4<<8) /**< CMPI_notFound is deprecated since CMPI 2.1;
+                                   Use the return code to indicate that a
                                    data item has not been found */
 #define CMPI_badValue  (0x80<<8) /**< Flag indicating that the data item is in
                                       error */
@@ -785,11 +803,11 @@ typedef int CMPIVersion;
 
 /**
  * The entries in a [CMPIContext](@ref _CMPIContext) are set and accessed by name
- * using the the  addEntry() and getEntry() functions.
+ * using the the addEntry() and getEntry() functions.
  *
  * These definitions are the ASCII strings representing these CMPIContext types.
  *
- * @todo KS_TODO review the above
+ * @todo KS_TODO TBD: review the above
  */
 /** Namespace for which the MI is started. */
 #define CMPIInitNameSpace   "CMPIInitNameSpace"
@@ -1443,7 +1461,7 @@ typedef enum _CMPIErrorSrcFormat {
 /**
  * @brief An enumeration type that identifies a codepage for CMPI
  * codepage support.
- * @version 2.10
+ * @version Added in CMPI 2.1.
  */
 typedef enum _CMPICodepageID {
     /** Current system codepage for the MB */
