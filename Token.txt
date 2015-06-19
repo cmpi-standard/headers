@@ -1,3 +1,2 @@
-x Released
 o Held by Andy
-o Held by Karl
+X Held by Karl
