@@ -268,7 +268,7 @@ struct _CMPIBrokerFT {
 
          If not successful, returns NULL.
 
-    The function return status will indicate one of the following CMPIrc codes:
+    The function return status will indicate one of the following @ref CMPIrc codes:
     <ul>
     <li><tt>CMPI_RC_OK</tt>	- Function successful.
     <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt>	- Invalid encapsulated
@@ -290,11 +290,11 @@ struct _CMPIBrokerFT {
          prepareAttachThread().
      @return CMPIStatus structure indicating the function return status.
 
-    The function return status will indicate one of the following CMPIrc codes:
+    The function return status will indicate one of the following @ref CMPIrc codes:
     <ul>
     <li><tt>CMPI_RC_OK</tt>	- Function successful.
-    <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt>	- The <tt>mb</tt> handle *  
-     *or *  
+    <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt>	- The <tt>mb</tt> handle *
+     *or *
         <tt>ctx</tt> handle is invalid.
     </ul>
      */
@@ -366,7 +366,7 @@ struct _CMPIBrokerFT {
          by the MB ignored.
      @return A CMPIStatus structure indicating the function return status.
 
-    The function return status will indicate one of the following CMPIrc codes:
+    The function return status will indicate one of the following @ref CMPIrc codes:
     <ul>
         <li><tt>CMPI_RC_OK</tt>	- Function successful. Note: If the
             MB is not ready for processing the delivery of
@@ -415,11 +415,11 @@ struct _CMPIBrokerFT {
          enumerated instance paths. The new object will be released
          automatically by the MB.
 
-    The function return status will indicate one of the following CMPIrc codes:
+    The function return status will indicate one of the following @ref CMPIrc codes:
     <ul>
     <li><tt>CMPI_RC_OK</tt>	- Function successful.
     <li><tt>CMPI_RC_ERR_FAILED</tt>	- Unspecific error occurred.
-    <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> -	Function is not supported by
+    <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> - Function is not supported by
          this MI.
     <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt>	- Not authorized.
     <li><tt>CMPI_RC_ERR_INVALID_NAMESPACE</tt>	- The namespace specified in
@@ -469,7 +469,7 @@ struct _CMPIBrokerFT {
 
     If not successful, returns NULL.
 
-    The function return status indicates one of the following CMPIrc codes:
+    The function return status indicates one of the following @ref CMPIrc codes:
     <ul>
     <li><tt>CMPI_RC_OK</tt>	- Function successful.
     <li><tt>CMPI_RC_ERR_FAILED</tt>	- Unspecific error occurred.
@@ -532,7 +532,7 @@ struct _CMPIBrokerFT {
         If not successful, returns NULL.
 
         The function return status will indicate one of the following
-            CMPIrc codes:
+            @ref CMPIrc codes:
         <ul>
         <li><tt>CMPI_RC_OK</tt>	- Function successful.
         <li><tt>CMPI_RC_ERR_FAILED</tt>	- Unspecific error occurred.
@@ -584,7 +584,7 @@ struct _CMPIBrokerFT {
          the list is signalled by a NULL character pointer.
      @return CMPIStatus structure indicating the function return status.
 
-        The function return status indicates one of the following CMPIrc codes:
+        The function return status indicates one of the following @ref CMPIrc codes:
         <ul>
         <li><tt>CMPI_RC_OK</tt>	- Function successful.
         <li><tt>CMPI_RC_ERR_FAILED</tt>	- Unspecific error occurred.
@@ -633,7 +633,7 @@ struct _CMPIBrokerFT {
          ignored by the MB.
      @return CMPIStatus structure indicating the function return status.
 
-        The function return status indicates one of the following CMPIrc codes:
+        The function return status indicates one of the following @ref CMPIrc codes:
         <ul>
         <li> <tt>CMPI_RC_OK</tt> - Function successful.
         <li> <tt>CMPI_RC_ERR_FAILED</tt> - Unspecific error
@@ -744,7 +744,7 @@ struct _CMPIBrokerFT {
 
           If not successful returns NULL.
 
-     The function return status will indicate one of the following CMPIrc codes:
+     The function return status will indicate one of the following @ref CMPIrc codes:
      <ul>
         <li><tt>CMPI_RC_OK</tt> -  Function successful.
         <li><tt>CMPI_RC_ERR_FAILED</tt> -  Unspecific error occurred.
@@ -826,7 +826,7 @@ struct _CMPIBrokerFT {
 
     If not successful, returns NULL.
 
-    The function return status will indicate one of the following CMPIrc codes:
+    The function return status will indicate one of the following @ref CMPIrc codes:
     <ul>
     <li><tt>CMPI_RC_OK</tt> -  Function successful.
     <li><tt>CMPI_RC_ERR_FAILED</tt> -  Unspecific error occurred.
@@ -904,7 +904,7 @@ struct _CMPIBrokerFT {
      @return  if not NULL, points to a CMPIStatus structure that upon
          return has been updated with the function return status.
 
-     The function return status will indicate one of the following CMPIrc codes:
+     The function return status will indicate one of the following @ref CMPIrc codes:
      <ul>
     <li><tt>CMPI_RC_OK</tt> -  Function successful.
     <li><tt>CMPI_RC_ERR_FAILED</tt> -  Unspecific error occurred.
@@ -936,7 +936,7 @@ struct _CMPIBrokerFT {
             const char* assocClass, const char* resultClass, const char* role,
             const char* resultRole, CMPIStatus* rc);
 
-    /** @brief enumerate the association instances referencing a
+    /** @brief Enumerate the association instances referencing a
        given source instance.
 
      The CMPIBrokerFT.references() function enumerates the
@@ -969,7 +969,7 @@ struct _CMPIBrokerFT {
      @param properties If not NULL, the members of the array define one or more
          Property names. Each returned Object MUST NOT include elements for any
          Properties missing from this list.
-     @param[out] rc  If not NULL, points to a CMPIStatus 
+     @param[out] rc  If not NULL, points to a CMPIStatus
          structure that upon return will have been updated with the
          function return status.
      @return If successful, returns a pointer to a new CMPIEnumeration,
@@ -981,10 +981,10 @@ struct _CMPIBrokerFT {
 
      If not successful, returns NULL.
 
-     The function return status will indicate one of the following CMPIrc codes:
+     The function return status will indicate one of the following @ref CMPIrc codes:
      <ul>
-        <li><tt>CMPI_RC_OK</tt> -	Function successful.
-        <li><tt>CMPI_RC_ERR_FAILED</tt> -	Unspecific error occurred.
+        <li><tt>CMPI_RC_OK</tt> - Function successful.
+        <li><tt>CMPI_RC_ERR_FAILED</tt> - Unspecific error occurred.
         <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> - Function is not supported by
             this MI.
         <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt> - Not authorized.
@@ -1005,8 +1005,7 @@ struct _CMPIBrokerFT {
         Extended error handling is not supported by this MB function; thus,
         any CMPIError objects returned by the targeted MI cannot be made
         available to the calling MI.
-     @todo does not create link to  CMPIEnumeration automatically 
-          above
+     @todo does not create link to  CMPIEnumeration automatically above (ks)
      */
     CMPIEnumeration* (*references) (const CMPIBroker* mb,
             const CMPIContext* ctx, const CMPIObjectPath* op,
@@ -1038,7 +1037,7 @@ struct _CMPIBrokerFT {
          via an Association in which the source Object plays the specified role
          (i.e. the name of the Property in the Association Class that refers
          to the source Object MUST match the value of this parameter).
-     @param[out] rc  If not NULL, points to a CMPIStatus 
+     @param[out] rc  If not NULL, points to a CMPIStatus
          structure that upon return will have been updated with the
          function return status.
      @return If successful, returns a pointer to a new CMPIEnumeration object,
@@ -1051,7 +1050,7 @@ struct _CMPIBrokerFT {
 
     If not successful, returns NULL.
 
-    The function return status will indicate one of the following CMPIrc codes:
+    The function return status will indicate one of the following @ref CMPIrc codes:
      <ul>
         <li><tt>CMPI_RC_OK</tt> - Function successful.
         <li><tt>CMPI_RC_ERR_FAILED</tt> - Unspecific error occurred.
@@ -1108,7 +1107,7 @@ struct _CMPIBrokerFT {
      If not successful, CMPIData.state will have the CMPI_badValue flag
      set to true.
 
-     The function return status will indicate one of the following CMPIrc codes:
+     The function return status will indicate one of the following @ref CMPIrc codes:
      <ul>
         <li><tt>CMPI_RC_OK</tt>	- Function successful.
         <li><tt>CMPI_RC_ERR_FAILED</tt>	- Unspecific error occurred.
@@ -1157,19 +1156,19 @@ struct _CMPIBrokerFT {
     <ul>
     <li><tt>CMPI_RC_OK</tt> - Function successful.
     <li><tt>CMPI_RC_ERR_FAILED</tt> - Unspecific error occurred.
-    <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> - Function is not    
-        supported by this MI.    
+    <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> - Function is not
+        supported by this MI.
     <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt> - Not authorized.
-    <li><tt>CMPI_RC_ERR_INVALID_NAMESPACE</tt> - The namespace    
-        specified in <tt>instPath</tt> is invalid.    
-    <li><tt>CMPI_RC_ERR_INVALID_CLASS</tt> - The class specified in 
-    the  <TT>instPath</TT> argument does not exist.    
+    <li><tt>CMPI_RC_ERR_INVALID_NAMESPACE</tt> - The namespace
+        specified in <tt>instPath</tt> is invalid.
+    <li><tt>CMPI_RC_ERR_INVALID_CLASS</tt> - The class specified in
+    the  <TT>instPath</TT> argument does not exist.
     <li><tt>CMPI_RC_ERR_NOT_FOUND</tt> - The class specified in
         <tt>instPath</tt> is not found.
     <li><tt>CMPI_RC_ERR_NO_SUCH_PROPERTY</tt> - Property not found.
-    <li><tt>CMPI_RC_ERR_TYPE_MISMATCH</tt> - Value types    
-    incompatible.    
-    <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> - Invalid encapsulated  
+    <li><tt>CMPI_RC_ERR_TYPE_MISMATCH</tt> - Value types
+    incompatible.
+    <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> - Invalid encapsulated
         data type handle.
     </ul>
     Extended error handling is not supported by this MB function; thus, any
@@ -1211,7 +1210,7 @@ struct _CMPIBrokerFT {
     <ul>
     <li><tt>CMPI_RC_OK</tt> -  Function successful.
     <li><tt>CMPI_RC_ERR_FAILED</tt> -  Unspecific error occurred.
-    <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> -  Function is not supported by 
+    <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> -  Function is not supported by
         this MI.
     <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt> -  Not authorized.
     <li><tt>CMPI_RC_ERR_INVALID_NAMESPACE</tt> -  The namespace specified
@@ -1300,11 +1299,11 @@ struct _CMPIBrokerEncFT {
      The function return status indicates one of the following:
     <ul>
     <li><tt>CMPI_RC_OK</tt> -  Function successful.
-    <li><tt>CMPI_RC_ERR_INVALID_NAMESPACE</tt> - The namespace    
-        specified in <tt>instPath</tt> is invalid.    
+    <li><tt>CMPI_RC_ERR_INVALID_NAMESPACE</tt> - The namespace
+        specified in <tt>instPath</tt> is invalid.
     <li><tt>CMPI_RC_ERR_NOT_FOUND</tt> - The class specified in
         <tt>instPath</tt> is not found.
-    <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> - Invalid encapsulated    
+    <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> - Invalid encapsulated
         data type handle.
     </ul>
      */
@@ -1324,11 +1323,11 @@ struct _CMPIBrokerEncFT {
      @return If successful returns the newly created
          CMPIObjectPath. If not successful returns NULL.
 
-    The function return status indicates one of the following CMPIrc codes:
+    The function return status indicates one of the following @ref CMPIrc codes:
     <ul>
     <li><tt>CMPI_RC_OK</tt> - Function successful.
-    <li><tt>CMPI_RC_ERR_INVALID_NAMESPACE</tt> - The namespace    
-    specified in the <tt>ns</tt> argument does not exist.    
+    <li><tt>CMPI_RC_ERR_INVALID_NAMESPACE</tt> - The namespace
+    specified in the <tt>ns</tt> argument does not exist.
     <li><tt>CMPI_RC_ERR_NOT_FOUND</tt> -  Class in <tt>cn</tt> not found.
     <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> -  Invalid encapsulated
         data type handle.
@@ -1347,7 +1346,7 @@ struct _CMPIBrokerEncFT {
      @return If successful, returns the newly created CMPIArgs
              object. If not successful returns NULL.
 
-    The function return status indicates one of the following CMPIrc codes:
+    The function return status indicates one of the following @ref CMPIrc codes:
     <ul>
     <li><tt>CMPI_RC_OK</tt> -  Function successful.
     <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> -  Invalid encapsulated
@@ -1371,7 +1370,7 @@ struct _CMPIBrokerEncFT {
      object is no longer used by the MI, it may be explicitly released
      by the MI using CMPIBrokerMemFT.freeString().
 
-    The function return status indicates one of the following CMPIrc codes:
+    The function return status indicates one of the following @ref CMPIrc codes:
     <ul>
         <li><tt>CMPI_RC_OK</tt> -  Function successful.
         <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> -  Invalid encapsulated
@@ -1405,7 +1404,7 @@ struct _CMPIBrokerEncFT {
 
     If not successful, NULL will be returned.
 
-    The function return status indicates one of the following CMPIrc codes:
+    The function return status indicates one of the following @ref CMPIrc codes:
     <ul>
         <li><tt>CMPI_RC_OK</tt> -  Function successful.
         <li><tt>CMPI_RC_DATA_TYPE</tt> -  Data type not valid.
@@ -1434,7 +1433,7 @@ struct _CMPIBrokerEncFT {
 
      If not successful, NULL will be returned.
 
-    The function return status indicates one of the following CMPIrc codes:
+    The function return status indicates one of the following @ref CMPIrc codes:
     <ul>
         <li><tt>CMPI_RC_OK</tt> -  Function successful.
         <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> -  Invalid encapsulated
@@ -1467,7 +1466,7 @@ struct _CMPIBrokerEncFT {
 
      If not successful, returns NULL.
 
-    The function return status indicates one of the following CMPIrc codes:
+    The function return status indicates one of the following @ref CMPIrc codes:
     <ul>
         <li><tt>CMPI_RC_OK</tt> -  Function successful.
         <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> -  Invalid encapsulated
@@ -1496,7 +1495,7 @@ struct _CMPIBrokerEncFT {
 
     If not successful, NULL will be returned.
 
-    The function return status indicates one of the following CMPIrc codes:
+    The function return status indicates one of the following @ref CMPIrc codes:
 
         * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_INVALID_PARAMETER` - The utcTime format is invalid.
@@ -1525,33 +1524,35 @@ struct _CMPIBrokerEncFT {
      @param lang Pointer to a string containing the query language.
      @param projection Output: Pointer to to a CMPIArray pointer that upon
          success will have been updated to point to a new CMPIArray
-         object of CMPIString entries containing the projection specification.
-         The pointer will be set to NULL if no projection was specified in
-         the select expression. The projection specification is query
-         language-specific. Hence the entries format of the projection
-         output array CMPIString might be different depending on the query
+         object of @ref CMPIString entries containing the projection
+         specification. The pointer will be set to NULL if no
+         projection was specified in the select expression. The
+         projection specification is query language-specific. Hence
+         the entries format of the projection output array @ref
+         CMPIString might be different depending on the query
          language. Be sure to check the lang argument for the query
          language your MI will support.
      @param rc Output: If not NULL, points to a CMPIStatus structure that
          upon return will have been updated with the function return status.
-     @return If successful,returns a pointer to the new CMPIArray object.
-
-     The new object will be automatically released by the MB,
-     as described in Subclause 4.1.7.
+     @retval Successful Returns a pointer to the new
+     CMPIArray object. The new object will be automatically released
+     by the MB, as described in Subclause 4.1.7.
      If the new object is no longer used by the MI, it may be explicitly
      released by the MI using CMPIBrokerMemFT.freeDateTime().
 
-    If not successful, NULL will be returned.
-     
-    The function return status indicates one of the following @ref CMPIrc codes:
+    @retval UnSuccessful  NULL will be returned.
 
-    * * `CMPI_RC_OK` - Function successful.
-    * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-    * * `CMPI_RC_ERR_QUERY_LANGUAGE_NOT_SUPPORTED` - The query language is not 
-         supported.
-    * * `CMPI_RC_ERR_INVALID_QUERY` - The query expression is not valid.
-    * * `CMPI_RC_ERR_INVALID_HANDLE` - The `mb` handle is invalid.  
+    The function return status indicates one of the following @ref  
+     CMPIrc codes:   
 
+    @li `CMPI_RC_OK` - Function successful.
+    @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by
+        the MB.
+    @li `CMPI_RC_ERR_QUERY_LANGUAGE_NOT_SUPPORTED` - The query
+         language is not supported.
+    @li `CMPI_RC_ERR_INVALID_QUERY` - The query expression is not
+        valid.
+    @li `CMPI_RC_ERR_INVALID_HANDLE` - The `mb` handle is invalid.
      */
 
     CMPISelectExp* (*newSelectExp) (const CMPIBroker* mb, const char* query,
@@ -1565,8 +1566,8 @@ struct _CMPIBrokerEncFT {
 
     /** @brief Determine if a class path is of a specific class or
          its subclasses.
-     
-     The CMPIBrokerEncFT.classPathIsA() function tests whether a <tt>className</tt>     
+
+     The CMPIBrokerEncFT.classPathIsA() function tests whether a <tt>className</tt>
      is of <tt>classPath</tt> or any of <tt>classPath</tt> subclasses.
      @param mb Pointer to the broker.
      @param classPath Pointer to to the CMPIObjectPath object representing
@@ -1578,14 +1579,14 @@ struct _CMPIBrokerEncFT {
 
     The function return status indicates one of the following @ref CMPIrc codes:
     * * `CMPI_RC_OK` - Function successful.
-    * * `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace implied by 
+    * * `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace implied by
          <tt>classPath</tt> is invalid.
-    * * `CMPI_RC_ERR_NOT_FOUND` - The class implied by <tt>classPath</tt> is 
+    * * `CMPI_RC_ERR_NOT_FOUND` - The class implied by <tt>classPath</tt> is
          not found.
     * * `CMPI_RC_ERR_INVALID_PARAMETER` - The type format is invalid.
-    * * `CMPI_RC_ERR_INVALID_HANDLE` - Either the <tt>mb</tt> or 
+    * * `CMPI_RC_ERR_INVALID_HANDLE` - Either the <tt>mb</tt> or
          <tt>classPath</tt> handle is invalid.
-  
+
      @todo Review this description - it was a complete change.
      */
     CMPIBoolean (*classPathIsA) (const CMPIBroker* mb,
@@ -1604,10 +1605,10 @@ struct _CMPIBrokerEncFT {
      @return If successful returns CMPIString from representation
          of <tt>object</tt>. If not successful returns NULL.
 
-    The function return status indicates one of the following @ref CMPIrc codes: 
-     
+    The function return status indicates one of the following @ref CMPIrc codes:
+
     * * `CMPI_RC_OK` - Function successful.
-    * * `CMPI_RC_ERR_INVALID_HANDLE` - Either the <tt>mb</tt> or 
+    * * `CMPI_RC_ERR_INVALID_HANDLE` - Either the <tt>mb</tt> or
          <tt>object</tt> handle is invalid.
      */
     CMPIString* (*toString) (const CMPIBroker* mb,
@@ -1626,11 +1627,11 @@ struct _CMPIBrokerEncFT {
      @retval True: test successful
      @retval False; test unsuccesful.
 
-    The function return status indicates one of the following @ref CMPIrc codes: 
-     
-    * * `CMPI_RC_OK` - Function successful. 
-    * * `CMPI_RC_ERR_INVALID_PARAMETER` - The <tt>type</tt> format is invalid.     
-    * * `CMPI_RC_ERR_INVALID_HANDLE` - Either the <tt>mb</tt> or 
+    The function return status indicates one of the following @ref CMPIrc codes:
+
+    * * `CMPI_RC_OK` - Function successful.
+    * * `CMPI_RC_ERR_INVALID_PARAMETER` - The <tt>type</tt> format is invalid.
+    * * `CMPI_RC_ERR_INVALID_HANDLE` - Either the <tt>mb</tt> or
          <tt>object</tt> handle is invalid.
      */
     CMPIBoolean (*isOfType) (const CMPIBroker* mb,
@@ -1647,25 +1648,25 @@ struct _CMPIBrokerEncFT {
         released automatically by the MB. Intended for debugging
         purposes only.
     @param mb Pointer to the broker.
-    @param[out] object If not NULL, points to a CMPIStatus structure that upon 
+    @param[out] object If not NULL, points to a CMPIStatus structure that upon
        return will have been updated with the function return status
     @param[out] rc Service return status (suppressed when NULL).
     @return If successful, a pointer to a CMPIString object specifying the
     type name of the encapsulated data type (e.g., CMPIInstance) will be
     returned.
-     
-    The returned CMPIString object shall not be explicitly released by the MI, 
-    because it may be an internal object of the CMPI encapsulated data type 
-    object which will be released along with that object, or a new object 
-    created by the MB which will be automatically released by the MB 
-    (see Subclause 4.1.7). 
-     
+
+    The returned CMPIString object shall not be explicitly released by the MI,
+    because it may be an internal object of the CMPI encapsulated data type
+    object which will be released along with that object, or a new object
+    created by the MB which will be automatically released by the MB
+    (see Subclause 4.1.7).
+
     If not successful, NULL will be returned.
 
-    The function return status indicates one of the following @ref CMPIrc codes: 
-     
-    * * `CMPI_RC_OK` - Function successful. 
-    * * `CMPI_RC_ERR_INVALID_HANDLE` - Either the <tt>mb</tt> or 
+    The function return status indicates one of the following @ref CMPIrc codes:
+
+    * * `CMPI_RC_OK` - Function successful.
+    * * `CMPI_RC_ERR_INVALID_HANDLE` - Either the <tt>mb</tt> or
          <tt>object</tt> handle is invalid.
      */
     CMPIString* (*getType) (const CMPIBroker* mb,
@@ -1674,7 +1675,7 @@ struct _CMPIBrokerEncFT {
     /** @brief Get translated MB implementation specific message text
        <b>(Deprecated)</b>.
 
-     Retrieves translated message defined by <tt>msgId</tt>
+     Retrieves translated message defined by <tt>msgId</tt>.
 
      Use CMPIBrokerEncFT.getMessage2() in place of this function.
      @param mb Pointer to the broker.
@@ -1688,11 +1689,12 @@ struct _CMPIBrokerEncFT {
 
     The function return status indicates one of the following @ref CMPIrc codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
-        * * `CMPI_RC_TYPE_MISMATCH` -	Invalid insert pair.
-        * * `CMPI_RC_ERR_INVALID_PARAMETER` - Count value range violation. 
-        * * `CMPI_RC_ERR_INVALID_HANDLE` -	<tt>mb</tt> handle is invalid.
-     
+        * * `CMPI_RC_OK` - Function successful.
+        * * `CMPI_RC_TYPE_MISMATCH` - Invalid insert pair.
+        * * `CMPI_RC_ERR_INVALID_PARAMETER` - Count value range violation.
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - <tt>mb</tt> handle is
+            invalid.
+
      @see CMPIBrokerEncFt.getMessage2()
      @deprecated This function was deprecated in Issue 2.1 in favor of
      getMessage2().
@@ -1707,7 +1709,7 @@ struct _CMPIBrokerEncFT {
      The CMPIBrokerEncFT.logMessage() function logs a diagnostic message
      defined by the input arguments. It exists to provide a mechanism to MIs to
      provider information about errors, status, etc.
-     
+
      This function shall be supported by the MB if the Logging capability is
      available (see Subclause 7.1); otherwise, it shall not be supported.
      Availability of the Logging capability can be queried by an MI using the
@@ -1727,11 +1729,11 @@ struct _CMPIBrokerEncFT {
 
     The function return status indicates one of the following CMPIrc codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` -	<tt>mb</tt> or <tt>string</tt>
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - <tt>mb</tt> or <tt>string</tt>
              handle is invalid.
-     
+
      @todo ks The id argument talked about he component argument. Changed but check
      */
     CMPIStatus (*logMessage) (const CMPIBroker* mb,
@@ -1744,19 +1746,19 @@ struct _CMPIBrokerEncFT {
      The CMPIBrokerEncFT.trace() function traces a diagnostic message with a
      specific trace level. This function exists to provide a mechanism to MIs
      by which debugging information may be generated.
-     
+
      This function shall be supported by the MB if the Tracing capability
      is available (see Subclause 7.1); otherwise, it shall not be supported.
      Availability of the Tracing capability can be queried by an MI using the
      CMPI_MB_Tracing test mask on the brokerCapabilities member of the
      CMPIBrokerFT structure.
-     
+
      MBs may support tracing in such a way that trace level and component
      ID can be used for deciding whether a diagnostic message is actually
      kept versus discarded.
 
      @param mb Pointer to to a CMPIBroker structure.
-     
+
      @param level  Describes the level of log message. Levels are defined in
          Subclause 5.11.
      @param component If not NULL, is the implementation specific component ID.
@@ -1767,9 +1769,9 @@ struct _CMPIBrokerEncFT {
      @return A CMPIStatus structure indicating the function return status
          will be returned.
 
-    The function return status indicates one of the following CMPIrc codes:
+    The function return status indicates one of the following @ref CMPIrc codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
         * * `CMPI_RC_ERR_INVALID_HANDLE` - <tt>mb</tt> or <tt>string</tt>
              handle is invalid.
@@ -1822,16 +1824,16 @@ struct _CMPIBrokerEncFT {
 
      If not successful, returns NULL.
 
-    The function return status will indicate one of the following CMPIrc codes:
+    The function return status will indicate one of the following @ref CMPIrc codes:
 
         * * `CMPI_RC_ERR_INVALID_HANDLE` - The mb argument is  invalid.
-        * * `CMPI_RC_ERR_INVALID_PARAMETER` -	One of the parameters is
+        * * `CMPI_RC_ERR_INVALID_PARAMETER` - One of the parameters is
             invalid.
-        * * `CMPI_RC_ERR_NOT_SUPPORTED` -	Function is not supported
+        * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported
             by the MB. This return code is deprecated since CMPI 2.1;
             It will not be returned because the Extended Errors
             capability will be available. <b>(Deprecated)</b>
-        * * `CMPI_RC_ERR_FAILED` -	A generic error occurred.
+        * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
      */
     CMPIError* (*newCMPIError) (const CMPIBroker* mb,
@@ -1850,7 +1852,7 @@ struct _CMPIBrokerEncFT {
      */
 
     /** @brief Open a message file and return a handle to the file.
-     
+
      If the MB supports message files, the CMPIBrokerEncFT.openMessageFile()
      function opens a message file and returns a message file handle to that
      file. This function will use the CMPIAcceptLanguage entry from the
@@ -1859,7 +1861,7 @@ struct _CMPIBrokerEncFT {
      that was used. All subsequent calls to the CMPIBrokerEncFT.getMessage2()
      function using this message file handle will return messages based on
      that language.
-     
+
      If the MB does not support message files, or if the function fails
      for other reasons, the function returns NULL as the message file handle.
      Subsequent calls to the CMPIBrokerEncFT.getMessage2() function using the
@@ -1875,18 +1877,18 @@ struct _CMPIBrokerEncFT {
         directory path). The message file contains all languages, and the
         language is used to locate the message in the correct language within
         the message file.
-        <li>Base name of the message file (does not include file extension and 
+        <li>Base name of the message file (does not include file extension and
         directory path). The message file contains messages in only one
         language, and some identifier for that language is part of the base
         name.
-        <li>Absolute path of the message file. The message file contains all 
-        languages, and the language is used to locate the message in the correct 
+        <li>Absolute path of the message file. The message file contains all
+        languages, and the language is used to locate the message in the correct
         language within the message file.
         <li>Absolute path of the message file. The message file contains
         messages in only one language, and some identifier for that language
-        is part of the file path.     
-     </ul>    
-     The format of the content of the message file is also 
+        is part of the file path.
+     </ul>
+     The format of the content of the message file is also
      implementation-specific.
 
      @param[out] msgFileHandle points to a CMPIMsgFileHandle structure that
@@ -1903,11 +1905,11 @@ struct _CMPIBrokerEncFT {
      The function return status indicates one of the following
         @ref CMPIrc codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_FOUND` - The MB supports message files and the
              message file was not found, or the MB does not support message
              files.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>mb</tt> handle is invalid.  
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>mb</tt> handle is invalid.
      */
     CMPIStatus (*openMessageFile) (const CMPIBroker* mb,
         const char* msgFile,
@@ -1925,12 +1927,12 @@ struct _CMPIBrokerEncFT {
          CMPIBrokerEncFT.openMessageFile().
      @return A CMPIStatus structure indicating the function return status
          will be returned.
-     
+
     The function return status indicates one of the following @ref CMPIrc codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - Either the <tt>mb</tt> or 
-            <tt>msgFileHandle</tt> handle is invalid.     
+        * * `CMPI_RC_OK` - Function successful.
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - Either the <tt>mb</tt> or
+            <tt>msgFileHandle</tt> handle is invalid.
      */
     CMPIStatus (*closeMessageFile) (const CMPIBroker* mb,
         const CMPIMsgFileHandle msgFileHandle);
@@ -1940,7 +1942,7 @@ struct _CMPIBrokerEncFT {
 
      The CMPIBrokerEncFT.getMessage2() function gets a translated message text
      from an open message file, by <tt>msgId</tt>.
-     
+
      The variable arguments of this function are count pairs of arguments
      representing the message insert pairs as follows:
      type, value
@@ -1956,7 +1958,7 @@ struct _CMPIBrokerEncFT {
         the MB does not support message files the handle is NULL.
      @param defMsg Pointer to a string specifying the default message template
         that will be used when the MB does not support message files or when
-        the message ID cannot be located. 
+        the message ID cannot be located.
         The message template string specified in the defMsg argument
         may contain up to ten message insert triggers ($0 through
         $9). Each insert trigger will be expanded; that is, the
@@ -1973,21 +1975,21 @@ struct _CMPIBrokerEncFT {
      @return If successful returns the translated message; otherwise
          the default message template without any insert triggers
          expanded is returned.
-     
+
          In both cases, the new object will be automatically released by the
          MB, as described in Subclause 4.1.7. There is no function to
          explicitly release the new object. Specifically, the MI shall
          not use CMPIBrokerMemFT.freeString() on the new object.
-     
-    The function return status indicates one of the following @ref CMPIrc codes: 
-     
+
+    The function return status indicates one of the following @ref CMPIrc codes:
+
     * * `CMPI_RC_OK` - Function successful.
     * * `CMPI_RC_ERR_TYPE_MISMATCH` - Invalid insert pair.
     * * `CMPI_RC_ERR_INVALID_PARAMETER` - Count value range violation.
-    * * `CMPI_RC_ERR_INVALID_HANDLE` - Either the <tt>mb</tt> or 
+    * * `CMPI_RC_ERR_INVALID_HANDLE` - Either the <tt>mb</tt> or
              <tt>msgFileHandle</tt> handle is invalid. NULL is a valid value for
              the msgFileHandle handle.
-     
+
      @todo ks confirm formatting
      */
     CMPIString* (*getMessage2) (
@@ -2022,11 +2024,11 @@ struct _CMPIBrokerEncFT {
          return will have been updated with the function return status.
      @return If successful, returns a pointer to the new CMPIPropertyList
      object.
-     
+
      The new object will be automatically released by the MB, as described
      in Subclause 4.1.7. There is no function to explicitly release the new
      object.
-     
+
      If not successful, NULL will be returned.
 
     The function return status indicates one of the following @ref CMPIrc codes:
@@ -2068,7 +2070,7 @@ struct _CMPIBrokerEncFT {
           If not successful, NULL will be returned.
 
          The function return status will indicate one of the following
-            CMPIrc codes:
+            @ref CMPIrc codes:
 
             * * `CMPI_RC_OK` - Function successful.
             * * `CMPI_RC_ERR_INVALID_HANDLE` - The mb handle is invalid.
@@ -2111,7 +2113,7 @@ struct _CMPIBrokerEncFT {
 
      If not successful, returns NULL.
 
-    The function return status will indicate one of the following CMPIrc codes:
+    The function return status will indicate one of the following @ref CMPIrc codes:
 
     * * `CMPI_RC_OK` - Operation successful.
     * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt> mb</tt> handle
@@ -2119,11 +2121,11 @@ struct _CMPIBrokerEncFT {
     * * `CMPI_RC_ERR_QUERY_LANGUAGE_NOT_SUPPORTED` - The
             <tt>filterQueryLanguage</tt> argument defines a query language
             that the MI does not recognize.
-    * * `CMPI_RC_ERR_INVALID_QUERY` - The <tt>filterQuery</tt> is  
+    * * `CMPI_RC_ERR_INVALID_QUERY` - The <tt>filterQuery</tt> is
              not a valid query in the specified filter query language
     * * `CMPI_RC_ERR_QUERY_FEATURE_NOT_SUPPORTED` - A feature of the
             query language is not supported.
-     
+
      @version This function added in CMPI 2.1
      */
     CMPIEnumerationFilter* (*newEnumerationFilter) (const CMPIBroker* mb,
@@ -2184,15 +2186,15 @@ struct _CMPIBrokerExtFT {
      */
 
     /** @brief Start a new thread.
-     
+
      The CMPIBrokerExtFT.newThread() function starts a new thread,
      using POSIX threading semantics.
-     
+
      Creating a thread using CMPIBrokerExtFT.newThread() does not inform
      the MB that the current thread will begin using MB functions. Thus,
      CMPIBrokerFT.attachThread()must be called by the new thread before
      it uses MB functions.
-     
+
      For historical reasons no additional error information is returned.
 
      @param start Pointer to the function to be started as a thread.
@@ -2204,7 +2206,7 @@ struct _CMPIBrokerExtFT {
          for details on detached mode.
      @return If successful, the handle of the started thread will be returned.
          If not successful, returns NULL.
-     @see attachThread()  
+     @see attachThread()
      @todo TBD: Doxygen does not deal well with arguments that are
          function pointers (`start` in this case). It generates warnings
          and (worse!) the generated function prototype is incorrect.
@@ -2231,7 +2233,7 @@ struct _CMPIBrokerExtFT {
 
     /** @brief Cause current thread to exit with the passed-in return code,
 
-    CMPIBrokerExtFT.exitThread() causes the current thread to exit with 
+    CMPIBrokerExtFT.exitThread() causes the current thread to exit with
         the passed in return code using POSIX threading semantics.
 
     The current thread can also exit by simply returning from its thread
@@ -2268,7 +2270,7 @@ struct _CMPIBrokerExtFT {
      @param msec The suspend duration in milliseconds.
      @return If successful, zero will be returned.
          If not successful, a non-zero error code will be returned.
-     
+
      Error codes are defined in <errno.h>, defined in IEEE 1003.1.
      */
     int (*threadSleep) (CMPIUint32 msec);
@@ -2296,7 +2298,7 @@ struct _CMPIBrokerExtFT {
      @param function The function to be invoked.
      @return If successful, zero will be returned.
          If not successful, a non-zero error code will be returned.
-     
+
      Error codes are defined in <errno.h>, specifically for the pthread_once()
          function; both are defined in IEEE 1003.1.
      */
@@ -2367,7 +2369,7 @@ struct _CMPIBrokerExtFT {
 
     /** @brief Create a POSIX thread conformant mutex.
 
-     CMPIBrokerExtFT.newMutex() creates a POSIX threading 
+     CMPIBrokerExtFT.newMutex() creates a POSIX threading
      conformant* recursive mutex.
 
      The mutex that is created shall exhibits the following behavior:
@@ -2385,7 +2387,7 @@ struct _CMPIBrokerExtFT {
      mutex is either entirely unlocked or locked by another thread)
      shall fail in unlocking the mutex.
      </ul>
-     
+
      This behavior is consistent with mutex type PTHREAD_MUTEX_RECURSIVE
      defined in IEEE 1003.1.
 
@@ -2393,7 +2395,7 @@ struct _CMPIBrokerExtFT {
          MIs should pass a value of 0
 
      @return If successful, returns the handle of the new mutex.
-         If not successful, returns NULL. 
+         If not successful, returns NULL.
          For historical reasons, no additional error information is passed back.
      */
     CMPI_MUTEX_TYPE (*newMutex) (int opt);
@@ -2441,8 +2443,8 @@ struct _CMPIBrokerExtFT {
 
      @param mutex The mutex to be unlocked.
 
-     @retval None. For historical reasons, this function does not 
-     indicate whether it succeeded or failed. 
+     @retval None. For historical reasons, this function does not
+     indicate whether it succeeded or failed.
 
      @deprecated This function is deprecated since CMPI 2.1,
      because it does not indicate whether it succeeded or failed.
@@ -2474,7 +2476,7 @@ struct _CMPIBrokerExtFT {
     /** @brief Destroy a condition variable <b>(Deprecated)</b>
 
      Destroy a POSIX threading conformant condition variable <b>(Deprecated)</b>.
-     
+
      @param cond The condition variable to be destroyed.
      @return None. For historical reasons, this function does not
          indicate whether it succeeded or failed.
@@ -2489,8 +2491,8 @@ struct _CMPIBrokerExtFT {
 
      The CMPIBrokerExtFT.condWait() function waits until the condition has been
      signalled. If the condition variable has been signalled already, the
-     function returns immediately; otherwise, it suspends the current thread 
-     to wait for the signal and then returns. 
+     function returns immediately; otherwise, it suspends the current thread
+     to wait for the signal and then returns.
 
      @param cond  The handle of the condition variable to be used.
      @param mutex  The handle of a locked mutex guarding this
@@ -2499,7 +2501,7 @@ struct _CMPIBrokerExtFT {
         If not successful, returns a non-zero error code will be returned.
         Error codes are defined in <errno.h>, specifically for the
         pthread_cond_wait() function; both are defined in IEEE 1003.1.
- 
+
      */
     int (*condWait) (CMPI_COND_TYPE cond, CMPI_MUTEX_TYPE mutex);
 
@@ -2581,7 +2583,7 @@ struct _CMPIBrokerExtFT {
             &lt;pthread_mutex_lock()&gt; function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
      @version Added in CMPI 2.1 superceeding deprecated
-     &lt:CMPIBrokerExtFT.lockMutex()&gt; function. 
+     &lt:CMPIBrokerExtFT.lockMutex()&gt; function.
      */
     int (*lockMutex2) (CMPI_MUTEX_TYPE mutex);
 
@@ -2677,7 +2679,7 @@ struct _CMPIBrokerMemFT {
 
      If not successful, returns NULL.
 
-    The function return status indicates one of the following CMPIrc codes:
+    The function return status indicates one of the following @ref CMPIrc codes:
 
     * * `CMPI_RC_OK` - Function successful.
     * * `CMPI_RC_ERR_FAILED` - Unspecified error occurred.
@@ -2704,8 +2706,8 @@ struct _CMPIBrokerMemFT {
      @return <tt>CMPIStatus</tt> structure indicating the function return
          status.
      @sa CMPIBrokerMemFT.mark()
-     
-    The function return status indicates one of the following CMPIrc codes:
+
+    The function return status indicates one of the following @ref CMPIrc codes:
 
     * * `CMPI_RC_OK` - Function successful.
     * * `CMPI_RC_ERR_FAILED` - Unspecified error occurred.
@@ -3033,13 +3035,13 @@ struct _CMPIContextFT {
     CMPI run time system.
     @param ctx Pointer to CMPIContext to be released.
     @return CMPIStatus structure indicating the function return status.
-     
-    The function return status indicates one of the following 
+
+    The function return status indicates one of the following
     @ref CMPIrc codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>ctx</tt> handle is invalid.
-     
+
      @todo ks CMPIContext does not resolve to a link.
      */
     CMPIStatus (*release) (CMPIContext* ctx);
@@ -3054,7 +3056,7 @@ struct _CMPIContextFT {
      @return Pointer to copied @ref CMPIContext object. The returned
          @ref CMPIContext object shall be explicity released by the
          MI using &lt;CMPIContextFT.release()&gt;.
-     
+
      The function return status indicates one of the following @ref CMPIrc codes:
 
         * * `CMPI_RC_OK` - Function successful.
@@ -3075,10 +3077,10 @@ struct _CMPIContextFT {
      @return If successful, a CMPIData structure containing the specified
         context entry will be returned. If not successful,
         CMPIData.state will have the CMPI_badValue flag set to true.
-     
+
      The function return status indicates one of the following @ref CMPIrc codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Entry not found.
         * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>ctx</tt> handle is invalid.
      */
@@ -3106,10 +3108,10 @@ struct _CMPIContextFT {
      context entry.
      If not successful, CMPIData.state will have the CMPI_badValue
          flag set to true.
-     
+
      The function return status indicates one of the following @ref CMPIrc codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Entry not found.
         * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>ctx</tt> handle is invalid.
      */
@@ -3125,10 +3127,10 @@ struct _CMPIContextFT {
      @return If successful, a CMPICount value indicating the number of entries
          in the CMPIContext object. If not successful, the return value will
          be undefined.
-     
+
      The function return status indicates one of the following @ref CMPIrc codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Entry not found.
         * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>ctx</tt> handle is invalid.
      */
@@ -3152,15 +3154,15 @@ struct _CMPIContextFT {
          string memory may be freed by the MI right after this function returns.
      @return A CMPIStatus structure indicating the function return status will
          be returned.
-     
+
      The function return status indicates one of the following @ref CMPIrc
          codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_INVALID_DATA_TYPE` - <tt>type</tt> not supported for
              this call, or <tt>type</tt> is not recognized..
         * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>ctx</tt> handle is invalid.
-     
+
      @todo should the link above be a ref to the names definitions for
            context entries. Also really poor description. Description now sam
            as spec. (ks)
@@ -3216,12 +3218,12 @@ struct _CMPIResultFT {
          some garbage collection cycle.
      @param rslt Pointer to the CMPIResult object to be released.
      @return CMPIStatus structure indicating the function return status.
-     
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>rslt</tt> handle is invalid. 
+        * * `CMPI_RC_OK` - Function successful.
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>rslt</tt> handle is invalid.
      */
     CMPIStatus (*release) (CMPIResult* rslt);
 
@@ -3243,74 +3245,75 @@ struct _CMPIResultFT {
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>rslt</tt> handle is invalid.     
+        * * `CMPI_RC_OK` - Function successful.
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>rslt</tt> handle is invalid.
 
      */
     CMPIResult* (*clone) (const CMPIResult* rslt, CMPIStatus* rc);
 
     /** @brief Add a value/type pair to a CMPIResult object.
-     
+
      CMPIResultFT.returnData() adds a value/type pair to be returned to the MB,
      to a CMPIResult object.
      @param rslt CMPIResult object for this function.
      @param value Pointer to CMPIValue structure specifying the non-NULL value
          to be returned, or is NULL to specify that NULL is to be returned
      @param type CMPIType value specifying the type to be returned.
-     If the value of the <tt>type>/tt> argument is CMPI_chars or
+     If the value of the <tt>type></tt> argument is CMPI_chars or
          CMPI_charsA, the C-language string to which the chars member of the
          <tt>value</tt> argument points is copied by this function and the
          original string memory may be freed by the MI right after this
          function returns.
-     
-     @return A CMPIStatus structure indicating the function return status
-     will be returned.
-     
+
+     @return A CMPIStatus structure indicating the function return status.
      The function return status indicates one of the following @ref CMPIrc
          codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_INVALID_DATA_TYPE` - An attempt to return a data type
-            that is not allowed for this MI function invocation or type
-            is not recognized..
+                that is not allowed for this MI function invocation
+                or `type` is not recognized..
         * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>rslt</tt> handle is invalid
-            or NULL, or the MB has aborted the request operation for which this
-            data is being returned.     
+               or NULL, or the MB has aborted the request operation for which
+               this data is being returned.
      */
     CMPIStatus (*returnData) (const CMPIResult* rslt, const CMPIValue* value,
             const CMPIType type);
 
     /** @brief Add an instance to a CMPIResult object.
-     
+
      CMPIResultFT.returnInstance()  adds an instance to be returned to the MB,
-         to a CMPIResult object
+         to a CMPIResult object.
      @param rslt Result this pointer.
      @param inst Instance to be returned.
      @return CMPIStatus structure indicating the function return status.
-     
-    The function return status indicates one of the following @ref CMPIrc codes:
+     The function return status indicates one of the following @ref CMPIrc
+        codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>rslt</tt> handle is invalid
-             or the MB has abordet the request for which this data is returned.
+             or the MB has aborted the request for which this data
+             is returned.
     */
     CMPIStatus (*returnInstance) (const CMPIResult* rslt,
             const CMPIInstance* inst);
 
-    /** @brief Add an object path to a CMPIResult object
+    /** @brief Add an object path to a CMPIResult object.
+
         Adds an object path to be returned to the MB, to a CMPIResult object.
      @param rslt CMPIResult object for this function.
      @param ref ObjectPath to be returned.
      @return CMPIStatus structure indicating the function return status.
-     
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>rslt</tt> handle is invalid
              or the MB has aborted the request for which this data
              is returned.
-     @todo arg 2 is op in spec (ks)
+
+     @todo arg 2 is op in spec (ks) Should we modify here to match
+           spec?
      */
     CMPIStatus (*returnObjectPath) (const CMPIResult* rslt,
             const CMPIObjectPath* ref);
@@ -3320,31 +3323,30 @@ struct _CMPIResultFT {
          will be added to a CMPIResult object; that is, the MI will
          not return any more data to the MB
      @param rslt CMPIResult object for this function.
-     @return CMPIStatus structure indicating the function return status.
-     
+     @return CMPIStatus structure indicating the function return status.   
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>rslt</tt> handle is invalid
-             or the MB has aborted the request for which this data is returned.     
+             or the MB has aborted the request for which this data is returned.
      */
     CMPIStatus (*returnDone) (const CMPIResult* rslt);
 
 #ifdef CMPI_VER_200
 
     /** @brief Add an error to a CMPIResult object.
-     
+
      CMPIResultFT.returnError() adds an error to be returned to the MB, to a
          CMPIResult object.
-     
+
      In WBEM protocols that support multiple extended errors in an error
      response, the MB shall represent the extended errors in the protocol in
      the order of calls to this function. In WBEM protocols that support only
      one extended error in an error response, the MB shall represent the
      extended error from the first call to this function for a particular
      result.
-     
+
      This function is part of the Extended Errors capability of an MB
          (see tSubclause 8.14). From CMPI 2.1 on, the Extended Errors capability
          shall be available.
@@ -3356,14 +3358,14 @@ struct _CMPIResultFT {
          (see todo). From CMPI 2.1 on, the Extended Errors capability
          shall be available.
      @return CMPIStatus structure indicating the function return status.
-     
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>rslt</tt> handle is invalid
              or the MB has aborted the request for which this data is returned.
-     
+
      @todo review this description, particularly "see todo". Moved the part of cmt
      */
     CMPIStatus (*returnError) (const CMPIResult* rslt, const CMPIError* er);
@@ -3418,11 +3420,11 @@ struct _CMPIErrorFT {
          collection cycle.
      @param er Pointer to the CMPIError object to be released.
      @return CMPIStatus structure indicating the function return status.
-     
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_INVALID_PARAMETER` - The <tt>er</tt> argument is
              invalid.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
@@ -3431,7 +3433,7 @@ struct _CMPIErrorFT {
              available. (Deprecated)
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a 
+     @version In CMPI 2.1 support for this function was made a
        requirement
      @todo ordering here diff than spec.  This is sect 8.14
      */
@@ -3447,24 +3449,24 @@ struct _CMPIErrorFT {
          The returned CMPIError object shall be explicitly released by the MI
          using CMPIErrorFT.release().If not successful, returns NULL. If
          not successful, NULL will be returned.
-     
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
-     @version In CMPI 2.1 support for this function was made a 
+
+     @version In CMPI 2.1 support for this function was made a
        requirement
      */
     CMPIError* (*clone) (const CMPIError* er, CMPIStatus* rc);
 
     /** @brief Get the ErrorType attribute of a CMPIError object.
-     
+
      CMPIErrorFT.getErrorType() function gets the value of the ErrorType
          attribute in a CMPIError objec
      @param er Pointer to the CMPIError object for this function
@@ -3474,18 +3476,18 @@ struct _CMPIErrorFT {
          indicating the value of the ErrorType attribute in the CMPIError
          object.
          If not successful, the returned value is undefined.
-     
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
-     @version In CMPI 2.1 support for this function was made a 
+
+     @version In CMPI 2.1 support for this function was made a
        requirement
      */
     CMPIErrorType (*getErrorType) (const CMPIError* er, CMPIStatus* rc);
@@ -3502,18 +3504,18 @@ struct _CMPIErrorFT {
          object. Otherwise, returns NULL.
          The caller must inspect the function return status to see whether the
          function failed.
-     
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
-     @version In CMPI 2.1 support for this function was made a 
+
+     @version In CMPI 2.1 support for this function was made a
        requirement
      */
     CMPIString* (*getOtherErrorType) (const CMPIError* er, CMPIStatus* rc);
@@ -3529,18 +3531,18 @@ struct _CMPIErrorFT {
          object. Otherwise, returns NULL.
          The caller must inspect the function return status to see whether
          the function failed.
-     
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
-     @version In CMPI 2.1 support for this function was made a 
+
+     @version In CMPI 2.1 support for this function was made a
        requirement
      */
     CMPIString* (*getOwningEntity) (const CMPIError* er, CMPIStatus* rc);
@@ -3560,23 +3562,23 @@ struct _CMPIErrorFT {
          the MB. Otherwise, returns NULL.
          The caller must inspect the function return status to see whether the
          function failed.
-     
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
-     @version In CMPI 2.1 support for this function was made a 
+
+     @version In CMPI 2.1 support for this function was made a
        requirement     */
     CMPIString* (*getMessageID) (const CMPIError* er, CMPIStatus* rc);
 
     /** @brief Get the Message attribute of a CMPIError object.
-     
+
      Returns a string comnating an error message.
      @param er Pointer to the CMPIError object for this function.
      @param rc Output: if not NULL, points to a CMPIStatus structure updated
@@ -3587,18 +3589,18 @@ struct _CMPIErrorFT {
          Otherwise,returns NULL.
         The caller must inspect the function return status to see whether
         the function failed.
-     
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
-     @version In CMPI 2.1 support for this function was made a 
+
+     @version In CMPI 2.1 support for this function was made a
        requirement     */
     CMPIString* (*getMessage) (const CMPIError* er, CMPIStatus* rc);
 
@@ -3612,20 +3614,20 @@ struct _CMPIErrorFT {
          returned, indicating the value of the PerceivedSeverity attribute of
          the CMPIError object. If not successful, the returned value is
          undefined.
-     
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
-     @version In CMPI 2.1 support for this function was made a 
-       requirement 
-    */ 
+
+     @version In CMPI 2.1 support for this function was made a
+       requirement
+    */
     CMPIErrorSeverity (*getPerceivedSeverity) (const CMPIError* er,
             CMPIStatus* rc);
 
@@ -3639,20 +3641,20 @@ struct _CMPIErrorFT {
          will be returned, indicating the value of the ProbableCause attribute
          of the CMPIError object.
          If not successful, the returned value is undefined.
-     
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
-     @version In CMPI 2.1 support for this function was made a 
-       requirement 
-    */ 
+
+     @version In CMPI 2.1 support for this function was made a
+       requirement
+    */
     CMPIErrorProbableCause (*getProbableCause) (const CMPIError* er,
             CMPIStatus* rc);
 
@@ -3670,19 +3672,19 @@ struct _CMPIErrorFT {
          Otherwise, returns NULL.
          The caller must inspect the function return status to see whether
          the function failed.
-     
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
-     @version In CMPI 2.1 support for this function was made a 
-       requirement     
+
+     @version In CMPI 2.1 support for this function was made a
+       requirement
      */
     CMPIString* (*getProbableCauseDescription) (const CMPIError* er,
             CMPIStatus* rc);
@@ -3703,19 +3705,19 @@ struct _CMPIErrorFT {
          Otherwise, returns NULL.
          The caller must inspect the function return status to see whether
          the function failed.
-     
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
-     @version In CMPI 2.1 support for this function was made a 
-       requirement     
+
+     @version In CMPI 2.1 support for this function was made a
+       requirement
      */
     CMPIArray* (*getRecommendedActions) (const CMPIError* er, CMPIStatus* rc);
 
@@ -3732,19 +3734,19 @@ struct _CMPIErrorFT {
          CMPIError object. Otherwise, returns NULL.
          The caller must inspect the function return status to see whether
          the function failed.
-     
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
-     @version In CMPI 2.1 support for this function was made a 
-       requirement     
+
+     @version In CMPI 2.1 support for this function was made a
+       requirement
      */
     CMPIString* (*getErrorSource) (const CMPIError* er, CMPIStatus* rc);
 
@@ -3759,19 +3761,19 @@ struct _CMPIErrorFT {
          indicating the value of the ErrorSourceFormat attribute of
          the CMPIError object.
          If not successful, the returned value is undefined.
-     
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
-     @version In CMPI 2.1 support for this function was made a 
-       requirement     
+
+     @version In CMPI 2.1 support for this function was made a
+       requirement
      */
     CMPIErrorSrcFormat (*getErrorSourceFormat) (const CMPIError* er,
             CMPIStatus* rc);
@@ -3790,19 +3792,19 @@ struct _CMPIErrorFT {
          CMPIError object. Otherwise, returns NULL.
          The caller must inspect the function return status to see whether
          the function failed.
-     
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
-     @version In CMPI 2.1 support for this function was made a 
-       requirement      
+
+     @version In CMPI 2.1 support for this function was made a
+       requirement
      */
     CMPIString* (*getOtherErrorSourceFormat) (const CMPIError* er,
             CMPIStatus* rc);
@@ -3814,24 +3816,24 @@ struct _CMPIErrorFT {
      @param er Pointer to the CMPIError object for this function.
      @param rc Output: If not NULL, points to a CMPIStatus
          structure updated with the function return status.
-     @return If successful, returns a CMPIrc value indicating the value of the
+     @return If successful, returns a @ref CMPIrc value indicating the value of the
          CIMStatusCode attribute of the CMPIError object.
          Please note that not all status codes apply to all situations.
          It is up to the MI to ensure the correct status code is set.
          If not successful, the returned value is undefined.
-     
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
-     @version In CMPI 2.1 support for this function was made a 
-       requirement     
+
+     @version In CMPI 2.1 support for this function was made a
+       requirement
      */
     CMPIrc (*getCIMStatusCode) (const CMPIError* er, CMPIStatus* rc);
 
@@ -3849,19 +3851,19 @@ struct _CMPIErrorFT {
 
          The caller must inspect the function return status to see whether
          the function failed.
-     
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
-     @version In CMPI 2.1 support for this function was made a 
-       requirement     
+
+     @version In CMPI 2.1 support for this function was made a
+       requirement
      */
     CMPIString* (*getCIMStatusCodeDescription) (const CMPIError* er,
             CMPIStatus* rc);
@@ -3880,19 +3882,19 @@ struct _CMPIErrorFT {
 
          The caller must inspect the function return status to see whether the
          function failed.
-     
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported
              by the MB. In CMPI 2.1, this return code has been
              deprecated. It will not be returned because the
              Extended Errors capability will be available.
              (Deprecated)
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
-     @version In CMPI 2.1 support for this function was made a 
+
+     @version In CMPI 2.1 support for this function was made a
        requirement
      */
     CMPIArray* (*getMessageArguments) (const CMPIError* er, CMPIStatus* rc);
@@ -3908,24 +3910,24 @@ struct _CMPIErrorFT {
          reflect the content of the ERROR_TYPE element defined for
          the message in the registry.
      @return Output: CMPIStatus structure indicating the function return status
-     
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
-        * * `CMPI_RC_ERR_INVALID_PARAMETER` -	One of the arguments is invalid.
+        * * `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
+
      @version In CMPI 2.1 support for this function was made a requirement.
     */
     CMPIStatus (*setErrorType) (const CMPIError* er, const CMPIErrorType et);
 
     /** @brief Set the OtherErrorType attribute of a CMPIError object.
-     
+
      CMPIErrorFT.setOtherErrorType() sets the 'other' error type of this
          CMPIError object.
      @param er Pointer to the CMPIError object for this function.
@@ -3938,18 +3940,18 @@ struct _CMPIErrorFT {
          registry It is only valid when error type is "OTHER"
      @return Output: CMPIStatus structure indicating the function return
      status.
-    
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
-        * * `CMPI_RC_ERR_INVALID_PARAMETER` -	One of the arguments is invalid.
+        * * `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
+
      @version In CMPI 2.1 support for this function was made a requirement.
      */
     CMPIStatus (*setOtherErrorType) (const CMPIError* er, const char* oet);
@@ -3965,19 +3967,19 @@ struct _CMPIErrorFT {
          DMTF message registry, note that the string value of the pcd argument
          is not defined in the message in the registry.
      @return Output: CMPIStatus structure indicating the function return status
-    
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
-        * * `CMPI_RC_ERR_INVALID_PARAMETER` -	One of the arguments is invalid.
+        * * `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
-     @version In CMPI 2.1 support for this function was made a requirement.     
+
+     @version In CMPI 2.1 support for this function was made a requirement.
      */
     CMPIStatus (*setProbableCauseDescription) (const CMPIError* er,
             const char* pcd);
@@ -3998,19 +4000,19 @@ struct _CMPIErrorFT {
          defined in the RECOMMENDED_ACTION elements defined for the message
          in the registry, in the order defined there.
      @return CMPIStatus structure indicating the function return status
-    
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
-        * * `CMPI_RC_ERR_INVALID_PARAMETER` -	One of the arguments is invalid.
+        * * `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
-     @version In CMPI 2.1 support for this function was made a requirement.     
+
+     @version In CMPI 2.1 support for this function was made a requirement.
      */
     CMPIStatus (*setRecommendedActions) (const CMPIError* er,
             const CMPIArray* ra);
@@ -4029,15 +4031,15 @@ struct _CMPIErrorFT {
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
-        * * `CMPI_RC_ERR_INVALID_PARAMETER` -	One of the arguments is invalid.
+        * * `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
-     @version In CMPI 2.1 support for this function was made a requirement.     
+
+     @version In CMPI 2.1 support for this function was made a requirement.
      */
     CMPIStatus (*setErrorSource) (const CMPIError* er, const char* es);
 
@@ -4058,14 +4060,14 @@ struct _CMPIErrorFT {
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
-        * * `CMPI_RC_ERR_INVALID_PARAMETER` -	One of the arguments is invalid.
+        * * `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
+
      @version In CMPI 2.1 support for this function was made a requirement.
      */
     CMPIStatus (*setErrorSourceFormat) (const CMPIError* er,
@@ -4087,15 +4089,15 @@ struct _CMPIErrorFT {
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
-        * * `CMPI_RC_ERR_INVALID_PARAMETER` -	One of the arguments is invalid.
+        * * `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
-     @version In CMPI 2.1 support for this function was made a requirement.     
+
+     @version In CMPI 2.1 support for this function was made a requirement.
      */
     CMPIStatus (*setOtherErrorSourceFormat) (const CMPIError* er,
             const char* oef);
@@ -4117,15 +4119,15 @@ struct _CMPIErrorFT {
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
-        * * `CMPI_RC_ERR_INVALID_PARAMETER` -	One of the arguments is invalid.
+        * * `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
-     @version In CMPI 2.1 support for this function was made a requirement.     
+
+     @version In CMPI 2.1 support for this function was made a requirement.
      */
     CMPIStatus (*setCIMStatusCodeDescription) (const CMPIError* er,
             const char* scd);
@@ -4151,15 +4153,15 @@ struct _CMPIErrorFT {
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. It will not be
              returned because the Extended Errors capability will be
              available. (Deprecated)
-        * * `CMPI_RC_ERR_INVALID_PARAMETER` -	One of the arguments is invalid.
+        * * `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
         * * `CMPI_RC_ERR_FAILED` - A generic error occurred.
-     
-     @version In CMPI 2.1 support for this function was made a requirement.     
+
+     @version In CMPI 2.1 support for this function was made a requirement.
      */
     CMPIStatus (*setMessageArguments) (const CMPIError* er,
             const CMPIArray* values);
@@ -4215,12 +4217,12 @@ struct _CMPIInstanceFT {
      @param inst Pointer to CMPIInstance to be releases.
      @return A CMPIStatus structure indicating the function return status
          will be returned..
-     
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>inst</tt> handle is invalid.     
+        * * `CMPI_RC_OK` - Function successful.
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>inst</tt> handle is invalid.
      */
     CMPIStatus (*release) (CMPIInstance* inst);
 
@@ -4235,12 +4237,12 @@ struct _CMPIInstanceFT {
      The returned CMPIInstance object shall be explicitly released by the
      MI using CMPIInstanceFT.release().
      If not successful, NULL will be returned.
-     
+
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>inst</tt> handle is invalid.     
+        * * `CMPI_RC_OK` - Function successful.
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>inst</tt> handle is invalid.
      */
     CMPIInstance* (*clone) (const CMPIInstance* inst, CMPIStatus* rc);
 
@@ -4260,7 +4262,7 @@ struct _CMPIInstanceFT {
      The function return status indicates one of the following @ref CMPIrc
      codes:
 
-        * * `CMPI_RC_OK` -	Function successful.
+        * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Property not found.
         * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>inst</tt> handle is invalid.
     */
@@ -4293,7 +4295,7 @@ struct _CMPIInstanceFT {
 
         * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Property not found.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>inst</tt> handle is invalid. 
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>inst</tt> handle is invalid.
      */
     CMPIData (*getPropertyAt)
     (const CMPIInstance* inst, CMPICount index, CMPIString** name,
@@ -4301,9 +4303,9 @@ struct _CMPIInstanceFT {
 
     /** @brief Get the number of properties in a CMPIInstance  object.
 
-     CMPIInstanceFT.getPropertyAt() gets the number of properties   
-     contained a CMPIInstance.   
-     @param inst Pointer to the CMPIInstance object for this   
+     CMPIInstanceFT.getPropertyAt() gets the number of properties
+     contained a CMPIInstance.
+     @param inst Pointer to the CMPIInstance object for this
                  function.
      @param rc Output: If not NULL, points to a CMPIStatus structure
          updated with the function return status.
@@ -4314,7 +4316,7 @@ struct _CMPIInstanceFT {
         codes:
 
         * * `CMPI_RC_OK` - Function successful.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>inst</tt> handle is invalid. 
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>inst</tt> handle is invalid.
      */
     CMPICount (*getPropertyCount) (const CMPIInstance* inst, CMPIStatus* rc);
 
@@ -4353,7 +4355,7 @@ struct _CMPIInstanceFT {
              to the class-defined type.
         * * `CMPI_RC_ERR_INVALID_PARAMETER` - <tt>name</tt> is not a valid
              property name.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>ctx</tt> handle is invalid. 
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>ctx</tt> handle is invalid.
      */
     CMPIStatus (*setProperty) (const CMPIInstance* inst, const char* name,
             const CMPIValue* value, CMPIType type);
@@ -4373,12 +4375,12 @@ struct _CMPIInstanceFT {
         CMPIInstance object which will be released along with that object,
         or a new object created by the MB which will be released automatically
         by the MB.
-        
+
      The function return status indicates one of the following @ref CMPIrc
         codes:
 
         * * `CMPI_RC_OK` - Function successful.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>inst</tt> handle is invalid. 
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>inst</tt> handle is invalid.
      */
     CMPIObjectPath* (*getObjectPath) (const CMPIInstance* inst,
             CMPIStatus* rc);
@@ -4414,9 +4416,9 @@ struct _CMPIInstanceFT {
 
         * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_INVALID_PARAMETER` - The `keyList` argument is missing.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>inst</tt> handle is invalid. 
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>inst</tt> handle is invalid.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
- 
+
      */
     CMPIStatus (*setPropertyFilter) (const CMPIInstance* inst,
             const char** propertyList, const char** keys);
@@ -4449,7 +4451,7 @@ struct _CMPIInstanceFT {
 
         * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>inst</tt> handle or
-            <tt>op</tt> handle is invalid. 
+            <tt>op</tt> handle is invalid.
         * * `CMPI_RC_ERR_INVALID_PARAMETER` - Object path components specified
              in <tt>op</tt> are invalid.
 
@@ -4483,8 +4485,8 @@ struct _CMPIInstanceFT {
      originally defined. If NULL, then no origin is attached to  the
      property.
      @return CMPIStatus structure indicating the function return status.
-
-    The function return status will indicate one of the following CMPIrc codes:
+     The function return status will indicate one of the following @ref CMPIrc
+        codes:
     <ul>
         <li><tt>CMPI_RC_OK</tt> - Function successful.
         <li><tt>CMPI_RC_ERR_TYPE_MISMATCH</tt> - <tt>type</tt> does not
@@ -4550,7 +4552,7 @@ struct _CMPIObjectPathFT {
          codes:
 
         * * `CMPI_RC_OK` - Function successful.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>op</tt> handle is invalid.  
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>op</tt> handle is invalid.
      */
     CMPIStatus (*release) (CMPIObjectPath* op);
 
@@ -4567,7 +4569,7 @@ struct _CMPIObjectPathFT {
          codes:
 
         * * `CMPI_RC_OK` - Function successful.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>op</tt> handle is invalid.  
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>op</tt> handle is invalid.
 
      */
     CMPIObjectPath* (*clone) (const CMPIObjectPath* op, CMPIStatus* rc);
@@ -4585,7 +4587,7 @@ struct _CMPIObjectPathFT {
          codes:
 
         * * `CMPI_RC_OK` - Function successful.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>op</tt> handle is invalid.  
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>op</tt> handle is invalid.
      */
     CMPIStatus (*setNameSpace) (const CMPIObjectPath* op, const char* ns);
 
@@ -4608,7 +4610,7 @@ struct _CMPIObjectPathFT {
          codes:
 
         * * `CMPI_RC_OK` - Function successful.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>op</tt> handle is invalid. 
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>op</tt> handle is invalid.
     */
     CMPIString* (*getNameSpace) (const CMPIObjectPath* op, CMPIStatus* rc);
 
@@ -4624,7 +4626,7 @@ struct _CMPIObjectPathFT {
          codes:
 
         * * `CMPI_RC_OK` - Function successful.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>op</tt> handle is invalid. 
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>op</tt> handle is invalid.
      */
     CMPIStatus (*setHostname) (const CMPIObjectPath* op, const char* hn);
 
@@ -4648,7 +4650,7 @@ struct _CMPIObjectPathFT {
          codes:
 
         * * `CMPI_RC_OK` - Function successful.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>op</tt> handle is invalid. 
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>op</tt> handle is invalid.
      */
     CMPIString* (*getHostname) (const CMPIObjectPath* op, CMPIStatus* rc);
 
@@ -4722,8 +4724,8 @@ struct _CMPIObjectPathFT {
      * @param name Name of the key binding.
      * @param rc Output: If not NULL, points to a CMPIStatus structure that upon
      *     return will have been updated with the function return status.
-     * @return A CMPIData structure. 
-     *  
+     * @return A CMPIData structure.
+     *
      * If successful, the returned CMPIData structure contains the value of the
      * key binding.
      *
@@ -4819,8 +4821,8 @@ struct _CMPIObjectPathFT {
     If not successful, CMPIData.state will have the CMPI_badValue flag set to
     true.
 
-    The function return status will indicate one of the following 
-    @ref CMPIrc codes: 
+    The function return status will indicate one of the following
+    @ref CMPIrc codes:
     <ul>
     <li><tt>CMPI_RC_OK</tt> - Function successful.
     <li><tt>CMPI_RC_ERR_NO_SUCH_PROPERTY</tt> - Key not found.
@@ -4870,7 +4872,7 @@ struct _CMPIObjectPathFT {
 
         * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>ctx</tt> handle is invalid.
-        * * `CMPI_RC_ERR_INVALID_PARAMETER` -The `src` argument is invalid.  
+        * * `CMPI_RC_ERR_INVALID_PARAMETER` -The `src` argument is invalid.
      */
     CMPIStatus (*setNameSpaceFromObjectPath) (const CMPIObjectPath* op,
             const CMPIObjectPath* src);
@@ -4886,13 +4888,13 @@ struct _CMPIObjectPathFT {
      @param src CMPIObjectPath object used as the source for the new host name,
          namespace, and class name components.
      @return CMPIStatus structure indicating the function return status.
-            
+
     The function return status indicates one of the following @ref CMPIrc
         codes:
 
         * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>op</tt> handle is invalid.
-        * * `CMPI_RC_ERR_INVALID_PARAMETER` - The `src` argument is invalid. 
+        * * `CMPI_RC_ERR_INVALID_PARAMETER` - The `src` argument is invalid.
      */
     CMPIStatus (*setHostAndNameSpaceFromObjectPath) (const CMPIObjectPath* op,
             const CMPIObjectPath* src);
@@ -4918,8 +4920,8 @@ struct _CMPIObjectPathFT {
 
         * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>op</tt> handle is invalid. 
-        * * `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace implied by 
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>op</tt> handle is invalid.
+        * * `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace implied by
              <tt>op</tt> is invalid.
         * * `CMPI_RC_ERR_INVALID_CLASS` - The class specified in the
              <tt>op</tt> argument does not exist.
@@ -4955,8 +4957,8 @@ struct _CMPIObjectPathFT {
 
         * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>op</tt> handle is invalid. 
-        * * `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace implied by 
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>op</tt> handle is invalid.
+        * * `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace implied by
              <tt>op</tt> is invalid.
         * * `CMPI_RC_ERR_INVALID_CLASS` - The class specified in the
              <tt>op</tt> argument does not exist.
@@ -4997,8 +4999,8 @@ struct _CMPIObjectPathFT {
 
         * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>op</tt> handle is invalid. 
-        * * `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace implied by 
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>op</tt> handle is invalid.
+        * * `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace implied by
              <tt>op</tt> is invalid.
         * * `CMPI_RC_ERR_INVALID_CLASS` - The class specified in the
              <tt>op</tt> argument does not exist.
@@ -5041,8 +5043,8 @@ struct _CMPIObjectPathFT {
 
         * * `CMPI_RC_OK` - Function successful.
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>op</tt> handle is invalid. 
-        * * `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace implied by 
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>op</tt> handle is invalid.
+        * * `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace implied by
              <tt>op</tt> is invalid.
         * * `CMPI_RC_ERR_INVALID_CLASS` - The class specified in the
              <tt>op</tt> argument does not exist.
@@ -5079,7 +5081,7 @@ struct _CMPIObjectPathFT {
         codes:
 
         * * `CMPI_RC_OK` - Function successful.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>ctx</tt> handle is invalid. 
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>ctx</tt> handle is invalid.
      */
     CMPIString* (*toString) (const CMPIObjectPath* op, CMPIStatus* rc);
 
@@ -5139,7 +5141,7 @@ struct _CMPISelectExpFT {
          indicates to the MB that the object (including any objects it
          contains) will no longer be used by the MI. The MB may free (=reclaim)
          the memory associated with the object during the call to this
-         function, or later during some garbage collection cycle 
+         function, or later during some garbage collection cycle
          (see Subclause 4.1.7).
      @param se points to the CMPISelectExp object to be released. That object
           shall have been created using CMPISelectExpFT.clone().
@@ -5161,7 +5163,7 @@ struct _CMPISelectExpFT {
      @param rc Output: Service return status (suppressed when NULL).
      @return If successful, a pointer to the copied CMPISelectExp object
           will be returned.
-          The returned CMPISelectExp object shall be explicitly released 
+          The returned CMPISelectExp object shall be explicitly released
           by the MI using CMPISelectExpFT.release().
           If not successful, NULL will be returned.
 
@@ -5181,8 +5183,8 @@ struct _CMPISelectExpFT {
 
      This function shall be supported by the MB if the Query Normalization
         capability is available); otherwise, it shall not be supported.
-        Availability of the Query Normalization capability can be queried by 
-        an MI using the CMPI_MB_QueryNormalization test mask on the 
+        Availability of the Query Normalization capability can be queried by
+        an MI using the CMPI_MB_QueryNormalization test mask on the
         brokerCapabilities member of the CMPIBrokerFT structure.
      @param se Pointer to CMPISelectExp.
      @param inst Instance to be evaluated.
@@ -5209,13 +5211,13 @@ struct _CMPISelectExpFT {
 
      This function shall be supported by the MB if the Query Normalization
         capability is available; otherwise, it shall not be supported.
-        Availability of the Query Normalization capability can be queried by 
-        an MI using the CMPI_MB_QueryNormalization test mask on the 
+        Availability of the Query Normalization capability can be queried by
+        an MI using the CMPI_MB_QueryNormalization test mask on the
         brokerCapabilities member of the CMPIBrokerFT structure.
      @param se SelectExp this pointer.
      @param rc Output: If not NULL, points to a CMPIStatus structure
-         that upon return is updated with the function return        Availability of the Query Normalization capability can be queried by 
-        an MI using the CMPI_MB_QueryNormalization test mask on the 
+         that upon return is updated with the function return        Availability of the Query Normalization capability can be queried by
+        an MI using the CMPI_MB_QueryNormalization test mask on the
         brokerCapabilities member of the CMPIBrokerFT structure.
          status.
      @return If successful, returns a pointer to a CMPIString object cointaining
@@ -5240,10 +5242,10 @@ struct _CMPISelectExpFT {
        as a disjunction of conjunctions.
 
      CMPISelectExpFT.getDOC() function gets the select expression as a
-         disjunction of conjunctions. This function transforms the WHERE 
-         clause of the select expression into a canonical disjunction of 
-         onjunctions (DOC) form (OR?ing of AND?ed comparison expressions). 
-         This enables handling of the expression in the WHERE clause more 
+         disjunction of conjunctions. This function transforms the WHERE
+         clause of the select expression into a canonical disjunction of
+         onjunctions (DOC) form (OR?ing of AND?ed comparison expressions).
+         This enables handling of the expression in the WHERE clause more
          easily than using a tree form.
 
      This function shall be supported by the MB if the Query Normalization
@@ -5263,7 +5265,7 @@ struct _CMPISelectExpFT {
      released automatically by the MB.
 
      If not successful, returns NULL.
-        
+
      The function return status indicates one of the following @ref CMPIrc
         codes:
 
@@ -5271,7 +5273,7 @@ struct _CMPISelectExpFT {
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. If the Query
              Normalization capability is not available, this function cannot
-             be called by the MI because no instance of its encapsulated data 
+             be called by the MI because no instance of its encapsulated data
              type can exist. <b>(Deprecated)</b>
         * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>se</tt> handle is invalid.
      */
@@ -5306,7 +5308,7 @@ struct _CMPISelectExpFT {
         * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
              In CMPI 2.1, this return code has been deprecated. If the Query
              Normalization capability is not available, this function cannot
-             be called by the MI because no instance of its encapsulated data 
+             be called by the MI because no instance of its encapsulated data
              type can exist. <b>(Deprecated)</b>
         * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>se</tt> handle is invalid.
 
@@ -5389,12 +5391,12 @@ struct _CMPISelectCondFT {
 
     /** @brief  Release a CMPISelectCond object.
 
-     The CMPISelectCond object will not be used any further and may 
-     be freed by CMPI run time system.   
+     The CMPISelectCond object will not be used any further and may
+     be freed by CMPI run time system.
      @param sc SelectCond this pointer.
-     @return CMPIStatus structure indicating the function return   
+     @return CMPIStatus structure indicating the function return
              status .
-        
+
      The function return status indicates one of the following @ref CMPIrc
         codes:
 
@@ -5742,37 +5744,63 @@ struct _CMPIArgsFT {
 
     /** @brief Release a CMPIArgs object.
 
-     The Args object will not be used any further and may be freed by
-     CMPI run time system.
-     @param as Args this pointer.
-     @return Service return status.
-     @todo add status codes
-     */
+     CMPIArgsFT.release() releases a CMPIArgs object. This indicates to the
+      MB that the object (including any objects it contains) will no longer
+      be used by the MI. The MB may free (=reclaim) the memory associated
+      with the object during the call to this function, or later during some 
+      garbage collection cycle (see Subclause 4.1.7).
+     @param as points to the CMPIArgs object to be released. That object shall
+      have been created using CMPIArgsFT.clone().
+     @return CMPIStatus structure indicating the function return status.
+     The function return status indicates one of the following @ref CMPIrc
+        codes:
+        @li `CMPI_RC_OK` - Function successful.
+        @li `CMPI_RC_ERR_INVALID_HANDLE` - The `as` handle is invalid.
+    */
     CMPIStatus (*release) (CMPIArgs* as);
 
-    /** @brief Create an independent copy of a CMPIResult object.
+    /** @brief Create an independent copy of a CMPIRArgs object.
 
-     Create an independent copy of this Args object. The resulting
-     object must be released explicitly.
-     @param as Args this pointer.
-     @param rc Output: Service return status (suppressed when NULL).
-     @return Pointer to copied Args object.
-     @todo add status codes
+     CMPIArgsFT.clone() creates an independent copy of this Args object. The
+        resulting object must be released explicitly.
+     @param as Pointer to the CMPIArgs object to be copied.
+     @param rc Output: if not NULL, points to a CMPIStatus structure that upon
+          return will have been updated with the function return status
+     @return If successful, a pointer to the copied CMPIArgs object 
+         will be returned.
+         The returned CMPIArgs object shall be explicitly released by the MI
+         using CMPIArgsFT.release().
+
+        If not successful, NULL will be returned
+
+     The function return status indicates one of the following @ref CMPIrc
+       codes:
+        @li `CMPI_RC_OK` - Function successful.
+        @li `CMPI_RC_ERR_INVALID_HANDLE` - The `as` handle is invalid. 
      */
     CMPIArgs* (*clone) (const CMPIArgs* as, CMPIStatus* rc);
 
-    /** @brief Set a method parameter in a CMPIArgs object.
+    /**  @brief Set a method parameter in a CMPIArgs object.
 
-     Adds or replaces a method parameter in a CMPIArgs object.
-     @param as Args this pointer.
+     `CMPIArgsFT.addArg()` adds or replaces a method parameter in a CMPIArgs 
+     object.
+     @param as Pointer to the CMPIArgs object.
      @param name Argument name.
-     @param value CMPIValue structure containing the non-NULL value to be
-         assigned to the method parameter, or is NULL to specify
-         that NULL is to be assigned.
+     @param value Pointer to a CMPIValue structure containing the non-NULL 
+         value to be assigned to the method parameter, or NULL to specify that
+         NULL is to be assigned
      @param type type of the method parameter. All types of CIM values are
-         supported
+         supported.
+         If the value of the type argument is CMPI_chars or CMPI_charsA, the
+         C-language string to which the chars member of the value argument
+         points is copied by this function and the original string memory may 
+         be freed by the MI right after this function returns.
      @return CMPIStatus structure indicating the function return status.
-     @todo add status codes
+        The function return status indicates one of the following @ref CMPIrc
+        codes:
+        @li `CMPI_RC_OK` - Function successful.
+        @li `CMPI_RC_ERR_INVALID_DATA_TYPE` - Data type not valid.
+        @li `CMPI_RC_ERR_INVALID_HANDLE` - The `as` handle is invalid.
      */
     CMPIStatus (*addArg) (const CMPIArgs* as, const char* name,
             const CMPIValue* value,
@@ -5780,48 +5808,70 @@ struct _CMPIArgsFT {
 
     /** @brief Get a method parameter in a CMPIArgs object by name.
 
-     This function gets a method parameter in a CMPIArgs object,
+     `CMPIArgsFT.getArg()` gets a method parameter in a CMPIArgs object,
         by its name..
-     @param as Args this pointer.
-     @param name Argument name.
+     @param as Args Pointer to the CMPIArgs object.
+     @param name Specifies the name of the method parameter.
      @param rc Output: Service return status (suppressed when NULL).
      @return If successful,returns a CMPIData structure containing the
      specified method parameter.
 
-    If not successful, CMPIData.state will have the CMPI_badValue flag
-    set to true
-     @todo add status codes
+     If not successful, CMPIData.state will have the CMPI_badValue flag
+        set to true
+
+     The function return status indicates one of the following @ref CMPIrc
+        codes:
+        @li `CMPI_RC_OK` - Function successful.
+        @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Method parameter not found.
+        @li `CMPI_RC_ERR_INVALID_HANDLE` - The `as` handle is invalid.  
      */
     CMPIData (*getArg) (const CMPIArgs* as, const char* name, CMPIStatus* rc);
 
     /** @brief Get a method parameter in a CMPIArgs object by index.
 
-     Gets a Argument value defined by its index.
-     @param as Args this pointer.
+     `CMPIArgsFT.getArgAt()` gets a Argument value defined by its index.
+     @param as Pointer to the CMPIArgs object.
      @param index Position in the internal Data array.
-     @param name Output: Returned argument name (suppressed when NULL).
+     @param name Output: The name output argument, if not NULL, points to a 
+         CMPIString pointer that upon success will have been updated to point 
+         to a CMPIString object containing the method parameter name. The 
+         returned CMPIString object shall not be explicitly released by the 
+         MI, because it may be an internal object of the CMPIArgs object 
+         which will be released along with that object, or a new object 
+         created by the MB which will be automatically released by the 
+         MB (see Subclause 4.1.7)..
      @param rc Output: Service return status (suppressed when NULL).
      @return If successful, returns a CMPIData structure containing the
      specified method parameter.
 
     If not successful, CMPIData.state will have the CMPI_badValue flag
     set to true
-     @todo add status codes
+
+    The function return status indicates one of the following @ref CMPIrc
+        codes:
+        @li `CMPI_RC_OK` - Function successful.
+        @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Method parameter not found.
+        @li `CMPI_RC_ERR_INVALID_HANDLE` - The `as` handle is invalid.  
      */
     CMPIData (*getArgAt) (const CMPIArgs* as, CMPICount index,
             CMPIString** name, CMPIStatus* rc);
 
     /** @brief Get a method parameter in a CMPIArgs object by index.
 
-     Gets the number of arguments contained in this CMPIArgs object.
-     @param as Args this pointer.
+     `CMPIArgsFT.getArgCount()` gets the number of arguments contained in this
+      CMPIArgs object.
+     @param as Pointer to the CMPIArgs object.
      @param rc Output: Service return status (suppressed when NULL).
      @return If successful, returns a CMPIData structure containing the
      specified method parameter.
 
     If not successful, CMPIData.state will have the CMPI_badValue flag
-    set to true
-     @todo add status codes
+    set to true.
+
+    The function return status indicates one of the following @ref CMPIrc
+        codes:
+        @li `CMPI_RC_OK` - Function successful.
+        @li `CMPI_RC_ERR_INVALID_HANDLE` - The `as` handle is invalid.  
      */
     CMPICount (*getArgCount) (const CMPIArgs* as, CMPIStatus* rc);
 };
@@ -5865,33 +5915,52 @@ struct _CMPIStringFT {
 
     /** @brief  Release a CMPIString object.
 
-     The String object will not be used any further and may be freed by
-     CMPI run time system.
-     @param st String this pointer.
-     @return Service return status.
-     @todo add status codes
+     `CMPIStringFT.release()` releases a CMPIString object. This indicates to
+      the MB that the object (including any objects it contains) will no longer
+      be used by the MI. The MB may free (=reclaim) the memory associated with 
+      the object during the call to this function, or later during some
+      garbage collection cycle (see Subclause 4.1.7).
+     @param st  Pointer to the CMPIString object to be released. That
+         object shall have been created using CMPIStringFT.clone()
+     @return A CMPIStatus structure indicating the function return status.
+     @return CMPIStatus structure indicating the function return status .
+        The function return status indicates one of the following @ref CMPIrc
+        codes:
+        @li `CMPI_RC_OK` - Function successful.
+        @li `CMPI_RC_ERR_INVALID_HANDLE` - The `str` handle is invalid.  
      */
     CMPIStatus (*release) (CMPIString* st);
 
-    /**
-     Create an independent copy of this String object. The resulting
+    /** @brief Create an independent copy of this String object. The resulting
      object must be released explicitly.
-     @param st Pointer to CMPIString object.
-     @param rc Output: Service return status (suppressed when NULL).
-     @return Pointer to copied String object.
-     @todo add status codes
+     @param st Pointer to the CMPIString object to be copied. That
+         object shall have been created using CMPIStringFT.clone().
+     @param rc Output: if not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status..
+     @return If successful, a pointer to the copied CMPIString object will be
+         returned.
+         The returned CMPIString object shall be explicitly released by the
+         MI using CMPIStringFT.release().
+
+     If not successful, NULL will be returned.
+
+     The function return status indicates one of the following @ref CMPIrc
+        codes:
+        @li `CMPI_RC_OK` - Function successful.
+        @li `CMPI_RC_ERR_INVALID_HANDLE` - The `str` handle is invalid.  
      */
     CMPIString* (*clone) (const CMPIString* st, CMPIStatus* rc);
 
     /** @brief Get a pointer to a C-language string representation of a
        CMPIString object.
 
-     Get a pointer to a C char* representation of this CMPIString object.
-     @param st Pointer to CMPIString object.
-     @param rc Output: Service return status (suppressed when NULL).
+     `CMPIStringFT.newCharsCP()` gets a pointer to a C char* representation of 
+     this CMPIString object.
+     @param st Pointer to CMPIString object for this function.
+     @param rc Output: if not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
      @return If successful, returns a pointer to a C-language string
      will be returned.
-     @todo KS_todo ref to where defined.
 
      The character array of the returned string shall not be explicitly
      released by the MI, because it may point to an internal data area in the
@@ -5900,7 +5969,11 @@ struct _CMPIStringFT {
      released automatically by the MB.
 
      If not successful, returns NULL.
-     @todo add status codes
+
+     The function return status indicates one of the following @ref CMPIrc
+        codes:
+        @li `CMPI_RC_OK` - Function successful.
+        @li `CMPI_RC_ERR_INVALID_HANDLE` - The `str` handle is invalid.  
      */
     const char* (*getCharPtr) (const CMPIString* st, CMPIStatus* rc);
 
@@ -5909,8 +5982,9 @@ struct _CMPIStringFT {
     /** @brief Create a C-language string that has converted a CMPIString
            object into a specific codepage
 
-     Creates a new C-language string (see Subclause 5.2.1) that contains
-     the string in a CMPIString object, converted into a specific codepage.
+     `CMPIStringFT.newCharsCP()` creates a new C-language string   
+     (see Subclause 5.2.1) that contains the string in a CMPIString 
+     object, converted into a specific codepage.   
 
      This function shall be supported by the MB if the Codepage Conversion
      capability is available; otherwise, it shall not be supported.
@@ -5918,8 +5992,8 @@ struct _CMPIStringFT {
      @param str Pointer to the CMPIString object for this function.
      @param cpid <tt>CMPICodePageID</tt> specifies the CMPI-specific codepage
          ID for the codepage to convert to. See the CMPI Specification
-         section 5.2.2 (CodePage for a list of supported codepages and their codepage
-         ID values.
+         section 5.2.2 (CodePage for a list of supported codepages and their 
+         codepage ID values.
      @param rc If not NULL, points to a CMPIStatus structure that
      upon return has been updated with the function return status.
      @return If successful, returns a new C-language string, in the codepage
@@ -5928,8 +6002,17 @@ struct _CMPIStringFT {
      &lt;CMPIBrokerMemFT.freeChars()&gt;.
 
      If not successful, returns NULL.
+
+     The function return status indicates one of the following @ref CMPIrc
+        codes:
+
+        * * `CMPI_RC_OK` - Function successful.
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>str</tt> handle is invalid.
+        * * `CMPI_RC_ERR_INVALID_PARAMETER` - The `cpid` argument is invalid.
+        * * `CMPI_RC_ERR_NOT_IN_CODEPAGE` - The string contains characters that
+             are not representable in the specified codepage.
+  
      @version Added in CMPI 2.1.
-     @todo add status codes
      */
     char* (*newCharsCP) (const CMPIString* str, const CMPICodepageID cpid,
             CMPIStatus* rc);
@@ -5977,11 +6060,19 @@ struct _CMPIArrayFT {
 
     /** @brief Release a CMPIArray object.
 
-     The Array object will not be used any further and may be freed by
-     CMPI run time system.
-     @param ar Pointer to this <tt>CMPIArray</tt>.
-     @return Service return status.
-     @todo add status codes
+     `CMPIArrayFT.release()` releases a CMPIArray object. This indicates
+         to the MB that the object (including any objects it contains) will
+         no longer be used by the MI. The MB may free (=reclaim) the memory 
+         associated with the object during the call to this function, or 
+         later during some garbage collection cycle (see Subclause 4.1.7).
+     @param ar Pointer to the CMPIArray object to be released. That object 
+         shall have been created using CMPIArrayFT.clone()..
+     @return CMPIStatus structure indicating the function return status .
+        The function return status indicates one of the following @ref CMPIrc
+        codes:
+
+        @li `CMPI_RC_OK` - Function successful.
+        @li `CMPI_RC_ERR_INVALID_HANDLE` - The `ar`` handle is invalid.  
      */
     CMPIStatus (*release) (CMPIArray* ar);
 
@@ -5989,10 +6080,18 @@ struct _CMPIArrayFT {
 
      Create an independent copy of this Array object. The resulting
      object must be released explicitly.
-     @param ar Pointer to this <tt>CMPIArray</tt> object.
+     @param ar Pointer to this CMPIArray object.
      @param rc Output: Service return status (suppressed when NULL).
-     @return Pointer to copied Array object.
-     @todo add status codes
+     @return If successful, a pointer to the copied CMPIArray object will be 
+     returned.
+     The returned CMPIArray object shall be explicitly released by the MI 
+         using CMPIArrayFT.release().
+     If not successful, NULL will be returned.
+.
+    The function return status indicates one of the following @ref CMPIrc codes:
+
+        * * `CMPI_RC_OK` - Function successful.
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>ar</tt> handle is invalid.
      */
     CMPIArray* (*clone) (const CMPIArray* ar, CMPIStatus* rc);
 
@@ -6008,11 +6107,11 @@ struct _CMPIArrayFT {
          array elements will be returned.
 
          If not successful, 0 will be returned.
-        
+
     The function return status indicates one of the following @ref CMPIrc codes:
 
         * * `CMPI_RC_OK` - Function successful.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>ar</tt> handle is invalid. 
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>ar</tt> handle is invalid.
      */
     CMPICount (*getSize) (const CMPIArray* ar, CMPIStatus* rc);
 
@@ -6028,14 +6127,14 @@ struct _CMPIArrayFT {
          for a CMPIArray object that contains CMPIString objects, will be
          CMPI_string, and not CMPI_stringA.
 
-     If not successful, CMPI_null will be returned.   
-        
+     If not successful, CMPI_null will be returned.
+
     The function return status indicates one of the following @ref CMPIrc codes:
 
         * * `CMPI_RC_OK` - Function successful.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>ar</tt> handle is invalid.         
-        
-     @todo CMPI_null should be linked somehow 
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>ar</tt> handle is invalid.
+
+     @todo CMPI_null should be linked somehow
      */
     CMPIType (*getSimpleType) (const CMPIArray* ar, CMPIStatus* rc);
 
@@ -6068,7 +6167,7 @@ struct _CMPIArrayFT {
     CMPIData (*getElementAt) (const CMPIArray* ar, CMPICount index,
             CMPIStatus* rc);
 
-    /** @brief Set the value of an existing array element in a CMPIArray
+    /* @brief Set the value of an existing array element in a CMPIArray
        object by index
 
      This function sets the value <tt>value</tt> and <tt>type</tt>
@@ -6093,15 +6192,16 @@ struct _CMPIArrayFT {
      If not successful, the array element's state shall be set to
      CMPI_nullValue, if possible.
 
-     The function return status will indicate one of the following CMPIrc codes:
+     The function return status will indicate one of the following @ref CMPIrc 
+         codes:
      <ul>
      <li><tt>CMPI_RC_OK</tt> - Function successful.
-     <li><tt>CMPI_RC_ERR_NO_SUCH_PROPERTY</tt> - <tt>index</tt>   
+     <li><tt>CMPI_RC_ERR_NO_SUCH_PROPERTY</tt> - <tt>index</tt>
          value out of range.
-     <li><tt>CMPI_RC_ERR_TYPE_MISMATCH</tt> - <tt>type</tt> does not   
-         correspond to the simple base type of <tt>ar</tt>.   
-     <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> - The <tt>ar</tt>   
-         handle is invalid.   
+     <li><tt>CMPI_RC_ERR_TYPE_MISMATCH</tt> - <tt>type</tt> does not
+         correspond to the simple base type of <tt>ar</tt>.
+     <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> - The <tt>ar</tt>
+         handle is invalid.
      </ul>
 
      @deprecated The use of CMPI_null for the `type` argument is deprecated
@@ -6166,20 +6266,21 @@ struct _CMPIEnumerationFT {
         released. That object shall have been created using
          CMPIEnumerationFT.clone().
      @return CMPIStatus structure indicating the function return status.
-    The function return status will indicate one of the following CMPIrc codes:
+    The function return status will indicate one of the following @ref CMPIrc 
+        codes:
     <ul>
-    <li><tt>CMPI_RC_OK</tt> -  Function successful.
-    <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> -  Invalid encapsulated data type
+    <li><tt>CMPI_RC_OK</tt> - Function successful.
+    <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> - Invalid encapsulated data type 
         handle.
     </ul>
      */
     CMPIStatus (*release) (CMPIEnumeration* en);
 
-    /** @brief Create an independent copy of a <tt>CMPIEnumeration</tt> object.
+    /** @brief Create an independent copy of a CMPIEnumeration object.
 
-     Creates an independent copy of this <tt>CMPIEnumeration</tt> object.
+     Creates an independent copy of this CMPIEnumeration object.
          The resulting object must be released explicitly.
-     @param en Pointer to the <tt>CMPIEnumeration</tt> object to be copied.
+     @param en Pointer to the CMPIEnumeration object to be copied.
      @param rc Output: If not NULL, points to a CMPIStatus structure that upon
         return has been updated with the function return status.
      @return If successful, returns a pointer to the copied
@@ -6189,13 +6290,17 @@ struct _CMPIEnumerationFT {
      the MI using CMPIEnumerationFT.release().
 
      If not successful, returns NULL.
-     @todo add status codes
+
+     The function return status indicates one of the following @ref CMPIrc
+        codes:
+
+        * * `CMPI_RC_OK` - Function successful.
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The `en` handle is invalid.
      */
     CMPIEnumeration* (*clone) (const CMPIEnumeration* en, CMPIStatus* rc);
 
     /** @brief  Get the next element in a CMPIEnumeration object.
 
-     Get the next element of the CMPIEnumeration &lten&gt.
      @param en Pointer to the CMPIEnumeration object for this function.
      @param rc Output: If not NULL, points to a CMPIStatus
          structure that upon return will have been updated with the function
@@ -6205,7 +6310,12 @@ struct _CMPIEnumerationFT {
 
          If not successful, CMPIData.state will have the CMPI_badValue
          flag set to true
-     @todo add status codes
+
+     The function return status indicates one of the following @ref CMPIrc
+        codes:
+
+        * * `CMPI_RC_OK` - Function successful.
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The `en` handle is invalid.
      */
     CMPIData (*getNext) (const CMPIEnumeration* en, CMPIStatus* rc);
 
@@ -6221,14 +6331,20 @@ struct _CMPIEnumerationFT {
      enumeration has more elements left; False indicates that this is
      not the case.
 
-     If not successful, False will be returned
-     @todo add status codes
+     If not successful, False will be returned.   
+        
+     The function return status indicates one of the following @ref CMPIrc
+        codes:
+
+        * * `CMPI_RC_OK` - Function successful.
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>en</tt> handle is invalid.
      */
     CMPIBoolean (*hasNext) (const CMPIEnumeration* en, CMPIStatus* rc);
 
     /** @brief Convert a CMPIEnumeration object to a CMPIArray object.
 
-     Converts <tt>en</tt> the Enumeration into a CMPIArray.
+     `CMPIEnumerationFT.toArray()` converts  the CMPIEnumeration object
+     represented by the argument <tt>en</tt> into a CMPIArray.
      @param en Pointer to the CMPIEnumeration object for this function.
      @param rc Output: If not NULL, points to a CMPIStatus
          structure that upon return will have been updated with the function
@@ -6243,7 +6359,11 @@ struct _CMPIEnumerationFT {
      (see Subclause 4.1.7).
 
      If not successful, returns NULL.
-     @todo add status codes
+     The function return status indicates one of the following @ref CMPIrc
+        codes:
+
+        * * `CMPI_RC_OK` - Function successful.
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>en</tt> handle is invalid.
      */
     CMPIArray* (*toArray) (const CMPIEnumeration* en, CMPIStatus* rc);
 };
@@ -6296,7 +6416,7 @@ struct _CMPIDateTimeFT {
         object shall have been created using CMPIDateTimeFT.clone()..
      @return CMPIStatus structure indicating the function return status.
 
-    The function return status will indicate one of the following CMPIrc codes:
+    The function return status will indicate one of the following @ref CMPIrc codes:
     <ul>
     <li><tt>CMPI_RC_OK</tt> -  Function successful.
     <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> -  Invalid encapsulated data type
@@ -6319,7 +6439,7 @@ struct _CMPIDateTimeFT {
 
          If not successful, returns NULL
 
-    The function return status will indicate one of the following CMPIrc codes:
+    The function return status will indicate one of the following @ref CMPIrc codes:
     <ul>
     <li><tt>CMPI_RC_OK</tt> -  Function successful.
     <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> -  Invalid encapsulated data type
@@ -6342,7 +6462,7 @@ struct _CMPIDateTimeFT {
 
          If not successful, returns 0.
 
-    The function return status will indicate one of the following CMPIrc codes:
+    The function return status will indicate one of the following @ref CMPIrc codes:
     <ul>
     <li><tt>CMPI_RC_OK</tt> -  Function successful.
     <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> -  Invalid encapsulated data type
@@ -6371,7 +6491,7 @@ struct _CMPIDateTimeFT {
 
      If not successful, returns NULL
 
-    The function return status will indicate one of the following CMPIrc codes:
+    The function return status will indicate one of the following @ref CMPIrc codes:
     <ul>
     <li><tt>CMPI_RC_OK</tt> -  Function successful.
     <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> -  Invalid encapsulated data type
@@ -6394,7 +6514,7 @@ struct _CMPIDateTimeFT {
 
     If not successful, False will be returned.
 
-    The function return status will indicate one of the following CMPIrc codes:
+    The function return status will indicate one of the following @ref CMPIrc codes:
     <ul>
     <li><tt>CMPI_RC_OK</tt> -  Function successful.
     <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> -  Invalid encapsulated data type
@@ -6453,7 +6573,7 @@ struct _CMPIPropertyListFT {
      @param plist Pointer to the CMPIPropertyList object to be released.
      @return CMPIStatus structure indicating the function return status.
 
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <ul>
          <li><tt>CMPI_RC_OK</tt> Operation successful.
          <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt>Invalid <tt>plist</tt>.
@@ -6476,7 +6596,7 @@ struct _CMPIPropertyListFT {
 
          If not successful, returns NULL.
 
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <ul>
          <li><tt>CMPI_RC_OK</tt> Operation successful.
          <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt>Invalid <tt>plist</tt>.
@@ -6505,7 +6625,7 @@ struct _CMPIPropertyListFT {
 
      If not successful, returns False.
 
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <ul>
          <li><tt>CMPI_RC_OK</tt> Operation successful.
          <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt>Invalid <tt>plist</tt>.
@@ -6540,7 +6660,8 @@ struct _CMPIPropertyListFT {
         @todo KS_TODO
 
         If not successful, returns NULL.
-     The following CMPIrc codes shall be recognized:
+
+     The following @ref CMPIrc codes shall be recognized:
      <ul>
          <li><tt>CMPI_RC_OK</tt> Operation successful.
          <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> The <tt>plist</tt> handle is
@@ -6600,7 +6721,7 @@ struct _CMPIEnumerationFilterFT {
      @param rslt Pointer to the CMPIResult object to be released.
      @return CMPIStatus structure indicating the function return status.
 
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <ul>
          <li>CMPI_RC_OK Operation successful.
          <li>CMPI_RC_ERR_INVALID_HANDLE The <tt>ef</tt> handle is invalid.
@@ -6625,7 +6746,7 @@ struct _CMPIEnumerationFilterFT {
 
          If not successful, returns NULL.
 
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <ul>
          <li>CMPI_RC_OK Operation successful.
          <li>CMPI_RC_ERR_INVALID_HANDLE The <tt>ef</tt> handle is invalid.
@@ -6652,7 +6773,7 @@ struct _CMPIEnumerationFilterFT {
 
        If not successful, returns False.
 
-     The function return status will indicate one of the following CMPIrc codes:
+     The function return status will indicate one of the following @ref CMPIrc codes:
      <ul>
          <li><tt>CMPI_RC_OK</tt> Operation successful.
          <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt> The <tt>ef</tt> handle is
@@ -6763,7 +6884,7 @@ struct _CMPIInstanceMIFT {
      terminating set to true).
     </ul>
      @return Function return status.
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <ul>
      <li> <tt>CMPI_RC_OK</tt> Operation successful.
      <li> <tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
@@ -6805,7 +6926,7 @@ struct _CMPIInstanceMIFT {
          should be ignored.
      @return CMPIStatus structure indicating the function return status.
 
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD><tt>CMPI_RC_OK</tt></TD> <TD>N/A</TD><TD>Function Successful</TD>
@@ -6868,7 +6989,7 @@ struct _CMPIInstanceMIFT {
          MUST NOT include elements for any properties missing from this list.
      @return CMPIStatus structure indicating the function return status.
 
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD><tt>CMPI_RC_OK</tt></TD> <TD>N/A</TD><TD>Function Successful</TD>
@@ -6926,7 +7047,7 @@ struct _CMPIInstanceMIFT {
          array define one or more Property names. Each returned object
          MUST NOT include elements for any Properties missing from this list..
      @return CMPIStatus structure indicating the function return status.
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD><tt>CMPI_RC_OK</tt></TD> <TD>N/A</TD><TD>Function Successful</TD>
@@ -6987,7 +7108,7 @@ struct _CMPIInstanceMIFT {
          MIs
      @return Function return status.
 
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD><tt>CMPI_RC_OK</tt></TD> <TD>N/A</TD><TD>Function Successful</TD>
@@ -7060,7 +7181,7 @@ struct _CMPIInstanceMIFT {
 
      @return CMPIStatus structure indicating the function return status.
 
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD><tt>CMPI_RC_OK</tt></TD> <TD>N/A</TD><TD>Function Successful</TD>
@@ -7113,7 +7234,7 @@ struct _CMPIInstanceMIFT {
          meaning and should be ignored.
      @return CMPIStatus structure indicating the function return status.
 
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD><tt>CMPI_RC_OK</tt></TD> <TD>N/A</TD><TD>Function Successful</TD>
@@ -7164,7 +7285,7 @@ struct _CMPIInstanceMIFT {
      language.
      @return CMPIStatus structure indicating the function return status.
 
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD><tt>CMPI_RC_OK</tt></TD> <TD>N/A</TD><TD>Function Successful</TD>
@@ -7243,7 +7364,7 @@ struct _CMPIInstanceMIFT {
      @param continueOnerror
      @return CMPIStatus structure indicating the function return status.
 
-     The following table lists the CMPIrc codes that shall be used by the MI
+     The following table lists the @ref CMPIrc codes that shall be used by the MI
      in the function return status, as well as the WBEM operation messages
      that should be used in the CMPIError object if the MI supports extended
      error handling (see Subclause 8.14):
@@ -7381,7 +7502,7 @@ struct _CMPIAssociationMIFT {
      </ul>
      @return CMPIStatus structure indicating the function return status.
 
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <ul>
          <li><tt>CMPI_RC_OK</tt> Operation successful.
          <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
@@ -7395,10 +7516,10 @@ struct _CMPIAssociationMIFT {
     CMPIStatus (*cleanup) (CMPIAssociationMI* mi, const CMPIContext* ctx,
             CMPIBoolean terminating);
 
-    /** @brief Enumerate the instances associated with a given source
-          instance that are serviced by this MI.
+    /** @brief Enumerate the instances associated with a given
+          source instance that are serviced by this MI.
 
-     The CMPIAssociationMIFT.associators() MI function shall enumerate the
+     The `CMPIAssociationMIFT.associators()` MI function shall enumerate the
      instances associated with a given source instance and that are serviced
      by this MI, by accessing the underlying managed elements.
 
@@ -7441,7 +7562,7 @@ struct _CMPIAssociationMIFT {
      the returned Object MUST match the value of this parameter).
 
      @return CMPIStatus structure indicating the function return status.
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD><tt>CMPI_RC_OK</tt></TD> <TD>N/A</TD><TD>Function Successful</TD>
@@ -7473,9 +7594,10 @@ struct _CMPIAssociationMIFT {
     /** @brief Enumerate the instance paths of instances associated
        with a given source instance that are serviced by this MI.
 
-     The CMPIAssociationMIFT.associatorNames() MI function shall enumerate the
-     instance paths of instances associated with a given source instance and
-     that are serviced by this MI, by accessing the underlying managed elements.
+     The `CMPIAssociationMIFT.associatorNames()` MI function shall enumerate 
+     the instance paths of instances associated with a given source instance
+     and that are serviced by this MI, by accessing the underlying managed 
+     elements.
 
     This function is provided by the MI in context of a particular MI name.
     The class of the <tt>instPath</tt> argument for which this function will
@@ -7521,7 +7643,7 @@ struct _CMPIAssociationMIFT {
          the returned Object MUST match the value of this parameter).
      @return CMPIStatus structure indicating the function return status.
 
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD><tt>CMPI_RC_OK</tt></TD> <TD>N/A</TD><TD>Function Successful</TD>
@@ -7551,10 +7673,10 @@ struct _CMPIAssociationMIFT {
             const char* resultClass, const char* role,
             const char* resultRole);
 
-    /** @brief enumerate the instance paths of instances associated
+    /** @brief Enumerate the instance paths of instances associated
        with a given source instance that are serviced by this MI.
 
-     The CMPIAssociationMIFT.associatorNames() MI function shall
+     The `CMPIAssociationMIFT.associatorNames()` MI function shall
      enumerate the instance paths of instances associated with <tt>instPath</tt>
      a given source instance and that are serviced by this MI, by accessing
      the underlying managed elements.
@@ -7592,7 +7714,7 @@ struct _CMPIAssociationMIFT {
      names. Each returned Object MUST NOT include elements for any Properties
      missing from this list
      @return CMPIStatus structure indicating the function return status.
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD><tt>CMPI_RC_OK</tt></TD> <TD>N/A</TD><TD>Function Successful</TD>
@@ -7628,7 +7750,7 @@ struct _CMPIAssociationMIFT {
     /** @brief Enumerate the instance paths of association instances
            referencing a given source instance that are serviced by this MI.
 
-     The CMPIAssociationMIFT.referenceNames() MI function shall enumerate
+     The `CMPIAssociationMIFT.referenceNames()` MI function shall enumerate
      the instance paths of the association instances referencing a given
      source instance and that are serviced by this MI, by accessing the
      underlying managed elements.
@@ -7666,7 +7788,7 @@ struct _CMPIAssociationMIFT {
          (i.e. the name of the Property in the Association Class that refers
          to the source Object MUST match the value of this argument).
      @return CMPIStatus structure indicating the function return status.
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD><tt>CMPI_RC_OK</tt></TD> <TD>N/A</TD><TD>Function Successful</TD>
@@ -7701,8 +7823,109 @@ struct _CMPIAssociationMIFT {
 
 #ifdef CMPI_VER_210
 
-    /**
-     @todo KS_TODO add description
+    /** @brief Enumerate the instances associated with a given
+      source instance serviced by this MI, returning only instances
+      that match the `filterQuery` argument.
+
+     The `CMPIAssociationMIFT.associatorsFiltered()` MI function shall   
+         enumerate instances associated with a source instance and that   
+         are serviced by this MI, returning only those instances that   
+         match the `filterQuery argument`, by accessing the underlying   
+         managed elements. The returned instances shall have their   
+         instance paths set. If no such instances are found, the   
+         function shall return success with an empty result data   
+         container.
+     @param mi Pointer to an association instance.
+     @param ctx Pointer to a CMPIContext object containing the context data
+         for the invocation (see Subclause 8.1).
+     @param rslt Pointer to a CMPIResult object that is the result data
+         container. Upon successful return, the MI shall have put all
+         instance paths representing the result set into this container
+         (see Subclause 8.2).
+     @param instPath Pointer to to a CMPIObjectPath object that references the
+         given source instance and that contains the namespace, class name,
+         and key components. The hostname component, if present,
+         has no meaning and should be ignored. If the source instance
+         does not exist, this function shall either return success with
+         an empty result data container or CMPI_RC_ERR_NOT_FOUND. 
+         <b>(Deprecated)</b>
+     @param assocClass if not NULL, shall be a valid association class name. 
+         It acts as a filter on the returned set of objects by mandating that 
+         each returned object shall be associated with the source object via 
+         an instance of this class or one of its subclasses.
+     @param resultClass If not NULL, MUST be a valid Class name.
+         It acts as a filter on the returned set of Objects by mandating that
+         each returned Object MUST be either an Instance of this Class (or one
+         of its subclasses).
+     @param role If not NULL, MUST be a valid Property name.
+         It acts as a filter on the returned set of Objects by mandating
+         that each returned Object MUST be associated to the source Object
+         via an Association in which the source Object plays the specified role
+         (i.e. the name of the Property in the Association Class that refers
+         to the source Object MUST match the value of this argument).
+     @resultRole if not NULL, shall be a valid property name. It acts as a 
+         filter on the returned set of objects by mandating that each returned 
+         object shall be associated with the source object via an association
+         in which the returned object plays the specified role (i.e., the name
+         of the property in the association class that refers to the returned 
+         object shall match the value of this argument).
+     @param properties If not NULL, is an array of zero or more pointers to
+         strings, each specifying a property name. The end of the array is
+         identified by a NULL pointer. The invocation flags specified in the 
+         CMPIInvocationFlags entry of the ctx argument have no meaning for
+         this function. Each returned instance shall not include elements for 
+         any properties missing from this list. If the properties argument is 
+         NULL, this indicates that all properties shall be included in each 
+         returned instance.
+     @param filterQueryLanguage defines the query language used by the 
+         `filterQuery` argument. If it is NULL, the `filterQuery` argument 
+         is ignored and no filtering is performed. Note that FQL is required
+         to be supported by MIs as a query language; see Subclause 4.5.
+     @param filterQuery defines the query in the query language defined by 
+         the filterQueryLanguage argument. If NULL, no filtering is performed. 
+         A request that specifies a filter through valid and non-NULL 
+         `filterQueryLanguage` and `filterQuery` arguments shall return only 
+         instances that match that filter as defined in the filter 
+         specification.
+     @param continueOnError defines whether this operation may continue to 
+         return objects after it returns an error. If false, the MI shall 
+         terminate after returning an error to the result data container. 
+         If true, the MI may continue to returning data (objects and subsequent 
+         errors) to the result data container after returning an error. An MI 
+         that cannot continue after returning an error shall ignore the value 
+         of the `continueOnError` argument and shall behave as if it was 
+         specified as false.
+     @return CMPIStatus structure indicating the function return status.
+         The following @ref CMPIrc codes shall be recognized:
+     <TABLE>
+     <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
+     <TR><TD><tt>CMPI_RC_OK</tt></TD> <TD>N/A</TD><TD>Function Successful</TD>
+     </TR>
+     <TR><TD><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt></TD> <TD>WIPG0228</TD>
+     <TD>Function is not supported by this MB</TD>
+     </TR>
+     <TR><TD><tt>CMPI_RC_ERR_INVALID_PARAMETER</tt></TD> <TD>WIPG0249</TD>
+     <TD>Invalid filter parameters.</TD>
+     </TR>
+     <TR><TD><tt>CMPI_RC_ERR_ACCESS_DENIED</tt></TD> <TD>WIPG0201</TD>
+     <TD>Not authorized.</TD>
+     </TR>
+     <TR><TD><tt>CMPI_RC_ERR_NOT_FOUND</tt></TD> <TD>WIPG0213</TD>
+     <TD>Instance not found. Instead of using this return code if the source
+     instance does not exist, the MI should return success with an empty result
+     data container. The MB shall treat this return code as a successful
+     return of an empty result set. (Deprecated)</TD>
+     </TR>
+     <TR><TD><tt>CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED</tt></TD><TD>WIPG0240</TD>
+     <TD>Limits exceeded.</TD></TR>
+     <TR><TD><tt>CMPI_RC_ERR_FAILED</tt></TD><TD>WIPG0243</TD>
+     <TD>Timeout occurred.</TD></TR>
+     <TR><TD><tt>CMPI_RC_ERR_FAILED</tt></TD><TD>WIPG0227+implementation
+     specific message</TD> <TD>Other error occurred.</TD></TR>
+     </TABLE>
+     @version Added in CMPI 2.1 as part of the support for pulled client 
+         operations.
+     @todo probably need more specific ref to FQL than this.
      */
     CMPIStatus (*associatorsFiltered)
         ( CMPIAssociationMI* mi, const CMPIContext* ctx, const CMPIResult* rslt,
@@ -7711,11 +7934,97 @@ struct _CMPIAssociationMIFT {
          const char** properties, const char* filterQueryLanguage,
          const char* filterQuery, CMPIBoolean continueOnError);
 
-    /** @brief enumerate the association instances referencing a
-     *         given source instance that are serviced by this MI,
-     *         returning only those instances that match the
-     *         filterQuery argument
-     *  @todo KS_TODO complete the description
+    /** @brief Enumerate the association instances referencing a given source 
+       instance that are serviced by this MI, returning only those instances 
+       that match the `filterQuery` argument.
+
+       The `CMPIAssociationMIFT.referencesFiltered()` MI function shall 
+       enumerate the association instances referencing a given source instance 
+       and that are serviced by this MI, returning only those instances that 
+       match the `filterQuery` argument, by accessing the underlying managed 
+       elements. The returned instances shall have their instance paths set. 
+       If no such instances are found, the function shall return success with 
+       an empty result data container.
+     @param mi Pointer to an association instance.
+     @param ctx Pointer to a CMPIContext object containing the context data
+         for the invocation (see Subclause 8.1).
+     @param rslt Pointer to a CMPIResult object that is the result data
+         container. Upon successful return, the MI shall have put all
+         instance paths representing the result set into this container
+         (see Subclause 8.2).
+     @param instPath Pointer to to a CMPIObjectPath object that references the
+         given source instance and that contains the namespace, class name,
+         and key components. The hostname component, if present,
+         has no meaning and should be ignored. If the source instance
+         does not exist, this function shall either return success with
+         an empty result data container or CMPI_RC_ERR_NOT_FOUND. (Deprecated)
+     @param resultClass If not NULL, MUST be a valid Class name.
+         It acts as a filter on the returned set of Objects by mandating that
+         each returned Object MUST be either an Instance of this Class (or one
+         of its subclasses).
+     @param role If not NULL, MUST be a valid Property name.
+         It acts as a filter on the returned set of Objects by mandating
+         that each returned Object MUST be associated to the source Object
+         via an Association in which the source Object plays the specified role
+         (i.e. the name of the Property in the Association Class that refers
+         to the source Object MUST match the value of this argument).
+     @param properties If not NULL, is an array of zero or more pointers to
+         strings, each specifying a property name. The end of the array is
+         identified by a NULL pointer. The invocation flags specified in the 
+         CMPIInvocationFlags entry of the ctx argument have no meaning for
+         this function. Each returned instance shall not include elements for 
+         any properties missing from this list. If the properties argument is 
+         NULL, this indicates that all properties shall be included in each 
+         returned instance.
+     @param filterQueryLanguage defines the query language used by the 
+         `filterQuery` argument. If it is NULL, the `filterQuery` argument 
+         is ignored and no filtering is performed. Note that FQL is required
+         to be supported by MIs as a query language; see Subclause 4.5.
+     @param filterQuery defines the query in the query language defined by 
+         the filterQueryLanguage argument. If NULL, no filtering is performed. 
+         A request that specifies a filter through valid and non-NULL 
+         `filterQueryLanguage` and `filterQuery` arguments shall return only 
+         instances that match that filter as defined in the filter 
+         specification.
+     @param continueOnError defines whether this operation may continue to 
+         return objects after it returns an error. If false, the MI shall 
+         terminate after returning an error to the result data container. 
+         If true, the MI may continue to returning data (objects and subsequent 
+         errors) to the result data container after returning an error. An MI 
+         that cannot continue after returning an error shall ignore the value 
+         of the `continueOnError` argument and shall behave as if it was 
+         specified as false.
+     @return CMPIStatus structure indicating the function return status.
+         The following @ref CMPIrc codes shall be recognized:
+     <TABLE>
+     <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
+     <TR><TD><tt>CMPI_RC_OK</tt></TD> <TD>N/A</TD><TD>Function Successful</TD>
+     </TR>
+     <TR><TD><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt></TD> <TD>WIPG0228</TD>
+     <TD>Function is not supported by this MB</TD>
+     </TR>
+     <TR><TD><tt>CMPI_RC_ERR_INVALID_PARAMETER</tt></TD> <TD>WIPG0249</TD>
+     <TD>Invalid filter parameters.</TD>
+     </TR>
+     <TR><TD><tt>CMPI_RC_ERR_ACCESS_DENIED</tt></TD> <TD>WIPG0201</TD>
+     <TD>Not authorized.</TD>
+     </TR>
+     <TR><TD><tt>CMPI_RC_ERR_NOT_FOUND</tt></TD> <TD>WIPG0213</TD>
+     <TD>Instance not found. Instead of using this return code if the source
+     instance does not exist, the MI should return success with an empty result
+     data container. The MB shall treat this return code as a successful
+     return of an empty result set. (Deprecated)</TD>
+     </TR>
+     <TR><TD><tt>CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED</tt></TD><TD>WIPG0240</TD>
+     <TD>Limits exceeded.</TD></TR>
+     <TR><TD><tt>CMPI_RC_ERR_FAILED</tt></TD><TD>WIPG0243</TD>
+     <TD>Timeout occurred.</TD></TR>
+     <TR><TD><tt>CMPI_RC_ERR_FAILED</tt></TD><TD>WIPG0227+implementation
+     specific message</TD> <TD>Other error occurred.</TD></TR>
+     </TABLE>
+     @version Added in CMPI 2.1 as part of the support for pulled client 
+         operations.
+     @todo probably need more specific ref to FQL than this.
      */
     CMPIStatus (*referencesFiltered)
         ( CMPIAssociationMI* mi, const CMPIContext* ctx, const CMPIResult* rslt,
@@ -7795,7 +8104,7 @@ struct _CMPIMethodMIFT {
      interfere with current MI processing.
      @return Function return status.
 
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <ul>
      <li><tt>CMPI_RC_OK</tt> Operation successful.
      <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
@@ -7859,7 +8168,7 @@ struct _CMPIMethodMIFT {
          the method output parameters.
      @return CMPIStatus structure indicating the function return status.
 
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <ul>
      <li><tt>CMPI_RC_OK</tt> Operation successful.
      <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
@@ -7972,7 +8281,7 @@ struct _CMPIPropertyMIFT {
     with terminating set to true).
      </ul>
      @return CMPIStatus structure indicating the function return status.
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <ul>
      <li><tt>CMPI_RC_OK</tt> Operation successful.
      <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
@@ -8018,7 +8327,7 @@ struct _CMPIPropertyMIFT {
      @param data CMPIData structure specifying the value to be assigned
          to the property
      @return CMPIStatus structure indicating the function return
-     status. The following CMPIrc codes shall be recognized:
+     status. The following @ref CMPIrc codes shall be recognized:
      <ul>
      <li><tt>CMPI_RC_OK</tt> Operation successful.
      <li><tt>CMPI_RC_ERR_TYPE_MISATCH</tt> type does not correspond
@@ -8063,7 +8372,7 @@ struct _CMPIPropertyMIFT {
          meaning and should be ignored.
      @param name Pointer to a string specifying the property name
      @return CMPIStatus structure indicating the function return
-     status. The following CMPIrc codes shall be recognized:
+     status. The following @ref CMPIrc codes shall be recognized:
      <ul>
      <li><tt>CMPI_RC_OK</tt> Operation successful.
      <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
@@ -8207,7 +8516,7 @@ struct _CMPIIndicationMIFT {
     </ul>
 
     @return CMPIStatus structure indicating the function return status.
-    The following CMPIrc codes shall be recognized:
+    The following @ref CMPIrc codes shall be recognized:
     <ul>
     <li><tt>CMPI_RC_OK</tt> Operation successful.
     <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
@@ -8260,11 +8569,11 @@ struct _CMPIIndicationMIFT {
             the CMPIObjectPath object specifies the namespace path of the
             origin namespace of the process indications.
          </ul>
-      @param owner The <tt>owner</tt> argument points to a string  
+      @param owner The <tt>owner</tt> argument points to a string
           specifying the destination owner.
       @return This function shall return a structure containing the service
       return status.
-      The following CMPIrc codes shall be recognized:
+      The following @ref CMPIrc codes shall be recognized:
       <ul>
       <li><tt>CMPI_RC_OK</tt> Operation successful.
       <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
@@ -8303,7 +8612,7 @@ struct _CMPIIndicationMIFT {
      Only the namespace part is set if  className is a process indication.
      @return This function shall return a CMPIStatus structure containing
      the service return status.
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <ul>
      <li><tt>CMPI_RC_OK</tt> Operation successful.
      <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
@@ -8370,7 +8679,7 @@ struct _CMPIIndicationMIFT {
         </ul>
      <tt>className</tt>.
      @return CMPIStatus structure containing the function return status.
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <ul>
      <li><tt>CMPI_RC_OK</tt> Operation successful.
      <li><tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
@@ -8442,7 +8751,7 @@ struct _CMPIIndicationMIFT {
      @param lastActiviation Set to true if this is the last filter for
      className.
      @return  CMPIStatus structure containing the function return status.
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <tt>CMPI_RC_OK</tt> Operation successful.
      <tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
      <tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> Operation not supported by this MI.
@@ -8474,7 +8783,7 @@ struct _CMPIIndicationMIFT {
          operation that determines the context data. As a result, not all
          context data entries may be present.
      @return CMPIStatus structure indicating the function return status.
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <tt>CMPI_RC_OK</tt> Operation successful.
      <tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
      <tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> Operation not supported by this MI.
@@ -8501,7 +8810,7 @@ struct _CMPIIndicationMIFT {
        operation that determines the context data. As a result, not all
        context data entries may be present.
      @return CMPIStatus structure containing the function return status.
-     The following CMPIrc codes shall be recognized:
+     The following @ref CMPIrc codes shall be recognized:
      <tt>CMPI_RC_OK</tt> Operation successful.
      <tt>CMPI_RC_ERR_FAILED</tt> Unspecific error occurred.
      <tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> Operation not supported by this MI.
@@ -8535,14 +8844,18 @@ struct _CMPIIndicationMIFT {
            can be identified by inspecting the CollectionName property
            of this instance
       @return CMPIStatus structure containing the service return status.
-
-        The following CMPIrc codes shall be recognized:
-        CMPI_RC_OK	Function successful, filter collection is supported by the MI.
-        CMPI_RC_ERR_FAILED	Unspecific error occurred.
-        CMPI_RC_ERR_NOT_SUPPORTED	Function is not supported by this MI, or filter collection is not supported by this MI.
-        CMPI_RC_ERR_ACCESS_DENIED	Not authorized.
-            Note: This return code indicates general authorization related issues and does not specifically indicate that the filter collection itself would not be authorized.
-        CMPI_RC_ERR_INVALID_PARAMETER	Invalid indication filter collection.
+        The following @ref CMPIrc codes shall be recognized:
+        @li `CMPI_RC_OK` - Function successful, filter collection is supported
+           by the MI.
+        @li `CMPI_RC_ERR_FAILED` - Unspecific error occurred.
+        @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI,
+           or filter collection is not supported by this MI.
+        @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
+            Note: This return code indicates general authorization related
+            issues and does not specifically indicate that the filter
+            collection itself would not be authorized.
+        @li `CMPI_RC_ERR_INVALID_PARAMETER` - Invalid indication filter
+            collection.
      @version Added in CMPI 2.1.
         */
     CMPIStatus (*authorizeFilterCollection) (CMPIIndicationMI* mi,
@@ -8604,20 +8917,19 @@ struct _CMPIIndicationMIFT {
        @param firstActivation set to true if this is the first activation
            of this indication filter collection after having been inactive,
            and is set to false otherwise
-       @return CMPIStatus structure containing the function return status
-
-     The following CMPIrc codes shall be recognized:
+       @return CMPIStatus structure containing the function return
+               status. The following @ref CMPIrc codes shall be recognized:
      <ul>
-        <li><tt>CMPI_RC_OK</tt> -  Function successful.
-        <li><tt>CMPI_RC_ERR_FAILED</tt> -  Unspecific error occurred.
-        <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> -  Function is not
+        <li><tt>CMPI_RC_OK</tt> - Function successful.
+        <li><tt>CMPI_RC_ERR_FAILED</tt> - Unspecific error occurred.
+        <li><tt>CMPI_RC_ERR_NOT_SUPPORTED</tt> - Function is not
             supported by this MI, or filter collection is not
             supported by this MI.
-        <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt> -  Not authorized.
+        <li><tt>CMPI_RC_ERR_ACCESS_DENIED</tt> - Not authorized.
         Note: This return code indicates general authorization related issues
             and does not specifically indicate that the filter collection
             itself would not be authorized.
-        <li><tt>CMPI_RC_ERR_INVALID_PARAMETER</tt> -  Invalid
+        <li><tt>CMPI_RC_ERR_INVALID_PARAMETER</tt> - Invalid
             indication filter collection.
        </ul>
        @version Added in CMPI 2.1.
@@ -8627,7 +8939,7 @@ struct _CMPIIndicationMIFT {
             const CMPIContext* ctx, const CMPIInstance* collInst,
             CMPIBoolean firstActivation);
 
-    /** @brief  Informs the MI that an indication filter collection has
+    /* @brief  Informs the MI that an indication filter collection has
        become inactive.
 
     The CMPIIndicationMIFT.deActivateFilterCollection() function informs
@@ -8686,8 +8998,7 @@ struct _CMPIIndicationMIFT {
     of this indication filter collection after having been active;
     set to false otherwise.
     @return  CMPIStatus structure containing the service return status.
-
-    The following CMPIrc codes shall be recognized:
+    The following @ref CMPIrc codes shall be recognized:
     <ul>
     <li><tt>CMPI_RC_OK</tt> -  Function successful.
     <li><tt>CMPI_RC_ERR_FAILED</tt> -  Unspecific error occurred.
