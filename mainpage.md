@@ -17,6 +17,9 @@ Open Group Standard:
 
 This standard is referred to as "CMPI Standard" in this online documentation.
 
+The specification is available from the OpengGroup at:
+    **TBA**
+
 Comments relating to the CMPI Standared, to this online documentation, or to
 the CMPI header files may be submitted to:
 
