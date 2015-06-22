@@ -256,9 +256,9 @@ struct _CMPIBrokerFT {
     /** @brief Prepare the MB to accept a new thread that will use
            MB functions.
 
-     The CMPIBrokerFT.prepareAttachThread() function prepares the CMPI run
-     time system to accept a thread that will be using CMPI services.
-     The returned CMPIContext object must be used by the subsequent
+     `CMPIBrokerFT.prepareAttachThread()` prepares the CMPI run time
+     system to accept a thread that will be using CMPI services. The   
+     returned CMPIContext object must be used by the subsequent   
      attachThread() and detachThread() invocations.
      @param mb Pointer to the broker.
      @param ctx Pointer to the CMPIContext object that was used to invoke
@@ -293,9 +293,8 @@ struct _CMPIBrokerFT {
     The function return status will indicate one of the following @ref CMPIrc codes:
     <ul>
     <li><tt>CMPI_RC_OK</tt>	- Function successful.
-    <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt>	- The <tt>mb</tt> handle *
-     *or *
-        <tt>ctx</tt> handle is invalid.
+    <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt>	- The <tt>mb</tt> handle  
+      or <tt>ctx</tt> handle is invalid.  
     </ul>
      */
     CMPIStatus (*attachThread) (const CMPIBroker* mb, const CMPIContext* ctx);
@@ -394,9 +393,9 @@ struct _CMPIBrokerFT {
     /** @brief Enumerate instance paths of instances of a given
             class (and its subclasses).
 
-     The CMPIBrokerFT.enumerateInstanceNames() function enumerates
-     instance names of the class (and subclasses) defined by
-         <tt>classPath</tt>.
+     `CMPIBrokerFT.enumerateInstanceNames()` enumerates instance   
+         names of the class (and subclasses) defined by the `classPath`
+         argument.
      @param mb Pointer to the broker.
      @param ctx Pointer to a CMPIContext object that specifies the same
          principal, role, accept language, and content language as the
@@ -409,7 +408,7 @@ struct _CMPIBrokerFT {
          class name components. The hostname and key components,
          if present, will be ignored by the MB.
      @param rc Output: If not NULL, points to a CMPIStatus structure that
-         upon return will have been updated with the function return status.
+         upon return updated with the function return status.
      @return If successful returns pointer to a new CIMEnumeration
          object containing CMPIObjectPaths objects that represent the
          enumerated instance paths. The new object will be released
@@ -441,7 +440,7 @@ struct _CMPIBrokerFT {
 
     /** @brief Get a given instance.
 
-     The CMPIBrokerFT.getInstance() function gets  anInstance using
+     The `CMPIBrokerFT.getInstance(`) function gets  a CMPIInstance using
      <tt>instPath</tt> as reference. Instance structure can be controled
      using the CMPIInvocationFlags in <tt>ctx</tt>.
 
@@ -771,7 +770,6 @@ struct _CMPIBrokerFT {
 
     /** @brief Enumerate the instances associated with a given
                source instance.
-
 
      The CMPIBrokerFT.associators() function enumerates the instances
      associated with a given source instance. The target MIs are identified
@@ -1672,16 +1670,18 @@ struct _CMPIBrokerEncFT {
     CMPIString* (*getType) (const CMPIBroker* mb,
         const void* object, CMPIStatus* rc);
 
-    /** @brief Get translated MB implementation specific message text
+    /** @brief Get translated MB implementation specific message
+               text
        <b>(Deprecated)</b>.
 
-     Retrieves translated message defined by <tt>msgId</tt>.
+     `CMPIBrokerEncFT.getMessage2()` retrieves translated message defined by 
+         the `msgId` argument.
 
-     Use CMPIBrokerEncFT.getMessage2() in place of this function.
+     Use `CMPIBrokerEncFT.getMessage2()` in place of this function.
      @param mb Pointer to the broker.
      @param msgId The message identifier.
-     @param defMsg The default message. Used when message
-         translation is not supported
+     @param defMsg The default message. Used when message translation is not 
+         supported
      @param rc Output: Service return status (suppressed when NULL).
      @param count The number of message substitution values.
      @return If successful returns the translated
@@ -1689,16 +1689,17 @@ struct _CMPIBrokerEncFT {
 
     The function return status indicates one of the following @ref CMPIrc codes:
 
-        * * `CMPI_RC_OK` - Function successful.
-        * * `CMPI_RC_TYPE_MISMATCH` - Invalid insert pair.
-        * * `CMPI_RC_ERR_INVALID_PARAMETER` - Count value range violation.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - <tt>mb</tt> handle is
+        @li `CMPI_RC_OK` - Function successful.
+        @li `CMPI_RC_TYPE_MISMATCH` - Invalid insert pair.
+        @li `CMPI_RC_ERR_INVALID_PARAMETER` - Count value range violation.
+        @li `CMPI_RC_ERR_INVALID_HANDLE` - `mb` handle is
             invalid.
 
      @see CMPIBrokerEncFt.getMessage2()
      @deprecated This function was deprecated in Issue 2.1 in favor of
      getMessage2().
-     @todo validate see and deprecation
+     @todo validate see and deprecation. Deprecation OK. Ks.  Have not
+     looked to see if @see works
      */
     CMPIString* (*getMessage) (const CMPIBroker* mb,
         const char* msgId, const char* defMsg, CMPIStatus* rc,
@@ -1706,8 +1707,8 @@ struct _CMPIBrokerEncFT {
 
     /** @brief Log a diagnostic message.
 
-     The CMPIBrokerEncFT.logMessage() function logs a diagnostic message
-     defined by the input arguments. It exists to provide a mechanism to MIs to
+     `CMPIBrokerEncFT.logMessage()` logs a diagnostic message defined by the 
+         input arguments. It exists to provide a mechanism to MIs to
      provider information about errors, status, etc.
 
      This function shall be supported by the MB if the Logging capability is
@@ -1729,9 +1730,9 @@ struct _CMPIBrokerEncFT {
 
     The function return status indicates one of the following CMPIrc codes:
 
-        * * `CMPI_RC_OK` - Function successful.
-        * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - <tt>mb</tt> or <tt>string</tt>
+        @li `CMPI_RC_OK` - Function successful.
+        @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+        @li `CMPI_RC_ERR_INVALID_HANDLE` - `mb` or `string`
              handle is invalid.
 
      @todo ks The id argument talked about he component argument. Changed but check
@@ -1917,7 +1918,7 @@ struct _CMPIBrokerEncFT {
 
     /** @brief Close a message file.
 
-     The CMPIBrokerEncFT.closeMessageFile() function closes a message file
+     `The `CMPIBrokerEncFT.closeMessageFile()` closes a message file
      previously opened by CMPIBrokerEncFT.openMessageFile(). If the message
      file handle is NULL, the message file is not closed, and this is not
      considered a failure.
@@ -3048,8 +3049,8 @@ struct _CMPIContextFT {
 
     /** @brief Create an independent copy of a @ref CMPIContext object.
 
-     CMPIContextFT.clone() creates an independent copy of the @ref CMPIContext
-         object.
+     `CMPIContextFT.clone()` creates an independent copy of the @ref   
+         CMPIContext object.
      @param ctx Context this pointer.
      @param[out] rc If not NULL, points to a CMPIStatus structure that
          upon return has been updated with the function return status..
@@ -4385,7 +4386,7 @@ struct _CMPIInstanceFT {
     CMPIObjectPath* (*getObjectPath) (const CMPIInstance* inst,
             CMPIStatus* rc);
 
-    /* @brief Attach a property filter to a <tt>CMPIInstance</tt>
+    /** @brief Attach a property filter to a <tt>CMPIInstance</tt>
                object.
 
      CMPIInstanceFT.setPropertyFilter()  attaches a property filter to a
@@ -4462,7 +4463,7 @@ struct _CMPIInstanceFT {
 
 #ifdef CMPI_VER_200
 
-    /* @brief Add or replace a property value in a CMPIInstance
+    /** @brief Add or replace a property value in a CMPIInstance
                object by name.
 
      CMPIInstanceFT.setPropertyWithOrigin() adds or replaces a Property value
@@ -5391,24 +5392,40 @@ struct _CMPISelectCondFT {
 
     /** @brief  Release a CMPISelectCond object.
 
-     The CMPISelectCond object will not be used any further and may
-     be freed by CMPI run time system.
-     @param sc SelectCond this pointer.
+     `CMPISelectCondFT.release()` releases a CMPISelectCond object. This 
+         indicates to the MB that the object (including any objects it contains) 
+         will no longer be used by the MI. The MB may free (=reclaim) the 
+         memory associated with the object during the call to this function, 
+         or later during some garbage collection cycle (see Subclause 4.1.7).
+
+     This function shall be supported by the MB if the Query Normalization
+         capability is available (see Subclause 7.1); otherwise, it shall not 
+         be supported. Availability of the Query Normalization capability can 
+         be queried by an MI using the CMPI_MB_QueryNormalization test mask 
+         on the brokerCapabilities member of the CMPIBrokerFT structure.
+
+     @param sc points to the CMPISelectCond object to be released. That object 
+         shall have been created using `CMPISelectCondFT.clone()`.
      @return CMPIStatus structure indicating the function return
              status .
-
      The function return status indicates one of the following @ref CMPIrc
         codes:
 
         * * `CMPI_RC_OK` - Function successful.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>se</tt> handle is invalid.
+        * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB. 
+            In CMPI 2.1, this return code has been deprecated. If the Query 
+            Normalization capability is not available, this function cannot 
+            be called by the MI because no instance of its encapsulated data 
+            type can exist. <b>(Deprecated)</b>
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>sc</tt> handle is invalid.
     @todo add comment about condition for use. It is in only some of these
+        descriptions. 
     */
     CMPIStatus (*release) (CMPISelectCond* sc);
 
     /** @brief Create an independent copy of a CMPISelectCond object.
 
-     CMPISelectExpFT.clone() creates an independent copy of this SelectCond
+     `CMPISelectExpFT.clone()` creates an independent copy of this SelectCond
          object. The resulting object must be released explicitly.
 
      This function shall be supported by the MB if the Query Normalization
@@ -5417,7 +5434,8 @@ struct _CMPISelectCondFT {
          be queried by an MI using the CMPI_MB_QueryNormalization test mask
          on the brokerCapabilities member of the CMPIBrokerFT structure.
      @param sc SelectCond this pointer.
-     @param[out] rc Service return status (suppressed when NULL).
+     @param[out] rc If not NULL, points to a CMPIStatus structure that
+         upon return updated with the function return status.
      @return If successful, returns a pointer to the copied CMPISelectExp
         object.
 
@@ -5430,41 +5448,68 @@ struct _CMPISelectCondFT {
         codes:
 
         * * `CMPI_RC_OK` - Function successful.
-        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>se</tt> handle is invalid.
+        * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB. 
+            In CMPI 2.1, this return code has been deprecated. If the Query 
+            Normalization capability is not available, this function cannot 
+            be called by the MI because no instance of its encapsulated data 
+            type can exist. <b>(Deprecated)</b>
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>sc</tt> handle is invalid.
      */
     CMPISelectCond* (*clone) (const CMPISelectCond* sc, CMPIStatus* rc);
 
     /** @brief Get the number and type of subconditions in a
        CMPISelectCond object.
 
-     Return the number of subconditions that are part of this SelectCond.
+     `CMPISelectCondFT.getCountAndType()` returns the number of subconditions 
+         that are part of this SelectCond.
      Optionally, the SelectCond type (COD or DOC) will be returned.
 
      This function shall be supported by the MB if the Query Normalization
-        capability is available; otherwise, it shall not be
-        supported.
-     @param sc SelectCond this pointer.
-     @param type Output: SelectCond type (suppressed when NULL).
-     @param rc Output: Service return status (suppressed when NULL).
+         capability is available (see Subclause 7.1); otherwise, it shall not
+         be supported. Availability of the Query Normalization capability can
+         be queried by an MI using the CMPI_MB_QueryNormalization test mask
+         on the brokerCapabilities member of the CMPIBrokerFT structure.
+     @param sc Pointer to a CMPISelectCond object for this function.
+     @param type Output: If not NULL, points to an integer that upon success 
+         is updated with the subcondition type. A value of 0 indicates a 
+         DOC type, and a value of 1 indicates a COD type. If type is NULL, 
+         no type information is returned..
+     @param rc Output: If not NULL, points to a CMPIStatus structure that
+         upon return updated with the function return status.
      @return If successful, returns a CMPICount value indicating the number of
-     subconditions.
+         subconditions.
 
      If not successful, returns 0.
-     @todo add status codes
+
+     The function return status indicates one of the following @ref CMPIrc
+        codes:
+
+        * * `CMPI_RC_OK` - Function successful.
+        * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB. 
+            In CMPI 2.1, this return code has been deprecated. If the Query 
+            Normalization capability is not available, this function cannot 
+            be called by the MI because no instance of its encapsulated data 
+            type can exist. <b>(Deprecated)</b>
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>sc</tt> handle is invalid.
      */
     CMPICount (*getCountAndType) (const CMPISelectCond* sc, int* type,
             CMPIStatus* rc);
 
-    /** @brief Get a subcondition in a CMPISelectCond object by
-               index.
+    /** @brief Get a subcondition in a CMPISelectCond object by index.
 
-     Return a SubCond element based on its index.
+     `CMPISelectCondFT.getSubCondAt()` function gets the subcondition in a 
+         CMPISelectCond object, by its index in the internal data array
 
      This function shall be supported by the MB if the Query Normalization
-        capability is available; otherwise, it shall not be supported.
-     @param sc SelectCond this pointer.
-     @param index Position in the internal SubCoind array.
-     @param rc Output: Service return status (suppressed when NULL).
+         capability is available (see Subclause 7.1); otherwise, it shall not
+         be supported. Availability of the Query Normalization capability can
+         be queried by an MI using the CMPI_MB_QueryNormalization test mask
+         on the brokerCapabilities member of the CMPIBrokerFT structure.
+     @param sc Pointer to a CMPISelectCond object for this function.
+     @param index Specifies the zero-based position of the subcondition in 
+         the internal data array..
+     @param rc Output: If not NULL, points to a CMPIStatus structure that
+         upon return updated with the function return status.
      @return If successful, returns a pointer to the specified CMPISubCond
      object will be returned.
 
@@ -5474,8 +5519,18 @@ struct _CMPISelectCondFT {
      created by the MB which will be released automatically by the MB.
 
      If not successful, returns NULL.
-     @todo add status codes
 
+     The function return status indicates one of the following @ref CMPIrc
+        codes:
+
+        * * `CMPI_RC_OK` - Function successful.
+        * * `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB. 
+            In CMPI 2.1, this return code has been deprecated. If the Query 
+            Normalization capability is not available, this function cannot 
+            be called by the MI because no instance of its encapsulated data 
+            type can exist. <b>(Deprecated)</b>
+        * * `CMPI_RC_ERR_NO_SUCH_PROPERTY` - `index` value out of bounds.
+        * * `CMPI_RC_ERR_INVALID_HANDLE` - The <tt>sc</tt> handle is invalid.
      */
     CMPISubCond* (*getSubCondAt) (const CMPISelectCond* sc, CMPICount index,
             CMPIStatus* rc);
@@ -5519,56 +5574,123 @@ struct _CMPISubCondFT {
      */
     CMPIVersion ftVersion;
 
-    /** @brief  release a <tt>CMPISubCond</tt> object.
+    /** @brief  release a CMPISubCond object.
 
-     The SubCond object will not be used any further and may be freed by
-     CMPI run time system.
-     @param sc SubCond this pointer.
-     @return Service return status.
-     @todo add status codes
+     `CMPISubCondFT.release()` releases argument `sc` a CMPISubCond 
+         object.   
+        
+         This indicates to the MB that the object (including any
+         objects it contains) will no longer be used by the MI. The
+         MB may free (=reclaim) the memory associated with the
+         object during the call to this function, or later during
+         some garbage collection cycle (see Subclause 4.1.7).
+        
+         This function shall be supported by the MB if the Query
+         Normalization capability is available (see Subclause 7.1);
+         otherwise, it shall not be supported. Availability of the
+         Query Normalization capability can be queried by an MI
+         using the CMPI_MB_QueryNormalization test mask on the
+         brokerCapabilities member of the CMPIBrokerFT structure.
+     @param sc Pointer to the CMPISubCond object to be released.   
+       That object shall have been created using 
+       `CMPISubCondFT.clone()`. 
+     @return CMPIStatus structure indicating the function return status.   
+     The following @ref CMPIrc codes shall be recognized:
+         @li `CMPI_RC_OK` - Operation successful.
+         @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported   
+                by the MB. In CMPI 2.1, this return code has been
+                deprecated. If the Query Normalization capability is not
+                available, this function cannot be called by the MI
+                because no instance of its encapsulated data
+                type can exist. <b>(Deprecated)</b>
+         @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid `sc` handle.
      */
     CMPIStatus (*release) (CMPISubCond* sc);
 
     /** @brief Create an independent copy of a <tt>CMPISubCond</tt>
                object.
 
-     Create an independent copy of this SubCond object. The resulting
-     object must be released explicitly.
-     @param se SubCond this pointer.
-     @param rc Output: Service return status (suppressed when NULL).
-     @return Pointer to copied SelectExp object.
-     @todo add status codes
+     `CMPISubCondFT.clone()` creates an independent copy of a  `sc` 
+         CMPISubCond object.
+
+         This function shall be supported by the MB if the Query
+         Normalization capability is available (see Subclause 7.1);
+         otherwise, it shall not be supported. Availability of the
+         Query Normalization capability can be queried by an MI
+         using the CMPI_MB_QueryNormalization test mask on the
+         brokerCapabilities member of the CMPIBrokerFT structure.
+
+     @param sc Pointer to the CMPISubCond object.
+     @param rc Output: If not NULL, points to a CMPIStatus structure that
+         upon return updated with the function return status.
+     @return If successful, returns a CMPICount value indicating the number of
+         subconditions.
+
+     If not successful, returns 0.
+
+     The following @ref CMPIrc codes shall be recognized:
+         @li `CMPI_RC_OK` - Operation successful.
+         @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported   
+                by the MB. In CMPI 2.1, this return code has been
+                deprecated. If the Query Normalization capability is not
+                available, this function cannot be called by the MI
+                because no instance of its encapsulated data
+                type can exist. <b>(Deprecated)</b>
+         @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid `sc` handle.
      */
     CMPISubCond* (*clone) (const CMPISubCond* sc, CMPIStatus* rc);
 
     /** @brief Get the number of predicates in a CMPISubCond object.
 
-     Return the number of predicates that are part of sub condition.
+     CMPISubCondFT.getCount() function gets the number of predicates in `sc` 
+     CMPISubCond object.
 
-     This function shall be supported by the MB if the Query Normalization
-     capability is available; otherwise, it shall
-     not be supported.
-     @todo KS_todo add to others
-     @param sc SubCond this pointer.
+    This function shall be supported by the MB if the Query Normalization 
+        capability is available (see Subclause 7.1); otherwise, it shall not 
+        be supported. Availability of the Query Normalization capability can 
+        be queried by an MI using the CMPI_MB_QueryNormalization test mask on 
+        the brokerCapabilities member of the CMPIBrokerFT structure.
+
+     @param sc Pointer to the CMPISubCond object.
      @param rc Output: Service return status (suppressed when NULL).
-     @return Number of Predicate elements.
-     @todo add status codes
+     @param rc Output: If not NULL, points to a CMPIStatus structure that
+         upon return updated with the function return status.
+     @return If successful, returns a CMPICount value indicating the number of
+         predicates in the CMPISubCond object.
+
+     If not successful, returns 0.
+
+     The following @ref CMPIrc codes shall be recognized:
+         @li `CMPI_RC_OK` - Operation successful.
+         @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported   
+                by the MB. In CMPI 2.1, this return code has been
+                deprecated. If the Query Normalization capability is not
+                available, this function cannot be called by the MI
+                because no instance of its encapsulated data
+                type can exist. <b>(Deprecated)</b>
+         @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid `sc` handle.
      */
     CMPICount (*getCount) (const CMPISubCond* sc, CMPIStatus* rc);
 
-    /** @brief Get a predicate in a <tt>CMPISubCond</tt> object by
-               index.
+    /** @brief Get a predicate in a CMPISubCond object by index.
 
-     Return a Predicate element based on its index. KS_TOD word
-     predicate
+     CMPISubCondFT.getPredicatAt() function gets a predicate in a CMPISubCond
+         object, by its index in the internal data array.
 
      This function shall be supported by the MB if the Query Normalization
          capability is available; otherwise, it shall not be supported.
-     @param sc SubCond this pointer.
-     @param index Position in the internal Predicate array.
+
+    This function shall be supported by the MB if the Query Normalization 
+        capability is available (see Subclause 7.1); otherwise, it shall not 
+        be supported. Availability of the Query Normalization capability can 
+        be queried by an MI using the CMPI_MB_QueryNormalization test mask on 
+        the brokerCapabilities member of the CMPIBrokerFT structure.
+     @param sc Pointer to the CMPISubCond object.
+     @param index Specifies the zero-based index of the predicate in the 
+         internal data array.
      @param rc Output: Service return status (suppressed when NULL).
      @return If successful, returns a pointer to a CMPIPredicate object
-         containing the specified predicate will be returned.
+         containing the specified predicate.
 
          The returned CMPIPredicate object shall not be explicitly
          released by the MI, because it may be an internal object of
@@ -5577,21 +5699,39 @@ struct _CMPISubCondFT {
          automatically by the MB.
 
          If not successful, returns NULL.
-     @todo add status codes
 
+     The following @ref CMPIrc codes shall be recognized:
+         @li `CMPI_RC_OK` - Operation successful.
+         @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported   
+                by the MB. In CMPI 2.1, this return code has been
+                deprecated. If the Query Normalization capability is not
+                available, this function cannot be called by the MI
+                because no instance of its encapsulated data
+                type can exist. <b>(Deprecated)</b>
+         @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - `index` value out of bounds.
+         @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid `sc` handle.
+     @todo Ordering of the codes is different between this an   
+           following function. That is in the spec.
      */
     CMPIPredicate* (*getPredicateAt) (const CMPISubCond* sc, CMPICount index,
             CMPIStatus* rc);
 
-    /** @brief Get a predicate in a <tt>CMPISubCond</tt> object by name.
+    /** @brief Get a predicate in a CMPISubCond object by name.
 
-     Returns a predicate element in a <tt>CMPISubCond</tt> based on name
-     in <tt>name</tt>
+     `CMPISubCondFT.getPredicate()` function gets a predicate in a CMPISubCond
+      object, by its `name` argument.
 
      This function shall be supported by the MB if the Query Normalization
          capability is available; otherwise, it shall not be supported.
-     @param sc SubCond this pointer.
-     @param name Predicate name (property name).
+
+    This function shall be supported by the MB if the Query Normalization 
+        capability is available (see Subclause 7.1); otherwise, it shall not 
+        be supported. Availability of the Query Normalization capability can 
+        be queried by an MI using the CMPI_MB_QueryNormalization test mask on 
+        the brokerCapabilities member of the CMPIBrokerFT structure.
+     @param sc Pointer to the CMPISubCond object.
+     @param name specifies the predicate name. The name is the left-hand side 
+         of the predicate..
      @param rc Output: Service return status (suppressed when NULL).
      @return If successful, returns a pointer to a CMPIPredicate object
      containing the specified predicate.
@@ -5602,7 +5742,19 @@ struct _CMPISubCondFT {
      created by the MB which will be released automatically by the MB.
 
      If not successful, returns NULL.
-     @todo add status codes
+
+     The following @ref CMPIrc codes shall be recognized:
+         @li `CMPI_RC_OK` - Operation successful.
+         @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported   
+                by the MB. In CMPI 2.1, this return code has been
+                deprecated. If the Query Normalization capability is not
+                available, this function cannot be called by the MI
+                because no instance of its encapsulated data
+                type can exist. <b>(Deprecated)</b>
+         @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - `index` value out of bounds.
+         @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid `sc` handle.
+
+     */
      */
     CMPIPredicate* (*getPredicate) (const CMPISubCond* sc, const char* name,
             CMPIStatus* rc);
@@ -5648,37 +5800,114 @@ struct _CMPIPredicateFT {
 
     /** @brief Release a CMPPredicate object.
 
-     The Predicate object will not be used any further and may be freed by
-     CMPI run time system.
-     @param pr Predicate this pointer.
-     @return Service return status.
-     @todo add status codes
+     `CMPIPredicateFT.release()` releases a CMPIPredicate object. This 
+         indicates to the MB that the object (including any objects it contains) 
+         will no longer be used by the MI. The MB may free (=reclaim) the 
+         memory associated with the object during the call to this function, 
+         or later during some garbage collection cycle (see Subclause 4.1.7).
+
+     This function shall be supported by the MB if the Query Normalization
+         capability is available (see Subclause 7.1); otherwise, it shall not 
+         be supported. Availability of the Query Normalization capability can 
+         be queried by an MI using the CMPI_MB_QueryNormalization test mask 
+         on the brokerCapabilities member of the CMPIBrokerFT structure.
+     @param pr Pointer to the CMPIPredicate object to be released. That object 
+         shall have been created using `CMPIPredicateFT.clone()`.
+     @return CMPIStatus structure indicating the function return
+             status .
+     The function return status indicates one of the following @ref CMPIrc
+        codes:
+        @li `CMPI_RC_OK` - Function successful.
+        @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported
+            by the MB. In CMPI 2.1, this return code has been
+            deprecated. If the Query Normalization capability is not
+            available, this function cannot be called by the MI
+            because no instance of its encapsulated data
+            type can exist. <b>(Deprecated)</b>
+        @li `CMPI_RC_ERR_INVALID_HANDLE` - The `pr` handle is invalid.
+        @todo in spec, the handle is refered to as sc, not pr
      */
     CMPIStatus (*release) (CMPIPredicate* pr);
 
     /** @brief Create an independent copy of a CMPIPredicate object.
 
-     Create an independent copy of this Predicate object. The resulting
-     object must be released explicitly.
-     @param pr Predicate this pointer.
-     @param rc Output: Service return status (suppressed when NULL).
-     @return Pointer to copied Predicate object.
-     @todo add status codes
+     CMPIPredicateFT.clone() function creates an independent copy of a 
+     CMPIPredicate object.
+
+     This function shall be supported by the MB if the Query Normalization
+         capability is available (see Subclause 7.1); otherwise, it shall not 
+         be supported. Availability of the Query Normalization capability can 
+         be queried by an MI using the CMPI_MB_QueryNormalization test mask 
+         on the brokerCapabilities member of the CMPIBrokerFT structure.
+     @param pr Pointer to the CMPIPredicate object to be copied.
+     @param rc Output: If not NULL, points to a CMPIStatus structure that upon 
+         return will have been updated with the function return status..
+     @return If successful, a pointer to the copied CMPIPredicate object will 
+     be returned.
+     The returned CMPIPredicate object shall be explicitly released by the 
+     MI using `CMPIPredicateFT.release()`.
+
+    If not successful, NULL will be returned.
+
+     The function return status indicates one of the following @ref CMPIrc
+        codes:
+        @li `CMPI_RC_OK` - Function successful.
+        @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported
+            by the MB. In CMPI 2.1, this return code has been
+            deprecated. If the Query Normalization capability is not
+            available, this function cannot be called by the MI
+            because no instance of its encapsulated data
+            type can exist. <b>(Deprecated)</b>
+        @li `CMPI_RC_ERR_INVALID_HANDLE` - The `pr` handle is invalid.
+     @todo in spec, the handle is refered to as sc, not pr
+
      */
     CMPIPredicate* (*clone) (const CMPIPredicate* pr, CMPIStatus* rc);
 
     /** @brief Get the predicate components of a CMPIPredicate object.
 
-     Get the predicate components.
-     @todo KS_todo
+     `CMPIPredicateFT.getData()` gets the predicate components of a 
+         CMPIPredicate object.
 
-     @param pr Predicate this pointer.
-     @param type Property type.
-     @param prop Predicate operation.
-     @param lhs Left hand side of predicate.
-     @param rhs Right hand side of predicate.
-     @return Service return status.
-     @todo add status codes
+     The CMPIString objects returned by lhs and rhs shall not be explicitly 
+     released by the MI, because they may be internal objects of the 
+     CMPIContext object which will be released along with that object, or new
+     objects created by the MB which will be automatically released by the 
+     MB (see Subclause 4.1.7).
+
+     This function shall be supported by the MB if the Query Normalization
+         capability is available (see Subclause 7.1); otherwise, it shall not 
+         be supported. Availability of the Query Normalization capability can 
+         be queried by an MI using the CMPI_MB_QueryNormalization test mask 
+         on the brokerCapabilities member of the CMPIBrokerFT structure.
+     @param pr Pointer to the CMPIPredicate object.
+     @param[out] type If not NULL, points to a CMPIType structure that upon 
+         success will have been updated with the data type of the predicate.
+     @param[out] prop If not NULL, points to a CMPIPredOp object that upon
+         success will have been updated with the predicate operation.
+     @param[out] lhs if not NULL, points to a pointer to a CMPIString object 
+         that upon success will have been updated with the address of a 
+         CMPIString object representing the left-hand side of the predicate.
+     @param[out] rhs , if not NULL, points to a pointer to a CMPIString object 
+         that upon success will have been updated with the address of a 
+         CMPIString object representing the right-hand side of the predicate.
+     @return If successful, returns pointer to the copied CMPIPredicate object.
+    The returned CMPIPredicate object shall be explicitly released by the MI 
+        using `CMPIPredicateFT.release()`.
+
+    If not successful, NULL will be returned.
+
+     The function return status indicates one of the following @ref CMPIrc
+        codes:
+        @li `CMPI_RC_OK` - Function successful.
+        @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported
+            by the MB. In CMPI 2.1, this return code has been
+            deprecated. If the Query Normalization capability is not
+            available, this function cannot be called by the MI
+            because no instance of its encapsulated data
+            type can exist. <b>(Deprecated)</b>
+        @li `CMPI_RC_ERR_INVALID_HANDLE` - The `pr` handle is invalid.
+     @todo in spec, the handle is refered to as sc, not pr
      */
     CMPIStatus (*getData) (const CMPIPredicate* pr, CMPIType* type,
             CMPIPredOp* prop, CMPIString** lhs, CMPIString** rhs);
@@ -5686,9 +5915,17 @@ struct _CMPIPredicateFT {
     /** @brief Test whether the properties returned by an accessor
            function match the predicate in a CMPIPredicate object.
 
-     Evaluate the predicate using a property data accessor function.
+     CMPIPredicateFT.evaluateUsingAccessor() function tests whether the 
+         properties returned by an accessor function match the predicate in a 
+         CMPIPredicate object.
 
-     @param pr Predicate this pointer.
+     The CMPIString objects returned by lhs and rhs shall not be explicitly 
+     released by the MI, because they may be internal objects of the 
+     CMPIContext object which will be released along with that object, or new
+     objects created by the MB which will be automatically released by the 
+     MB (see Subclause 4.1.7).
+
+     @param pr Pointer to the CMPIPredicate object.
      @param accessorFnc Pointer to a property value accessor
      function. The evaluation process will invoke this function to
      request a CMPIData structure for a particular property. The
@@ -5696,9 +5933,26 @@ struct _CMPIPredicateFT {
      CMPIAccessor(const char* propertyName, void* parm);
      @param parm Parameter that will be passed to the accessor function and
      can be used for providing context data to the accessor function.
-     @param rc Output: Service return status (suppressed when NULL).
-     @return Evaluation result.
-     @todo add status codes
+     @param rc Output: if not NULL, points to a CMPIStatus structure that upon 
+         return will have been updated with the function return status.
+     @return If successful, a CMPIBoolean value indicating the test result 
+         will be returned, as follows: True indicates that the properties 
+         returned by the accessor function match the predicate; False 
+         indicates that this is not the case.
+
+     If not successful, False will be returned.
+
+     The function return status indicates one of the following @ref CMPIrc
+        codes:
+        @li `CMPI_RC_OK` - Function successful.
+        @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported
+            by the MB. In CMPI 2.1, this return code has been
+            deprecated. If the Query Normalization capability is not
+            available, this function cannot be called by the MI
+            because no instance of its encapsulated data
+            type can exist. <b>(Deprecated)</b>
+        @li `CMPI_RC_ERR_INVALID_HANDLE` - The `pr` handle is invalid.
+        @todo in spec, the handle is refered to as sc, not pr
      */
     CMPIBoolean (*evaluateUsingAccessor) (const CMPIPredicate* pr,
             CMPIAccessor* accessorFnc, void* parm, CMPIStatus* rc);
@@ -6167,11 +6421,11 @@ struct _CMPIArrayFT {
     CMPIData (*getElementAt) (const CMPIArray* ar, CMPICount index,
             CMPIStatus* rc);
 
-    /* @brief Set the value of an existing array element in a CMPIArray
+    /** @brief Set the value of an existing array element in a CMPIArray
        object by index
 
      This function sets the value <tt>value</tt> and <tt>type</tt>
-     into an existing element defined by <tt>&ltindex</tt> in the
+     into an existing element defined by <tt>index</tt> in the
      array object defined by <tt>ar</tt>.
 
      @param ar Pointer to CMPIArray.
@@ -8939,8 +9193,8 @@ struct _CMPIIndicationMIFT {
             const CMPIContext* ctx, const CMPIInstance* collInst,
             CMPIBoolean firstActivation);
 
-    /* @brief  Informs the MI that an indication filter collection has
-       become inactive.
+    /** @brief Informs the MI that an indication filter collection
+       has become inactive.
 
     The CMPIIndicationMIFT.deActivateFilterCollection() function informs
     the MI that the specified indication filter collection has become
