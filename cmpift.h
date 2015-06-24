@@ -93,7 +93,7 @@ struct _CMPIBroker {
 
 /**
  * @brief Function table for some MB services of
- * [CMPIBroker object](@ref _CMPIBroker).
+ * @ref _CMPIBroker "CMPIBroker object".
  *
  * This function table provides
  * @link broker-thread-reg MB thread registration services @endlink,
@@ -175,7 +175,6 @@ struct _CMPIBrokerFT {
     <li><tt>CMPI_RC_ERR_INVALID_HANDLE</tt>	- The <tt>mb</tt> handle
       or <tt>ctx</tt> handle is invalid.
     </ul>
-    @see prepareAttachThread()
      */
     CMPIStatus (*attachThread) (const CMPIBroker* mb, const CMPIContext* ctx);
 
@@ -220,9 +219,11 @@ struct _CMPIBrokerFT {
 
      This function may be called by an MI regardless of whether or not
      the MB is ready for processing the delivery of indications, as
-     communicated to the MI via
-     `CMPIIndicationMIFT.enableIndications()` and
-     `CMPIIndicationMIFT.disableIndications()`. If the MB is not
+     communicated to the MI via @ref _CMPIIndicationMIFT::enableIndications
+     "CMPIIndicationMIFT.enableIndications()" and
+     @ref _CMPIIndicationMIFT::disableIndications
+     "CMPIIndicationMIFT.disableIndications()".
+     If the MB is not
      ready for processing the delivery of indications, this will not
      cause the function to fail. The MB implementation may choose to
      drop the indication in this case, or to queue the indication
@@ -323,7 +324,7 @@ struct _CMPIBrokerFT {
 
     /** @brief Get a given instance.
 
-     The `CMPIBrokerFT.getInstance(`) function gets  a CMPIInstance using
+     The `CMPIBrokerFT.getInstance()` function gets  a CMPIInstance using
      <tt>instPath</tt> as reference. Instance structure can be controled
      using the CMPIInvocationFlags in <tt>ctx</tt>.
 
@@ -347,7 +348,8 @@ struct _CMPIBrokerFT {
 
     The new object will be released automatically by the MB.
     There is no function to explicitly  release the new object. Specifically,
-    the MI shall not use CMPIBrokerMemFT.freeInstance() on the new object.
+    the MI shall not use @ref _CMPIBrokerMemFT::freeInstance
+    "CMPIBrokerMemFT.freeInstance()" on the new object.
 
     If not successful, returns NULL.
 
@@ -409,7 +411,8 @@ struct _CMPIBrokerFT {
          The new object will be released automatically by the MB, as
          described in Subclause 4.1.7. There is no function to
          explicitly release the new object. Specifically, the MI
-         shall not use CMPIBrokerMemFT.freeObjectPath() on the new object.
+         shall not use @ref _CMPIBrokerMemFT::freeObjectPath
+         "CMPIBrokerMemFT.freeObjectPath()" on the new object.
 
         If not successful, returns NULL.
 
@@ -500,7 +503,7 @@ struct _CMPIBrokerFT {
 
     /** @brief Delete a given instance.
 
-     The CMPIBrokerFT.deleteInstance() function deletes a given instance.
+     The `CMPIBrokerFT.deleteInstance()` function deletes a given instance.
      The target MI is identified by the MB based on the <tt>instPath</tt>
      argument.
 
@@ -601,7 +604,7 @@ struct _CMPIBrokerFT {
     /** @brief Enumerate the instances of a given class (and its
                subclasses).
 
-     The CMPIBrokerFT.enumerateInstances() function enumerates the
+     The `CMPIBrokerFT.enumerateInstances()` function enumerates the
      instances of a given class (and its subclasses). The set of properties
      in the result instances can be controlled using the
      LocalOnly and DeepInheritance flags in the CMPIInvocationFlags
@@ -660,7 +663,7 @@ struct _CMPIBrokerFT {
     /** @brief Enumerate the instances associated with a given
                source instance.
 
-     The CMPIBrokerFT.associators() function enumerates the instances
+     The `CMPIBrokerFT.associators()` function enumerates the instances
      associated with a given source instance. The target MIs are identified
      by the MB based on the <tt>instPath</tt> argument.
      @param mb Pointer to the broker.
@@ -748,7 +751,7 @@ struct _CMPIBrokerFT {
     /** @brief Enumerate the instance paths of the instances
            associated with a given source instance.
 
-     The CMPIBrokerFT.associatorNames() function enumerates the instance
+     The `CMPIBrokerFT.associatorNames()` function enumerates the instance
         paths of the instances associated with a given source instance.
         The target MIs are identified by the MB based on the
         <tt>instPath</tt> argument.
@@ -828,7 +831,7 @@ struct _CMPIBrokerFT {
     /** @brief Enumerate the association instances referencing a
        given source instance.
 
-     The CMPIBrokerFT.references() function enumerates the
+     The `CMPIBrokerFT.references()` function enumerates the
      association instances that refer to the instance defined
      by <tt>op</tt>. The target MIs are identified by the MB based on the
      instPath argument.
@@ -905,7 +908,7 @@ struct _CMPIBrokerFT {
     /** @brief Enumerate the instance paths of the association
        instances referencing a given source instance.
 
-     The CMPIBrokerFT.referenceNames() function enumerates the instance
+     The `CMPIBrokerFT.referenceNames()` function enumerates the instance
      paths of the association instances referencing a given source
      instance. The target MIs are identified by the MB based on
      the <tt>instPath</tt> argument.
@@ -971,7 +974,7 @@ struct _CMPIBrokerFT {
 
     /** @brief  Invoke a method on a target object.
 
-     The CMPIBrokerFT.invokeMethod() function invokes a named, extrinsic
+     The `CMPIBrokerFT.invokeMethod()` function invokes a named, extrinsic
          method on a target object. Instance methods (i.e., non-static methods)
          can be invoked only on instances. Class methods (i.e., static methods)
          can be invoked on instances and classes. The target MI is
@@ -1069,11 +1072,12 @@ struct _CMPIBrokerFT {
      @deprecated This function is deprecated since CMPI 2.1,
      in accord with the deprecation of property
      client operations in DMTF specifications. MBs shall implement
-     the CMPIBrokerFT.setProperty() function by invoking the
+     the @ref _CMPIBrokerFT::setProperty "CMPIBrokerFT.setProperty()"
+     function by invoking the
      modifyInstance() MI function if the setProperty() MI function
      is not implemented by the target MI. New MIs should
      replace the use of CMPIBrokerFT.setProperty() with the use of
-     CMPIBrokerFT.modifyInstance().
+     @ref _CMPIBrokerFT::modifyInstance "CMPIBrokerFT.modifyInstance()".
 
      @todo TBD: Review and agree on the way this function is documented to be
            deprecated since CMPI 2.1 (using the `deprecated` statement with
@@ -1121,11 +1125,13 @@ struct _CMPIBrokerFT {
      @deprecated This function is deprecated since CMPI 2.1,
      in accord with the deprecation of property
      client operations in DMTF specifications. MBs shall implement
-     the CMPIBrokerFT.getProperty() function by invoking the
+     the @ref _CMPIBrokerFT::getProperty "CMPIBrokerFT.getProperty()"
+     function by invoking the
      getInstance() MI function if the getProperty() MI function
      is not implemented by the target MI. New MIs should replace
-     the use of CMPIBrokerFT.getProperty() with the use of
-     CMPIBrokerFT.getInstance()
+     the use of @ref _CMPIBrokerFT::getProperty "CMPIBrokerFT.getProperty()"
+     with the use of
+     @ref _CMPIBrokerFT::getInstance "CMPIBrokerFT.getInstance()".
      */
     CMPIData (*getProperty) (const CMPIBroker* mb, const CMPIContext* ctx,
             const CMPIObjectPath* instPath, const char* name, CMPIStatus* rc);
@@ -1138,7 +1144,7 @@ struct _CMPIBrokerFT {
 
 /**
    @brief Function table for MB factory and miscellaneous services of
-    [CMPIBroker object](@ref _CMPIBroker).
+    @ref _CMPIBroker "CMPIBroker object".
 
    The CMPIBrokerEncFT function table provides factory services
    for the CMPI data types, and functions for test, conversion,
@@ -1186,7 +1192,8 @@ struct _CMPIBrokerEncFT {
 
      The new object will be automatically released by the MB.
      If the new object is no longer used by the MI, it
-     may be explicitly released by the MI using CMPIBrokerMemFT.freeInstance().
+     may be explicitly released by the MI using
+     @ref _CMPIBrokerMemFT::freeInstance "CMPIBrokerMemFT.freeInstance()".
 
      The function return status indicates one of the following:
     <ul>
@@ -1261,7 +1268,8 @@ struct _CMPIBrokerEncFT {
 
      The new object will be automatically released by the MB. If the new
      object is no longer used by the MI, it may be explicitly released
-     by the MI using CMPIBrokerMemFT.freeString().
+     by the MI using @ref _CMPIBrokerMemFT::freeString
+     "CMPIBrokerMemFT.freeString()".
 
     The function return status indicates one of the following @ref CMPIrc codes:
     <ul>
@@ -1293,7 +1301,8 @@ struct _CMPIBrokerEncFT {
      The new object will be automatically released by the MB, as described in
      Subclause 4.1.7.
      If the new object is no longer used by the MI, it may be explicitly
-     released by the MI using CMPIBrokerMemFT.freeArray().
+     released by the MI using @ref _CMPIBrokerMemFT::freeArray
+     "CMPIBrokerMemFT.freeArray()".
 
     If not successful, NULL will be returned.
 
@@ -1323,7 +1332,7 @@ struct _CMPIBrokerEncFT {
      The new object will be automatically released by the MB, as described
      in Subclause 4.1.7. If the new object is no longer used by the MI,
      it may be explicitly released by the MI
-     using CMPIBrokerMemFT.freeDateTime().
+     using @ref _CMPIBrokerMemFT::freeDateTime "CMPIBrokerMemFT.freeDateTime()".
 
      If not successful, NULL will be returned.
 
@@ -1357,7 +1366,7 @@ struct _CMPIBrokerEncFT {
      The new object will be automatically released by the MB, as described
      in Subclause 4.1.7. If the new object is no longer used by the MI,
      it may be explicitly released by the MI
-     using CMPIBrokerMemFT.freeDateTime().
+     using @ref _CMPIBrokerMemFT::freeDateTime "CMPIBrokerMemFT.freeDateTime()".
 
      If not successful, returns NULL.
 
@@ -1386,7 +1395,8 @@ struct _CMPIBrokerEncFT {
      The new object will be automatically released by the MB,
      as described in Subclause 4.1.7.
      If the new object is no longer used by the MI, it may be explicitly
-     released by the MI using CMPIBrokerMemFT.freeDateTime().
+     released by the MI using
+     @ref _CMPIBrokerMemFT::freeDateTime "CMPIBrokerMemFT.freeDateTime()".
 
     If not successful, NULL will be returned.
 
@@ -1419,12 +1429,13 @@ struct _CMPIBrokerEncFT {
      @param lang Pointer to a string containing the query language.
      @param projection Output: Pointer to to a CMPIArray pointer that upon
          success will have been updated to point to a new CMPIArray
-         object of @ref CMPIString entries containing the projection
+         object of @ref _CMPIString "CMPIString" entries containing
+         the projection
          specification. The pointer will be set to NULL if no
          projection was specified in the select expression. The
          projection specification is query language-specific. Hence
-         the entries format of the projection output array @ref
-         CMPIString might be different depending on the query
+         the entries format of the projection output array
+         @ref _CMPIString "CMPIString" might be different depending on the query
          language. Be sure to check the lang argument for the query
          language your MI will support.
      @param rc Output: If not NULL, points to a CMPIStatus structure that
@@ -1433,7 +1444,8 @@ struct _CMPIBrokerEncFT {
      CMPIArray object. The new object will be automatically released
      by the MB, as described in Subclause 4.1.7.
      If the new object is no longer used by the MI, it may be explicitly
-     released by the MI using CMPIBrokerMemFT.freeDateTime().
+     released by the MI using
+     @ref _CMPIBrokerMemFT::freeDateTime "CMPIBrokerMemFT.freeDateTime()".
 
     @retval UnSuccessful  NULL will be returned.
 
@@ -1577,10 +1589,11 @@ struct _CMPIBrokerEncFT {
     /** @brief Get translated MB implementation specific message
                text <b>(Deprecated)</b>.
 
-     `CMPIBrokerEncFT.getMessage2()` retrieves translated message defined by
+     `CMPIBrokerEncFT.getMessage()` retrieves translated message defined by
          the `msgId` argument.
 
-     Use `CMPIBrokerEncFT.getMessage2()` in place of this function.
+     Use @ref _CMPIBrokerEncFT::getMessage2 "CMPIBrokerEncFT.getMessage2()" in
+     place of this function.
      @param mb Pointer to the broker.
      @param msgId The message identifier.
      @param defMsg The default message. Used when message translation is not
@@ -1597,11 +1610,8 @@ struct _CMPIBrokerEncFT {
         @li `CMPI_RC_ERR_INVALID_HANDLE` - `mb` handle is
             invalid.
 
-     @see CMPIBrokerEncFt.getMessage2()
-     @deprecated This function was deprecated in Issue 2.1 in favor of
-     getMessage2().
-     @todo validate see and deprecation. Deprecation OK. Ks.  Have not
-     looked to see if @see works
+     @deprecated This function was deprecated in CMPI 2.1 in favor of
+     @ref _CMPIBrokerEncFT::getMessage2 "CMPIBrokerEncFT.getMessage2()".
      */
     CMPIString* (*getMessage) (const CMPIBroker* mb,
         const char* msgId, const char* defMsg, CMPIStatus* rc,
@@ -1755,18 +1765,22 @@ struct _CMPIBrokerEncFT {
 
     /** @brief Open a message file and return a handle to the file.
 
-     If the MB supports message files, the `CMPIBrokerEncFT.openMessageFile()`
+     If the MB supports message files, the
+     @ref _CMPIBrokerEncFT::openMessageFile "CMPIBrokerEncFT.openMessageFile()"
      function opens a message file and returns a message file handle to that
      file. This function will use the CMPIAcceptLanguage entry from the
      current context to determine the language for the messages, and will
      set the CMPIContentLanguage entry in the current context to the language
-     that was used. All subsequent calls to the CMPIBrokerEncFT.getMessage2()
+     that was used. All subsequent calls to the
+     @ref _CMPIBrokerEncFT::getMessage2 "CMPIBrokerEncFT.getMessage2()"
      function using this message file handle will return messages based on
      that language.
 
      If the MB does not support message files, or if the function fails
      for other reasons, the function returns NULL as the message file handle.
-     Subsequent calls to the CMPIBrokerEncFT.getMessage2() function using the
+     Subsequent calls to the
+     @ref _CMPIBrokerEncFT::getMessage2 "CMPIBrokerEncFT.getMessage2()"
+     function using the
      NULL message file handle will cause the default message template to be
      used.
 
@@ -1795,7 +1809,9 @@ struct _CMPIBrokerEncFT {
 
      @param[out] msgFileHandle points to a CMPIMsgFileHandle structure that
      will have been updated with a handle that can be passed to the
-     CMPIBrokerEncFT.getMessage2() and CMPIBrokerEncFT.closeMessageFile()
+     @ref _CMPIBrokerEncFT::getMessage2 "CMPIBrokerEncFT.getMessage2()" and
+     @ref _CMPIBrokerEncFT::closeMessageFile
+     "CMPIBrokerEncFT.closeMessageFile()"
      functions. If the MB supports message files and the function was
      successful, the CMPIMsgFileHandle structure will have been updated
      with a non-NULL handle to the open message file. If the MB does not
@@ -1819,13 +1835,16 @@ struct _CMPIBrokerEncFT {
     /** @brief Close a message file.
 
      `CMPIBrokerEncFT.closeMessageFile()` closes a message file
-     previously opened by CMPIBrokerEncFT.openMessageFile(). If the message
+     previously opened by
+     @ref _CMPIBrokerEncFT::openMessageFile "CMPIBrokerEncFT.openMessageFile()".
+     If the message
      file handle is NULL, the message file is not closed, and this is not
      considered a failure.
      @param mb Pointer to a CMPIBroker structure
      @param msgFileHandle The msgFileHandle argument contains a message file
          handle (including NULL) that was returned by a previous call to
-         CMPIBrokerEncFT.openMessageFile().
+         @ref _CMPIBrokerEncFT::openMessageFile
+         "CMPIBrokerEncFT.openMessageFile()".
      @return A CMPIStatus structure indicating the function return status
          will be returned.
 
@@ -1854,7 +1873,7 @@ struct _CMPIBrokerEncFT {
      @param msgId Pointer to a string specifying a message ID that is used to
          locate a message template in the open message file.
      @param msgFileHandle The handle representing the open message
-        file that was returned by a call to OpenMessageFile(). If
+        file that was returned by a call to openMessageFile(). If
         the MB does not support message files the handle is NULL.
      @param defMsg Pointer to a string specifying the default message template
         that will be used when the MB does not support message files or when
@@ -1879,7 +1898,8 @@ struct _CMPIBrokerEncFT {
          In both cases, the new object will be automatically released by the
          MB, as described in Subclause 4.1.7. There is no function to
          explicitly release the new object. Specifically, the MI shall
-         not use CMPIBrokerMemFT.freeString() on the new object.
+         not use @ref _CMPIBrokerMemFT::freeString
+         "CMPIBrokerMemFT.freeString()" on the new object.
 
     The function return status indicates one of the following @ref CMPIrc codes:
     @li `CMPI_RC_OK` - Function successful.
@@ -1909,10 +1929,10 @@ struct _CMPIBrokerEncFT {
 
 #ifdef CMPI_VER_210
 
-    /* @brief Create a new CIMPropertyList object initialized to a
+    /** @brief Create a new CIMPropertyList object initialized to a
            list of property names.
 
-     The CMPIBrokerEncFT.newPropertyList() function creates a new
+     The `CMPIBrokerEncFT.newPropertyList()` function creates a new
      CMPIPropertyList that is initialized to a list of property names
      specified by the `properties` argument.
      @param mb pointer to a CMPIBroker object.
@@ -1942,7 +1962,7 @@ struct _CMPIBrokerEncFT {
     /** @brief Create a new CMPIString object from a C-language
               string in a specific codepage.
 
-       The CMPIBrokerEncFT.newStringCP() function creates a new
+       The `CMPIBrokerEncFT.newStringCP()` function creates a new
        CMPIString object that is initialized from a C-language
        string in a specific codepage
 
@@ -1964,7 +1984,7 @@ struct _CMPIBrokerEncFT {
           The new object will be released automatically by the MB, as
           described in Subclause 4.1.7. If the new object is no longer
           used by the MI, it may be explicitly released by the MI using
-          CMPIBrokerMemFT.freeString().
+          @ref _CMPIBrokerMemFT::freeString "CMPIBrokerMemFT.freeString()".
 
           If not successful, NULL will be returned.
 
@@ -2041,7 +2061,7 @@ struct timespec;
 
 /**
  * @brief Function table for MB operating system encapsulation services of
- * [CMPIBroker object](@ref _CMPIBroker).
+ * @ref _CMPIBroker "CMPIBroker object".
  *
  * This function table provides operating system encapsulation services, such as
  * library name resolution services and services for POSIX-conformant threads,
@@ -2087,9 +2107,10 @@ struct _CMPIBrokerExtFT {
      `CMPIBrokerExtFT.newThread()` starts a new thread,
      using POSIX threading semantics.
 
-     Creating a thread using CMPIBrokerExtFT.newThread() does not inform
+     Creating a thread using `CMPIBrokerExtFT.newThread()` does not inform
      the MB that the current thread will begin using MB functions. Thus,
-     CMPIBrokerFT.attachThread()must be called by the new thread before
+     @ref _CMPIBrokerFT::attachThread "CMPIBrokerFT.attachThread()"
+     must be called by the new thread before
      it uses MB functions.
 
      For historical reasons no additional error information is returned.
@@ -2103,7 +2124,7 @@ struct _CMPIBrokerExtFT {
          for details on detached mode.
      @return If successful, the handle of the started thread will be returned.
          If not successful, returns NULL.
-     @see attachThread()
+
      @todo TBD: Doxygen does not deal well with arguments that are
          function pointers (`start` in this case). It generates warnings
          and (worse!) the generated function prototype is incorrect.
@@ -2116,7 +2137,7 @@ struct _CMPIBrokerExtFT {
 
     /** @brief Wait until the specified thread ends.
 
-     `CMPIBrokerExtFT.joinThread()` Suspends the current thread   
+     `CMPIBrokerExtFT.joinThread()` suspends the current thread   
          until the specified thread ends using the POSIX threading semantics.
      @param thread The thread ID of the thread waiting for completion.
      @param retval Pointer to the return value of the thread.
@@ -2180,12 +2201,12 @@ struct _CMPIBrokerExtFT {
           function procedure only once during the lifetime of the
           thread. The once-object is an integer that initially shall
           have a value of zero. The first call to
-           &lt;CMPIBrokerExtFT.threadOnce()&gt; with an initialized
+           `CMPIBrokerExtFT.threadOnce()` with an initialized
            once-object will call the specified function. On return from
-           &lt;CMPIBrokerExtFT.threadOnce()&gt;, it is guaranteed that the
+           `CMPIBrokerExtFT.threadOnce()`, it is guaranteed that the
            specified function has completed, and that the once-object has
            been updated to indicate that. Subsequent calls to
-           &lt;CMPIBrokerExtFT.threadOnce()&gt; by any thread within the
+           `CMPIBrokerExtFT.threadOnce()` by any thread within the
            process with that once-object will not call the specified function.
      @param once Pointer to the <tt> once</tt> object. The value of the
          once-object controls whether the specified function has yet to be
@@ -2194,7 +2215,7 @@ struct _CMPIBrokerExtFT {
          that is accessible to all threads of the process. The function
          will behave in a thread-safe way. The once-object shall be
          initialized to zero before the first call to the
-         CMPIBrokerExtFT.threadOnce() function.
+         `CMPIBrokerExtFT.threadOnce()` function.
      @param function The function to be invoked.
      @return If successful, zero will be returned.
          If not successful, a non-zero error code will be returned.
@@ -2225,7 +2246,7 @@ struct _CMPIBrokerExtFT {
     /** @brief Destroy a thread key for accessing the thread local
                store
 
-     CMPIBrokerExtFT.destroyThreadKey() destroys a POSIX threading conformant
+     `CMPIBrokerExtFT.destroyThreadKey()` destroys a POSIX threading conformant
      thread key for accessing the thread local store.
      @param key The thread key to be destroyed.
      @return If successful, zero will be returned. If not successful, a
@@ -2238,7 +2259,7 @@ struct _CMPIBrokerExtFT {
     /** @brief Get a data pointer from the thread local store using
        a thread key.
 
-     `CMPIBrokerExtFT.getThreadSpecific()` function gets a data 
+     `CMPIBrokerExtFT.getThreadSpecific()` gets a data 
      pointer from the thread local store using a POSIX 
      threading-conformant thread key. 
      @param key The key to be used to retrieve the data pointer.
@@ -2252,7 +2273,7 @@ struct _CMPIBrokerExtFT {
     /** @brief Set a data pointer in the thread local store using a
                thread key.
 
-     CMPIBrokerExtFT.setThreadSpecific() sets a data pointer in the thread
+     `CMPIBrokerExtFT.setThreadSpecific()` sets a data pointer in the thread
          local store using a POSIX threading-conformant  thread key.
      @param key The key to be used.
      @param value The data pointer that is stored in the thread local store.
@@ -2272,17 +2293,17 @@ struct _CMPIBrokerExtFT {
 
     /** @brief Create a POSIX thread conformant mutex.
 
-     CMPIBrokerExtFT.newMutex() creates a POSIX threading
-     conformant* recursive mutex.
+     `CMPIBrokerExtFT.newMutex()` creates a POSIX threading
+     conformant recursive mutex.
 
      The mutex that is created shall exhibits the following behavior:
 
      <ul>
      <li>For locking a locked mutex: A thread that holds a lock on a
      mutex and attempts to lock that mutex again without first
-     unlocking it shall* succeed in locking the mutex. Multiple
-     locks of the mutex (by the* same thread) shall require the same
-     number of unlocks (by that same* thread) to release the mutex
+     unlocking it shall succeed in locking the mutex. Multiple
+     locks of the mutex (by the same thread) shall require the same
+     number of unlocks (by that same thread) to release the mutex
      before another thread can acquire the mutex.
 
      <li>For unlocking an unlocked mutex: A thread attempting to
@@ -2311,9 +2332,8 @@ struct _CMPIBrokerExtFT {
 
      @deprecated This function is deprecated since CMPI 2.1,
      because it does not indicate whether it succeeded or failed.
-     Use CMPIBrokerExtFT::destroyMutex2() instead.
-
-     @see destroyMutex2()
+     Use @ref _CMPIBrokerExtFT::destroyMutex2 "CMPIBrokerExtFT.destroyMutex2()"
+     instead.
      */
     void (*destroyMutex) (CMPI_MUTEX_TYPE mutex);
 
@@ -2323,15 +2343,14 @@ struct _CMPIBrokerExtFT {
      If the mutex is locked by another thread, the current thread is suspended
      until the lock is granted. The behavior in case the mutex is already
      locked by the current thread is defined in the description of
-     &lt;CMPIBrokerExtFT.newMutex()&gt;.
+     @ref _CMPIBrokerExtFT::newMutex "CMPIBrokerExtFT.newMutex()".
 
      @param mutex The mutex to be locked.
 
      @deprecated This function is deprecated since CMPI 2.1,
      because it does not indicate whether it succeeded or failed.
-     Use CMPIBrokerExtFT::lockMutex2() instead.
-
-     @see lockMutex2()
+     Use @ref _CMPIBrokerExtFT::lockMutex2 "CMPIBrokerExtFT.lockMutex2()"
+     instead.
 
      @retval None. For historical reasons, this function does not
          indicate whether it succeeded or failed.
@@ -2342,7 +2361,7 @@ struct _CMPIBrokerExtFT {
 
      Release control of the mutex. The behavior in case the mutex is not
      locked by the current thread is defined in the description of
-     &lt;CMPIBrokerExtFT.newMutex()&gt;.
+     @ref _CMPIBrokerExtFT::newMutex "CMPIBrokerExtFT.newMutex()".
 
      @param mutex The mutex to be unlocked.
 
@@ -2351,9 +2370,9 @@ struct _CMPIBrokerExtFT {
 
      @deprecated This function is deprecated since CMPI 2.1,
      because it does not indicate whether it succeeded or failed.
-     Use CMPIBrokerExtFT::unlockMutex2() instead.
+     Use @ref _CMPIBrokerExtFT::unlockMutex2 "CMPIBrokerExtFT.unlockMutex2()"
+     instead.
 
-     @see unlockMutex2()
      @todo confirm that the retval is correct key name ks
      */
     void (*unlockMutex) (CMPI_MUTEX_TYPE mutex);
@@ -2378,16 +2397,16 @@ struct _CMPIBrokerExtFT {
 
     /** @brief Destroy a condition variable <b>(Deprecated)</b>
 
-     `CMPIBrokerExtFT.destroyCondition()`destroys a POSIX threading conformant
+     `CMPIBrokerExtFT.destroyCondition()` destroys a POSIX threading conformant
      condition variable <b>(Deprecated)</b>.
 
      @param cond The condition variable to be destroyed.
      @return None. For historical reasons, this function does not
          indicate whether it succeeded or failed.
-     @deprecated Deprecated  effective CMPI 2.1 because it does not indicate
-     whether it succeeded or failed. Use CMPIBrokerExtFt.destroyCondition2()
-     instead.
-     @see destroyCondition2()
+     @deprecated Deprecated effective CMPI 2.1 because it does not indicate
+     whether it succeeded or failed. Use
+     @ref _CMPIBrokerExtFT::destroyCondition2
+     "CMPIBrokerExtFT.destroyCondition2()" instead.
      */
     void (*destroyCondition) (CMPI_COND_TYPE cond);
 
@@ -2412,7 +2431,7 @@ struct _CMPIBrokerExtFT {
     /** @brief Wait until the condition is signalled or a timeout
                value expires.
 
-     The CMPIBrokerExtFT.timedCondWait function waits until a POSIX
+     `CMPIBrokerExtFT.timedCondWait()` waits until a POSIX
      threading-conformant condition variable is signalled. If the condition
      variable has been signalled already, the function returns immediately;
      otherwise, it suspends the current thread to wait for the signal and
@@ -2436,7 +2455,7 @@ struct _CMPIBrokerExtFT {
 
     /** @brief Send a signal to a condition variable.
 
-     `CMPIBrokerExtFT.signalCondition()` Sends a signal
+     `CMPIBrokerExtFT.signalCondition()` sends a signal
      to a POSIX threading-conformant condition variable.
 
      @param cond Specifies the handle of the condition variable to
@@ -2476,10 +2495,11 @@ struct _CMPIBrokerExtFT {
      Lock a POSIX threading conformant mutex. If the mutex is locked by another
      thread, the current thread is suspended until the lock is granted.
      The behavior in case the mutex is already locked by the current thread
-     is defined in the description of `CMPIBrokerExtFT.newMutex()`;.
+     is defined in the description of @ref _CMPIBrokerExtFT::newMutex
+     "CMPIBrokerExtFT.newMutex()".
 
-     This function superceedes the original ``lockMutex()`;
-     function.
+     This function superceedes the original @ref _CMPIBrokerExtFT::lockMutex
+     "lockMutex()" function.
      @param mutex The mutex to be locked.
      @return If successful, zero will be returned.
          If not successful, a non-zero error code will be returned. Error codes
@@ -2487,7 +2507,7 @@ struct _CMPIBrokerExtFT {
             &lt;pthread_mutex_lock()&gt; function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
      @version Added in CMPI 2.1 superceeding deprecated
-     `CMPIBrokerExtFT.lockMutex()` function.
+     @ref _CMPIBrokerExtFT::lockMutex "CMPIBrokerExtFT.lockMutex()" function.
      */
     int (*lockMutex2) (CMPI_MUTEX_TYPE mutex);
 
@@ -2495,7 +2515,7 @@ struct _CMPIBrokerExtFT {
 
      Unlock a POSIX threading conformant mutex. The behavior in case the mutex
      is not locked by the current thread is defined in the description of
-     &lt;CMPIBrokerExtFT.newMutex()&gt;.
+     @ref _CMPIBrokerExtFT::newMutex "CMPIBrokerExtFT.newMutex()".
 
      This function superceedes the original &lt;unlockMutex()&gt;
      function.
@@ -2543,7 +2563,7 @@ struct _CMPIBrokerExtFT {
 
 /**
  * @brief Function table for MB memory enhancement services of
- * [CMPIBroker object](@ref _CMPIBroker).
+ * @ref _CMPIBroker "CMPIBroker object".
  *
  * This function table provides memory management services.
  */
@@ -2568,7 +2588,8 @@ struct _CMPIBrokerMemFT {
      Invoking this function marks a new object lifecycle level for the
      calling MI. Subsequent newly created CMPI encapsulated data type objects
      in that MI will be associated with that new object lifecycle level.
-     A subsequent invocation of the `CMPIBrokerMemFT.release()` function
+     A subsequent invocation of @ref _CMPIBrokerMemFT::release
+     "CMPIBrokerMemFT.release()"
      with the returned <tt>CMPIGcStat</tt> pointer will release only the
      objects associated with that object lifecycle level.
 
@@ -2579,14 +2600,14 @@ struct _CMPIBrokerMemFT {
      @param mb The broker.
      @param rc Output: Service return status (suppressed when NULL).
      @return If successful, returns a pointer to a <tt>CMPIGcStat</tt>
-     structure, for use with the &lt;CMPIBrokerMemFT.release()&gt; function.
+     structure, for use with @ref _CMPIBrokerMemFT::release
+     "CMPIBrokerMemFT.release()".
 
      If not successful, returns NULL.
 
     The function return status indicates one of the following @ref CMPIrc codes:
     @li `CMPI_RC_OK` - Function successful.
     @li `CMPI_RC_ERR_FAILED` - Unspecified error occurred.
-    @see CMPIBrokerMemFT.release()
 
      */
     CMPIGcStat* (*mark) (const CMPIBroker* mb, CMPIStatus* rc);
@@ -2613,7 +2634,6 @@ struct _CMPIBrokerMemFT {
     The function return status indicates one of the following @ref CMPIrc codes:
         @li `CMPI_RC_OK` - Function successful.
         @li `CMPI_RC_ERR_FAILED` - Unspecified error occurred.
-     @sa CMPIBrokerMemFT.mark() CMPIBrokerMemFt.release()
      */
     CMPIStatus (*release) (const CMPIBroker* mb, const CMPIGcStat* gc);
 
@@ -2625,8 +2645,8 @@ struct _CMPIBrokerMemFT {
      &lt; malloc()&gt; function (see @ref ref-ieee-1003-1 "IEEE 1003.1").
 
      The allocated memory block can be explicitly released by the MI using
-     CMPIBrokerMemFT.cmpiFree(), or will be automatically released by the
-     MB after cleanup of the MI.
+     @ref _CMPIBrokerMemFT::cmpiFree "CMPIBrokerMemFT.cmpiFree()", or will be
+     automatically released by the MB after cleanup of the MI.
      @param mb Pointer to a CMPIBroker structure.
      @param size Specifies the amount of memory to allocate in Bytes.
      @return Returns a pointer to the allocated memory, or NULL if the memory
@@ -2688,7 +2708,8 @@ struct _CMPIBrokerMemFT {
      function behaves consistently with the POSIX strdup() function
      (see @ref ref-ieee-1003-1 "IEEE 1003.1").
      The allocated memory block can be explicitly
-     released by the MI using  CMPIBrokerMemFT.cmpiFree(), or will be
+     released by the MI using
+     @ref _CMPIBrokerMemFT::cmpiFree "CMPIBrokerMemFT.cmpiFree()", or will be
      automatically released by the MB after cleanup of the MI.
 
      @param mb Pointer to a CMPIBroker structure.
@@ -2700,9 +2721,9 @@ struct _CMPIBrokerMemFT {
 
     /** @brief Free a memory block.
 
-     `CMPIBrokerMemFT.cmpiFree()` function releases a memory block
-     allocated via the <tt>cmpiMalloc()</tt>, <tt>cmpiCalloc()</tt>, or
-     <tt>cmpiRealloc()</tt> functions.
+     `CMPIBrokerMemFT.cmpiFree()` releases a memory block
+     allocated via `cmpiMalloc()`, `cmpiCalloc()`, or
+     `cmpiRealloc()`.
 
      This function behaves consistently with the POSIX free() function
      (see @ref ref-ieee-1003-1 "IEEE 1003.1").
@@ -2717,7 +2738,6 @@ struct _CMPIBrokerMemFT {
      @param ptr The memory to free. This memory MUST have been allocated via
      the cmpiMalloc, cmpiCalloc or cmpiRealloc functions.
      @return None. Does not indicate whether it succeeded or failed.
-     @see cmpiMalloc(), cmpiCalloc(), cmpiRealloc().
      */
     void (*cmpiFree) (const CMPIBroker* mb, void* ptr);
 
@@ -2730,13 +2750,15 @@ struct _CMPIBrokerMemFT {
      later during some garbage collection cycle.
 
      Allows a MI to free memory associated to a <tt>CMPIInstance</tt>
-     which was allocated via &lt;CMPIBrokerEncFT.newInstance()&gt;.
+     which was allocated via @ref _CMPIBrokerEncFT::newInstance
+     "CMPIBrokerEncFT.newInstance()".
      this function should be called when an instance is no longer
      being used by the MI. This function will free all contained
      objects (e.g. properties).
      @param mb Pointer to a CMPIBroker structure.
      @param inst Pointer to to the CMPIInstance object to be released.
-         This object shall have been created via CMPIBrokerEncFT.newInstance().
+         This object shall have been created via
+         @ref _CMPIBrokerEncFT::newInstance "CMPIBrokerEncFT.newInstance()".
      @return None.  Does not indicate whether it succeeded or failed.
      */
     void (*freeInstance) (const CMPIBroker* mb, CMPIInstance* inst);
@@ -2751,13 +2773,15 @@ struct _CMPIBrokerMemFT {
 
      Allows a MI to free memory associated to a
      <tt>CMPIObjectPath</tt> which was allocated via
-     &lt;CMPIBrokerEncFT.newObjectPath()&gt;. this function should
+     @ref _CMPIBrokerEncFT::newObjectPath "CMPIBrokerEncFT.newObjectPath()".
+     This function should
      be called when a <tt>CMPIObjectPath</tt> is no longer being
      used by the MI. This function will free all contained objects.
 
      @param mb Pointer to a CMPIBroker structure.
      @param obj Pointer to the CMPIObjectPath object that is to be released.
-     This object shall have been created via CMPIBrokerEncFT.newObjectPath().
+     This object shall have been created via
+     @ref _CMPIBrokerEncFT::newObjectPath "CMPIBrokerEncFT.newObjectPath()".
      @return None
      */
     void (*freeObjectPath) (const CMPIBroker* mb, CMPIObjectPath* obj);
@@ -2772,7 +2796,8 @@ struct _CMPIBrokerMemFT {
 
      @param mb Pointer to a CMPIBroker structure.
      @param args Pointer to to the CMPIArgs object that is to be released. This
-         object shall have been created via CMPIBrokerEncFT.newArgs().
+         object shall have been created via
+         @ref _CMPIBrokerEncFT::newArgs "CMPIBrokerEncFT.newArgs()".
      @return None.
      */
     void (*freeArgs) (const CMPIBroker* mb, CMPIArgs* args);
@@ -2786,8 +2811,10 @@ struct _CMPIBrokerMemFT {
      or later during some garbage collection cycle (see Subclause 4.1.7).
 
      Allows an MI to free memory associated to a <tt>CMPIString</tt> which was
-     allocated via &lt;CMPIBrokerEncFT.newString()&gt;. this function should be
-     called when an instance is no longer being used by the MI.
+     allocated via
+     @ref _CMPIBrokerEncFT::newString "CMPIBrokerEncFT.newString()".
+     This function should be called when an instance is no longer being used
+     by the MI.
 
      @param mb Pointer to a CMPIBroker structure.
      @param args The string to free.
@@ -2804,16 +2831,17 @@ struct _CMPIBrokerMemFT {
      or later during some garbage collection cycle (see Subclause 4.1.7).
 
      Allows a MI to free memory associated to a CMPIArray which was
-     allocated via &lt;CMPIBrokerEncFT.newArray()&gt;. this function should
+     allocated via
+     @ref _CMPIBrokerEncFT::newArray "CMPIBrokerEncFT.newArray()".
+     This function should
      be called when an instance is no longer being used by the MI. This
      function will free all contained objects (e.g. the array elements).
 
      @param mb Pointer to a CMPIBroker structure.
      @param array Pointer to to the CMPIArray object that is to be 
      released.This object shall have been created via 
-     `CMPIBrokerEncFT.newArray()`. 
+     @ref _CMPIBrokerEncFT::newArray "CMPIBrokerEncFT.newArray()".
      @return None.
-     @see newArray()
      */
     void (*freeArray) (const CMPIBroker* mb, CMPIArray* array);
 
@@ -2827,13 +2855,16 @@ struct _CMPIBrokerMemFT {
      some garbage collection cycle (see Subclause 4.1.7).
 
      Allows a MI to free memory associated to a CMPIDateTime which was
-     allocated via CMPIBrokerEncFT.newDateTime functions. this function
+     allocated via
+     @ref _CMPIBrokerEncFT::newDateTime "CMPIBrokerEncFT.newDateTime()".
+     This function
      should be called when an instance is no longer being used by the MI.
      This function will free all contained objects.
 
      @param mb Pointer to a CMPIBroker structure.
      @param dt Pointer to to the CMPIDateTime object that is to be released.
-         This object shall have been created via CMPIBrokerEncFT.newDateTime().
+         This object shall have been created via
+         @ref _CMPIBrokerEncFT::newDateTime "CMPIBrokerEncFT.newDateTime()".
      @return None.
      */
     void (*freeDateTime) (const CMPIBroker* mb, CMPIDateTime* dt);
@@ -2848,14 +2879,17 @@ struct _CMPIBrokerMemFT {
      some garbage collection cycle (see Subclause 4.1.7).
 
      Allows a MI to free memory associated to a CMPISelectExp which was
-     allocated via CMPIBrokerEncFT.newSelectExp functions. this function
+     allocated via
+     @ref _CMPIBrokerEncFT::newSelectExp "CMPIBrokerEncFT.newSelectExp()".
+     This function
      should be called when an instance is no longer being used by the MI.
 
      This function will free all contained objects.
 
      @param mb Pointer to a CMPIBroker structure.
      @param se Pointer to to the CMPISelectExp object that is to be released.
-         This object shall have been created via CMPIBrokerEncFT.newSelectExp().
+         This object shall have been created via
+         @ref _CMPIBrokerEncFT::newSelectExp "CMPIBrokerEncFT.newSelectExp()".
      @return None.
      */
     void (*freeSelectExp) (const CMPIBroker* mb, CMPISelectExp* se);
@@ -2880,11 +2914,11 @@ struct _CMPIBrokerMemFT {
      @param mb Pointer to a CMPIBroker structure.
      @param chars Pointer to to the C-language string to be released.
          This C-language string shall have been created via
-         CMPIStringFT.newCharsCP()..
+         @ref _CMPIStringFT::newCharsCP "CMPIStringFT.newCharsCP()".
      @return None.
      @version Added in CMPI 2.1.
      @todo could we more precisely define  broker, ex.
-           CMPIBrokerFt.brokerCapabilities
+           CMPIBrokerFT.brokerCapabilities
      */
     void (*freeChars) (const CMPIBroker* mb, char* chars);
 
@@ -2925,8 +2959,8 @@ struct _CMPIContext {
 };
 
 /**
- * @brief Function table of
- * [CMPIContext encapsulated data type object](@ref _CMPIContext).
+ * @brief Function table of @ref _CMPIContext
+ *     "CMPIContext encapsulated data type object".
  */
 struct _CMPIContextFT {
 
@@ -2963,7 +2997,7 @@ struct _CMPIContextFT {
          upon return has been updated with the function return status..
      @return Pointer to copied CMPIContext object. The returned
          CMPIContext object shall be explicity released by the
-         MI using `CMPIContextFT.release()`;.
+         MI using @ref _CMPIContextFT::release "CMPIContextFT.release()".
 
      The function return status indicates one of the following @ref CMPIrc
          codes:
@@ -3104,8 +3138,8 @@ struct _CMPIResult {
 };
 
 /**
- * @brief Function table of
- * [CMPIResult encapsulated data type object](@ref _CMPIResult).
+ * @brief Function table of @ref _CMPIResult
+ *     "CMPIResult encapsulated data type object".
  */
 struct _CMPIResultFT {
 
@@ -3145,7 +3179,7 @@ struct _CMPIResultFT {
          object.
 
          The returned CMPIResult object shall be explicitly released by
-         the MI using CMPIResultFT.release().
+         the MI using @ref _CMPIResultFT::release "CMPIResultFT.release()".
 
          If not successful, returns NULL.
      The function return status indicates one of the following @ref CMPIrc
@@ -3203,7 +3237,7 @@ struct _CMPIResultFT {
 
     /** @brief Add an object path to a CMPIResult object.
 
-        `CMPIResultFT.returnInstance()` function adds an instance to
+        `CMPIResultFT.returnInstance()` adds an instance to
         be returned to the MB, to a CMPIResult object.
      @param rslt CMPIResult object for this function.
      @param ref CMPIObjectPath to be returned.
@@ -3224,7 +3258,7 @@ struct _CMPIResultFT {
     /** @brief Indicate that no more items will be added to a
          CMPIResult object.
 
-     `CMPIResultFT.returnDone()`indicates to the MB that
+     `CMPIResultFT.returnDone()` indicates to the MB that
          no further items will be added to a CMPIResult object; that
          is, the MI will not return any more data to the MB.
      @param rslt CMPIResult object for this function.
@@ -3241,7 +3275,7 @@ struct _CMPIResultFT {
 
     /** @brief Add an error to a CMPIResult object.
 
-     CMPIResultFT.returnError() adds an error to be returned to the MB, to a
+     `CMPIResultFT.returnError()` adds an error to be returned to the MB, to a
          CMPIResult object.
 
      In WBEM protocols that support multiple extended errors in an error
@@ -3305,8 +3339,8 @@ struct _CMPIError {
 };
 
 /**
- * @brief Function table of
- * [CMPIError encapsulated data type object](@ref _CMPIError).
+ * @brief Function table of @ref _CMPIError
+ *     "CMPIError encapsulated data type object".
  */
 struct _CMPIErrorFT {
 
@@ -3351,7 +3385,8 @@ struct _CMPIErrorFT {
         function return status.
      @return If successful, returns a pointer to the copied CMPIError object.
          The returned CMPIError object shall be explicitly released by the MI
-         using CMPIErrorFT.release().If not successful, returns NULL. If
+         using @ref _CMPIErrorFT::release "CMPIErrorFT.release()".
+         If not successful, returns NULL. If
          not successful, NULL will be returned.
 
      The function return status indicates one of the following @ref CMPIrc
@@ -3370,8 +3405,8 @@ struct _CMPIErrorFT {
 
     /** @brief Get the ErrorType attribute of a CMPIError object.
 
-     `CMPIErrorFT.getErrorType()` function gets the value of the
-         ErrorType attribute in a CMPIError objec
+     `CMPIErrorFT.getErrorType()` gets the value of the
+         ErrorType attribute in a CMPIError object.
      @param er Pointer to the CMPIError object for this function
      @param rc Output: If not NULL, points to a CMPIStatus
          structure* that updated wit the function return status.
@@ -3703,7 +3738,7 @@ struct _CMPIErrorFT {
     /** @brief Get the CIMStatusCode attribute of a CMPIError
                object.
 
-     `CMPIErrorFT.getCIMStatusCode()` function gets the value of the
+     `CMPIErrorFT.getCIMStatusCode()` gets the value of the
      CIMStatusCode attribute of a CMPIError object.
      @param er Pointer to the CMPIError object for this function.
      @param rc Output: If not NULL, points to a CMPIStatus
@@ -3730,7 +3765,7 @@ struct _CMPIErrorFT {
 
     /** @brief Get CIMStatusCodeDescription attribute of a CMPIError object.
 
-     `CMPIErrorFT.getCIMStatusCodeDescription()` function gets the
+     `CMPIErrorFT.getCIMStatusCodeDescription()` gets the
      value of the CIMStatusCodeDescription attribute of a CMPIError
      object.
      @param er Pointer to the CMPIError object for this function.
@@ -3762,7 +3797,7 @@ struct _CMPIErrorFT {
 
     /** @brief Get the MessageArguments array attribute of a CMPIError object.
 
-     `CMPIErrorFT.getMessageArguments()` function gets the value of
+     `CMPIErrorFT.getMessageArguments()` gets the value of
      the MessageArguments array attribute of a CMPIError object.
      @param er Pointer to the CMPIError object for this function.
      @param rc Output: If not NULL, points to a CMPIStatus
@@ -4003,7 +4038,7 @@ struct _CMPIErrorFT {
     /** @brief Set the <tt>CIMStatusCodeDescription</tt> attribute of
        a CMPIError object
 
-     `CMPIErrorFT.setCIMStatusCodeDescription()` Sets the
+     `CMPIErrorFT.setCIMStatusCodeDescription()` sets the
          description of the status code. For a description of the
          <tt>CIMStatusCodeDescription</tt> attribute, see the description of the
          <tt>CIMStatusCodeDescription</tt> property in the <tt>CIM_Error</tt>
@@ -4092,8 +4127,8 @@ struct _CMPIInstance {
 };
 
 /**
- * @brief Function table of
- * [CMPIInstance encapsulated data type object](@ref _CMPIInstance).
+ * @brief Function table of @ref _CMPIInstance
+ *     "CMPIInstance encapsulated data type object".
  */
 struct _CMPIInstanceFT {
 
@@ -4107,7 +4142,7 @@ struct _CMPIInstanceFT {
 
     /** @brief Release a CMPIInstance object.
 
-     The CMPIInstanceFT.release() function releases a CMPIInstance object.
+     `CMPIInstanceFT.release()` releases a CMPIInstance object.
      This indicates to the MB that the object (including any objects it
      contains) will no longer be used by the MI. The MB may free (=reclaim)
      the memory associated with the object during the call to this function,
@@ -4132,7 +4167,7 @@ struct _CMPIInstanceFT {
      @return If successful, a pointer to the copied CMPIInstance object
      will be returned.
      The returned CMPIInstance object shall be explicitly released by the
-     MI using CMPIInstanceFT.release().
+     MI using @ref _CMPIInstanceFT::release "CMPIInstanceFT.release()".
      If not successful, NULL will be returned.
 
      The function return status indicates one of the following @ref CMPIrc
@@ -4166,7 +4201,7 @@ struct _CMPIInstanceFT {
 
     /** @brief Get a property in a <tt>CMPIInstance</tt> object by index.
 
-     CMPIInstanceFT.getPropertyAt() function gets a property at <tt>index</tt>
+     `CMPIInstanceFT.getPropertyAt()` gets a property at <tt>index</tt>
          in a CMPIInstance object .
      @param inst Pointer to the instance.
      @param index Zero-based index number of the property in the internal
@@ -4197,7 +4232,7 @@ struct _CMPIInstanceFT {
 
     /** @brief Get the number of properties in a CMPIInstance  object.
 
-     CMPIInstanceFT.getPropertyAt() gets the number of properties
+     `CMPIInstanceFT.getPropertyAt()` gets the number of properties
      contained a CMPIInstance.
      @param inst Pointer to the CMPIInstance object for this
                  function.
@@ -4222,8 +4257,10 @@ struct _CMPIInstanceFT {
          path of the instance. In order for MIs not to be dependent on this
          behavior, MIs should set key property values in instances and key
          binding values in object paths separately. Key binding values can
-         be set during CMPIBrokerEncFT.newInstance() and by using
-         &lt;CMPIInstanceFT.setObjectPath()*gt;. The MI shall specify
+         be set during @ref _CMPIBrokerEncFT::newInstance
+         "CMPIBrokerEncFT.newInstance()" and by using
+         @ref _CMPIInstanceFT::setObjectPath "CMPIInstanceFT.setObjectPath()".
+         The MI shall specify
          consistent values for key bindings and key properties.
      @param inst pointer to the <tt>CMPIInstance</tt>.
      @param name Pointer to a string containing the property name.
@@ -4255,7 +4292,7 @@ struct _CMPIInstanceFT {
 
     /** @brief Get a CMPIObjectPath object from a CMPIInstance object.
 
-     CMPIInstanceFT.getObjectPath() generates a CMPIObjectPath object from
+     `CMPIInstanceFT.getObjectPath()` generates a CMPIObjectPath object from
          the namespace, class name, and key properties of a CMPIInstance
          object.
      @param inst Pointer to the CMPIInstance.
@@ -4280,7 +4317,7 @@ struct _CMPIInstanceFT {
     /** @brief Attach a property filter to a <tt>CMPIInstance</tt>
                object.
 
-     CMPIInstanceFT.setPropertyFilter()  attaches a property filter to a
+     `CMPIInstanceFT.setPropertyFilter()` attaches a property filter to a
      CMPIInstance object, replacing any previous property filter settings for
      this object.
      By calling this function, the MI delegates property list filtering
@@ -4316,7 +4353,7 @@ struct _CMPIInstanceFT {
 
     /** @brief Set the instance path component of a CMPIInstance object.
 
-     CMPIInstanceFT.setPropertyFilter() sets the CMPIObjectPath component
+     `CMPIInstanceFT.setPropertyFilter()` sets the CMPIObjectPath component
          in an instance.
 
      The function may or may not in addition update the key property
@@ -4324,8 +4361,9 @@ struct _CMPIInstanceFT {
      path. In order for MIs not to be dependent on this behavior, MIs should
      set key property values in instances and key binding values in
      object paths separately. Property values can be set by using
-     &lt;CMPIInstanceFT.setProperty()&gt; or
-     &lt;CMPIInstanceFT.setPropertyWithOrigin()&gt;. The MI shall specify
+     @ref _CMPIInstanceFT::setProperty "CMPIInstanceFT.setProperty()" or
+     @ref _CMPIInstanceFT::setPropertyWithOrigin
+     "CMPIInstanceFT.setPropertyWithOrigin()". The MI shall specify
      consistent values for key bindings and key properties.
 
      @param inst Pointer to the CMPIInstance object.
@@ -4355,7 +4393,7 @@ struct _CMPIInstanceFT {
     /** @brief Add or replace a property value in a CMPIInstance
                object by name.
 
-     CMPIInstanceFT.setPropertyWithOrigin() adds or replaces a Property value
+     `CMPIInstanceFT.setPropertyWithOrigin()` adds or replaces a Property value
          and origin in a CMPIInstance.
 
      If the property is a key property, the function may or may not in addition
@@ -4363,8 +4401,10 @@ struct _CMPIInstanceFT {
      order for MIs not to be dependent on this behavior, MIs should set
      key property values in instances and key binding values in object
      paths separately. Key binding values can be set during
-     &lt;CMPIBrokerEncFT.newInstance()&gt; and by using
-     &lt;CMPIInstanceFT.setObjectPath()&gt;. The MI shall specify consistent
+     @ref _CMPIBrokerEncFT::newInstance "CMPIBrokerEncFT.newInstance()" and by
+     using
+     @ref _CMPIInstanceFT::setObjectPath "CMPIInstanceFT.setObjectPath()".
+     The MI shall specify consistent
      values for key bindings and key properties.
      @param inst Pointer to the CMPIInstance object.
      @param name CMPIString containing the property name.
@@ -4418,8 +4458,8 @@ struct _CMPIObjectPath {
 };
 
 /**
- * @brief Function table of
- * [CMPIObjectPath encapsulated data type object](@ref _CMPIObjectPath).
+ * @brief Function table of @ref _CMPIObjectPath
+ *     "CMPIObjectPath encapsulated data type object".
  */
 struct _CMPIObjectPathFT {
 
@@ -4466,7 +4506,7 @@ struct _CMPIObjectPathFT {
     /** @brief Add the namespace component to a <tt>CIMObjectPath</tt>
            object.
 
-     CMPIObjectPathFT.setNameSpace() sets or replaces the namespace component
+     `CMPIObjectPathFT.setNameSpace()` sets or replaces the namespace component
          in the CMPIObjectPath object defined by <tt>op</tt>.
      @param op Pointer to the CMPIObjectPath object.
      @param ns CMPI String containing the namespace to add.
@@ -4483,7 +4523,7 @@ struct _CMPIObjectPathFT {
     /** @brief Get the namespace component from a CMPIObjectPath.
            object.
 
-     CMPIObjectPathFT.getNameSpace() gets the namespace component from a
+     `CMPIObjectPathFT.getNameSpace()` gets the namespace component from a
          CMPIObjectPath object.
      @param op Pointer to the CMPIObjectPath object.
      @param rc Output: Service return status (suppressed when NULL).
@@ -4505,8 +4545,8 @@ struct _CMPIObjectPathFT {
 
     /** @brief Set the host name component in a CMPIObjectPath object.
 
-     CMPIObjectPathFT.setHostname() Ses or replaces the host name component in
-       <tt>op</tt> a CMPIObjectPath object with argument <tt>hn</tt>.
+     `CMPIObjectPathFT.setHostname()` sets or replaces the host name component
+     in <tt>op</tt> a CMPIObjectPath object with argument <tt>hn</tt>.
      @param op Pointer to the CMPIObjectPath.
      @param hn Pointer to a CMPIString containing the host name.
      @return CMPIStatus structure indicating the function return status.
@@ -4521,7 +4561,7 @@ struct _CMPIObjectPathFT {
 
     /** @brief Get the host name component  in a CMPIObjectPath object.
 
-     CMPIObjectPathFT.getHostname() gets the host name component from a
+     `CMPIObjectPathFT.getHostname()` gets the host name component from a
          CMPIObjectPath object.
      @param op Pointer to CMPIObjectPath.
      @param rc Output: Service return status (suppressed when NULL).
@@ -4724,7 +4764,7 @@ struct _CMPIObjectPathFT {
     /** @brief Get the number of key bindings in a CMPIObjectPath
                object.
 
-     CMPIObjectPathFT.getKeyCount() gets the number of key bindings contained
+     `CMPIObjectPathFT.getKeyCount()` gets the number of key bindings contained
          in this CMPIObjectPath.
      @param op Pointer to CMPIObjectPath.
      @param rc Output: If not NULL, points to a CMPIStatus structure
@@ -4748,7 +4788,7 @@ struct _CMPIObjectPathFT {
     /** @brief Set/replace the namespace and class name components in a
        CMPIObjectPath object from another CMPIObjectPath object
 
-     CMPIObjectPathFT.setNameSpaceFromObjectPath() sets or replace namespace
+     `CMPIObjectPathFT.setNameSpaceFromObjectPath()` sets or replace namespace
          and classname components in CMPIObjectPath
          <tt>op</tt> from CMPIObjectPath <tt>src</tt>.
      @param op Pointer to CMPIObjectPath.
@@ -4790,7 +4830,7 @@ struct _CMPIObjectPathFT {
 
     /** @brief Get a class qualifier.
 
-     CMPIObjectPathFT.getClassQualifier() gets a class qualifier in the class
+     `CMPIObjectPathFT.getClassQualifier()` gets a class qualifier in the class
          identified by the CMPIObjectPath <tt>op</tt> argument.
 
          This function shall be supported by the MB if the Basic Qualifier
@@ -4823,7 +4863,7 @@ struct _CMPIObjectPathFT {
 
     /** @brief Get a property qualifier.
 
-     CMPIObjectPathFT.getPropertyQualifier() function gets a property
+     `CMPIObjectPathFT.getPropertyQualifier()` function gets a property
          qualifier in the class identified by <tt>op</tt>>.
 
      This function shall be supported by the MB if theBasic Qualifier
@@ -4865,7 +4905,7 @@ struct _CMPIObjectPathFT {
 
     /** @brief Get a method qualifier.
 
-     CMPIObjectPathFT.getMethodQualifier() gets method qualifier value.
+     `CMPIObjectPathFT.getMethodQualifier()` gets method qualifier value.
 
      This function shall be supported by the MB if the Basic Qualifier
          capability is available (see Subclause 7.1); otherwise, it shall
@@ -4905,7 +4945,7 @@ struct _CMPIObjectPathFT {
 
     /** @brief Get a parameter qualifier.
 
-     CMPIObjectPathFT.getParameterQualifier() gets a parameter qualifier in
+     `CMPIObjectPathFT.getParameterQualifier()` gets a parameter qualifier in
         the class identified by this object path.
 
      This function shall be supported by the MB if the Basic Qualifier
@@ -4952,7 +4992,7 @@ struct _CMPIObjectPathFT {
 
     /** @brief Convert a CMPIObjectPath object into a string format.
 
-     CMPIObjectPathFT.toString() generates a well formed
+     `CMPIObjectPathFT.toString()` generates a well formed
          implementation-specific string representation of this CMPIObjectPath.
      @param op Pointer to CMPIObjectPath.
      @param rc Output: Service return status (suppressed when NULL).
@@ -4981,12 +5021,16 @@ struct _CMPIObjectPathFT {
  * @addtogroup qualifier-services
  * @{
  *   The qualifier services are the following member functions from the
- *   [CMPIObjectPath encapsulated data type object](@ref _CMPIObjectPathFT):
+ *   @ref _CMPIObjectPathFT "CMPIObjectPath encapsulated data type object":
  *     <UL>
  *     <LI>@ref _CMPIObjectPathFT::getClassQualifier
+ *         "CMPIObjectPathFT.getClassQualifier()"
  *     <LI>@ref _CMPIObjectPathFT::getPropertyQualifier
+ *         "CMPIObjectPathFT.getPropertyQualifier()"
  *     <LI>@ref _CMPIObjectPathFT::getMethodQualifier
+ *         "CMPIObjectPathFT.getMethodQualifier()"
  *     <LI>@ref _CMPIObjectPathFT::getParameterQualifier
+ *         "CMPIObjectPathFT.getParameterQualifier()"
  *     </UL>
  *   @}
  *   @addtogroup edt-selectexp
@@ -5011,8 +5055,8 @@ struct _CMPISelectExp {
 };
 
 /**
- * @brief Function table of
- * [CMPISelectExp encapsulated data type object](@ref _CMPISelectExp).
+ * @brief Function table of @ref _CMPISelectExp
+ *     "CMPISelectExp encapsulated data type object".
  */
 struct _CMPISelectExpFT {
 
@@ -5026,14 +5070,15 @@ struct _CMPISelectExpFT {
 
     /** @brief Release a CMPISelectExp object.
 
-     CMPISelectExpFT.release() releases a CMPISelectExp object. This
+     `CMPISelectExpFT.release()` releases a CMPISelectExp object. This
          indicates to the MB that the object (including any objects it
          contains) will no longer be used by the MI. The MB may free (=reclaim)
          the memory associated with the object during the call to this
          function, or later during some garbage collection cycle
          (see Subclause 4.1.7).
      @param se points to the CMPISelectExp object to be released. That object
-          shall have been created using CMPISelectExpFT.clone().
+          shall have been created using @ref _CMPISelectExpFT::clone
+          "CMPISelectExpFT.clone()".
      @return CMPIStatus structure indicating the function return status.
 
      The function return status indicates one of the following @ref CMPIrc
@@ -5053,7 +5098,8 @@ struct _CMPISelectExpFT {
      @return If successful, a pointer to the copied CMPISelectExp object
           will be returned.
           The returned CMPISelectExp object shall be explicitly released
-          by the MI using CMPISelectExpFT.release().
+          by the MI using @ref _CMPISelectExpFT::release
+          "CMPISelectExpFT.release()".
           If not successful, NULL will be returned.
 
      The function return status indicates one of the following @ref CMPIrc
@@ -5067,7 +5113,7 @@ struct _CMPISelectExpFT {
     /** @brief Test whether an instance matches the select
        expression in a CMPISelectExp object.
 
-     CMPISelectExpFT.evaluate() evaluates the instance &ltinst& using this
+     `CMPISelectExpFT.evaluate()` evaluates the instance &ltinst& using this
          select expression.
 
      This function shall be supported by the MB if the Query Normalization
@@ -5097,7 +5143,7 @@ struct _CMPISelectExpFT {
     /** @brief Get the select expression in a CMPISelectExp object
                as a string.
 
-     `CMPISelectExpFT.getString()` seturns the select expression in
+     `CMPISelectExpFT.getString()` returns the select expression in
      string format.
 
      This function shall be supported by the MB if the Query Normalization
@@ -5130,7 +5176,7 @@ struct _CMPISelectExpFT {
     /** @brief Get the select expression in a CMPISelectExp object
        as a disjunction of conjunctions.
 
-     `CMPISelectExpFT.getDOC()` function gets the select expression as a
+     `CMPISelectExpFT.getDOC()` gets the select expression as a
          disjunction of conjunctions. This function transforms the WHERE
          clause of the select expression into a canonical disjunction of
          onjunctions (DOC) form (OR?ing of AND?ed comparison expressions).
@@ -5210,7 +5256,8 @@ struct _CMPISelectExpFT {
 
      This function tests whether the properties returned by an accessor
      function match the select expression in a CMPISelectExp object.
-     This function is a variation of CMPISelectExpFT.evaluate(). it enables
+     This function is a variation of @ref _CMPISelectExpFT::evaluate
+     "CMPISelectExpFT.evaluate()". It enables
      evaluation without the need to create a CMPIInstance object
 
      This function shall be supported by the MB if the Query Normalization
@@ -5265,8 +5312,8 @@ struct _CMPISelectCond {
 };
 
 /**
- * @brief Function table of
- * [CMPISelectCond encapsulated data type object](@ref _CMPISelectCond).
+ * @brief Function table of @ref _CMPISelectCond
+ *     "CMPISelectCond encapsulated data type object".
  */
 struct _CMPISelectCondFT {
 
@@ -5293,7 +5340,8 @@ struct _CMPISelectCondFT {
          on the brokerCapabilities member of the CMPIBrokerFT structure.
 
      @param sc points to the CMPISelectCond object to be released. That object
-         shall have been created using `CMPISelectCondFT.clone()`.
+         shall have been created using @ref _CMPISelectCondFT::clone
+         "CMPISelectCondFT.clone()".
      @return CMPIStatus structure indicating the function return status .
      The function return status indicates one of the following @ref CMPIrc
         codes:
@@ -5327,7 +5375,8 @@ struct _CMPISelectCondFT {
         object.
 
         The returned CMPISelectExp object shall be explicitly released by
-         the MI using CMPISelectExpFT.release().
+         the MI using @ref _CMPISelectExpFT::release
+         "CMPISelectExpFT.release()".
 
         If not successful, NULL will be returned.
 
@@ -5384,7 +5433,7 @@ struct _CMPISelectCondFT {
 
     /** @brief Get a subcondition in a CMPISelectCond object by index.
 
-     `CMPISelectCondFT.getSubCondAt()` function gets the subcondition in a
+     `CMPISelectCondFT.getSubCondAt()` gets the subcondition in a
          CMPISelectCond object, by its index in the internal data array
 
      This function shall be supported by the MB if the Query Normalization
@@ -5448,8 +5497,8 @@ struct _CMPISubCond {
 };
 
 /**
- * @brief Function table of
- * [CMPISubCond encapsulated data type object](@ref _CMPISubCond).
+ * @brief Function table of @ref _CMPISubCond
+ *     "CMPISubCond encapsulated data type object".
  */
 struct _CMPISubCondFT {
 
@@ -5480,7 +5529,7 @@ struct _CMPISubCondFT {
          brokerCapabilities member of the CMPIBrokerFT structure.
      @param sc Pointer to the CMPISubCond object to be released.
        That object shall have been created using
-       `CMPISubCondFT.clone()`.
+       @ref _CMPISubCondFT::clone "CMPISubCondFT.clone()".
      @return CMPIStatus structure indicating the function return status.
      The following @ref CMPIrc codes shall be recognized:
          @li `CMPI_RC_OK` - Operation successful.
@@ -5529,7 +5578,7 @@ struct _CMPISubCondFT {
 
     /** @brief Get the number of predicates in a CMPISubCond object.
 
-     CMPISubCondFT.getCount() function gets the number of predicates in `sc`
+     `CMPISubCondFT.getCount()` gets the number of predicates in `sc`
      CMPISubCond object.
 
     This function shall be supported by the MB if the Query Normalization
@@ -5561,7 +5610,7 @@ struct _CMPISubCondFT {
 
     /** @brief Get a predicate in a CMPISubCond object by index.
 
-     CMPISubCondFT.getPredicatAt() function gets a predicate in a CMPISubCond
+     `CMPISubCondFT.getPredicatAt()` gets a predicate in a CMPISubCond
          object, by its index in the internal data array.
 
      This function shall be supported by the MB if the Query Normalization
@@ -5605,7 +5654,7 @@ struct _CMPISubCondFT {
 
     /** @brief Get a predicate in a CMPISubCond object by name.
 
-     `CMPISubCondFT.getPredicate()` function gets a predicate in a CMPISubCond
+     `CMPISubCondFT.getPredicate()` gets a predicate in a CMPISubCond
       object, by its `name` argument.
 
      This function shall be supported by the MB if the Query Normalization
@@ -5672,8 +5721,8 @@ struct _CMPIPredicate {
 };
 
 /**
- * @brief Function table of
- * [CMPIPredicate encapsulated data type object](@ref _CMPIPredicate).
+ * @brief Function table of @ref _CMPIPredicate
+ *     "CMPIPredicate encapsulated data type object".
  */
 struct _CMPIPredicateFT {
 
@@ -5699,7 +5748,8 @@ struct _CMPIPredicateFT {
          be queried by an MI using the CMPI_MB_QueryNormalization test mask
          on the brokerCapabilities member of the CMPIBrokerFT structure.
      @param pr Pointer to the CMPIPredicate object to be released. That object
-         shall have been created using `CMPIPredicateFT.clone()`.
+         shall have been created using @ref _CMPIPredicateFT::clone
+         "CMPIPredicateFT.clone()".
      @return CMPIStatus structure indicating the function return
              status .
      The function return status indicates one of the following @ref CMPIrc
@@ -5718,7 +5768,7 @@ struct _CMPIPredicateFT {
 
     /** @brief Create an independent copy of a CMPIPredicate object.
 
-     CMPIPredicateFT.clone() function creates an independent copy of a
+     `CMPIPredicateFT.clone()` creates an independent copy of a
      CMPIPredicate object.
 
      This function shall be supported by the MB if the Query Normalization
@@ -5732,7 +5782,7 @@ struct _CMPIPredicateFT {
      @return If successful, a pointer to the copied CMPIPredicate object will
      be returned.
      The returned CMPIPredicate object shall be explicitly released by the
-     MI using `CMPIPredicateFT.release()`.
+     MI using @ref _CMPIPredicateFT::release "CMPIPredicateFT.release()".
 
     If not successful, NULL will be returned.
 
@@ -5780,7 +5830,7 @@ struct _CMPIPredicateFT {
          CMPIString object representing the right-hand side of the predicate.
      @return If successful, returns pointer to the copied CMPIPredicate object.
     The returned CMPIPredicate object shall be explicitly released by the MI
-        using `CMPIPredicateFT.release()`.
+        using @ref _CMPIPredicateFT::release "CMPIPredicateFT.release()".
 
     If not successful, NULL will be returned.
 
@@ -5802,7 +5852,7 @@ struct _CMPIPredicateFT {
     /** @brief Test whether the properties returned by an accessor
            function match the predicate in a CMPIPredicate object.
 
-     CMPIPredicateFT.evaluateUsingAccessor() function tests whether the
+     `CMPIPredicateFT.evaluateUsingAccessor()` tests whether the
          properties returned by an accessor function match the predicate in a
          CMPIPredicate object.
 
@@ -5870,8 +5920,8 @@ struct _CMPIArgs {
 };
 
 /**
- * @brief Function table of
- * [CMPIArgs encapsulated data type object](@ref _CMPIArgs).
+ * @brief Function table of @ref _CMPIArgs
+ *     "CMPIArgs encapsulated data type object".
  */
 struct _CMPIArgsFT {
 
@@ -5885,13 +5935,13 @@ struct _CMPIArgsFT {
 
     /** @brief Release a CMPIArgs object.
 
-     CMPIArgsFT.release() releases a CMPIArgs object. This indicates to the
+     `CMPIArgsFT.release()` releases a CMPIArgs object. This indicates to the
       MB that the object (including any objects it contains) will no longer
       be used by the MI. The MB may free (=reclaim) the memory associated
       with the object during the call to this function, or later during some
       garbage collection cycle (see Subclause 4.1.7).
      @param as points to the CMPIArgs object to be released. That object shall
-      have been created using CMPIArgsFT.clone().
+      have been created using @ref _CMPIArgsFT::clone "CMPIArgsFT.clone()".
      @return CMPIStatus structure indicating the function return status.
      The function return status indicates one of the following @ref CMPIrc
         codes:
@@ -5902,7 +5952,7 @@ struct _CMPIArgsFT {
 
     /** @brief Create an independent copy of a CMPIRArgs object.
 
-     CMPIArgsFT.clone() creates an independent copy of this Args object. The
+     `CMPIArgsFT.clone()` creates an independent copy of this Args object. The
         resulting object must be released explicitly.
      @param as Pointer to the CMPIArgs object to be copied.
      @param rc Output: if not NULL, points to a CMPIStatus structure that upon
@@ -5910,7 +5960,7 @@ struct _CMPIArgsFT {
      @return If successful, a pointer to the copied CMPIArgs object
          will be returned.
          The returned CMPIArgs object shall be explicitly released by the MI
-         using CMPIArgsFT.release().
+         using @ref _CMPIArgsFT::release "CMPIArgsFT.release()".
 
         If not successful, NULL will be returned
 
@@ -6041,8 +6091,8 @@ struct _CMPIString {
 };
 
 /**
- * @brief Function table of
- * [CMPIString encapsulated data type object](@ref _CMPIString).
+ * @brief Function table of @ref _CMPIString
+ *     "CMPIString encapsulated data type object".
  */
 struct _CMPIStringFT {
 
@@ -6062,7 +6112,8 @@ struct _CMPIStringFT {
       the object during the call to this function, or later during some
       garbage collection cycle (see Subclause 4.1.7).
      @param st  Pointer to the CMPIString object to be released. That
-         object shall have been created using CMPIStringFT.clone()
+         object shall have been created using @ref _CMPIStringFT::clone
+         "CMPIStringFT.clone()".
      @return A CMPIStatus structure indicating the function return status.
      @return CMPIStatus structure indicating the function return status .
         The function return status indicates one of the following @ref CMPIrc
@@ -6075,13 +6126,14 @@ struct _CMPIStringFT {
     /** @brief Create an independent copy of this String object. The resulting
      object must be released explicitly.
      @param st Pointer to the CMPIString object to be copied. That
-         object shall have been created using CMPIStringFT.clone().
+         object shall have been created using @ref _CMPIStringFT::clone
+         "CMPIStringFT.clone()".
      @param rc Output: if not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status..
      @return If successful, a pointer to the copied CMPIString object will be
          returned.
          The returned CMPIString object shall be explicitly released by the
-         MI using CMPIStringFT.release().
+         MI using @ref _CMPIStringFT::release "CMPIStringFT.release()".
 
      If not successful, NULL will be returned.
 
@@ -6095,7 +6147,7 @@ struct _CMPIStringFT {
     /** @brief Get a pointer to a C-language string representation of a
        CMPIString object.
 
-     `CMPIStringFT.newCharsCP()` gets a pointer to a C char* representation of
+     `CMPIStringFT.getCharPtr()` gets a pointer to a C char* representation of
      this CMPIString object.
      @param st Pointer to CMPIString object for this function.
      @param rc Output: if not NULL, points to a CMPIStatus structure that upon
@@ -6140,7 +6192,7 @@ struct _CMPIStringFT {
      @return If successful, returns a new C-language string, in the codepage
      specified in the cpid argument.
      The returned C-language string must be freed by the MI using
-     &lt;CMPIBrokerMemFT.freeChars()&gt;.
+     @ref _CMPIBrokerMemFT::freeChars "CMPIBrokerMemFT.freeChars()".
 
      If not successful, returns NULL.
 
@@ -6186,8 +6238,8 @@ struct _CMPIArray {
 };
 
 /**
- * @brief Function table of
- * [CMPIArray encapsulated data type object](@ref _CMPIArray).
+ * @brief Function table of @ref _CMPIArray
+ *     "CMPIArray encapsulated data type object".
  */
 struct _CMPIArrayFT {
 
@@ -6207,7 +6259,8 @@ struct _CMPIArrayFT {
          associated with the object during the call to this function, or
          later during some garbage collection cycle (see Subclause 4.1.7).
      @param ar Pointer to the CMPIArray object to be released. That object
-         shall have been created using CMPIArrayFT.clone()..
+         shall have been created using @ref _CMPIArrayFT::clone
+         "CMPIArrayFT.clone()".
      @return CMPIStatus structure indicating the function return status .
         The function return status indicates one of the following @ref CMPIrc
         codes:
@@ -6226,10 +6279,10 @@ struct _CMPIArrayFT {
      @return If successful, a pointer to the copied CMPIArray object will be
      returned.
      The returned CMPIArray object shall be explicitly released by the MI
-         using CMPIArrayFT.release().
+         using @ref _CMPIArrayFT::release "CMPIArrayFT.release()".
      If not successful, NULL will be returned.
-.
-    The function return status indicates one of the following @ref CMPIrc codes: 
+
+    The function return status indicates one of the following @ref CMPIrc codes:
         @li `CMPI_RC_OK` - Function successful.
         @li `CMPI_RC_ERR_INVALID_HANDLE` - The `ar` handle is invalid.
      */
@@ -6238,7 +6291,7 @@ struct _CMPIArrayFT {
     /** @brief Get the number of array elements in a CMPIArray
                object.
 
-     `CMPIArrayFT.getSize()` function gets the number of array
+     `CMPIArrayFT.getSize()` gets the number of array
          elements in a CMPIArray object.
      @param ar Pointer to the CMPIArray object for this function.
      @param[out] rc If not NULL, points to a CMPIStatus structure that
@@ -6382,8 +6435,8 @@ struct _CMPIEnumeration {
 };
 
 /**
- * @brief Function table of
- * [CMPIEnumeration encapsulated data type object](@ref _CMPIEnumeration).
+ * @brief Function table of @ref _CMPIEnumeration
+ *     "CMPIEnumeration encapsulated data type object".
  */
 struct _CMPIEnumerationFT {
 
@@ -6404,7 +6457,7 @@ struct _CMPIEnumerationFT {
      garbage collection cycle.
      @param en Pointer to to the <tt>CMPIEnumeration</tt> object to be
         released. That object shall have been created using
-         CMPIEnumerationFT.clone().
+        @ref _CMPIEnumerationFT::clone "CMPIEnumerationFT.clone()".
      @return CMPIStatus structure indicating the function return status.
     The function return status indicates one of the following @ref CMPIrc
         codes:
@@ -6427,7 +6480,8 @@ struct _CMPIEnumerationFT {
      CMPIEnumeration object.
 
      The returned CMPIEnumeration object shall be explicitly released by
-     the MI using CMPIEnumerationFT.release().
+     the MI using @ref _CMPIEnumerationFT::release
+     "CMPIEnumerationFT.release()".
 
      If not successful, returns NULL.
 
@@ -6532,8 +6586,8 @@ struct _CMPIDateTime {
 };
 
 /**
- * @brief Function table of
- * [CMPIDateTime encapsulated data type object](@ref _CMPIDateTime).
+ * @brief Function table of @ref _CMPIDateTime
+ *     "CMPIDateTime encapsulated data type object".
  */
 struct _CMPIDateTimeFT {
 
@@ -6553,7 +6607,8 @@ struct _CMPIDateTimeFT {
      during the call to this function, or later during some
      garbage collection cycle.
      @param dt Pointer to the CMPIDateTime object to be released. That
-        object shall have been created using CMPIDateTimeFT.clone()..
+        object shall have been created using @ref _CMPIDateTimeFT::clone
+        "CMPIDateTimeFT.clone()".
      @return CMPIStatus structure indicating the function return status.
 
     The function return status indicates one of the following @ref CMPIrc codes:
@@ -6575,7 +6630,7 @@ struct _CMPIDateTimeFT {
      @return If successful,returns a pointer to the copied CMPIDateTime object.
 
          The returned CMPIDateTime object shall be explicitly released by the MI
-         using CMPIDateTimeFT.release().
+         using @ref _CMPIDateTimeFT::release "CMPIDateTimeFT.release()".
 
          If not successful, returns NULL
 
@@ -6690,8 +6745,8 @@ struct _CMPIPropertyList {
 };
 
 /**
- * @brief Function table of
- * [CMPIPropertyList encapsulated data type object](@ref _CMPIPropertyList).
+ * @brief Function table of @ref _CMPIPropertyList
+ *     "CMPIPropertyList encapsulated data type object".
  */
 struct _CMPIPropertyListFT {
 
@@ -6732,7 +6787,8 @@ struct _CMPIPropertyListFT {
          object.
 
          The returned CMPIPropertyList object shall be explicitly released by
-         the MI using CMPIPropertyListFT.release().
+         the MI using @ref _CMPIPropertyListFT::release
+         "CMPIPropertyListFT.release()".
 
          If not successful, returns NULL.
 
@@ -6790,8 +6846,9 @@ struct _CMPIPropertyListFT {
          CMPIPropertyList object.
 
         The entries in that array may be in any order and in any lexical case
-        (possibly different than originally specified in the
-        &lt;CMPIBrokerEncFT.newPropertyList()&gt; factory function).
+        (possibly different than originally specified in
+        @ref _CMPIBrokerEncFT::newPropertyList
+        "CMPIBrokerEncFT.newPropertyList()").
 
         The returned array shall not be explicitly released by the MI, because
         it may point to an internal data area in the CMPIPropertyList object
@@ -6837,9 +6894,8 @@ struct _CMPIEnumerationFilter {
 };
 
 /**
- * @brief Function table of
- * [CMPIEnumerationFilter encapsulated data type object]
- * (@ref _CMPIEnumerationFilter).
+ * @brief Function table of @ref _CMPIEnumerationFilter
+ *     "CMPIEnumerationFilter encapsulated data type object".
  * @version Added in CMPI 2.1.
  */
 struct _CMPIEnumerationFilterFT {
@@ -6883,7 +6939,8 @@ struct _CMPIEnumerationFilterFT {
          CMPIEnumerationFilter object.
 
          The returned CMPIEnumerationFilter object shall be explicitly
-         released by the MI using CMPIEnumerationFilter.release().
+         released by the MI using @ref _CMPIEnumerationFilterFT::release
+         "CMPIEnumerationFilterFT.release()".
 
          If not successful, returns NULL.
 
@@ -7474,7 +7531,7 @@ struct _CMPIInstanceMIFT {
          serviced by this MI, returning only those that match the
          <tt>filterQuery</tt> argument.
 
-      The CMPIInstanceMIFT.enumerateInstancesFiltered() MI function shall
+      `CMPIInstanceMIFT.enumerateInstancesFiltered()` shall
       enumerate the instances of a given class that are serviced by this MI,
       returning only those instances that match the filterQuery argument,
       by enumerating the underlying managed elements. The returned instances
@@ -7664,7 +7721,7 @@ struct _CMPIAssociationMIFT {
     /** @brief Enumerate the instances associated with a given
           source instance that are serviced by this MI.
 
-     The `CMPIAssociationMIFT.associators()` MI function shall enumerate the
+     `CMPIAssociationMIFT.associators()` shall enumerate the
      instances associated with a given source instance and that are serviced
      by this MI, by accessing the underlying managed elements.
 
@@ -7739,7 +7796,7 @@ struct _CMPIAssociationMIFT {
     /** @brief Enumerate the instance paths of instances associated
        with a given source instance that are serviced by this MI.
 
-     The `CMPIAssociationMIFT.associatorNames()` MI function shall enumerate
+     `CMPIAssociationMIFT.associatorNames()` shall enumerate
      the instance paths of instances associated with a given source instance
      and that are serviced by this MI, by accessing the underlying managed
      elements.
@@ -7822,7 +7879,7 @@ struct _CMPIAssociationMIFT {
     /** @brief Enumerate the instance paths of instances associated
        with a given source instance that are serviced by this MI.
 
-     The `CMPIAssociationMIFT.associatorNames()` MI function shall
+     `CMPIAssociationMIFT.associatorNames()` shall
      enumerate the instance paths of instances associated with <tt>instPath</tt>
      a given source instance and that are serviced by this MI, by accessing
      the underlying managed elements.
@@ -7896,7 +7953,7 @@ struct _CMPIAssociationMIFT {
     /** @brief Enumerate the instance paths of association instances
            referencing a given source instance that are serviced by this MI.
 
-     The `CMPIAssociationMIFT.referenceNames()` MI function shall enumerate
+     `CMPIAssociationMIFT.referenceNames()` shall enumerate
      the instance paths of the association instances referencing a given
      source instance and that are serviced by this MI, by accessing the
      underlying managed elements.
@@ -7973,7 +8030,7 @@ struct _CMPIAssociationMIFT {
       source instance serviced by this MI, returning only instances
       that match the `filterQuery` argument.
 
-     The `CMPIAssociationMIFT.associatorsFiltered()` MI function shall
+     `CMPIAssociationMIFT.associatorsFiltered()` shall
          enumerate instances associated with a source instance and that
          are serviced by this MI, returning only those instances that
          match the `filterQuery argument`, by accessing the underlying
@@ -8085,7 +8142,7 @@ struct _CMPIAssociationMIFT {
        instance that are serviced by this MI, returning only those instances
        that match the `filterQuery` argument.
 
-       The `CMPIAssociationMIFT.referencesFiltered()` MI function shall
+       `CMPIAssociationMIFT.referencesFiltered()` shall
        enumerate the association instances referencing a given source instance
        and that are serviced by this MI, returning only those instances that
        match the `filterQuery` argument, by accessing the underlying managed
@@ -8236,7 +8293,7 @@ struct _CMPIMethodMIFT {
 
     /** @brief Perform cleanup for an Instance MI.
 
-     The CMPIMethodMIFT.cleanup() function shall perform any
+     `CMPIMethodMIFT.cleanup()` shall perform any
      necessary cleanup operation prior to the unloading of the
      library of which this MI group is part. This function is called
      prior to the unloading of the provider.
@@ -8265,7 +8322,7 @@ struct _CMPIMethodMIFT {
 
     /** @brief Invoke a method on a target object.
 
-     The CMPIMethodMIFT.invokeMethod() MI function shall invoke a named,
+     `CMPIMethodMIFT.invokeMethod()` shall invoke a named,
      extrinsic method on a target object, by accessing the underlying
      managed elements. Instance methods (i.e., non-static methods)
      can be invoked only on instances. Class methods (i.e., static methods)
@@ -8291,12 +8348,14 @@ struct _CMPIMethodMIFT {
          data type of the method return, as follows:
     <ul>
     <li>Return values declared as embedded instances (see Subclause 4.1.3)
-        shall be returned using CMPIResultFT.returnInstance().
+        shall be returned using @ref _CMPIResultFT::returnInstance
+        "CMPIResultFT.returnInstance()".
     <li>Return values declared with type <tt>ref</tt>
          &lt;classname&gt; (see Subclause 4.1.3) shall be returned
-         using CMPIResultFT.returnObjectPath().
+         using @ref _CMPIResultFT::returnObjectPath
+         "CMPIResultFT.returnObjectPath()".
     <li>Any other return values shall be returned using
-        CMPIResultFT.returnData().
+        @ref _CMPIResultFT::returnData "CMPIResultFT.returnData()".
     </ul>
      @param objPath Pointer to to the CMPIObjectPath object that references
          the target object on which the method is invoked. If the target
@@ -8507,9 +8566,10 @@ struct _CMPIPropertyMIFT {
          <ul>
          <li>The values of properties declared as embedded instances
             (see Subclause 4.1.3) shall be returned using
-            CMPIResultFT.returnInstance().
+            @ref _CMPIResultFT::returnInstance "CMPIResultFT.returnInstance()".
          <li>The values of references (see Subclause 4.1.3) shall be returned
-            using CMPIResultFT.returnObjectPath().
+            using @ref _CMPIResultFT::returnObjectPath
+            "CMPIResultFT.returnObjectPath()".
          <li>Any other property values shall be returned using
             CMPIResultFT.returnData().
         </ul>
@@ -8688,7 +8748,9 @@ struct _CMPIIndicationMIFT {
          subscription to the filter is made.
 
      In any case, for any particular filter this function is called on,
-     it shall be called by the MB before CMPIIndicationMIFT.activateFilter()
+     it shall be called by the MB before
+     @ref _CMPIIndicationMIFT::activateFilter
+     "CMPIIndicationMIFT.activateFilter()"
      is called for the first time on the same filter.
 
      @param mi Pointer to a CMPIIndicationMI structure.
@@ -8778,7 +8840,7 @@ struct _CMPIIndicationMIFT {
     /** @brief informs the MI that an indication filter has become
                active.
 
-     The CMPIIndicationMIFT.activateFilter() MI function informs the MI
+     `CMPIIndicationMIFT.activateFilter()` informs the MI
      that the specified indication filter has become active. This function
      shall be called by the MB when a client creates a subscription to
      an indication filter, and if persisted subscriptions are supported
@@ -8923,7 +8985,8 @@ struct _CMPIIndicationMIFT {
         function and activates filters and filter collections is not defined.
         As a result, MIs need to track the readiness of the MB to process
         the delivery of indications and check that readiness before calling
-        the CMPIBrokerFT.deliverIndication() function.
+        @ref _CMPIBrokerFT::deliverIndication
+        "CMPIBrokerFT.deliverIndication()".
 
      @param mi Pointer to a CMPIIndicationMI structure.
      @param ctx Pointer to a CMPIContext object containing the context data
@@ -8950,7 +9013,8 @@ struct _CMPIIndicationMIFT {
         function and deactivates filters and filter collections is not
         defined. As a result, MIs need to track the readiness of the MB
         to process the delivery of indications and check that readiness
-        before calling the CMPIBrokerFT.deliverIndication() function.
+        before calling @ref _CMPIBrokerFT::deliverIndication
+        "CMPIBrokerFT.deliverIndication()".
 
      @param mi Pointer to a CMPIIndicationMI structure.
      @param ctx Pointer to a CMPIContext structure
@@ -8979,7 +9043,8 @@ struct _CMPIIndicationMIFT {
 
        In any case, for any particular filter collection this function
        is called on, it shall be called by the MB before
-       CMPIIndicationMIFT.activateFilterCollection() is called for the
+       @ref _CMPIIndicationMIFT::activateFilterCollection
+       "CMPIIndicationMIFT.activateFilterCollection()" is called for the
        first time on the same filter collection.
      @param mi Pointer to a CMPIIndicationMI structure.
      @param ctx The ctx argument is a pointer to a CMPIContext structure
@@ -9012,7 +9077,7 @@ struct _CMPIIndicationMIFT {
     /** @brief Inform the MI that an indication filter collection
            has become active.
 
-       The CMPIIndicationMIFT.activateFilterCollection() function informs the
+       `CMPIIndicationMIFT.activateFilterCollection()` informs the
        MI that the specified indication filter collection has become active.
        This function shall be called by the MB when a client creates a
        subscription to an indication filter collection, and if persisted
@@ -9039,10 +9104,10 @@ struct _CMPIIndicationMIFT {
        As described in DSP1054, a filter collection conceptually has
        members, but these members do not need to be instantiated using
        CIM. An MB shall handle subscriptions to a filter collection by
-       calling CMPIIndicationMIFT.activateFilterCollection() for that
+       calling `CMPIIndicationMIFT.activateFilterCollection()` for that
        filter collection; the MB shall not additionally call the activation
        functions for the individual members of the filter collection.
-       The implementation of CMPIIndicationMIFT.activateFilterCollection()
+       The implementation of `CMPIIndicationMIFT.activateFilterCollection()`
        is responsible for activating the entire filter collection including
        all of its members (regardless of whether or not these members are
        instantiated using CIM).
@@ -9090,7 +9155,7 @@ struct _CMPIIndicationMIFT {
     /** @brief Informs the MI that an indication filter collection
        has become inactive.
 
-    The CMPIIndicationMIFT.deActivateFilterCollection() function informs
+    `CMPIIndicationMIFT.deActivateFilterCollection()` informs
     the MI that the specified indication filter collection has become
     inactive. This function shall be called by the MB when a client
     deletes a subscription to an indication filter collection, and for
@@ -9120,10 +9185,10 @@ struct _CMPIIndicationMIFT {
     As described in DSP1054, a filter collection conceptually has
     members, but these members do not need to be instantiated using CIM.
     An MB shall handle deletions to subscriptions to a filter collection
-    by calling CMPIIndicationMIFT.deActivateFilterCollection() for that
+    by calling `CMPIIndicationMIFT.deActivateFilterCollection()` for that
     filter collection; the MB shall not additionally call the deactivation
     functions for the individual members of the filter collection.
-    The implementation of CMPIIndicationMIFT.deActivateFilterCollection()
+    The implementation of `CMPIIndicationMIFT.deActivateFilterCollection()`
     is responsible for deactivating the entire filter collection including
     all of its members (regardless of whether or not these members are
     instantiated using CIM).

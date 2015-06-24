@@ -55,9 +55,11 @@
       This allows a feature that was introduced in a particular CMPI version
       to be defined like in the following example:
 
-          #ifdef CMPI_VER_200
-          // definition of feature that was added in CMPI 2.0.0
-          #endif
+        <pre>
+        #ifdef CMPI_VER_200
+        // definition of feature that was added in CMPI 2.0.0
+        #endif
+        </pre>
     @}
   @}
 @}
