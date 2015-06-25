@@ -47,6 +47,128 @@ extern "C" {
 #endif
 
 /**
+ * @addtogroup mi-factory
+ * @{
+ */
+
+/**
+ @defgroup mi-factory-specific MI-specific MI factory function.
+
+ `<mi-name>_Create_<mi-type>MI()` is an MI-specific factory function for an MI
+ and is responsible for intializing the MI of type `<mi-type>` with the
+ predefined name `<mi-name>`.
+
+ `<mi-name>` is the name of the MI.
+
+ `<mi-type>` is the type of the MI, and can be one of:
+   @li `Instance`
+   @li `Association`
+   @li `Property` (<b>Deprecated</b>)
+   @li `Method`
+   @li `Indication`
+
+ This function shall be defined with `CMPI_EXTERN_C` and shall be exposed
+ by the MI library as an external symbol.
+
+ <pre>
+ CMPI_EXTERN_C CMPI<mi-type>MI* <mi-name>_Create_<mi-type>MI(
+     const CMPIBroker* mb,
+     const CMPIContext* ctx,
+     CMPIStatus* rc
+ );
+ </pre>
+
+ @param mb Points to a `CMPIBroker` structure. This structure can be used
+     throughout the life of this MI function group to invoke MB services.
+ @param ctx Points to a `CMPIContext` object containing the context data for
+     the invocation (see @ref edt-context "Subclause 8.1").
+     This `CMPIContext` object contains the `CMPIInitNameSpace` entry
+     indicating the namespace for which this MI is to be initialized.
+     If this MI services more than one namespace, the `CMPIInitNameSpace`
+     entry indicates one of those namespaces.
+ @param[out] rc Points to a `CMPIStatus` structure that upon return shall
+     have been updated with the function return status.
+ @return A pointer to a valid `CMPI<mi-type>MI` structure.
+
+ If successful, a pointer to a valid `CMPI<mi-type>MI` structure for the MI
+ identified by `<mi-type>` and `<mi-name>` shall be returned, and the MB
+ will consider this MI to be initialized (that is, functioning).
+
+ If not successful, NULL shall be returned, and the MI identified by `<mi-type>`
+ and `<mi-name>` is considered uninitialized (that is, malfunctioning) and will
+ not be used by the MB. Specifically, the `cleanup()` function for this MI will
+ not be invoked by the MB in that case.
+
+ The following @ref CMPIrc codes shall be used by the MI in the function return
+ status:
+
+ @li `CMPI_RC_OK` - Function successful.
+ @li `CMPI_RC_ERR_FAILED` - Unspecific error occurred.
+ @li `CMPI_RC_ERR_NOT_SUPPORTED` - MI type not supported for this MI name.
+ @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
+*/
+
+/**
+ @defgroup mi-factory-generic Generic MI factory function.
+
+ `_Generic_Create_<mi-type>MI()` is a generic factory function for an MI
+ and is responsible for intializing the MI of type `<mi-type>` with the
+ name passed in the @p miName argument.
+
+ `<mi-type>` is the type of the MI, and can be one of:
+   @li `Instance`
+   @li `Association`
+   @li `Property` (<b>Deprecated</b>)
+   @li `Method`
+   @li `Indication`
+
+ This function shall be defined with `CMPI_EXTERN_C` and shall be exposed
+ by the MI library as an external symbol.
+
+ <pre>
+ CMPI_EXTERN_C CMPI<mi-type>MI* _Generic_Create_<mi-type>MI(
+     const CMPIBroker* mb,
+     const CMPIContext* ctx,
+     const char* miName,
+     CMPIStatus* rc
+ );
+ </pre>
+
+ @param mb Points to a `CMPIBroker` structure. This structure can be used
+     throughout the life of this MI function group to invoke MB services.
+ @param ctx Points to a `CMPIContext` object containing the context data for
+     the invocation (see @ref edt-context "Subclause 8.1").
+     This `CMPIContext` object contains the `CMPIInitNameSpace` entry
+     indicating the namespace for which this MI is to be initialized.
+     If this MI services more than one namespace, the `CMPIInitNameSpace`
+     entry indicates one of those namespaces.
+ @param miName Points to a string containing the name of the MI to be
+     initialized.
+ @param[out] rc Points to a `CMPIStatus` structure that upon return shall
+     have been updated with the function return status.
+ @return A pointer to a valid `CMPI<mi-type>MI` structure.
+
+ If successful, a pointer to a valid `CMPI<mi-type>MI` structure for the MI
+ identified by `<mi-type>` and @p miName shall be returned, and the MB
+ will consider this MI to be initialized (that is, functioning).
+
+ If not successful, NULL shall be returned, and the MI identified by `<mi-type>`
+ and @p miName is considered uninitialized (that is, malfunctioning) and will
+ not be used by the MB. Specifically, the `cleanup()` function for this MI will
+ not be invoked by the MB in that case.
+
+ The following @ref CMPIrc codes shall be used by the MI in the function return
+ status:
+
+ @li `CMPI_RC_OK` - Function successful.
+ @li `CMPI_RC_ERR_FAILED` - Unspecific error occurred.
+ @li `CMPI_RC_ERR_NOT_FOUND` - MI name not found.
+ @li `CMPI_RC_ERR_NOT_SUPPORTED` - MI type not supported for this MI name.
+ @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
+*/
+
+/**
+ * @}
  * @addtogroup mb-tables
  * @{
  */
@@ -55,8 +177,9 @@ extern "C" {
  * @brief CMPIBroker structure.
  *
  * The `CMPIBroker` structure is the anchor object of the MB (Management Broker,
- * also known as CIMOM). It is passed to the MI in its factory function, and
- * needs to be passed to many MB services.
+ * also known as CIMOM). A pointer to this structure is passed to the MI in its
+ * factory function (see @ref mi-factory "MI Factory Functions") and needs to
+ * be passed to many MB services.
  */
 struct _CMPIBroker {
 
@@ -67,7 +190,7 @@ struct _CMPIBroker {
 
     /**
      * @brief Pointer to the function table for some MB services (thread
-     *     registration and client services).
+     *     registration, indications services, and client services).
      */
     const CMPIBrokerFT* bft;
 
@@ -101,13 +224,18 @@ struct _CMPIBroker {
 };
 
 /**
- * @brief Function table for some MB services of
- * @ref _CMPIBroker "CMPIBroker structure".
+ * @brief Function table for some MB services (thread registration, indications
+ *     services, and client services).
  *
- * This function table provides
+ * This function table is referenced by the `CMPIBroker` structure, and provides
  * @ref broker-thread-reg "Thread Registration Services",
  * @ref broker-indications "Indications Services", and
  * @ref broker-client "Client Services (\"up-calls\")".
+ *
+ * For functions that are not supported, their function pointers in this
+ * function table shall not be NULL, but shall point to a function that can be
+ * called and then indicate back to the caller that it is not supported, as
+ * specified in the description of the function.
  *
  * @todo TBD: Just to try it out, I have changed the definition of
  *     ``struct _CMPIBrokerFT`` to use a combined typedef&struct statement.
@@ -1134,21 +1262,17 @@ typedef struct _CMPIBrokerFT {
 } CMPIBrokerFT;
 
 /**
-   @brief Function table for MB factory and miscellaneous services of the
-    @ref _CMPIBroker "CMPIBroker structure".
-
-   The `CMPIBrokerEncFT` function table provides factory services
-   for the CMPI data types, and functions for test, conversion,
-   tracing and logging.
-
-   The CMPIBrokerEncFT is the function table used as an anchor for these
-   services. It is made available to MI via the
-   `<mi name>_Create_<mi type>MI()` functions.
-
-   For functions that are not supported, their function pointers in the
-   CMPIBrokerEncFT function table shall not be NULL, but shall point to
-   a function that can be called and then indicate back to the caller that
-   it is not supported, as specified in the description of the function.
+ * @brief Function table for some MB services (factory and miscellaneous
+ *     services).
+ *
+ * This function table is referenced by the `CMPIBroker` structure, and provides
+ * @ref brokerenc-factory "Factory Services" and
+ * @ref brokerenc-misc "Miscellaneous Services".
+ *
+ * For functions that are not supported, their function pointers in this
+ * function table shall not be NULL, but shall point to a function that can be
+ * called and then indicate back to the caller that it is not supported, as
+ * specified in the description of the function.
  */
 struct _CMPIBrokerEncFT {
 
@@ -2053,12 +2177,19 @@ struct _CMPIBrokerEncFT {
 struct timespec;
 
 /**
- * @brief Function table for MB operating system encapsulation services of the
- * @ref _CMPIBroker "CMPIBroker structure".
+ * @brief Function table for MB operating system encapsulation services.
  *
- * This function table provides operating system encapsulation services, such as
- * library name resolution services and services for POSIX-conformant threads,
- * mutexes, and conditions.
+ * This function table is referenced by the `CMPIBroker` structure, and provides
+ * the following operating system encapsulation services: 
+ * @ref brokerext-lib "Library Resolution",
+ * @ref brokerext-thread "POSIX-conformant Threads",
+ * @ref brokerext-mutex "POSIX-conformant Mutexes", and
+ * @ref brokerext-condition "POSIX-conformant Conditions".
+ *   
+ * For functions that are not supported, their function pointers in this
+ * function table shall not be NULL, but shall point to a function that can be
+ * called and then indicate back to the caller that it is not supported, as
+ * specified in the description of the function.
  */
 struct _CMPIBrokerExtFT {
 
@@ -2574,10 +2705,15 @@ struct _CMPIBrokerExtFT {
 #ifdef CMPI_VER_200
 
 /**
- * @brief Function table for MB memory enhancement services of the
- * @ref _CMPIBroker "CMPIBroker structure".
+ * @brief Function table for MB memory enhancement services.
  *
- * This function table provides memory management services.
+ * This function table is referenced by the `CMPIBroker` structure, and provides
+ * @ref brokermem-all "Memory Enhancement Services".
+ *
+ * For functions that are not supported, their function pointers in this
+ * function table shall not be NULL, but shall point to a function that can be
+ * called and then indicate back to the caller that it is not supported, as
+ * specified in the description of the function.
  *
  * @version Added in CMPI 2.0.
  */

@@ -149,6 +149,9 @@
 @}
 @defgroup mi-functions MI Functions (Subclause 6)
 @{
+  @defgroup mi-factory MI Factory Functions (Subclause 6.2)
+  @{
+  @}
   @defgroup instance-mi Instance MI Functions (Subclause 6.3)
   @{
   @}
