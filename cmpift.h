@@ -102,7 +102,7 @@ struct _CMPIBroker {
 
 /**
  * @brief Function table for some MB services of
- * @ref _CMPIBroker "CMPIBroker object".
+ * @ref _CMPIBroker "CMPIBroker structure".
  *
  * This function table provides
  * @ref broker-thread-reg "Thread Registration Services",
@@ -127,7 +127,7 @@ struct _CMPIBroker {
 typedef struct _CMPIBrokerFT {
 
     /**
-     * MB capabilities.
+     * @brief MB capabilities.
      *
      * For a definition of the test masks, see
      * @ref mb-capabilities "MB Capabilities".
@@ -135,7 +135,7 @@ typedef struct _CMPIBrokerFT {
     unsigned int brokerCapabilities;
 
     /**
-     * CMPI version supported by the MB for this function table.
+     * @brief CMPI version supported by the MB for this function table.
      *
      * Any earlier CMPI versions are implicitly also supported.
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
@@ -146,7 +146,7 @@ typedef struct _CMPIBrokerFT {
     CMPIVersion brokerVersion;
 
     /**
-     * Informal MB-specific name for this MB.
+     * @brief Informal MB-specific name for this MB.
      */
     const char* brokerName;
 
@@ -1134,10 +1134,10 @@ typedef struct _CMPIBrokerFT {
 } CMPIBrokerFT;
 
 /**
-   @brief Function table for MB factory and miscellaneous services of
-    @ref _CMPIBroker "CMPIBroker object".
+   @brief Function table for MB factory and miscellaneous services of the
+    @ref _CMPIBroker "CMPIBroker structure".
 
-   The CMPIBrokerEncFT function table provides factory services
+   The `CMPIBrokerEncFT` function table provides factory services
    for the CMPI data types, and functions for test, conversion,
    tracing and logging.
 
@@ -1153,8 +1153,10 @@ typedef struct _CMPIBrokerFT {
 struct _CMPIBrokerEncFT {
 
     /**
-     * CMPI version supported by the MB for this function table.
+     * @brief CMPI version supported by the MB for this function table.
+     *
      * Any earlier CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
@@ -1205,7 +1207,7 @@ struct _CMPIBrokerEncFT {
      `CMPIBrokerEncFT.newObjectPath()` creates a new
          CMPIObjectPath object that is initialized to a given namespace
          and class name.
-     @param mb Pointer to a CMPIBroker object.
+     @param mb Pointer to a CMPIBroker structure.
      @param ns Pointer to a string specifying the namespace name.
      @param cn Pointer to a string specifying the class name.
      @param rc Output: Service return status (suppressed when NULL).
@@ -1924,7 +1926,7 @@ struct _CMPIBrokerEncFT {
      `CMPIBrokerEncFT.newPropertyList()` creates a new
      CMPIPropertyList that is initialized to a list of property names
      specified by the `properties` argument.
-     @param mb pointer to a CMPIBroker object.
+     @param mb pointer to a CMPIBroker structure.
      @param properties pointer to the first entry of a
          NULL-terminated array of pointers to C strings that specify the
          property names for the property list.
@@ -1956,7 +1958,7 @@ struct _CMPIBrokerEncFT {
        CMPIString object that is initialized from a C-language
        string in a specific codepage
 
-       @param mb Pointer to to a CMPIBroker object.
+       @param mb Pointer to to a CMPIBroker structure.
        @param data Pointer to to a string that is represented in the
            codepage specified in the `cpid` argument. The `data`
            argument is used to initialize the new CMPIString object after
@@ -1999,7 +2001,7 @@ struct _CMPIBrokerEncFT {
      CMPIEnumerationFilter object initialized with `filterquery` argument if
         the `filterQueryLanguage` argument is valid. If the `filterquery` is
         NULL the new object will be set to do no filtering.
-     @param mb Pointer to a CMPIBroker object
+     @param mb Pointer to a CMPIBroker structure
      @param filterQueryLanguage Pointer to a string specifying the query
          language used for the `filterQuery` argument. If this argument
          is NULL, the new CMPIEnumerationFilter object will be set
@@ -2051,8 +2053,8 @@ struct _CMPIBrokerEncFT {
 struct timespec;
 
 /**
- * @brief Function table for MB operating system encapsulation services of
- * @ref _CMPIBroker "CMPIBroker object".
+ * @brief Function table for MB operating system encapsulation services of the
+ * @ref _CMPIBroker "CMPIBroker structure".
  *
  * This function table provides operating system encapsulation services, such as
  * library name resolution services and services for POSIX-conformant threads,
@@ -2061,8 +2063,10 @@ struct timespec;
 struct _CMPIBrokerExtFT {
 
     /**
-     * CMPI version supported by the MB for this function table.
+     * @brief CMPI version supported by the MB for this function table.
+     * 
      * Any earlier CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
@@ -2570,8 +2574,8 @@ struct _CMPIBrokerExtFT {
 #ifdef CMPI_VER_200
 
 /**
- * @brief Function table for MB memory enhancement services of
- * @ref _CMPIBroker "CMPIBroker object".
+ * @brief Function table for MB memory enhancement services of the
+ * @ref _CMPIBroker "CMPIBroker structure".
  *
  * This function table provides memory management services.
  *
@@ -2580,8 +2584,10 @@ struct _CMPIBrokerExtFT {
 struct _CMPIBrokerMemFT {
 
     /**
-     * CMPI version supported by the MB for this function table.
+     * @brief CMPI version supported by the MB for this function table.
+     * 
      * Any earlier CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
@@ -2964,12 +2970,12 @@ struct _CMPIBrokerMemFT {
 struct _CMPIContext {
 
     /**
-     * Opaque pointer to MB-specific implementation data for this object.
+     * @brief Opaque pointer to MB-specific implementation data for this object.
      */
     const void* hdl;
 
     /**
-     * Pointer to the function table for this object.
+     * @brief Pointer to the function table for this object.
      */
     const CMPIContextFT* ft;
 
@@ -2982,8 +2988,10 @@ struct _CMPIContext {
 struct _CMPIContextFT {
 
     /**
-     * CMPI version supported by the MB for this function table.
+     * @brief CMPI version supported by the MB for this function table.
+     * 
      * Any earlier CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
@@ -3149,12 +3157,12 @@ struct _CMPIContextFT {
 struct _CMPIResult {
 
     /**
-     * Opaque pointer to MB-specific implementation data for this object.
+     * @brief Opaque pointer to MB-specific implementation data for this object.
      */
     const void* hdl;
 
     /**
-     * Pointer to the function table for this object.
+     * @brief Pointer to the function table for this object.
      */
     const CMPIResultFT* ft;
 
@@ -3167,8 +3175,10 @@ struct _CMPIResult {
 struct _CMPIResultFT {
 
     /**
-     * CMPI version supported by the MB for this function table.
+     * @brief CMPI version supported by the MB for this function table.
+     * 
      * Any earlier CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
@@ -3354,12 +3364,12 @@ struct _CMPIResultFT {
 struct _CMPIError {
 
     /**
-     * Opaque pointer to MB-specific implementation data for this object.
+     * @brief Opaque pointer to MB-specific implementation data for this object.
      */
     const void* hdl;
 
     /**
-     * Pointer to the function table for this object.
+     * @brief Pointer to the function table for this object.
      */
     const CMPIErrorFT* ft;
 
@@ -3374,8 +3384,10 @@ struct _CMPIError {
 struct _CMPIErrorFT {
 
     /**
-     * CMPI version supported by the MB for this function table.
+     * @brief CMPI version supported by the MB for this function table.
+     * 
      * Any earlier CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
@@ -4160,12 +4172,12 @@ struct _CMPIErrorFT {
 struct _CMPIInstance {
 
     /**
-     * Opaque pointer to MB-specific implementation data for this object.
+     * @brief Opaque pointer to MB-specific implementation data for this object.
      */
     const void* hdl;
 
     /**
-     * Pointer to the function table for this object.
+     * @brief Pointer to the function table for this object.
      */
     const CMPIInstanceFT* ft;
 
@@ -4178,8 +4190,10 @@ struct _CMPIInstance {
 struct _CMPIInstanceFT {
 
     /**
-     * CMPI version supported by the MB for this function table.
+     * @brief CMPI version supported by the MB for this function table.
+     * 
      * Any earlier CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
@@ -4494,12 +4508,12 @@ struct _CMPIInstanceFT {
 struct _CMPIObjectPath {
 
     /**
-     * Opaque pointer to MB-specific implementation data for this object.
+     * @brief Opaque pointer to MB-specific implementation data for this object.
      */
     const void* hdl;
 
     /**
-     * Pointer to the function table for this object.
+     * @brief Pointer to the function table for this object.
      */
     const CMPIObjectPathFT* ft;
 
@@ -4512,8 +4526,10 @@ struct _CMPIObjectPath {
 struct _CMPIObjectPathFT {
 
     /**
-     * CMPI version supported by the MB for this function table.
+     * @brief CMPI version supported by the MB for this function table.
+     * 
      * Any earlier CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
@@ -5098,12 +5114,12 @@ struct _CMPIObjectPathFT {
 struct _CMPISelectExp {
 
     /**
-     * Opaque pointer to MB-specific implementation data for this object.
+     * @brief Opaque pointer to MB-specific implementation data for this object.
      */
     const void* hdl;
 
     /**
-     * Pointer to the function table for this object.
+     * @brief Pointer to the function table for this object.
      */
     const CMPISelectExpFT* ft;
 
@@ -5116,8 +5132,10 @@ struct _CMPISelectExp {
 struct _CMPISelectExpFT {
 
     /**
-     * CMPI version supported by the MB for this function table.
+     * @brief CMPI version supported by the MB for this function table.
+     * 
      * Any earlier CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
@@ -5358,12 +5376,12 @@ struct _CMPISelectExpFT {
 struct _CMPISelectCond {
 
     /**
-     * Opaque pointer to MB-specific implementation data for this object.
+     * @brief Opaque pointer to MB-specific implementation data for this object.
      */
     const void* hdl;
 
     /**
-     * Pointer to the function table for this object.
+     * @brief Pointer to the function table for this object.
      */
     const CMPISelectCondFT* ft;
 
@@ -5376,8 +5394,10 @@ struct _CMPISelectCond {
 struct _CMPISelectCondFT {
 
     /**
-     * CMPI version supported by the MB for this function table.
+     * @brief CMPI version supported by the MB for this function table.
+     * 
      * Any earlier CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
@@ -5543,12 +5563,12 @@ struct _CMPISelectCondFT {
 struct _CMPISubCond {
 
     /**
-     * Opaque pointer to MB-specific implementation data for this object.
+     * @brief Opaque pointer to MB-specific implementation data for this object.
      */
     const void* hdl;
 
     /**
-     * Pointer to the function table for this object.
+     * @brief Pointer to the function table for this object.
      */
     const CMPISubCondFT* ft;
 
@@ -5561,8 +5581,10 @@ struct _CMPISubCond {
 struct _CMPISubCondFT {
 
     /**
-     * CMPI version supported by the MB for this function table.
+     * @brief CMPI version supported by the MB for this function table.
+     * 
      * Any earlier CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
@@ -5767,12 +5789,12 @@ struct _CMPISubCondFT {
 struct _CMPIPredicate {
 
     /**
-     * Opaque pointer to MB-specific implementation data for this object.
+     * @brief Opaque pointer to MB-specific implementation data for this object.
      */
     const void* hdl;
 
     /**
-     * Pointer to the function table for this object.
+     * @brief Pointer to the function table for this object.
      */
     const CMPIPredicateFT* ft;
 
@@ -5785,8 +5807,10 @@ struct _CMPIPredicate {
 struct _CMPIPredicateFT {
 
     /**
-     * CMPI version supported by the MB for this function table.
+     * @brief CMPI version supported by the MB for this function table.
+     * 
      * Any earlier CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
@@ -5966,12 +5990,12 @@ struct _CMPIPredicateFT {
 struct _CMPIArgs {
 
     /**
-     * Opaque pointer to MB-specific implementation data for this object.
+     * @brief Opaque pointer to MB-specific implementation data for this object.
      */
     const void* hdl;
 
     /**
-     * Pointer to the function table for this object.
+     * @brief Pointer to the function table for this object.
      */
     const CMPIArgsFT* ft;
 
@@ -5984,8 +6008,10 @@ struct _CMPIArgs {
 struct _CMPIArgsFT {
 
     /**
-     * CMPI version supported by the MB for this function table.
+     * @brief CMPI version supported by the MB for this function table.
+     * 
      * Any earlier CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
@@ -6137,12 +6163,12 @@ struct _CMPIArgsFT {
 struct _CMPIString {
 
     /**
-     * Opaque pointer to MB-specific implementation data for this object.
+     * @brief Opaque pointer to MB-specific implementation data for this object.
      */
     const void* hdl;
 
     /**
-     * Pointer to the function table for this object.
+     * @brief Pointer to the function table for this object.
      */
     const CMPIStringFT* ft;
 
@@ -6155,8 +6181,10 @@ struct _CMPIString {
 struct _CMPIStringFT {
 
     /**
-     * CMPI version supported by the MB for this function table.
+     * @brief CMPI version supported by the MB for this function table.
+     * 
      * Any earlier CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
@@ -6287,12 +6315,12 @@ struct _CMPIStringFT {
 struct _CMPIArray {
 
     /**
-     * Opaque pointer to MB-specific implementation data for this object.
+     * @brief Opaque pointer to MB-specific implementation data for this object.
      */
     const void* hdl;
 
     /**
-     * Pointer to the function table for this object.
+     * @brief Pointer to the function table for this object.
      */
     const CMPIArrayFT* ft;
 
@@ -6305,8 +6333,10 @@ struct _CMPIArray {
 struct _CMPIArrayFT {
 
     /**
-     * CMPI version supported by the MB for this function table.
+     * @brief CMPI version supported by the MB for this function table.
+     * 
      * Any earlier CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
@@ -6483,12 +6513,12 @@ struct _CMPIArrayFT {
 struct _CMPIEnumeration {
 
     /**
-     * Opaque pointer to MB-specific implementation data for this object.
+     * @brief Opaque pointer to MB-specific implementation data for this object.
      */
     const void* hdl;
 
     /**
-     * Pointer to the function table for this object.
+     * @brief Pointer to the function table for this object.
      */
     const CMPIEnumerationFT* ft;
 
@@ -6501,8 +6531,10 @@ struct _CMPIEnumeration {
 struct _CMPIEnumerationFT {
 
     /**
-     * CMPI version supported by the MB for this function table.
+     * @brief CMPI version supported by the MB for this function table.
+     * 
      * Any earlier CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
@@ -6633,12 +6665,12 @@ struct _CMPIEnumerationFT {
 struct _CMPIDateTime {
 
     /**
-     * Opaque pointer to MB-specific implementation data for this object.
+     * @brief Opaque pointer to MB-specific implementation data for this object.
      */
     const void* hdl;
 
     /**
-     * Pointer to the function table for this object.
+     * @brief Pointer to the function table for this object.
      */
     const CMPIDateTimeFT* ft;
 
@@ -6651,8 +6683,10 @@ struct _CMPIDateTime {
 struct _CMPIDateTimeFT {
 
     /**
-     * CMPI version supported by the MB for this function table.
+     * @brief CMPI version supported by the MB for this function table.
+     * 
      * Any earlier CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
@@ -6792,12 +6826,12 @@ struct _CMPIDateTimeFT {
 struct _CMPIPropertyList {
 
     /**
-     * Opaque pointer to MB-specific implementation data for this object.
+     * @brief Opaque pointer to MB-specific implementation data for this object.
      */
     const void* hdl;
 
     /**
-     * Pointer to the function table for this object.
+     * @brief Pointer to the function table for this object.
      */
     const CMPIPropertyListFT* ft;
 
@@ -6812,8 +6846,10 @@ struct _CMPIPropertyList {
 struct _CMPIPropertyListFT {
 
     /**
-     * CMPI version supported by the MB for this function table.
+     * @brief CMPI version supported by the MB for this function table.
+     * 
      * Any earlier CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
@@ -6939,12 +6975,12 @@ struct _CMPIPropertyListFT {
 struct _CMPIEnumerationFilter {
 
     /**
-     * Opaque pointer to MB-specific implementation data for this object.
+     * @brief Opaque pointer to MB-specific implementation data for this object.
      */
     const void* hdl;
 
     /**
-     * Pointer to the function table for this object.
+     * @brief Pointer to the function table for this object.
      */
     const CMPIEnumerationFilterFT* ft;
 };
@@ -6958,8 +6994,10 @@ struct _CMPIEnumerationFilter {
 struct _CMPIEnumerationFilterFT {
 
     /**
-     * CMPI version supported by the MB for this function table.
+     * @brief CMPI version supported by the MB for this function table.
+     * 
      * Any earlier CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
@@ -7059,12 +7097,13 @@ struct _CMPIEnumerationFilterFT {
 typedef struct _CMPIInstanceMI {
 
     /**
-     * Opaque pointer to MB-specific implementation data for this MI object.
+     * @brief Opaque pointer to MB-specific implementation data for this MI
+     *     object.
      */
     const void* hdl;
 
     /**
-     * Pointer to the function table for this MI object.
+     * @brief Pointer to the function table for this MI object.
      */
     const CMPIInstanceMIFT* ft;
 
@@ -7076,20 +7115,22 @@ typedef struct _CMPIInstanceMI {
 struct _CMPIInstanceMIFT {
 
     /**
-     * CMPI version supported by the MI for this function table.
+     * @brief CMPI version supported by the MI for this function table.
+     * 
      * Any later CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
 
     /**
-     * Informal MI-specific version number for this MI
+     * @brief Informal MI-specific version number for this MI.
      */
     int miVersion;
 
     /**
-     * Informal MI-specific name for this MI
+     * @brief Informal MI-specific name for this MI.
      */
     const char* miName;
 
@@ -7685,12 +7726,13 @@ struct _CMPIInstanceMIFT {
 typedef struct _CMPIAssociationMI {
 
     /**
-     * Opaque pointer to MB-specific implementation data for this MI object.
+     * @brief Opaque pointer to MB-specific implementation data for this MI
+     *     object.
      */
     const void* hdl;
 
     /**
-     * Pointer to the function table for this MI object.
+     * @brief Pointer to the function table for this MI object.
      */
     const CMPIAssociationMIFT* ft;
 
@@ -7702,20 +7744,22 @@ typedef struct _CMPIAssociationMI {
 struct _CMPIAssociationMIFT {
 
     /**
-     * CMPI version supported by the MI for this function table.
+     * @brief CMPI version supported by the MI for this function table.
+     * 
      * Any later CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
 
     /**
-     * Informal MI-specific version number for this MI
+     * @brief Informal MI-specific version number for this MI.
      */
     int miVersion;
 
     /**
-     * Informal MI-specific name for this MI
+     * @brief Informal MI-specific name for this MI.
      */
     const char* miName;
 
@@ -8312,12 +8356,13 @@ struct _CMPIAssociationMIFT {
 typedef struct _CMPIMethodMI {
 
     /**
-     * Opaque pointer to MB-specific implementation data for this MI object.
+     * @brief Opaque pointer to MB-specific implementation data for this MI
+     *     object.
      */
     const void* hdl;
 
     /**
-     * Pointer to the function table for this MI object.
+     * @brief Pointer to the function table for this MI object.
      */
     const CMPIMethodMIFT* ft;
 
@@ -8329,20 +8374,22 @@ typedef struct _CMPIMethodMI {
 struct _CMPIMethodMIFT {
 
     /**
-     * CMPI version supported by the MI for this function table.
+     * @brief CMPI version supported by the MI for this function table.
+     * 
      * Any later CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
 
     /**
-     * Informal MI-specific version number for this MI
+     * @brief Informal MI-specific version number for this MI.
      */
     int miVersion;
 
     /**
-     * Informal MI-specific name for this MI
+     * @brief Informal MI-specific name for this MI.
      */
     const char* miName;
 
@@ -8466,12 +8513,13 @@ struct _CMPIMethodMIFT {
 typedef struct _CMPIPropertyMI {
 
     /**
-     * Opaque pointer to MB-specific implementation data for this MI object.
+     * @brief Opaque pointer to MB-specific implementation data for this MI
+     *     object.
      */
     const void* hdl;
 
     /**
-     * Pointer to the function table for this MI object.
+     * @brief Pointer to the function table for this MI object.
      */
     const CMPIPropertyMIFT* ft;
 
@@ -8483,20 +8531,22 @@ typedef struct _CMPIPropertyMI {
 struct _CMPIPropertyMIFT {
 
     /**
-     * CMPI version supported by the MI for this function table.
+     * @brief CMPI version supported by the MI for this function table.
+     * 
      * Any later CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
 
     /**
-     * Informal MI-specific version number for this MI
+     * @brief Informal MI-specific version number for this MI.
      */
     int miVersion;
 
     /**
-     * Informal MI-specific name for this MI
+     * @brief Informal MI-specific name for this MI.
      */
     const char* miName;
 
@@ -8702,12 +8752,13 @@ struct _CMPIPropertyMIFT {
 typedef struct _CMPIIndicationMI {
 
     /**
-     * Opaque pointer to MB-specific implementation data for this MI object.
+     * @brief Opaque pointer to MB-specific implementation data for this MI
+     *     object.
      */
     const void* hdl;
 
     /**
-     * Pointer to the function table for this MI object.
+     * @brief Pointer to the function table for this MI object.
      */
     const CMPIIndicationMIFT* ft;
 
@@ -8719,20 +8770,22 @@ typedef struct _CMPIIndicationMI {
 struct _CMPIIndicationMIFT {
 
     /**
-     * CMPI version supported by the MI for this function table.
+     * @brief CMPI version supported by the MI for this function table.
+     * 
      * Any later CMPI versions are implicitly also supported.
+     * 
      * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
 
     /**
-     * Informal MI-specific version number for this MI
+     * @brief Informal MI-specific version number for this MI.
      */
     int miVersion;
 
     /**
-     * Informal MI-specific name for this MI
+     * @brief Informal MI-specific name for this MI.
      */
     const char* miName;
 
