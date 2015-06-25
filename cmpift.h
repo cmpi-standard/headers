@@ -96,17 +96,17 @@ struct _CMPIBroker {
  * @ref _CMPIBroker "CMPIBroker object".
  *
  * This function table provides
- * @link broker-thread-reg MB thread registration services @endlink,
- * @link broker-indications MB indications services @endlink, and
- * @link broker-client MB client services ("up-calls") @endlink.
+ * @ref broker-thread-reg "Thread Registration Services",
+ * @ref broker-indications "Indications Services", and
+ * @ref broker-client "Client Services (\"up-calls\")".
  */
 struct _CMPIBrokerFT {
 
     /**
      * MB capabilities.
      *
-     * See the @link mb-capabilities definition of test masks for MB
-     * capabilities @endlink.
+     * For a definition of the test masks, see
+     * @ref mb-capabilities "MB Capabilities".
      */
     unsigned int brokerCapabilities;
 
@@ -2991,9 +2991,9 @@ struct _CMPIContextFT {
      CMPIContext object by supplying its name.
 
      @param ctx CMPIContext object for this function
-     @param name string specifying the context entry name.See
-         @link def-context-fieldnames definition of context
-         entry names @endlink for defined names
+     @param name string specifying the context entry name.
+         See @ref def-context-fieldnames "Names of CMPIContext fields"
+         for defined names
      @param rc  Output: The rc output argument, if not NULL, points to a
          CMPIStatus structure that upon return will have been
          updated with the function return status
@@ -3067,8 +3067,8 @@ struct _CMPIContextFT {
         in a CMPIContext object. See Subclause 8.1 for defined context entries.
      @param ctx Context this pointer.
      @param name Entry name. Pointer to a CMPIString defining a context name.
-         See @link def-context-fieldnames definition of context
-         entry names @endlink for defined names.
+         See @ref def-context-fieldnames "Names of CMPIContext fields"
+         for defined names.
      @param value Address of CMPIValue structure containing the
          non-NULL value to be assigned to the context entry
          or NULL to specify that NULL is to be assigned.
