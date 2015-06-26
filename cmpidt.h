@@ -292,7 +292,7 @@ typedef double CMPIReal64;             ///< CIM data type `real64`.
  * @{
  */
 
-/** 
+/**
  * @brief An unsigned integer that specifies a number of elements or position
  *     in a sequential data type.
  *
@@ -404,7 +404,7 @@ typedef union _CMPIValue {
  */
 typedef unsigned short CMPIType;
 
-/** 
+/**
  *   @anchor def-cmpitype-symbols
  *   @name Test masks for CMPIType
  *   @{
@@ -666,7 +666,7 @@ typedef int CMPIVersion;
  * @}
  * @addtogroup def-context-fieldnames
  * @{
- * 
+ *
  * The fields in a @ref _CMPIContext "CMPIContext" object are set and accessed
  * by name using the the @ref _CMPIContextFT::addEntry "addEntry()" and
  * @ref _CMPIContextFT::getEntry "getEntry()" functions.
@@ -678,65 +678,65 @@ typedef int CMPIVersion;
  * the corresponding field (e.g. for the `type` argument of
  * @ref _CMPIContextFT::addEntry "addEntry()")
  */
- 
+
 /**
  * @brief Name of the target namespace for the invoked operation.
- * 
+ *
  * Type: `CMPI_string`
  */
 #define CMPIInitNameSpace   "CMPIInitNameSpace"
 
 /**
  * @brief Invocation flags for the invoked operation; see @ref CMPIFlags.
- * 
+ *
  * Type: `CMPI_uint32`
  */
 #define CMPIInvocationFlags "CMPIInvocationFlags"
 
 /**
  * @brief Authenticated ID of the user requesting the invoked operation.
- * 
+ *
  * Type: `CMPI_string`
  */
 #define CMPIPrincipal       "CMPIPrincipal"
 
 /**
  * @brief The role assumed by the current authenticated user.
- * 
+ *
  * If the role is not available, the value of this entry shall be an empty
  * string.
- * 
+ *
  * Type: `CMPI_string`
  */
 #define CMPIRole            "CMPIRole"
 
 /**
  * @brief The preferred language(s) to be used by the MI.
- * 
+ *
  * The preferred language(s) to be used by the MI for any language-specific
  * data in any results from MI functions, in the format of the
  * `Accept-Language` header field defined in @ref ref-ietf-rfc-2616 "RFC2616"
  * (a set of language tags, each with an optional quality value).
- * 
+ *
  * If this information is not available, the value of this entry shall be an
  * empty string with the default meaning described in
  * @ref ref-ietf-rfc-2616 "RFC2616".
- * 
+ *
  * Type: `CMPI_string`
  */
 #define CMPIAcceptLanguage  "CMPIAcceptLanguage"
 
 /**
  * @brief The language(s) used by the MB.
- * 
+ *
  * The language(s) used by the MB for any language-specific data passed to MI
  * functions, in the format of the `Content-Language` header field defined in
  * @ref ref-ietf-rfc-2616 "RFC2616" (a set of language tags).
- * 
+ *
  * If this information is not available, the value of this entry shall be an
  * empty string with the default meaning described in
  * @ref ref-ietf-rfc-2616 "RFC2616".
- * 
+ *
  * Type: `CMPI_string`
  */
 #define CMPIContentLanguage "CMPIContentLanguage"
@@ -750,46 +750,67 @@ typedef int CMPIVersion;
 /**
  * @brief An enumeration type that defines CMPI return code values.
  *
- * CMPI return code values are used mainly for the rc member of the
- * @ref type-status "CMPIStatus" structure, and in rare cases directly in MB
- * functions.
+ * CMPI return code values are used mainly for @ref CMPIStatus.rc, and in rare
+ * cases directly in MB functions.
+ *
+ * The enumerators can be categorized into these groups:
+ *
+ * @li `CMPI_RC_OK` to `CMPI_RC_ERR_QUERY_FEATURE_NOT_SUPPORTED`:@n
+ *     Return codes matching CIM status codes. They are sometimes used for
+ *     CMPI-specific purposes as well.
+ * @li `CMPI_RC_DO_NOT_UNLOAD` to `CMPI_RC_NEVER_UNLOAD`:@n
+ *     Return codes used only by the MI `cleanup()` functions (e.g.
+       @ref _CMPIInstanceMIFT::cleanup "CMPIInstanceMIFT.cleanup()").
+ * @li `CMPI_RC_ERR_INVALID_HANDLE` to `CMPI_RC_ERR_NOT_IN_CODEPAGE`:@n
+ *     Return codes for other errors detected by CMPI.
+ * @li `CMPI_RC_ERROR_SYSTEM` to `CMPI_RC_ERROR`:@n
+ *     Return codes for errors returned by the underlying operating system.
+ *
+ * The descriptions of the enumerators in this module are meant to provide for
+ * a general understanding; their exact meaning is described in the MB or MI
+ * functions using them.
  */
 typedef enum _CMPIrc {
+
+    /*
+     * Return codes matching CIM status codes
+     */
+
     /** Success */
     CMPI_RC_OK = 0,
-    /** Generic failure */
+    /** Unspecific error occurred */
     CMPI_RC_ERR_FAILED = 1,
-    /** Specified user does not have access to perform the requested action */
+    /** Not authorized */
     CMPI_RC_ERR_ACCESS_DENIED = 2,
-    /** invalid namespace specified */
+    /** Invalid namespace */
     CMPI_RC_ERR_INVALID_NAMESPACE = 3,
-    /** invalid parameter specified */
+    /** Invalid parameter */
     CMPI_RC_ERR_INVALID_PARAMETER = 4,
-    /** Invalid class specified */
+    /** Invalid class */
     CMPI_RC_ERR_INVALID_CLASS = 5,
-    /** Item was not found */
+    /** Item (class, instance, message file, etc.) not found */
     CMPI_RC_ERR_NOT_FOUND = 6,
     /** Operation not supported */
     CMPI_RC_ERR_NOT_SUPPORTED = 7,
-    /** Object has child objects */
+    /** Class has subclasses */
     CMPI_RC_ERR_CLASS_HAS_CHILDREN = 8,
-    /** Object has instances */
+    /** Class has instances */
     CMPI_RC_ERR_CLASS_HAS_INSTANCES = 9,
-    /** Invalid super class specified */
+    /** Invalid superclass */
     CMPI_RC_ERR_INVALID_SUPERCLASS = 10,
-    /** specified object already exists */
+    /** Object already exists */
     CMPI_RC_ERR_ALREADY_EXISTS = 11,
-    /** Property does not exist */
+    /** Property not found (e.g. not defined in the class) */
     CMPI_RC_ERR_NO_SUCH_PROPERTY = 12,
-    /** This is a type mismatch */
+    /** Type mismatch */
     CMPI_RC_ERR_TYPE_MISMATCH = 13,
     /** Query language not supported */
     CMPI_RC_ERR_QUERY_LANGUAGE_NOT_SUPPORTED = 14,
     /** Invalid query */
     CMPI_RC_ERR_INVALID_QUERY = 15,
-    /** Method is not available */
+    /** Method not available (e.g. not supported / implemented) */
     CMPI_RC_ERR_METHOD_NOT_AVAILABLE = 16,
-    /** Could not find the specified method */
+    /** Method not found (e.g. not defined in the class) */
     CMPI_RC_ERR_METHOD_NOT_FOUND = 17,
     /** No more elements */
     CMPI_RC_NO_MORE_ELEMENTS = 18,
@@ -798,25 +819,33 @@ typedef enum _CMPIrc {
     /** Query feature not supported */
     CMPI_RC_ERR_QUERY_FEATURE_NOT_SUPPORTED = 29,
 
-    /* The following return codes are used by cleanup()
-       calls only. */
+    /*
+     * Return codes used only by the MI cleanup() functions
+     */
 
-    /** Returned by a MI to indicate that it should not be unloaded, only
-     returned via a cleanup() call */
+    /** Operation successful - Do not unload the MI now */
     CMPI_RC_DO_NOT_UNLOAD = 50,
-    /** Returned by a MI to indicate that it should never be unloaded, only
-     returned via a cleanup() call */
+    /** Operation successful - Never unload the MI */
     CMPI_RC_NEVER_UNLOAD = 51,
 
-    /* Internal CMPI return codes. */
+    /*
+     * Return codes for other errors detected by CMPI
+     */
 
+    /** Invalid handle to CMPI data */
     CMPI_RC_ERR_INVALID_HANDLE = 60,
+    /** Invalid data type */
     CMPI_RC_ERR_INVALID_DATA_TYPE = 61,
+    /** Characters are not representable in the specified codepage */
     CMPI_RC_ERR_NOT_IN_CODEPAGE = 62,
 
-    /* Hosting OS errors. */
+    /*
+     * Return codes for errors returned by the underlying operating system
+     */
 
+    /** Not currently used */
     CMPI_RC_ERROR_SYSTEM = 100,
+    /** Not currently used */
     CMPI_RC_ERROR = 200
 
 } CMPIrc;
@@ -835,14 +864,17 @@ typedef enum _CMPIrc {
 typedef struct _CMPIStatus {
 
     /**
-     * @brief A return code, for valid values.
+     * @brief A return code.
      *
      * @see @ref CMPIrc.
      */
     CMPIrc rc;
 
     /**
-     * @brief An error message, or NULL if no error message is available.
+     * @brief An error message.
+     *
+     * Points to a `CMPIString` object representing an error message, or is
+     * NULL if no error message is available.
      */
     CMPIString* msg;
 
@@ -852,34 +884,110 @@ typedef struct _CMPIStatus {
  * @}
  * @addtogroup mb-capabilities
  * @{
+ *
+ * These symbols define test masks for MB capabilities, for use on
+ * `CMPIBrokerFT.brokerCapabilities`.
+ *
+ * If a bit in the value of `CMPIBrokerFT.brokerCapabilities` is set to 1,
+ * the corresponding capability is available; otherwise, it is not available.
+ *
+ * For historical reasons, the test mask values have the bits for any dependent
+ * capabilities also set to 1, in addition to the bit for the capability they
+ * actually represent.
+ *
+ * Bits that are unassigned in this version of CMPI are reserved for future
+ * extensions and shall not be used for implementation-specific purposes.
  */
 
+#define CMPI_MB_BasicRead                0x00000001  ///< Basic Read
+#define CMPI_MB_BasicWrite               0x00000003  ///< Basic Write
+#define CMPI_MB_InstanceManipulation     0x00000007  ///< Instance Manipulation
+#define CMPI_MB_AssociationTraversal     0x00000009  ///< Association Traversal
+#define CMPI_MB_QueryExecution           0x00000011  ///< Query Execution
 /**
- * These definitions are test masks for MB capabilities, for use on
- * @ref _CMPIBrokerFT::brokerCapabilities "CMPIBrokerFT.brokerCapabilities".
- * The test mask for each capability includes any prerequisite capabilities.
- * @todo Add descriptions for each capabilities test mask symbol.
+ * @brief Query Normalization.
+ *
+ * Optional to be supported.
  */
-#define CMPI_MB_BasicRead                   0x00000001
-#define CMPI_MB_BasicWrite                  0x00000003
-#define CMPI_MB_InstanceManipulation        0x00000007
-#define CMPI_MB_AssociationTraversal        0x00000009
-#define CMPI_MB_QueryExecution              0x00000011
-#define CMPI_MB_QueryNormalization          0x00000031
+#define CMPI_MB_QueryNormalization       0x00000031
+/**
+ * @brief Basic Qualifier.
+ *
+ * Optional to be supported.
+ */
 #define CMPI_MB_BasicQualifierSupport       0x00000047
+/**
+ * @brief Indications.
+ *
+ * Optional to be supported.
+ */
 #define CMPI_MB_Indications                 0x00000081
+/**
+ * @brief OS Encapsulation Services
+ *
+ * Required to be supported since CMPI 2.0.
+ */
 #define CMPI_MB_OSEncapsulationSupport      0x00000100
 
 #ifdef CMPI_VER_200
+
+/**
+ * @brief Memory Enhancement Services
+ *
+ * Optional to be supported.
+ *
+ * @version Added in CMPI 2.0.
+ */
 #define CMPI_MB_Supports_MemEnhancements    0x00004000
+/**
+ * @brief Extended Errors
+ *
+ * Required to be supported since CMPI 2.1.
+ *
+ * @version Added in CMPI 2.0.
+ */
 #define CMPI_MB_Supports_Extended_Error     0x00008000
+
 #endif
 
 #ifdef CMPI_VER_210
+
+/**
+ * @brief Logging
+ *
+ * Optional to be supported.
+ *
+ * @version Added the capability flag in CMPI 2.1; the capability itself
+ *     existed since CMPI 1.0.
+ */
 #define CMPI_MB_Logging                     0x00010000
+/**
+ * @brief Tracing
+ *
+ * Optional to be supported.
+ *
+ * @version Added the capability flag in CMPI 2.1; the capability itself
+ *     existed since CMPI 1.0.
+ */
 #define CMPI_MB_Tracing                     0x00020000
+/**
+ * @brief Property Filtering
+ *
+ * Optional to be supported.
+ *
+ * @version Added the capability flag in CMPI 2.1; the capability itself
+ *     existed since CMPI 1.0.
+ */
 #define CMPI_MB_PropertyFiltering           0x00040001
+/**
+ * @brief Codepage Conversion
+ *
+ * Optional to be supported.
+ *
+ * @version Added in CMPI 2.1.
+ */
 #define CMPI_MB_CodepageConversion          0x00080000
+
 #endif
 
 // Deprecated: The following symbols are synonyms for other symbols and are
@@ -1040,9 +1148,10 @@ typedef enum _CMPIErrorType {
     SecurityError = 7,
     /** Over subscription error */
     OversubscriptionError = 8,
+    /** Over subscription error.
+     *  Deprecated, use `OversubscriptionError` instead */
     Oversubscription_Error = OversubscriptionError,
-    /** Unavailable resource  Deprecated, use
-     *  OversubscriptionError instea */
+    /** Unavailable resource */
     UnavailableResourceError = 9,
     /** Unsupported operation */
     UnsupportedOperationError = 10

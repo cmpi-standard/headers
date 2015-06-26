@@ -389,8 +389,9 @@ typedef struct _CMPIBrokerFT {
      This function may be called by any MI function, and by any threads
      created by MIs that are registered with the MB (see Subclause 9.13).
 
-     This function shall be suppored by the MB if the Indications
-     capability is available otherwise it shall not be supported.
+     This function shall be supported by the MB if the
+     @ref CMPI_MB_Indications "Indications"
+     capability is available; otherwise, it shall not be supported.
 
      @param mb Pointer to the broker.
      @param ctx Pointer to the CMPIContext object that was used to
@@ -1572,14 +1573,12 @@ struct _CMPIBrokerEncFT {
      object that is initialized from a select expression specified
      in a query language.
 
-     This function and the CMPISelectExp encapsulated data type shall be
-     supported by the MB if the Query Normalization capability is available
-     (see Subclause 7.1); otherwise, they shall not be supported. Availability
-     of the Query Normalization capability can be queried by an MI using
-     the CMPI_MB_QueryNormalization test mask on the brokerCapabilities
-     member of the CMPIBrokerFT structure.
+     This function and the `CMPISelectExp` encapsulated data type shall be
+     supported by the MB if the
+     @ref CMPI_MB_QueryNormalization "Query Normalization"
+     capability is available; otherwise, it shall not be supported.
 
-     @param mb Pointer to the CMPIBroker .
+     @param mb Pointer to the CMPIBroker.
      @param query Pointer to a string containing the select expression.
      @param lang Pointer to a string containing the query language.
      @param projection Output: Pointer to to a CMPIArray pointer that upon
@@ -2261,6 +2260,10 @@ struct timespec;
  * @ref brokerext-thread "POSIX-conformant Threads",
  * @ref brokerext-mutex "POSIX-conformant Mutexes", and
  * @ref brokerext-condition "POSIX-conformant Conditions".
+ *
+ * All functions in this table shall be supported by the MB if the
+ * @ref CMPI_MB_OSEncapsulationSupport "OS Encapsulation Services"
+ * capability is available; otherwise, it shall not be supported.
  *
  * For functions that are not supported, their function pointers in this
  * function table shall not be NULL, but shall point to a function that can be
@@ -5312,7 +5315,8 @@ struct _CMPIObjectPathFT {
      `CMPIObjectPathFT.getClassQualifier()` gets a class qualifier in the class
      identified by the CMPIObjectPath `op` argument.
 
-     This function shall be supported by the MB if the Basic Qualifier
+     This function shall be supported by the MB if the
+     @ref CMPI_MB_BasicQualifierSupport "Basic Qualifier"
      capability is available; otherwise, it shall not be supported.
 
      @param op Pointer CMPIObjectPath object that references the class and that
@@ -5346,9 +5350,10 @@ struct _CMPIObjectPathFT {
      @brief Get a property qualifier.
 
      `CMPIObjectPathFT.getPropertyQualifier()` function gets a property
-     qualifier in the class identified by `op`>.
+     qualifier in the class identified by `op`.
 
-     This function shall be supported by the MB if theBasic Qualifier
+     This function shall be supported by the MB if the
+     @ref CMPI_MB_BasicQualifierSupport "Basic Qualifier"
      capability is available; otherwise, it shall not be supported.
 
      @param op Pointer to CMPIObjectPath object that references the
@@ -5391,12 +5396,9 @@ struct _CMPIObjectPathFT {
 
      `CMPIObjectPathFT.getMethodQualifier()` gets method qualifier value.
 
-     This function shall be supported by the MB if the Basic Qualifier
-     capability is available (see Subclause 7.1); otherwise, it shall
-     not be supported. Availability of the Basic Qualifier capability
-     can be queried by an MI using the CMPI_MB_BasicQualifierSupport
-     test mask on the brokerCapabilities member of the CMPIBrokerFT
-     structure.
+     This function shall be supported by the MB if the
+     @ref CMPI_MB_BasicQualifierSupport "Basic Qualifier"
+     capability is available; otherwise, it shall not be supported.
 
      @param op Pointer to a CMPIObjectPath object that references the class
          and that shall contain the namespace and class components. The
@@ -5435,11 +5437,9 @@ struct _CMPIObjectPathFT {
      `CMPIObjectPathFT.getParameterQualifier()` gets a parameter qualifier in
      the class identified by this object path.
 
-     This function shall be supported by the MB if the Basic Qualifier
-     capability is available (see Subclause 7.1); otherwise, it shall not
-     be supported. Availability of the Basic Qualifier capability can be
-     queried by an MI using the CMPI_MB_BasicQualifierSupport test mask
-     on the brokerCapabilities member of the CMPIBrokerFT structure.
+     This function shall be supported by the MB if the
+     @ref CMPI_MB_BasicQualifierSupport "Basic Qualifier"
+     capability is available; otherwise, it shall not be supported.
 
      @param op Pointer points to a CMPIObjectPath object that references the
          class and that shall contain the namespace and class components.
@@ -5615,11 +5615,9 @@ struct _CMPISelectExpFT {
      `CMPISelectExpFT.evaluate()` evaluates the instance &ltinst& using this
      select expression.
 
-     This function shall be supported by the MB if the Query Normalization
-     capability is available); otherwise, it shall not be supported.
-     Availability of the Query Normalization capability can be queried by
-     an MI using the CMPI_MB_QueryNormalization test mask on the
-     brokerCapabilities member of the CMPIBrokerFT structure.
+     This function shall be supported by the MB if the
+     @ref CMPI_MB_QueryNormalization "Query Normalization"
+     capability is available; otherwise, it shall not be supported.
 
      @param se Pointer to CMPISelectExp.
      @param inst Instance to be evaluated.
@@ -5646,11 +5644,9 @@ struct _CMPISelectExpFT {
      `CMPISelectExpFT.getString()` returns the select expression in
      string format.
 
-     This function shall be supported by the MB if the Query Normalization
+     This function shall be supported by the MB if the
+     @ref CMPI_MB_QueryNormalization "Query Normalization"
      capability is available; otherwise, it shall not be supported.
-     Availability of the Query Normalization capability can be queried by
-     an MI using the CMPI_MB_QueryNormalization test mask on the
-     brokerCapabilities member of the CMPIBrokerFT structure.
 
      @param se Pointer to a CMPISelectExp object for this function,
          containing the select expression.
@@ -5847,11 +5843,9 @@ struct _CMPISelectCondFT {
      memory associated with the object during the call to this function,
      or later during some garbage collection cycle (see Subclause 4.1.7).
 
-     This function shall be supported by the MB if the Query Normalization
-     capability is available (see Subclause 7.1); otherwise, it shall not
-     be supported. Availability of the Query Normalization capability can
-     be queried by an MI using the CMPI_MB_QueryNormalization test mask
-     on the brokerCapabilities member of the CMPIBrokerFT structure.
+     This function shall be supported by the MB if the
+     @ref CMPI_MB_QueryNormalization "Query Normalization"
+     capability is available; otherwise, it shall not be supported.
 
      @param sc points to the CMPISelectCond object to be released. That object
          shall have been created using @ref _CMPISelectCondFT::clone
@@ -5880,11 +5874,9 @@ struct _CMPISelectCondFT {
      `CMPISelectExpFT.clone()` creates an independent copy of this SelectCond
      object. The resulting object must be released explicitly.
 
-     This function shall be supported by the MB if the Query Normalization
-     capability is available (see Subclause 7.1); otherwise, it shall not
-     be supported. Availability of the Query Normalization capability can
-     be queried by an MI using the CMPI_MB_QueryNormalization test mask
-     on the brokerCapabilities member of the CMPIBrokerFT structure.
+     This function shall be supported by the MB if the
+     @ref CMPI_MB_QueryNormalization "Query Normalization"
+     capability is available; otherwise, it shall not be supported.
 
      @param sc SelectCond this pointer.
      @param[out] rc If not NULL, points to a CMPIStatus structure that
@@ -5918,11 +5910,9 @@ struct _CMPISelectCondFT {
      that are part of this SelectCond.
      Optionally, the SelectCond type (COD or DOC) will be returned.
 
-     This function shall be supported by the MB if the Query Normalization
-     capability is available (see Subclause 7.1); otherwise, it shall not
-     be supported. Availability of the Query Normalization capability can
-     be queried by an MI using the CMPI_MB_QueryNormalization test mask
-     on the brokerCapabilities member of the CMPIBrokerFT structure.
+     This function shall be supported by the MB if the
+     @ref CMPI_MB_QueryNormalization "Query Normalization"
+     capability is available; otherwise, it shall not be supported.
 
      @param sc Pointer to a CMPISelectCond object for this function.
      @param type Output: If not NULL, points to an integer that upon success
@@ -5956,11 +5946,9 @@ struct _CMPISelectCondFT {
      `CMPISelectCondFT.getSubCondAt()` gets the subcondition in a
      CMPISelectCond object, by its index in the internal data array
 
-     This function shall be supported by the MB if the Query Normalization
-     capability is available (see Subclause 7.1); otherwise, it shall not
-     be supported. Availability of the Query Normalization capability can
-     be queried by an MI using the CMPI_MB_QueryNormalization test mask
-     on the brokerCapabilities member of the CMPIBrokerFT structure.
+     This function shall be supported by the MB if the
+     @ref CMPI_MB_QueryNormalization "Query Normalization"
+     capability is available; otherwise, it shall not be supported.
 
      @param sc Pointer to a CMPISelectCond object for this function.
      @param index Specifies the zero-based position of the subcondition in
@@ -6045,12 +6033,9 @@ struct _CMPISubCondFT {
      object during the call to this function, or later during
      some garbage collection cycle (see Subclause 4.1.7).
 
-     This function shall be supported by the MB if the Query
-     Normalization capability is available (see Subclause 7.1);
-     otherwise, it shall not be supported. Availability of the
-     Query Normalization capability can be queried by an MI
-     using the CMPI_MB_QueryNormalization test mask on the
-     brokerCapabilities member of the CMPIBrokerFT structure.
+     This function shall be supported by the MB if the
+     @ref CMPI_MB_QueryNormalization "Query Normalization"
+     capability is available; otherwise, it shall not be supported.
 
      @param sc Pointer to the CMPISubCond object to be released.
          That object shall have been created using
@@ -6076,12 +6061,9 @@ struct _CMPISubCondFT {
      `CMPISubCondFT.clone()` creates an independent copy of a  `sc`
      CMPISubCond object.
 
-     This function shall be supported by the MB if the Query
-     Normalization capability is available (see Subclause 7.1);
-     otherwise, it shall not be supported. Availability of the
-     Query Normalization capability can be queried by an MI
-     using the CMPI_MB_QueryNormalization test mask on the
-     brokerCapabilities member of the CMPIBrokerFT structure.
+     This function shall be supported by the MB if the
+     @ref CMPI_MB_QueryNormalization "Query Normalization"
+     capability is available; otherwise, it shall not be supported.
 
      @param sc Pointer to the CMPISubCond object.
      @param rc Output: If not NULL, points to a CMPIStatus structure that
@@ -6110,11 +6092,9 @@ struct _CMPISubCondFT {
      `CMPISubCondFT.getCount()` gets the number of predicates in `sc`
      CMPISubCond object.
 
-     This function shall be supported by the MB if the Query Normalization
-     capability is available (see Subclause 7.1); otherwise, it shall not
-     be supported. Availability of the Query Normalization capability can
-     be queried by an MI using the CMPI_MB_QueryNormalization test mask on
-     the brokerCapabilities member of the CMPIBrokerFT structure.
+     This function shall be supported by the MB if the
+     @ref CMPI_MB_QueryNormalization "Query Normalization"
+     capability is available; otherwise, it shall not be supported.
 
      @param sc Pointer to the CMPISubCond object.
      @param rc Output: Service return status (suppressed when NULL).
@@ -6144,14 +6124,9 @@ struct _CMPISubCondFT {
      `CMPISubCondFT.getPredicatAt()` gets a predicate in a CMPISubCond
      object, by its index in the internal data array.
 
-     This function shall be supported by the MB if the Query Normalization
+     This function shall be supported by the MB if the
+     @ref CMPI_MB_QueryNormalization "Query Normalization"
      capability is available; otherwise, it shall not be supported.
-
-     This function shall be supported by the MB if the Query Normalization
-     capability is available (see Subclause 7.1); otherwise, it shall not
-     be supported. Availability of the Query Normalization capability can
-     be queried by an MI using the CMPI_MB_QueryNormalization test mask on
-     the brokerCapabilities member of the CMPIBrokerFT structure.
 
      @param sc Pointer to the CMPISubCond object.
      @param index Specifies the zero-based index of the predicate in the
@@ -6192,14 +6167,9 @@ struct _CMPISubCondFT {
      `CMPISubCondFT.getPredicate()` gets a predicate in a CMPISubCond
       object, by its `name` argument.
 
-     This function shall be supported by the MB if the Query Normalization
+     This function shall be supported by the MB if the
+     @ref CMPI_MB_QueryNormalization "Query Normalization"
      capability is available; otherwise, it shall not be supported.
-
-     This function shall be supported by the MB if the Query Normalization
-     capability is available (see Subclause 7.1); otherwise, it shall not
-     be supported. Availability of the Query Normalization capability can
-     be queried by an MI using the CMPI_MB_QueryNormalization test mask on
-     the brokerCapabilities member of the CMPIBrokerFT structure.
 
      @param sc Pointer to the CMPISubCond object.
      @param name specifies the predicate name. The name is the left-hand side
@@ -6280,11 +6250,9 @@ struct _CMPIPredicateFT {
      memory associated with the object during the call to this function,
      or later during some garbage collection cycle (see Subclause 4.1.7).
 
-     This function shall be supported by the MB if the Query Normalization
-     capability is available (see Subclause 7.1); otherwise, it shall not
-     be supported. Availability of the Query Normalization capability can
-     be queried by an MI using the CMPI_MB_QueryNormalization test mask
-     on the brokerCapabilities member of the CMPIBrokerFT structure.
+     This function shall be supported by the MB if the
+     @ref CMPI_MB_QueryNormalization "Query Normalization"
+     capability is available; otherwise, it shall not be supported.
 
      @param pr Pointer to the CMPIPredicate object to be released. That object
          shall have been created using @ref _CMPIPredicateFT::clone
@@ -6314,11 +6282,9 @@ struct _CMPIPredicateFT {
      `CMPIPredicateFT.clone()` creates an independent copy of a
      CMPIPredicate object.
 
-     This function shall be supported by the MB if the Query Normalization
-     capability is available (see Subclause 7.1); otherwise, it shall not
-     be supported. Availability of the Query Normalization capability can
-     be queried by an MI using the CMPI_MB_QueryNormalization test mask
-     on the brokerCapabilities member of the CMPIBrokerFT structure.
+     This function shall be supported by the MB if the
+     @ref CMPI_MB_QueryNormalization "Query Normalization"
+     capability is available; otherwise, it shall not be supported.
 
      @param pr Pointer to the CMPIPredicate object to be copied.
      @param rc Output: If not NULL, points to a CMPIStatus structure that upon
@@ -6359,11 +6325,9 @@ struct _CMPIPredicateFT {
      objects created by the MB which will be automatically released by the
      MB (see Subclause 4.1.7).
 
-     This function shall be supported by the MB if the Query Normalization
-     capability is available (see Subclause 7.1); otherwise, it shall not
-     be supported. Availability of the Query Normalization capability can
-     be queried by an MI using the CMPI_MB_QueryNormalization test mask
-     on the brokerCapabilities member of the CMPIBrokerFT structure.
+     This function shall be supported by the MB if the
+     @ref CMPI_MB_QueryNormalization "Query Normalization"
+     capability is available; otherwise, it shall not be supported.
 
      @param pr Pointer to the CMPIPredicate object.
      @param[out] type If not NULL, points to a CMPIType structure that upon
