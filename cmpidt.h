@@ -112,8 +112,10 @@ extern "C" {
 /**
  * @}
  * @{
- * Forward declarations and typedefs for the CMPIBroker object and its function
- * tables.
+ */
+
+/*
+ * Forward declarations of structures and their typedefs.
  */
 
 struct _CMPIBroker;
@@ -130,13 +132,6 @@ typedef struct _CMPIBrokerExtFT CMPIBrokerExtFT;
 #ifdef CMPI_VER_200
 typedef struct _CMPIBrokerMemFT CMPIBrokerMemFT;
 #endif
-
-/**
- * @}
- * @{
- * Forward declarations and typedefs for encapsulated data types and their
- * function tables.
- */
 
 struct _CMPIContext;
 struct _CMPIResult;
@@ -221,12 +216,6 @@ typedef struct _CMPIPropertyListFT CMPIPropertyListFT;
 typedef struct _CMPIEnumerationFilterFT CMPIEnumerationFilterFT;
 #endif
 
-/**
- * @}
- * @{
- * Forward declarations for MI function table types.
- */
-
 typedef struct _CMPIInstanceMIFT CMPIInstanceMIFT;
 typedef struct _CMPIAssociationMIFT CMPIAssociationMIFT;
 typedef struct _CMPIMethodMIFT CMPIMethodMIFT;
@@ -241,10 +230,10 @@ typedef struct _CMPIIndicationMIFT CMPIIndicationMIFT;
  * The Typedefs defined in this module cover most CIM data types. The remaining
  * CIM data types are defined as CMPI encapsulated data types, and are:
  *
- * @li @ref _CMPIString "CMPIString" - CIM data type `string`.
- * @li @ref _CMPIDateTime "CMPIDateTime" - CIM data type `datetime`.
- * @li @ref _CMPIObjectPath "CMPIObjectPath" - CIM data type `reference`.
- * @li @ref _CMPIInstance "CMPIInstance" - for embedded instances.
+ * @li CMPIString - CIM data type `string`.
+ * @li CMPIDateTime - CIM data type `datetime`.
+ * @li CMPIObjectPath - CIM data type `reference`.
+ * @li CMPIInstance - for embedded instances.
  */
 
 typedef unsigned char CMPIBoolean;     ///< CIM data type `boolean`.
@@ -257,7 +246,7 @@ typedef unsigned int CMPIUint32;       ///< CIM data type `uint32`.
  * @brief CIM data type `uint64`.
  *
  * @platformspecific The underlying data type for the
- *     `CMPIUint64` type depends on the platform (see @ref sym-platform).
+ *     CMPIUint64 type depends on the platform (see @ref sym-platform).
  *     For details, examine the source code of `cmpidt.h`.
  */
 #ifndef CMPI_PLATFORM_WIN32_IX86_MSVC
@@ -274,7 +263,7 @@ typedef signed int CMPISint32;         ///< CIM data type `sint32`.
  * @brief CIM data type `sint64`.
  *
  * @platformspecific The underlying data type for the
- *     `CMPISint64` type depends on the platform (see @ref sym-platform).
+ *     CMPISint64 type depends on the platform (see @ref sym-platform).
  *     For details, examine the source code of `cmpidt.h`.
  */
 #ifndef CMPI_PLATFORM_WIN32_IX86_MSVC
@@ -297,8 +286,8 @@ typedef double CMPIReal64;             ///< CIM data type `real64`.
  *     in a sequential data type.
  *
  * It is used as argument or return type of other functions and specifies e.g.
- * number of items in or index into @ref _CMPIArray "CMPIArray",
- * number of Bytes in @ref CMPIValuePtr, or
+ * number of items in or index into CMPIArray,
+ * number of Bytes in CMPIValuePtr, or
  * number of variable function arguments.
  */
 typedef unsigned int CMPICount;
@@ -312,7 +301,7 @@ typedef unsigned int CMPICount;
 /**
  * @brief A raw unformatted data area of a specified size.
  *
- * `CMPIValuePtr` is used for context data only.
+ * CMPIValuePtr is used for context data only.
  */
 typedef struct _CMPIValuePtr {
 
@@ -338,53 +327,46 @@ typedef struct _CMPIValuePtr {
  * @brief A union that can hold a value of any of the data types defined in
  *     CMPI.
  *
- * `CMPIValue` is used in @ref type-data "CMPIData", but also standalone.
+ * CMPIValue is used in CMPIData, but also standalone.
  */
 typedef union _CMPIValue {
-    CMPIBoolean boolean; ///< boolean CMPIValue. Corresponds to CIMBoolean type
-    CMPIChar16 char16;   ///< char16 CIMType
-    CMPIUint8 uint8;     ///< uint8 CIMType
-    CMPIUint16 uint16;   ///< uint16 CIMType
-    CMPIUint32 uint32;   ///< uint32 CIMType
-    CMPIUint64 uint64;   ///< uint64 CIMType
-    CMPISint8 sint8;     ///< sint8 CIMType
-    CMPISint16 sint16;   ///< sint16 CIMType
-    CMPISint32 sint32;   ///< sint32 CIMType
-    CMPISint64 sint64;   ///< sint64 CIMType
-    CMPIReal32 real32;   ///< real32 CIMType
-    CMPIReal64 real64;   ///< real64 CIMType
 
-    CMPIInstance* inst;     ///< Pointer to CMPIInstance
-    CMPIObjectPath* ref;    ///< Pointer to CMPIObjectPath
-    CMPIArgs* args;         ///< Pointer to CMPIArgs
-    CMPISelectExp* filter;  ///< Pointer to CMPISelectExp
-    CMPIEnumeration* Enum;  ///< Pointer to CMPIEnumeration
-    CMPIArray* array;       ///< Pointer to CMPIArray
-    CMPIString* string;     ///< Pointer to CMPIString
-    char* chars;            ///< Pointer to C String
-    CMPIDateTime* dateTime; ///< Pointer to CMPIDateTIme
-    CMPIValuePtr dataPtr;   ///< Pointer to CMPIValue
+    CMPIBoolean boolean;    ///< Value of CIM type `boolean`
+    CMPIChar16 char16;      ///< Value of CIM type `char16`
+    CMPIUint8 uint8;        ///< Value of CIM type `uint8`
+    CMPIUint16 uint16;      ///< Value of CIM type `uint16`
+    CMPIUint32 uint32;      ///< Value of CIM type `uint32`
+    CMPIUint64 uint64;      ///< Value of CIM type `uint64`
+    CMPISint8 sint8;        ///< Value of CIM type `sint8`
+    CMPISint16 sint16;      ///< Value of CIM type `sint16`
+    CMPISint32 sint32;      ///< Value of CIM type `sint32`
+    CMPISint64 sint64;      ///< Value of CIM type `sint64`
+    CMPIReal32 real32;      ///< Value of CIM type `real32`
+    CMPIReal64 real64;      ///< Value of CIM type `real64`
 
-    /**
-     * @defgroup type-value-dep1 Deprecated members of the CMPIValue union
-     * @{
-     *   These members of the @ref CMPIValue union are deprecated.
-     */
-    CMPISint8  Byte;   ///< @deprecated This member is deprecated since
-                       ///      CMPI 2.1. Use sint8 instead.
-    CMPISint16 Short;  ///< @deprecated This member is deprecated since
-                       ///      CMPI 2.1. Use sint16 instead.
-    CMPISint32 Int;    ///< @deprecated This member is deprecated since
-                       ///      CMPI 2.1. Use sint32 instead.
-    CMPISint64 Long;   ///< @deprecated This member is deprecated since
-                       ///      CMPI 2.1. Use sint64 instead.
-    CMPIReal32 Float;  ///< @deprecated This member is deprecated since
-                       ///      CMPI 2.1. Use real32 instead.
-    CMPIReal64 Double; ///< @deprecated This member is deprecated since
-                       ///      CMPI 2.1. Use real64 instead.
-    /**
-     * @}
-     */
+    CMPIInstance* inst;     ///< Value of a CMPIInstance object
+    CMPIObjectPath* ref;    ///< Value of a CMPIObjectPath object
+    CMPIArgs* args;         ///< Value of a CMPIArgs object
+    CMPISelectExp* filter;  ///< Value of a CMPISelectExp object
+    CMPIEnumeration* Enum;  ///< Value of a CMPIEnumeration object
+    CMPIArray* array;       ///< Value of a CMPIArray object
+    CMPIString* string;     ///< Value of a CMPIString object
+    char* chars;            ///< Value of a C string
+    CMPIDateTime* dateTime; ///< Value of a CMPIDateTime object
+    CMPIValuePtr dataPtr;   ///< Value of a CMPIValuePtr object
+
+    CMPISint8  Byte;   /**< @brief Deprecated. @deprecated This member is
+                            deprecated since CMPI 2.1. Use @p sint8 instead. */
+    CMPISint16 Short;  /**< @brief Deprecated. @deprecated This member is
+                            deprecated since CMPI 2.1. Use @p sint16 instead. */
+    CMPISint32 Int;    /**< @brief Deprecated. @deprecated This member is
+                            deprecated since CMPI 2.1. Use @p sint32 instead. */
+    CMPISint64 Long;   /**< @brief Deprecated. @deprecated This member is
+                            deprecated since CMPI 2.1. Use @p sint64 instead. */
+    CMPIReal32 Float;  /**< @brief Deprecated. @deprecated This member is
+                            deprecated since CMPI 2.1. Use @p real32 instead. */
+    CMPIReal64 Double; /**< @brief Deprecated. @deprecated This member is
+                            deprecated since CMPI 2.1. Use @p real64 instead. */
 
 } CMPIValue;
 
@@ -397,16 +379,16 @@ typedef union _CMPIValue {
 /**
  * @brief An integral bitmask type representing a CMPI type.
  *
- * `CMPIType` is used mainly in CMPI data items (see @ref type-data "CMPIData")
+ * @ref CMPIType is used mainly in CMPI data items (see CMPIData)
  * and is also used standalone in some cases.
  *
- * Test masks for `CMPIType` are defined @ref def-cmpitype-symbols "here".
+ * Test masks for @ref CMPIType are defined @ref def-cmpitype-symbols "here".
  */
 typedef unsigned short CMPIType;
 
 /**
  *   @anchor def-cmpitype-symbols
- *   @name Test masks for CMPIType
+ *   @name Test masks for @ref CMPIType
  *   @{
  *
  * They are used on @ref CMPIType.
@@ -523,16 +505,16 @@ typedef unsigned short CMPIType;
 
 /**
  * @brief An integral bitmask type representing the state of a value in
- *     a @ref type-data "CMPIData" object.
+ *     a CMPIData object.
  *
- * Test masks for `CMPIValueState` are defined
+ * Test masks for @ref CMPIValueState are defined
  * @ref def-cmpivaluestate-symbols "here".
  */
 typedef unsigned short CMPIValueState;
 
 /**
  *   @anchor def-cmpivaluestate-symbols
- *   @name Test masks for CMPIValueState
+ *   @name Test masks for @ref CMPIValueState
  *   @{
  *
  * They are used on @ref CMPIValueState.
@@ -541,7 +523,7 @@ typedef unsigned short CMPIValueState;
 #define CMPI_nullValue (1<<8) /**< Flag indicating that the data item is NULL */
 #define CMPI_keyValue  (2<<8) /**< Flag indicating that the data item is a key
                                    binding */
-#define CMPI_notFound  (4<<8) /**< CMPI_notFound is deprecated since CMPI 2.1;
+#define CMPI_notFound  (4<<8) /**< `CMPI_notFound` is deprecated since CMPI 2.1;
                                    Use the return code to indicate that a
                                    data item has not been found */
 #define CMPI_badValue  (0x80<<8) /**< Flag indicating that the data item is in
@@ -613,7 +595,7 @@ typedef void* CMPIMsgFileHandle;
 
 /**
  * @brief An opaque type that is used by the MB for use with the
- *   `CMPIBrokerMemFT.mark()` and `CMPIBrokerMemFT.release()` functions.
+ *   CMPIBrokerMemFT.mark() and CMPIBrokerMemFT.release() functions.
  */
 typedef void CMPIGcStat;
 
@@ -627,10 +609,10 @@ typedef void CMPIGcStat;
  * @brief An integral bitmask type that represents options specified by the
  *     WBEM client and passed on to the MI for certain requests.
  *
- * The `CMPIFlags` value is passed to MIs via the @ref _CMPIContext
- * "CMPIContext" object, using the context data entry @ref CMPIInvocationFlags.
+ * The @ref CMPIFlags value is passed to MIs via the CMPIContext object, using
+ * the context data entry @ref CMPIInvocationFlags.
  *
- * Test masks for `CMPIFlags` are defined @ref def-cmpiflags-symbols "here".
+ * Test masks for @ref CMPIFlags are defined @ref def-cmpiflags-symbols "here".
  */
 typedef unsigned int CMPIFlags;
 
@@ -667,16 +649,16 @@ typedef int CMPIVersion;
  * @addtogroup def-context-fieldnames
  * @{
  *
- * The fields in a @ref _CMPIContext "CMPIContext" object are set and accessed
- * by name using the the @ref _CMPIContextFT::addEntry "addEntry()" and
- * @ref _CMPIContextFT::getEntry "getEntry()" functions.
+ * The fields in a CMPIContext object are set and accessed
+ * by name using the the @ref CMPIContextFT::addEntry "addEntry()" and
+ * @ref CMPIContextFT::getEntry "getEntry()" functions.
  *
  * The symbols defined in this module are the ASCII strings representing the
  * names of these fields.
  *
  * The description of each symbol indicates the C type that is to be used for
  * the corresponding field (e.g. for the `type` argument of
- * @ref _CMPIContextFT::addEntry "addEntry()")
+ * @ref CMPIContextFT::addEntry "addEntry()")
  */
 
 /**
@@ -760,7 +742,7 @@ typedef int CMPIVersion;
  *     CMPI-specific purposes as well.
  * @li `CMPI_RC_DO_NOT_UNLOAD` to `CMPI_RC_NEVER_UNLOAD`:@n
  *     Return codes used only by the MI `cleanup()` functions (e.g.
-       @ref _CMPIInstanceMIFT::cleanup "CMPIInstanceMIFT.cleanup()").
+       CMPIInstanceMIFT.cleanup()).
  * @li `CMPI_RC_ERR_INVALID_HANDLE` to `CMPI_RC_ERR_NOT_IN_CODEPAGE`:@n
  *     Return codes for other errors detected by CMPI.
  * @li `CMPI_RC_ERROR_SYSTEM` to `CMPI_RC_ERROR`:@n
@@ -873,7 +855,7 @@ typedef struct _CMPIStatus {
     /**
      * @brief An error message.
      *
-     * Points to a `CMPIString` object representing an error message, or is
+     * Points to a CMPIString object representing an error message, or is
      * NULL if no error message is available.
      */
     CMPIString* msg;
@@ -886,9 +868,9 @@ typedef struct _CMPIStatus {
  * @{
  *
  * These symbols define test masks for MB capabilities, for use on
- * `CMPIBrokerFT.brokerCapabilities`.
+ * CMPIBrokerFT.brokerCapabilities.
  *
- * If a bit in the value of `CMPIBrokerFT.brokerCapabilities` is set to 1,
+ * If a bit in the value of CMPIBrokerFT.brokerCapabilities is set to 1,
  * the corresponding capability is available; otherwise, it is not available.
  *
  * For historical reasons, the test mask values have the bits for any dependent
@@ -1098,7 +1080,7 @@ typedef enum _CMPILevel {
  * @brief An enumeration type defining the normalization type a query
  *     expression is normalized to.
  *
- * It is defined conditionally, when the `CMPI_DEFINE_CMPISelectCondType`
+ * It is defined conditionally, when the @ref CMPI_DEFINE_CMPISelectCondType
  * symbol is defined.
  *
  * @deprecated This enumeration has never been part of the CMPI Technical
@@ -1127,7 +1109,7 @@ typedef enum _CMPISelectCondType {
 
 /**
  * @brief An enumeration type that defines possible values for the error
- *     type in a @ref _CMPIError "CMPIError" object.
+ *     type in a CMPIError object.
  */
 typedef enum _CMPIErrorType {
     /** Unkown */
@@ -1149,7 +1131,7 @@ typedef enum _CMPIErrorType {
     /** Over subscription error */
     OversubscriptionError = 8,
     /** Over subscription error.
-     *  Deprecated, use `OversubscriptionError` instead */
+     *  Deprecated, use @p OversubscriptionError instead */
     Oversubscription_Error = OversubscriptionError,
     /** Unavailable resource */
     UnavailableResourceError = 9,
@@ -1165,7 +1147,7 @@ typedef enum _CMPIErrorType {
 
 /**
  * @brief An enumeration type that defines possible values for the
- *     error severity in a @ref _CMPIError "CMPIError" object.
+ *     error severity in a CMPIError object.
  */
 typedef enum _CMPIErrorSeverity {
     /** Unknown */
@@ -1188,7 +1170,7 @@ typedef enum _CMPIErrorSeverity {
 
 /**
  * @brief An enumeration type that defines possible values for
- *     the probable cause in a @ref _CMPIError "CMPIError" object.
+ *     the probable cause in a CMPIError object.
  */
 typedef enum _CMPIErrorProbableCause {
     /** Unknown */
@@ -1463,7 +1445,7 @@ typedef enum _CMPIErrorProbableCause {
 
 /**
  * @brief An enumeration type that defines possible values for the
- *     source format in a @ref _CMPIError "CMPIError" object.
+ *     source format in a CMPIError object.
  */
 typedef enum _CMPIErrorSrcFormat {
     /** Unknown source */
