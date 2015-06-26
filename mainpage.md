@@ -168,7 +168,7 @@ References
     http://www.opengroup.org/onlinepubs/9699919799/
 
   * @anchor ref-ietf-rfc-2616
-    IETF RFC 2616: *Hypertext Transfer Protocol – HTTP/1.1*, June 1999;<br/>
+    IETF RFC2616: *Hypertext Transfer Protocol – HTTP/1.1*, June 1999;<br/>
     http://tools.ietf.org/html/rfc2616
 
   * @anchor ref-iso-iec-646-1991
