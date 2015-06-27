@@ -206,9 +206,25 @@ the CMPI standard uses, except for the following adjustments:
 
   <pre>
   @param ar Points to the `CMPIArray` object for this function.
-  @param[out] rc If not NULL, points to a `CMPIStatus` structure that
+  @param [out] rc If not NULL, points to a `CMPIStatus` structure that
       upon return will have been updated with the function return status.
   </pre>
+
+  NOTE: Set a space between param and out.  Doxygen understands this and some
+  of the editors that sort of understand doxygen do not understand the @param
+  without a space after it.
+
+* Multiparagraph parameter (@param) descriptions.
+
+  To force indenting of a complete parameter defintion that includes multiple
+  paragraphs, use @parblock
+
+  @param @parblock param-name  (start-first-paragraph)
+   paragraph1
+  
+  paragraph 2
+  ...
+  @endparblock  
 
 * Mentioning function names.
 
@@ -242,8 +258,47 @@ the CMPI standard uses, except for the following adjustments:
 Return values
 -------------
 
-**TODO_KS:** Karl comes up with a proposal
+*  Returns where CMPIStatus is return value:
+This is simple, put it all in a single paragraph since
+the code are part of the status.  Did example in CMPIContextFt.release()
 
+Source code Example:
+
+     @return CMPIStatus structure indicating the function return
+     status where CMPIStatus.rc indicates one of the
+     following @ref CMPIrc codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
+     @todo (KS) proposal for functions where the return is CMPIStatus so
+     that the code list is part of the same paragraph.
+
+
+* Returns where return status is @param [out] rc:
+
+  Use @parblock to create block for the multiparagraph return and use
+  @par Errors to create header for Errors section
+
+
+     @param [out] rc  If not NULL, points to a CMPIStatus
+         structure that upon return will have been updated with the
+         function return status.
+     @return @parblock
+       If successful, returns a pointer to a new CMPIEnumeration,
+         containing CMPIInstance objects that represent the enumerated
+         instances.
+
+     The new object will be released automatically by the MB, as described
+     in Subclause 4.1.7. There is no function to explicitly release the
+     new object.
+
+     If not successful, returns NULL.
+     @endparblock
+     @par  Errors
+       The function return status indicates one of
+     the following @ref CMPIrc codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_FAILED` - Unspecific error occurred.
+     ...
 Monospacing names
 -----------------
 
