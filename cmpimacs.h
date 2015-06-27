@@ -2375,6 +2375,7 @@ inline static const char CBBrokerName (const CMPIBroker * mb)
      @param mb Broker this pointer.
      @param ctx Old Context object
      @return New Context object to be used by thread to be attached.
+     @see CMPIBrokerFT.prepareAttachThread()
      */
 inline static CMPIContext *CBPrepareAttachThread(
     const CMPIBroker * mb,
