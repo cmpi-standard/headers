@@ -298,7 +298,7 @@ typedef struct _CMPIBrokerFT {
      @param mb Pointer to the broker.
      @param ctx Pointer to the CMPIContext object that was used to invoke
          the MI function that calls this MB function (see Subclause 8.1).
-     @return If successful, returns pointer to a CMPIContext object to be
+     @return If successful, returns pointer to a new CMPIContext object to be
      used by thread to be attached.
 
      If not successful, returns NULL.
@@ -1196,7 +1196,7 @@ typedef struct _CMPIBrokerFT {
         const CMPIObjectPath* objPath, const char* method,
         const CMPIArgs* in, CMPIArgs* out, CMPIStatus* rc);
 
-    /*
+    /**
      @brief Set a property of a given instance <b>(Deprecated)</b>.
 
      CMPIBrokerFT.setProperty() sets the named property value of an instance
@@ -1251,7 +1251,7 @@ typedef struct _CMPIBrokerFT {
         const CMPIObjectPath* instPath, const char* name,
         const CMPIValue* value, CMPIType type);
 
-    /*
+    /**
      @brief Get the named property of a given instance <b>(Deprecated)</b>.
 
      CMPIBrokerFT.getProperty() gets the named property value of an
@@ -1387,7 +1387,8 @@ typedef struct _CMPIBrokerEncFT {
      @return If successful returns the newly created
          CMPIObjectPath. If not successful returns NULL.
 
-     The function return status indicates one of the following @ref CMPIrc codes:
+     The function return status indicates one of the following @ref CMPIrc
+     codes:
 
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace
@@ -1403,15 +1404,17 @@ typedef struct _CMPIBrokerEncFT {
      @brief Create a new CMPIArgs object initialized to have no method
          parameters.
 
-     CMPIBrokerEncFT.newArgs() creates a new CMPIArgs
-     object with no method parameters
+     CMPIBrokerEncFT.newArgs() creates a new CMPIArgs object with no method
+     parameters.
 
-     @param mb Pointer to the broker.
-     @param [out] rc  Service return status (suppressed when NULL).
+     @param mb Pointer to a CMPIBroker object.
+     @param [out] rc  If not NULL, points to a CMPIStatus structure that upon
+     return will have been updated with the function return status.
      @return If successful, returns the newly created CMPIArgs
          object. If not successful returns NULL.
 
-     The function return status indicates one of the following @ref CMPIrc codes:
+     The function return status indicates one of the following @ref CMPIrc
+     codes:
 
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated
@@ -1492,7 +1495,7 @@ typedef struct _CMPIBrokerEncFT {
      date and time.
 
      @param mb Pointer to the broker.
-     @param [out] rc  if not NULL, points to a CMPIStatus structure that
+     @param [out] rc  If not NULL, points to a CMPIStatus structure that
          upon return will have been updated with the function return status.
      @return If successful, returns a pointer to the new CMPIDateTime object.
 
@@ -1707,12 +1710,12 @@ typedef struct _CMPIBrokerEncFT {
 
      @param mb Pointer to the broker.
      @param object A valid CMPI object.
-     @param type points to a string specifying a valid CMPI Object type
+     @param type Points to a string specifying a valid CMPI Object type
          ("CMPIInstance", "CMPIObjectPath", etc).
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
      return will have been updated with the function return status..
-     @retval True: test successful
-     @retval False; test unsuccesful.
+     @retval True: Function successful
+     @retval False; Function unsuccesful.
 
      The function return status indicates one of the following @ref CMPIrc
      codes:
@@ -1723,7 +1726,7 @@ typedef struct _CMPIBrokerEncFT {
          @p object handle is invalid.
 
      @todo (ks)test of using retval for return. Does this make sense as
-         an alternative??
+         an alternative at least for Boolean functions??
     */
     CMPIBoolean (*isOfType) (const CMPIBroker* mb, const void* object,
         const char* type, CMPIStatus* rc);
@@ -1778,11 +1781,9 @@ typedef struct _CMPIBrokerEncFT {
      <b>(Deprecated)</b>.
 
      @param mb Pointer to a CMPIBroker structure.
-     @param msgId
-     @parblock
-     Points to a string specifying the default message template that will be
-     used when message translation is not supported by the MB or
-     @p msgId cannot be located.
+     @param @parblock msgId Points to a string specifying the default message
+     template that will be used when message translation is not supported by
+     the MB or @p msgId cannot be located.
 
      The message template string specified in the
      @p defMsg argument may contain up to ten message insert triggers
@@ -1990,9 +1991,7 @@ typedef struct _CMPIBrokerEncFT {
      used.
 
      @param mb Pointer to the broker
-     @param msgFile
-     @parblock
-       Points to a string specifying the
+     @param @parblock msgFile Points to a string specifying the
          implementation-specific file path to the message file, or a
          part thereof. Examples for such implementation-specific
          file paths are:
@@ -2000,7 +1999,7 @@ typedef struct _CMPIBrokerEncFT {
          extension and directory path). The message file contains
          all languages, and the language is used to locate the
          message in the correct language within the message file.
-         @li >Base name of the message file (does not include file
+         @li Base name of the message file (does not include file
          extension and directory path). The message file contains
          messages in only one language, and some identifier for that
          language is part of the base name.
@@ -2087,11 +2086,9 @@ typedef struct _CMPIBrokerEncFT {
      @param msgFileHandle The handle representing the open message
          file that was returned by a call to openMessageFile(). If
          the MB does not support message files the handle is NULL.
-     @param defMsg
-     @parblock
-       Pointer to a string specifying the default message template
-         that will be used when the MB does not support message files or when
-         the message ID cannot be located.
+     @param @parblock defMsg Pointer to a string specifying the default
+     message template that will be used when the MB does not support message
+     files or when the message ID cannot be located.
 
          The message template string specified in the defMsg argument
          may contain up to ten message insert triggers ($0 through
@@ -2484,14 +2481,14 @@ typedef struct _CMPIBrokerExtFT {
 
      @param key Pointer to the thread key to be returned.
      @param cleanup Function to be invoked during thread local store cleanup.
+     @return If successful, zero will be returned.
+         If not successful, a non-zero error code will be returned.
+         If successful, zero will be returned.
+         Error codes are defined in `errno.h`, specifically for the
+         ``pthread_key_create()`` function; both are defined in IEEE
+         1003.1.
 
-     @retval Zero Successful.
-     @retval Non-zero Not successful. Error codes are defined in
-         `errno.h`, specifically for the ``pthread_key_create()``
-         function; both are defined in IEEE 1003.1.
-
-     @todo Used retval to define return. Why not say failed rather
-           than not-successful?
+     @todo member detached not documented. Error code in output KS
     */
     int (*createThreadKey) (CMPI_THREAD_KEY_TYPE* key, void (*cleanup)(void*));
 
@@ -2502,13 +2499,10 @@ typedef struct _CMPIBrokerExtFT {
      thread key for accessing the thread local store.
 
      @param key The thread key to be destroyed.
-     @retval Zero Successful.
-     @retval Non-zero Not successful. Error codes are defined in
-         `errno.h`, specifically for the ``pthread_key_create()``
-         function; both are defined in IEEE 1003.1.
+     @return If successful, zero will be returned. If not successful, a
+         non-zero error code will be returned.
 
-     @todo Used retval to define return. Why not say failed rather
-           than not-successful?
+     Error codes are defined in `errno.h`, specifically for the
      ``pthread_key_delete()`` function; both are defined in IEEE 1003.1.
     */
     int (*destroyThreadKey) (CMPI_THREAD_KEY_TYPE key);
@@ -7633,7 +7627,7 @@ typedef struct _CMPIInstanceMIFT {
      */
     const char* miName;
 
-    /**
+    /*
      @brief Perform cleanup for an Instance MI.
 
      CMPIInstanceMIFT.cleanup() shall perform any necessary cleanup operation
@@ -7647,8 +7641,8 @@ typedef struct _CMPIInstanceMIFT {
      @param mi Pointer to a CMPIInstanceMI structure.
      @param ctx Pointer to a CMPIContext object containing the context data for
          the invocation(see Subclause 8.1).
-     @param terminating
-     @parblock When True, the MB is in the process of shutting down.
+     @param @parblock terminating When True, the MB is in the process of
+     shutting down.
      The MI shall perform any necessary cleanup and shall not
      postpone the cleanup. After this function returns (successful
      or in error), the MB will consider this MI to be uninitialized
@@ -7684,8 +7678,6 @@ typedef struct _CMPIInstanceMIFT {
      @li `CMPI_RC_ERR_FAILED` - Unspecific error occurred.
      @li `CMPI_RC_DO_NOT_UNLOAD` - Operation successful - do not unload now.
      @li `CMPI_RC_NEVER_UNLOAD` - Operation successful - never unload.
-     @todo parblock function apparently is broken. Should allow on
-           same line as the param but then is ignored.
     */
     CMPIStatus (*cleanup) (CMPIInstanceMI* mi, const CMPIContext* ctx,
         CMPIBoolean terminating);
@@ -8295,12 +8287,11 @@ typedef struct _CMPIAssociationMIFT {
      @param ctx Pointer to a CMPIContext object containing the context data
          for the invocation (see Subclause 8.1). The context data entries
          are MB implementation-specific.
-     @param terminating
-     @parblock
-     When true, the MB is in the process of shutting down.he MI shall perform
-     any necessary cleanup and shall not postpone the cleanup. After this
-     function returns (successful or in error), the MB will consider this MI
-     to be uninitialized and will not call further MI functions for this MI.
+     @param @parblock terminating When true, the MB is in the process of
+     shutting down.he MI shall perform any necessary cleanup and shall not
+     postpone the cleanup. After this function returns (successful or in error),
+     the MB will consider this MIto be uninitialized and will not call further
+     MI functions for this MI.
 
      When false, the MI can choose to perform or postpone the cleanup, by
      performing one of these actions:
@@ -9119,8 +9110,8 @@ typedef struct _CMPIPropertyMIFT {
      @param ctx Pointer to a CMPIContext object containing the context data
          for the invocation (see Subclause 8.1). The context data entries
          are MB implementation-specific.
-     @param terminating
-     @parblock When true, the MB is in the process of shutting down.
+     @param @parblock terminating When true, the MB is in the process of
+     shutting down.
      The MI shall perform any necessary cleanup and shall not postpone
      the cleanup. After this function returns (successful or in error),
      the MB will consider this MI to be uninitialized and will not call
@@ -9445,12 +9436,12 @@ typedef struct _CMPIIndicationMIFT {
      @param ctx Pointer to a CMPIContext object containing the context data
          for the invocation (see Subclause 8.1). The context data entries
          are MB implementation-specific.
-     @param terminating
-     @parblock When true, the MB is in the process of shutting down.
-         The MI shall perform any necessary cleanup and shall not postpone
-         the cleanup. After this function returns (successful or in error),
-         the MB will consider this MI to be uninitialized and will not call
-         further MI functions for this MI.
+     @param @parblock terminating When true, the MB is in the process of
+     shutting down.
+     The MI shall perform any necessary cleanup and shall not postpone
+     the cleanup. After this function returns (successful or in error),
+     the MB will consider this MI to be uninitialized and will not call
+     further MI functions for this MI.
 
      When false, the MI can choose to perform or postpone the cleanup, by
      performing one of these actions:
