@@ -1954,6 +1954,7 @@ PREDEFINED             = DOC_ONLY \
                          CMPI_NO_SYNONYM_SUPPORT \
                          CMPI_PLATFORM_LINUX_GENERIC_GNU \
                          __cplusplus \
+			 CMPI_INLINE \
 
 # undefined:             CMPI_DEFINE_CMPISelectCondType
 
