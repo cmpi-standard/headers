@@ -7991,7 +7991,7 @@ typedef struct _CMPIInstanceMIFT {
      @param properties If not NULL, is an array of zero or more pointers to
          strings, each specifying a property name. This set of property names
          will reflect the effects of any invocation flags specified in the
-         CMPIInvocationFlags entry of the @pctx argument. The end of the array
+         CMPIInvocationFlags entry of the @p ctx argument. The end of the array
          is identified by a NULL pointer. Each returned object shall not
          include elements for any properties missing from this list. If the
          properties argument is NULL, this indicates that all properties shall
@@ -8055,11 +8055,12 @@ typedef struct _CMPIInstanceMIFT {
      @param properties If not NULL, is an array of zero or more pointers to
          strings, each specifying a property name. This set of property names
          will reflect the effects of any invocation flags specified in the
-         CMPIInvocationFlags entry of the @pctx argument. The end of the array
-         is identified by a NULL pointer. Each returned object shall not
-         include elements for any properties missing from this list. If the
-         properties argument is NULL, this indicates that all properties shall
-         be included in each returned object.
+         CMPIInvocationFlags entry of the @p ctx argument. The end
+         of the array is identified by a NULL pointer. Each returned
+         object shall not include elements for any properties
+         missing from this list. If the properties argument is NULL,
+         this indicates that all properties shall be included in
+         each returned object.
      @return CMPIStatus structure indicating the function return status.
 
      The following table lists the CMPIrc codes that shall be used by the MI
