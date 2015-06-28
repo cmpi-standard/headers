@@ -217,14 +217,18 @@ the CMPI standard uses, except for the following adjustments:
 * Multiparagraph parameter (@param) descriptions.
 
   To force indenting of a complete parameter defintion that includes multiple
-  paragraphs, use @parblock
+  paragraphs, use @parblock and @endparblock
 
-  @param @parblock param-name  (start-first-paragraph)
+  @param param-name
+   @parblock 
    paragraph1
   
   paragraph 2
   ...
-  @endparblock  
+  @endparblock
+
+  NOTE: For some reason the Doxygen recommended syntax (@param name @parblock ...)
+  does not work. Set the @parblock on a separate line.
 
 * Mentioning function names.
 
@@ -278,6 +282,7 @@ Source code Example:
   Use @parblock to create block for the multiparagraph return and use
   @par Errors to create header for Errors section
 
+Source Code Example:
 
      @param [out] rc  If not NULL, points to a CMPIStatus
          structure that upon return will have been updated with the
