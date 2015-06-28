@@ -1,29 +1,11 @@
-Notes on using Doxygen for to document CMPI headers
 
-1. References to parameters within a function definition should be
-surrounded by <tt> ... </tt>. Dozygen has no specific tag for these things
-
-2. References to External functions TBD
-
-3. Pointers to other functions within this environment This should be ref I
-   think. Need to test.
-   
-4. References to external files TBD
-
-5. Defining error codes.  Right now we just define the code and text in
-   the forme <li>CODE NAME   text. We do not include the error CIM_ERROR. That
-   will probably mean changing to a table to format
-
-
-KNOWN Issues:
+KNOWN/Possible Issues:
 
 1. Shows prototype as :
 
   CMPIStatus(* _CMPIIndicationMIFT::activateFilter)(CMPIIndicationMI *mi, const CMPIContext *ctx, const CMPISelectExp *filter, const char *className, const CMPIObjectPath *classPath, CMPIBoolean firstActivation)
 
-  Note that :: scoping definition.
-
-2. Still needs more work for consistency, spelling, dumb errors, etc.
+  Note that ::  is a scoping definition but it is confusing.
 
 3. The macro page is a mess in Doxygen
 
@@ -49,3 +31,17 @@ KNOWN Issues:
 9. This stuff cries out for examples.
 
 10. There is a more... hyperlink in a number of places but nothing behind it apparently
+
+
+11. See C Data Types for CIM Data Types (Subclause 5.4).  Why the more...
+what does it mean
+
+12. Note that typedef is a tile but that CMPIString, etc. show up under it
+Andy has a TODO for that one
+
+13. Why doesn't CMPIString show up in the general list of Typedefs.
+
+14. Inconsistent in using out.  The original definition for args that were output was either nothing or Output: as the first word.  Doxygen offers a form
+@param[...]  where ... can be in, out or in,out.  I modified some as a test. Not great looking but it is doxygen (put the out before the name in html).
+
+15. CMPI flags.  Use of word integral.  Is that the word we want? Also in this section there is statement "Test masks for CMPIFlags are defined here" with here a hyperlink.  But it goes nowhere.
