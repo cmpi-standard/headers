@@ -5,6 +5,9 @@ KNOWN/Possible Issues:
 This is a list of issues/problems/etc with the documentation.  It is intended
 to just list those things that are not specific and could be listed by
 @todo in the headers.
+
+* At least some of 210 functions not showing up in html output. There is a @todo for enumerateInstancesFiltered
+
 * Shows prototype as :
 
   CMPIStatus(* _CMPIIndicationMIFT::activateFilter)(CMPIIndicationMI *mi, const CMPIContext *ctx, const CMPISelectExp *filter, const char *className, const CMPIObjectPath *classPath, CMPIBoolean firstActivation)
