@@ -331,7 +331,7 @@ typedef struct _CMPIValuePtr {
  */
 typedef union _CMPIValue {
 
-    CMPIBoolean boolean;    ///< Value of CIM type `boolean`
+    CMPIBoolean boolean;    ///< Value of CIM type `boolean` and other booleans
     CMPIChar16 char16;      ///< Value of CIM type `char16`
     CMPIUint8 uint8;        ///< Value of CIM type `uint8`
     CMPIUint16 uint16;      ///< Value of CIM type `uint16`
@@ -344,8 +344,10 @@ typedef union _CMPIValue {
     CMPIReal32 real32;      ///< Value of CIM type `real32`
     CMPIReal64 real64;      ///< Value of CIM type `real64`
 
-    CMPIInstance* inst;     ///< Value of a CMPIInstance object
-    CMPIObjectPath* ref;    ///< Value of a CMPIObjectPath object
+    CMPIInstance* inst;     ///< @brief Value of a CMPIInstance object,
+                            ///<        used for CIM embedded instances
+    CMPIObjectPath* ref;    ///< @brief Value of a CMPIObjectPath object,
+                            ///<        used for CIM type `reference`
     CMPIArgs* args;         ///< Value of a CMPIArgs object
     CMPISelectExp* filter;  ///< Value of a CMPISelectExp object
     CMPIEnumeration* Enum;  ///< Value of a CMPIEnumeration object
@@ -388,94 +390,138 @@ typedef unsigned short CMPIType;
 
 /**
  *   @anchor def-cmpitype-symbols
- *   @name Test masks for @ref CMPIType
+ *   @name Test masks and values for CMPIType
  *   @{
  *
- * They are used on @ref CMPIType.
+ * These test masks and values are used on @ref CMPIType.
  */
-#define CMPI_null         0
 
+#define CMPI_null         0             ///< No type
+
+/// Test mask for CIM simple types
 #define CMPI_SIMPLE       (2)
-#define CMPI_boolean      (2+0)
-#define CMPI_char16       (2+1)
+#define CMPI_boolean      (2+0)         ///< Indicates a CMPIValue.boolean value
+#define CMPI_char16       (2+1)         ///< Indicates a CMPIValue.char16 value
 
+/// Test mask for CIM real number types
 #define CMPI_REAL         ((2)<<2)
-#define CMPI_real32       ((2+0)<<2)
-#define CMPI_real64       ((2+1)<<2)
+#define CMPI_real32       ((2+0)<<2)    ///< Indicates a CMPIValue.real32 value
+#define CMPI_real64       ((2+1)<<2)    ///< Indicates a CMPIValue.real64 value
 
+/// Test mask for CIM unsigned integer types
 #define CMPI_UINT         ((8)<<4)
-#define CMPI_uint8        ((8+0)<<4)
-#define CMPI_uint16       ((8+1)<<4)
-#define CMPI_uint32       ((8+2)<<4)
-#define CMPI_uint64       ((8+3)<<4)
+#define CMPI_uint8        ((8+0)<<4)    ///< Indicates a CMPIValue.uint8 value
+#define CMPI_uint16       ((8+1)<<4)    ///< Indicates a CMPIValue.uint16 value
+#define CMPI_uint32       ((8+2)<<4)    ///< Indicates a CMPIValue.uint32 value
+#define CMPI_uint64       ((8+3)<<4)    ///< Indicates a CMPIValue.uint64 value
+/// Test mask for CIM signed integer types
 #define CMPI_SINT         ((8+4)<<4)
-#define CMPI_sint8        ((8+4)<<4)
-#define CMPI_sint16       ((8+5)<<4)
-#define CMPI_sint32       ((8+6)<<4)
-#define CMPI_sint64       ((8+7)<<4)
-#define CMPI_INTEGER      ((CMPI_UINT | CMPI_SINT))
+#define CMPI_sint8        ((8+4)<<4)    ///< Indicates a CMPIValue.uint8 value
+#define CMPI_sint16       ((8+5)<<4)    ///< Indicates a CMPIValue.uint16 value
+#define CMPI_sint32       ((8+6)<<4)    ///< Indicates a CMPIValue.uint32 value
+#define CMPI_sint64       ((8+7)<<4)    ///< Indicates a CMPIValue.uint64 value
+/// Test mask for CIM integer types
+#define CMPI_INTEGER      ((CMPI_UINT|CMPI_SINT))
 
+/// Test mask for CMPI encapsulated data types
 #define CMPI_ENC          ((16)<<8)
-#define CMPI_instance     ((16+0)<<8)
-#define CMPI_ref          ((16+1)<<8)
-#define CMPI_args         ((16+2)<<8)
-#define CMPI_class        ((16+3)<<8)
-#define CMPI_filter       ((16+4)<<8)
-#define CMPI_enumeration  ((16+5)<<8)
-#define CMPI_string       ((16+6)<<8)
-#define CMPI_chars        ((16+7)<<8)
-#define CMPI_dateTime     ((16+8)<<8)
-#define CMPI_ptr          ((16+9)<<8)
-#define CMPI_charsptr     ((16+10)<<8)
+#define CMPI_instance     ((16+0)<<8)  ///< Indicates a CMPIValue.inst value
+#define CMPI_ref          ((16+1)<<8)  ///< Indicates a CMPIValue.ref value
+#define CMPI_args         ((16+2)<<8)  ///< Indicates a CMPIValue.args value
+#define CMPI_class        ((16+3)<<8)  ///< Not used
+#define CMPI_filter       ((16+4)<<8)  ///< Indicates a CMPIValue.filter value
+#define CMPI_enumeration  ((16+5)<<8)  ///< Indicates a CMPIValue.Enum value
+#define CMPI_string       ((16+6)<<8)  ///< Indicates a CMPIValue.string value
+#define CMPI_chars        ((16+7)<<8)  ///< Indicates a CMPIValue.chars value
+#define CMPI_dateTime     ((16+8)<<8)  ///< Indicates a CMPIValue.dateTime value
+#define CMPI_ptr          ((16+9)<<8)  ///< Indicates a CMPIValue.dataPtr value
+#define CMPI_charsptr     ((16+10)<<8) ///< Not used
 
+/// Test mask for arrays
 #define CMPI_ARRAY        ((1)<<13)
 
-#define CMPI_SIMPLEA      (CMPI_ARRAY | CMPI_SIMPLE)
-#define CMPI_booleanA     (CMPI_ARRAY | CMPI_boolean)
-#define CMPI_char16A      (CMPI_ARRAY | CMPI_char16)
+/// Test mask for array of CIM simple types
+#define CMPI_SIMPLEA      (CMPI_ARRAY|CMPI_SIMPLE)
+/// Indicates a CMPIValue.array value with @ref CMPIBoolean entries
+#define CMPI_booleanA     (CMPI_ARRAY|CMPI_boolean)
+/// Indicates a CMPIValue.array value with @ref CMPIChar16 entries
+#define CMPI_char16A      (CMPI_ARRAY|CMPI_char16)
 
-#define CMPI_REALA        (CMPI_ARRAY | CMPI_REAL)
-#define CMPI_real32A      (CMPI_ARRAY | CMPI_real32)
-#define CMPI_real64A      (CMPI_ARRAY | CMPI_real64)
+/// Test mask for array of CIM real numbers
+#define CMPI_REALA        (CMPI_ARRAY|CMPI_REAL)
+/// Indicates a CMPIValue.array value with @ref CMPIReal32 entries
+#define CMPI_real32A      (CMPI_ARRAY|CMPI_real32)
+/// Indicates a CMPIValue.array value with @ref CMPIReal64 entries
+#define CMPI_real64A      (CMPI_ARRAY|CMPI_real64)
 
-#define CMPI_UINTA        (CMPI_ARRAY | CMPI_UINT)
-#define CMPI_uint8A       (CMPI_ARRAY | CMPI_uint8)
-#define CMPI_uint16A      (CMPI_ARRAY | CMPI_uint16)
-#define CMPI_uint32A      (CMPI_ARRAY | CMPI_uint32)
-#define CMPI_uint64A      (CMPI_ARRAY | CMPI_uint64)
-#define CMPI_SINTA        (CMPI_ARRAY | CMPI_SINT)
-#define CMPI_sint8A       (CMPI_ARRAY | CMPI_sint8)
-#define CMPI_sint16A      (CMPI_ARRAY | CMPI_sint16)
-#define CMPI_sint32A      (CMPI_ARRAY | CMPI_sint32)
-#define CMPI_sint64A      (CMPI_ARRAY | CMPI_sint64)
-#define CMPI_INTEGERA     (CMPI_ARRAY | CMPI_INTEGER)
+/// Test mask for array of CIM unsigned integers
+#define CMPI_UINTA        (CMPI_ARRAY|CMPI_UINT)
+/// Indicates a CMPIValue.array value with @ref CMPIUint8 entries
+#define CMPI_uint8A       (CMPI_ARRAY|CMPI_uint8)
+/// Indicates a CMPIValue.array value with @ref CMPIUint16 entries
+#define CMPI_uint16A      (CMPI_ARRAY|CMPI_uint16)
+/// Indicates a CMPIValue.array value with @ref CMPIUint32 entries
+#define CMPI_uint32A      (CMPI_ARRAY|CMPI_uint32)
+/// Indicates a CMPIValue.array value with @ref CMPIUint64 entries
+#define CMPI_uint64A      (CMPI_ARRAY|CMPI_uint64)
+/// Test mask for array of CIM signed integers
+#define CMPI_SINTA        (CMPI_ARRAY|CMPI_SINT)
+/// Indicates a CMPIValue.array value with @ref CMPISint8 entries
+#define CMPI_sint8A       (CMPI_ARRAY|CMPI_sint8)
+/// Indicates a CMPIValue.array value with @ref CMPISint16 entries
+#define CMPI_sint16A      (CMPI_ARRAY|CMPI_sint16)
+/// Indicates a CMPIValue.array value with @ref CMPISint32 entries
+#define CMPI_sint32A      (CMPI_ARRAY|CMPI_sint32)
+/// Indicates a CMPIValue.array value with @ref CMPISint64 entries
+#define CMPI_sint64A      (CMPI_ARRAY|CMPI_sint64)
+/// Test mask for array of CIM integers
+#define CMPI_INTEGERA     (CMPI_ARRAY|CMPI_INTEGER)
 
-#define CMPI_ENCA         (CMPI_ARRAY | CMPI_ENC)
-#define CMPI_stringA      (CMPI_ARRAY | CMPI_string)
-#define CMPI_charsA       (CMPI_ARRAY | CMPI_chars)
-#define CMPI_dateTimeA    (CMPI_ARRAY | CMPI_dateTime)
-#define CMPI_instanceA    (CMPI_ARRAY | CMPI_instance)
-#define CMPI_refA         (CMPI_ARRAY | CMPI_ref)
-#define CMPI_charsptrA    (CMPI_ARRAY | CMPI_charsptr)
+/// Test mask for array of CMPI encapsulated data types
+#define CMPI_ENCA         (CMPI_ARRAY|CMPI_ENC)
+/// Indicates a CMPIValue.array value with @ref CMPIInstance entries
+#define CMPI_instanceA    (CMPI_ARRAY|CMPI_instance)
+/// Indicates a CMPIValue.array value with @ref CMPIObjectPath entries
+#define CMPI_refA         (CMPI_ARRAY|CMPI_ref)
+/// Indicates a CMPIValue.array value with @ref CMPIString entries
+#define CMPI_stringA      (CMPI_ARRAY|CMPI_string)
+/// Indicates a CMPIValue.array value with C string entries
+#define CMPI_charsA       (CMPI_ARRAY|CMPI_chars)
+/// Indicates a CMPIValue.array value with @ref CMPIDateTime entries
+#define CMPI_dateTimeA    (CMPI_ARRAY|CMPI_dateTime)
+/// Not used
+#define CMPI_charsptrA    (CMPI_ARRAY|CMPI_charsptr)
 
 // The following are generic types for key bindings in
 // CMPIObjectPath objects, that are used when the
 // specific CIM types are not available.
 
-#define CMPI_keyInteger   (CMPI_sint64)
-#define CMPI_keyString    (CMPI_string)
-#define CMPI_keyBoolean   (CMPI_boolean)
-#define CMPI_keyRef       (CMPI_ref)
+/// Generic integer type in CMPIObjectPath
+#define CMPI_keyInteger      (CMPI_sint64)
+/// Generic string type in CMPIObjectPath
+#define CMPI_keyString       (CMPI_string)
+/// Generic boolean type in CMPIObjectPath
+#define CMPI_keyBoolean      (CMPI_boolean)
+/// Generic reference type in CMPIObjectPath
+#define CMPI_keyRef          (CMPI_ref)
 
 // The following are predicate types only.
 
+/// Predicate type for strings
 #define CMPI_charString      (CMPI_string)
+/// Predicate type for integers
 #define CMPI_integerString   (CMPI_string | CMPI_sint64)
+/// Predicate type for real numbers
 #define CMPI_realString      (CMPI_string | CMPI_real64)
+/// Predicate type for numbers
 #define CMPI_numericString   (CMPI_string | CMPI_sint64 | CMPI_real64)
+/// Predicate type for booleans
 #define CMPI_booleanString   (CMPI_string | CMPI_boolean)
+/// Predicate type for datetime
 #define CMPI_dateTimeString  (CMPI_string | CMPI_dateTime)
+/// Predicate type for class names
 #define CMPI_classNameString (CMPI_string | CMPI_class)
+/// Predicate type for names
 #define CMPI_nameString      (CMPI_string | ((16+10)<<8))
 
 // Deprecated: The following symbols are synonyms for other symbols and are
@@ -664,21 +710,21 @@ typedef int CMPIVersion;
 /**
  * @brief Name of the target namespace for the invoked operation.
  *
- * Type: `CMPI_string`
+ * Type: @ref CMPI_string
  */
 #define CMPIInitNameSpace   "CMPIInitNameSpace"
 
 /**
  * @brief Invocation flags for the invoked operation; see @ref CMPIFlags.
  *
- * Type: `CMPI_uint32`
+ * Type: @ref CMPI_uint32
  */
 #define CMPIInvocationFlags "CMPIInvocationFlags"
 
 /**
  * @brief Authenticated ID of the user requesting the invoked operation.
  *
- * Type: `CMPI_string`
+ * Type: @ref CMPI_string
  */
 #define CMPIPrincipal       "CMPIPrincipal"
 
@@ -688,7 +734,7 @@ typedef int CMPIVersion;
  * If the role is not available, the value of this entry shall be an empty
  * string.
  *
- * Type: `CMPI_string`
+ * Type: @ref CMPI_string
  */
 #define CMPIRole            "CMPIRole"
 
@@ -704,7 +750,7 @@ typedef int CMPIVersion;
  * empty string with the default meaning described in
  * @ref ref-ietf-rfc-2616 "RFC2616".
  *
- * Type: `CMPI_string`
+ * Type: @ref CMPI_string
  */
 #define CMPIAcceptLanguage  "CMPIAcceptLanguage"
 
@@ -719,7 +765,7 @@ typedef int CMPIVersion;
  * empty string with the default meaning described in
  * @ref ref-ietf-rfc-2616 "RFC2616".
  *
- * Type: `CMPI_string`
+ * Type: @ref CMPI_string
  */
 #define CMPIContentLanguage "CMPIContentLanguage"
 

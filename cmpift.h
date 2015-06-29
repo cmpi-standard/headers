@@ -317,7 +317,7 @@ typedef struct _CMPIBrokerFT {
      @see CBPrepareAttachThread
 
      @todo (KS) I am confused.  Where do we get back any function status
-         for prepareAttachThread. All I see is the new CMPIContext 
+         for prepareAttachThread. All I see is the new CMPIContext
          return. Also, not sure how much of the input context goes into
          this new context.  I noted in pegasus that they pass info via
          the new thread creation but I would not depend on that being
@@ -1184,7 +1184,7 @@ typedef struct _CMPIBrokerFT {
      @return @parblock If successful, a CMPIData structure
          containing the method return value will be returned.
 
-     If not successful, CMPIData.state will have the CMPI_badValue flag
+     If not successful, CMPIData.state will have the @ref CMPI_badValue flag
      set to true.
      @endparblock
 
@@ -1498,7 +1498,7 @@ typedef struct _CMPIBrokerEncFT {
      @param type Specifies the type of each element. The type
          argument specifies the type of single array elements; for
          example, the value for an array that contains CMPIString
-         objects will be CMPI_string, and not CMPI_stringA.
+         objects will be @ref CMPI_string, and not @ref CMPI_stringA.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
      return will have been updated with the function return status.
      @return @parblock If successful,returns a pointer to the new
@@ -1828,7 +1828,9 @@ typedef struct _CMPIBrokerEncFT {
      <b>(Deprecated)</b>.
 
      @param mb Pointer to a CMPIBroker structure.
-     @param @parblock msgId Points to a string specifying the default message
+     @param msgId
+     @parblock
+     Points to a string specifying the default message
      template that will be used when message translation is not supported by
      the MB or @p msgId cannot be located.
 
@@ -2031,9 +2033,10 @@ typedef struct _CMPIBrokerEncFT {
 
      If the MB supports message files, CMPIBrokerEncFT.openMessageFile()
      opens a message file and returns a message file handle to that
-     file. This function will use the CMPIAcceptLanguage entry from the
+     file. This function will use the @ref CMPIAcceptLanguage entry from the
      current context to determine the language for the messages, and will
-     set the CMPIContentLanguage entry in the current context to the language
+     set the @ref CMPIContentLanguage entry in the current context to the
+     language
      that was used. All subsequent calls to CMPIBrokerEncFT.getMessage2()
      using this message file handle will return messages based on
      that language.
@@ -2045,37 +2048,39 @@ typedef struct _CMPIBrokerEncFT {
      used.
 
      @param mb Pointer to the broker
-     @param @parblock msgFile Points to a string specifying the
-         implementation-specific file path to the message file, or a
-         part thereof. Examples for such implementation-specific
-         file paths are:
-         @li Base name of the message file (does not include file
+     @param msgFile
+     @parblock
+     Points to a string specifying the implementation-specific file path to the
+     message file, or a part thereof.
+
+     Examples for such implementation-specific file paths are:
+     @li Base name of the message file (does not include file
          extension and directory path). The message file contains
          all languages, and the language is used to locate the
          message in the correct language within the message file.
-         @li Base name of the message file (does not include file
+     @li Base name of the message file (does not include file
          extension and directory path). The message file contains
          messages in only one language, and some identifier for that
          language is part of the base name.
-         @li Absolute path of the message file. The message file
+     @li Absolute path of the message file. The message file
          contains all languages, and the language is used to locate
          the message in the correct language within the message
          file.
-         @li Absolute path of the message file. The message file
+     @li Absolute path of the message file. The message file
          contains messages in only one language, and some identifier
          for that language is part of the file path.
 
-         The format of the content of the message file is also
-         implementation-specific.
+     The format of the content of the message file is also
+     implementation-specific.
      @endparblock
-     @param [out] msgFileHandle points to a CMPIMsgFileHandle structure that
-         will have been updated with a handle that can be passed to the
+     @param [out] msgFileHandle points to a @ref CMPIMsgFileHandle structure
+         that will have been updated with a handle that can be passed to the
          CMPIBrokerEncFT.getMessage2() and CMPIBrokerEncFT.closeMessageFile()
          functions. If the MB supports message files and the function was
-         successful, the CMPIMsgFileHandle structure will have been updated
+         successful, the @ref CMPIMsgFileHandle structure will have been updated
          with a non-NULL handle to the open message file. If the MB does not
          support message files, or if the function failed for other reasons,
-         the CMPIMsgFileHandle structure will have been updated with a NULL
+         the @ref CMPIMsgFileHandle structure will have been updated with a NULL
          handle.
      @return A CMPIStatus structure indicating the function return status
          will be returned.
@@ -2130,22 +2135,25 @@ typedef struct _CMPIBrokerEncFT {
 
      The variable arguments of this function are count pairs of arguments
      representing the message insert pairs as follows:
-     type, value
-     whereby type is a CMPIType value and value is a value of that type.
-     The following types are supported: CMPI_Sint32, CMPI_uint32, CMPI_sint64,
-     CMPI_uint64, CMPI_real64, CMPI_Boolean, CMPI_chars, and CMPI_string.
+     `type, value` whereby @p type is a @ref CMPIType value and @p value
+     is a value of that type.
+     The following types are supported: @ref CMPI_sint32, @ref CMPI_uint32,
+     @ref CMPI_sint64, @ref CMPI_uint64, @ref CMPI_real64, @ref CMPI_boolean,
+     @ref CMPI_chars, and @ref CMPI_string.
 
      @param mb Broker this pointer
      @param msgId Pointer to a string specifying a message ID that is used to
          locate a message template in the open message file.
      @param msgFileHandle The handle representing the open message
-         file that was returned by a call to openMessageFile(). If
-         the MB does not support message files the handle is NULL.
-     @param @parblock defMsg Pointer to a string specifying the default
+         file that was returned by a call to CMPIBrokerEncFT.openMessageFile().
+         If the MB does not support message files the handle is NULL.
+     @param defMsg
+     @parblock
+     Pointer to a string specifying the default
      message template that will be used when the MB does not support message
      files or when the message ID cannot be located.
 
-     The message template string specified in the defMsg argument
+     The message template string specified in the @p defMsg argument
      may contain up to ten message insert triggers ($0 through
      $9). Each insert trigger will be expanded; that is, the
      insert trigger string will be replaced with a string
@@ -2345,7 +2353,7 @@ struct timespec;
 /**
  * @anchor type-thread-func
  * @brief Type for a thread function.
- * 
+ *
  * @see CMPIBrokerExtFT.newThread()
  */
 typedef CMPI_THREAD_RETURN (CMPI_THREAD_CDECL* start)(void*) CMPIThreadFunc;
@@ -2353,7 +2361,7 @@ typedef CMPI_THREAD_RETURN (CMPI_THREAD_CDECL* start)(void*) CMPIThreadFunc;
 /**
  * @anchor type-thread-once-func
  * @brief Type for a function that is called once for a once-object.
- * 
+ *
  * @see CMPIBrokerExtFT.threadOnce()
  */
 typedef void (*function)(void) CMPIThreadOnceFunc;
@@ -2361,7 +2369,7 @@ typedef void (*function)(void) CMPIThreadOnceFunc;
 /**
  * @anchor type-thread-key-cleanup-func
  * @brief Type for a thread key cleanup function.
- * 
+ *
  * @see CMPIBrokerExtFT.createThreadKey()
  */
 typedef int void (*cleanup)(void*) CMPIThreadKeyCleanupFunc;
@@ -2429,7 +2437,7 @@ typedef struct _CMPIBrokerExtFT {
      *   @addtogroup brokerext-thread
      *   @{
      */
-     
+
     /**
      @brief Start a new thread.
 
@@ -3434,7 +3442,7 @@ typedef struct _CMPIContextFT {
      @return @parblock If successful, a CMPIData structure containing the
      specified context entry will be returned.
 
-     If not successful, CMPIData.state will have the CMPI_badValue
+     If not successful, CMPIData.state will have the @ref CMPI_badValue
      flag set to true.
      @endparblock
 
@@ -3472,7 +3480,7 @@ typedef struct _CMPIContextFT {
      @return @parblock If successful, returns a CMPIData structure
          containing the specified context entry.
 
-         If not successful, CMPIData.state will have the CMPI_badValue
+         If not successful, CMPIData.state will have the @ref CMPI_badValue
          flag set to true.
      @endparblock
 
@@ -3524,11 +3532,12 @@ typedef struct _CMPIContextFT {
      @param value Address of CMPIValue structure containing the
          non-NULL value to be assigned to the context entry
          or NULL to specify that NULL is to be assigned.
-     @param type CMPIType value specifying the type of the value to be
-         assigned. If the value of the type argument is CMPI_chars or
-         CMPI_charsA, the C-language string to which the chars member of the
-         value argument points is copied by this function and the original
-         string memory may be freed by the MI right after this function returns.
+     @param type @ref CMPIType value specifying the type of the value to be
+         assigned. If the value of the type argument is @ref CMPI_chars or
+         @ref CMPI_charsA, the C-language string to which the chars member of
+         the @p value argument points is copied by this function and the
+         original string memory may be freed by the MI right after this
+         function returns.
      @return A CMPIStatus structure indicating the function return status will
          be returned.
 
@@ -3644,9 +3653,9 @@ typedef struct _CMPIResultFT {
      @param value Pointer to CMPIValue structure specifying the non-NULL value
          to be returned, or is NULL to specify that NULL is to be returned
      @param type CMPIType value specifying the type to be returned.
-         If the value of the @p type argument is CMPI_chars or
-         CMPI_charsA, the C-language string to which the chars member of the
-         @p value argument points is copied by this function and the
+         If the value of the @p type argument is @ref CMPI_chars or
+         @ref CMPI_charsA, the C-language string to which the @p chars member
+         of the @p value argument points is copied by this function and the
          original string memory may be freed by the MI right after this
          function returns.
 
@@ -4784,7 +4793,7 @@ typedef struct _CMPIInstanceFT {
      @return @parblock If successful, a CMPIData structure containing the
      specified property will be returned.
 
-     If not successful, CMPIData.state will have the CMPI_badValue flag
+     If not successful, CMPIData.state will have the @ref CMPI_badValue flag
      set to true.
      @endparblock
 
@@ -4819,7 +4828,7 @@ typedef struct _CMPIInstanceFT {
      @return @parblock If successful, a CMPIData structure
          containing the specified property.
 
-     If not successful, CMPIData state will have the `CMPI_badValue`
+     If not successful, CMPIData state will have the @ref CMPI_badValue
      is flag set to true.
      @endparblock
 
@@ -4878,8 +4887,8 @@ typedef struct _CMPIInstanceFT {
          NULL is to be assigned.
      @param type CMPIType value specifying the type of the value to
          be assigned to the property. All types of CIM values are supported.
-         If the value of the `type argument` is `CMPI_chars` or
-         `CMPI_charsA`, the C-language string to which the chars member
+         If the value of the @p type argument is @ref CMPI_chars or
+         @ref CMPI_charsA, the C-language string to which the chars member
          of the value argument points is copied by this function and the
          original string memory may be freed by the MI right after
          this function returns.
@@ -5280,7 +5289,7 @@ typedef struct _CMPIObjectPathFT {
          key binding Key binding values must NOT be NULL.
      @param type Value type to be assigned to the key binding. All types of CIM
          values are valid for keys are supported. If the value of the type
-         argument is CMPI_chars or CMPI_charsA, the C-language string
+         argument is @ref CMPI_chars or @ref CMPI_charsA, the C-language string
          to which the chars member of the value argument points is
          copied by this function and the original string memory
          may be freed by the MI right after this function returns
@@ -5326,11 +5335,11 @@ typedef struct _CMPIObjectPathFT {
          #define CMPI_keyRef       (CMPI_ref)
      </pre>
 
-     In addition, the CMPI_keyValue flag will be set in CMPIData.state to
+     In addition, the @ref CMPI_keyValue flag will be set in CMPIData.state to
      indicate that the value is a key binding.
 
-     If not successful, CMPIData.state will have the CMPI_badValue flag set to
-     true.
+     If not successful, CMPIData.state will have the @ref CMPI_badValue flag
+     set to true.
      @endparblock
 
      @par Errors
@@ -5402,11 +5411,11 @@ typedef struct _CMPIObjectPathFT {
          "explicit link request to 'define' could not be resolved".
          How to resolve this?
 
-     In addition, the CMPI_keyValue flag will be set in CMPIData.state
+     In addition, the @ref CMPI_keyValue flag will be set in CMPIData.state
      to indicate that the value is a key binding.
 
-     If not successful, CMPIData.state will have the CMPI_badValue flag set to
-     true.
+     If not successful, CMPIData.state will have the @ref CMPI_badValue flag
+     set to true.
      @endparblock
 
      @par Errors
@@ -5510,7 +5519,7 @@ typedef struct _CMPIObjectPathFT {
      @return @parblock If successful, returns a CMPIData structure
          containing the specified qualifier.
 
-         If not successful, CMPIData.state `CMPI_badValue` flag set
+         If not successful, CMPIData.state @ref CMPI_badValue flag set
          to true.
      @endparblock
 
@@ -5550,7 +5559,7 @@ typedef struct _CMPIObjectPathFT {
      @return @parblock If successful, returns a CMPIData structure
          containing the specified qualifier will be returned.
 
-     If not successful, returns CMPIData.state with CMPI_badValue flag set
+     If not successful, returns CMPIData.state with @ref CMPI_badValue flag set
      to true.
      @endparblock
 
@@ -5595,7 +5604,7 @@ typedef struct _CMPIObjectPathFT {
      @return @parblock If successful, a CMPIData structure
          containing the specified qualifier will be returned.
 
-         If not successful, CMPIData.state will have the CMPI_badValue
+         If not successful, CMPIData.state will have the @ref CMPI_badValue
          flag set to true.
      @endparblock
 
@@ -5642,7 +5651,7 @@ typedef struct _CMPIObjectPathFT {
      If successful, a CMPIData structure containing the specified qualifier
      will be returned.
 
-     If not successful, CMPIData.state will have the CMPI_badValue flag set
+     If not successful, CMPIData.state will have the @ref CMPI_badValue flag set
      to true.
      @endparblock
 
@@ -6715,7 +6724,8 @@ typedef struct _CMPIArgsFT {
          NULL is to be assigned
      @param type type of the method parameter. All types of CIM values are
          supported.
-         If the value of the type argument is CMPI_chars or CMPI_charsA, the
+         If the value of the type argument is @ref CMPI_chars or
+         @ref CMPI_charsA, the
          C-language string to which the chars member of the value argument
          points is copied by this function and the original string memory may
          be freed by the MI right after this function returns.
@@ -6744,7 +6754,7 @@ typedef struct _CMPIArgsFT {
      @return @parblock If successful,returns a CMPIData structure
          containing the specified method parameter.
 
-     If not successful, CMPIData.state will have the CMPI_badValue flag
+     If not successful, CMPIData.state will have the @ref CMPI_badValue flag
      set to true
      @endparblock
 
@@ -6776,7 +6786,7 @@ typedef struct _CMPIArgsFT {
      @return @parblock If successful, returns a CMPIData structure
          containing the specified method parameter.
 
-     If not successful, CMPIData.state will have the CMPI_badValue flag
+     If not successful, CMPIData.state will have the @ref CMPI_badValue flag
      set to true.
      @endparblock
 
@@ -6801,7 +6811,7 @@ typedef struct _CMPIArgsFT {
      @return @parblock If successful, returns a CMPIData structure
          containing the specified method parameter.
 
-     If not successful, CMPIData.state will have the CMPI_badValue flag
+     If not successful, CMPIData.state will have the @ref CMPI_badValue flag
      set to true.
      @endparblock
 
@@ -7097,14 +7107,15 @@ typedef struct _CMPIArrayFT {
      @param [out] rc If not NULL, points to a CMPIStatus structure
          that upon return will have been updated with the function
          return status.
-     @return @parblock If successful, a CMPIType value indicating
-         the type of the CMPIArray elements will be returned. The
-         returned value indicates the type of single array elements;
-         for example, the value returned for a CMPIArray object that
-         contains CMPIString objects, will be CMPI_string, and not
-         CMPI_stringA.
+     @return @parblock
 
-     If not successful, CMPI_null will be returned.
+     If successful, a @ref CMPIType value indicating the type of the CMPIArray
+     elements will be returned. The returned value indicates the type of single
+     array elements; for example, the value returned for a CMPIArray object that
+     contains CMPIString objects, will be @ref CMPI_string, and not
+     @ref CMPI_stringA.
+
+     If not successful, @ref CMPI_null will be returned.
      @endparblock
 
      @par Errors
@@ -7113,8 +7124,14 @@ typedef struct _CMPIArrayFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
 
-     @todo (KS) CMPI_null does not show like. Also the @p ar does
-           not highlight or otherwise mark the ar
+     @todo (KS) CMPI_null does not show like.@n
+           AM: No link? Reason is that CMPI_null (CMPI_string/A9 has no
+           description. Once that was added, it was still necessary to add
+           "@ref".
+
+     @todo (KS) The "@p ar" does not highlight or otherwise mark the "ar".@n
+           AM: In my output, the "ar" does become monospaced (which is the
+           current effect of "@p").
     */
     CMPIType (*getSimpleType) (const CMPIArray* ar, CMPIStatus* rc);
 
@@ -7134,7 +7151,7 @@ typedef struct _CMPIArrayFT {
      @return @parblock If successful, returns a CMPIData structure
          containing the specified array element.
 
-     If not successful, CMPIData.state will have the CMPI_badValue flag
+     If not successful, CMPIData.state will have the @ref CMPI_badValue flag
      set to true.
      @endparblock
 
@@ -7165,15 +7182,15 @@ typedef struct _CMPIArrayFT {
      @param value Pointer to to a CMPIValue structure containing
          the non-NULL value to be assigned to the element, or is NULL to
          specify that the element will be set to NULL.
-     @param type Either the simple base type of the array or CMPI_null.
-         If the value of the type argument is CMPI_chars, the C-language
-         string to which the chars member of the value argument points is
+     @param type Either the simple base type of the array or @ref CMPI_null.
+         If the value of the type argument is @ref CMPI_chars, the C-language
+         string to which the @p chars member of the value argument points is
          copied by this function and the original string memory may be
          freed by the MI right after this function returns
      @return A CMPIStatus structure indicating the function return status.
 
      If not successful, the array element's state shall be set to
-     CMPI_nullValue, if possible.
+     @ref CMPI_nullValue, if possible.
 
      @par Errors
      The function return status indicates one of the following @ref CMPIrc
@@ -7184,12 +7201,12 @@ typedef struct _CMPIArrayFT {
          simple base type of @p ar.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
 
-     @deprecated The use of CMPI_null for the @p type argument is deprecated
-         since CMPI 2.1.
+     @deprecated The use of @ref CMPI_null for the @p type argument is
+         deprecated since CMPI 2.1.
          Specify the simple base type of the array instead.
 
      @deprecated The behavior of setting the array element's state to
-         CMPI_nullValue when the function was not successful, is deprecated
+         @ref CMPI_nullValue when the function was not successful, is deprecated
          since CMPI 2.1.
          Instead, callers should assume that it is undefined whether the array
          element's state has changed when the function was not successful.
@@ -7301,7 +7318,7 @@ typedef struct _CMPIEnumerationFT {
      @return @parblock If successful, a CMPIData structure
          containing the next element will be returned.
 
-     If not successful, CMPIData.state will have the CMPI_badValue
+     If not successful, CMPIData.state will have the @ref CMPI_badValue
      flag set to true
      @endparblock
 
@@ -8494,7 +8511,7 @@ typedef struct _CMPIInstanceMIFT {
      @version Added in CMPI 2.1.
 
      @todo (KS) This function does not appear in the html InstanceMI output.
-         AM: Fixed. Reason was that the prototype missed a line that closed it. 
+         AM: Fixed. Reason was that the prototype missed a line that closed it.
     */
     CMPIStatus (*enumerateInstancesFiltered) (CMPIInstanceMI* mi,
         const CMPIContext* ctx, const CMPIResult* rslt,

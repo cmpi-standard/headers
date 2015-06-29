@@ -26,7 +26,7 @@ to just list those things that are not specific and could be listed by
   headers themselves.
 
   AM: Done, by using mainpage.md?
-  
+
 * The Modules list is really incomprenensible.  Somehow we need to organize
   and describe the modules doc definitions better.  Also, apparently doxygen
   does this all as one line entries so that one of them just shows up as
@@ -77,10 +77,19 @@ to just list those things that are not specific and could be listed by
   Not great looking but it is doxygen (put the out before the name in html).
 
   AM: Do we
-  
+
 * CMPI flags.  Use of word integral.  Is that the word we want?
 
   Also in this section there is statement "Test masks for CMPIFlags are
   defined here" with here a hyperlink.  But it goes nowhere.
 
 * modules.h shows up in file list of HTML output (Files tab).
+
+* Should we use @since instead of @version for indicating that a function was
+  added? From its description, seems to match better:
+  http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdsince
+
+* Use of @parblock for parameters triggers a new "Parameters" section heading
+  fopr any subsequent parameters of the function.
+  This is probably fixed in Doxygen 1.8.10 (needs verification), see:
+  https://github.com/doxygen/doxygen/blob/master/testing/054_parblock.cpp
