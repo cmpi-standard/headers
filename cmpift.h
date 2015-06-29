@@ -5636,11 +5636,13 @@ typedef struct _CMPIObjectPathFT {
      @param mName Pointer to a string specifying the method name.
      @param pName Pointer to a string specifying the parameter name.
      @param qName Pointer to a string specifying the qualifier name.
-     @param [out] rc  Service return status (suppressed when NULL).
-     @return @parblock If successful, returns a CMPIData structure
-         containing the specified qualifier will be returned.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+     If successful, a CMPIData structure containing the specified qualifier
+     will be returned.
 
-     If not successful, returns CMPIData.state with CMPI_badValue flag set
+     If not successful, CMPIData.state will have the CMPI_badValue flag set
      to true.
      @endparblock
 
@@ -5655,14 +5657,15 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in the
          @p op argument does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The method
-         specified in the mName argument is not exposed by the class
+         specified in the @p mName argument is not exposed by the class
          specified in the @p op argument, or it does not have a
-         parameter with the name specified in the pName argument.
+         parameter with the name specified in the @p pName argument.
      @li `CMPI_RC_ERR_NOT_FOUND` - The qualifier specified in the
          @p qName argument is invalid for classes.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @todo used invalid rather than does not exist for invalid_namespace
+     @todo TBD: Used "invalid" rather than "does not exist" for invalid
+           namespace error. Should we update the spec accordingly?
     */
     CMPIData (*getParameterQualifier) (const CMPIObjectPath* op,
         const char* mName, const char* pName, const char* qName,
