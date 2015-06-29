@@ -70,13 +70,13 @@ extern "C" {
  This function shall be defined with @ref CMPI_EXTERN_C and shall be exposed
  by the MI library as an external symbol.
 
- <pre>
- CMPI_EXTERN_C CMPI<mi-type>MI* <mi-name>_Create_<mi-type>MI(
-     const CMPIBroker* mb,
-     const CMPIContext* ctx,
-     CMPIStatus* rc
- );
- </pre>
+<pre>
+CMPI_EXTERN_C CMPI<mi-type>MI* <mi-name>_Create_<mi-type>MI(
+    const CMPIBroker* mb,
+    const CMPIContext* ctx,
+    CMPIStatus* rc
+);
+</pre>
 
  @param mb Points to a CMPIBroker structure. This structure can be used
      throughout the life of this MI function group to invoke MB services.
@@ -100,10 +100,10 @@ extern "C" {
  not be used by the MB. Specifically, the `cleanup()` function for this MI will
  not be invoked by the MB in that case.
  @endparblock
+
  @par Errors
  The following @ref CMPIrc codes shall be used by the MI in the function return
  status:
-
  @li `CMPI_RC_OK` - Function successful.
  @li `CMPI_RC_ERR_FAILED` - Unspecific error occurred.
  @li `CMPI_RC_ERR_NOT_SUPPORTED` - MI type not supported for this MI name.
@@ -127,14 +127,14 @@ extern "C" {
  This function shall be defined with @ref CMPI_EXTERN_C and shall be exposed
  by the MI library as an external symbol.
 
- <pre>
- CMPI_EXTERN_C CMPI<mi-type>MI* _Generic_Create_<mi-type>MI(
-     const CMPIBroker* mb,
-     const CMPIContext* ctx,
-     const char* miName,
-     CMPIStatus* rc
- );
- </pre>
+<pre>
+CMPI_EXTERN_C CMPI<mi-type>MI* _Generic_Create_<mi-type>MI(
+    const CMPIBroker* mb,
+    const CMPIContext* ctx,
+    const char* miName,
+    CMPIStatus* rc
+);
+</pre>
 
  @param mb Points to a CMPIBroker structure. This structure can be used
      throughout the life of this MI function group to invoke MB services.
@@ -159,10 +159,10 @@ extern "C" {
  not be used by the MB. Specifically, the `cleanup()` function for this MI will
  not be invoked by the MB in that case.
  @endparblock
+
  @par Errors
  The following @ref CMPIrc codes shall be used by the MI in the function return
  status:
-
  @li `CMPI_RC_OK` - Function successful.
  @li `CMPI_RC_ERR_FAILED` - Unspecific error occurred.
  @li `CMPI_RC_ERR_NOT_FOUND` - MI name not found.
@@ -5351,12 +5351,13 @@ typedef struct _CMPIObjectPathFT {
      was only recommended to be present. If the precise CIM type is not
      available to the MB, it will use the following more general types in the
      returned CMPIData structure:
-     <pre>
-         #define CMPI_keyInteger   (CMPI_sint64)
-         #define CMPI_keyString    (CMPI_string)
-         #define CMPI_keyBoolean   (CMPI_boolean)
-         #define CMPI_keyRef       (CMPI_ref)
-     </pre>
+
+<pre>
+\#define CMPI_keyInteger   (CMPI_sint64)
+\#define CMPI_keyString    (CMPI_string)
+\#define CMPI_keyBoolean   (CMPI_boolean)
+\#define CMPI_keyRef       (CMPI_ref)
+</pre>
 
      In addition, the @ref CMPI_keyValue flag will be set in CMPIData.state to
      indicate that the value is a key binding.
@@ -5423,12 +5424,13 @@ typedef struct _CMPIObjectPathFT {
      to be present. If the precise CIM type is not available to the MB, it
      will use the following more general types in the returned CMPIData
      structure:
-     <pre>
-         #define CMPI_keyInteger   (CMPI_sint64)
-         #define CMPI_keyString    (CMPI_string)
-         #define CMPI_keyBoolean   (CMPI_boolean)
-         #define CMPI_keyRef       (CMPI_ref)
-     </pre>
+
+<pre>
+\#define CMPI_keyInteger   (CMPI_sint64)
+\#define CMPI_keyString    (CMPI_string)
+\#define CMPI_keyBoolean   (CMPI_boolean)
+\#define CMPI_keyRef       (CMPI_ref)
+</pre>
 
      @todo TBD: The inline code with the defines creates doxygen warnings
          "explicit link request to 'define' could not be resolved".
