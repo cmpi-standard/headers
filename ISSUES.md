@@ -76,7 +76,7 @@ to just list those things that are not specific and could be listed by
   @param[...]  where ... can be in, out or in,out.  I modified some as a test.
   Not great looking but it is doxygen (put the out before the name in html).
 
-  AM: Do we
+  AM: Agree on using "@param [xxx]".
 
 * CMPI flags.  Use of word integral.  Is that the word we want?
 

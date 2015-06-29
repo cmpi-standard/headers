@@ -3,8 +3,8 @@
 /* ------------------------------------------------------------------------- */
 
 /**
- * @page platformspecific
- * @brief List of definitions that depend on the platform
+ * @page platformspecific Platform-specific Definitions
+ * @brief Definitions that depend on the compile platform
  *
  * Some definitions in the CMPI header files depend on the specified platform
  * (see @ref sym-platform).
@@ -18,8 +18,8 @@
  */
 
 /**
- * @page cxxspecific
- * @brief List of definitions that depend on compiling for C or C++
+ * @page cxxspecific C/C++-specific Definitions
+ * @brief Definitions that depend on compiling for C vs. C++
  *
  * Some definitions in the CMPI header files depend on whether they are compiled
  * for C or for C++.
@@ -29,6 +29,21 @@
  * Such dependencies are mentioned where applicable, but those descriptions
  * may not be fully specific as to what the exact changes are.
  * For details, the respective CMPI header file needs to be examined.
+ */
+
+/**
+ * @page added200 Added in CMPI 2.0.0
+ * @brief Definitions that were added in CMPI 2.0.0
+ */
+
+/**
+ * @page added210 Added in CMPI 2.1.0
+ * @brief Definitions that were added in CMPI 2.1.0
+ */
+
+/**
+ * @page required210 Required since CMPI 2.1.0
+ * @brief Entities that are required to be supported since CMPI 2.1.0
  */
 
 /**

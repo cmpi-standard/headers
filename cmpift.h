@@ -218,7 +218,7 @@ typedef struct _CMPIBroker {
      * "Memory Enhancement Services" capability is not available, this pointer
      * is NULL.
      *
-     * @version Added in CMPI 2.0.
+     * @added200 Added in CMPI 2.0.0.
      */
     const CMPIBrokerMemFT* mft;
 
@@ -2015,7 +2015,7 @@ typedef struct _CMPIBrokerEncFT {
          capability will be available. <b>(Deprecated)</b>
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version Added in CMPI 2.0.
+     @added200 Added in CMPI 2.0.0.
     */
     CMPIError* (*newCMPIError) (const CMPIBroker* mb, const char* owner,
         const char* msgID, const char* msg, const CMPIErrorSeverity sev,
@@ -2094,7 +2094,7 @@ typedef struct _CMPIBrokerEncFT {
          files.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
-     @version Added in CMPI 2.0.
+     @added200 Added in CMPI 2.0.0.
     */
     CMPIStatus (*openMessageFile) (const CMPIBroker* mb, const char* msgFile,
         CMPIMsgFileHandle* msgFileHandle);
@@ -2121,7 +2121,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Either the @p mb or
          @p msgFileHandle handle is invalid.
 
-     @version Added in CMPI 2.0.
+     @added200 Added in CMPI 2.0.0.
     */
     CMPIStatus (*closeMessageFile) (const CMPIBroker* mb,
         const CMPIMsgFileHandle msgFileHandle);
@@ -2186,7 +2186,7 @@ typedef struct _CMPIBrokerEncFT {
          @p msgFileHandle handle is invalid. NULL is a valid value for
          the @p msgFileHandle handle.
 
-     @version Added in CMPI 2.0.
+     @added200 Added in CMPI 2.0.0.
 
      @todo TODO_KS Confirm formatting.
     */
@@ -2234,7 +2234,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid @p mb handle.
 
-     @version Added in CMPI 2.1.
+     @added210 Added in CMPI 2.1.0.
     */
     CMPIPropertyList* (*newPropertyList) (const CMPIBroker* mb,
         const char** properties, CMPIStatus* rc);
@@ -2277,7 +2277,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
-     @version Added in CMPI 2.1.
+     @added210 Added in CMPI 2.1.0.
     */
     CMPIString* (*newStringCP) (const CMPIBroker* mb, const char* data,
         const CMPICodepageID cpid, CMPIStatus* rc);
@@ -2327,7 +2327,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_QUERY_FEATURE_NOT_SUPPORTED` - A feature of the
          query language is not supported.
 
-     @version Added in CMPI 2.1.
+     @added210 Added in CMPI 2.1.0.
 
      @todo in description. What does set to do no filtering mean?
     */
@@ -2863,7 +2863,7 @@ typedef struct _CMPIBrokerExtFT {
          ``pthread_mutex_destroy()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
 
-     @version Added in CMPI 2.1.
+     @added210 Added in CMPI 2.1.0.
     */
     int (*destroyMutex2) (CMPI_MUTEX_TYPE mutex);
 
@@ -2886,7 +2886,7 @@ typedef struct _CMPIBrokerExtFT {
          ``pthread_mutex_lock()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
 
-     @version Added in CMPI 2.1 superceeding deprecated
+     @added210 Added in CMPI 2.1.0, superceeding the deprecated
          CMPIBrokerExtFT.lockMutex() function.
     */
     int (*lockMutex2) (CMPI_MUTEX_TYPE mutex);
@@ -2908,7 +2908,7 @@ typedef struct _CMPIBrokerExtFT {
          ``pthread_mutex_lock()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
 
-     @version Added in CMPI 2.1.
+     @added210 Added in CMPI 2.1.0.
     */
     int (*unlockMutex2) (CMPI_MUTEX_TYPE mutex);
 
@@ -2933,7 +2933,7 @@ typedef struct _CMPIBrokerExtFT {
          ``pthread_cond_destroy()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
 
-     @version Added in CMPI 2.1.
+     @added210 Added in CMPI 2.1.0.
     */
     int (*destroyCondition2) (CMPI_COND_TYPE cond);
 
@@ -2958,7 +2958,7 @@ typedef struct _CMPIBrokerExtFT {
  * called and then indicate back to the caller that it is not supported, as
  * specified in the description of the function.
  *
- * @version Added in CMPI 2.0.
+ * @added200 Added in CMPI 2.0.0.
  */
 typedef struct _CMPIBrokerMemFT {
 
@@ -3318,7 +3318,7 @@ typedef struct _CMPIBrokerMemFT {
          CMPIStringFT.newCharsCP().
      @return None.
 
-     @version Added in CMPI 2.1.
+     @added210 Added in CMPI 2.1.0.
 
      @todo could we more precisely define  broker, ex.
            CMPIBrokerFT.brokerCapabilities
@@ -3774,7 +3774,7 @@ typedef struct _CMPIResultFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid
          or the MB has aborted the request for which this data is returned.
 
-     @version Added in CMPI 2.0.
+     @added200 Added in CMPI 2.0.0.
 
      @todo review this description, particularly "see todo". Moved the part of
          cmt.
@@ -3796,7 +3796,8 @@ typedef struct _CMPIResultFT {
 /**
  * @brief CMPIError encapsulated data type object.
  *
- * @version Added in CMPI 2.0.
+ * @added200 Added in CMPI 2.0.0.
+ * @required210 Required to be supported since CMPI 2.1.0.
  */
 typedef struct _CMPIError {
 
@@ -3815,7 +3816,8 @@ typedef struct _CMPIError {
 /**
  * @brief Function table of CMPIError encapsulated data type object.
  *
- * @version Added in CMPI 2.0.
+ * @added200 Added in CMPI 2.0.0.
+ * @required210 Required to be supported since CMPI 2.1.0.
  */
 typedef struct _CMPIErrorFT {
 
@@ -3854,7 +3856,7 @@ typedef struct _CMPIErrorFT {
          available. (Deprecated)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
 
      @todo TBD: Ordering here diff than spec.  This is sect 8.14.
     */
@@ -3886,7 +3888,7 @@ typedef struct _CMPIErrorFT {
          available. (Deprecated)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIError* (*clone) (const CMPIError* er, CMPIStatus* rc);
 
@@ -3916,7 +3918,7 @@ typedef struct _CMPIErrorFT {
          available. (Deprecated)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIErrorType (*getErrorType) (const CMPIError* er, CMPIStatus* rc);
 
@@ -3950,7 +3952,7 @@ typedef struct _CMPIErrorFT {
          available. (Deprecated)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIString* (*getOtherErrorType) (const CMPIError* er, CMPIStatus* rc);
 
@@ -3984,7 +3986,7 @@ typedef struct _CMPIErrorFT {
          available. (Deprecated)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIString* (*getOwningEntity) (const CMPIError* er, CMPIStatus* rc);
 
@@ -4022,7 +4024,7 @@ typedef struct _CMPIErrorFT {
          available. (Deprecated)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIString* (*getMessageID) (const CMPIError* er, CMPIStatus* rc);
 
@@ -4054,7 +4056,7 @@ typedef struct _CMPIErrorFT {
          available. (Deprecated)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIString* (*getMessage) (const CMPIError* er, CMPIStatus* rc);
 
@@ -4084,7 +4086,7 @@ typedef struct _CMPIErrorFT {
          available. (Deprecated)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIErrorSeverity (*getPerceivedSeverity) (const CMPIError* er,
         CMPIStatus* rc);
@@ -4115,7 +4117,7 @@ typedef struct _CMPIErrorFT {
          available. (Deprecated)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIErrorProbableCause (*getProbableCause) (const CMPIError* er,
         CMPIStatus* rc);
@@ -4150,7 +4152,7 @@ typedef struct _CMPIErrorFT {
          available. (Deprecated)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIString* (*getProbableCauseDescription) (const CMPIError* er,
         CMPIStatus* rc);
@@ -4186,7 +4188,7 @@ typedef struct _CMPIErrorFT {
          available. (Deprecated)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIArray* (*getRecommendedActions) (const CMPIError* er, CMPIStatus* rc);
 
@@ -4218,7 +4220,7 @@ typedef struct _CMPIErrorFT {
          available. (Deprecated)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIString* (*getErrorSource) (const CMPIError* er, CMPIStatus* rc);
 
@@ -4248,7 +4250,7 @@ typedef struct _CMPIErrorFT {
          available. (Deprecated)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIErrorSrcFormat (*getErrorSourceFormat) (const CMPIError* er,
         CMPIStatus* rc);
@@ -4283,7 +4285,7 @@ typedef struct _CMPIErrorFT {
          available. (Deprecated)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIString* (*getOtherErrorSourceFormat) (const CMPIError* er,
         CMPIStatus* rc);
@@ -4317,7 +4319,7 @@ typedef struct _CMPIErrorFT {
          available. (Deprecated)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIrc (*getCIMStatusCode) (const CMPIError* er, CMPIStatus* rc);
 
@@ -4352,7 +4354,7 @@ typedef struct _CMPIErrorFT {
          available. (Deprecated)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIString* (*getCIMStatusCodeDescription) (const CMPIError* er,
         CMPIStatus* rc);
@@ -4387,7 +4389,7 @@ typedef struct _CMPIErrorFT {
          (Deprecated)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIArray* (*getMessageArguments) (const CMPIError* er, CMPIStatus* rc);
 
@@ -4417,7 +4419,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
 
      @todo we are inconsistent in the formatting of the various
            attributes for CMPIError. Need to generalize this.
@@ -4452,7 +4454,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIStatus (*setOtherErrorType) (const CMPIError* er, const char* oet);
 
@@ -4483,7 +4485,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIStatus (*setProbableCauseDescription) (const CMPIError* er,
         const char* pcd);
@@ -4521,7 +4523,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIStatus (*setRecommendedActions) (const CMPIError* er,
         const CMPIArray* ra);
@@ -4555,7 +4557,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIStatus (*setErrorSource) (const CMPIError* er, const char* es);
 
@@ -4586,7 +4588,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIStatus (*setErrorSourceFormat) (const CMPIError* er,
         const CMPIErrorSrcFormat esf);
@@ -4618,7 +4620,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIStatus (*setOtherErrorSourceFormat) (const CMPIError* er,
         const char* oef);
@@ -4651,7 +4653,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIStatus (*setCIMStatusCodeDescription) (const CMPIError* er,
         const char* scd);
@@ -4688,7 +4690,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
-     @version In CMPI 2.1 support for this function was made a requirement.
+     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIStatus (*setMessageArguments) (const CMPIError* er,
         const CMPIArray* values);
@@ -5045,7 +5047,7 @@ typedef struct _CMPIInstanceFT {
          correspond to class-defined type.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst handle is invalid.
 
-     @version Added in CMPI 2.0.
+     @added200 Added in CMPI 2.0.0.
     */
     CMPIStatus (*setPropertyWithOrigin) (const CMPIInstance* inst,
         const char* name, const CMPIValue* value, const CMPIType type,
@@ -6980,7 +6982,7 @@ typedef struct _CMPIStringFT {
      @li `CMPI_RC_ERR_NOT_IN_CODEPAGE` - The string contains characters that
          are not representable in the specified codepage.
 
-     @version Added in CMPI 2.1.
+     @added210 Added in CMPI 2.1.0.
     */
     char* (*newCharsCP) (const CMPIString* str, const CMPICodepageID cpid,
         CMPIStatus* rc);
@@ -7581,7 +7583,7 @@ typedef struct _CMPIDateTimeFT {
 /**
  * @brief CMPIPropertyList encapsulated data type object.
  *
- * @version Added in CMPI 2.1.
+ * @added210 Added in CMPI 2.1.0.
  */
 typedef struct _CMPIPropertyList {
 
@@ -7600,7 +7602,7 @@ typedef struct _CMPIPropertyList {
 /**
  * @brief Function table of CMPIPropertyList encapsulated data type object.
  *
- * @version Added in CMPI 2.1.
+ * @added210 Added in CMPI 2.1.0.
  */
 typedef struct _CMPIPropertyListFT {
 
@@ -7740,7 +7742,7 @@ typedef struct _CMPIPropertyListFT {
 /**
  * @brief CMPIEnumerationFilter Support (Subclause 8.16)
  *
- * @version Added in CMPI 2.1.
+ * @added210 Added in CMPI 2.1.0.
  */
 typedef struct _CMPIEnumerationFilter {
 
@@ -7759,7 +7761,7 @@ typedef struct _CMPIEnumerationFilter {
 /**
  * @brief Function table of CMPIEnumerationFilter encapsulated data type object.
  *
- * @version Added in CMPI 2.1.
+ * @added210 Added in CMPI 2.1.0.
  */
 typedef struct _CMPIEnumerationFilterFT {
 
@@ -8508,7 +8510,7 @@ typedef struct _CMPIInstanceMIFT {
          <TD>WIPG0223</TD><TD>Invalid query.</TD></TR>
      </TABLE>
 
-     @version Added in CMPI 2.1.
+     @added210 Added in CMPI 2.1.0.
 
      @todo (KS) This function does not appear in the html InstanceMI output.
          AM: Fixed. Reason was that the prototype missed a line that closed it.
@@ -9063,7 +9065,7 @@ typedef struct _CMPIAssociationMIFT {
      specific message</TD> <TD>Other error occurred.</TD></TR>
      </TABLE>
 
-     @version Added in CMPI 2.1.
+     @added210 Added in CMPI 2.1.0.
 
      @todo probably need more specific ref to FQL than this.
     */
@@ -9167,8 +9169,7 @@ typedef struct _CMPIAssociationMIFT {
      specific message</TD> <TD>Other error occurred.</TD></TR>
      </TABLE>
 
-     @version Added in CMPI 2.1 as part of the support for pulled client
-         operations.
+     @added210 Added in CMPI 2.1.0.
     */
     CMPIStatus (*referencesFiltered) (CMPIAssociationMI* mi,
         const CMPIContext* ctx, const CMPIResult* rslt,
@@ -9665,7 +9666,7 @@ typedef struct _CMPIPropertyMIFT {
      specific message</TD><TD>Other error occurred.</TD></TR>
      </TABLE>
 
-     @version Added in CMPI 2.0.
+     @added200 Added in CMPI 2.0.0.
 
      @deprecated This function is deprecated since CMPI 2.1,
          in accord with the deprecation of property client operations in DMTF
@@ -10163,7 +10164,7 @@ typedef struct _CMPIIndicationMIFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Invalid indication filter
          collection.
 
-     @version Added in CMPI 2.1.
+     @added210 Added in CMPI 2.1.0.
     */
     CMPIStatus (*authorizeFilterCollection) (CMPIIndicationMI* mi,
         const CMPIContext* ctx, const CMPIInstance* collInst);
@@ -10242,7 +10243,7 @@ typedef struct _CMPIIndicationMIFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Invalid
          indication filter collection.
 
-     @version This function added in CMPI 2.1.
+     @added210 Added in CMPI 2.1.0.
     */
     CMPIStatus (*activateFilterCollection) (CMPIIndicationMI* mi,
         const CMPIContext* ctx, const CMPIInstance* collInst,
@@ -10323,7 +10324,7 @@ typedef struct _CMPIIndicationMIFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Invalid indication
          filter collection.
 
-     @version This function added in CMPI 2.1.
+     @added210 Added in CMPI 2.1.0.
     */
     CMPIStatus (*deActivateFilterCollection) (CMPIIndicationMI* mi,
         const CMPIContext* ctx, const CMPIInstance* collInst,

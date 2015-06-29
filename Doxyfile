@@ -225,12 +225,27 @@ ALIASES                =
 # The following alias defines a @platformspecific special command that is used to
 # indicate platform-specific definitions. Their list will be linked from the
 # "Related Pages" tab:
-ALIASES               += "platformspecific=@xrefitem platformspecific \"Platform-specific definition\" \"List of Platform-specific Definitions\"" 
+ALIASES               += "platformspecific=@xrefitem platformspecific \"Platform-specific Definition\" \"Platform-specific Definitions\"" 
 
 # The following alias defines a @cxxspecific special command that is used to
 # indicate whether a definition is specific to whether the headers are compiled
 # for C or for C++. Their list will be linked from the "Related Pages" tab:
-ALIASES               += "cxxspecific=@xrefitem cxxspecific \"C/C++-specific definition\" \"List of C/C++-specific Definitions\"" 
+ALIASES               += "cxxspecific=@xrefitem cxxspecific \"C/C++-specific Definition\" \"C/C++-specific Definitions\"" 
+
+# The following alias defines a @added200 special command that is used to
+# indicate that a definition was added in CMPI 2.0.0. Their list will be
+# linked from the "Related Pages" tab:
+ALIASES               += "added200=@xrefitem added200 \"Addition\" \"Added in CMPI 2.0.0\"" 
+
+# The following alias defines a @added210 special command that is used to
+# indicate that a definition was added in CMPI 2.1.0. Their list will be
+# linked from the "Related Pages" tab:
+ALIASES               += "added210=@xrefitem added210 \"Addition\" \"Added in CMPI 2.1.0\"" 
+
+# The following alias defines a @required210 special command that is used to
+# indicate that a definition was required to be supported since CMPI 2.1.0. Their
+# list will be linked from the "Related Pages" tab:
+ALIASES               += "required210=@xrefitem required210 \"Requirement Change\" \"Required since CMPI 2.1.0\"" 
 
 # This tag can be used to specify a number of word-keyword mappings (TCL only).
 # A mapping has the form "name=value". For example adding "class=itcl::class"

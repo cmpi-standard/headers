@@ -964,7 +964,7 @@ typedef struct _CMPIStatus {
  *
  * Optional to be supported.
  *
- * @version Added in CMPI 2.0.
+ * @added200 Added in CMPI 2.0.0.
  */
 #define CMPI_MB_Supports_MemEnhancements    0x00004000
 /**
@@ -972,7 +972,7 @@ typedef struct _CMPIStatus {
  *
  * Required to be supported since CMPI 2.1.
  *
- * @version Added in CMPI 2.0.
+ * @added200 Added in CMPI 2.0.0.
  */
 #define CMPI_MB_Supports_Extended_Error     0x00008000
 
@@ -985,8 +985,8 @@ typedef struct _CMPIStatus {
  *
  * Optional to be supported.
  *
- * @version Added the capability flag in CMPI 2.1; the capability itself
- *     existed since CMPI 1.0.
+ * @added210 Added the capability flag in CMPI 2.1.0; the capability itself
+ *     existed since CMPI 1.0.0.
  */
 #define CMPI_MB_Logging                     0x00010000
 /**
@@ -994,8 +994,8 @@ typedef struct _CMPIStatus {
  *
  * Optional to be supported.
  *
- * @version Added the capability flag in CMPI 2.1; the capability itself
- *     existed since CMPI 1.0.
+ * @added210 Added the capability flag in CMPI 2.1.0; the capability itself
+ *     existed since CMPI 1.0.0.
  */
 #define CMPI_MB_Tracing                     0x00020000
 /**
@@ -1003,8 +1003,8 @@ typedef struct _CMPIStatus {
  *
  * Optional to be supported.
  *
- * @version Added the capability flag in CMPI 2.1; the capability itself
- *     existed since CMPI 1.0.
+ * @added210 Added the capability flag in CMPI 2.1.0; the capability itself
+ *     existed since CMPI 1.0.0.
  */
 #define CMPI_MB_PropertyFiltering           0x00040001
 /**
@@ -1012,7 +1012,7 @@ typedef struct _CMPIStatus {
  *
  * Optional to be supported.
  *
- * @version Added in CMPI 2.1.
+ * @added210 Added in CMPI 2.1.0.
  */
 #define CMPI_MB_CodepageConversion          0x00080000
 
@@ -1519,7 +1519,7 @@ typedef enum _CMPIErrorSrcFormat {
  * @brief An enumeration type that identifies a codepage for CMPI codepage
  *     support.
  *
- * @version Added in CMPI 2.1.
+ * @added210 Added in CMPI 2.1.0.
  */
 typedef enum _CMPICodepageID {
     /** Current system codepage for the MB */
