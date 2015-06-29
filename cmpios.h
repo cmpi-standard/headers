@@ -54,7 +54,7 @@
  */
 
 /**
- * @defgroup symbols-os-encapsulation Symbols related to Operating System Encapsulation Services
+ * @defgroup symbols-os-encaps Symbols related to OS Encapsulation Services
  * @{
  *   @defgroup sym-thread-type CMPI_THREAD_TYPE
  *   @{
@@ -256,9 +256,6 @@ struct timespec {
  *     This modifier needs to be specified on the MI factory functions provided
  *     by MI load libraries.  MB functions and other MI functions do not need to
  *     specifiy this modifier.
- *     @todo Add descriptions for the MI factory functions
- *           (See `<mi-name>_Create_<mi-type>MI()` and
- *           `_Generic_Create_<mi-type>MI()`).
  *
  *     @cxxspecific The definition of CMPI_EXTERN_C depends on whether the
  *     headers are compiled for C or for C++.
