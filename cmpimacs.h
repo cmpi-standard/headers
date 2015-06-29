@@ -121,7 +121,7 @@ noReturn CMReturnWithChars (const CMPIBroker * mb, CMPIrc rc, char *msg);
     @param st Address of status object
     @param rcp CMPI return code
   */
-inline static void CMSetStatus (CMPIStatus * st, CMPIrc rcp)
+_CMPI_INLINE_MOD void CMSetStatus (CMPIStatus * st, CMPIrc rcp)
 {
     if (st)
     {
@@ -148,7 +148,7 @@ inline static void CMSetStatus (CMPIStatus * st, CMPIrc rcp)
     @param rcp CMPI return code
     @param string Message string
   */
-inline static void CMSetStatusWithString (
+_CMPI_INLINE_MOD void CMSetStatusWithString (
     CMPIStatus * st,
     CMPIrc rcp,
     const CMPIString * string)
@@ -179,7 +179,7 @@ inline static void CMSetStatusWithString (
     @param rcp CMPI return code
     @param chars Message character string
   */
-inline static void CMSetStatusWithChars(
+_CMPI_INLINE_MOD void CMSetStatusWithChars(
     const CMPIBroker * mb,
     CMPIStatus * st,
     CMPIrc rcp,
@@ -218,7 +218,7 @@ inline static void CMSetStatusWithChars(
 /** Tests for encapsulated NULL object.
     @param obj CMPI Object pointer
   */
-inline static CMPIBoolean CMIsNullObject (const void *obj)
+_CMPI_INLINE_MOD CMPIBoolean CMIsNullObject (const void *obj)
 {
     return ((obj) == NULL || *((void **) (obj)) == NULL);
 }
@@ -230,7 +230,7 @@ inline static CMPIBoolean CMIsNullObject (const void *obj)
 /** Tests for nullValue data item.
     @param val Value object
   */
-inline static CMPIBoolean CMIsNullValue (const CMPIData val)
+_CMPI_INLINE_MOD CMPIBoolean CMIsNullValue (const CMPIData val)
 {
   return ((val.state) & CMPI_nullValue);
 }
@@ -242,7 +242,7 @@ inline static CMPIBoolean CMIsNullValue (const CMPIData val)
 /** Tests for keyValue data item.
       @param val Value object
   */
-inline static CMPIBoolean CMIsKeyValue (CMPIData val)
+_CMPI_INLINE_MOD CMPIBoolean CMIsKeyValue (CMPIData val)
 {
   return ((val.state) & CMPI_keyValue);
 }
@@ -254,7 +254,7 @@ inline static CMPIBoolean CMIsKeyValue (CMPIData val)
 /** Tests for keyValue data item.
     @param val Value object
   */
-inline static CMPIBoolean CMIsArray (const CMPIData val)
+_CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
 {
   return ((val.type) & CMPI_ARRAY);
 }
@@ -277,7 +277,7 @@ inline static CMPIBoolean CMIsArray (const CMPIData val)
     @param rc Output: Service return status (suppressed when NULL).
     @return The newly created Instance.
  */
-inline static CMPIInstance * CMNewInstance (
+_CMPI_INLINE_MOD CMPIInstance * CMNewInstance (
     const CMPIBroker * mb,
     const CMPIObjectPath * op,
     CMPIStatus * rc)
@@ -296,7 +296,7 @@ inline static CMPIInstance * CMNewInstance (
     @param rc Output: Service return status (suppressed when NULL).
     @return The newly created ObjectPath.
 */
-inline static CMPIObjectPath * CMNewObjectPath (
+_CMPI_INLINE_MOD CMPIObjectPath * CMNewObjectPath (
     const CMPIBroker * mb,
     const char *ns,
     const char *cn,
@@ -316,7 +316,7 @@ inline static CMPIObjectPath * CMNewObjectPath (
     @param rc Output: Service return status (suppressed when NULL).
     @return The newly created String.
 */
-inline static CMPIString * CMNewString (
+_CMPI_INLINE_MOD CMPIString * CMNewString (
     const CMPIBroker * mb,
     const char *data,
     CMPIStatus * rc)
@@ -333,7 +333,7 @@ inline static CMPIString * CMNewString (
     @param rc Output: Service return status (suppressed when NULL).
     @return The newly created Args container.
 */
-inline static CMPIArgs * CMNewArgs (const CMPIBroker * mb, CMPIStatus * rc)
+_CMPI_INLINE_MOD CMPIArgs * CMNewArgs (const CMPIBroker * mb, CMPIStatus * rc)
 {
   return ((mb)->eft->newArgs ((mb), (rc)));
 }
@@ -349,7 +349,7 @@ inline static CMPIArgs * CMNewArgs (const CMPIBroker * mb, CMPIStatus * rc)
     @param rc Output: Service return status (suppressed when NULL).
     @return The newly created Array.
 */
-inline static CMPIArray * CMNewArray (
+_CMPI_INLINE_MOD CMPIArray * CMNewArray (
     const CMPIBroker * mb,
     CMPICount max,
     CMPIType type,
@@ -367,7 +367,7 @@ inline static CMPIArray * CMNewArray (
     @param rc Output: Service return status (suppressed when NULL).
     @return The newly created DateTime.
 */
-inline static CMPIDateTime * CMNewDateTime (
+_CMPI_INLINE_MOD CMPIDateTime * CMNewDateTime (
     const CMPIBroker * mb,
     CMPIStatus * rc)
 {
@@ -387,7 +387,7 @@ inline static CMPIDateTime * CMNewDateTime (
      @param rc Output: Service return status (suppressed when NULL).
      @return The newly created DateTime.
 */
-inline static CMPIDateTime *CMNewDateTimeFromBinary(
+_CMPI_INLINE_MOD CMPIDateTime *CMNewDateTimeFromBinary(
     const CMPIBroker * mb,
     CMPIUint64 binTime,
     CMPIBoolean interval,
@@ -408,7 +408,7 @@ inline static CMPIDateTime *CMNewDateTimeFromBinary(
     @param rc Output: Service return status (suppressed when NULL).
     @return The newly created DateTime
 */
-inline static CMPIDateTime *CMNewDateTimeFromChars(
+_CMPI_INLINE_MOD CMPIDateTime *CMNewDateTimeFromChars(
     const CMPIBroker * mb,
     const char *utcTime,
     CMPIStatus * rc)
@@ -431,7 +431,7 @@ inline static CMPIDateTime *CMNewDateTimeFromChars(
      @param rc Output: Service return status (suppressed when NULL).
      @return The newly created SelectExp.
 */
-inline static CMPISelectExp *CMNewSelectExp(
+_CMPI_INLINE_MOD CMPISelectExp *CMNewSelectExp(
     const CMPIBroker * mb,
     const char *query,
     const char *lang,
@@ -455,7 +455,7 @@ inline static CMPISelectExp *CMNewSelectExp(
      @param rc Output: Service return status (suppressed when NULL).
      @return True if test successful.
      */
-inline static CMPIBoolean CMClassPathIsA(
+_CMPI_INLINE_MOD CMPIBoolean CMClassPathIsA(
     const CMPIBroker * mb,
     const CMPIObjectPath * op,
     const char *type,
@@ -478,7 +478,7 @@ inline static CMPIBoolean CMClassPathIsA(
      @param rc Output: Service return status (suppressed when NULL).
      @return String from representation of &lt;object&gt;.
      */
-inline static CMPIString *CDToString(
+_CMPI_INLINE_MOD CMPIString *CDToString(
     const CMPIBroker * mb,
     const void *object,
     CMPIStatus * rc)
@@ -500,7 +500,7 @@ inline static CMPIString *CDToString(
     @param rc Output: Service return status (suppressed when NULL).
     @return True if test successful.
 */
-inline static CMPIBoolean CDIsOfType(
+_CMPI_INLINE_MOD CMPIBoolean CDIsOfType(
     const CMPIBroker * mb,
     const void *object,
     const char *type,
@@ -522,7 +522,7 @@ inline static CMPIBoolean CDIsOfType(
     @param rc Output: Service return status (suppressed when NULL).
     @return CMPI object type.
 */
-inline static CMPIString *CDGetType(
+_CMPI_INLINE_MOD CMPIString *CDGetType(
     const CMPIBroker * mb,
     const void *object,
     CMPIStatus * rc)
@@ -554,7 +554,7 @@ inline static CMPIString *CDGetType(
      </PRE>
 */
 
-inline static CMPIStatus CMLogMessage(
+_CMPI_INLINE_MOD CMPIStatus CMLogMessage(
     const CMPIBroker * b,
     int severity,
     const char *id,
@@ -591,7 +591,7 @@ inline static CMPIStatus CMLogMessage(
      </PRE>
  
 */
-inline static CMPIStatus CMTraceMessage(
+_CMPI_INLINE_MOD CMPIStatus CMTraceMessage(
     const CMPIBroker * b,
     int level,
     const char *component,
@@ -624,7 +624,7 @@ inline static CMPIStatus CMTraceMessage(
         CMNewCMPIError( );
     </PRE>
 */
-inline static CMPIError* CMNewCMPIError(
+_CMPI_INLINE_MOD CMPIError* CMNewCMPIError(
     const CMPIBroker* b,
     const char *owner,
     const char* msgID,
@@ -657,7 +657,7 @@ inline static CMPIError* CMNewCMPIError(
         CMOpenMessageFile(_broker,"/path/msgFile",&msgFileHandle);
     </PRE>
 */
-inline static CMPIStatus CMOpenMessageFile(
+_CMPI_INLINE_MOD CMPIStatus CMOpenMessageFile(
     const CMPIBroker* b,
     const char *msgFile,
     CMPIMsgFileHandle *msgFileHandle)
@@ -682,7 +682,7 @@ inline static CMPIStatus CMOpenMessageFile(
         CMCloseMessageFile(_broker,msgFileHandle);
     </PRE>
 */
-inline static CMPIStatus CMCloseMessageFile(
+_CMPI_INLINE_MOD CMPIStatus CMCloseMessageFile(
     const CMPIBroker* b,
     const CMPIMsgFileHandle msgFilehandle)
 {
@@ -728,7 +728,7 @@ inline static CMPIStatus CMCloseMessageFile(
        NULL,CMFmtArgs2(CMFmtChars("message"),CMFmtSint(1));
     </PRE>
 */
-inline static CMPIString* CMGetMessage2(
+_CMPI_INLINE_MOD CMPIString* CMGetMessage2(
     const CMPIBroker* mb,
     const char *msgId,
     const CMPIMsgFileHandle msgFilehandle,
@@ -752,7 +752,7 @@ inline static CMPIString* CMGetMessage2(
      @param rc Output: Service return status (suppressed when NULL).
      @return Property value.
       */
-inline static CMPIData CMGetProperty(
+_CMPI_INLINE_MOD CMPIData CMGetProperty(
     const CMPIInstance * inst,
     const char *name,
     CMPIStatus * rc)
@@ -771,7 +771,7 @@ inline static CMPIData CMGetProperty(
      @param rc Output: Service return status (suppressed when NULL).
      @return Property value.
       */
-inline static CMPIData CMGetPropertyAt(
+_CMPI_INLINE_MOD CMPIData CMGetPropertyAt(
     const CMPIInstance * inst,
     CMPICount index,
     CMPIString ** name,
@@ -792,7 +792,7 @@ inline static CMPIData CMGetPropertyAt(
      @param type Value type.
      @return Service return status.
       */
-inline static CMPIStatus CMSetProperty(
+_CMPI_INLINE_MOD CMPIStatus CMSetProperty(
     const CMPIInstance * inst,
     const char *name,
     const CMPIValue * value,
@@ -811,7 +811,7 @@ inline static CMPIStatus CMSetProperty(
      @param rc Output: Service return status (suppressed when NULL).
      @return Number of properties.
       */
-inline static CMPICount CMGetPropertyCount(
+_CMPI_INLINE_MOD CMPICount CMGetPropertyCount(
     const CMPIInstance * inst,
     CMPIStatus * rc)
 {
@@ -828,7 +828,7 @@ inline static CMPICount CMGetPropertyCount(
     @param rc Output: Service return status (suppressed when NULL).
     @return the generated ObjectPath.
       */
-inline static CMPIObjectPath *CMGetObjectPath(
+_CMPI_INLINE_MOD CMPIObjectPath *CMGetObjectPath(
     const CMPIInstance * inst,
     CMPIStatus * rc)
 {
@@ -848,7 +848,7 @@ inline static CMPIObjectPath *CMGetObjectPath(
      @param rc Output: Service return status (suppressed when NULL).
      @return the generated ObjectPath.
       */
-inline static CMPIStatus CMSetObjectPath(
+_CMPI_INLINE_MOD CMPIStatus CMSetObjectPath(
     CMPIInstance * inst,
     const CMPIObjectPath * obj)
 {
@@ -868,7 +868,7 @@ inline static CMPIStatus CMSetObjectPath(
      @param keys Deprecated, ignored by MB, maintained here for compatibility.
      @return Service return status.
       */
-inline static CMPIStatus CMSetPropertyFilter(
+_CMPI_INLINE_MOD CMPIStatus CMSetPropertyFilter(
     CMPIInstance * inst,
     const char **propertyList,
     char **keys)
@@ -893,7 +893,7 @@ inline static CMPIStatus CMSetPropertyFilter(
            no origin is attached to  the property
     @return Service return status
 */
-inline static CMPIStatus CMSetPropertyWithOrigin(
+_CMPI_INLINE_MOD CMPIStatus CMSetPropertyWithOrigin(
     const CMPIInstance * inst,
     const char *name,
     const CMPIValue * value,
@@ -919,7 +919,7 @@ inline static CMPIStatus CMSetPropertyWithOrigin(
      @param hn The hostname string
      @return Service return status.
       */
-inline static CMPIStatus
+_CMPI_INLINE_MOD CMPIStatus
 CMSetHostname (CMPIObjectPath * op, const char *hn)
 {
   return ((op)->ft->setHostname ((op), (hn)));
@@ -934,7 +934,7 @@ CMSetHostname (CMPIObjectPath * op, const char *hn)
      @param rc Output: Service return status (suppressed when NULL).
      @return The hostname component.
       */
-inline static CMPIString *CMGetHostname(
+_CMPI_INLINE_MOD CMPIString *CMGetHostname(
     const CMPIObjectPath * op,
     CMPIStatus * rc)
 {
@@ -950,7 +950,7 @@ inline static CMPIString *CMGetHostname(
      @param ns The namespace string
      @return Service return status.
 */
-inline static CMPIStatus
+_CMPI_INLINE_MOD CMPIStatus
 CMSetNameSpace (CMPIObjectPath * op, const char *ns)
 {
   return ((op)->ft->setNameSpace ((op), (ns)));
@@ -965,7 +965,7 @@ CMSetNameSpace (CMPIObjectPath * op, const char *ns)
      @param rc Output: Service return status (suppressed when NULL).
      @return The namespace component.
 */
-inline static CMPIString *CMGetNameSpace(
+_CMPI_INLINE_MOD CMPIString *CMGetNameSpace(
     const CMPIObjectPath * op,
     CMPIStatus * rc)
 {
@@ -981,7 +981,7 @@ inline static CMPIString *CMGetNameSpace(
     @param cn The hostname string
     @return Service return status.
 */
-inline static CMPIStatus CMSetClassName (
+_CMPI_INLINE_MOD CMPIStatus CMSetClassName (
     CMPIObjectPath * op,
     const char *cn)
 {
@@ -997,7 +997,7 @@ inline static CMPIStatus CMSetClassName (
     @param rc Output: Service return status (suppressed when NULL).
     @return The classname component.
       */
-inline static CMPIString *CMGetClassName(
+_CMPI_INLINE_MOD CMPIString *CMGetClassName(
     const CMPIObjectPath * op,
     CMPIStatus * rc)
 {
@@ -1015,7 +1015,7 @@ inline static CMPIString *CMGetClassName(
     @param type Value type.
     @return Service return status.
 */
-inline static CMPIStatus CMAddKey(
+_CMPI_INLINE_MOD CMPIStatus CMAddKey(
     CMPIObjectPath * op,
     const char *name,
     const CMPIValue * value,
@@ -1035,7 +1035,7 @@ inline static CMPIStatus CMAddKey(
     @param rc Output: Service return status (suppressed when NULL).
     @return Entry value.
       */
-inline static CMPIData CMGetKey(
+_CMPI_INLINE_MOD CMPIData CMGetKey(
     const CMPIObjectPath * op,
     const char *name,
     CMPIStatus * rc)
@@ -1054,7 +1054,7 @@ inline static CMPIData CMGetKey(
     @param rc Output: Service return status (suppressed when NULL).
     @return Data value.
       */
-inline static CMPIData CMGetKeyAt(
+_CMPI_INLINE_MOD CMPIData CMGetKeyAt(
     const CMPIObjectPath * op,
     CMPICount index,
     CMPIString ** name,
@@ -1073,7 +1073,7 @@ inline static CMPIData CMGetKeyAt(
     @param rc Output: Service return status (suppressed when NULL).
     @return Number of properties.
 */
-inline static CMPICount CMGetKeyCount(
+_CMPI_INLINE_MOD CMPICount CMGetKeyCount(
     const CMPIObjectPath * op,
     CMPIStatus * rc)
 {
@@ -1089,7 +1089,7 @@ inline static CMPICount CMGetKeyCount(
     @param src Source input.
     @return Service return status.
 */
-inline static CMPIStatus CMSetNameSpaceFromObjectPath(
+_CMPI_INLINE_MOD CMPIStatus CMSetNameSpaceFromObjectPath(
     CMPIObjectPath * op,
     const CMPIObjectPath * src)
 {
@@ -1106,7 +1106,7 @@ inline static CMPIStatus CMSetNameSpaceFromObjectPath(
     @param src Source input.
     @return Service return status.
       */
-inline static CMPIStatus CMSetHostAndNameSpaceFromObjectPath(
+_CMPI_INLINE_MOD CMPIStatus CMSetHostAndNameSpaceFromObjectPath(
     CMPIObjectPath * op,
     const CMPIObjectPath * src)
 {
@@ -1124,7 +1124,7 @@ inline static CMPIStatus CMSetHostAndNameSpaceFromObjectPath(
     @param rc Output: Service return status (suppressed when NULL).
     @return Qualifier value.
 */
-inline static CMPIData CMGetClassQualifier(
+_CMPI_INLINE_MOD CMPIData CMGetClassQualifier(
     const CMPIObjectPath* op,
     const char *qName,
     CMPIStatus *rc)
@@ -1144,7 +1144,7 @@ inline static CMPIData CMGetClassQualifier(
     @param rc Output: Service return status (suppressed when NULL).
     @return Qualifier value.
 */
-inline static  CMPIData CMGetPropertyQualifier(
+_CMPI_INLINE_MOD  CMPIData CMGetPropertyQualifier(
     const CMPIObjectPath* op,
     const char *pName,
     const char *qName,
@@ -1165,7 +1165,7 @@ inline static  CMPIData CMGetPropertyQualifier(
     @param rc Output: Service return status (suppressed when NULL).
     @return Qualifier value.
 */
-inline static  CMPIData CMGetMethodQualifier(
+_CMPI_INLINE_MOD  CMPIData CMGetMethodQualifier(
     const CMPIObjectPath* op,
     const char *methodName,
     const char *qName,
@@ -1187,7 +1187,7 @@ inline static  CMPIData CMGetMethodQualifier(
     @param rc Output: Service return status (suppressed when NULL).
     @return Qualifier value.
 */
-inline static  CMPIData CMGetParameterQualifier(
+_CMPI_INLINE_MOD  CMPIData CMGetParameterQualifier(
     const CMPIObjectPath* op,
     const char *mName,
     const char *pName,
@@ -1212,7 +1212,7 @@ inline static  CMPIData CMGetParameterQualifier(
     @param rc Output: Service return status (suppressed when NULL).
     @return Number of elements.
 */
-inline static CMPICount CMGetArrayCount(
+_CMPI_INLINE_MOD CMPICount CMGetArrayCount(
     const CMPIArray * ar,
     CMPIStatus * rc)
 {
@@ -1228,7 +1228,7 @@ inline static CMPICount CMGetArrayCount(
     @param rc Output: Service return status (suppressed when NULL).
     @return Number of elements.
 */
-inline static CMPIType CMGetArrayType(
+_CMPI_INLINE_MOD CMPIType CMGetArrayType(
     const CMPIArray * ar,
     CMPIStatus * rc)
 {
@@ -1245,7 +1245,7 @@ inline static CMPIType CMGetArrayType(
     @param rc Output: Service return status (suppressed when NULL).
     @return Element value.
 */
-inline static CMPIData CMGetArrayElementAt(
+_CMPI_INLINE_MOD CMPIData CMGetArrayElementAt(
     const CMPIArray * ar,
     CMPICount index,
     CMPIStatus * rc)
@@ -1265,7 +1265,7 @@ inline static CMPIData CMGetArrayElementAt(
     @param type Value type.
     @return Service return status.
 */
-inline static CMPIStatus CMSetArrayElementAt(
+_CMPI_INLINE_MOD CMPIStatus CMSetArrayElementAt(
     CMPIArray * ar,
     CMPICount index,
     const CMPIValue * value,
@@ -1291,7 +1291,7 @@ inline static CMPIStatus CMSetArrayElementAt(
     @param type Value type.
     @return Service return status.
 */
-inline static CMPIStatus CMAddArg(
+_CMPI_INLINE_MOD CMPIStatus CMAddArg(
     CMPIArgs * as,
     char *name,
     const CMPIValue * value,
@@ -1311,7 +1311,7 @@ inline static CMPIStatus CMAddArg(
     @param rc Output: Service return status (suppressed when NULL).
     @return Argument value.
 */
-inline static CMPIData CMGetArg(
+_CMPI_INLINE_MOD CMPIData CMGetArg(
     const CMPIArgs * as,
     const char *name,
     CMPIStatus * rc)
@@ -1330,7 +1330,7 @@ inline static CMPIData CMGetArg(
     @param rc Output: Service return status (suppressed when NULL).
     @return Argument value.
 */
-inline static CMPIData CMGetArgAt(
+_CMPI_INLINE_MOD CMPIData CMGetArgAt(
     const CMPIArgs * as,
     CMPICount index,
     CMPIString ** name,
@@ -1348,7 +1348,7 @@ inline static CMPIData CMGetArgAt(
     @param rc Output: Service return status (suppressed when NULL).
     @return Number of properties.
 */
-inline static CMPICount CMGetArgCount (const CMPIArgs * as, CMPIStatus * rc)
+_CMPI_INLINE_MOD CMPICount CMGetArgCount (const CMPIArgs * as, CMPIStatus * rc)
 {
     return ((as)->ft->getArgCount ((as), (rc)));
 }
@@ -1368,7 +1368,7 @@ inline static CMPICount CMGetArgCount (const CMPIArgs * as, CMPIStatus * rc)
     @param rc Output: Service return status (suppressed when NULL).
     @return Pointer to char* representation.
 */
-inline static char * CMGetCharsPtr (
+_CMPI_INLINE_MOD char * CMGetCharsPtr (
     const CMPIString * st,
     CMPIStatus * rc)
 {
@@ -1389,7 +1389,7 @@ inline static char * CMGetCharsPtr (
     @param rc Output: Service return status (suppressed when NULL).
     @return DateTime as UTC string.
       */
-inline static CMPIString *CMGetStringFormat(
+_CMPI_INLINE_MOD CMPIString *CMGetStringFormat(
     const CMPIDateTime * dt,
     CMPIStatus * rc)
 {
@@ -1406,7 +1406,7 @@ inline static CMPIString *CMGetStringFormat(
     @param rc Output: Service return status (suppressed when NULL).
     @return DateTime in binary.
       */
-inline static CMPIUint64 CMGetBinaryFormat(
+_CMPI_INLINE_MOD CMPIUint64 CMGetBinaryFormat(
     const CMPIDateTime * dt,
     CMPIStatus * rc)
 {
@@ -1422,7 +1422,7 @@ inline static CMPIUint64 CMGetBinaryFormat(
     @param rc Output: Service return status (suppressed when NULL).
     @return True if interval value.
 */
-inline static CMPIBoolean CMIsInterval(
+_CMPI_INLINE_MOD CMPIBoolean CMIsInterval(
     const CMPIDateTime * dt,
     CMPIStatus * rc)
 {
@@ -1444,7 +1444,7 @@ inline static CMPIBoolean CMIsInterval(
     @param rc Output: Service return status (suppressed when NULL).
     @return the error type this Error object conatins
  */
-inline static CMPIErrorType (*getErrorType)(
+_CMPI_INLINE_MOD CMPIErrorType (*getErrorType)(
     const CMPIError* er,
     CMPIStatus* rc)
 {
@@ -1460,7 +1460,7 @@ inline static CMPIErrorType (*getErrorType)(
     @param rc Output: Service return status (suppressed when NULL).
     @return A string, which can be NULL
  */
-inline static CMPIString* (*getOtherErrorType)(
+_CMPI_INLINE_MOD CMPIString* (*getOtherErrorType)(
     const CMPIError* er,
     CMPIStatus* rc)
 {
@@ -1476,7 +1476,7 @@ inline static CMPIString* (*getOtherErrorType)(
     @param rc Output: Service return status (suppressed when NULL).
     @return A string, which can be NULL
  */
-inline static CMPIString* (*getOwningEntity)(
+_CMPI_INLINE_MOD CMPIString* (*getOwningEntity)(
     const CMPIError* er, CMPIStatus* rc)
 {
   return ((er)->ft->getOwningEntity ((er), (rc)));
@@ -1491,7 +1491,7 @@ inline static CMPIString* (*getOwningEntity)(
     @param rc Output: Service return status (suppressed when NULL).
     @return A string, which can be NULL
  */
-inline static CMPIString* (*getMessageID)(const CMPIError* er, CMPIStatus* rc)
+_CMPI_INLINE_MOD CMPIString* (*getMessageID)(const CMPIError* er, CMPIStatus* rc)
 {
   return ((er)->ft->getMessageID ((er), (rc)));
 }
@@ -1505,7 +1505,7 @@ inline static CMPIString* (*getMessageID)(const CMPIError* er, CMPIStatus* rc)
     @param rc Output: Service return status (suppressed when NULL).
     @return A string, which can be NULL
  */
-inline static CMPIString* (*getMessage)(const CMPIError* er, CMPIStatus* rc)
+_CMPI_INLINE_MOD CMPIString* (*getMessage)(const CMPIError* er, CMPIStatus* rc)
 {
   return ((er)->ft->getMessage ((er), (rc)));
 }
@@ -1519,7 +1519,7 @@ inline static CMPIString* (*getMessage)(const CMPIError* er, CMPIStatus* rc)
     @param rc Output: Service return status (suppressed when NULL).
     @return the perceived severity
  */
-inline static CMPIErrorSeverity (*getPerceivedSeverity)(
+_CMPI_INLINE_MOD CMPIErrorSeverity (*getPerceivedSeverity)(
     const CMPIError* er,
     CMPIStatus* rc)
 {
@@ -1536,7 +1536,7 @@ inline static CMPIErrorSeverity (*getPerceivedSeverity)(
     @param rc Output: Service return status (suppressed when NULL).
     @return A probable cause value
  */
-inline static CMPIErrorProbableCause (*getProbableCause)(
+_CMPI_INLINE_MOD CMPIErrorProbableCause (*getProbableCause)(
     const CMPIError* er,
     CMPIStatus* rc)
 {
@@ -1553,7 +1553,7 @@ inline static CMPIErrorProbableCause (*getProbableCause)(
     @param rc Output: Service return status (suppressed when NULL).
     @return A string, which can be NULL
  */
-inline static CMPIString* (*getProbableCauseDescription)(
+_CMPI_INLINE_MOD CMPIString* (*getProbableCauseDescription)(
     const CMPIError* er,
     CMPIStatus* rc)
 {
@@ -1570,7 +1570,7 @@ inline static CMPIString* (*getProbableCauseDescription)(
     @param rc Output: Service return status (suppressed when NULL).
     @return A array of strings, which can be NULL
  */
-inline static CMPIArray* (*getRecommendedActions)(
+_CMPI_INLINE_MOD CMPIArray* (*getRecommendedActions)(
     const CMPIError* er,
     CMPIStatus* rc)
 {
@@ -1587,7 +1587,7 @@ inline static CMPIArray* (*getRecommendedActions)(
     @param rc Output: Service return status (suppressed when NULL).
     @return A string, which can be NULL
  */
-inline static CMPIString* (*getErrorSource)(
+_CMPI_INLINE_MOD CMPIString* (*getErrorSource)(
     const CMPIError* er, CMPIStatus* rc)
 {
   return ((er)->ft->getErrorSource ((er), (rc)));
@@ -1603,7 +1603,7 @@ inline static CMPIString* (*getErrorSource)(
     @param rc Output: Service return status (suppressed when NULL).
     @return A error source format  code
  */
-inline static CMPIErrorSrcFormat (*getErrorSourceFormat)(
+_CMPI_INLINE_MOD CMPIErrorSrcFormat (*getErrorSourceFormat)(
     const CMPIError* er,
     CMPIStatus* rc)
 {
@@ -1621,7 +1621,7 @@ inline static CMPIErrorSrcFormat (*getErrorSourceFormat)(
     @param rc Output: Service return status (suppressed when NULL).
     @return A string, which can be NULL
  */
-inline static CMPIString* (*getOtherErrorSourceFormat)(
+_CMPI_INLINE_MOD CMPIString* (*getOtherErrorSourceFormat)(
     const CMPIError* er,
     CMPIStatus* rc)
 {
@@ -1638,7 +1638,7 @@ inline static CMPIString* (*getOtherErrorSourceFormat)(
     @param rc Output: Service return status (suppressed when NULL).
     @return A CMPI Status code
 */
-inline static CMPIrc (*getCIMStatusCode)(const CMPIError* er, CMPIStatus* rc)
+_CMPI_INLINE_MOD CMPIrc (*getCIMStatusCode)(const CMPIError* er, CMPIStatus* rc)
 {
     return ((er)->ft->getCIMStatusCode ((er), (rc)));
 }
@@ -1653,7 +1653,7 @@ inline static CMPIrc (*getCIMStatusCode)(const CMPIError* er, CMPIStatus* rc)
     @param rc Output: Service return status (suppressed when NULL).
     @return A string, which can be NULL
  */
-inline static CMPIString* (*getCIMStatusCodeDescription)(
+_CMPI_INLINE_MOD CMPIString* (*getCIMStatusCodeDescription)(
     const CMPIError* er,
     CMPIStatus* rc)
 {
@@ -1670,7 +1670,7 @@ inline static CMPIString* (*getCIMStatusCodeDescription)(
     @param rc Output: Serbice return status (surpressed when NULL)
     @return An array of CMPIStrings which represents the dynamic values
 */
-inline static CMPIArray* (*getMessageArguments)(
+_CMPI_INLINE_MOD CMPIArray* (*getMessageArguments)(
     const CMPIError* er,
     CMPIStatus* rc)
 {
@@ -1687,7 +1687,7 @@ inline static CMPIArray* (*getMessageArguments)(
     @param et The error type
     @return Output: Service return status
  */
-inline static CMPIStatus (*setErrorType)(
+_CMPI_INLINE_MOD CMPIStatus (*setErrorType)(
     CMPIError* er,
     const CMPIErrorType et)
 {
@@ -1705,7 +1705,7 @@ inline static CMPIStatus (*setErrorType)(
         error type is "OTHER"
     @return Output: Service return status
  */
-inline static CMPIStatus (*setOtherErrorType)(CMPIError* er, const char * oet)
+_CMPI_INLINE_MOD CMPIStatus (*setOtherErrorType)(CMPIError* er, const char * oet)
 {
   return ((er)->ft->setOtherErrorType ((er), (oet)));
 }
@@ -1720,7 +1720,7 @@ inline static CMPIStatus (*setOtherErrorType)(CMPIError* er, const char * oet)
     @param pc The probable cause string
     @return Output: Service return status
  */
-inline static CMPIStatus (*setProbableCauseDescription)(
+_CMPI_INLINE_MOD CMPIStatus (*setProbableCauseDescription)(
     CMPIError* er,
     const char * pcd)
 {
@@ -1738,7 +1738,7 @@ inline static CMPIStatus (*setProbableCauseDescription)(
               be taken t deal with this error
     @return Output: Service return status
  */
-inline static CMPIStatus (*setRecommendedActions)(
+_CMPI_INLINE_MOD CMPIStatus (*setRecommendedActions)(
     CMPIError* er,
     const CMPIArray* ra)
 {
@@ -1756,7 +1756,7 @@ inline static CMPIStatus (*setRecommendedActions)(
     @param es the string which describes the source
     @return Output: Service return status
  */
-inline static CMPIStatus (*setErrorSource)(CMPIError* er, const char* es);
+_CMPI_INLINE_MOD CMPIStatus (*setErrorSource)(CMPIError* er, const char* es);
 {
   return ((er)->ft->setErrorSource ((er), (es)));
 }
@@ -1771,7 +1771,7 @@ inline static CMPIStatus (*setErrorSource)(CMPIError* er, const char* es);
     @param esf the string which describes the source format
     @return Output: Service return status
  */
-inline static CMPIStatus (*setErrorSourceFormat)(
+_CMPI_INLINE_MOD CMPIStatus (*setErrorSourceFormat)(
     CMPIError* er,
     const CMPIErrorSrcFormat esf);
 {
@@ -1788,7 +1788,7 @@ inline static CMPIStatus (*setErrorSourceFormat)(
     @param oef the string which describes the other source format
     @return Output: Service return status
  */
-inline static CMPIStatus (*setOtherErrorSourceFormat)(
+_CMPI_INLINE_MOD CMPIStatus (*setOtherErrorSourceFormat)(
     CMPIError* er,
     const char* oesf)
 {
@@ -1805,7 +1805,7 @@ inline static CMPIStatus (*setOtherErrorSourceFormat)(
     @param scd A string whcih describes the status code.
     @return Output: Service return status
  */
-inline static CMPIStatus (*setCIMStatusCodeDescription)(
+_CMPI_INLINE_MOD CMPIStatus (*setCIMStatusCodeDescription)(
     CMPIError* er,
     const char* cd);
 {
@@ -1822,7 +1822,7 @@ inline static CMPIStatus (*setCIMStatusCodeDescription)(
     content of the message.
     @return Service return status
  */
-inline static CMPIStatus (*setMessageArguments)(CMPIError* er, CMPIArray* ma)
+_CMPI_INLINE_MOD CMPIStatus (*setMessageArguments)(CMPIError* er, CMPIArray* ma)
 {
   return ((er)->ft->setMessageArguments ((er), (ma)));
 }
@@ -1843,7 +1843,7 @@ inline static CMPIStatus (*setMessageArguments)(CMPIError* er, CMPIArray* ma)
     @param rc Output: Service return status (suppressed when NULL).
     @return Element value.
       */
-inline static CMPIData CMGetNext (
+_CMPI_INLINE_MOD CMPIData CMGetNext (
     const CMPIEnumeration * en,
     CMPIStatus * rc)
 {
@@ -1859,7 +1859,7 @@ inline static CMPIData CMGetNext (
     @param rc Output: Service return status (suppressed when NULL).
     @return True or false.
       */
-inline static CMPIBoolean CMHasNext(
+_CMPI_INLINE_MOD CMPIBoolean CMHasNext(
    const CMPIEnumeration * en,
    CMPIStatus * rc)
 {
@@ -1875,7 +1875,7 @@ inline static CMPIBoolean CMHasNext(
      @param rc Output: Service return status (suppressed when NULL).
      @return The Array.
 */
-inline static CMPIArray *CMToArray(
+_CMPI_INLINE_MOD CMPIArray *CMToArray(
    const CMPIEnumeration * en,
    CMPIStatus * rc)
 {
@@ -1896,7 +1896,7 @@ inline static CMPIArray *CMToArray(
     @param type Type of the Value object.
     @return Service return status.
       */
-inline static CMPIStatus CMReturnData(
+_CMPI_INLINE_MOD CMPIStatus CMReturnData(
     const CMPIResult * rslt,
     const CMPIValue * value,
     const CMPIType type)
@@ -1914,7 +1914,7 @@ inline static CMPIStatus CMReturnData(
     @param inst Instance to be returned.
     @return Service return status.
       */
-inline static CMPIStatus CMReturnInstance(
+_CMPI_INLINE_MOD CMPIStatus CMReturnInstance(
     const CMPIResult * rslt,
     const CMPIInstance * inst)
 {
@@ -1930,7 +1930,7 @@ inline static CMPIStatus CMReturnInstance(
     @param ref ObjectPath to be returned.
     @return Service return status.
       */
-inline static CMPIStatus CMReturnObjectPath(
+_CMPI_INLINE_MOD CMPIStatus CMReturnObjectPath(
     const CMPIResult * rslt,
     const CMPIObjectPath * ref)
 {
@@ -1945,7 +1945,7 @@ inline static CMPIStatus CMReturnObjectPath(
     @param rslt Result this pointer.
     @return Service return status.
       */
-inline static CMPIStatus CMReturnDone(const CMPIResult * rslt)
+_CMPI_INLINE_MOD CMPIStatus CMReturnDone(const CMPIResult * rslt)
 {
   return ((rslt)->ft->returnDone ((rslt)));
 }
@@ -1960,7 +1960,7 @@ inline static CMPIStatus CMReturnDone(const CMPIResult * rslt)
     @param er Error to be returned.
     @return Service return status.
 */
-inline static CMPIStatus CMReturnError(
+_CMPI_INLINE_MOD CMPIStatus CMReturnError(
     const CMPIResult* rslt,
     const CMPIError* er)
 {
@@ -1983,7 +1983,7 @@ inline static CMPIStatus CMReturnError(
      @param rc Output: Service return status (suppressed when NULL).
      @return Entry value.
 */
-inline static CMPIData CMGetContextEntry(
+_CMPI_INLINE_MOD CMPIData CMGetContextEntry(
     const CMPIContext * ctx,
     const char *name,
     CMPIStatus * rc)
@@ -2003,7 +2003,7 @@ inline static CMPIData CMGetContextEntry(
     @param rc Output: Service return status (suppressed when NULL).
     @return Entry value.
 */
-inline static CMPIData CMGetContextEntryAt(
+_CMPI_INLINE_MOD CMPIData CMGetContextEntryAt(
     const CMPIContext * ctx,
     CMPICount index,
     CMPIString ** name,
@@ -2022,7 +2022,7 @@ inline static CMPIData CMGetContextEntryAt(
      @param rc Output: Service return status (suppressed when NULL).
      @return Number of entries.
 */
-inline static CMPICount CMGetContextEntryCount(
+_CMPI_INLINE_MOD CMPICount CMGetContextEntryCount(
     const CMPIContext * ctx,
     CMPIStatus * rc)
 {
@@ -2041,7 +2041,7 @@ inline static CMPICount CMGetContextEntryCount(
      @param type Value type.
      @return Service return status.
 */
-inline static CMPIStatus CMAddContextEntry(
+_CMPI_INLINE_MOD CMPIStatus CMAddContextEntry(
     const CMPIContext * ctx,
     const char *name,
     const CMPIValue * value,
@@ -2066,7 +2066,7 @@ inline static CMPIStatus CMAddContextEntry(
      @param rc Output: Service return status (suppressed when NULL).
      @return The select expression.
 */
-inline static CMPIString *CMGetSelExpString(
+_CMPI_INLINE_MOD CMPIString *CMGetSelExpString(
     const CMPISelectExp * se,
     CMPIStatus * rc)
 {
@@ -2083,7 +2083,7 @@ inline static CMPIString *CMGetSelExpString(
     @param rc Output: Service return status (suppressed when NULL).
     @return True or false incicator.
       */
-inline static CMPIBoolean CMEvaluateSelExp(
+_CMPI_INLINE_MOD CMPIBoolean CMEvaluateSelExp(
     const CMPISelectExp * se,
     const CMPIInstance * inst,
     CMPIStatus * rc)
@@ -2103,7 +2103,7 @@ inline static CMPIBoolean CMEvaluateSelExp(
     @param rc Output: Service return status (suppressed when NULL).
     @return True or false incicator.
       */
-inline static CMPIBoolean CMEvaluateSelExpUsingAccessor(
+_CMPI_INLINE_MOD CMPIBoolean CMEvaluateSelExpUsingAccessor(
     const CMPISelectExp * se,
     CMPIAccessor * accessor,
     void *parm,
@@ -2123,7 +2123,7 @@ inline static CMPIBoolean CMEvaluateSelExpUsingAccessor(
      @param rc Output: Service return status (suppressed when NULL).
      @return The disjunction.
 */
-inline static CMPISelectCond *CMGetDoc(
+_CMPI_INLINE_MOD CMPISelectCond *CMGetDoc(
     const CMPISelectExp * se,
     CMPIStatus * rc)
 {
@@ -2139,7 +2139,7 @@ inline static CMPISelectCond *CMGetDoc(
      @param rc Output: Service return status (suppressed when NULL).
      @return The conjunction.
 */
-inline static CMPISelectCond *CMGetCod(
+_CMPI_INLINE_MOD CMPISelectCond *CMGetCod(
     const CMPISelectExp * se,
     CMPIStatus * rc)
 {
@@ -2163,7 +2163,7 @@ inline static CMPISelectCond *CMGetCod(
     @param rc Output: Service return status (suppressed when NULL).
     @return Number of SubCond elements.
       */
-inline static CMPICount CMGetSubCondCountAndType(
+_CMPI_INLINE_MOD CMPICount CMGetSubCondCountAndType(
     const CMPISelectCond * sc,
     int * type,
     CMPIStatus * rc)
@@ -2182,7 +2182,7 @@ inline static CMPICount CMGetSubCondCountAndType(
     @param rc Output: Service return status (suppressed when NULL).
     @return The indexed SubCond element.
       */
-inline static CMPISubCond *CMGetSubCondAt(
+_CMPI_INLINE_MOD CMPISubCond *CMGetSubCondAt(
     const CMPISelectCond * sc,
     CMPICount index,
     CMPIStatus * rc)
@@ -2205,7 +2205,7 @@ inline static CMPISubCond *CMGetSubCondAt(
     @param rc Output: Service return status (suppressed when NULL).
     @return Number of Predicate elements.
       */
-inline static CMPICount CMGetPredicateCount(
+_CMPI_INLINE_MOD CMPICount CMGetPredicateCount(
     const CMPISubCond * sc,
     CMPIStatus * rc)
 {
@@ -2222,7 +2222,7 @@ inline static CMPICount CMGetPredicateCount(
     @param rc Output: Service return status (suppressed when NULL).
     @return The indexed Predicate element.
       */
-inline static CMPIPredicate *CMGetPredicateAt(
+_CMPI_INLINE_MOD CMPIPredicate *CMGetPredicateAt(
     const CMPISubCond * sc,
     CMPICount index,
     CMPIStatus * rc)
@@ -2241,7 +2241,7 @@ inline static CMPIPredicate *CMGetPredicateAt(
     @param rc Output: Service return status (suppressed when NULL).
     @return The named Predicate element.
       */
-inline static CMPIPredicate *CMGetPredicate(
+_CMPI_INLINE_MOD CMPIPredicate *CMGetPredicate(
     const CMPISubCond * sc,
     const char *name,
     CMPIStatus * rc)
@@ -2266,7 +2266,7 @@ inline static CMPIPredicate *CMGetPredicate(
     @param rhs Right hand side of predicate.
     @return Service return status.
 */
-inline static CMPIStatus CMGetPredicateData(
+_CMPI_INLINE_MOD CMPIStatus CMGetPredicateData(
     const CMPIPredicate * pr,
     CMPIType * type,
     CMPIPredOp * op,
@@ -2290,7 +2290,7 @@ inline static CMPIStatus CMGetPredicateData(
     @param rc Output: Service return status (suppressed when NULL).
     @return Evaluation result.
       */
-inline static   int CMEvaluatePredicate(
+_CMPI_INLINE_MOD   int CMEvaluatePredicate(
     CMPIPredicate* pr,
     void* value,
     CMPIType type,
@@ -2312,7 +2312,7 @@ inline static   int CMEvaluatePredicate(
     @param rc Output: Service return status (suppressed when NULL).
     @return Evaluation result.
       */
-inline static int CMEvaluatePredicateUsingAccessor(
+_CMPI_INLINE_MOD int CMEvaluatePredicateUsingAccessor(
     const CMPIPredicate * pr,
     CMPIAccessor * accessor,
     void *parm,
@@ -2336,7 +2336,7 @@ inline static int CMEvaluatePredicateUsingAccessor(
 /** 32 bits describing CMPI features supported by this CIMOM.
      See CMPI_MB_Class_x and CMPI_MB_Supports_xxx flags.
  */
-inline static unsigned long CBGetClassification (const CMPIBroker * mb)
+_CMPI_INLINE_MOD unsigned long CBGetClassification (const CMPIBroker * mb)
 {
   return ((mb)->bft->brokerClassification);
 }
@@ -2347,7 +2347,7 @@ inline static unsigned long CBGetClassification (const CMPIBroker * mb)
 #   ifdef CMPI_INLINE
 /** CIMOM version as defined by CIMOM
      */
-inline static int CBBrokerVersion (const CMPIBroker * mb)
+_CMPI_INLINE_MOD int CBBrokerVersion (const CMPIBroker * mb)
 {
   return ((mb)->bft->brokerVersion);
 }
@@ -2358,7 +2358,7 @@ inline static int CBBrokerVersion (const CMPIBroker * mb)
 #   ifdef CMPI_INLINE
 /** CIMOM name
      */
-inline static const char CBBrokerName (const CMPIBroker * mb)
+_CMPI_INLINE_MOD const char CBBrokerName (const CMPIBroker * mb)
 {
   return ((mb)->bft->brokerName);
 }
@@ -2366,9 +2366,14 @@ inline static const char CBBrokerName (const CMPIBroker * mb)
 #      define CBBrokerName(b)                          ((b)->bft->brokerName)
 #   endif
 
+#ifdef DOC_ONLY
+#define _CMPI_INLINE_MOD
+#else
+#define _CMPI_INLINE_MOD _CMPI_INLINE_MOD
+#endif
 
 #   ifdef CMPI_INLINE
-/** This function prepares the CMPI run time system to accept
+ /** This function prepares the CMPI run time system to accept
      a thread that will be using CMPI services. The returned
      CMPIContext object must be used by the subsequent attachThread()
      and detachThread() invocations.
@@ -2377,7 +2382,7 @@ inline static const char CBBrokerName (const CMPIBroker * mb)
      @return New Context object to be used by thread to be attached.
      @see CMPIBrokerFT.prepareAttachThread()
      */
-inline static CMPIContext *CBPrepareAttachThread(
+_CMPI_INLINE_MOD CMPIContext *CBPrepareAttachThread(
     const CMPIBroker * mb,
     const CMPIContext * ctx)
 {
@@ -2395,7 +2400,7 @@ inline static CMPIContext *CBPrepareAttachThread(
     @param ctx Context object
     @return Service return status.
      */
-inline static CMPIStatus CBAttachThread(
+_CMPI_INLINE_MOD CMPIStatus CBAttachThread(
     const CMPIBroker * mb,
     const CMPIContext * ctx)
 {
@@ -2413,7 +2418,7 @@ inline static CMPIStatus CBAttachThread(
     @param ctx Context object
     @return Service return status.
      */
-inline static CMPIStatus CBDetachThread(
+_CMPI_INLINE_MOD CMPIStatus CBDetachThread(
     const CMPIBroker * mb,
     const CMPIContext * ctx)
 {
@@ -2434,7 +2439,7 @@ inline static CMPIStatus CBDetachThread(
     @param ind Indication Instance
     @return Service return status.
      */
-inline static CMPIStatus CBDeliverIndication(
+_CMPI_INLINE_MOD CMPIStatus CBDeliverIndication(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
     const char *ns,
@@ -2456,7 +2461,7 @@ inline static CMPIStatus CBDeliverIndication(
     @param rc Output: Service return status (suppressed when NULL).
     @return Enumeration of ObjectPathes.
      */
-inline static CMPIEnumeration *CBEnumInstanceNames(
+_CMPI_INLINE_MOD CMPIEnumeration *CBEnumInstanceNames(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
     const CMPIObjectPath * op,
@@ -2482,7 +2487,7 @@ inline static CMPIEnumeration *CBEnumInstanceNames(
      @param rc Output: Service return status (suppressed when NULL).
      @return Enumeration of Instances.
 */
-inline static CMPIEnumeration *CBEnumInstances(
+_CMPI_INLINE_MOD CMPIEnumeration *CBEnumInstances(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
     const CMPIObjectPath * op,
@@ -2510,7 +2515,7 @@ inline static CMPIEnumeration *CBEnumInstances(
     @param rc Output: Service return status (suppressed when NULL).
     @return The Instance.
 */
-inline static CMPIInstance *CBGetInstance(
+_CMPI_INLINE_MOD CMPIInstance *CBGetInstance(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
     const CMPIObjectPath * op,
@@ -2534,7 +2539,7 @@ inline static CMPIInstance *CBGetInstance(
     @param rc Output: Service return status (suppressed when NULL).
     @return The assigned instance reference.
      */
-inline static CMPIObjectPath *CBCreateInstance(
+_CMPI_INLINE_MOD CMPIObjectPath *CBCreateInstance(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
     const CMPIObjectPath * op,
@@ -2560,7 +2565,7 @@ inline static CMPIObjectPath *CBCreateInstance(
      @return Service return status.
 */
 #      ifdef CMPI_VER_100
-inline static CMPIStatus CBModifyInstance(
+_CMPI_INLINE_MOD CMPIStatus CBModifyInstance(
     const CMPIBroker* mb,
     const CMPIContext* ctx,
     const CMPIObjectPath* op,
@@ -2571,7 +2576,7 @@ inline static CMPIStatus CBModifyInstance(
           modifyInstance ((mb), (ctx), (op), (inst), (properties)));
 }
 #      else
-inline static CMPIStatus CBSetInstance(
+_CMPI_INLINE_MOD CMPIStatus CBSetInstance(
     const CMPIBroker* mb,
     const CMPIContext* ctx,
     const CMPIObjectPath* op,
@@ -2599,7 +2604,7 @@ inline static CMPIStatus CBSetInstance(
      @param op ObjectPath containing namespace, classname and key components.
      @return Service return status.
      */
-inline static CMPIStatus CBDeleteInstance(
+_CMPI_INLINE_MOD CMPIStatus CBDeleteInstance(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
     const CMPIObjectPath * op)
@@ -2621,7 +2626,7 @@ inline static CMPIStatus CBDeleteInstance(
     @param rc Output: Service return status (suppressed when NULL).
     @return Resulting eumeration of Instances.
 */
-inline static CMPIEnumeration *CBExecQuery(
+_CMPI_INLINE_MOD CMPIEnumeration *CBExecQuery(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
     const CMPIObjectPath * op,
@@ -2672,7 +2677,7 @@ inline static CMPIEnumeration *CBExecQuery(
     @param rc Output: Service return status (suppressed when NULL).
     @return Enumeration of Instances.
      */
-inline static CMPIEnumeration *CBAssociators(
+_CMPI_INLINE_MOD CMPIEnumeration *CBAssociators(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
     const CMPIObjectPath * op,
@@ -2724,7 +2729,7 @@ inline static CMPIEnumeration *CBAssociators(
     @param rc Output: Service return status (suppressed when NULL).
     @return Enumeration of ObjectPaths.
      */
-inline static CMPIEnumeration *CBAssociatorNames(
+_CMPI_INLINE_MOD CMPIEnumeration *CBAssociatorNames(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
     const CMPIObjectPath * op,
@@ -2769,7 +2774,7 @@ inline static CMPIEnumeration *CBAssociatorNames(
     @param rc Output: Service return status (suppressed when NULL).
     @return Enumeration of ObjectPaths.
      */
-inline static CMPIEnumeration *CBReferences(
+_CMPI_INLINE_MOD CMPIEnumeration *CBReferences(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
     const CMPIObjectPath * op,
@@ -2807,7 +2812,7 @@ inline static CMPIEnumeration *CBReferences(
     @param rc Output: Service return status (suppressed when NULL).
     @return Enumeration of ObjectPaths.
        */
-inline static CMPIEnumeration *CBReferenceNames(
+_CMPI_INLINE_MOD CMPIEnumeration *CBReferenceNames(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
     const CMPIObjectPath * op,
@@ -2836,7 +2841,7 @@ inline static CMPIEnumeration *CBReferenceNames(
     @param rc Output: Service return status (suppressed when NULL).
     @return Method return value.
 */
-inline static CMPIData CBInvokeMethod(
+_CMPI_INLINE_MOD CMPIData CBInvokeMethod(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
     const CMPIObjectPath * op,
@@ -2864,7 +2869,7 @@ inline static CMPIData CBInvokeMethod(
     @param type Value type.
     @return Service return status.
       */
-inline static CMPIStatus CBSetProperty(
+_CMPI_INLINE_MOD CMPIStatus CBSetProperty(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
     const CMPIObjectPath * op,
@@ -2890,7 +2895,7 @@ inline static CMPIStatus CBSetProperty(
         @param rc Output: Service return status (suppressed when NULL).
         @return Property value.
       */
-inline static CMPIData CBGetProperty(
+_CMPI_INLINE_MOD CMPIData CBGetProperty(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
     const CMPIObjectPath * op,
