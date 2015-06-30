@@ -1,0 +1,9 @@
+29 June 2015
+Karl
+1. Clean up some minor issues in @returns and standardize the text so says
+same thing in every case.
+2. Clean up rc so same text everywhere.
+3. Clean up a number of minor issues
+4. Started @see between cmpimacs and cmpift.h working down cmpimacs. about
+25% finished and will finish tomorrow. These go both ways cmpift<->cmpimacs
+
