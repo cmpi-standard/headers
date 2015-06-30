@@ -319,7 +319,7 @@ typedef struct _CMPIBrokerFT {
 
      @par Errors
      For historical reasons, no additional error information is passed back.
-     @see @ref CBPrepareAttachThread()
+     @see CBPrepareAttachThread()
     */
     CMPIContext* (*prepareAttachThread) (const CMPIBroker* mb,
         const CMPIContext* ctx);
@@ -348,7 +348,8 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle or @p ctx handle is
          invalid.
-     @see @ref CBAttachThread()
+         
+     @see CBAttachThread()
     */
     CMPIStatus (*attachThread) (const CMPIBroker* mb, const CMPIContext* ctx);
 
@@ -377,7 +378,8 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle or @p ctx handle is
          invalid.
-     @see @ref CBDetachThread()
+
+     @see CBDetachThread()
     */
     CMPIStatus (*detachThread) (const CMPIBroker* mb, const CMPIContext* ctx);
 
@@ -443,7 +445,8 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The namespace specified by
          @p ns is invalid, or the indication instance specified by
          @p ind is invalid.
-     @see @ref CBDeliverIndication()
+
+     @see CBDeliverIndication()
     */
     CMPIStatus (*deliverIndication) (const CMPIBroker* mb,
         const CMPIContext* ctx, const char* ns, const CMPIInstance* ind);
@@ -504,12 +507,12 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
+     @see CBEnumInstanceNames()
      @deprecated The `CMPI_RC_ERR_NOT_FOUND` return code of this function
          is deprecated since CMPI 2.1. If no instances exist, the MB should
          instead return success with an empty result set.
          The MI shall treat this return code as a successful return of an
          empty result set.
-     @see @ref CBEnumInstanceNames()
     */
     CMPIEnumeration* (*enumerateInstanceNames) (const CMPIBroker* mb,
         const CMPIContext* ctx, const CMPIObjectPath* classPath,
@@ -574,7 +577,7 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
-     @see @ref CBGetInstance()
+     @see CBGetInstance()
     */
     CMPIInstance* (*getInstance) (const CMPIBroker* mb, const CMPIContext* ctx,
         const CMPIObjectPath* instPath, const char** properties,
@@ -696,7 +699,7 @@ typedef struct _CMPIBrokerFT {
      @see CBModifyInstance()
 
      @todo Review this description. Andy: Updated it as I think it should be.
-     Comments by KS.  See my proposal for the return codes above.
+         Comments by KS.  See my proposal for the return codes above.
     */
     CMPIStatus (*modifyInstance) (const CMPIBroker* mb, const CMPIContext* ctx,
         const CMPIObjectPath* instPath, const CMPIInstance* modInst,
@@ -861,7 +864,7 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
-     @see CBEnumInstances
+     @see CBEnumInstances()
     */
     CMPIEnumeration* (*enumerateInstances) (const CMPIBroker* mb,
         const CMPIContext* ctx, const CMPIObjectPath* classPath,
@@ -1319,7 +1322,6 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
-
      @deprecated This function is deprecated since CMPI 2.1,
          in accord with the deprecation of property
          client operations in DMTF specifications. MBs shall implement
@@ -1329,7 +1331,6 @@ typedef struct _CMPIBrokerFT {
          is not implemented by the target MI. New MIs should
          replace the use of CMPIBrokerFT.setProperty() with the use of
          @ref CMPIBrokerFT::modifyInstance "CMPIBrokerFT.modifyInstance()".
-
      @todo TBD: Review and agree on the way this function is documented to be
          deprecated since CMPI 2.1 (using the `deprecated` statement with
          descriptive text). OK (ks)
@@ -1383,7 +1384,6 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
-
      @deprecated This function is deprecated since CMPI 2.1,
          in accord with the deprecation of property
          client operations in DMTF specifications. MBs shall implement
@@ -1471,8 +1471,8 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
+     @see CBEnumInstancesFiltered()
      @added210 Added in CMPI 2.1.0.
-     @see CBEnumInstancesFiltered
     */
     CMPIEnumeration* (*enumerateInstancesFiltered) (const CMPIBroker* mb,
         const CMPIContext* ctx, const CMPIObjectPath* classPath,
@@ -1568,8 +1568,8 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
+     @see CBAssociatorsFiltered()
      @added210 Added in CMPI 2.1.0.
-     @see CBAssociatorsFiltered
     */
     CMPIEnumeration* (*associatorsFiltered) (const CMPIBroker* mb,
         const CMPIContext* ctx, const CMPIObjectPath* instPath,
@@ -1657,8 +1657,8 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
+     @see CBAssociatorsFiltered()
      @added210 Added in CMPI 2.1.0.
-     @see CBAssociatorsFiltered
     */
     CMPIEnumeration* (*referencesFiltered) (const CMPIBroker* mb,
         const CMPIContext* ctx, const CMPIObjectPath* instPath,
@@ -2243,6 +2243,7 @@ typedef struct _CMPIBrokerEncFT {
 
      @deprecated This function is deprecated since CMPI 2.1. Use
          CMPIBrokerEncFT.getMessage2() instead.
+
      @todo does not reflect the ... arguments in the documentation
     */
     CMPIString* (*getMessage) (const CMPIBroker* mb, const char* msgId,
@@ -2379,14 +2380,13 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
-
+     @see CMNewCMPIError()
+     @added200 Added in CMPI 2.0.0.
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @added200 Added in CMPI 2.0.0.
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @see CMNewCMPIError()
     */
     CMPIError* (*newCMPIError) (const CMPIBroker* mb, const char* owner,
         const char* msgID, const char* msg, const CMPIErrorSeverity sev,
@@ -2559,8 +2559,9 @@ typedef struct _CMPIBrokerEncFT {
          @p msgFileHandle handle is invalid. NULL is a valid value for
          the @p msgFileHandle handle.
 
-     @added200 Added in CMPI 2.0.0.
      @see CMGetMessage2()
+     @added200 Added in CMPI 2.0.0.
+     
      @todo TBD (KS) does not defined the ... extra parameters
     */
     CMPIString* (*getMessage2) (const CMPIBroker* mb, const char* msgId,
@@ -4257,11 +4258,11 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
 
      @todo TBD: Ordering here diff than spec.  This is sect 8.14.
     */
@@ -4291,11 +4292,11 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIError* (*clone) (const CMPIError* er, CMPIStatus* rc);
 
@@ -4324,11 +4325,11 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIErrorType (*getErrorType) (const CMPIError* er, CMPIStatus* rc);
 
@@ -4361,11 +4362,11 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIString* (*getOtherErrorType) (const CMPIError* er, CMPIStatus* rc);
 
@@ -4398,11 +4399,11 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIString* (*getOwningEntity) (const CMPIError* er, CMPIStatus* rc);
 
@@ -4440,11 +4441,11 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIString* (*getMessageID) (const CMPIError* er, CMPIStatus* rc);
 
@@ -4475,11 +4476,11 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIString* (*getMessage) (const CMPIError* er, CMPIStatus* rc);
 
@@ -4508,11 +4509,11 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIErrorSeverity (*getPerceivedSeverity) (const CMPIError* er,
         CMPIStatus* rc);
@@ -4542,11 +4543,11 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIErrorProbableCause (*getProbableCause) (const CMPIError* er,
         CMPIStatus* rc);
@@ -4580,11 +4581,11 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIString* (*getProbableCauseDescription) (const CMPIError* er,
         CMPIStatus* rc);
@@ -4619,11 +4620,11 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIArray* (*getRecommendedActions) (const CMPIError* er, CMPIStatus* rc);
 
@@ -4654,11 +4655,11 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIString* (*getErrorSource) (const CMPIError* er, CMPIStatus* rc);
 
@@ -4687,11 +4688,11 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIErrorSrcFormat (*getErrorSourceFormat) (const CMPIError* er,
         CMPIStatus* rc);
@@ -4725,11 +4726,11 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIString* (*getOtherErrorSourceFormat) (const CMPIError* er,
         CMPIStatus* rc);
@@ -4762,11 +4763,11 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIrc (*getCIMStatusCode) (const CMPIError* er, CMPIStatus* rc);
 
@@ -4800,11 +4801,11 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIString* (*getCIMStatusCodeDescription) (const CMPIError* er,
         CMPIStatus* rc);
@@ -4837,11 +4838,11 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIArray* (*getMessageArguments) (const CMPIError* er, CMPIStatus* rc);
 
@@ -4869,11 +4870,11 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
 
      @todo we are inconsistent in the formatting of the various
            attributes for CMPIError. Need to generalize this.
@@ -4905,11 +4906,11 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIStatus (*setOtherErrorType) (const CMPIError* er, const char* oet);
 
@@ -4937,11 +4938,11 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIStatus (*setProbableCauseDescription) (const CMPIError* er,
         const char* pcd);
@@ -4977,11 +4978,11 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIStatus (*setRecommendedActions) (const CMPIError* er,
         const CMPIArray* ra);
@@ -5013,11 +5014,11 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIStatus (*setErrorSource) (const CMPIError* er, const char* es);
 
@@ -5046,11 +5047,11 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIStatus (*setErrorSourceFormat) (const CMPIError* er,
         const CMPIErrorSrcFormat esf);
@@ -5080,11 +5081,11 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIStatus (*setOtherErrorSourceFormat) (const CMPIError* er,
         const char* oef);
@@ -5115,11 +5116,11 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIStatus (*setCIMStatusCodeDescription) (const CMPIError* er,
         const char* scd);
@@ -5154,11 +5155,11 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @required210 Support for this function is required since CMPI 2.1.0.
     */
     CMPIStatus (*setMessageArguments) (const CMPIError* er,
         const CMPIArray* values);
@@ -6883,6 +6884,7 @@ typedef struct _CMPISubCondFT {
          @ref CMPI_MB_QueryNormalization "Query Normalization" capability
          is not available, this function cannot be called by the MI because no
          instance of its encapsulated data type can exist.
+
      @todo Ordering of the codes is different between this an
          following function. That is in the spec.
     */
@@ -9949,8 +9951,8 @@ typedef struct _CMPIMethodMIFT {
  * available to the MB.
  *
  * @deprecated Property MIs are deprecated since CMPI 2.1,
- * in accord with the deprecation of property client operations in
- * DMTF specifications.
+ *     in accord with the deprecation of property client operations in
+ *     DMTF specifications.
  */
 typedef struct _CMPIPropertyMI {
 
@@ -10273,7 +10275,6 @@ typedef struct _CMPIPropertyMIFT {
      </TABLE>
 
      @added200 Added in CMPI 2.0.0.
-
      @deprecated This function is deprecated since CMPI 2.1,
          in accord with the deprecation of property client operations in
          DMTF specifications.

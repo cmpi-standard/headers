@@ -29,6 +29,7 @@ Andy
    ones that will be handled during description sync, they are marked with
    (TBD).
 12. Made some deprecation notes more consistent.
+13. Brought @see, @added, @required, and @deprecated into a consistent order.
 
 29 June 2015
 Karl
