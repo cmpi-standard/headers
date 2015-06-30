@@ -1996,7 +1996,7 @@ typedef struct _CMPIBrokerEncFT {
      @param mb Points to a CMPIBroker structure.
      @param query Points to a string containing the select expression.
      @param lang Points to a string containing the query language.
-     @param projection Output: Pointer to a CMPIArray pointer that upon
+     @param [out] projection Points to a CMPIArray pointer that upon
          success will have been updated to point to a new CMPIArray
          object of CMPIString entries containing the
          projection specification. The pointer will be set to NULL if no
@@ -5844,7 +5844,7 @@ typedef struct _CMPIObjectPathFT {
      @param op Points to the CMPIObjectPath object for this function.
      @param index Zero-based position of the key binding within the internal
          data array.
-     @param name Output: Points to a CMPIString pointer that upon success
+     @param [out] name Points to a CMPIString pointer that upon success
          will have been updated to point to a CMPIString object specifying the
          name of the key binding. That CMPIString object shall not be explicitly
          released by the MI, because it may be an internal object of the
@@ -6616,7 +6616,7 @@ typedef struct _CMPISelectCondFT {
      is available; otherwise, it shall not be supported.
 
      @param sc Points to a CMPISelectCond object for this function.
-     @param type Output: If not NULL, points to an integer that upon success
+     @param [out] type If not NULL, points to an integer that upon success
          is updated with the subcondition type. A value of 0 indicates a
          DOC type, and a value of 1 indicates a COD type. If type is NULL,
          no type information is returned.
@@ -7083,9 +7083,8 @@ typedef struct _CMPIPredicateFT {
          A CMPIStatus structure indicating the
          function return status will be returned.
 
-         If not successful, the lhs and rhs output arguments will be set
-         to NULL, and the state of the type and prop output arguments is
-         undefined.
+         If not successful, @p lhs and @p rhs will be set to NULL, and the
+         state of @p type and @p prop is undefined.
      @endparblock
 
      @par Errors
@@ -8393,8 +8392,8 @@ typedef struct _CMPIEnumerationFilterFT {
 
       @param ef Points to the CMPIEnumerationFilter object for this function.
       @param inst CMPIInstance object to be tested against the filter.
-      @param Output: If not NULL, points to a CMPIStatus structure that upon
-          return has been updated with the function return status.
+      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+          return will have been updated with the function return status.
       @return @parblock
          If successful, returns a CMPIBoolean value
           indicating the test result as follows: True indicates that
