@@ -49,33 +49,15 @@
 /**
 @defgroup symbols Preprocessor Symbols
 @{
-  @todo TBD(DONE): Should we keep the `defgroup` statements (which are used
-      to define
-      the order of groups, e.g. in the Modules tab) in the `cmpidt.h` header
-      file or move them to the `mainpage.md` file? One difficulty when moving
-      is the conditional definition of the group section for
-      CMPISelectCondType, which depends on the CMPI_DEFINE_CMPISelectCondType
-      symbol. Andy: Solved, by moving defgroup stmts to new modules.h file.
-      That also solves the onditional definition issue.
   @defgroup symbols-versioning Symbols related to CMPI versioning
   @{
     @defgroup sym-version-nnn CMPIVersion{NNN}
     @{
       @brief These symbols encapsulate the values for the numeric CMPI
-      version numbers
+          version numbers.
+
       Note: Historical CMPI levels (before the first CMPI Standard, e.g.
       86, 90) are not supported by this header file.
-      @todo TBD: The description of CMPIVersion{NNN} is in its `defgroup`
-          statement, which causes the "Modules" tab to show its brief
-          description in a second column.
-          The description of CMPICurrentVersion is where its symbol
-          definition is, i.e. within an `addtogroup` statement. That causes
-          the "Modules" tab not to show its brief description; however
-          the description needs to be there, otherwise the references to
-          the symbol (via its group name) do not work.
-          So we cannot have both the references work and the brief
-          description showing up in the "Modules" tab. Should we leave
-          it inconsistent or remove the brief description anywhere?
     @}
     @defgroup sym-current-version CMPICurrentVersion
     @{
@@ -86,7 +68,7 @@
     @defgroup sym-ver-nnn CMPI_VER_{NNN}
     @{
       @brief Boolean flags for testing whether CMPI version dependent
-      features should be available, given the implemented version
+          features should be available, given the implemented version.
 
       The term 'available' as used here means that the feature is defined in
       the header files and subsequently can be supported in the MB or MI
@@ -175,16 +157,20 @@
   @defgroup type-level CMPILevel (Trace Levels) (Subclause 5.11)
   @{
   @}
-  @defgroup type-error-type CMPIErrorType (Extended Error Types) (Subclause 5.12)
+  @defgroup type-error-type CMPIErrorType (Extended Error Types) \
+    (Subclause 5.12)
   @{
   @}
-  @defgroup type-error-severity CMPIErrorSeverity (Extended Error Severity Levels) (Subclause 5.13)
+  @defgroup type-error-severity CMPIErrorSeverity (Extended Error Severity \
+    Levels) (Subclause 5.13)
   @{
   @}
-  @defgroup type-error-probable-cause CMPIErrorProbableCause (Extended Error Probable Causes) (Subclause 5.14)
+  @defgroup type-error-probable-cause CMPIErrorProbableCause (Extended Error \
+    Probable Causes) (Subclause 5.14)
   @{
   @}
-  @defgroup type-error-src-format CMPIErrorSrcFormat (Extended Error Source Formats) (Subclause 5.15)
+  @defgroup type-error-src-format CMPIErrorSrcFormat (Extended Error Source \
+    Formats) (Subclause 5.15)
   @{
   @}
   @defgroup type-flags CMPIFlags (Subclause 5.16)
@@ -292,22 +278,27 @@
   @defgroup broker-thread-reg Thread Registration Services (Subclause 9.13)
   @{
   @}
-  @defgroup brokerext-lib OS Encapsulation Services - Library Resolution (Subclause 9.14)
+  @defgroup brokerext-lib OS Encapsulation Services - Library Resolution \
+    (Subclause 9.14)
   @{
   @}
-  @defgroup brokerext-thread OS Encapsulation Services - POSIX-conformant Threads (Subclause 9.14)
+  @defgroup brokerext-thread OS Encapsulation Services - POSIX-conformant \
+    Threads (Subclause 9.14)
   @{
   @}
-  @defgroup brokerext-mutex OS Encapsulation Services - POSIX-conformant Mutexes (Subclause 9.14)
+  @defgroup brokerext-mutex OS Encapsulation Services - POSIX-conformant \
+    Mutexes (Subclause 9.14)
   @{
   @}
-  @defgroup brokerext-condition OS Encapsulation Services - POSIX-conformant Conditions (Subclause 9.14)
+  @defgroup brokerext-condition OS Encapsulation Services - POSIX-conformant \
+    Conditions (Subclause 9.14)
   @{
   @}
   @defgroup brokermem-all Memory Enhancement Services (Subclause 9.15)
   @{
   @}
 @}
-@todo can we get these descriptions within the 80 column
-      rule.
+
+@todo DONE: Can we get these descriptions within the 80 column rule.@n
+      Andy: I found that ending the line with backslash does the trick.
 */

@@ -32,6 +32,8 @@ Andy
 13. Brought @see, @added, @required, and @deprecated into a consistent order.
 14. Fixed a heading structure flaw in the Modules grouping hierarchy, for
     the newly introduced Thread related typedefs.
+15. Fixed the 80 column limit in modules.h.
+16. Removed some more completed TODOs.
 
 29 June 2015
 Karl

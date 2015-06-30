@@ -1331,9 +1331,6 @@ typedef struct _CMPIBrokerFT {
          is not implemented by the target MI. New MIs should
          replace the use of CMPIBrokerFT.setProperty() with the use of
          @ref CMPIBrokerFT::modifyInstance "CMPIBrokerFT.modifyInstance()".
-     @todo TBD: Review and agree on the way this function is documented to be
-         deprecated since CMPI 2.1 (using the `deprecated` statement with
-         descriptive text). OK (ks)
     */
     CMPIStatus (*setProperty) (const CMPIBroker* mb, const CMPIContext* ctx,
         const CMPIObjectPath* instPath, const char* name,
@@ -3131,8 +3128,6 @@ typedef struct _CMPIBrokerExtFT {
      @deprecated This function is deprecated since CMPI 2.1,
          because it does not indicate whether it succeeded or failed.
          Use CMPIBrokerExtFT.unlockMutex2() instead.
-
-     @todo confirm that the retval is correct key name ks
     */
     void (*unlockMutex) (CMPI_MUTEX_TYPE mutex);
 
@@ -8727,7 +8722,8 @@ typedef struct _CMPIInstanceMIFT {
          <TD>Other error occurred.</TD></TR>
      </TABLE>
 
-     @todo TBD: KS_TODO Why no server limits exceeded Error code
+     @todo TBD: KS_TODO Why no server limits exceeded Error code.
+
      @todo TBD: KS_todo should we change to classPath as property name.
     */
     CMPIStatus (*getInstance) (CMPIInstanceMI* mi, const CMPIContext* ctx,
@@ -9085,9 +9081,6 @@ typedef struct _CMPIInstanceMIFT {
      </TABLE>
 
      @added210 Added in CMPI 2.1.0.
-
-     @todo (KS) This function does not appear in the html InstanceMI output.
-         AM: Fixed. Reason was that the prototype missed a line that closed it.
     */
     CMPIStatus (*enumerateInstancesFiltered) (CMPIInstanceMI* mi,
         const CMPIContext* ctx, const CMPIResult* rslt,
@@ -10400,9 +10393,6 @@ typedef struct _CMPIIndicationMIFT {
          unload now; the MB may retry an unload later.
      @li `CMPI_RC_NEVER_UNLOAD` - Function successful, never unload;
          the MB will not retry an unload later unless it shuts down.
-
-     @todo (AM) This function showed up undocumented in latest go-around. Fixed.
-           Reason was that the comment was not a Doxygen comment.
     */
     CMPIStatus (*cleanup) (CMPIIndicationMI* mi, const CMPIContext* ctx,
             CMPIBoolean terminating);
