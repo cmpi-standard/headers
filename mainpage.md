@@ -6,6 +6,7 @@ Common Manageability Programming Interface (CMPI) - Header Files
 This online documentation has been generated from the header files of the
 Open Group Standard:
 
+@anchor ref-cmpi-standard
 <div style="margin-left:20px">
   **Systems Management: Common Manageability Programming Interface (CMPI),
   Issue 2, Version 1**<br/>
