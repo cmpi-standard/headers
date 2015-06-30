@@ -3087,7 +3087,7 @@ typedef struct _CMPIBrokerExtFT {
 
      @param mutex The mutex to be locked.
 
-     @retval None.
+     @return None.
 
      @par Errors
      For historical reasons, this function does not indicate whether it
@@ -3109,7 +3109,7 @@ typedef struct _CMPIBrokerExtFT {
      CMPIBrokerExtFT.newMutex().
 
      @param mutex The mutex to be unlocked.
-     @retval None.
+     @return None.
 
      @par Errors
      For historical reasons, this function does not indicate whether it
