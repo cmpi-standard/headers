@@ -348,7 +348,7 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle or @p ctx handle is
          invalid.
-         
+
      @see CBAttachThread()
     */
     CMPIStatus (*attachThread) (const CMPIBroker* mb, const CMPIContext* ctx);
@@ -2561,7 +2561,7 @@ typedef struct _CMPIBrokerEncFT {
 
      @see CMGetMessage2()
      @added200 Added in CMPI 2.0.0.
-     
+
      @todo TBD (KS) does not defined the ... extra parameters
     */
     CMPIString* (*getMessage2) (const CMPIBroker* mb, const char* msgId,
@@ -2721,8 +2721,9 @@ typedef struct _CMPIBrokerEncFT {
 struct timespec;
 
 /**
- *   @addtogroup brokerext-thread
- *   @{
+ * @}
+ * @addtogroup brokerext-thread
+ * @{
  */
 
 /**
@@ -2751,6 +2752,8 @@ typedef int void (*cleanup)(void*) CMPIThreadKeyCleanupFunc;
 
 /**
  * @}
+ * @addtogroup mb-tables
+ * @{
  */
 
 /**

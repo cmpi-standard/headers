@@ -30,6 +30,8 @@ Andy
    (TBD).
 12. Made some deprecation notes more consistent.
 13. Brought @see, @added, @required, and @deprecated into a consistent order.
+14. Fixed a heading structure flaw in the Modules grouping hierarchy, for
+    the newly introduced Thread related typedefs.
 
 29 June 2015
 Karl
