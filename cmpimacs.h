@@ -276,6 +276,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
     @param op ObjectPath containing namespace and classname.
     @param rc Output: Service return status (suppressed when NULL).
     @return The newly created Instance.
+    @see CMPIBrokerEncFT.newInstance()
  */
 _CMPI_INLINE_MOD CMPIInstance * CMNewInstance (
     const CMPIBroker * mb,
@@ -295,6 +296,7 @@ _CMPI_INLINE_MOD CMPIInstance * CMNewInstance (
     @param cn Classname.
     @param rc Output: Service return status (suppressed when NULL).
     @return The newly created ObjectPath.
+    @see CMPIBrokerEncFT.newObjectPath()
 */
 _CMPI_INLINE_MOD CMPIObjectPath * CMNewObjectPath (
     const CMPIBroker * mb,
@@ -315,6 +317,7 @@ _CMPI_INLINE_MOD CMPIObjectPath * CMNewObjectPath (
     @param data String data
     @param rc Output: Service return status (suppressed when NULL).
     @return The newly created String.
+    @see CMPIBrokerEncFT.newString()
 */
 _CMPI_INLINE_MOD CMPIString * CMNewString (
     const CMPIBroker * mb,
@@ -332,6 +335,7 @@ _CMPI_INLINE_MOD CMPIString * CMNewString (
     @param mb Broker this pointer.
     @param rc Output: Service return status (suppressed when NULL).
     @return The newly created Args container.
+    @see CMPIBrokerEncFT.newArgs()
 */
 _CMPI_INLINE_MOD CMPIArgs * CMNewArgs (const CMPIBroker * mb, CMPIStatus * rc)
 {
@@ -348,6 +352,7 @@ _CMPI_INLINE_MOD CMPIArgs * CMNewArgs (const CMPIBroker * mb, CMPIStatus * rc)
     @param type Element type
     @param rc Output: Service return status (suppressed when NULL).
     @return The newly created Array.
+    @see CMPIBrokerEncFT.newArray()
 */
 _CMPI_INLINE_MOD CMPIArray * CMNewArray (
     const CMPIBroker * mb,
@@ -366,6 +371,7 @@ _CMPI_INLINE_MOD CMPIArray * CMNewArray (
     @param mb Broker this pointer
     @param rc Output: Service return status (suppressed when NULL).
     @return The newly created DateTime.
+    @see CMPIBrokerEncFT.newDateTime()
 */
 _CMPI_INLINE_MOD CMPIDateTime * CMNewDateTime (
     const CMPIBroker * mb,
@@ -386,6 +392,7 @@ _CMPI_INLINE_MOD CMPIDateTime * CMNewDateTime (
          interval value
      @param rc Output: Service return status (suppressed when NULL).
      @return The newly created DateTime.
+     @see CMPIBrokerEncFT.newDateTimeFromBinary()
 */
 _CMPI_INLINE_MOD CMPIDateTime *CMNewDateTimeFromBinary(
     const CMPIBroker * mb,
@@ -407,6 +414,7 @@ _CMPI_INLINE_MOD CMPIDateTime *CMNewDateTimeFromBinary(
     @param utcTime Date/Time definition in UTC format
     @param rc Output: Service return status (suppressed when NULL).
     @return The newly created DateTime
+    @see CMPIBrokerEncFT.newDateTimeFromChars()
 */
 _CMPI_INLINE_MOD CMPIDateTime *CMNewDateTimeFromChars(
     const CMPIBroker * mb,
@@ -430,6 +438,7 @@ _CMPI_INLINE_MOD CMPIDateTime *CMNewDateTimeFromChars(
                 (suppressed when NULL).
      @param rc Output: Service return status (suppressed when NULL).
      @return The newly created SelectExp.
+     @see CMPIBrokerEncFT.newSelectExp()
 */
 _CMPI_INLINE_MOD CMPISelectExp *CMNewSelectExp(
     const CMPIBroker * mb,
@@ -454,6 +463,7 @@ _CMPI_INLINE_MOD CMPISelectExp *CMNewSelectExp(
      @param type The type to tested for.
      @param rc Output: Service return status (suppressed when NULL).
      @return True if test successful.
+     @see CMPIBrokerEncFT.classPathIsA()
      */
 _CMPI_INLINE_MOD CMPIBoolean CMClassPathIsA(
     const CMPIBroker * mb,
@@ -477,6 +487,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMClassPathIsA(
      @param object A valid CMPI object.
      @param rc Output: Service return status (suppressed when NULL).
      @return String from representation of &lt;object&gt;.
+     @see CMPIBrokerEncFT.toString()
      */
 _CMPI_INLINE_MOD CMPIString *CDToString(
     const CMPIBroker * mb,
@@ -499,6 +510,7 @@ _CMPI_INLINE_MOD CMPIString *CDToString(
         ("CMPIInstance", "CMPIObjectPath", etc).
     @param rc Output: Service return status (suppressed when NULL).
     @return True if test successful.
+    @see CMPIBrokerEncFT.isOfType()
 */
 _CMPI_INLINE_MOD CMPIBoolean CDIsOfType(
     const CMPIBroker * mb,
@@ -521,6 +533,7 @@ _CMPI_INLINE_MOD CMPIBoolean CDIsOfType(
     @param object A valid CMPI object.
     @param rc Output: Service return status (suppressed when NULL).
     @return CMPI object type.
+    @see CMPIBrokerEncFT.getType()
 */
 _CMPI_INLINE_MOD CMPIString *CDGetType(
     const CMPIBroker * mb,
@@ -552,6 +565,7 @@ _CMPI_INLINE_MOD CMPIString *CDGetType(
          CMLogMessage(_broker, 1, "TestProvider",
              "Entering EnumerateInstance", NULL);
      </PRE>
+    @see CMPIBrokerEncFT.logMessage()
 */
 
 _CMPI_INLINE_MOD CMPIStatus CMLogMessage(
@@ -584,6 +598,7 @@ _CMPI_INLINE_MOD CMPIStatus CMLogMessage(
        text to belogged. string will be ignored when text is not
        NULL.
      @param rc Output: Service return status
+     @see CMPIBrokerEncFT.trace()
  
      Example usage:
      <PRE>
@@ -618,6 +633,7 @@ _CMPI_INLINE_MOD CMPIStatus CMTraceMessage(
     @param cimStatusCode Status Code.
     @param rc Service return status
     @return Pointer to a newly allocated CMPIError object.
+    @see CMPIBrokerEncFT.newCMPIError()
     
     Example usage:
     <PRE>
@@ -651,6 +667,7 @@ _CMPI_INLINE_MOD CMPIError* CMNewCMPIError(
     @param msgFile The message file identifier.
     @param msgFileHandle Output: The handle representing the open msg file.
     @return Service return status
+    @see CMPIBrokerEncFT.openMessageFile()
     
     Example usage:
     <PRE>
@@ -676,7 +693,7 @@ _CMPI_INLINE_MOD CMPIStatus CMOpenMessageFile(
     @param mb Broker this pointer
     @param msgFileHandle The handle representing the open message file.
     @return Service return status
-    
+    @see CMPIBrokerEncFT.closeMessageFile()
     Example usage:
     <PRE>
         CMCloseMessageFile(_broker,msgFileHandle);
@@ -721,7 +738,7 @@ _CMPI_INLINE_MOD CMPIStatus CMCloseMessageFile(
            CMFmtChars(v)   char string
            CMFmtString(v)  CMPIString
     @return the translated message.
-
+    @see CMPIBrokerEncFT.getMessage2()
     Example usage:
     <PRE>
        CMGetMessage2(_broker,"msgid",msgFileHandle,"Test $0 $1",
@@ -751,6 +768,7 @@ _CMPI_INLINE_MOD CMPIString* CMGetMessage2(
      @param name Property name.
      @param rc Output: Service return status (suppressed when NULL).
      @return Property value.
+     @see CMPIInstanceFT.getProperty()
       */
 _CMPI_INLINE_MOD CMPIData CMGetProperty(
     const CMPIInstance * inst,
@@ -770,6 +788,7 @@ _CMPI_INLINE_MOD CMPIData CMGetProperty(
      @param name Output: Returned property name (suppressed when NULL).
      @param rc Output: Service return status (suppressed when NULL).
      @return Property value.
+     @see CMPIInstanceFT.getPropertyAt()
       */
 _CMPI_INLINE_MOD CMPIData CMGetPropertyAt(
     const CMPIInstance * inst,
@@ -2399,6 +2418,7 @@ _CMPI_INLINE_MOD CMPIContext *CBPrepareAttachThread(
     @param mb Broker this pointer.
     @param ctx Context object
     @return Service return status.
+    @see CMPIBrokerFT.attachThread()
      */
 _CMPI_INLINE_MOD CMPIStatus CBAttachThread(
     const CMPIBroker * mb,
@@ -2417,6 +2437,7 @@ _CMPI_INLINE_MOD CMPIStatus CBAttachThread(
     @param mb Broker this pointer.
     @param ctx Context object
     @return Service return status.
+    @see CMPIBrokerFT.detachThread()
      */
 _CMPI_INLINE_MOD CMPIStatus CBDetachThread(
     const CMPIBroker * mb,
@@ -2438,6 +2459,7 @@ _CMPI_INLINE_MOD CMPIStatus CBDetachThread(
     @param ns Namespace
     @param ind Indication Instance
     @return Service return status.
+    @see CMPIBrokerFT.deliverIndication()
      */
 _CMPI_INLINE_MOD CMPIStatus CBDeliverIndication(
     const CMPIBroker * mb,
@@ -2459,7 +2481,8 @@ _CMPI_INLINE_MOD CMPIStatus CBDeliverIndication(
     @param ctx Context object
     @param op ObjectPath containing namespace and classname components.
     @param rc Output: Service return status (suppressed when NULL).
-    @return Enumeration of ObjectPathes.
+    @return Enumeration of ObjectPaths.
+    @see CMPIBrokerFT.enumerateInstanceNames()
      */
 _CMPI_INLINE_MOD CMPIEnumeration *CBEnumInstanceNames(
     const CMPIBroker * mb,
@@ -2486,6 +2509,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBEnumInstanceNames(
          include elements for any Properties missing from this list
      @param rc Output: Service return status (suppressed when NULL).
      @return Enumeration of Instances.
+     @see CMPIBrokerFT.enumerateInstances()
 */
 _CMPI_INLINE_MOD CMPIEnumeration *CBEnumInstances(
     const CMPIBroker * mb,
@@ -2502,18 +2526,18 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBEnumInstances(
 #   endif
 
 #   ifdef CMPI_INLINE
-/** Get Instance using &lt;op&gt; as reference. Instance structure can be
-    controled using the CMPIInvocationFlags entry in &lt;ctx&gt;.
+/** Get Instance using @p op as reference. Instance structure can be
+    controled using the CMPIInvocationFlags entry in @p ctx.
     @param mb Broker this pointer.
     @param ctx Context object
-    @param op ObjectPath containing namespace, classname
-           and key components.
+    @param op ObjectPath containing namespace, classname and key components.
     @param properties If not NULL, the members of the array
      define one or more Property names. Each returned
      Object MUST NOT include elements for any Properties
      missing from this list
     @param rc Output: Service return status (suppressed when NULL).
     @return The Instance.
+    @see CMPIBrokerFT.getInstance()
 */
 _CMPI_INLINE_MOD CMPIInstance *CBGetInstance(
     const CMPIBroker * mb,
@@ -2538,6 +2562,7 @@ _CMPI_INLINE_MOD CMPIInstance *CBGetInstance(
     @param inst Complete instance.
     @param rc Output: Service return status (suppressed when NULL).
     @return The assigned instance reference.
+    @see CMPIBrokerFT.createInstance()
      */
 _CMPI_INLINE_MOD CMPIObjectPath *CBCreateInstance(
     const CMPIBroker * mb,
@@ -2554,8 +2579,7 @@ _CMPI_INLINE_MOD CMPIObjectPath *CBCreateInstance(
 #   endif
 
 #   ifdef CMPI_INLINE
-/** Replace an existing Instance from &lt;inst&gt; using
-    &lt;op&gt; as reference.
+/** Replace an existing Instance from @p inst using @p op as reference.
      @param mb Broker this pointer.
      @param ctx Context object
      @param op ObjectPath containing namespace, classname and key components.
@@ -2563,6 +2587,7 @@ _CMPI_INLINE_MOD CMPIObjectPath *CBCreateInstance(
      @param properties Specifies which properties to set. All properties
          will be ste if NULL.
      @return Service return status.
+     @see CMPIBrokerFT.modifyInstance()
 */
 #      ifdef CMPI_VER_100
 _CMPI_INLINE_MOD CMPIStatus CBModifyInstance(
@@ -2603,6 +2628,7 @@ _CMPI_INLINE_MOD CMPIStatus CBSetInstance(
      @param ctx Context object
      @param op ObjectPath containing namespace, classname and key components.
      @return Service return status.
+     @see CMPIBrokerFT.deleteInstance()
      */
 _CMPI_INLINE_MOD CMPIStatus CBDeleteInstance(
     const CMPIBroker * mb,
@@ -2625,6 +2651,7 @@ _CMPI_INLINE_MOD CMPIStatus CBDeleteInstance(
     @param lang Query Language
     @param rc Output: Service return status (suppressed when NULL).
     @return Resulting eumeration of Instances.
+    @see CMPIBrokerFT.ExecQuery()
 */
 _CMPI_INLINE_MOD CMPIEnumeration *CBExecQuery(
     const CMPIBroker * mb,
@@ -2676,6 +2703,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBExecQuery(
          missing from this list
     @param rc Output: Service return status (suppressed when NULL).
     @return Enumeration of Instances.
+    @see CMPIBrokerFT.associators()
      */
 _CMPI_INLINE_MOD CMPIEnumeration *CBAssociators(
     const CMPIBroker * mb,
@@ -2728,6 +2756,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBAssociators(
         MUST match the value of this parameter).
     @param rc Output: Service return status (suppressed when NULL).
     @return Enumeration of ObjectPaths.
+    @see CMPIBrokerFT.associatorNames()
      */
 _CMPI_INLINE_MOD CMPIEnumeration *CBAssociatorNames(
     const CMPIBroker * mb,
@@ -2773,6 +2802,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBAssociatorNames(
      missing from this list
     @param rc Output: Service return status (suppressed when NULL).
     @return Enumeration of ObjectPaths.
+    @see CMPIBrokerFT.references()
      */
 _CMPI_INLINE_MOD CMPIEnumeration *CBReferences(
     const CMPIBroker * mb,
@@ -2811,6 +2841,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBReferences(
     Object MUST match the value of this parameter).
     @param rc Output: Service return status (suppressed when NULL).
     @return Enumeration of ObjectPaths.
+    @see CMPIBrokerFT.referenceNames()
        */
 _CMPI_INLINE_MOD CMPIEnumeration *CBReferenceNames(
     const CMPIBroker * mb,
@@ -2840,6 +2871,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBReferenceNames(
     @param out Output parameters.
     @param rc Output: Service return status (suppressed when NULL).
     @return Method return value.
+    @see CMPIBrokerFT.invokeMethod()
 */
 _CMPI_INLINE_MOD CMPIData CBInvokeMethod(
     const CMPIBroker * mb,
@@ -2868,6 +2900,7 @@ _CMPI_INLINE_MOD CMPIData CBInvokeMethod(
     @param value Value.
     @param type Value type.
     @return Service return status.
+    @see CMPIBrokerFT.setProperty()
       */
 _CMPI_INLINE_MOD CMPIStatus CBSetProperty(
     const CMPIBroker * mb,
@@ -2894,6 +2927,7 @@ _CMPI_INLINE_MOD CMPIStatus CBSetProperty(
         @param name Property name
         @param rc Output: Service return status (suppressed when NULL).
         @return Property value.
+        @see CMPIBrokerFT.getProperty()
       */
 _CMPI_INLINE_MOD CMPIData CBGetProperty(
     const CMPIBroker * mb,
