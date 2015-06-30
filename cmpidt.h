@@ -560,10 +560,10 @@ typedef unsigned short CMPIValueState;
 
 /**
  *   @anchor def-cmpivaluestate-symbols
- *   @name Test masks for @ref CMPIValueState
+ *   @name Test masks for CMPIValueState
  *   @{
  *
- * They are used on @ref CMPIValueState.
+ * These test masks are used on @ref CMPIValueState.
  */
 #define CMPI_goodValue (0)    /**< All flags are false */
 #define CMPI_nullValue (1<<8) /**< Flag indicating that the data item is NULL */
@@ -667,8 +667,11 @@ typedef unsigned int CMPIFlags;
  *   @name Test masks for CMPIFlags
  *   @{
  *
- * They are used on @ref CMPIFlags. For a description of `LocalOnly` etc., see
- * @ref ref-dmtf-dsp0200 "DSP0200".
+ * These test masks are used on @ref CMPIFlags.
+ *
+ * For considerations on the use of CMPI_FLAG_LocalOnly and
+ * CMPI_FLAG_DeepInheritance, see
+ * Subclause 4.4 of the @ref ref-cmpi-standard "CMPI Standard".
  */
 #define CMPI_FLAG_LocalOnly          1
 #define CMPI_FLAG_DeepInheritance    2

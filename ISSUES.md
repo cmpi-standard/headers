@@ -89,6 +89,8 @@ to just list those things that are not specific and could be listed by
   added? From its description, seems to match better:
   http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdsince
 
+  AM: Done, by using our own @addedNNN commands.
+
 * Use of @parblock for parameters triggers a new "Parameters" section heading
   fopr any subsequent parameters of the function.
   This is probably fixed in Doxygen 1.8.10 (needs verification), see:
