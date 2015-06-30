@@ -953,7 +953,7 @@ typedef struct _CMPIStatus {
 /**
  * @brief OS Encapsulation Services
  *
- * Required to be supported since CMPI 2.0.
+ * @required200 Required to be supported since CMPI 2.0.0.
  */
 #define CMPI_MB_OSEncapsulationSupport      0x00000100
 
@@ -970,9 +970,8 @@ typedef struct _CMPIStatus {
 /**
  * @brief Extended Errors
  *
- * Required to be supported since CMPI 2.1.
- *
  * @added200 Added in CMPI 2.0.0.
+ * @required210 Required to be supported since CMPI 2.1.0.
  */
 #define CMPI_MB_Supports_Extended_Error     0x00008000
 

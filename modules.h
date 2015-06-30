@@ -42,6 +42,11 @@
  */
 
 /**
+ * @page required200 Required since CMPI 2.0.0
+ * @brief Entities that are required to be supported since CMPI 2.0.0
+ */
+
+/**
  * @page required210 Required since CMPI 2.1.0
  * @brief Entities that are required to be supported since CMPI 2.1.0
  */
