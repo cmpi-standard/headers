@@ -28,6 +28,7 @@ Andy
    links to the respective spot on the main page. There are some remaining
    ones that will be handled during description sync, they are marked with
    (TBD).
+12. Made some deprecation notes more consistent.
 
 29 June 2015
 Karl

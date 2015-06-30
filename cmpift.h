@@ -504,9 +504,10 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
-     @deprecated Instead of returning the `CMPI_RC_ERR_NOT_FOUND` return code if
-         no instances exist, the MB should return success with an empty result
-         set. The MI shall treat this return code as a successful return of an
+     @deprecated The `CMPI_RC_ERR_NOT_FOUND` return code of this function
+         is deprecated since CMPI 2.1. If no instances exist, the MB should
+         instead return success with an empty result set.
+         The MI shall treat this return code as a successful return of an
          empty result set.
      @see @ref CBEnumInstanceNames()
     */
@@ -2240,8 +2241,8 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - @p mb handle is
          invalid.
 
-     @deprecated This function was deprecated in CMPI 2.1 in favor of
-         CMPIBrokerEncFT.getMessage2().
+     @deprecated This function is deprecated since CMPI 2.1. Use
+         CMPIBrokerEncFT.getMessage2() instead.
      @todo does not reflect the ... arguments in the documentation
     */
     CMPIString* (*getMessage) (const CMPIBroker* mb, const char* msgId,
@@ -3166,8 +3167,8 @@ typedef struct _CMPIBrokerExtFT {
      For historical reasons, this function does not indicate whether it
      succeeded or failed.
 
-     @deprecated Deprecated effective CMPI 2.1 because it does not indicate
-         whether it succeeded or failed. Use
+     @deprecated This function is deprecated since CMPI 2.1,
+         because it does not indicate whether it succeeded or failed. Use
          CMPIBrokerExtFT.destroyCondition2() instead.
     */
     void (*destroyCondition) (CMPI_COND_TYPE cond);
@@ -7752,9 +7753,8 @@ typedef struct _CMPIArrayFT {
          simple base type of @p ar.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
 
-     @deprecated The use of @ref CMPI_null for @p type is
-         deprecated since CMPI 2.1.
-         Specify the simple base type of the array instead.
+     @deprecated The use of @ref CMPI_null for @p type is deprecated since
+         CMPI 2.1. Specify the simple base type of the array instead.
 
      @deprecated The behavior of setting the array element's state to
          @ref CMPI_nullValue when the function was not successful, is deprecated
