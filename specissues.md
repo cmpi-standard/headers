@@ -49,8 +49,10 @@ Changes during finalization of the CMPI specification
        data in any results from MI functions
      * language(s) used by the MB for any language-specific data passed to MI functions
 
-   Need to figure out a consistent terminology.
-
+   Proposal: Change the references to these entries to be
+   "CMPIInitNameSpace entry", etc. that makes it precise without having to
+   invent a new term, and it can be a link.
+   
    Need to apply the result to the header files.
 
 6. The CMPIBrokerFT table was not extended to add the three new pulled up-calls:
@@ -202,6 +204,8 @@ Changes during finalization of the CMPI specification
 
     Already done in header files.
 
+    TODO: Find better wording, don't use "indicating".
+
 13. In CMPIPredicateFT.getData(), the name of the
     "CMPIPredicate* pr" argument is referred to as "sc" in the description of
     the CMPI_RC_ERR_INVALID_HANDLE return code.
@@ -257,20 +261,20 @@ Changes during finalization of the CMPI specification
       - Function is not supported ... (72) <- use this one
       - Function not supported ... (3)
     * CMPI_RC_ERR_INVALID_HANDLE
-      - The <xxx> handle is invalid (103) <- use this one
+      - The {xxx} handle is invalid (103) <- use this one
       - Invalid encapsulated data type handle (18)
-      - The <xxx> argument is invalid (2)
+      - The {xxx} argument is invalid (2)
     * CMPI_RC_ERR_INVALID_NAMESPACE
-      - The namespace specified in the <xxx> argument does not exist (18)
+      - The namespace specified in the {xxx} argument does not exist (18)
       - The namespace is invalid (3)
-      - The namespace <xxx> is invalid (1)
-      - The namespace specified in <xxx> is invalid (1)
-      - The namespace implied by <xxx> is invalid (1)
-      - The namespace specified in the <xxx> argument is invalid (0) <- use this one
+      - The namespace {xxx} is invalid (1)
+      - The namespace specified in {xxx} is invalid (1)
+      - The namespace implied by {xxx} is invalid (1)
+      - The namespace specified in the {xxx} argument is invalid or does not exist (0) <- use this one
     * CMPI_RC_ERR_INVALID_CLASS
       - The CIM class does not exist in the specified namespace (3)
-      - The class specified in the <xxx> argument does not exist (18)
-      - The class specified in the <xxx> argument is invalid (0) <- use this one
+      - The class specified in the {xxx} argument does not exist (18)
+      - The class specified in the {xxx} argument is invalid or does not exist (0) <- use this one
 
     Suggest to use the proposed ones, consistently.
 

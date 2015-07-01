@@ -47,10 +47,12 @@
  * @addtogroup symbols
  * @{
  *
- * @todo TBD: In `cmpios.h`, we have the descriptions directly in the `defgroup`
+ * @todo TODO AM: In `cmpios.h`, we have the descriptions directly in the
+ *     `defgroup`
  *     statements. Should we keep them like that, or apply the separation
  *     between order-defining `defgroup` statements and `addtogroup` statements
- *     in the actual descriptions, like we do for `cmpift.h` and `cmpidt.h`?
+ *     in the actual descriptions, like we do for `cmpift.h` and `cmpidt.h`?@n
+ *     AM: Move to modules.h, for consistency.
  */
 
 /**

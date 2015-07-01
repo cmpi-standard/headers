@@ -696,9 +696,6 @@ typedef struct _CMPIBrokerFT {
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
      @see CBModifyInstance()
-
-     @todo DONE? KS: Review this description.@n
-           AM: Updated it as I think it should be.
     */
     CMPIStatus (*modifyInstance) (const CMPIBroker* mb, const CMPIContext* ctx,
         const CMPIObjectPath* instPath, const CMPIInstance* modInst,
@@ -1279,7 +1276,8 @@ typedef struct _CMPIBrokerFT {
      the calling MI.
      @see CBInvokeMethod()
 
-     @todo TBD AM: Spec issue: The description of the "out" arg states that the
+     @todo TODO(AM) AM: Spec issue: The description of the "out" arg states
+           that the
            MI shall not release the CMPIArgs object, but that object is
            allocated by the MI, and the statement in the description should
            instead be about the objects filled into the CMPIArgs object,
@@ -2073,16 +2071,6 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Either the @p mb or @p classPath handle
          is invalid.
      @see CMClassPathIsA()
-
-     @todo DONE? KS: Spec includes CMPI_RC_INVALID_PARAMETER (type
-           format is invalid). Does that Error make sense? There is
-           no type arg.@n AM: The only other occurrence of that
-           return code description is in CMPIBrokerEncFT.isOfType().
-           Maybe a false copy of the text from that other
-           function?@n AM: In any case, my take is the return code
-           can show up for invalid formats of the string in the
-           className parameter. I have changed the text here and
-           have opened a spec issue.
     */
     CMPIBoolean (*classPathIsA) (const CMPIBroker* mb,
         const CMPIObjectPath* classPath, const char* className,
@@ -2246,9 +2234,6 @@ typedef struct _CMPIBrokerEncFT {
          CMPIBrokerEncFT.getMessage2() instead.
 
      @todo KS: Add see macro
-
-     @todo DONE. KS: Does not reflect the ... arguments in the documentation.
-           AM: Added param entry for '...'.
     */
     CMPIString* (*getMessage) (const CMPIBroker* mb, const char* msgId,
         const char* defMsg, CMPIStatus* rc, CMPICount count, ...);
@@ -2565,9 +2550,6 @@ typedef struct _CMPIBrokerEncFT {
          @p msgFileHandle handle.
      @see CMGetMessage2()
      @added200 Added in CMPI 2.0.0.
-
-     @todo DONE KS: Does not defined the ... extra parameters.@n
-           AM: Resolved by moving the text to a '...' param.
     */
     CMPIString* (*getMessage2) (const CMPIBroker* mb, const char* msgId,
         const CMPIMsgFileHandle msgFileHandle, const char* defMsg,
@@ -2658,7 +2640,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
      @added210 Added in CMPI 2.1.0.
-     @todo add macro see
+     @todo KS: Add see macro
     */
     CMPIString* (*newStringCP) (const CMPIBroker* mb, const char* data,
         const CMPICodepageID cpid, CMPIStatus* rc);
@@ -2847,7 +2829,7 @@ typedef struct _CMPIBrokerExtFT {
      @par Errors
      For historical reasons, no additional error information is passed back.
 
-     @todo TBD KS: Doxygen does not deal well with arguments that are
+     @todo TODO(AM) KS: Doxygen does not deal well with arguments that are
          function pointers (`start` in this case). It generates warnings
          and (worse!) the generated function prototype is incorrect.
          How about a typedef for the function pointer? Only way is
@@ -2856,7 +2838,9 @@ typedef struct _CMPIBrokerExtFT {
          new type names. Are they part of the standard? Should they get
          leading underscores? Should they use mixed case syntax similar to
          other types like CMPIBoolean or uppercase+underscore syntax similar
-         to preprocessor symbols for types like CMPI_THREAD_TYPE?
+         to preprocessor symbols for types like CMPI_THREAD_TYPE?@n
+         AM: Meeting: Keep name, change to become function instead of func
+         ptr, and move to data file. Make part of spec, too.
     */
     CMPI_THREAD_TYPE (*newThread) (CMPIThreadFunc start, void* parm,
         int detached);
@@ -2914,8 +2898,6 @@ typedef struct _CMPIBrokerExtFT {
          IEEE 1003.1. Some POSIX implementations use the following error code
          for that function:
           @li `ESRCH` -The specified thread could not be found.
-
-     @todo validate formatting of return. ESRCH should be a separate paragraph
     */
     int (*cancelThread) (CMPI_THREAD_TYPE thread);
 
@@ -2966,7 +2948,7 @@ typedef struct _CMPIBrokerExtFT {
          ``pthread_once()`` function; both are defined in IEEE 1003.1.
      @endparblock
 
-     @todo No macro for this one.
+     @todo KS: No macro for this one.
     */
     int (*threadOnce) (int* once, CMPIThreadOnceFunc function);
 
@@ -2987,10 +2969,6 @@ typedef struct _CMPIBrokerExtFT {
          Error codes are defined in `errno.h`, specifically for the
          ``pthread_key_create()`` function; both are defined in IEEE
          1003.1.
-
-     @todo DONE. KS: Member detached not documented. Error code in output.@n
-           AM: Fixed by using a typedef. Reason was no support for function
-           pointer args in Doxygen.
     */
     int (*createThreadKey) (CMPI_THREAD_KEY_TYPE* key,
         CMPIThreadKeyCleanupFunc cleanup);
@@ -3045,7 +3023,7 @@ typedef struct _CMPIBrokerExtFT {
          @ref ref-ieee-1003-1 "IEEE 1003.1".
      @endparblock
 
-     @todo no macro ref
+     @todo KS: No macro for this one.
     */
     int (*setThreadSpecific) (CMPI_THREAD_KEY_TYPE key, void* value);
 
@@ -3224,11 +3202,6 @@ typedef struct _CMPIBrokerExtFT {
          codes are defined in `errno.h`, specifically for the
          ``pthread_cond_timedwait()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
-
-     @todo DONE? KS: We do not specify the timeout value characteristics either
-           here or in the spec. Commented in FINAL RC3 vote.@n
-           AM: timespec defines its members precisely, so there is no need
-           to repeat that.
     */
     int (*timedCondWait) (CMPI_COND_TYPE cond, CMPI_MUTEX_TYPE mutex,
         struct timespec* wait);
@@ -3320,7 +3293,6 @@ typedef struct _CMPIBrokerExtFT {
          @ref ref-ieee-1003-1 "IEEE 1003.1".
 
      @added210 Added in CMPI 2.1.0.
-     @todo TBD for param
     */
     int (*unlockMutex2) (CMPI_MUTEX_TYPE mutex);
 
@@ -3347,8 +3319,8 @@ typedef struct _CMPIBrokerExtFT {
          @ref ref-ieee-1003-1 "IEEE 1003.1".
 
      @added210 Added in CMPI 2.1.0.
-    @todo TBD for param
-    @todo there is no macro for any of the condition functions
+
+     @todo KS: There is no macro for any of the condition functions
     */
     int (*destroyCondition2) (CMPI_COND_TYPE cond);
 
@@ -3468,7 +3440,7 @@ typedef struct _CMPIBrokerMemFT {
      @param size Specifies the amount of memory to allocate in Bytes.
      @return Returns a pointer to the allocated memory, or NULL if the memory
          could not be allocated. No additional error information is returned.
-     @todo add macro
+     @todo KS: Add see macro
     */
     void* (*cmpiMalloc) (const CMPIBroker* mb, size_t size);
 
@@ -3493,7 +3465,7 @@ typedef struct _CMPIBrokerMemFT {
      @param sizeElem The size of each element to allocate.
      @return Returns a pointer to the allocated memory, or NULL if the memory
          could not be allocated. No additional error information is returned.
-     @todo add macro
+     @todo KS: Add see macro
     */
     void* (*cmpiCalloc) (const CMPIBroker* mb, size_t nElems, size_t sizeElem);
 
@@ -3521,7 +3493,7 @@ typedef struct _CMPIBrokerMemFT {
      @return If successful, a pointer to the resized allocated memory block
          NULL if the new memory is not allcoated. If the function fails
          the original @p ptr argument is unchanged.
-     @todo add macro
+     @todo KS: Add see macro
     */
     void* (*cmpiRealloc) (const CMPIBroker* mb, void* ptr, size_t size);
 
@@ -3540,7 +3512,7 @@ typedef struct _CMPIBrokerMemFT {
      @param str The C-language string to duplicate.
      @return Pointer to the new memory block (that is, to the new
          C-language string), or NULL if unsuccessful.
-     @todo add macro
+     @todo KS: Add see macro
     */
     char* (*cmpiStrDup) (const CMPIBroker* mb, const char* str);
 
@@ -3566,7 +3538,7 @@ typedef struct _CMPIBrokerMemFT {
          the CMPIBrokerMemFT.cmpiMalloc(), CMPIBrokerMemFT.cmpiCalloc(), or
          CMPIBrokerMemFT.cmpiRealloc() functions.
      @return None. Does not indicate whether it succeeded or failed.
-     @todo add macro
+     @todo KS: Add see macro
     */
     void (*cmpiFree) (const CMPIBroker* mb, void* ptr);
 
@@ -3590,7 +3562,7 @@ typedef struct _CMPIBrokerMemFT {
      @param inst Points to the CMPIInstance object to be released.
          This object shall have been created via CMPIBrokerEncFT.newInstance().
      @return None. Does not indicate whether it succeeded or failed.
-     @todo add macro
+     @todo KS: Add see macro
     */
     void (*freeInstance) (const CMPIBroker* mb, CMPIInstance* inst);
 
@@ -3614,7 +3586,7 @@ typedef struct _CMPIBrokerMemFT {
          This object shall have been created via
          CMPIBrokerEncFT.newObjectPath().
      @return None.
-     @todo add macro
+     @todo KS: Add see macro
     */
     void (*freeObjectPath) (const CMPIBroker* mb, CMPIObjectPath* obj);
 
@@ -3653,7 +3625,7 @@ typedef struct _CMPIBrokerMemFT {
      @param mb Points to a CMPIBroker structure.
      @param args The string to free.
      @return None.
-     @todo add macro
+     @todo KS: Add see macro
     */
     void (*freeString) (const CMPIBroker* mb, CMPIString* str);
 
@@ -3677,7 +3649,7 @@ typedef struct _CMPIBrokerMemFT {
          released. This object shall have been created via
          CMPIBrokerEncFT.newArray().
      @return None.
-     @todo add macro
+     @todo KS: Add see macro
     */
     void (*freeArray) (const CMPIBroker* mb, CMPIArray* array);
 
@@ -3701,7 +3673,7 @@ typedef struct _CMPIBrokerMemFT {
      @param dt Points to the CMPIDateTime object that is to be released.
          This object shall have been created via CMPIBrokerEncFT.newDateTime().
      @return None.
-     @todo add macro
+     @todo KS: Add see macro
     */
     void (*freeDateTime) (const CMPIBroker* mb, CMPIDateTime* dt);
 
@@ -3726,7 +3698,7 @@ typedef struct _CMPIBrokerMemFT {
      @param se Points to the CMPISelectExp object to be released.
          This object shall have been created via CMPIBrokerEncFT.newSelectExp().
      @return None.
-     @todo add macro
+     @todo KS: Add see macro
     */
     void (*freeSelectExp) (const CMPIBroker* mb, CMPISelectExp* se);
 
@@ -3754,10 +3726,12 @@ typedef struct _CMPIBrokerMemFT {
 
      @added210 Added in CMPI 2.1.0.
 
-     @todo TBD KS: Ccould we more precisely define  broker, ex.
+     @todo TODO(AM) KS: Ccould we more precisely define  broker, ex.
            CMPIBrokerFT.brokerCapabilities@n
            AM: Text for 'mb' updated. Reference to capabilities.
-           Does that address the issues?
+           Does that address the issues?@n
+           AM: Create custom doxygen commands for each capability, and tag
+           capability dependent functions with them.
     */
     void (*freeChars) (const CMPIBroker* mb, char* chars);
 
@@ -4000,11 +3974,6 @@ typedef struct _CMPIContextFT {
          type is not recognized.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
      @see CMAddContextEntry()
-
-     @todo DONE. KS: Should the link above be a ref to the names definitions for
-           context entries. Also really poor description. Description now same
-           as spec.
-           AM: Updated to be consistent with spec.
     */
     CMPIStatus (*addEntry) (const CMPIContext* ctx, const char* name,
         const CMPIValue* value, const CMPIType type);
@@ -4171,11 +4140,6 @@ typedef struct _CMPIResultFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid, or the
          MB has aborted the request for which this data is being returned.
      @see CMReturnObjectPath()
-
-     @todo DONE. KS: arg 2 is op in spec. Should we modify here to match spec?
-           AM: The function description was partly from returnInstance(), by
-           mistake. Updated to match spec for returnObjectPath(), including
-           the arg 2 name.
     */
     CMPIStatus (*returnObjectPath) (const CMPIResult* rslt,
         const CMPIObjectPath* op);
@@ -4320,12 +4284,6 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-
-     @todo TBD: KS: Ordering here diff than spec.  This is sect 8.14.
-           AM: What does this comment refer to? I double checked the order of
-           function pointers in the CMPIErrorFT table, and it matches between
-           spec and header file. The order of return codes for this function
-           also matches.
     */
     CMPIStatus (*release) (CMPIError* er);
 
@@ -4472,7 +4430,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-    @todo add macro
+    @todo KS: Add see macro
     */
     CMPIString* (*getOwningEntity) (const CMPIError* er, CMPIStatus* rc);
 
@@ -4944,9 +4902,6 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-
-     @todo we are inconsistent in the formatting of the various
-           attributes for CMPIError. Need to generalize this.
     */
     CMPIStatus (*setErrorType) (const CMPIError* er, const CMPIErrorType et);
 
@@ -6270,7 +6225,8 @@ typedef struct _CMPIObjectPathFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
-     @todo add macro ref
+
+     @todo KS: Add see macro
     */
     CMPIString* (*toString) (const CMPIObjectPath* op, CMPIStatus* rc);
 
@@ -7619,8 +7575,9 @@ typedef struct _CMPIStringFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p cpid is invalid.
      @li `CMPI_RC_ERR_NOT_IN_CODEPAGE` - The string contains characters that
          are not representable in the specified codepage.
-     @todo add macro for this function
      @added210 Added in CMPI 2.1.0.
+
+     @todo KS: Add see macro
     */
     char* (*newCharsCP) (const CMPIString* str, const CMPICodepageID cpid,
         CMPIStatus* rc);
@@ -7770,18 +7727,6 @@ typedef struct _CMPIArrayFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
      @see CMGetArrayType()
 
-     @todo KS: CMPI_null does not show like.@n
-           AM: I assume you mean "no link"? Reason was that
-           CMPI_null (CMPI_string/stringA) had no description. Once that was
-           added, it was still necessary to add "@ref".
-           AM: DONE
-
-     @todo KS: The "@p ar" does not highlight or otherwise mark the "ar".@n
-           AM: In my output, the "ar" does become monospaced (which is the
-           current effect of "@p").@n
-           KS: Only issue is that on my firefox there is no visible
-           difference.@n
-           AM: DONE?
     */
     CMPIType (*getSimpleType) (const CMPIArray* ar, CMPIStatus* rc);
 
@@ -8354,7 +8299,7 @@ typedef struct _CMPIPropertyListFT {
      @li `CMPI_RC_OK` - Operation successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid @p plist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Invalid @p pname.
-     @todo find macro for this
+     @todo KS: Find macro for this
     */
     CMPIBoolean (*isPropertyInList) (const CMPIPropertyList* plist,
         const char* pname, CMPIStatus* rc);
@@ -8395,7 +8340,7 @@ typedef struct _CMPIPropertyListFT {
      codes:
      @li `CMPI_RC_OK` - Operation successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p plist handle is invalid.
-     @todo find macro for this
+     @todo KS: Find macro for this
     */
     const char** (*getProperties) (const CMPIPropertyList* plist,
         CMPIStatus* rc);
@@ -8532,7 +8477,7 @@ typedef struct _CMPIEnumerationFilterFT {
          the query language is not supported.
      @li `CMPI_RC_FAILED` - Error not defined by one of the above
          codes occurred.
-     @todo create macro for this
+     @todo KS: Create macro for this
     */
     CMPIBoolean (*match) (const CMPIEnumerationFilter* ef,
         const CMPIInstance* inst, CMPIStatus* rc);
@@ -8835,12 +8780,6 @@ typedef struct _CMPIInstanceMIFT {
          <TD>WIPG0227 + implementation-specific message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
-
-     @todo DONE. KS: Should we change to classPath as property name?@n
-           AM: The description mistakenly talked about a class path,but
-           this is getInstance on an instance path. The spec uses "instPath".
-           Changed to use "instPath" here in the header, and fixed the
-           description as well.
     */
     CMPIStatus (*getInstance) (CMPIInstanceMI* mi, const CMPIContext* ctx,
         const CMPIResult* rslt, const CMPIObjectPath* instPath,
@@ -10763,9 +10702,9 @@ typedef struct _CMPIIndicationMIFT {
      @li `CMPI_RC_ERR_INVALID_QUERY` - Invalid query or too
          complex.
 
-     @todo KS check.  We set first activation if this is first for
-          filter and lastActivation if last for className (not
-          filter)
+     @todo TBD KS: We set first activation if this is first for
+           filter and lastActivation if last for className (not
+           filter)
     */
     CMPIStatus (*deActivateFilter) (CMPIIndicationMI* mi,
         const CMPIContext* ctx, const CMPISelectExp* filter,

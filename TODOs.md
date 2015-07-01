@@ -3,10 +3,6 @@ LIST OF TODOs for CMPI header file Documentation
 
 * Karl: Test against a build.
 
-* Finish returns, specifically for those returns that return CMPIStatus.
-  See @todo for proposals
-  Status: Done(Andy).
-
 * Karl: Clean up cmpimacs.
   Status: Most links from macs back in place but not all working.  Many of the
   functions do not have macros.  Also lots of @todo add macros in cmpift.h
@@ -14,7 +10,8 @@ LIST OF TODOs for CMPI header file Documentation
 
 * Andy: Sync function descriptions in cmpift.h with spec.
   Status: In progress, this is being done in order of the functions in the file;
-  TODO_AM indicates where this stands.
+  TODO_AM indicates where this stands, DONE_AM marks specific ones in the yet
+  unprocessed area.
 
 * make decision about the poor doc in macro files. Remove much of it, make same
   as cmpift, or leave it.
