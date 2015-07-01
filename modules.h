@@ -3,6 +3,186 @@
 /* ------------------------------------------------------------------------- */
 
 /**
+ * @page added200 Added in CMPI 2.0.0
+ * @brief Entities that were added in CMPI 2.0.0
+ */
+
+/**
+ * @page added210 Added in CMPI 2.1.0
+ * @brief Entities that were added in CMPI 2.1.0
+ */
+
+/**
+ * @page required200 Required since CMPI 2.0.0
+ * @brief Entities that are required to be supported since CMPI 2.0.0
+ */
+
+/**
+ * @page required210 Required since CMPI 2.1.0
+ * @brief Entities that are required to be supported since CMPI 2.1.0
+ */
+
+/**
+ * @page capread Basic Read MB capability
+ * @brief Entities that are part of the Basic Read MB capability
+ *
+ * These entities shall be supported, if the
+ * @ref CMPI_MB_BasicRead "Basic Read" MB capability
+ * is available; otherwise, they shall not be supported.
+ */
+
+/**
+ * @page capwrite Basic Write MB capability
+ * @brief Entities that are part of the Basic Write MB capability
+ *
+ * These entities shall be supported, if the
+ * @ref CMPI_MB_BasicWrite "Basic Write" MB capability
+ * is available; otherwise, they shall not be supported.
+ */
+
+/**
+ * @page capmanipulation Instance Manipulation MB capability
+ * @brief Entities that are part of the Instance Manipulation MB capability
+ *
+ * These entities shall be supported, if the
+ * @ref CMPI_MB_InstanceManipulation "Instance Manipulation" MB capability
+ * is available; otherwise, they shall not be supported.
+ */
+
+/**
+ * @page capassociations Association Traversal MB capability
+ * @brief Entities that are part of the Association Traversal MB capability
+ *
+ * These entities shall be supported, if the
+ * @ref CMPI_MB_AssociationTraversal "Association Traversal" MB capability
+ * is available; otherwise, they shall not be supported.
+ */
+
+/**
+ * @page capqueryexec Query Execution MB capability
+ * @brief Entities that are part of the Query Execution MB capability
+ *
+ * These entities shall be supported, if the
+ * @ref CMPI_MB_QueryExecution "Query Execution" MB capability
+ * is available; otherwise, they shall not be supported.
+ */
+
+/**
+ * @page capquerynorm Query Normalization MB capability
+ * @brief Entities that are part of the Query Normalization MB capability
+ *
+ * These entities shall be supported, if the
+ * @ref CMPI_MB_QueryNormalization "Query Normalization" MB capability
+ * is available; otherwise, they shall not be supported.
+ */
+
+/**
+ * @page capqualifiers Basic Qualifier MB capability
+ * @brief Entities that are part of the Basic Qualifier MB capability
+ *
+ * These entities shall be supported, if the
+ * @ref CMPI_MB_BasicQualifierSupport "Basic Qualifier" MB capability
+ * is available; otherwise, they shall not be supported.
+ */
+
+/**
+ * @page capindications Indications MB capability
+ * @brief Entities that are part of the Indications MB capability
+ *
+ * These entities shall be supported, if the
+ * @ref CMPI_MB_Indications "Indications" MB capability
+ * is available; otherwise, they shall not be supported.
+ */
+
+/**
+ * @page capopsys OS Encapsulation Services MB capability
+ * @brief Entities that are part of the OS Encapsulation Services MB capability
+ *
+ * These entities shall be supported, if the
+ * @ref CMPI_MB_OSEncapsulationSupport "OS Encapsulation Services" MB capability
+ * is available; otherwise, they shall not be supported.
+ */
+
+/**
+ * @page capmemory Memory Enhancement Services MB capability
+ * @brief Entities that are part of the Memory Enhancement Services MB
+ *     Capability
+ *
+ * These entities shall be supported, if the
+ * @ref CMPI_MB_Supports_MemEnhancements "Memory Enhancement Services" MB
+ * capability is available; otherwise, they shall not be supported.
+ */
+
+/**
+ * @page caperrors Extended Errors MB capability
+ * @brief Entities that are part of the Extended Errors MB capability
+ *
+ * These entities shall be supported, if the
+ * @ref CMPI_MB_Supports_Extended_Error "Extended Errors" MB capability
+ * is available; otherwise, they shall not be supported.
+ */
+
+/**
+ * @page caplogging Logging MB capability
+ * @brief Entities that are part of the Logging MB capability
+ *
+ * These entities shall be supported, if the
+ * @ref CMPI_MB_Logging "Logging" MB capability
+ * is available; otherwise, they shall not be supported.
+ */
+
+/**
+ * @page captracing Tracing MB capability
+ * @brief Entities that are part of the Tracing MB capability
+ *
+ * These entities shall be supported, if the
+ * @ref CMPI_MB_Tracing "Tracing" MB capability
+ * is available; otherwise, they shall not be supported.
+ */
+
+/**
+ * @page capfiltering Property Filtering MB capability
+ * @brief Entities that are part of the Property Filtering MB capability
+ *
+ * These entities shall be supported, if the
+ * @ref CMPI_MB_PropertyFiltering "Property Filtering" MB capability
+ * is available; otherwise, they shall not be supported.
+ */
+
+/**
+ * @page capcodepage Codepage Conversion MB capability
+ * @brief Entities that are part of the Codepage Conversion MB capability
+ *
+ * These entities shall be supported, if the
+ * @ref CMPI_MB_CodepageConversion "Codepage Conversion" MB capability
+ * is available; otherwise, they shall not be supported.
+ */
+
+/**
+ * @page captranslation Message Translation MB capability
+ * @brief Entities that are part of the Message Translation MB capability
+ *
+ * Optional to be supported.
+ *
+ * Support for the Message Translation MB capability cannot be discovered by
+ * means of CMPIBrokerFT.brokerCapabilities. However, the functions that are
+ * part of this capability always have a non-NULl function pointer and can thus
+ * be invoked to find out whether they are supported.
+ */
+
+/**
+ * @page capcontext Context Data MB capability
+ * @brief Entities that are part of the Context Data MB capability
+ *
+ * Required to be supported.
+ *
+ * Support for the Context Data MB capability cannot be discovered by
+ * means of CMPIBrokerFT.brokerCapabilities.
+ *
+ * @required210 Support for this capability is required since CMPI 2.1.0.
+ */
+
+/**
  * @page platformspecific Platform-specific Definitions
  * @brief Definitions that depend on the compile platform
  *
@@ -29,26 +209,6 @@
  * Such dependencies are mentioned where applicable, but those descriptions
  * may not be fully specific as to what the exact changes are.
  * For details, the respective CMPI header file needs to be examined.
- */
-
-/**
- * @page added200 Added in CMPI 2.0.0
- * @brief Definitions that were added in CMPI 2.0.0
- */
-
-/**
- * @page added210 Added in CMPI 2.1.0
- * @brief Definitions that were added in CMPI 2.1.0
- */
-
-/**
- * @page required200 Required since CMPI 2.0.0
- * @brief Entities that are required to be supported since CMPI 2.0.0
- */
-
-/**
- * @page required210 Required since CMPI 2.1.0
- * @brief Entities that are required to be supported since CMPI 2.1.0
  */
 
 /**

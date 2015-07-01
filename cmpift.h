@@ -232,7 +232,7 @@ typedef struct _CMPIBroker {
     /**
      * @brief Pointer to the function table for MB memory enhancement services.
      *
-     * If the optional
+     * If the
      * @ref CMPI_MB_Supports_MemEnhancements "Memory Enhancement Services"
      * capability is not available, this pointer is NULL.
      *
@@ -322,6 +322,7 @@ typedef struct _CMPIBrokerFT {
 
      @par Errors
      For historical reasons, no additional error information is passed back.
+
      @see CBPrepareAttachThread()
     */
     CMPIContext* (*prepareAttachThread) (const CMPIBroker* mb,
@@ -351,6 +352,7 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle or @p ctx handle is
          invalid.
+
      @see CBAttachThread()
     */
     CMPIStatus (*attachThread) (const CMPIBroker* mb, const CMPIContext* ctx);
@@ -380,6 +382,7 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle or @p ctx handle is
          invalid.
+
      @see CBDetachThread()
     */
     CMPIStatus (*detachThread) (const CMPIBroker* mb, const CMPIContext* ctx);
@@ -418,10 +421,6 @@ typedef struct _CMPIBrokerFT {
      created by MIs that are registered with the MB (see
      @ref broker-thread-reg "Thread Registration Services").
 
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_Indications "Indications" capability
-     is available; otherwise, it shall not be supported.
-
      @param mb Points to a CMPIBroker structure.
      @param ctx Points to the CMPIContext object that was used to invoke the MI
          function that calls this MB function, or that was used to register the
@@ -446,6 +445,8 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The namespace specified by
          @p ns is invalid, or the indication instance specified by
          @p ind is invalid.
+     @capindications This function is part of the Indications MB capability.
+
      @see CBDeliverIndication()
     */
     CMPIStatus (*deliverIndication) (const CMPIBroker* mb,
@@ -507,6 +508,8 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
+     @capread This function is part of the Basic Read MB capability.
+
      @see CBEnumInstanceNames()
      @deprecated The `CMPI_RC_ERR_NOT_FOUND` return code of this function
          is deprecated since CMPI 2.1. If no instances exist, the MB should
@@ -576,6 +579,8 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
+     @capread This function is part of the Basic Read MB capability.
+
      @see CBGetInstance()
     */
     CMPIInstance* (*getInstance) (const CMPIBroker* mb, const CMPIContext* ctx,
@@ -638,6 +643,9 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
+     @capmanipulation This function is part of the Instance Manipulation
+         MB capability.
+
      @see CBCreateInstance()
      @deprecated The use of the key component within @p classPath
          is deprecated since CMPI 2.1; this key component should not be provided
@@ -695,6 +703,9 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
+     @capmanipulation This function is part of the Instance Manipulation
+         MB capability.
+
      @see CBModifyInstance()
     */
     CMPIStatus (*modifyInstance) (const CMPIBroker* mb, const CMPIContext* ctx,
@@ -737,6 +748,9 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
+     @capmanipulation This function is part of the Instance Manipulation
+         MB capability.
+
      @see CBDeleteInstance()
     */
     CMPIStatus (*deleteInstance) (const CMPIBroker* mb, const CMPIContext* ctx,
@@ -795,6 +809,8 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
+     @capqueryexec This function is part of the Query Execution MB capability.
+
      @see CBExecQuery()
     */
     CMPIEnumeration* (*execQuery) (const CMPIBroker* mb,
@@ -860,6 +876,8 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
+     @capread This function is part of the Basic Read MB capability.
+
      @see CBEnumInstances()
      @deprecated The `CMPI_RC_ERR_NOT_FOUND` return code of this function
          is deprecated since CMPI 2.1. If no instances exist, the MB should
@@ -949,6 +967,9 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
+     @capassociations This function is part of the Association Traversal
+         MB capability.
+
      @see CBAssociators()
      @deprecated The `CMPI_RC_ERR_NOT_FOUND` return code of this function
          is deprecated since CMPI 2.1. If no instances exist, the MB should
@@ -1033,6 +1054,9 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
+     @capassociations This function is part of the Association Traversal
+         MB capability.
+
      @see CBAssociatorNames()
      @deprecated The `CMPI_RC_ERR_NOT_FOUND` return code of this function
          is deprecated since CMPI 2.1. If no instances exist, the MB should
@@ -1113,6 +1137,9 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
+     @capassociations This function is part of the Association Traversal
+         MB capability.
+
      @see CBReferences()
      @deprecated The `CMPI_RC_ERR_NOT_FOUND` return code of this function
          is deprecated since CMPI 2.1. If no instances exist, the MB should
@@ -1187,6 +1214,9 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
+     @capassociations This function is part of the Association Traversal
+         MB capability.
+
      @see CBReferenceNames()
      @deprecated The `CMPI_RC_ERR_NOT_FOUND` return code of this function
          is deprecated since CMPI 2.1. If no instances exist, the MB should
@@ -1274,6 +1304,9 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
+     @capmanipulation This function is part of the Instance Manipulation
+         MB capability.
+
      @see CBInvokeMethod()
     */
     CMPIData (*invokeMethod) (const CMPIBroker* mb, const CMPIContext* ctx,
@@ -1322,6 +1355,7 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
+     @capwrite This function is part of the Basic Write MB capability.
      @deprecated This function is deprecated since CMPI 2.1, in accord with the
          deprecation of property client operations in DMTF specifications.
          MBs shall implement this function by invoking
@@ -1379,11 +1413,13 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
+     @capread This function is part of the Basic Read MB capability.
+
      @see CMGetProperty()
      @deprecated This function is deprecated since CMPI 2.1, in accord with the
          deprecation of property client operations in DMTF specifications.
          MBs shall implement this function by invoking
-         CMPIInstanceMIFT.getInstance() if CMPIInstanceMIFT.getProperty()
+         CMPIInstanceMIFT.getInstance() if CMPIPropertyMIFT.getProperty()
          is not implemented by the target MI.
          New MIs should replace the use of CMPIBrokerFT.getProperty() with the
          use of CMPIBrokerFT.getInstance().
@@ -1464,6 +1500,8 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
+     @capread This function is part of the Basic Read MB capability.
+
      @see CBEnumInstancesFiltered()
      @added210 Added in CMPI 2.1.0.
     */
@@ -1561,6 +1599,9 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
+     @capassociations This function is part of the Association Traversal
+         MB capability.
+
      @see CBAssociatorsFiltered()
      @added210 Added in CMPI 2.1.0.
     */
@@ -1650,6 +1691,9 @@ typedef struct _CMPIBrokerFT {
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
+     @capassociations This function is part of the Association Traversal
+         MB capability.
+
      @see CBAssociatorsFiltered()
      @added210 Added in CMPI 2.1.0.
     */
@@ -1729,6 +1773,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_NOT_FOUND` - The class specified in
          @p instPath is not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+
      @see CMNewInstance()
     */
     CMPIInstance* (*newInstance) (const CMPIBroker* mb,
@@ -1762,6 +1807,7 @@ typedef struct _CMPIBrokerEncFT {
          specified in @p ns does not exist.
      @li `CMPI_RC_ERR_NOT_FOUND` - Class in @p cn not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+
      @see CMNewObjectPath()
     */
     CMPIObjectPath* (*newObjectPath) (const CMPIBroker* mb, const char* ns,
@@ -1789,6 +1835,7 @@ typedef struct _CMPIBrokerEncFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+
      @see CMNewArgs()
     */
     CMPIArgs* (*newArgs) (const CMPIBroker* mb, CMPIStatus* rc);
@@ -1819,6 +1866,7 @@ typedef struct _CMPIBrokerEncFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+
      @see CMNewString()
     */
     CMPIString* (*newString) (const CMPIBroker* mb, const char* data,
@@ -1860,6 +1908,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_DATA_TYPE` - Data type not valid.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+
      @see CMNewArray()
     */
     CMPIArray* (*newArray) (const CMPIBroker* mb, CMPICount size,
@@ -1892,6 +1941,7 @@ typedef struct _CMPIBrokerEncFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+
      @see CMNewDateTime()
     */
     CMPIDateTime* (*newDateTime) (const CMPIBroker* mb, CMPIStatus* rc);
@@ -1930,6 +1980,7 @@ typedef struct _CMPIBrokerEncFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+
      @see CMNewDateTimeFromBinary()
     */
     CMPIDateTime* (*newDateTimeFromBinary) (const CMPIBroker* mb,
@@ -1964,6 +2015,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_INVALID_PARAMETER` - The utcTime format is invalid.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+
      @see CMNewDateTimeFromChars()
     */
     CMPIDateTime* (*newDateTimeFromChars) (const CMPIBroker* mb,
@@ -1976,11 +2028,6 @@ typedef struct _CMPIBrokerEncFT {
      CMPIBrokerEncFT.newSelectExp() creates a new CMPISelectExp
      object that is initialized from a select expression specified
      in a query language.
-
-     This function and the CMPISelectExp encapsulated data type shall be
-     supported by the MB if the
-     @ref CMPI_MB_QueryNormalization "Query Normalization" capability
-     is available; otherwise, they shall not be supported.
 
      @param mb Points to a CMPIBroker structure.
      @param query Points to a string containing the select expression.
@@ -2020,6 +2067,8 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_INVALID_QUERY` - The query expression is not
          valid.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
+     @capquerynorm This function is part of the Query Normalization MB capability.
+
      @see CMNewSelectExp()
     */
     CMPISelectExp* (*newSelectExp) (const CMPIBroker* mb, const char* query,
@@ -2063,6 +2112,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p className format is invalid.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Either the @p mb or @p classPath handle
          is invalid.
+
      @see CMClassPathIsA()
     */
     CMPIBoolean (*classPathIsA) (const CMPIBroker* mb,
@@ -2094,6 +2144,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Either the @p mb or
          @p object handle is invalid.
+
      @see CDToString()
     */
     CMPIString* (*toString) (const CMPIBroker* mb, const void* object,
@@ -2124,6 +2175,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p type format is invalid.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Either the @p mb or
          @p object handle is invalid.
+
      @see CDIsOfType()
     */
     CMPIBoolean (*isOfType) (const CMPIBroker* mb, const void* object,
@@ -2162,6 +2214,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Either the @p mb or
          @p object handle is invalid.
+
      @see CDGetType()
     */
     CMPIString* (*getType) (const CMPIBroker* mb, const void* object,
@@ -2222,11 +2275,12 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_TYPE_MISMATCH` - Invalid insert pair.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p count value range violation.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
-
-     @deprecated This function is deprecated since CMPI 2.1. Use
-         CMPIBrokerEncFT.getMessage2() instead.
+     @captranslation This function is part of the Message Translation
+         MB capability.
 
      @todo KS: Add see macro
+     @deprecated This function is deprecated since CMPI 2.1. Use
+         CMPIBrokerEncFT.getMessage2() instead.
     */
     CMPIString* (*getMessage) (const CMPIBroker* mb, const char* msgId,
         const char* defMsg, CMPIStatus* rc, CMPICount count, ...);
@@ -2261,6 +2315,8 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - @p mb or @p string
          handle is invalid.
+     @caplogging This function is part of the Logging MB capability.
+
      @see CMLogMessage()
     */
     CMPIStatus (*logMessage) (const CMPIBroker* mb, int severity,
@@ -2298,6 +2354,8 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - @p mb or @p string handle is invalid.
+     @captracing This function is part of the Tracing MB capability.
+
      @see CMTraceMessage()
     */
     CMPIStatus (*trace) (const CMPIBroker* mb, CMPILevel level,
@@ -2362,6 +2420,8 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
+     @caperrors This function is part of the Extended Errors MB capability.
+
      @see CMNewCMPIError()
      @added200 Added in CMPI 2.0.0.
      @required210 Support for this function is required since CMPI 2.1.0.
@@ -2445,6 +2505,7 @@ typedef struct _CMPIBrokerEncFT {
          message file was not found, or the MB does not support message
          files.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
+
      @see CMOpenMessageFile()
      @added200 Added in CMPI 2.0.0.
     */
@@ -2471,6 +2532,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Either the @p mb or
          @p msgFileHandle handle is invalid.
+
      @see CMCloseMessageFile()
      @added200 Added in CMPI 2.0.0.
     */
@@ -2541,6 +2603,9 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Either the @p mb or @p msgFileHandle
          handle is invalid. Note that NULL is a valid value for the
          @p msgFileHandle handle.
+     @captranslation This function is part of the Message Translation
+         MB capability.
+
      @see CMGetMessage2()
      @added200 Added in CMPI 2.0.0.
     */
@@ -2631,9 +2696,11 @@ typedef struct _CMPIBrokerEncFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
+     @capcodepage This function is part of the Codepage Conversion
+         MB capability.
 
-     @added210 Added in CMPI 2.1.0.
      @todo KS: Add see macro
+     @added210 Added in CMPI 2.1.0.
     */
     CMPIString* (*newStringCP) (const CMPIBroker* mb, const char* data,
         const CMPICodepageID cpid, CMPIStatus* rc);
@@ -2709,14 +2776,15 @@ struct timespec;
  * @ref brokerext-mutex "POSIX-conformant Mutexes", and
  * @ref brokerext-condition "POSIX-conformant Conditions".
  *
- * All functions in this table shall be supported by the MB if the
- * @ref CMPI_MB_OSEncapsulationSupport "OS Encapsulation Services" capability
- * is available; otherwise, it shall not be supported.
+ * @capopsys @parblock
+ *     All functions defined in this structure are part of the
+ *     OS Encapsulation Services MB capability.
  *
- * For functions that are not supported, their function pointers in this
- * function table shall not be NULL, but shall point to a function that can be
- * called and then indicate back to the caller that it is not supported, as
- * specified in the description of the function.
+ *     If that capability is not supported, the function pointers in this
+ *     function table shall not be NULL, but shall point to a function that can
+ *     be called and then indicate back to the caller that it is not supported,
+ *     as specified in the description of the function.
+ * @endparblock
  */
 typedef struct _CMPIBrokerExtFT {
 
@@ -2785,6 +2853,8 @@ typedef struct _CMPIBrokerExtFT {
 
      @par Errors
      For historical reasons, no additional error information is passed back.
+     @capopsys This function is part of the OS Encapsulation Services MB
+         capability.
 
      @todo TBD AM: Done, but please review the new function types:
            @ref CMPIThreadFunc,
@@ -2808,6 +2878,8 @@ typedef struct _CMPIBrokerExtFT {
      The Error codes are defined in `errno.h`, specifically for
      the ``pthread_join()`` function; both are defined in
      @ref ref-ieee-1003-1 "IEEE 1003.1".
+     @capopsys This function is part of the OS Encapsulation Services MB
+         capability.
 
      @todo KS: Add see macro
     */
@@ -2826,6 +2898,8 @@ typedef struct _CMPIBrokerExtFT {
      @param return_code Is the return code that should be used for the thread.
      @return The function never returns, regardless of whether it is
          successful or encounters errors.
+     @capopsys This function is part of the OS Encapsulation Services MB
+         capability.
 
      @todo KS: Add see macro
     */
@@ -2847,6 +2921,8 @@ typedef struct _CMPIBrokerExtFT {
          IEEE 1003.1. Some POSIX implementations use the following error code
          for that function:
           @li `ESRCH` -The specified thread could not be found.
+     @capopsys This function is part of the OS Encapsulation Services MB
+         capability.
     */
     int (*cancelThread) (CMPI_THREAD_TYPE thread);
 
@@ -2861,6 +2937,8 @@ typedef struct _CMPIBrokerExtFT {
          If not successful, a non-zero error code will be returned.
 
      Error codes are defined in `errno.h`, defined in IEEE 1003.1.
+     @capopsys This function is part of the OS Encapsulation Services MB
+         capability.
     */
     int (*threadSleep) (CMPIUint32 msec);
 
@@ -2896,6 +2974,8 @@ typedef struct _CMPIBrokerExtFT {
          Error codes are defined in `errno.h`, specifically for the
          ``pthread_once()`` function; both are defined in IEEE 1003.1.
      @endparblock
+     @capopsys This function is part of the OS Encapsulation Services MB
+         capability.
 
      @todo KS: No macro for this one.
     */
@@ -2918,6 +2998,8 @@ typedef struct _CMPIBrokerExtFT {
          Error codes are defined in `errno.h`, specifically for the
          ``pthread_key_create()`` function; both are defined in IEEE
          1003.1.
+     @capopsys This function is part of the OS Encapsulation Services MB
+         capability.
     */
     int (*createThreadKey) (CMPI_THREAD_KEY_TYPE* key,
         CMPIThreadKeyCleanupFunc* cleanup);
@@ -2936,6 +3018,8 @@ typedef struct _CMPIBrokerExtFT {
          Error codes are defined in `errno.h`, specifically for the
          ``pthread_key_delete()`` function; both are defined in IEEE 1003.1.
      @endparblock
+     @capopsys This function is part of the OS Encapsulation Services MB
+         capability.
     */
     int (*destroyThreadKey) (CMPI_THREAD_KEY_TYPE key);
 
@@ -2952,6 +3036,8 @@ typedef struct _CMPIBrokerExtFT {
 
      @par Errors
      For historical reasons, no additional error information is passed back.
+     @capopsys This function is part of the OS Encapsulation Services MB
+         capability.
     */
     void* (*getThreadSpecific) (CMPI_THREAD_KEY_TYPE key);
 
@@ -2971,6 +3057,8 @@ typedef struct _CMPIBrokerExtFT {
          ``pthread_setspecific()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
      @endparblock
+     @capopsys This function is part of the OS Encapsulation Services MB
+         capability.
 
      @todo KS: No macro for this one.
     */
@@ -3010,6 +3098,8 @@ typedef struct _CMPIBrokerExtFT {
 
      @par Errors
      For historical reasons, no additional error information is passed back.
+     @capopsys This function is part of the OS Encapsulation Services MB
+         capability.
     */
     CMPI_MUTEX_TYPE (*newMutex) (int opt);
 
@@ -3020,7 +3110,8 @@ typedef struct _CMPIBrokerExtFT {
      mutex.
 
      @param mutex The mutex to be destroyed.
-
+     @capopsys This function is part of the OS Encapsulation Services MB
+         capability.
      @deprecated This function is deprecated since CMPI 2.1,
          because it does not indicate whether it succeeded or failed. Use
          CMPIBrokerExtFT.destroyMutex2() instead.
@@ -3038,13 +3129,13 @@ typedef struct _CMPIBrokerExtFT {
      CMPIBrokerExtFT.newMutex().
 
      @param mutex The mutex to be locked.
-
      @return None.
 
      @par Errors
      For historical reasons, this function does not indicate whether it
      succeeded or failed.
-
+     @capopsys This function is part of the OS Encapsulation Services MB
+         capability.
      @deprecated This function is deprecated since CMPI 2.1,
          because it does not indicate whether it succeeded or failed.
          Use CMPIBrokerExtFT.lockMutex2() instead.
@@ -3066,7 +3157,8 @@ typedef struct _CMPIBrokerExtFT {
      @par Errors
      For historical reasons, this function does not indicate whether it
      succeeded or failed.
-
+     @capopsys This function is part of the OS Encapsulation Services MB
+         capability.
      @deprecated This function is deprecated since CMPI 2.1,
          because it does not indicate whether it succeeded or failed.
          Use CMPIBrokerExtFT.unlockMutex2() instead.
@@ -3092,6 +3184,8 @@ typedef struct _CMPIBrokerExtFT {
 
      @par Errors
      For historical reasons, no additional error information is passed back.
+     @capopsys This function is part of the OS Encapsulation Services MB
+         capability.
     */
     CMPI_COND_TYPE (*newCondition) (int opt);
 
@@ -3107,7 +3201,8 @@ typedef struct _CMPIBrokerExtFT {
      @par Errors
      For historical reasons, this function does not indicate whether it
      succeeded or failed.
-
+     @capopsys This function is part of the OS Encapsulation Services MB
+         capability.
      @deprecated This function is deprecated since CMPI 2.1,
          because it does not indicate whether it succeeded or failed. Use
          CMPIBrokerExtFT.destroyCondition2() instead.
@@ -3129,6 +3224,8 @@ typedef struct _CMPIBrokerExtFT {
         If not successful, returns a non-zero error code will be returned.
         Error codes are defined in `errno.h`, specifically for the
         ``pthread_cond_wait()`` function; both are defined in IEEE 1003.1.
+     @capopsys This function is part of the OS Encapsulation Services MB
+         capability.
     */
     int (*condWait) (CMPI_COND_TYPE cond, CMPI_MUTEX_TYPE mutex);
 
@@ -3151,6 +3248,8 @@ typedef struct _CMPIBrokerExtFT {
          codes are defined in `errno.h`, specifically for the
          ``pthread_cond_timedwait()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
+     @capopsys This function is part of the OS Encapsulation Services MB
+         capability.
     */
     int (*timedCondWait) (CMPI_COND_TYPE cond, CMPI_MUTEX_TYPE mutex,
         struct timespec* wait);
@@ -3168,6 +3267,8 @@ typedef struct _CMPIBrokerExtFT {
          codes are defined in `errno.h`, specifically for the
          ``pthread_cond_signal()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
+     @capopsys This function is part of the OS Encapsulation Services MB
+         capability.
     */
     int (*signalCondition) (CMPI_COND_TYPE cond);
 
@@ -3194,7 +3295,8 @@ typedef struct _CMPIBrokerExtFT {
          are defined in `errno.h`, specifically for the
          ``pthread_mutex_destroy()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
-
+     @capopsys This function is part of the OS Encapsulation Services MB
+         capability.
      @added210 Added in CMPI 2.1.0.
     */
     int (*destroyMutex2) (CMPI_MUTEX_TYPE mutex);
@@ -3217,7 +3319,8 @@ typedef struct _CMPIBrokerExtFT {
          are defined in `errno.h`, specifically for the
          ``pthread_mutex_lock()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
-
+     @capopsys This function is part of the OS Encapsulation Services MB
+         capability.
      @added210 Added in CMPI 2.1.0, superceeding the deprecated
          CMPIBrokerExtFT.lockMutex() function.
     */
@@ -3240,7 +3343,8 @@ typedef struct _CMPIBrokerExtFT {
          are defined in `errno.h`, specifically for the
          ``pthread_mutex_lock()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
-
+     @capopsys This function is part of the OS Encapsulation Services MB
+         capability.
      @added210 Added in CMPI 2.1.0.
     */
     int (*unlockMutex2) (CMPI_MUTEX_TYPE mutex);
@@ -3266,10 +3370,11 @@ typedef struct _CMPIBrokerExtFT {
          are defined in `errno.h`, specifically for the
          ``pthread_cond_destroy()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
-
-     @added210 Added in CMPI 2.1.0.
+     @capopsys This function is part of the OS Encapsulation Services MB
+         capability.
 
      @todo KS: There is no macro for any of the condition functions
+     @added210 Added in CMPI 2.1.0.
     */
     int (*destroyCondition2) (CMPI_COND_TYPE cond);
 
@@ -3289,11 +3394,8 @@ typedef struct _CMPIBrokerExtFT {
  * This function table is referenced by the CMPIBroker structure, and provides
  * @ref brokermem-all "Memory Enhancement Services".
  *
- * For functions that are not supported, their function pointers in this
- * function table shall not be NULL, but shall point to a function that can be
- * called and then indicate back to the caller that it is not supported, as
- * specified in the description of the function.
- *
+ * @capmemory This function table is part of the Memory Enhancement Services
+ *     MB capability.
  * @added200 Added in CMPI 2.0.0.
  */
 typedef struct _CMPIBrokerMemFT {
@@ -3343,6 +3445,8 @@ typedef struct _CMPIBrokerMemFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_FAILED` - Unspecified error occurred.
+     @capmemory This function is part of the Memory Enhancement Services MB
+         capability.
     */
     CMPIGcStat* (*mark) (const CMPIBroker* mb, CMPIStatus* rc);
 
@@ -3370,6 +3474,9 @@ typedef struct _CMPIBrokerMemFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_FAILED` - Unspecified error occurred.
+     @capmemory This function is part of the Memory Enhancement Services MB
+         capability.
+
      @see CMRelease()
     */
     CMPIStatus (*release) (const CMPIBroker* mb, const CMPIGcStat* gc);
@@ -3389,6 +3496,9 @@ typedef struct _CMPIBrokerMemFT {
      @param size Specifies the amount of memory to allocate in Bytes.
      @return Returns a pointer to the allocated memory, or NULL if the memory
          could not be allocated. No additional error information is returned.
+     @capmemory This function is part of the Memory Enhancement Services MB
+         capability.
+
      @todo KS: Add see macro
     */
     void* (*cmpiMalloc) (const CMPIBroker* mb, size_t size);
@@ -3414,6 +3524,9 @@ typedef struct _CMPIBrokerMemFT {
      @param sizeElem The size of each element to allocate.
      @return Returns a pointer to the allocated memory, or NULL if the memory
          could not be allocated. No additional error information is returned.
+     @capmemory This function is part of the Memory Enhancement Services MB
+         capability.
+
      @todo KS: Add see macro
     */
     void* (*cmpiCalloc) (const CMPIBroker* mb, size_t nElems, size_t sizeElem);
@@ -3442,6 +3555,9 @@ typedef struct _CMPIBrokerMemFT {
      @return If successful, a pointer to the resized allocated memory block
          NULL if the new memory is not allcoated. If the function fails
          the original @p ptr argument is unchanged.
+     @capmemory This function is part of the Memory Enhancement Services MB
+         capability.
+
      @todo KS: Add see macro
     */
     void* (*cmpiRealloc) (const CMPIBroker* mb, void* ptr, size_t size);
@@ -3461,6 +3577,9 @@ typedef struct _CMPIBrokerMemFT {
      @param str The C-language string to duplicate.
      @return Pointer to the new memory block (that is, to the new
          C-language string), or NULL if unsuccessful.
+     @capmemory This function is part of the Memory Enhancement Services MB
+         capability.
+
      @todo KS: Add see macro
     */
     char* (*cmpiStrDup) (const CMPIBroker* mb, const char* str);
@@ -3487,6 +3606,9 @@ typedef struct _CMPIBrokerMemFT {
          the CMPIBrokerMemFT.cmpiMalloc(), CMPIBrokerMemFT.cmpiCalloc(), or
          CMPIBrokerMemFT.cmpiRealloc() functions.
      @return None. Does not indicate whether it succeeded or failed.
+     @capmemory This function is part of the Memory Enhancement Services MB
+         capability.
+
      @todo KS: Add see macro
     */
     void (*cmpiFree) (const CMPIBroker* mb, void* ptr);
@@ -3511,6 +3633,9 @@ typedef struct _CMPIBrokerMemFT {
      @param inst Points to the CMPIInstance object to be released.
          This object shall have been created via CMPIBrokerEncFT.newInstance().
      @return None. Does not indicate whether it succeeded or failed.
+     @capmemory This function is part of the Memory Enhancement Services MB
+         capability.
+
      @todo KS: Add see macro
     */
     void (*freeInstance) (const CMPIBroker* mb, CMPIInstance* inst);
@@ -3535,6 +3660,9 @@ typedef struct _CMPIBrokerMemFT {
          This object shall have been created via
          CMPIBrokerEncFT.newObjectPath().
      @return None.
+     @capmemory This function is part of the Memory Enhancement Services MB
+         capability.
+
      @todo KS: Add see macro
     */
     void (*freeObjectPath) (const CMPIBroker* mb, CMPIObjectPath* obj);
@@ -3553,6 +3681,8 @@ typedef struct _CMPIBrokerMemFT {
      @param args Points to the CMPIArgs object to be released.
          This object shall have been created via CMPIBrokerEncFT.newArgs().
      @return None.
+     @capmemory This function is part of the Memory Enhancement Services MB
+         capability.
     */
     void (*freeArgs) (const CMPIBroker* mb, CMPIArgs* args);
 
@@ -3574,6 +3704,9 @@ typedef struct _CMPIBrokerMemFT {
      @param mb Points to a CMPIBroker structure.
      @param args The string to free.
      @return None.
+     @capmemory This function is part of the Memory Enhancement Services MB
+         capability.
+
      @todo KS: Add see macro
     */
     void (*freeString) (const CMPIBroker* mb, CMPIString* str);
@@ -3598,6 +3731,9 @@ typedef struct _CMPIBrokerMemFT {
          released. This object shall have been created via
          CMPIBrokerEncFT.newArray().
      @return None.
+     @capmemory This function is part of the Memory Enhancement Services MB
+         capability.
+
      @todo KS: Add see macro
     */
     void (*freeArray) (const CMPIBroker* mb, CMPIArray* array);
@@ -3622,6 +3758,9 @@ typedef struct _CMPIBrokerMemFT {
      @param dt Points to the CMPIDateTime object that is to be released.
          This object shall have been created via CMPIBrokerEncFT.newDateTime().
      @return None.
+     @capmemory This function is part of the Memory Enhancement Services MB
+         capability.
+
      @todo KS: Add see macro
     */
     void (*freeDateTime) (const CMPIBroker* mb, CMPIDateTime* dt);
@@ -3647,6 +3786,10 @@ typedef struct _CMPIBrokerMemFT {
      @param se Points to the CMPISelectExp object to be released.
          This object shall have been created via CMPIBrokerEncFT.newSelectExp().
      @return None.
+     @capmemory This function is part of the Memory Enhancement Services MB
+         capability but can be implemented only if the Query Normalization MB
+         capability is supported as well.
+
      @todo KS: Add see macro
     */
     void (*freeSelectExp) (const CMPIBroker* mb, CMPISelectExp* se);
@@ -3672,15 +3815,9 @@ typedef struct _CMPIBrokerMemFT {
          This C-language string shall have been created via
          CMPIStringFT.newCharsCP().
      @return None.
-
+     @capmemory This function is part of the Memory Enhancement Services MB
+         capability.
      @added210 Added in CMPI 2.1.0.
-
-     @todo TODO(AM) KS: Ccould we more precisely define  broker, ex.
-           CMPIBrokerFT.brokerCapabilities@n
-           AM: Text for 'mb' updated. Reference to capabilities.
-           Does that address the issues?@n
-           AM: Create custom doxygen commands for each capability, and tag
-           capability dependent functions with them.
     */
     void (*freeChars) (const CMPIBroker* mb, char* chars);
 
@@ -3708,6 +3845,9 @@ typedef struct _CMPIBrokerMemFT {
  *
  * The context data consists of named entries. See
  * @ref def-context-fieldnames "Names of CMPIContext fields" for defined names.
+ *
+ * @capcontext This encapsulated data type is part of the Context Data
+ *     MB capability.
  */
 typedef struct _CMPIContext {
 
@@ -3757,6 +3897,7 @@ typedef struct _CMPIContextFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
+
      @see CMRelease()
     */
     CMPIStatus (*release) (CMPIContext* ctx);
@@ -3785,6 +3926,7 @@ typedef struct _CMPIContextFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
+
      @see CMClone()
     */
     CMPIContext* (*clone) (const CMPIContext* ctx, CMPIStatus* rc);
@@ -3815,6 +3957,7 @@ typedef struct _CMPIContextFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Entry not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
+
      @see CMGetContextEntry()
     */
     CMPIData (*getEntry) (const CMPIContext* ctx, const char* name,
@@ -3859,6 +4002,7 @@ typedef struct _CMPIContextFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Entry not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
+
      @see CMGetContextEntryAt()
     */
     CMPIData (*getEntryAt) (const CMPIContext* ctx, CMPICount index,
@@ -3886,6 +4030,7 @@ typedef struct _CMPIContextFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Entry not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
+
      @see CMGetContextEntryCount()
     */
     CMPICount (*getEntryCount) (const CMPIContext* ctx, CMPIStatus* rc);
@@ -3922,6 +4067,7 @@ typedef struct _CMPIContextFT {
      @li `CMPI_RC_ERR_INVALID_DATA_TYPE` - Type not supported for this call, or
          type is not recognized.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
+
      @see CMAddContextEntry()
     */
     CMPIStatus (*addEntry) (const CMPIContext* ctx, const char* name,
@@ -3985,6 +4131,7 @@ typedef struct _CMPIResultFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid.
+
      @see CMRelease()
     */
     CMPIStatus (*release) (CMPIResult* rslt);
@@ -4013,6 +4160,7 @@ typedef struct _CMPIResultFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid.
+
      @see CMClone()
     */
     CMPIResult* (*clone) (const CMPIResult* rslt, CMPIStatus* rc);
@@ -4044,6 +4192,7 @@ typedef struct _CMPIResultFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid
          or NULL, or the MB has aborted the request operation for which
          this data is being returned.
+
      @see CMReturnData()
     */
     CMPIStatus (*returnData) (const CMPIResult* rslt, const CMPIValue* value,
@@ -4066,6 +4215,7 @@ typedef struct _CMPIResultFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid
          or the MB has aborted the request for which this data
          is returned.
+
      @see CMReturnInstance()
     */
     CMPIStatus (*returnInstance) (const CMPIResult* rslt,
@@ -4088,6 +4238,7 @@ typedef struct _CMPIResultFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid, or the
          MB has aborted the request for which this data is being returned.
+
      @see CMReturnObjectPath()
     */
     CMPIStatus (*returnObjectPath) (const CMPIResult* rslt,
@@ -4109,6 +4260,7 @@ typedef struct _CMPIResultFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid
          or the MB has aborted the request for which this data is returned.
+
      @see CMReturnDone()
     */
     CMPIStatus (*returnDone) (const CMPIResult* rslt);
@@ -4128,9 +4280,6 @@ typedef struct _CMPIResultFT {
      extended error from the first call to this function for a particular
      result.
 
-     This function is part of the
-     @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability of an MB.
-
      @param rslt Points to the CMPIResult object for this function.
      @param er Points to a CMPIError object representing the error to be
          returned. This function may be called multiple times, each time adding
@@ -4143,6 +4292,8 @@ typedef struct _CMPIResultFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid
          or the MB has aborted the request for which this data is returned.
+     @caperrors This function is part of the Extended Errors MB capability.
+
      @see CMReturnError()
      @added200 Added in CMPI 2.0.0.
     */
@@ -4163,8 +4314,8 @@ typedef struct _CMPIResultFT {
 /**
  * @brief CMPIError encapsulated data type object.
  *
- * Support for CMPIError (including all of its functions) is part of the
- * @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability of an MB.
+ * @caperrors This encapsulated data type is part of the Extended Errors
+ *     MB capability.
  *
  * @added200 Added in CMPI 2.0.0.
  * @required210 Required to be supported since CMPI 2.1.0.
@@ -4185,9 +4336,6 @@ typedef struct _CMPIError {
 
 /**
  * @brief Function table of CMPIError encapsulated data type object.
- *
- * Support for CMPIError (including all of its functions) is part of the
- * @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability of an MB.
  *
  * @added200 Added in CMPI 2.0.0.
  * @required210 Required to be supported since CMPI 2.1.0.
@@ -4227,6 +4375,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
+
      @see CMRelease()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
@@ -4259,6 +4408,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
+
      @see CMClone()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
@@ -4296,6 +4446,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
+
      @see CMGetErrorType()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
@@ -4336,6 +4487,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
+
      @see CMGetOtherErrorType()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
@@ -4374,12 +4526,12 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - A generic error occurred.
 
+     @todo KS: Add see macro
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-    @todo KS: Add see macro
     */
     CMPIString* (*getOwningEntity) (const CMPIError* er, CMPIStatus* rc);
 
@@ -5199,6 +5351,7 @@ typedef struct _CMPIInstanceFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst handle is invalid.
+
      @see CMRelease()
     */
     CMPIStatus (*release) (CMPIInstance* inst);
@@ -5225,6 +5378,7 @@ typedef struct _CMPIInstanceFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst handle is invalid.
+
      @see CMClone()
     */
     CMPIInstance* (*clone) (const CMPIInstance* inst, CMPIStatus* rc);
@@ -5253,6 +5407,7 @@ typedef struct _CMPIInstanceFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Property not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst handle is invalid.
+
      @see CMGetProperty()
     */
     CMPIData (*getProperty) (const CMPIInstance* inst, const char* name,
@@ -5290,6 +5445,7 @@ typedef struct _CMPIInstanceFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Property not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst handle is invalid.
+
      @see CMGetPropertyAt()
     */
     CMPIData (*getPropertyAt) (const CMPIInstance* inst, CMPICount index,
@@ -5316,6 +5472,7 @@ typedef struct _CMPIInstanceFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst handle is invalid.
+
      @see CMGetPropertyCount()
     */
     CMPICount (*getPropertyCount) (const CMPIInstance* inst, CMPIStatus* rc);
@@ -5357,6 +5514,7 @@ typedef struct _CMPIInstanceFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p name is not a valid
          property name.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
+
      @see CMSetProperty()
     */
     CMPIStatus (*setProperty) (const CMPIInstance* inst, const char* name,
@@ -5390,6 +5548,7 @@ typedef struct _CMPIInstanceFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst handle is invalid.
+
      @see CMGetObjectPath()
     */
     CMPIObjectPath* (*getObjectPath) (const CMPIInstance* inst,
@@ -5428,6 +5587,9 @@ typedef struct _CMPIInstanceFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p keyList is missing.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst handle is invalid.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+     @capfiltering This function is part of the Property Filtering
+         MB capability.
+
      @see CMSetPropertyFilter()
     */
     CMPIStatus (*setPropertyFilter) (const CMPIInstance* inst,
@@ -5463,6 +5625,7 @@ typedef struct _CMPIInstanceFT {
          @p op handle is invalid.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Object path components specified
          in @p op are invalid.
+
      @see CMSetObjectPath()
     */
     CMPIStatus (*setObjectPath) (const CMPIInstance* inst,
@@ -5502,6 +5665,7 @@ typedef struct _CMPIInstanceFT {
      @li `CMPI_RC_ERR_TYPE_MISMATCH` - @p type does not
          correspond to class-defined type.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst handle is invalid.
+
      @see CMSetPropertyWithOrigin()
      @added200 Added in CMPI 2.0.0.
     */
@@ -5568,6 +5732,7 @@ typedef struct _CMPIObjectPathFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
+
      @see CMRelease()
     */
     CMPIStatus (*release) (CMPIObjectPath* op);
@@ -5596,6 +5761,7 @@ typedef struct _CMPIObjectPathFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
+
      @see CMClone()
     */
     CMPIObjectPath* (*clone) (const CMPIObjectPath* op, CMPIStatus* rc);
@@ -5615,6 +5781,7 @@ typedef struct _CMPIObjectPathFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
+
      @see CMSetNameSpace()
     */
     CMPIStatus (*setNameSpace) (const CMPIObjectPath* op, const char* ns);
@@ -5647,6 +5814,7 @@ typedef struct _CMPIObjectPathFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
+
      @see CMGetNameSpace()
     */
     CMPIString* (*getNameSpace) (const CMPIObjectPath* op, CMPIStatus* rc);
@@ -5666,6 +5834,7 @@ typedef struct _CMPIObjectPathFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
+
      @see CMSetHostname()
     */
     CMPIStatus (*setHostname) (const CMPIObjectPath* op, const char* hn);
@@ -5697,6 +5866,7 @@ typedef struct _CMPIObjectPathFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
+
      @see CMGetHostname()
     */
     CMPIString* (*getHostname) (const CMPIObjectPath* op, CMPIStatus* rc);
@@ -5715,6 +5885,7 @@ typedef struct _CMPIObjectPathFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
+
      @see CMGetClassName()
     */
     CMPIStatus (*setClassName) (const CMPIObjectPath* op, const char* cn);
@@ -5747,6 +5918,7 @@ typedef struct _CMPIObjectPathFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
+
      @see CMGetClassName()
     */
     CMPIString* (*getClassName) (const CMPIObjectPath* op, CMPIStatus* rc);
@@ -5776,6 +5948,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p key or
          @p value argument is invalid.
+
      @see CMAddKey()
     */
     CMPIStatus (*addKey) (const CMPIObjectPath* op, const char* name,
@@ -5824,6 +5997,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Key not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
+
      @see CMGetKey()
     */
     CMPIData (*getKey) (const CMPIObjectPath* op, const char* name,
@@ -5881,6 +6055,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Key not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
+
      @see CMGetKeyAt()
     */
     CMPIData (*getKeyAt) (const CMPIObjectPath* op, CMPICount index,
@@ -5909,6 +6084,7 @@ typedef struct _CMPIObjectPathFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
+
      @see CMGetKeyCount()
     */
     CMPICount (*getKeyCount) (const CMPIObjectPath* op, CMPIStatus* rc);
@@ -5931,7 +6107,8 @@ typedef struct _CMPIObjectPathFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` -@p src is invalid.
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p src is invalid.
+
      @see CMSetNameSpaceFromObjectPath()
     */
     CMPIStatus (*setNameSpaceFromObjectPath) (const CMPIObjectPath* op,
@@ -5957,6 +6134,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p src is invalid.
+
      @see CMSetHostAndNameSpaceFromObjectPath()
     */
     CMPIStatus (*setHostAndNameSpaceFromObjectPath) (const CMPIObjectPath* op,
@@ -5967,10 +6145,6 @@ typedef struct _CMPIObjectPathFT {
 
      CMPIObjectPathFT.getClassQualifier() gets a class qualifier in the class
      identified by the CMPIObjectPath @p op argument.
-
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_BasicQualifierSupport "Basic Qualifier" capability
-     is available; otherwise, it shall not be supported.
 
      @param op Points to a CMPIObjectPath object that references the class
          and that shall contain the namespace and class components.
@@ -5999,6 +6173,8 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_ERR_NOT_FOUND` - The qualifier specified in
          @p qName is invalid for classes.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+     @capqualifiers This function is part of the Basic Qualifier MB capability.
+
      @see CMGetClassQualifier()
     */
     CMPIData (*getClassQualifier) (const CMPIObjectPath* op,
@@ -6009,10 +6185,6 @@ typedef struct _CMPIObjectPathFT {
 
      CMPIObjectPathFT.getPropertyQualifier() function gets a property
      qualifier in the class identified by @p op.
-
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_BasicQualifierSupport "Basic Qualifier" capability
-     is available; otherwise, it shall not be supported.
 
      @param op Points to a CMPIObjectPath object that references the
          class and that shall contain the namespace and class components.
@@ -6045,6 +6217,8 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_ERR_NOT_FOUND` - The qualifier specified in the
          @p qNamet argumen is invalid for classes.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+     @capqualifiers This function is part of the Basic Qualifier MB capability.
+
      @see CMGetPropertyQualifier()
     */
     CMPIData (*getPropertyQualifier) (const CMPIObjectPath* op,
@@ -6054,10 +6228,6 @@ typedef struct _CMPIObjectPathFT {
      @brief Get a method qualifier.
 
      CMPIObjectPathFT.getMethodQualifier() gets method qualifier value.
-
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_BasicQualifierSupport "Basic Qualifier" capability
-     is available; otherwise, it shall not be supported.
 
      @param op Points to a CMPIObjectPath object that references the class
          and that shall contain the namespace and class components. The
@@ -6090,6 +6260,8 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_ERR_NOT_FOUND` - The qualifier specified in
          @p qName is invalid for classes.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+     @capqualifiers This function is part of the Basic Qualifier MB capability.
+
      @see CMGetMethodQualifier()
     */
     CMPIData (*getMethodQualifier) (const CMPIObjectPath* op,
@@ -6100,10 +6272,6 @@ typedef struct _CMPIObjectPathFT {
 
      CMPIObjectPathFT.getParameterQualifier() gets a parameter qualifier in
      the class identified by this object path.
-
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_BasicQualifierSupport "Basic Qualifier" capability
-     is available; otherwise, it shall not be supported.
 
      @param op Points to a CMPIObjectPath object that references the
          class and that shall contain the namespace and class components.
@@ -6139,6 +6307,8 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_ERR_NOT_FOUND` - The qualifier specified in
          @p qName is invalid for classes.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+     @capqualifiers This function is part of the Basic Qualifier MB capability.
+
      @see CMGetParameterQualifier()
     */
     CMPIData (*getParameterQualifier) (const CMPIObjectPath* op,
@@ -6199,6 +6369,9 @@ typedef struct _CMPIObjectPathFT {
 
 /**
  * @brief CMPISelectExp encapsulated data type object.
+ *
+ * @capquerynorm This encapsulated data type is part of the Query Normalization
+ *     MB capability.
  */
 typedef struct _CMPISelectExp {
 
@@ -6248,6 +6421,7 @@ typedef struct _CMPISelectExpFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p se handle is invalid.
+
      @see CMRelease()
     */
     CMPIStatus (*release) (CMPISelectExp* se);
@@ -6276,6 +6450,7 @@ typedef struct _CMPISelectExpFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p se handle is invalid.
+
      @see CMClone()
     */
     CMPISelectExp* (*clone) (const CMPISelectExp* se, CMPIStatus* rc);
@@ -6286,10 +6461,6 @@ typedef struct _CMPISelectExpFT {
 
      CMPISelectExpFT.evaluate() evaluates the instance @p inst using this
      select expression.
-
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_QueryNormalization "Query Normalization" capability
-     is available; otherwise, it shall not be supported.
 
      @param se Points to the CMPISelectExp object for this function.
      @param inst Instance to be evaluated.
@@ -6311,6 +6482,7 @@ typedef struct _CMPISelectExpFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p se handle is invalid.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p inst is invalid.
+
      @see CMEvaluateSelExp()
     */
     CMPIBoolean (*evaluate) (const CMPISelectExp* se, const CMPIInstance* inst,
@@ -6321,10 +6493,6 @@ typedef struct _CMPISelectExpFT {
 
      CMPISelectExpFT.getString() returns the select expression in
      string format.
-
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_QueryNormalization "Query Normalization" capability
-     is available; otherwise, it shall not be supported.
 
      @param se Points to the CMPISelectExp object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
@@ -6349,6 +6517,7 @@ typedef struct _CMPISelectExpFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p se handle is invalid.
+
      @see CMGetSelExpString()
     */
     CMPIString* (*getString) (const CMPISelectExp* se, CMPIStatus* rc);
@@ -6364,10 +6533,6 @@ typedef struct _CMPISelectExpFT {
      This enables handling of the expression in the WHERE clause more
      easily than using a tree form.
 
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_QueryNormalization "Query Normalization" capability
-     is available; otherwise, it shall not be supported.
-
      @param se Points to the CMPISelectExp object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
@@ -6393,6 +6558,7 @@ typedef struct _CMPISelectExpFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p se handle is invalid.
+
      @see CMGetDOC()
     */
     CMPISelectCond* (*getDOC) (const CMPISelectExp* se, CMPIStatus* rc);
@@ -6404,10 +6570,6 @@ typedef struct _CMPISelectExpFT {
      CMPISelectExpFT.getCOD() returns the select expression as
      conjunction of disjunctions.
 
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_QueryNormalization "Query Normalization" capability
-     is available; otherwise, it shall not be supported.
-
      @param se Points to the CMPISelectExp object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
@@ -6433,6 +6595,7 @@ typedef struct _CMPISelectExpFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p se handle is invalid.
+
      @see CMGetCOD()
     */
     CMPISelectCond* (*getCOD) (const CMPISelectExp* se, CMPIStatus* rc);
@@ -6446,10 +6609,6 @@ typedef struct _CMPISelectExpFT {
      function match the select expression in a CMPISelectExp object.
      This function is a variation of CMPISelectExpFT.evaluate(). It enables
      evaluation without the need to create a CMPIInstance object
-
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_QueryNormalization "Query Normalization" capability
-     is available; otherwise, it shall not be supported.
 
      @param se Points to the CMPISelectExp object for this function.
      @param accessor Address of data accessor routine.
@@ -6473,6 +6632,7 @@ typedef struct _CMPISelectExpFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p se handle is invalid.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p accessorFnc handle is
          invalid.
+
      @see CMEvaluateSelExpUsingAccessor()
     */
     CMPIBoolean (*evaluateUsingAccessor) (const CMPISelectExp* se,
@@ -6488,6 +6648,9 @@ typedef struct _CMPISelectExpFT {
 
 /**
  * @brief CMPISelectCond encapsulated data type object.
+ *
+ * @capquerynorm This encapsulated data type is part of the Query Normalization
+ *     MB capability.
  */
 typedef struct _CMPISelectCond {
 
@@ -6528,10 +6691,6 @@ typedef struct _CMPISelectCondFT {
      or later during some garbage collection cycle
      (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
 
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_QueryNormalization "Query Normalization" capability
-     is available; otherwise, it shall not be supported.
-
      @param sc Points to the CMPISelectCond object to be released.
          That object shall have been created using CMPISelectCondFT.clone().
      @return CMPIStatus structure indicating the function return status.
@@ -6543,17 +6702,13 @@ typedef struct _CMPISelectCondFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p sc handle is invalid.
+
      @see CMRelease()
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. If the
          @ref CMPI_MB_QueryNormalization "Query Normalization" capability
          is not available, this function cannot be called by the MI because no
          instance of its encapsulated data type can exist.
-
-     @todo DONE? KS: add comment about condition for use. It is in only some of
-           these descriptions.@n
-           AM: Is this a comment about the Query Normalization capability?
-           if so, it is done in all functions.
     */
     CMPIStatus (*release) (CMPISelectCond* sc);
 
@@ -6562,10 +6717,6 @@ typedef struct _CMPISelectCondFT {
 
      CMPISelectExpFT.clone() creates an independent copy of this SelectCond
      object. The resulting object must be released explicitly.
-
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_QueryNormalization "Query Normalization" capability
-     is available; otherwise, it shall not be supported.
 
      @param sc Points to the CMPISelectCond object to be copied.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
@@ -6587,6 +6738,7 @@ typedef struct _CMPISelectCondFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p sc handle is invalid.
+
      @see CMClone()
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. If the
@@ -6602,10 +6754,6 @@ typedef struct _CMPISelectCondFT {
      CMPISelectCondFT.getCountAndType() returns the number of subconditions
      that are part of this SelectCond.
      Optionally, the SelectCond type (COD or DOC) will be returned.
-
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_QueryNormalization "Query Normalization" capability
-     is available; otherwise, it shall not be supported.
 
      @param sc Points to the CMPISelectCond object for this function.
      @param [out] type If not NULL, points to an integer that upon success
@@ -6628,6 +6776,7 @@ typedef struct _CMPISelectCondFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p sc handle is invalid.
+
      @see CMGetSubCondCountAndType()
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. If the
@@ -6643,10 +6792,6 @@ typedef struct _CMPISelectCondFT {
 
      CMPISelectCondFT.getSubCondAt() gets the subcondition in a
      CMPISelectCond object, by its index in the internal data array
-
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_QueryNormalization "Query Normalization" capability
-     is available; otherwise, it shall not be supported.
 
      @param sc Points to the CMPISelectCond object for this function.
      @param index Specifies the zero-based position of the subcondition in
@@ -6674,6 +6819,7 @@ typedef struct _CMPISelectCondFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - @p index value out of bounds.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p sc handle is invalid.
+
      @see CMGetSubCondAt()
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. If the
@@ -6694,6 +6840,9 @@ typedef struct _CMPISelectCondFT {
 
 /**
  * @brief CMPISubCond encapsulated data type object.
+ *
+ * @capquerynorm This encapsulated data type is part of the Query Normalization
+ *     MB capability.
  */
 typedef struct _CMPISubCond {
 
@@ -6737,10 +6886,6 @@ typedef struct _CMPISubCondFT {
      some garbage collection cycle
      (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
 
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_QueryNormalization "Query Normalization" capability
-     is available; otherwise, it shall not be supported.
-
      @param sc Points to the CMPISubCond object to be released.
          That object shall have been created using CMPISubCondFT.clone().
      @return CMPIStatus structure indicating the function return status.
@@ -6752,6 +6897,7 @@ typedef struct _CMPISubCondFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid @p sc handle.
+
      @see CMRelease()
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. If the
@@ -6766,10 +6912,6 @@ typedef struct _CMPISubCondFT {
 
      CMPISubCondFT.clone() creates an independent copy of a  @p sc
      CMPISubCond object.
-
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_QueryNormalization "Query Normalization" capability
-     is available; otherwise, it shall not be supported.
 
      @param sc Points to the CMPISubCond object to be copied.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
@@ -6788,6 +6930,7 @@ typedef struct _CMPISubCondFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid @p sc handle.
+
      @see CMClone()
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. If the
@@ -6802,10 +6945,6 @@ typedef struct _CMPISubCondFT {
 
      CMPISubCondFT.getCount() gets the number of predicates in @p sc
      CMPISubCond object.
-
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_QueryNormalization "Query Normalization" capability
-     is available; otherwise, it shall not be supported.
 
      @param sc Points to the CMPISubCond object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
@@ -6827,6 +6966,7 @@ typedef struct _CMPISubCondFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid @p sc handle.
+
      @see CMGetPredicateCount()
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. If the
@@ -6841,10 +6981,6 @@ typedef struct _CMPISubCondFT {
 
      CMPISubCondFT.getPredicatAt() gets a predicate in a CMPISubCond
      object, by its index in the internal data array.
-
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_QueryNormalization "Query Normalization" capability
-     is available; otherwise, it shall not be supported.
 
      @param sc Points to the CMPISubCond object for this function.
      @param index Specifies the zero-based index of the predicate in the
@@ -6872,6 +7008,7 @@ typedef struct _CMPISubCondFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - @p index value out of bounds.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid @p sc handle.
+
      @see CMGetPredicateAt()
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. If the
@@ -6887,10 +7024,6 @@ typedef struct _CMPISubCondFT {
 
      CMPISubCondFT.getPredicate() gets a predicate in a CMPISubCond
       object, by its @p name argument.
-
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_QueryNormalization "Query Normalization" capability
-     is available; otherwise, it shall not be supported.
 
      @param sc Points to the CMPISubCond object for this function.
      @param name specifies the predicate name. The name is the left-hand side
@@ -6918,6 +7051,7 @@ typedef struct _CMPISubCondFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - @p index value out of bounds.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid @p sc handle.
+
      @see CMGetPredicate()
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. If the
@@ -6938,6 +7072,9 @@ typedef struct _CMPISubCondFT {
 
 /**
  * @brief CMPIPredicate encapsulated data type object.
+ *
+ * @capquerynorm This encapsulated data type is part of the Query Normalization
+ *     MB capability.
  */
 typedef struct _CMPIPredicate {
 
@@ -6978,10 +7115,6 @@ typedef struct _CMPIPredicateFT {
      or later during some garbage collection cycle
      (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
 
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_QueryNormalization "Query Normalization" capability
-     is available; otherwise, it shall not be supported.
-
      @param pr Points to the CMPIPredicate object to be released.
          That object shall have been created using CMPIPredicateFT.clone().
      @return CMPIStatus structure indicating the function return status.
@@ -6993,6 +7126,7 @@ typedef struct _CMPIPredicateFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p pr handle is invalid.
+
      @see CMRelease()
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. If the
@@ -7007,10 +7141,6 @@ typedef struct _CMPIPredicateFT {
 
      CMPIPredicateFT.clone() creates an independent copy of a
      CMPIPredicate object.
-
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_QueryNormalization "Query Normalization" capability
-     is available; otherwise, it shall not be supported.
 
      @param pr Points to the CMPIPredicate object to be copied.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
@@ -7032,6 +7162,7 @@ typedef struct _CMPIPredicateFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p pr handle is invalid.
+
      @see CMClone()
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. If the
@@ -7053,10 +7184,6 @@ typedef struct _CMPIPredicateFT {
      objects created by the MB which will be automatically released by the
      MB
      (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
-
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_QueryNormalization "Query Normalization" capability
-     is available; otherwise, it shall not be supported.
 
      @param pr Points to the CMPIPredicate object for this function.
      @param [out] type If not NULL, points to a CMPIType structure that upon
@@ -7084,6 +7211,7 @@ typedef struct _CMPIPredicateFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p pr handle is invalid.
+
      @see CMGetPredicateData()
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. If the
@@ -7134,6 +7262,7 @@ typedef struct _CMPIPredicateFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p pr handle is invalid.
+
      @see CMEvaluatePredicateUsingAccessor()
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. If the
@@ -7203,6 +7332,7 @@ typedef struct _CMPIArgsFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
+
      @see CMRelease()
     */
     CMPIStatus (*release) (CMPIArgs* args);
@@ -7231,6 +7361,7 @@ typedef struct _CMPIArgsFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
+
      @see CMClone()
     */
     CMPIArgs* (*clone) (const CMPIArgs* args, CMPIStatus* rc);
@@ -7261,6 +7392,7 @@ typedef struct _CMPIArgsFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_DATA_TYPE` - Data type not valid.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
+
      @see CMAddArg()
     */
     CMPIStatus (*addArg) (const CMPIArgs* args, const char* name,
@@ -7291,6 +7423,7 @@ typedef struct _CMPIArgsFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Method parameter not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
+
      @see CMGetArg()
     */
     CMPIData (*getArg) (const CMPIArgs* args, const char* name, CMPIStatus* rc);
@@ -7331,6 +7464,7 @@ typedef struct _CMPIArgsFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Method parameter not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
+
      @see CMGetArgAt()
     */
     CMPIData (*getArgAt) (const CMPIArgs* args, CMPICount index,
@@ -7358,6 +7492,7 @@ typedef struct _CMPIArgsFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
+
      @see CMGetArgCount()
     */
     CMPICount (*getArgCount) (const CMPIArgs* args, CMPIStatus* rc);
@@ -7421,6 +7556,7 @@ typedef struct _CMPIStringFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p str handle is invalid.
+
      @see CMRelease()
     */
     CMPIStatus (*release) (CMPIString* str);
@@ -7449,6 +7585,7 @@ typedef struct _CMPIStringFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p str handle is invalid.
+
      @see CMClone()
     */
     CMPIString* (*clone) (const CMPIString* str, CMPIStatus* rc);
@@ -7481,6 +7618,7 @@ typedef struct _CMPIStringFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p str handle is invalid.
+
      @see CMGetCharsPtr()
     */
     const char* (*getCharPtr) (const CMPIString* str, CMPIStatus* rc);
@@ -7524,9 +7662,11 @@ typedef struct _CMPIStringFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p cpid is invalid.
      @li `CMPI_RC_ERR_NOT_IN_CODEPAGE` - The string contains characters that
          are not representable in the specified codepage.
-     @added210 Added in CMPI 2.1.0.
+     @capcodepage This function is part of the Codepage Conversion
+         MB capability.
 
      @todo KS: Add see macro
+     @added210 Added in CMPI 2.1.0.
     */
     char* (*newCharsCP) (const CMPIString* str, const CMPICodepageID cpid,
         CMPIStatus* rc);
@@ -7592,6 +7732,7 @@ typedef struct _CMPIArrayFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
+
      @see CMRelease()
     */
     CMPIStatus (*release) (CMPIArray* ar);
@@ -7621,6 +7762,7 @@ typedef struct _CMPIArrayFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
+
      @see CMClone()
     */
     CMPIArray* (*clone) (const CMPIArray* ar, CMPIStatus* rc);
@@ -7646,6 +7788,7 @@ typedef struct _CMPIArrayFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
+
      @see CMGetArrayCount()
     */
     CMPICount (*getSize) (const CMPIArray* ar, CMPIStatus* rc);
@@ -7674,6 +7817,7 @@ typedef struct _CMPIArrayFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
+
      @see CMGetArrayType()
 
     */
@@ -7708,6 +7852,7 @@ typedef struct _CMPIArrayFT {
          out of range.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar
          handle is invalid.
+
      @see CMGetArrayElementAt()
     */
     CMPIData (*getElementAt) (const CMPIArray* ar, CMPICount index,
@@ -7746,6 +7891,7 @@ typedef struct _CMPIArrayFT {
      @li `CMPI_RC_ERR_TYPE_MISMATCH` - @p type does not correspond to the
          simple base type of @p ar.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
+
      @see CMSetArrayElementAt()
      @deprecated The use of @ref CMPI_null for @p type is deprecated since
          CMPI 2.1. Specify the simple base type of the array instead.
@@ -7817,6 +7963,7 @@ typedef struct _CMPIEnumerationFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+
      @see CMRelease()
     */
     CMPIStatus (*release) (CMPIEnumeration* en);
@@ -7846,6 +7993,7 @@ typedef struct _CMPIEnumerationFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p en handle is invalid.
+
      @see CMClone()
     */
     CMPIEnumeration* (*clone) (const CMPIEnumeration* en, CMPIStatus* rc);
@@ -7872,6 +8020,7 @@ typedef struct _CMPIEnumerationFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p en handle is invalid.
+
      @see CMGetNext()
     */
     CMPIData (*getNext) (const CMPIEnumeration* en, CMPIStatus* rc);
@@ -7899,6 +8048,7 @@ typedef struct _CMPIEnumerationFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p en handle is invalid.
+
      @see CMHasNext()
     */
     CMPIBoolean (*hasNext) (const CMPIEnumeration* en, CMPIStatus* rc);
@@ -7931,6 +8081,7 @@ typedef struct _CMPIEnumerationFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p en handle is invalid.
+
      @see CMToArray()
     */
     CMPIArray* (*toArray) (const CMPIEnumeration* en, CMPIStatus* rc);
@@ -7994,6 +8145,7 @@ typedef struct _CMPIDateTimeFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+
      @see CMRelease()
     */
     CMPIStatus (*release) (CMPIDateTime* dt);
@@ -8023,6 +8175,7 @@ typedef struct _CMPIDateTimeFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+
      @see CMClone()
     */
     CMPIDateTime* (*clone) (const CMPIDateTime* dt, CMPIStatus* rc);
@@ -8053,6 +8206,7 @@ typedef struct _CMPIDateTimeFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+
      @see CMGetBinaryFormat()
     */
     CMPIUint64 (*getBinaryFormat) (const CMPIDateTime* dt,
@@ -8090,6 +8244,7 @@ typedef struct _CMPIDateTimeFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+
      @see CMGetStringFormat()
     */
     CMPIString* (*getStringFormat) (const CMPIDateTime* dt, CMPIStatus* rc);
@@ -8117,6 +8272,7 @@ typedef struct _CMPIDateTimeFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+
      @see CMGetStringFormat()
     */
     CMPIBoolean (*isInterval) (const CMPIDateTime* dt, CMPIStatus* rc);
@@ -8185,6 +8341,7 @@ typedef struct _CMPIPropertyListFT {
      codes:
      @li `CMPI_RC_OK` - Operation successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` -Invalid @p plist.
+
      @see CMRelease()
     */
     CMPIStatus (*release) (CMPIPropertyList* plist);
@@ -8213,6 +8370,7 @@ typedef struct _CMPIPropertyListFT {
      codes:
      @li `CMPI_RC_OK` - Operation successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid @p plist.
+
      @see CMClone()
     */
     CMPIPropertyList* (*clone) (const CMPIPropertyList* plist, CMPIStatus* rc);
@@ -8248,6 +8406,7 @@ typedef struct _CMPIPropertyListFT {
      @li `CMPI_RC_OK` - Operation successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid @p plist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Invalid @p pname.
+
      @todo KS: Find macro for this
     */
     CMPIBoolean (*isPropertyInList) (const CMPIPropertyList* plist,
@@ -8289,6 +8448,7 @@ typedef struct _CMPIPropertyListFT {
      codes:
      @li `CMPI_RC_OK` - Operation successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p plist handle is invalid.
+
      @todo KS: Find macro for this
     */
     const char** (*getProperties) (const CMPIPropertyList* plist,
@@ -8358,6 +8518,7 @@ typedef struct _CMPIEnumerationFilterFT {
      codes:
      @li CMPI_RC_OK Operation successful.
      @li CMPI_RC_ERR_INVALID_HANDLE The @p ef handle is invalid.
+
      @see CMRelease()
     */
     CMPIStatus (*release) (CMPIEnumerationFilter* ef);
@@ -8386,6 +8547,7 @@ typedef struct _CMPIEnumerationFilterFT {
      codes:
      @li CMPI_RC_OK Operation successful.
      @li CMPI_RC_ERR_INVALID_HANDLE The @p ef handle is invalid.
+
      @see CMClone()
     */
     CMPIEnumerationFilter* (*clone) (const CMPIEnumerationFilter* ef,
@@ -8426,6 +8588,7 @@ typedef struct _CMPIEnumerationFilterFT {
          the query language is not supported.
      @li `CMPI_RC_FAILED` - Error not defined by one of the above
          codes occurred.
+
      @todo KS: Create macro for this
     */
     CMPIBoolean (*match) (const CMPIEnumerationFilter* ef,

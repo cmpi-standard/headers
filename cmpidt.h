@@ -995,31 +995,66 @@ typedef struct _CMPIStatus {
  * extensions and shall not be used for implementation-specific purposes.
  */
 
-#define CMPI_MB_BasicRead                0x00000001  ///< Basic Read
-#define CMPI_MB_BasicWrite               0x00000003  ///< Basic Write
-#define CMPI_MB_InstanceManipulation     0x00000007  ///< Instance Manipulation
-#define CMPI_MB_AssociationTraversal     0x00000009  ///< Association Traversal
-#define CMPI_MB_QueryExecution           0x00000011  ///< Query Execution
 /**
- * @brief Query Normalization.
+ * @brief Basic Read MB capability.
  *
  * Optional to be supported.
+ */
+#define CMPI_MB_BasicRead                0x00000001
+/**
+ * @brief Basic Write MB capability.
+ *
+ * Optional to be supported.
+ * Requires the @ref CMPI_MB_BasicRead "Basic Read" MB capability.
+ */
+#define CMPI_MB_BasicWrite               0x00000003
+/**
+ * @brief Instance Manipulation MB capability.
+ *
+ * Optional to be supported.
+ * Requires the @ref CMPI_MB_BasicWrite "Basic Write" MB capability.
+ */
+#define CMPI_MB_InstanceManipulation     0x00000007
+/**
+ * @brief Association Traversal MB capability.
+ *
+ * Optional to be supported.
+ * Requires the @ref CMPI_MB_BasicRead "Basic Read" MB capability.
+ */
+#define CMPI_MB_AssociationTraversal     0x00000009
+/**
+ * @brief Query Execution MB capability.
+ *
+ * Optional to be supported.
+ * Requires the @ref CMPI_MB_BasicRead "Basic Read" MB capability.
+ */
+#define CMPI_MB_QueryExecution           0x00000011
+/**
+ * @brief Query Normalization MB capability.
+ *
+ * Optional to be supported.
+ * Requires the @ref CMPI_MB_QueryExecution "Query Execution" MB capability.
  */
 #define CMPI_MB_QueryNormalization       0x00000031
 /**
- * @brief Basic Qualifier.
+ * @brief Basic Qualifier MB capability.
  *
  * Optional to be supported.
+ * Requires the @ref CMPI_MB_InstanceManipulation "Instance Manipulation"
+ * MB capability.
  */
 #define CMPI_MB_BasicQualifierSupport       0x00000047
 /**
- * @brief Indications.
+ * @brief Indications MB capability.
  *
  * Optional to be supported.
+ * Requires the @ref CMPI_MB_BasicRead "Basic Read" MB capability.
  */
 #define CMPI_MB_Indications                 0x00000081
 /**
- * @brief OS Encapsulation Services
+ * @brief OS Encapsulation Services MB capability.
+ *
+ * Required to be supported.
  *
  * @required200 Required to be supported since CMPI 2.0.0.
  */
@@ -1028,7 +1063,7 @@ typedef struct _CMPIStatus {
 #ifdef CMPI_VER_200
 
 /**
- * @brief Memory Enhancement Services
+ * @brief Memory Enhancement Services MB capability.
  *
  * Optional to be supported.
  *
@@ -1036,7 +1071,9 @@ typedef struct _CMPIStatus {
  */
 #define CMPI_MB_Supports_MemEnhancements    0x00004000
 /**
- * @brief Extended Errors
+ * @brief Extended Errors MB capability.
+ *
+ * Required to be supported.
  *
  * @added200 Added in CMPI 2.0.0.
  * @required210 Required to be supported since CMPI 2.1.0.
@@ -1048,7 +1085,7 @@ typedef struct _CMPIStatus {
 #ifdef CMPI_VER_210
 
 /**
- * @brief Logging
+ * @brief Logging MB capability.
  *
  * Optional to be supported.
  *
@@ -1057,7 +1094,7 @@ typedef struct _CMPIStatus {
  */
 #define CMPI_MB_Logging                     0x00010000
 /**
- * @brief Tracing
+ * @brief Tracing MB capability.
  *
  * Optional to be supported.
  *
@@ -1066,16 +1103,17 @@ typedef struct _CMPIStatus {
  */
 #define CMPI_MB_Tracing                     0x00020000
 /**
- * @brief Property Filtering
+ * @brief Property Filtering MB capability.
  *
  * Optional to be supported.
+ * Requires the @ref CMPI_MB_BasicRead "Basic Read" MB capability.
  *
  * @added210 Added the capability flag in CMPI 2.1.0; the capability itself
  *     existed since CMPI 1.0.0.
  */
 #define CMPI_MB_PropertyFiltering           0x00040001
 /**
- * @brief Codepage Conversion
+ * @brief Codepage Conversion MB capability.
  *
  * Optional to be supported.
  *

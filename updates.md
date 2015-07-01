@@ -23,6 +23,7 @@
 * Moved some spec related todos from header files to specissues.md.
 * Brought introductory text in Errors section in sync with spec.
 * Moved thread function typedefs into cmpidt.h and described spec update.
+* Created special commands @capXXXXX for capabilities and used them.
 
 30 June - Karl
 --------------

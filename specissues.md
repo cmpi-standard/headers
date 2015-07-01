@@ -582,3 +582,43 @@ and will be brought forward as review comments to the TOG review of the spec.
             CMPI_THREAD_KEY_TYPE* key,
             CMPIThreadKeyCleanupFunc* cleanup
         );
+
+29. In Subclause 7.1 (MB Capabilities), Table 8 is missing some functions that
+    are part of MB capabilities:
+
+    Proposal: Add the missing function names in column "Provided Support",
+    as follows:
+    
+    a) In the row for capability "OS Encapsulation Services", add at the bottom:
+    - destroyCondition2()
+    - destroyMutex2()
+    - lockMutex2()
+    - unlockMutex2()
+
+    b) In the row for capability "Memory Enhancement Services", add at the
+    bottom:
+    - freeChars()
+
+    c) In the row for capability "Extended Errors", add before
+    "Encapsulated data types:"
+    - CMPIResultFT functions: returnError()
+
+30. In Subclause 7.1 (MB Capabilities), the freeSelectExp() function listed in
+    Table 8 in the row for Memory Enhancement Services can only be implemented
+    if the Query Normalization capability is available as well.
+
+    Proposal: Add "(Note 6)" behind "freeSelectExp()", and add a Note 6 below
+    the table:
+
+    "6. The CMPIBrokerExtFT.freeSelectExp() function, while part of the
+        Memory Enhancement Services capability can only be implemented if
+        the Query Normalization capability is available as well."
+
+31. Inconsistency in how the Context Data capability is referenced.
+    In Table 8, this capability is named "Context Data", however it is
+    referenced throughout the document as
+    "Context Data Support capability" (4 occurrences).
+
+    Proposal: Consistent with other capability names, change the phrase
+    "Context Data Support capability" to "Context Data capability", throughout
+    the document.
