@@ -19,6 +19,8 @@
 * Resolved issues with missing '...' args in CMPIBrokerEncFT.getMessage() and
   CMPIBrokerEncFT.getMessage2()
 * Resolved some more todos.
+* Ordered @see always before any @addedNNN, @requiredNNN, @deprecated.
+* Moved some spec related todos from header files to specissues.md.
 
 30 June - Karl
 --------------
