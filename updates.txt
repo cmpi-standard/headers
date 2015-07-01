@@ -1,34 +1,40 @@
-30 June Karl
+1 July - Andy
+-------------
 
-Added links betwen cmpimacs and cmpift.h.  Not all of them work yet.
-In particular having problems with link to a macro (CMClone and CMRelease).
+* Solved 80 column issue in cmpipl.h.
+* Improved description for platform symbols in cmpipl.h
+* Changed check for a defined platform symbol to verify for exactly one.
+* Moved file TemplateReturnCodes.txt in Dropbox workspace to parent dir to get
+  it out of the way (it is not in the git repo)
+* Pushed changes left by Karl in local repo of Dropbox to remote git:
+  - in Dropbox workspace: pull (which did a merge), push
+  - in Andy's local workspace: pull
 
-Generally all the macros have links back (but not all show up yet) but that
-gives you a clue how many functions do not have macros at this point.
+30 June - Karl
+--------------
 
-I have to go through and manually check each one
-
-Added a number of todos where I have not made the macro link yet or no macro
-exists.
- 
-Note that I started Issue 69, post final issues that we want to fix in spec.
-We can move specissues.md there as we agree which ones to fix.
- 
-Removed a couple of completed TODOs but we still have a bunch to remove.
- 
-Note that there is another issue in the macro about lines 120 -150 that
-causes warnings.
-
-ran chksrc and found lots of lines in cmpipl.h over 80 char.
-
-ran removetrailingblanks on cmpift.h and cmpimacs.h
-
+* Added links betwen cmpimacs and cmpift.h.  Not all of them work yet.
+  In particular having problems with link to a macro (CMClone and CMRelease).
+* Generally all the macros have links back (but not all show up yet) but that
+  gives you a clue how many functions do not have macros at this point.
+* I have to go through and manually check each one
+* Added a number of todos where I have not made the macro link yet or no macro
+  exists.
+* Note that I started Issue 69, post final issues that we want to fix in spec.
+  We can move specissues.md there as we agree which ones to fix.
+* Removed a couple of completed TODOs but we still have a bunch to remove.
+* Note that there is another issue in the macro about lines 120 -150 that
+  causes warnings.
+* ran chksrc and found lots of lines in cmpipl.h over 80 char.
+* ran removetrailingblanks on cmpift.h and cmpimacs.h
 
 Tomorrow, continue to clean up cmpimacs cmpift links.
 
 Committed changes at end of day.
-30 June 2015
-Andy
+
+30 June 2015 - Andy
+-------------------
+
 1. Started syncing function descriptions with spec. TODO_AM indicates
    where this work needs to be resumed (top to bottom in cmpift.h).
 2. Discovered several new spec issues (see specissues.md for a list of them
@@ -64,8 +70,9 @@ Andy
 15. Fixed the 80 column limit in modules.h.
 16. Removed some more completed TODOs.
 
-29 June 2015
-Karl
+29 June 2015 - Karl
+-------------------
+
 1. Clean up some minor issues in @returns and standardize the text so says
 same thing in every case.
 2. Clean up rc so same text everywhere.

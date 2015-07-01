@@ -72,26 +72,37 @@
  *       * CMPI_PLATFORM_VMS_ALPHA_DECCXX
  *       * CMPI_PLATFORM_VMS_IA64_DECCXX
  *
- *     There is no default platform; the `cmpipl.h` header file verifies that a
- *     valid platform symbol has been defined by the user of the CMPI header
- *     files.
+ *     There is no default platform; the user of the CMPI header files needs to
+ *     define exactly one of these symbols.
  *   @}
  * @}
  */
 
-#if !defined(CMPI_PLATFORM_LINUX_GENERIC_GNU) && !defined(CMPI_PLATFORM_HPUX_ACC) && \
-    !defined(CMPI_PLATFORM_WIN32_IX86_MSVC) && !defined(CMPI_PLATFORM_SOLARIS_SPARC_GNU) && \
-    !defined(CMPI_PLATFORM_SOLARIS_SPARC_CC) && !defined(CMPI_PLATFORM_AIX_RS_IBMCXX) && \
-    !defined(CMPI_PLATFORM_ZOS_ZSERIES_IBM) && !defined(CMPI_PLATFORM_TRU64_ALPHA_DECCXX) && \
-    !defined(CMPI_PLATFORM_OS400_ISERIES_IBM) && !defined(CMPI_PLATFORM_DARWIN_PPC_GNU) && \
-    !defined(CMPI_PLATFORM_VMS_ALPHA_DECCXX) && !defined(CMPI_PLATFORM_VMS_IA64_DECCXX)
-#  error "You have not defined the right platform. The choices are:"
-#  error "CMPI_PLATFORM_LINUX_GENERIC_GNU, CMPI_PLATFORM_HPUX_ACC,"
-#  error "CMPI_PLATFORM_WIN32_IX86_MSVC, CMPI_PLATFORM_SOLARIS_SPARC_GNU,"
-#  error "CMPI_PLATFORM_SOLARIS_SPARC_CC, CMPI_PLATFORM_AIX_RS_IBMCXX,"
-#  error "CMPI_PLATFORM_ZOS_ZSERIES_IBM, CMPI_PLATFORM_TRU64_ALPHA_DECCXX,"
-#  error "CMPI_PLATFORM_OS400_ISERIES_IBM, CMPI_PLATFORM_DARWIN_PPC_GNU,"
-#  error "CMPI_PLATFORM_VMS_ALPHA_DECCXX, CMPI_PLATFORM_VMS_IA64_DECCXX"
+#if defined(CMPI_PLATFORM_LINUX_GENERIC_GNU) + \
+    defined(CMPI_PLATFORM_HPUX_ACC) + \
+    defined(CMPI_PLATFORM_WIN32_IX86_MSVC) + \
+    defined(CMPI_PLATFORM_SOLARIS_SPARC_GNU) + \
+    defined(CMPI_PLATFORM_SOLARIS_SPARC_CC) + \
+    defined(CMPI_PLATFORM_AIX_RS_IBMCXX) + \
+    defined(CMPI_PLATFORM_ZOS_ZSERIES_IBM) + \
+    defined(CMPI_PLATFORM_TRU64_ALPHA_DECCXX) + \
+    defined(CMPI_PLATFORM_OS400_ISERIES_IBM) + \
+    defined(CMPI_PLATFORM_DARWIN_PPC_GNU) + \
+    defined(CMPI_PLATFORM_VMS_ALPHA_DECCXX) + \
+    defined(CMPI_PLATFORM_VMS_IA64_DECCXX) != 1
+#  error "You have not defined a valid platform for CMPI. The choices are:"
+#  error "  CMPI_PLATFORM_LINUX_GENERIC_GNU"
+#  error "  CMPI_PLATFORM_HPUX_ACC"
+#  error "  CMPI_PLATFORM_WIN32_IX86_MSVC"
+#  error "  CMPI_PLATFORM_SOLARIS_SPARC_GNU"
+#  error "  CMPI_PLATFORM_SOLARIS_SPARC_CC"
+#  error "  CMPI_PLATFORM_AIX_RS_IBMCXX"
+#  error "  CMPI_PLATFORM_ZOS_ZSERIES_IBM"
+#  error "  CMPI_PLATFORM_TRU64_ALPHA_DECCXX"
+#  error "  CMPI_PLATFORM_OS400_ISERIES_IBM"
+#  error "  CMPI_PLATFORM_DARWIN_PPC_GNU"
+#  error "  CMPI_PLATFORM_VMS_ALPHA_DECCXX"
+#  error "  CMPI_PLATFORM_VMS_IA64_DECCXX"
 #endif
 
 #endif // _CMPIPL_H_
