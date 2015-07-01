@@ -384,7 +384,8 @@ typedef union _CMPIValue {
  * @ref CMPIType is used mainly in CMPI data items (see CMPIData)
  * and is also used standalone in some cases.
  *
- * Test masks for @ref CMPIType are defined @ref def-cmpitype-symbols "here".
+ * See @ref def-cmpitype-symbols "Test masks and values for CMPIType" for a
+ * definition of test masks and values for @ref CMPIType.
  */
 typedef unsigned short CMPIType;
 
@@ -550,11 +551,10 @@ typedef unsigned short CMPIType;
  */
 
 /**
- * @brief An integral bitmask type representing the state of a value in
- *     a CMPIData object.
+ * @brief A bitmask type representing the state of a value in a CMPIData object.
  *
- * Test masks for @ref CMPIValueState are defined
- * @ref def-cmpivaluestate-symbols "here".
+ * See @ref def-cmpivaluestate-symbols "Test masks for CMPIValueState" for a
+ * definition of test masks for @ref CMPIValueState.
  */
 typedef unsigned short CMPIValueState;
 
@@ -652,13 +652,23 @@ typedef void CMPIGcStat;
  */
 
 /**
- * @brief An integral bitmask type that represents options specified by the
- *     WBEM client and passed on to the MI for certain requests.
+ * @brief A bitmask type that represents options specified by the  WBEM client.
  *
- * The @ref CMPIFlags value is passed to MIs via the CMPIContext object, using
- * the context data entry @ref CMPIInvocationFlags.
+ * The @ref CMPIFlags type is used to inform MI functions about options
+ * specified by the WBEM client and passed on to the MI for certain requests.
+ * Normally, MIs will ignore these flags; however, these flags can be useful
+ * when MB services are invoked, or an external MB is contacted.
+ * 
+ * @ref CMPIFlags are not passed to MIs directly. MIs can use CMPIContext
+ * services to gain access under the entry name @ref CMPIInvocationFlags.
+ * 
+ * These flags may not be supported by all WBEM protocols.
  *
- * Test masks for @ref CMPIFlags are defined @ref def-cmpiflags-symbols "here".
+ * If a particular flag is not defined for the operation that is invoked, it
+ * shall have a value of 0 (false).
+ * 
+ * See @ref def-cmpiflags-symbols "Test masks for CMPIFlags" for a definition
+ * of test masks for @ref CMPIFlags.
  */
 typedef unsigned int CMPIFlags;
 
@@ -686,7 +696,7 @@ typedef unsigned int CMPIFlags;
  */
 
 /**
- * @brief An integral type for CMPI version fields (mainly in function tables).
+ * @brief A type for CMPI version fields (mainly in function tables).
  *
  * The values of entities of this type are numeric CMPI version numbers
  * (see @ref sym-version-nnn).
