@@ -17,14 +17,18 @@ LIST OF TODOs for CMPI header file Documentation
   TODO_AM indicates where this stands.
 
 * make decision about the poor doc in macro files. Remove much of it, make same
-as cmpift or leave it.
+  as cmpift or leave it.
 
 NOTE: The close date for this work is actually shortly before the final release
 of the spec at end of July.
 
 * Both: figure out how we can get this mess of files into a web without uploading the
-many hundreds of files. Or into the wiki with the same issue. The manual upload
-tools these sites offer are not really logical for this large set of files that
-may change from time to timem 
+  many hundreds of files. Or into the wiki with the same issue. The manual upload
+  tools these sites offer are not really logical for this large set of files that
+  may change from time to time.
 
+  Andy: I looked at readthedocs.org, and while not officially supported yet, it
+  seems to be possible to use Doxygen there. They clone the repo and build the
+  docs for themselves, as an automated process.
+  The repo has to be public.
 
