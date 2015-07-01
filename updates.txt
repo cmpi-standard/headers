@@ -1,3 +1,32 @@
+30 June Karl
+
+Added links betwen cmpimacs and cmpift.h.  Not all of them work yet.
+In particular having problems with link to a macro (CMClone and CMRelease).
+
+Generally all the macros have links back (but not all show up yet) but that
+gives you a clue how many functions do not have macros at this point.
+
+I have to go through and manually check each one
+
+Added a number of todos where I have not made the macro link yet or no macro
+exists.
+ 
+Note that I started Issue 69, post final issues that we want to fix in spec.
+We can move specissues.md there as we agree which ones to fix.
+ 
+Removed a couple of completed TODOs but we still have a bunch to remove.
+ 
+Note that there is another issue in the macro about lines 120 -150 that
+causes warnings.
+
+ran chksrc and found lots of lines in cmpipl.h over 80 char.
+
+ran removetrailingblanks on cmpift.h and cmpimacs.h
+
+
+Tomorrow, continue to clean up cmpimacs cmpift links.
+
+Committed changes at end of day.
 30 June 2015
 Andy
 1. Started syncing function descriptions with spec. TODO_AM indicates
