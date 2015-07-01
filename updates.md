@@ -1,0 +1,83 @@
+1 July - Andy
+-------------
+
+* Solved 80 column issue in cmpipl.h.
+* Improved description for platform symbols in cmpipl.h
+* Changed check for a defined platform symbol to verify for exactly one.
+* Moved file TemplateReturnCodes.txt in Dropbox workspace to parent dir to get
+  it out of the way (it is not in the git repo)
+* Pushed changes left by Karl in local repo of Dropbox to remote git:
+  - in Dropbox workspace: pull (which did a merge), push
+  - in Andys local workspace: pull
+* Renamed updates.txt to updates.md
+
+30 June - Karl
+--------------
+
+* Added links betwen cmpimacs and cmpift.h.  Not all of them work yet.
+  In particular having problems with link to a macro (CMClone and CMRelease).
+* Generally all the macros have links back (but not all show up yet) but that
+  gives you a clue how many functions do not have macros at this point.
+* I have to go through and manually check each one
+* Added a number of todos where I have not made the macro link yet or no macro
+  exists.
+* Note that I started Issue 69, post final issues that we want to fix in spec.
+  We can move specissues.md there as we agree which ones to fix.
+* Removed a couple of completed TODOs but we still have a bunch to remove.
+* Note that there is another issue in the macro about lines 120 -150 that
+  causes warnings.
+* ran chksrc and found lots of lines in cmpipl.h over 80 char.
+* ran removetrailingblanks on cmpift.h and cmpimacs.h
+
+Tomorrow, continue to clean up cmpimacs cmpift links.
+
+Committed changes at end of day.
+
+30 June 2015 - Andy
+-------------------
+
+1. Started syncing function descriptions with spec. TODO_AM indicates
+   where this work needs to be resumed (top to bottom in cmpift.h).
+2. Discovered several new spec issues (see specissues.md for a list of them
+   and which ones are already addressed in the header files). This includes
+   adding the filtered up-calls to the CMPIBrokerFT table, which we had
+   forgotten so far.
+3. Cleaned up descriptions of common function arguments, such as mb, mi, ctx,
+   rc.
+4. Cleaned up descriptions of return values that are CMPIStatus.
+5. Changed a few remaining @retval to @return. @retval does not support
+   @parblock.
+6. Moved deprecation notes for deprecated return codes from the return code
+   list to a function-level @deprecated statement, so it shows up in the
+   deprecation list (@deprecated starts a top level section, so having it
+   as part of the return code list does not work anyway).
+7. Made all references to capabilities in the same way, so that the respective
+   MB capabilities bit is linked.
+8. Changed return code list into return code table for
+   CMPIPropertyMIFT.getProperty(), to be consistent with the other MI functions.
+9. Added @p to more arguments and structure members.
+10. Replaced remaining textual statements about required functionality with the
+   @required210 command.
+11. Made sure that references to CMPI spec subclauses have either been replaced
+   by linking to the corresponding linkable entity, or are explicitly called
+   out to be to "Subclause x.x.x. of the CMPI Standard", where "CMPI Standard"
+   links to the respective spot on the main page. There are some remaining
+   ones that will be handled during description sync, they are marked with
+   (TBD).
+12. Made some deprecation notes more consistent.
+13. Brought @see, @added, @required, and @deprecated into a consistent order.
+14. Fixed a heading structure flaw in the Modules grouping hierarchy, for
+    the newly introduced Thread related typedefs.
+15. Fixed the 80 column limit in modules.h.
+16. Removed some more completed TODOs.
+
+29 June 2015 - Karl
+-------------------
+
+1. Clean up some minor issues in @returns and standardize the text so says
+same thing in every case.
+2. Clean up rc so same text everywhere.
+3. Clean up a number of minor issues
+4. Started @see between cmpimacs and cmpift.h working down cmpimacs. about
+25% finished and will finish tomorrow. These go both ways cmpift<->cmpimacs
+
