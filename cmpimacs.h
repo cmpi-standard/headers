@@ -59,7 +59,8 @@
 /** This macro builds a CMPIStatus object with @p rc as
       return code and returns to the CIMOM.
       @param rc the CMPI return code
-      @return This macro contains a return statement and leaves the function.
+      @return This macro contains a return statement and
+              therefore exits the function from which it was called.
    */
 noReturn CMReturn (CMPIrc rc);
 #   else
@@ -2687,7 +2688,7 @@ _CMPI_INLINE_MOD CMPIStatus CBDeliverIndication(
 #   ifdef CMPI_INLINE
 /** Enumerate Instance Names of the class (and subclasses)
     defined by @p op.
-    @param mb Points to CMPIBroker..
+    @param mb Points to CMPIBroker.
     @param ctx Context object
     @param op ObjectPath containing namespace and classname components.
     @param rc Output: Service return status (suppressed when NULL).
@@ -2711,7 +2712,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBEnumInstanceNames(
 /** Enumerate Instances of the class (and subclasses) defined by @p op.
      Instance structure and inheritance scope can be controled using the
      CMPIInvocationFlags entry in @p ctx.
-     @param mb Points to CMPIBroker..
+     @param mb Points to CMPIBroker.
      @param ctx Context object
      @param op ObjectPath containing namespace and classname components.
      @param properties If not NULL, the members of the array define
@@ -2738,7 +2739,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBEnumInstances(
 #   ifdef CMPI_INLINE
 /** Get Instance using @p op as reference. Instance structure can be
     controled using the CMPIInvocationFlags entry in @p ctx.
-    @param mb Points to CMPIBroker..
+    @param mb Points to CMPIBroker.
     @param ctx Context object
     @param op ObjectPath containing namespace, classname and key components.
     @param properties If not NULL, the members of the array
@@ -2765,7 +2766,7 @@ _CMPI_INLINE_MOD CMPIInstance *CBGetInstance(
 
 #   ifdef CMPI_INLINE
 /** Create Instance from @p inst using @p op as reference.
-    @param mb Points to CMPIBroker..
+    @param mb Points to CMPIBroker.
     @param ctx Context object
     @param op ObjectPath containing namespace, classname
        and key components.
@@ -2790,7 +2791,7 @@ _CMPI_INLINE_MOD CMPIObjectPath *CBCreateInstance(
 
 #   ifdef CMPI_INLINE
 /** Replace an existing Instance from @p inst using @p op as reference.
-     @param mb Points to CMPIBroker..
+     @param mb Points to CMPIBroker.
      @param ctx Context object
      @param op ObjectPath containing namespace, classname and key components.
      @param inst Complete instance.
@@ -2834,7 +2835,7 @@ _CMPI_INLINE_MOD CMPIStatus CBSetInstance(
 
 #   ifdef CMPI_INLINE
 /** Delete an existing Instance using @p op as reference.
-     @param mb Points to CMPIBroker..
+     @param mb Points to CMPIBroker.
      @param ctx Context object
      @param op ObjectPath containing namespace, classname and key components.
      @return Service return status.
@@ -2854,7 +2855,7 @@ _CMPI_INLINE_MOD CMPIStatus CBDeleteInstance(
 #   ifdef CMPI_INLINE
 /** Query the enumeration of instances of the class (and subclasses) defined
     by @p op using @p query expression.
-    @param mb Points to CMPIBroker..
+    @param mb Points to CMPIBroker.
     @param ctx Context object
     @param op ObjectPath containing namespace and classname components.
     @param query Query expression
@@ -2881,7 +2882,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBExecQuery(
 
 #   ifdef CMPI_INLINE
 /** Enumerate instances associated with the Instance defined by the @p op.
-    @param mb Points to CMPIBroker..
+    @param mb Points to CMPIBroker.
     @param ctx Context object
     @param op Source ObjectPath containing namespace, classname and key
         components.
@@ -2937,7 +2938,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBAssociators(
 
 #   ifdef CMPI_INLINE
 /** Enumerate ObjectPaths associated with the Instance defined by @p op.
-    @param mb Points to CMPIBroker..
+    @param mb Points to CMPIBroker.
     @param ctx Context object
     @param op Source ObjectPath containing namespace,
            classname and key components.
@@ -2990,7 +2991,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBAssociatorNames(
 #   ifdef CMPI_INLINE
 /** Enumerates the association instances that refer to the instance defined by
     @p op.
-    @param mb Points to CMPIBroker..
+    @param mb Points to CMPIBroker.
     @param ctx Context object
     @param op Source ObjectPath containing namespace,
            classname and key components.
@@ -3034,7 +3035,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBReferences(
 #   ifdef CMPI_INLINE
 /** Enumerates the association ObjectPaths that refer to the instance defined by
        @p op.
-    @param mb Points to CMPIBroker..
+    @param mb Points to CMPIBroker.
     @param ctx Context object
     @param op Source ObjectPath containing namespace,
     classname and key components.
@@ -3073,7 +3074,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBReferenceNames(
 #   ifdef CMPI_INLINE
 /** Invoke a named, extrinsic method of an Instance
     defined by the @p op parameter.
-    @param mb Points to CMPIBroker..
+    @param mb Points to CMPIBroker.
     @param ctx Context object
     @param op ObjectPath containing namespace, classname and key components.
     @param method Method name
@@ -3102,8 +3103,8 @@ _CMPI_INLINE_MOD CMPIData CBInvokeMethod(
 
 #   ifdef CMPI_INLINE
 /** Set the named property value of an Instance defined by the
-    @p opparameter.
-    @param mb Points to CMPIBroker..
+    @p op parameter.
+    @param mb Points to CMPIBroker.
     @param ctx Context object
     @param op ObjectPath containing namespace, classname and key components.
     @param name Property name
@@ -3131,7 +3132,7 @@ _CMPI_INLINE_MOD CMPIStatus CBSetProperty(
 #   ifdef CMPI_INLINE
 /** Get the named property value of an Instance defined by the
         @p opparameter.
-        @param mb Points to CMPIBroker..
+        @param mb Points to CMPIBroker.
         @param ctx Context object
         @param op ObjectPath containing namespace, classname and key components.
         @param name Property name
@@ -3191,7 +3192,13 @@ _CMPI_INLINE_MOD CMPIData CBGetProperty(
                  intialization is required.
      @return The function table of this instance provider.
      @todo what about optional functions.  ex. ExecQuery
+     @todo we have first cut at example.  Is this the way to go
+           or would we be better with complete provider in an
+           examples section?
      @par Example
+     This example documents the general structure of an instance
+     provider using the CMInstanceMIStub macro. Note that only a
+     couple of required functions are actually defined.
      @code
          static const CMPIBroker *_broker;
          static void initialize()
@@ -3212,12 +3219,13 @@ _CMPI_INLINE_MOD CMPIData CBGetProperty(
             const CMPIResult * rslt,
             const CMPIObjectPath * ref)
         { .... }
-        Functions for  InstProvEnumInstances
+        KS_TODO how do we show c COMMENTS??
+        Required Functions for InstProvEnumInstances
             InstProvGetInstance
             InstProvCreateInstance
             InstProvModifyInstance
             InstProvDeleteInstance
-            Optional
+            Optional Functions.
             InstProvExecQuery
 
         CMInstanceMIStub(
@@ -3295,6 +3303,8 @@ CMPIInstanceMI *CMInstanceMIStub(
      @return The function table of this association provider.
      @todo create example
      @todo what about optional functions
+    
+     @todo Need reference back to cmpift
 */
 CMPIAssociationMI *CMAssociationMIStub(
     chars pfx,
@@ -3349,6 +3359,8 @@ CMPIAssociationMI *CMAssociationMIStub(
             furtherInit(broker) or CMNoHook. Use CMNoHook
             if no further intialization is required.
      @return The function table of this method provider.
+    
+     @todo Need reference back to cmpift
       */
 CMPIMethodMI *CMMethodMIStub(
     chars pfx,
@@ -3405,6 +3417,8 @@ CMPIMethodMI *CMMethodMIStub(
                  CMNoHook. Use CMNoHook if no further
                  intialization is required.
      @return The function table of this property provider.
+    
+     @todo Need reference back to cmpift
       */
 CMPIPropertyMI *CMPropertyMIStub(
     chars pfx,
@@ -3460,6 +3474,8 @@ CMPIPropertyMI *CMPropertyMIStub(
             furtherInit(broker) or CMNoHook. Use CMNoHook if
             no further intialization is required.
      @return The function table of this indication provider.
+    
+     @todo Need reference back to cmpift
       */
 CMPIIndicationMI *CMIndicationMIStub(
     chars pfx,
@@ -3519,6 +3535,8 @@ CMPIIndicationMI *CMIndicationMIStub(
      @param pn The provider name under which this provider is registered.
             This is a character string without quotes.
      @return The function table of this instance provider.
+    
+     @todo Need reference back to cmpift
       */
 CMPIInstanceMI *CMInstanceMIFactory (chars cn, chars pn);
 #   else
@@ -3575,6 +3593,8 @@ CMPIInstanceMI *CMInstanceMIFactory (chars cn, chars pn);
      @param pn The provider name under which this provider is registered.
             This is a character string without quotes.
      @return The function table of this instance provider.
+    
+     @todo Need reference back to cmpift
       */
 CMPIAssociationMI *CMAssociationMIFactory (chars cn, chars pn);
 #   else
@@ -3627,6 +3647,8 @@ CMPIAssociationMI *CMAssociationMIFactory (chars cn, chars pn);
      @param pn The provider name under which this provider is registered.
             This is a character string without quotes.
      @return The function table of this association provider.
+    
+     @todo Need reference back to cmpift
       */
 CMPIMethodMI *CMMethodMIFactory (chars cn, chars pn);
 #   else
@@ -3675,6 +3697,7 @@ CMPIMethodMI *CMMethodMIFactory (chars cn, chars pn);
      @param pn The provider name under which this provider is registered.
             This is a character string without quotes.
      @return The function table of this association provider.
+     @todo Need reference back to cmpift
       */
 CMPIPropertyMI *CMPropertyMIFactory(chars cn, chars pn);
 #   else
