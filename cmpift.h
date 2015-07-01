@@ -2674,26 +2674,23 @@ typedef struct _CMPIBrokerEncFT {
      @brief Create a new CMPIEnumerationFilter object initialized with a
          filter query.
 
-     CMPIBrokerEncFT.newEnumerationFilter() creates a new
-     CMPIEnumerationFilter object initialized with @p filterquery argument if
-     @p filterQueryLanguage is valid. If the @p filterquery is
-     NULL the new object will be set to do no filtering.
+     CMPIBrokerEncFT.newEnumerationFilter() creates a new CMPIEnumerationFilter
+     object that is initialized with a filter query.
 
      @param mb Points to a CMPIBroker structure.
      @param filterQueryLanguage Points to a string specifying the query
-         language used for @p filterQuery. If this argument
-         is NULL, the new CMPIEnumerationFilter object will be set
-         to define that no filtering is to be performed.
-     @param filterQuery Points to a string specifying a valid query
-         in the query language defined by the @p filterQueryLanguage
-         argument.
-         If this argument is NULL, the new CMPIEnumerationFilter object
-         will be set to define that no filtering is to be performed.
+         language used for @p filterQuery.
+         If this argument is NULL, the new CMPIEnumerationFilter object will be
+         set to define that no filtering is to be performed.
+     @param filterQuery Points to a string specifying a valid query in the
+         query language defined by @p filterQueryLanguage.
+         If this argument is NULL, the new CMPIEnumerationFilter object will be
+         set to define that no filtering is to be performed.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a pointer to a new
-         CMPIEnumerationFilter object will be returned.
+         If successful, a pointer to a new CMPIEnumerationFilter object will be
+         returned.
 
          The new object will be released automatically by the MB, as described
          in Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard".
@@ -2706,18 +2703,19 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Operation successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle
-         is invalid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
      @li `CMPI_RC_ERR_QUERY_LANGUAGE_NOT_SUPPORTED` - @p filterQueryLanguage
          defines a query language that the MI does not recognize.
-     @li `CMPI_RC_ERR_INVALID_QUERY` - @p filterQuery is
-         not a valid query in the specified filter query language.
-     @li `CMPI_RC_ERR_QUERY_FEATURE_NOT_SUPPORTED` - A feature of the
-         query language is not supported.
+     @li `CMPI_RC_ERR_INVALID_QUERY` - @p filterQuery is not a valid query in
+         the specified filter query language.
+     @li `CMPI_RC_ERR_QUERY_FEATURE_NOT_SUPPORTED` - A feature of the query
+         language is not supported.
 
      @added210 Added in CMPI 2.1.0.
 
-     @todo in description. What does set to do no filtering mean?
+     @todo TBD KS: In description. What does "set to do no filtering" mean?@n
+           AM: It means that it does not restrict anything, i.e. its match()
+           always returns true. Do we need a spec update to improve the wording?
     */
     CMPIEnumerationFilter* (*newEnumerationFilter) (const CMPIBroker* mb,
             const char* filterQueryLanguage, const char* filterQuery,
@@ -2856,11 +2854,11 @@ typedef struct _CMPIBrokerExtFT {
      @par Errors
      For historical reasons, no additional error information is passed back.
 
-     @todo TBD: Doxygen does not deal well with arguments that are
+     @todo TBD KS: Doxygen does not deal well with arguments that are
          function pointers (`start` in this case). It generates warnings
          and (worse!) the generated function prototype is incorrect.
          How about a typedef for the function pointer? Only way is
-         to try it (ks).
+         to try it.@n
          AM: Fixed by using typedefs. This introduces three
          new type names. Are they part of the standard? Should they get
          leading underscores? Should they use mixed case syntax similar to
@@ -2884,7 +2882,8 @@ typedef struct _CMPIBrokerExtFT {
      The Error codes are defined in `errno.h`, specifically for
      the ``pthread_join()`` function; both are defined in
      @ref ref-ieee-1003-1 "IEEE 1003.1".
-     @todo needs macro ref
+
+     @todo KS: Add see macro
     */
     int (*joinThread) (CMPI_THREAD_TYPE thread, CMPI_THREAD_RETURN* retval);
 
@@ -2901,7 +2900,8 @@ typedef struct _CMPIBrokerExtFT {
      @param return_code Is the return code that should be used for the thread.
      @return The function never returns, regardless of whether it is
          successful or encounters errors.
-    @todo needs macro ref
+
+     @todo KS: Add see macro
     */
     int (*exitThread) (CMPI_THREAD_RETURN return_code);
 
@@ -2972,6 +2972,7 @@ typedef struct _CMPIBrokerExtFT {
          Error codes are defined in `errno.h`, specifically for the
          ``pthread_once()`` function; both are defined in IEEE 1003.1.
      @endparblock
+
      @todo No macro for this one.
     */
     int (*threadOnce) (int* once, CMPIThreadOnceFunc function);
@@ -2994,7 +2995,7 @@ typedef struct _CMPIBrokerExtFT {
          ``pthread_key_create()`` function; both are defined in IEEE
          1003.1.
 
-     @todo TBD: Member detached not documented. Error code in output KS.
+     @todo DONE. KS: Member detached not documented. Error code in output.@n
            AM: Fixed by using a typedef. Reason was no support for function
            pointer args in Doxygen.
     */
@@ -3050,7 +3051,8 @@ typedef struct _CMPIBrokerExtFT {
          ``pthread_setspecific()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
      @endparblock
-    @todo no macro ref
+
+     @todo no macro ref
     */
     int (*setThreadSpecific) (CMPI_THREAD_KEY_TYPE key, void* value);
 
@@ -3230,8 +3232,10 @@ typedef struct _CMPIBrokerExtFT {
          ``pthread_cond_timedwait()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
 
-     @todo we do not specify the timeout value characteristics either
-         here or in the spec. Commented in FINAL RC3 vote.
+     @todo DONE? KS: We do not specify the timeout value characteristics either
+           here or in the spec. Commented in FINAL RC3 vote.@n
+           AM: timespec defines its members precisely, so there is no need
+           to repeat that.
     */
     int (*timedCondWait) (CMPI_COND_TYPE cond, CMPI_MUTEX_TYPE mutex,
         struct timespec* wait);
@@ -3757,8 +3761,10 @@ typedef struct _CMPIBrokerMemFT {
 
      @added210 Added in CMPI 2.1.0.
 
-     @todo could we more precisely define  broker, ex.
-           CMPIBrokerFT.brokerCapabilities
+     @todo TBD KS: Ccould we more precisely define  broker, ex.
+           CMPIBrokerFT.brokerCapabilities@n
+           AM: Text for 'mb' updated. Reference to capabilities.
+           Does that address the issues?
     */
     void (*freeChars) (const CMPIBroker* mb, char* chars);
 

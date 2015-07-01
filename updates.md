@@ -18,6 +18,7 @@
   CMPIBrokerEncFT.classPathIsA()
 * Resolved issues with missing '...' args in CMPIBrokerEncFT.getMessage() and
   CMPIBrokerEncFT.getMessage2()
+* Resolved some more todos.
 
 30 June - Karl
 --------------
