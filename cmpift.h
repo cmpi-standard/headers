@@ -2505,51 +2505,52 @@ typedef struct _CMPIBrokerEncFT {
     CMPIStatus (*closeMessageFile) (const CMPIBroker* mb,
         const CMPIMsgFileHandle msgFileHandle);
 
-    /**
+    /** DONE_AM
      @brief Get a translated message text from an open message file by
          message ID.
 
-     CMPIBrokerEncFT.getMessage2() gets a translated message text
-     from an open message file, by @p msgId.
-
-     The variable arguments of this function are count pairs of arguments
-     representing the message insert pairs as follows:
-     `type, value` whereby @p type is a @ref CMPIType value and @p value
-     is a value of that type.
-     The following types are supported: @ref CMPI_sint32, @ref CMPI_uint32,
-     @ref CMPI_sint64, @ref CMPI_uint64, @ref CMPI_real64, @ref CMPI_boolean,
-     @ref CMPI_chars, and @ref CMPI_string.
+     CMPIBrokerEncFT.getMessage2() gets a translated message text from an open
+     message file, by message ID.
 
      @param mb Points to a CMPIBroker structure.
      @param msgId Points to a string specifying a message ID that is used to
          locate a message template in the open message file.
-     @param msgFileHandle The handle representing the open message
-         file that was returned by a call to CMPIBrokerEncFT.openMessageFile().
-         If the MB does not support message files the handle is NULL.
+     @param msgFileHandle Message file handle that was returned by a previous
+         call to CMPIBrokerEncFT.openMessageFile(). If the MB supports message
+         files, that handle identifies an open message file. If the MB does not
+         support message files, that handle is NULL.
      @param defMsg
      @parblock
-         Pointer to a string specifying the default
-         message template that will be used when the MB does not support message
-         files or when the message ID cannot be located.
+         Points to a string specifying the default message template that will
+         be used when the MB does not support message files or when the
+         message ID cannot be located.
 
-         The message template string specified in @p defMsg
-         may contain up to ten message insert triggers ($0 through
-         $9). Each insert trigger will be expanded; that is, the
-         insert trigger string will be replaced with a string
-         representation of the value of the corresponding insert pair
-         in the variable arguments of this function. The MI is not
-         affected when the MB does not support message files or when
-         the message ID cannot be located, because this function still
-         succeeds and returns a message with expanded message insert
-         triggers.
+         The message template string specified in @p defMsg may contain up to
+         ten message insert triggers ($0 through $9). Each insert trigger will
+         be expanded; that is, the insert trigger string will be replaced with
+         a string representation of the value of the corresponding insert pair
+         in the variable arguments of this function. The MI is not affected
+         when the MB does not support message files or when the message ID
+         cannot be located, because this function still succeeds and returns
+         a message with expanded message insert triggers.
      @endparblock
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
-     @param count The number of message substitution values.
+     @param count The number of message insert pairs in the range 0 to 10.
+     @param ... The variable arguments of this function are @p count pairs of
+         arguments representing the message insert pairs as follows:
+         `type, value` whereby @p type is a @ref CMPIType value and @p value
+         is a value of that type.
+         The following types are supported: @ref CMPI_sint32, @ref CMPI_uint32,
+         @ref CMPI_sint64, @ref CMPI_uint64, @ref CMPI_real64,
+         @ref CMPI_boolean, @ref CMPI_chars, and @ref CMPI_string.
      @return @parblock
-         If successful, returns the translated message; otherwise
-         the default message template without any insert triggers
-         expanded is returned.
+         If successful, a pointer to a new CMPIString object containing either
+         the translated or default message will be returned. In both cases, the
+         insert triggers will have been expanded.
+
+         If not successful, the default message template without any insert
+         triggers expanded will be returned.
 
          In both cases, the new object will be automatically released by the MB,
          as described
@@ -2565,13 +2566,15 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_TYPE_MISMATCH` - Invalid insert pair.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Count value range violation.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Either the @p mb or
-         @p msgFileHandle handle is invalid. NULL is a valid value for
-         the @p msgFileHandle handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - Either the @p mb or @p msgFileHandle
+         handle is invalid. Note that NULL is a valid value for the
+         @p msgFileHandle handle.
 
      @see CMGetMessage2()
      @added200 Added in CMPI 2.0.0.
-     @todo TBD (KS) does not defined the ... extra parameters
+
+     @todo DONE KS: Does not defined the ... extra parameters.@n
+           AM: Resolved by moving the text to a '...' param.
     */
     CMPIString* (*getMessage2) (const CMPIBroker* mb, const char* msgId,
         const CMPIMsgFileHandle msgFileHandle, const char* defMsg,

@@ -228,3 +228,14 @@ Changes during finalization of the CMPI specification
     Change description text to: "The className format is invalid".
 
     Already done in header files.
+
+16. In CMPIBrokerEncFT.getMessage(), the description of the msgId argument says:
+
+    "The msgId argument is a message ID ..."
+
+    For consistency, it should be changed to:
+
+    "The msgId argument points to a string specifying a message ID ..."
+
+    Already done in header files.
+
