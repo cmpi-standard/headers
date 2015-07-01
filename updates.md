@@ -10,6 +10,7 @@
   - in Dropbox workspace: pull (which did a merge), push
   - in Andys local workspace: pull
 * Renamed updates.txt to updates.md
+* Moved issues from ISSUES.md to a new doxygenissues.md
 
 30 June - Karl
 --------------
