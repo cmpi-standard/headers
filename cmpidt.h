@@ -658,15 +658,15 @@ typedef void CMPIGcStat;
  * specified by the WBEM client and passed on to the MI for certain requests.
  * Normally, MIs will ignore these flags; however, these flags can be useful
  * when MB services are invoked, or an external MB is contacted.
- * 
+ *
  * @ref CMPIFlags are not passed to MIs directly. MIs can use CMPIContext
  * services to gain access under the entry name @ref CMPIInvocationFlags.
- * 
+ *
  * These flags may not be supported by all WBEM protocols.
  *
  * If a particular flag is not defined for the operation that is invoked, it
  * shall have a value of 0 (false).
- * 
+ *
  * See @ref def-cmpiflags-symbols "Test masks for CMPIFlags" for a definition
  * of test masks for @ref CMPIFlags.
  */

@@ -2081,14 +2081,15 @@ typedef struct _CMPIBrokerEncFT {
          is invalid.
      @see CMClassPathIsA()
 
-     @todo DONE? KS: Spec includes CMPI_RC_INVALID_PARAMETER (type format is invalid).
-           Does that Error make sense? There is no type arg.@n
-           AM: The only other occurrence of that return code description is in
-           CMPIBrokerEncFT.isOfType(). Maybe a false copy of the text from
-           that other function?@n
-           AM: In any case, my take is the return code can show up for invalid
-           formats of the string in the className parameter. I have changed
-           the text here and have opened a spec issue.
+     @todo DONE? KS: Spec includes CMPI_RC_INVALID_PARAMETER (type
+           format is invalid). Does that Error make sense? There is
+           no type arg.@n AM: The only other occurrence of that
+           return code description is in CMPIBrokerEncFT.isOfType().
+           Maybe a false copy of the text from that other
+           function?@n AM: In any case, my take is the return code
+           can show up for invalid formats of the string in the
+           className parameter. I have changed the text here and
+           have opened a spec issue.
     */
     CMPIBoolean (*classPathIsA) (const CMPIBroker* mb,
         const CMPIObjectPath* classPath, const char* className,
