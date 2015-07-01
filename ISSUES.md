@@ -11,15 +11,6 @@ to just list those things that are not specific and could be listed by
   AM: Fixed for enumerateInstancesFiltered (last line of prototype deleted by
       accident).
 
-* Shows prototype as :
-
-  CMPIStatus(* _CMPIIndicationMIFT::activateFilter)(CMPIIndicationMI *mi, const CMPIContext *ctx, const CMPISelectExp *filter, const char *className, const CMPIObjectPath *classPath, CMPIBoolean firstActivation)
-
-  Note that ::  is a scoping definition but it is confusing.
-
-  AM: Unless we dig into Doxygen styles, we should accept that for now. Maybe
-  something for a list of Doxygen improvements.
-
 * The macro page is a mess in Doxygen
 
 * Needs lead page before going on line but that is not issue for the
@@ -38,13 +29,6 @@ to just list those things that are not specific and could be listed by
   AM: Is that issue still current? We organized the Modules list to be
       consistent with the spec, and I did not find a "Definition of symbols for"
       at all.
-
-* The function APIs are documented as Variables, not functions.  I assume that
-  this is because of the indirect definition. Looks like Doxygen cannot
-  handle this.
-
-  AM: I don't think we can change this. I suggest we move this to a list
-      of potential Doxygen improvements.
 
 * This stuff cries out for examples.
 
@@ -90,8 +74,3 @@ to just list those things that are not specific and could be listed by
   http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdsince
 
   AM: Done, by using our own @addedNNN commands.
-
-* Use of @parblock for parameters triggers a new "Parameters" section heading
-  fopr any subsequent parameters of the function.
-  This is probably fixed in Doxygen 1.8.10 (needs verification), see:
-  https://github.com/doxygen/doxygen/blob/master/testing/054_parblock.cpp
