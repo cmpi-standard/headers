@@ -2047,7 +2047,7 @@ typedef struct _CMPIBrokerEncFT {
      *   @{
      */
 
-    /** DONE_AM
+    /**
      @brief Test whether a class path is of a specified class or any of its
         subclasses.
 
