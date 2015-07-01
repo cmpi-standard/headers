@@ -242,6 +242,11 @@ ALIASES               += "added200=@xrefitem added200 \"Addition\" \"Added in CM
 # linked from the "Related Pages" tab:
 ALIASES               += "added210=@xrefitem added210 \"Addition\" \"Added in CMPI 2.1.0\"" 
 
+# The following alias defines a @required200 special command that is used to
+# indicate that a definition was required to be supported since CMPI 2.0.0. Their
+# list will be linked from the "Related Pages" tab:
+ALIASES               += "required200=@xrefitem required200 \"Requirement Change\" \"Required since CMPI 2.0.0\"" 
+
 # The following alias defines a @required210 special command that is used to
 # indicate that a definition was required to be supported since CMPI 2.1.0. Their
 # list will be linked from the "Related Pages" tab:
