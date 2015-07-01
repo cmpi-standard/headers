@@ -613,14 +613,69 @@ typedef struct _CMPIData {
 
 /**
  * @}
- * @addtogroup type-accessor
+ * @addtogroup edt-selectexp
  * @{
  */
 
 /**
  * @brief A function type for accessing data during query processing.
+ *
+ * A pointer to such a function is passed to
+ * CMPISelectExpFT.evaluateUsingAccessor().
+ *
+ * @param propertyName Points to a string containing the name of the property
+ *     the accessor function is asked to evaluate.
+ * @param parm A parameter that can be used for providing context data.
+ * @return A CMPIData structure containing the evaluation result for the
+ *     property.
  */
 typedef CMPIData CMPIAccessor(const char* propertyName, void* parm);
+
+/**
+ * @}
+ * @addtogroup brokerext-thread
+ * @{
+ */
+
+/**
+ * @brief A function type for a POSIX thread function.
+ *
+ * A pointer to such a function is passed to CMPIBrokerExtFT.newThread().
+ *
+ * @param parm A pointer to arbitrary data, which was passed to
+ *     CMPIBrokerExtFT.newThread().
+ * @return The return value of the thread function. This value can be retrieved
+ *     by the caller of CMPIBrokerExtFT.joinThread().
+ *
+ * For more details on such functions, see the ``pthread_create()``
+ * function defined in @ref ref-ieee-1003-1 "IEEE 1003.1".
+ */
+typedef CMPI_THREAD_CDECL CMPI_THREAD_RETURN CMPIThreadFunc(void* parm);
+
+/**
+ * @brief A function type for a function that is called once in a POSIX thread.
+ *
+ * A pointer to such a function is passed to CMPIBrokerExtFT.threadOnce().
+ *
+ * @return None.
+ *
+ * For more details on such functions, see the ``pthread_once()``
+ * function defined in @ref ref-ieee-1003-1 "IEEE 1003.1".
+ */
+typedef void CMPIThreadOnceFunc(void);
+
+/**
+ * @brief A function type for a POSIX thread key cleanup function.
+ *
+ * A pointer to such a function is passed to CMPIBrokerExtFT.createThreadKey().
+ *
+ * @param key A pointer to the previous key value before cleanup.
+ * @return None.
+ *
+ * For more details on such functions, see the ``pthread_key_create()``
+ * function defined in @ref ref-ieee-1003-1 "IEEE 1003.1".
+ */
+typedef void CMPIThreadKeyCleanupFunc(void* key);
 
 /**
  * @}

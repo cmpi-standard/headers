@@ -107,9 +107,6 @@
     @defgroup type-valueptr CMPIValuePtr
     @{
     @}
-    @defgroup type-accessor CMPIAccessor
-    @{
-    @}
 */
 #ifdef CMPI_DEFINE_CMPISelectCondType
 /**

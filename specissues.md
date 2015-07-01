@@ -135,34 +135,34 @@ and will be brought forward as review comments to the TOG review of the spec.
 8.  In CMPIBrokerFT.enumerateInstancesFiltered(), the list of return codes
     has these issues:
 
-    a)  The following return codes are missing:
+    a) The following return codes are missing:
 
-        * CMPI_RC_ERR_INVALID_NAMESPACE - The namespace specified in classPath
-          does not exist.
-        * CMPI_RC_ERR_INVALID_CLASS - The class specified in classPath does not
-          exist.
-        * CMPI_RC_ERR_INVALID_PARAMETER - The property list specified in
-          properties is invalid.
-        * CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED - Limits exceeded.
+      * CMPI_RC_ERR_INVALID_NAMESPACE - The namespace specified in classPath
+        does not exist.
+      * CMPI_RC_ERR_INVALID_CLASS - The class specified in classPath does not
+        exist.
+      * CMPI_RC_ERR_INVALID_PARAMETER - The property list specified in
+        properties is invalid.
+      * CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED - Limits exceeded.
 
-        Proposal: Add those return codes to the ERRORS section of the function.
+      Proposal: Add those return codes to the ERRORS section of the function.
 
-        Reason: These return codes are needed because the target MI could
-        return them, and this MB function needs to be able to handle them by
-        passing them on to its caller.
+      Reason: These return codes are needed because the target MI could
+      return them, and this MB function needs to be able to handle them by
+      passing them on to its caller.
 
-    b)  The following return code is defined by mistake:
+    b) The following return code is defined by mistake:
 
-        * CMPI_RC_ERR_NOT_FOUND
+      * CMPI_RC_ERR_NOT_FOUND
 
-        Proposal: Remove this return code from the ERRORS section of the
-        function.
+      Proposal: Remove this return code from the ERRORS section of the
+      function.
 
-        Reason: It is not needed because the corresponding newly added
-        MI function CMPIInstanceMIFT.enumerateInstancesFiltered(), has not
-        defined this return code in the first place. Also, for consistency with
-        CMPIBrokerFT.enumerateInstances(), which has this return code
-        deprecated.
+      Reason: It is not needed because the corresponding newly added
+      MI function CMPIInstanceMIFT.enumerateInstancesFiltered(), has not
+      defined this return code in the first place. Also, for consistency with
+      CMPIBrokerFT.enumerateInstances(), which has this return code
+      deprecated.
 
     Need to apply the result to the header files.
 
@@ -228,16 +228,16 @@ and will be brought forward as review comments to the TOG review of the spec.
     Proposal:
 
     1. In the short description of these two functions, change:
-       From:
+      From:
 
-       "... returning only those that match the filterQuery argument"
+      "... returning only those that match the filterQuery argument"
 
-       To:
+      To:
 
-       "... returning only those that match the given filters"
+      "... returning only those that match the given filters"
 
     2. In the long description of these two functions, change the end of the
-       first sentence from "the filter." to "the filters."
+      first sentence from "the filter." to "the filters."
 
     Already done in header files.
 
@@ -262,24 +262,24 @@ and will be brought forward as review comments to the TOG review of the spec.
     Proposal:
 
     1. Change all (3) occurrences of the following text throughout the spec
-       from:
+      from:
 
-       "A CMPIStatus structure containing the function return status ..."
+      "A CMPIStatus structure containing the function return status ..."
 
-       to:
+      to:
 
-       "A CMPIStatus structure whose rc member specifies the function
-        return status ..."
+      "A CMPIStatus structure whose rc member specifies the function
+      return status ..."
 
     2. Change all (84) occurrences of the following text throughout the spec
-       from:
+      from:
 
-       "A CMPIStatus structure indicating the function return status ..."
+      "A CMPIStatus structure indicating the function return status ..."
 
-       to:
+      to:
 
-       "A CMPIStatus structure whose rc member specifies the function
-        return status ..."
+      "A CMPIStatus structure whose rc member specifies the function
+      return status ..."
 
     Already done in header files.
 
@@ -453,3 +453,132 @@ and will be brought forward as review comments to the TOG review of the spec.
      released by the MI; they will be automatically released by the MB, as
      described in Subclause 4.1.7."
 
+28. Add three function typedefs for thread functions:
+
+    Reason: The definition of function prototypes without these new typedefs
+    was always quite unwieldy, and it was not possible to properly create
+    documentation for these functions.
+
+    The introduction of three new typedefs cleans up the prototypes of functions
+    that use them, and it enables proper documentation creation.
+
+    The three new typedefs will become part of the CMPI 2.1 standard.
+
+    The remainder of this section describes the proposal to add them and use
+    them:
+
+    a)  In subclause 9.14 (Operating System Encapsulation Services), insert the
+      following description before the line
+      "typedef struct _CMPIBrokerExtFT {":
+
+      --- begin of text ---
+
+      `typedef CMPI_THREAD_CDECL CMPI_THREAD_RETURN CMPIThreadFunc(void *parm);`
+
+      CMPIThreadFunc is a function type for a POSIX thread function. A pointer
+      to such a function is passed to CMPIBrokerExtFT.newThread().
+
+      The parm argument of the function is a pointer to arbitrary data,
+      which was passed to CMPIBrokerExtFT.newThread().
+
+      The return value of this function can be retrieved by the caller of
+      CMPIBrokerExtFT.joinThread().
+
+      For more details on such functions, see the pthread_create() function
+      defined in IEEE 1003.1.
+
+      `typedef void CMPIThreadOnceFunc(void);`
+
+      CMPIThreadOnceFunc is a function type for a function that is called
+      once in a POSIX thread. A pointer to such a function is passed to
+      CMPIBrokerExtFT.threadOnce().
+
+      For more details on such functions, see the pthread_once() function
+      defined in IEEE 1003.1.
+
+      `typedef void CMPIThreadKeyCleanupFunc(void *key);`
+
+      CMPIThreadKeyCleanupFunc is a function type for a POSIX thread key
+      cleanup function. A pointer to such a function is passed to
+      CMPIBrokerExtFT.createThreadKey().
+
+      The key argument of this function is a pointer to the previous key
+      value before cleanup.
+
+      For more details on such functions, see the pthread_key_create()
+      function defined in IEEE 1003.1.
+
+      --- end of text ---
+
+    b) In subclause 9.14 (Operating System Encapsulation Services), change the
+      following function prototypes in the _CMPIBrokerExtFT structure :
+
+      from:
+
+          CMPI_THREAD_TYPE (*newThread)
+              (CMPI_THREAD_RETURN (CMPI_THREAD_CDECL*)(void*),
+               void*, int);
+
+          int (*threadOnce)
+              (int*, void (*)(void));
+
+          int (*createThreadKey)
+              (CMPI_THREAD_KEY_TYPE*, void (*)(void*));
+
+      to:
+
+          CMPI_THREAD_TYPE (*newThread)
+              (CMPIThreadFunc*, void*, int);
+
+          int (*threadOnce)
+              (int*, CMPIThreadOnceFunc*);
+
+          int (*createThreadKey)
+              (CMPI_THREAD_KEY_TYPE*, CMPIThreadKeyCleanupFunc*);
+
+    c) In CMPIBrokerExtFT.newThread(), change the SYNOPSIS section
+      from:
+
+        CMPI_THREAD_TYPE CMPIBrokerExtFT.newThread(
+            CMPI_THREAD_RETURN (CMPI_THREAD_CDECL* start) (void*),
+            void* parm,
+            int detached
+        );
+
+      to:
+
+        CMPI_THREAD_TYPE CMPIBrokerExtFT.newThread(
+            CMPIThreadFunc* start,
+            void* parm,
+            int detached
+        );
+
+    d) In CMPIBrokerExtFT.threadOnce(), change the SYNOPSIS section
+      from:
+
+        int CMPIBrokerExtFT.threadOnce(
+            int* once,
+            void (*function)(void)
+        );
+
+      to:
+
+        int CMPIBrokerExtFT.threadOnce(
+            int* once,
+            CMPIThreadOnceFunc* function
+        );
+
+    e) In CMPIBrokerExtFT.createThreadKey(), change the SYNOPSIS section
+      from:
+
+        int CMPIBrokerExtFT.createThreadKey(
+            CMPI_THREAD_KEY_TYPE* key,
+            void (*cleanup)(void*)
+        );
+
+      to:
+
+        int CMPIBrokerExtFT.createThreadKey(
+            CMPI_THREAD_KEY_TYPE* key,
+            CMPIThreadKeyCleanupFunc* cleanup
+        );

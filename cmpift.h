@@ -1288,7 +1288,7 @@ typedef struct _CMPIBrokerFT {
      instance.
 
      The target MI is identified by the MB based on @p instPath.
- 
+
      @param mb Points to a CMPIBroker structure.
      @param ctx Points to a CMPIContext object that specifies the same
          principal, role, accept language, and content language as the
@@ -2700,42 +2700,6 @@ typedef struct _CMPIBrokerEncFT {
 struct timespec;
 
 /**
- * @}
- * @addtogroup brokerext-thread
- * @{
- */
-
-/**
- * @anchor type-thread-func
- * @brief Type for a thread function.
- *
- * @see CMPIBrokerExtFT.newThread()
- */
-typedef CMPI_THREAD_RETURN (CMPI_THREAD_CDECL* start)(void*) CMPIThreadFunc;
-
-/**
- * @anchor type-thread-once-func
- * @brief Type for a function that is called once for a once-object.
- *
- * @see CMPIBrokerExtFT.threadOnce()
- */
-typedef void (*function)(void) CMPIThreadOnceFunc;
-
-/**
- * @anchor type-thread-key-cleanup-func
- * @brief Type for a thread key cleanup function.
- *
- * @see CMPIBrokerExtFT.createThreadKey()
- */
-typedef int void (*cleanup)(void*) CMPIThreadKeyCleanupFunc;
-
-/**
- * @}
- * @addtogroup mb-tables
- * @{
- */
-
-/**
  * @brief Function table for MB operating system encapsulation services.
  *
  * This function table is referenced by the CMPIBroker structure, and provides
@@ -2809,7 +2773,7 @@ typedef struct _CMPIBrokerExtFT {
      it uses MB functions.
 
      @param start Points to the function to be started as a thread.
-         See type @ref type-thread-func "CMPIThreadFunc".
+         For details, see type @ref CMPIThreadFunc.
      @param parm Points to argument(s) to be passed to that function.
      @param detached If not zero, defines that the new thread should
          run in detached mode. In detached mode, termination of the
@@ -2822,20 +2786,12 @@ typedef struct _CMPIBrokerExtFT {
      @par Errors
      For historical reasons, no additional error information is passed back.
 
-     @todo TODO(AM) KS: Doxygen does not deal well with arguments that are
-         function pointers (`start` in this case). It generates warnings
-         and (worse!) the generated function prototype is incorrect.
-         How about a typedef for the function pointer? Only way is
-         to try it.@n
-         AM: Fixed by using typedefs. This introduces three
-         new type names. Are they part of the standard? Should they get
-         leading underscores? Should they use mixed case syntax similar to
-         other types like CMPIBoolean or uppercase+underscore syntax similar
-         to preprocessor symbols for types like CMPI_THREAD_TYPE?@n
-         AM: Meeting: Keep name, change to become function instead of func
-         ptr, and move to data file. Make part of spec, too.
+     @todo TBD AM: Done, but please review the new function types:
+           @ref CMPIThreadFunc,
+           @ref CMPIThreadOnceFunc,
+           @ref CMPIThreadKeyCleanupFunc.
     */
-    CMPI_THREAD_TYPE (*newThread) (CMPIThreadFunc start, void* parm,
+    CMPI_THREAD_TYPE (*newThread) (CMPIThreadFunc* start, void* parm,
         int detached);
 
     /**
@@ -2931,8 +2887,8 @@ typedef struct _CMPIBrokerExtFT {
          will behave in a thread-safe way. The once-object shall be
          initialized to zero before the first call to the
          CMPIBrokerExtFT.threadOnce() function.
-     @param function The function to be invoked.
-         See type @ref type-thread-once-func "CMPIThreadOnceFunc".
+     @param function Points to the function to be invoked.
+         For details, see type @ref CMPIThreadOnceFunc.
      @return @parblock
          If successful, zero will be returned.
          If not successful, a non-zero error code will be returned.
@@ -2943,7 +2899,7 @@ typedef struct _CMPIBrokerExtFT {
 
      @todo KS: No macro for this one.
     */
-    int (*threadOnce) (int* once, CMPIThreadOnceFunc function);
+    int (*threadOnce) (int* once, CMPIThreadOnceFunc* function);
 
     /**
      @brief Create a POSIX threading-conformant thread key for
@@ -2954,8 +2910,8 @@ typedef struct _CMPIBrokerExtFT {
      access the thread local store.
 
      @param key Points to the thread key to be returned.
-     @param cleanup Function to be invoked during thread local store cleanup.
-         See type @ref type-thread-key-cleanup-func "CMPIThreadKeyCleanupFunc".
+     @param cleanup Points to the function to be invoked during thread local
+         store cleanup. For details, see type @ref CMPIThreadKeyCleanupFunc.
      @return If successful, zero will be returned.
          If not successful, a non-zero error code will be returned.
          If successful, zero will be returned.
@@ -2964,7 +2920,7 @@ typedef struct _CMPIBrokerExtFT {
          1003.1.
     */
     int (*createThreadKey) (CMPI_THREAD_KEY_TYPE* key,
-        CMPIThreadKeyCleanupFunc cleanup);
+        CMPIThreadKeyCleanupFunc* cleanup);
 
     /**
      @brief Destroy a thread key for accessing the thread local store.
