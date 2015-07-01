@@ -239,3 +239,99 @@ Changes during finalization of the CMPI specification
 
     Already done in header files.
 
+17. In CMPIContextFT.addEntry(), it would be good to have a link to the
+    definition of the context entries directly in the description of the
+    'name' argument. (Table 10: Standard CMPIContext Entries).
+
+    Already done in header files.
+
+18. Inconsistencies in description text for common return codes:
+    * CMPI_RC_OK:
+      - Function successful (144) <- use this one
+      - Function succeeded (25)
+    * CMPI_RC_ERR_FAILED
+      - Unspecific error occurred (35)
+      - A generic error occurred (27)
+      - Other error occurred (4) <- use this one
+    * CMPI_RC_ERR_NOT_SUPPORTED
+      - Function is not supported ... (72) <- use this one
+      - Function not supported ... (3)
+    * CMPI_RC_ERR_INVALID_HANDLE
+      - The <xxx> handle is invalid (103) <- use this one
+      - Invalid encapsulated data type handle (18)
+      - The <xxx> argument is invalid (2)
+    * CMPI_RC_ERR_INVALID_NAMESPACE
+      - The namespace specified in the <xxx> argument does not exist (18)
+      - The namespace is invalid (3)
+      - The namespace <xxx> is invalid (1)
+      - The namespace specified in <xxx> is invalid (1)
+      - The namespace implied by <xxx> is invalid (1)
+      - The namespace specified in the <xxx> argument is invalid (0) <- use this one
+    * CMPI_RC_ERR_INVALID_CLASS
+      - The CIM class does not exist in the specified namespace (3)
+      - The class specified in the <xxx> argument does not exist (18)
+      - The class specified in the <xxx> argument is invalid (0) <- use this one
+
+    Suggest to use the proposed ones, consistently.
+
+    Need to apply the result to the header files.
+
+19. TBD: Some return code names that occur in tables are split into two words
+    at an underscore boundary. That looks nicer than breaking it at whatever
+    characters hits the cell boundary, but it makes searching much harder.
+
+    Suggest to remove these splits.
+
+    Need to apply the result to the header files.
+
+20. Inconsistencies in referencing the attributes of CMPIError objects:
+    * attribute of a/the CMPIError ... (76) <- use this one
+    * attribute in a/the CMPIError ... (3)
+
+    Suggest to use the proposed ones, consistently.
+
+    Need to apply the result to the header files.
+
+21. In the qualifier functions, the name of the CMPIObjectPath argument
+    was changed from "op" to "classPath" etc., which is inconsistent with the
+    other functions on CMPIObjectPath.
+
+    Suggest to change it back to "op", for consistency.
+
+    Need to apply the result to the header files.
+
+22. The ordering of return codes is partly inconsistent.
+
+    We never reviewed the order, and probably we don't have the time now to do
+    that now at a large scale, but I suggest to do these little fixes:
+
+    * CMPISubCondFT.getPredicate(): Its "invalid handle" rc is second to last,
+      while quite often and particularly in CMPISubCondFT.getPredicateAt(),
+      it is last.
+
+      Move "invalid handle" to become last, in CMPISubCondFT.getPredicate().
+
+    Need to apply the result to the header files.
+
+23. In CMPIPredicateFT.release() and CMPIPredicateFT.clone(), the description
+    of CMPI_RC_ERR_INVALID_HANDLE uses the argument name "sc".
+
+    The synopsis and description sections correctly use "pr".
+
+    Change "sc" to "pr" in the return code description.
+    
+    Already done in header files.
+
+24. In CMPIInstanceMIFT.getInstance(), there is no return code for
+    "server limits exceeded".
+
+    First of all, the result set can be large even for a single instance
+    (e.g. via an array of embedded instances), and the server can get to its
+    limits also because of other things than a large result set.
+
+    Finally, supporting this return code makes it easier for up-call
+    implementations, which then can revert to functions that do not map 1:1. 
+    
+    Suggest to add "server limits exceeded" to CMPIInstanceMIFT.getInstance(),
+    and consequently to CMPIBrokerFT.getInstance().
+
