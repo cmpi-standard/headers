@@ -1275,13 +1275,6 @@ typedef struct _CMPIBrokerFT {
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
      @see CBInvokeMethod()
-
-     @todo TODO(AM) AM: Spec issue: The description of the "out" arg states
-           that the
-           MI shall not release the CMPIArgs object, but that object is
-           allocated by the MI, and the statement in the description should
-           instead be about the objects filled into the CMPIArgs object,
-           that are representing the method output parameters.
     */
     CMPIData (*invokeMethod) (const CMPIBroker* mb, const CMPIContext* ctx,
         const CMPIObjectPath* objPath, const char* method,

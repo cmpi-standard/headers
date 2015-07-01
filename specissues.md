@@ -51,7 +51,7 @@ and will be brought forward as review comments to the TOG review of the spec.
     Our original CR during spec development proposed to remove the return
     codes, but we apparently failed to correctly apply that part of the CR to
     the spec during the spec development cycle.
-    
+
     Proposal: Replace the content of the ERRORS section of
     CMPIBrokerFT.prepareAttachThread() with this sentence:
 
@@ -97,7 +97,7 @@ and will be brought forward as review comments to the TOG review of the spec.
 
     Proposal: Change the references to these entries in any MI or MB functions
     to be of the form "CMPIInitNameSpace entry", etc.
-   
+
     Need to apply the result to the header files.
 
 7.  The CMPIBrokerFT structure was not extended to add the prototypes for the
@@ -150,7 +150,7 @@ and will be brought forward as review comments to the TOG review of the spec.
         Reason: These return codes are needed because the target MI could
         return them, and this MB function needs to be able to handle them by
         passing them on to its caller.
-        
+
     b)  The following return code is defined by mistake:
 
         * CMPI_RC_ERR_NOT_FOUND
@@ -287,7 +287,7 @@ and will be brought forward as review comments to the TOG review of the spec.
     to as "sc" in the description of the CMPI_RC_ERR_INVALID_HANDLE return code.
 
     Proposal: Change "sc" to "pr" in that description.
-    
+
     Already done in header files.
 
 16. In CMPIPredicateFT.evaluateUsingAccessor(), the name of the "pr" argument
@@ -314,9 +314,9 @@ and will be brought forward as review comments to the TOG review of the spec.
     "The msgId argument is a message ID ..."
 
     This is flawed terminology,and inconsistent with other similar descriptions.
-    
+
     Proposal: Change that description to:
-    
+
     "The msgId argument points to a string specifying a message ID ..."
 
     Already done in header files.
@@ -329,7 +329,7 @@ and will be brought forward as review comments to the TOG review of the spec.
     argument in that function:
 
     "See Table 10 for a definition of entry names."
-    
+
     Already done in header files.
 
 20. Inconsistencies in description text for common return codes:
@@ -419,7 +419,7 @@ and will be brought forward as review comments to the TOG review of the spec.
 
     Proposal: Change "sc" to "pr" in the return code description of these
     functions.
-    
+
     Already done in header files.
 
 26. In CMPIInstanceMIFT.getInstance(), there is no return code for
@@ -429,8 +429,27 @@ and will be brought forward as review comments to the TOG review of the spec.
     (e.g. via an array of embedded instances), and the server can get to its
     limits also because of other things than a large result set.
     Finally, supporting this return code makes it easier for up-call
-    implementations, which then can revert to functions that do not map 1:1. 
-    
+    implementations, which then can revert to functions that do not map 1:1.
+
     Proposal: Suggest to add "server limits exceeded" return code to
     CMPIInstanceMIFT.getInstance(), and to CMPIBrokerFT.getInstance().
+
+27. In CMPIBrokerFT.invokeMethod(), the description of the "out" argument states
+    that the MI shall not release the CMPIArgs object. However, that object is
+    allocated by the MI, and the statement in the description should not be
+    about the CMPIArgs object, but about the objects that are being filled into
+    the CMPIArgs object, which are representing the method output parameters.
+
+    Proposal: Change the following sentence in the description of the "out"
+    argument
+    from:
+
+    "The returned CMPIArgs object shall not be explicitly released by the MI,
+     because it will be automatically released by the MB (see Subclause 4.1.7)."
+
+    to:
+
+    "The objects returned in the CMPIArgs object shall not be explicitly
+     released by the MI; they will be automatically released by the MB, as
+     described in Subclause 4.1.7."
 
