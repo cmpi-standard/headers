@@ -16,6 +16,7 @@
 * Improved description of CMPIFlags by copying text from spec
 * Resolved issue with 'type' argument in return code description of
   CMPIBrokerEncFT.classPathIsA()
+* Resolved issue with missing '...' args in CMPIBrokerEncFT.getMessage()
 
 30 June - Karl
 --------------

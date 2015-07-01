@@ -701,8 +701,8 @@ typedef struct _CMPIBrokerFT {
      the calling MI.
      @see CBModifyInstance()
 
-     @todo KS: Review this description.@n
-           AM: Updated it as I think it should be. DONE?
+     @todo DONE? KS: Review this description.@n
+           AM: Updated it as I think it should be.
     */
     CMPIStatus (*modifyInstance) (const CMPIBroker* mb, const CMPIContext* ctx,
         const CMPIObjectPath* instPath, const CMPIInstance* modInst,
@@ -2047,9 +2047,10 @@ typedef struct _CMPIBrokerEncFT {
      *   @{
      */
 
-    /**
+    /** DONE_AM
      @brief Test whether a class path is of a specified class or any of its
         subclasses.
+
      CMPIBrokerEncFT.classPathIsA() tests whether a class path is of a
      specified class or any of that class’s subclasses.
 
@@ -2080,15 +2081,14 @@ typedef struct _CMPIBrokerEncFT {
          is invalid.
      @see CMClassPathIsA()
 
-     @todo KS: Spec includes CMPI_RC_INVALID_PARAMETER (type format is invalid).
-           Does that Error make sense? There is no type arg.
+     @todo DONE? KS: Spec includes CMPI_RC_INVALID_PARAMETER (type format is invalid).
+           Does that Error make sense? There is no type arg.@n
            AM: The only other occurrence of that return code description is in
            CMPIBrokerEncFT.isOfType(). Maybe a false copy of the text from
-           that other function?
-           In any case, my take is the return code can show up for invalid
+           that other function?@n
+           AM: In any case, my take is the return code can show up for invalid
            formats of the string in the className parameter. I have changed
            the text here and have opened a spec issue.
-           DONE?
     */
     CMPIBoolean (*classPathIsA) (const CMPIBroker* mb,
         const CMPIObjectPath* classPath, const char* className,
@@ -2192,42 +2192,42 @@ typedef struct _CMPIBrokerEncFT {
     CMPIString* (*getType) (const CMPIBroker* mb, const void* object,
         CMPIStatus* rc);
 
-    /**
-     @brief Get translated MB implementation-specific message text.
-         (**Deprecated**)
+    /** DONE_AM
+     @brief get a translated MB implementation-specific message text by message
+         ID. (**Deprecated**)
 
      CMPIBrokerEncFT.getMessage() gets a translated MB implementation-specific
-     message text by @p msgId argument. The language of the message text
-     depends on the MB language setting.
-
-     CMPIBrokerEncFT.getMessage() has been deprecated in CMPI 2.1 and should
-     no longer be used; use CMPIBrokerEncFT.getMessage2() instead.
-     (**Deprecated**)
+     message text by message ID. The language of the message text depends on
+     the MB language setting.
 
      @param mb Points to a CMPIBroker structure.
-     @param msgId
-     @parblock
-     Points to a string specifying the default message
-     template that will be used when message translation is not supported by
-     the MB or @p msgId cannot be located.
-
-     The message template string specified in @p defMsg may contain up to ten
-     message insert triggers
-     ($0 through $9). Each insert trigger string will be replaced with a
-     string representation of the value of the corresponding insert pair in
-     the variable arguments of this function. The MI is not affected when
-     message translation is not supported by the MB, or the message cannot
-     be found, because this function still succeeds and returns a message
-     with expanded message insert triggers.
-     @endparblock
-     @param defMsg The default message. Used when message translation is not
-         supported
+     @param msgId Points to a string specifying a message ID that is used by the
+         MB to locate a message template. The message ID values and
+         corresponding message templates are MB implementation-specific.
+     @param defMsg Points to a string specifying the default message template
+         that will be used when message translation is not supported by the MB
+         or @p msgId cannot be located. The message template string specified
+         in @p defMsg may contain up to ten message insert triggers ($0 through
+         $9). Each insert trigger string will be replaced with a string
+         representation of the value of the corresponding insert pair in the
+         variable arguments of this function. The MI is not affected when
+         message translation is not supported by the MB, or the message cannot
+         be found, because this function still succeeds and returns a message
+         with expanded message insert triggers.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
-     @param count The number of message substitution values.
+     @param count The number of message insert pairs in the range 0 to 10.
+     @param ... The variable arguments of this function are @p count pairs of
+         arguments representing the message insert pairs as follows:
+         `type, value`
+         whereby @p type is a @ref CMPIType value and @p value is a value of
+         that type.
+         The following types are supported: @ref CMPI_sint32,
+         @ref CMPI_uint32, @ref CMPI_sint64, @ref CMPI_uint64, @ref CMPI_real64,
+         @ref CMPI_boolean, @ref CMPI_chars, and @ref CMPI_string.
      @return @parblock
-         If successful, returns a pointer to a new CMPIString object containing
-         either the translated or default message will be returned.
+         If successful, a pointer to a new CMPIString object containing either
+         the translated or default message will be returned.
 
          If not successful, the default message without insert resolution will
          be returned.
@@ -2245,15 +2245,16 @@ typedef struct _CMPIBrokerEncFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_TYPE_MISMATCH` - Invalid insert pair.
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` - Count value range violation.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - @p mb handle is
-         invalid.
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p count value range violation.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
      @deprecated This function is deprecated since CMPI 2.1. Use
          CMPIBrokerEncFT.getMessage2() instead.
-     @todo add see macro
 
-     @todo does not reflect the ... arguments in the documentation
+     @todo KS: Add see macro
+
+     @todo DONE. KS: Does not reflect the ... arguments in the documentation.
+           AM: Added param entry for '...'.
     */
     CMPIString* (*getMessage) (const CMPIBroker* mb, const char* msgId,
         const char* defMsg, CMPIStatus* rc, CMPICount count, ...);
