@@ -21,6 +21,7 @@
 * Resolved some more todos.
 * Ordered @see always before any @addedNNN, @requiredNNN, @deprecated.
 * Moved some spec related todos from header files to specissues.md.
+* Brought introductory text in Errors section in sync with spec.
 
 30 June - Karl
 --------------
