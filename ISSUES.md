@@ -67,6 +67,9 @@ to just list those things that are not specific and could be listed by
   Also in this section there is statement "Test masks for CMPIFlags are
   defined here" with here a hyperlink.  But it goes nowhere.
 
+  AM: DONE, removed 'integral' and improved linking to test masks, for
+  all occurrences.
+
 * modules.h shows up in file list of HTML output (Files tab).
 
 * Should we use @since instead of @version for indicating that a function was

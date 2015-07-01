@@ -78,11 +78,11 @@ Changes during finalization of the CMPI specification
         properties is invalid.
 
       It seems we need to add those to the up-call.
-      
+
    b) The corresponding MI function (CMPIInstanceMIFT.enumerateInstancesFiltered())
       has return codes for which the following direct equivalents are missing
       in this up-call:
-      
+
       * CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED - Limits exceeded.
 
       The MI function of the MI targeted by the up-call could return these,
@@ -147,7 +147,7 @@ Changes during finalization of the CMPI specification
    are usually where normative requirements language is also used for the MB.
 
    The following places should be updated to change "shall" to "will":
-   
+
    * "If no such instances are found, the function shall return success with
      an empty enumeration", in CMPIBrokerFT.enumerateInstancesFiltered(),
      CMPIBrokerFT.associatorsFiltered(), and
@@ -179,7 +179,7 @@ Changes during finalization of the CMPI specification
     refers specifically to "filterQuery". It would be consistent with the
     previous issue to generalize this as well, so that the argument name
     is not mentioned in the short description.
-    
+
     Change:
 
     "... returning only those that match the filterQuery argument"
@@ -218,3 +218,13 @@ Changes during finalization of the CMPI specification
 
     Already done in header files.
 
+15. In CMPIBrokerEncFT.classPathIsA(), the description text of return code
+    CMPI_RC_INVALID_PARAMETER is: "The type format is invalid". This function
+    does not have a 'type' argument.
+
+    However, it does have a className argument, the format of which can possibly
+    be invalid.
+
+    Change description text to: "The className format is invalid".
+
+    Already done in header files.

@@ -701,8 +701,8 @@ typedef struct _CMPIBrokerFT {
      the calling MI.
      @see CBModifyInstance()
 
-     @todo Review this description. Andy: Updated it as I think it should be.
-         Comments by KS.  See my proposal for the return codes above.
+     @todo KS: Review this description.@n
+           AM: Updated it as I think it should be. DONE?
     */
     CMPIStatus (*modifyInstance) (const CMPIBroker* mb, const CMPIContext* ctx,
         const CMPIObjectPath* instPath, const CMPIInstance* modInst,
@@ -2048,24 +2048,24 @@ typedef struct _CMPIBrokerEncFT {
      */
 
     /**
-     @brief Determine if a class path is of a specific class or its subclasses.
-
-     CMPIBrokerEncFT.classPathIsA() tests whether a the
-     argument @p className is of argument @p classPath or any of @p classPath
-     subclasses.
+     @brief Test whether a class path is of a specified class or any of its
+        subclasses.
+     CMPIBrokerEncFT.classPathIsA() tests whether a class path is of a
+     specified class or any of that class’s subclasses.
 
      @param mb Points to a CMPIBroker structure.
      @param classPath Points to the CMPIObjectPath object representing
          the class path that is being tested. It shall contain the namespace
          and class name components. Any key components in that CMPIObjectPath
          object will be ignored.
+     @param className Specifies the class name to be tested for.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return If successful, a CMPIBoolean value indicating the test result will
          be returned, as follows:
-         @li True indicates that the class path is of the
-         specified class or any of that class,s subclasses;
-         @li False indicates that this is not the case.
+         @li True indicates that the class path is of the specified class or
+             any of that class's subclasses
+         @li False indicates that this is not the case
 
      @par Errors
      The function return status will indicate one of the following @ref CMPIrc
@@ -2073,16 +2073,22 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace implied by
          @p classPath is invalid.
-     @li `CMPI_RC_ERR_NOT_FOUND` - The class implied by @p classPath is
-         not found.
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` - The type format is invalid.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Either the @p mb or
-         @p classPath handle is invalid.
+     @li `CMPI_RC_ERR_NOT_FOUND` - The class implied by @p classPath is not
+         found.
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p className format is invalid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - Either the @p mb or @p classPath handle
+         is invalid.
      @see CMClassPathIsA()
 
-     @todo KS Spec includes CMPI_RC_INVALID_PARAMETER (type format
-         is invalid. Does that Error make sense? There is no type
-         arg.
+     @todo KS: Spec includes CMPI_RC_INVALID_PARAMETER (type format is invalid).
+           Does that Error make sense? There is no type arg.
+           AM: The only other occurrence of that return code description is in
+           CMPIBrokerEncFT.isOfType(). Maybe a false copy of the text from
+           that other function?
+           In any case, my take is the return code can show up for invalid
+           formats of the string in the className parameter. I have changed
+           the text here and have opened a spec issue.
+           DONE?
     */
     CMPIBoolean (*classPathIsA) (const CMPIBroker* mb,
         const CMPIObjectPath* classPath, const char* className,
@@ -7759,15 +7765,18 @@ typedef struct _CMPIArrayFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
      @see CMGetArrayType()
 
-     @todo (KS) CMPI_null does not show like.@n
-           AM: No link? Reason is that CMPI_null (CMPI_string/A9 has no
-           description. Once that was added, it was still necessary to add
-           "@ref".
+     @todo KS: CMPI_null does not show like.@n
+           AM: I assume you mean "no link"? Reason was that
+           CMPI_null (CMPI_string/stringA) had no description. Once that was
+           added, it was still necessary to add "@ref".
+           AM: DONE
 
-     @todo (KS) The "@p ar" does not highlight or otherwise mark the "ar".@n
+     @todo KS: The "@p ar" does not highlight or otherwise mark the "ar".@n
            AM: In my output, the "ar" does become monospaced (which is the
-           current effect of "@p"). Only issue is that on my firefox there
-           is no visible difference.
+           current effect of "@p").@n
+           KS: Only issue is that on my firefox there is no visible
+           difference.@n
+           AM: DONE?
     */
     CMPIType (*getSimpleType) (const CMPIArray* ar, CMPIStatus* rc);
 

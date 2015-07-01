@@ -11,6 +11,11 @@
   - in Andys local workspace: pull
 * Renamed updates.txt to updates.md
 * Moved issues from ISSUES.md to a new doxygenissues.md
+* Removed use of 'integral' on some types in cmpidt.h
+* Improved the way test mask sections are linked in cmpidt.h
+* Improved description of CMPIFlags by copying text from spec
+* Resolved issue with 'type' argument in return code description of
+  CMPIBrokerEncFT.classPathIsA()
 
 30 June - Karl
 --------------
