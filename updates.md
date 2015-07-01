@@ -24,7 +24,8 @@
 * Brought introductory text in Errors section in sync with spec.
 * Moved thread function typedefs into cmpidt.h and described spec update.
 * Created special commands @capXXXXX for capabilities and used them.
-
+* Moved issues from ISSUES.md to TODOs.md and as @todo into headers.
+ 
 30 June - Karl
 --------------
 

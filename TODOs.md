@@ -4,22 +4,31 @@ LIST OF TODOs for CMPI header file Documentation
 * Karl: Test against a build.
 
 * Karl: Clean up cmpimacs.
+
   Status: Most links from macs back in place but not all working.  Many of the
   functions do not have macros.  Also lots of @todo add macros in cmpift.h
   as I worked my way through and I have to weed those out.
 
 * Andy: Sync function descriptions in cmpift.h with spec.
+
   Status: In progress, this is being done in order of the functions in the file;
   TODO_AM indicates where this stands, DONE_AM marks specific ones in the yet
   unprocessed area.
 
-* make decision about the poor doc in macro files. Remove much of it, make same
-  as cmpift, or leave it.
+* Karl: Make decision about the poor doc in macro files. Remove much of it, make
+  same as cmpift, or leave it.
 
-  Discuss on telecon
+  Discuss on telecon.
 
-NOTE: The close date for this work is actually shortly before the final release
-of the spec at end of July.
+  Telecon 7/1: Direction was to minimize documentation to brief description and
+  see to the underlying function, unless that is not possible.
+
+* Karl: This stuff cries out for examples.
+
+  Discuss next telecon.
+
+* NOTE: The close date for this work is actually shortly before the final release
+  of the spec at end of July.
 
 * Both: figure out how we can get this mess of files into a web without
   uploading the many hundreds of files. Or into the wiki with the same issue.
@@ -35,7 +44,8 @@ of the spec at end of July.
   was opposed to putting the headers on github so my guess is that they have
   issues with this also. His comment was:
 
-Response from M.Kirk about using github:
+* Response from M.Kirk about using github:
+
     We have justs conducted a small experiment with using Github for development in
     another Forum, and the problem is that it puts it outside of our SSO
     environment, and that makes it difficult for meeting our rules on access
@@ -47,5 +57,4 @@ Response from M.Kirk about using github:
 
     Martin
 
-Therefore I am going elsewhere in OpenGroup to see if we can get better answer.
-
+  Therefore I am going elsewhere in OpenGroup to see if we can get better answer.

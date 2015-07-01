@@ -461,6 +461,5 @@
   @}
 @}
 
-@todo DONE: Can we get these descriptions within the 80 column rule.@n
-      Andy: I found that ending the line with backslash does the trick.
+@todo AM: modules.h shows up in file list of HTML output (Files tab).
 */
