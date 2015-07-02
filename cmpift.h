@@ -286,6 +286,9 @@ typedef struct _CMPIBrokerFT {
      * @brief Informal MB-specific name for this MB.
      *
      * @see CBBrokerName()
+     * @todo (KS) what is the source that sets the brokerName value.
+     *       I note in Pegasus that we do not use it for much of
+     *       anything.
      */
     const char* brokerName;
 
