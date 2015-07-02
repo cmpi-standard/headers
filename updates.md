@@ -10,6 +10,7 @@
 * Moved @defgroup commands from cmpipl.h to modules.h, for consistency;
   Created new modules group for symbols definable by CMPI user and moved
   CMPI_PLATFORM_xxx and CMPI_VERSION into that group.
+* Added descriptions to invocation flags, and fixed linking to them.
 
 1 July - Andy
 -------------
