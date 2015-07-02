@@ -4,77 +4,18 @@ Changes during finalization of the CMPI specification
 These are proposals for spec changes that will be voted in the CMPI WG,
 and will be brought forward as review comments to the TOG review of the spec.
 
+Changes throughout the spec document
+------------------------------------
+
 1.  Terminology inconsistency between "CMPIBroker object" and
-    "CMPIBroker structure". The former occurs 15 times, the latter occurs
-    52 times.
+    "CMPIBroker structure".
 
-    Proposal: Change all occurrences of "CMPIBroker object" to
-    "CMPIBroker structure", throughout the entire spec document.
+    Proposal: Change all (15) occurrences of "CMPIBroker object" to
+    "CMPIBroker structure", throughout the spec document.
 
-    Already done in header files.
+    Header files: DONE
 
-2.  In CMPIObjectPathFT.getKeyAt(), the description for the "name" output
-    argument misses one level of pointer indirection.
-
-    Proposal: Change the first sentence in the description of the "name"
-    argument of that function
-    from:
-
-    "The name output argument points to a CMPIString object that upon success
-     will have been updated with the name of the key binding."
-
-    to:
-
-    "The name output argument, if not NULL, points to a CMPIString pointer
-     that upon success will have been updated to point to a CMPIString object
-     containing the name of the key binding."
-
-    Already done in header files.
-
-3.  In CMPIObjectPathFT.getKey() and CMPIObjectPathFT.getKeyAt():
-
-    Their "RETURN VALUE" section has a paragraph "If successful, ...",
-    followed by a paragraph "If not successful", followed by remaining
-    paragraphs. The remaining paragraphs are meant to apply only to the
-    successful case, but given their location after the paragraph about the
-    not successful case, they can easily be misunderstood to apply to
-    both cases, or even to just the not successful case.
-
-    Proposal: Move the paragraph "If not successful, ..." to the end of the
-    "RETURN VALUE" section.
-
-    Already done in header files.
-
-4.  In CMPIBrokerFT.prepareAttachThread(), there are return codes documented,
-    but the function has no means to return return codes.
-
-    Our original CR during spec development proposed to remove the return
-    codes, but we apparently failed to correctly apply that part of the CR to
-    the spec during the spec development cycle.
-
-    Proposal: Replace the content of the ERRORS section of
-    CMPIBrokerFT.prepareAttachThread() with this sentence:
-
-    "For historical reasons, no additional error information is passed back."
-
-    Already done in header files.
-
-5.  In CMPIBrokerFT.enumerateInstanceNames(), the deprecation note for return
-    code CMPI_RC_ERR_NOT_FOUND mentions a "source instance", which is a term we
-    use for association calls but not for enumeration calls.
-
-    Proposal: Change the description of return code CMPI_RC_ERR_NOT_FOUND in
-    CMPIBrokerFT.enumerateInstanceNames() from:
-
-    "Instead of using this return code if the source instance does not exist,..."
-
-    To:
-
-    "Instead of using this return code if no instances exist,..."
-
-    Already done in header files.
-
-6.  The entries of CMPIContext are referenced inconsistently:
+2.  The entries of CMPIContext are referenced inconsistently:
 
     The description of CMPIContext pointer arguments in any MI or MB functions
     uses:
@@ -95,12 +36,367 @@ and will be brought forward as review comments to the TOG review of the spec.
       * language(s) used by the MB for any language-specific data passed to MI
         functions
 
-    Proposal: Change the references to these entries in any MI or MB functions
-    to be of the form "CMPIInitNameSpace entry", etc.
+    Proposal:
 
-    Need to apply the result to the header files.
+    The general approach is to change the references to these entries in any MI
+    or MB functions to add the name of the context entry (e.g.
+    CMPIInitNameSpace).
 
-7.  The CMPIBrokerFT structure was not extended to add the prototypes for the
+    More specifically:
+
+    * Change all (17) occurrences of:
+
+      "... CMPIContext object that specifies the same principal, role, accept
+      language, and content language as the CMPIContext object ..."
+
+      to:
+
+      "... CMPIContext object that specifies the same principal (CMPIPrincipal
+      entry), role (CMPIRole entry), accept language (CMPIAcceptLanguage
+      entry), and content language (CMPIContentLanguage entry) as the
+      CMPIContext object ..."
+
+    * Change all (14) occurrences of:
+
+      "Any invocation flags in the ctx argument ..."
+
+      to:
+
+      "Any invocation flags (CMPIInvocationFlags entry) in the ctx argument ..."
+
+    * Change all (3) occurrences of:
+
+      "The MI may specify invocation flags as needed."
+
+      to:
+
+      "The MI may specify invocation flags (CMPIInvocationFlags entry) as
+      needed."
+      
+    Header files: DONE
+
+3.  Inconsistent use of "shall" for the ctx argument in some MB functions.
+
+    Some MB functions use "The ctx argument shall point to ...", and some use
+    "The ctx argument points to ...". That inconsistency has no technical
+    reason, and may raise questions as to why there is a difference. Similar
+    arguments are specified without "shall".
+
+    Proposal: Change all (8) occurrences of:
+
+    "The ctx argument shall point"
+
+    to:
+
+    "The ctx argument points"
+
+    Header files: DONE
+
+4.  Terminology inconsistency in the description of the CMPIStatus return value.
+
+    Proposal: Change all (84) occurrences of the following text throughout
+    the spec from:
+
+      "A CMPIStatus structure indicating the function return status ..."
+
+      to:
+
+      "A CMPIStatus structure containing the function return status ..."
+
+    Header files: DONE
+
+5.  There are inconsistencies in description text for some common return codes.
+
+    Proposal: Change all return code descriptions listed below, to use the
+    option marked with "use this one", throughout the document. The number in
+    parenthesis is the number of occurrences in the spec document.
+
+    * CMPI_RC_OK:
+      - Function successful (144) <- use this one
+      - Function succeeded (25)
+      - Operation successful (9)
+      - Indicates the CMPIError object was successfully created (2)
+
+      Header files: DONE
+
+    * CMPI_RC_ERR_FAILED
+      - Other error occurred (23) <- use this one
+      - Unspecific error occurred (35)
+      - A generic error occurred (27)
+
+      Header files: DONE
+
+    * CMPI_RC_ERR_NOT_SUPPORTED
+      - Function is not supported by ... (91) <- use this one
+      - Function not supported by ... (3)
+
+      Header files: DONE
+
+    * CMPI_RC_ERR_INVALID_HANDLE
+      - The {xxx} handle is invalid (103) <- use this one
+      - Invalid encapsulated data type handle (18)
+      - The {xxx} argument is invalid (2), in these functions:
+        * CMPIObjectPathFT.toString()
+        * CMPIBrokerEncFT.newCMPIError()
+
+      TODO: List functions for second case.
+
+      Header files: TODO
+
+    * CMPI_RC_ERR_INVALID_NAMESPACE
+      - The namespace specified in the {xxx} argument is invalid or does not
+        exist (0) <- use this one
+      - The namespace specified in the {xxx} argument does not exist (18)
+      - The namespace is invalid (3)
+      - The namespace {xxx} is invalid (1)
+      - The namespace specified in {xxx} is invalid (1)
+      - The namespace implied by {xxx} is invalid (1)
+
+      Header files: TODO
+
+    * CMPI_RC_ERR_INVALID_CLASS
+      - The class specified in the {xxx} argument is invalid or does not
+        exist (0) <- use this one
+      - The CIM class does not exist in the specified namespace (3)
+      - The class specified in the {xxx} argument does not exist (18)
+
+      Header files: TODO
+
+6.  Some return code names are split into two words at an underscore boundary.
+    That is mostly done in tables, and looks nicer than breaking the name at
+    whatever character hits the cell boundary, but it makes searching for a
+    return code name much harder.
+
+    Proposal: Remove the break character between the two parts of the return
+    code name, so that it becomes one word.
+
+    There are 29 occurrences of this issue, and they can be found by searching
+    for "_ " (underscore followed by space).
+
+    Header files: Not relevant.
+
+7.  Inconsistencies in referencing the attributes of CMPIError objects:
+
+    * "attribute of a/the CMPIError ..." (76) <- proposed form
+    * "attribute in a/the CMPIError ..." (3)
+
+    Proposal: Change any other forms to the proposed form.
+
+    Header files: DONE
+
+8.  Inconsistency in how the Context Data capability is referenced.
+    In Table 8, this capability is named "Context Data", however it is
+    referenced throughout the document as
+    "Context Data Support capability" (4 occurrences).
+
+    Proposal: Consistent with other capability names, change the phrase
+    "Context Data Support capability" to "Context Data capability", throughout
+    the document.
+
+    Header files: DONE
+
+Changes that apply to a number of functions
+-------------------------------------------
+
+1.  Some return codes were intended to be added in CMPI 2.1, and are also
+    mentioned in the change history to have been added, but are not actually
+    showing up in the list of return codes in the ERRORS section.
+
+    Proposal: Add the missing return codes as follows:
+
+    - Add an item with the following return code:
+
+      * CMPI_RC_ERR_INVALID_HANDLE - The ctx, filter, or classPath handles are
+        invalid.
+
+      after the item for CMPI_RC_ERR_ACCESS_DENIED, for the following functions:
+      
+      * CMPIIndicationMIFT.authorizeFilter()
+      * CMPIIndicationMIFT.activateFilter()
+      * CMPIIndicationMIFT.deActivateFilter()
+
+    - Add an item with the following return code:
+
+      * CMPI_RC_ERR_INVALID_HANDLE - The ctx or collInst handles are invalid.
+
+      after the item for CMPI_RC_ERR_ACCESS_DENIED, for the following functions:
+
+      * CMPIIndicationMIFT.authorizeFilterCollection()
+      * CMPIIndicationMIFT.activateFilterCollection()
+      * CMPIIndicationMIFT.deActivateFilterCollection()
+
+    Header files: DONE
+
+2.  Some functions got new return codes in CMPI 2.1, and they were simply added
+    to the end of the existing list, without considering any rules for their
+    ordering. While we did not research in detail what the ordering rules might
+    have been, there are some obvious ones that should be adhered to.
+
+    Proposals:
+
+    - Move the list item for CMPI_RC_ERR_FAILED to the end of the list, for all
+      functions where that is not the case yet.
+
+    - Move the list item for CMPI_RC_ERR_NOT_SUPPORTED after the list item for
+      CMPI_RC_OK, for all functions where that is not the case yet. These are:
+
+      * CMPIInstanceFT.setPropertyFilter()
+      * CMPIErrorFT.release()
+      * CMPIBrokerEncFT.newCMPIError()
+      * CMPIPropertyMIFT.setProperty()
+      * CMPIPropertyMIFT.getProperty()
+      * CMPIPropertyMIFT.setPropertyWithOrigin()
+
+    - Move the row for CMPI_RC_ERR_ACCESS_DENIED after the row for
+      CMPI_RC_ERR_NOT_SUPPORTED, for all functions where that is not the case
+      yet. These are:
+
+      * CMPIPropertyMIFT.setProperty()
+      * CMPIPropertyMIFT.getProperty()
+      * CMPIPropertyMIFT.setPropertyWithOrigin()
+
+    - Move the list item for CMPI_RC_ERR_INVALID_HANDLE up in the list, as
+      follows:
+
+      * after CMPI_RC_ERR_ACCESS_DENIED (if that exists), or
+      * after CMPI_RC_ERR_NOT_SUPPORTED (if that exists), or
+      * after CMPI_RC_OK.
+
+      for all functions where that is not the case yet.
+            
+    Header files: TODO: Need to apply proposal, once approved.
+
+3.  All "up-calls" do not have the return code for "limits exceeded".
+    However, because some of them call target MI functions that may return this
+    return code, they would be faced with the difficulty on how to handle it.
+
+    Proposal: Add the following return code:
+
+      * CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED - Limits exceeded.
+
+    at the end (or before CMPI_RC_ERR_FAILED if that is at the end) of the
+    return code list of only the following functions:
+
+      * CMPIBrokerFT.enumerateInstances()
+      * CMPIBrokerFT.enumerateInstanceNames()
+      * CMPIBrokerFT.enumerateInstancesFiltered()
+      * CMPIBrokerFT.associators()
+      * CMPIBrokerFT.associatorNames()
+      * CMPIBrokerFT.associatorsFiltered()
+      * CMPIBrokerFT.references()
+      * CMPIBrokerFT.referenceNames()
+      * CMPIBrokerFT.referencesFiltered()
+      * CMPIBrokerFT.execQuery()
+      * CMPIBrokerFT.invokeMethod()
+      * CMPIBrokerFT.getInstance()
+
+    Header files: DONE
+
+4.  Incorrect use of "shall" for some MB functions.
+
+    Reason: The spec is generally written from an MI perspective, i.e. it uses
+    normative requirements language ("shall", "should") when it comes to
+    requirements against the MI, and it uses "will" or factual statements (e.g.
+    "returns") when it comes to descriptions about the behavior of MB functions.
+    The MB functions mentioned below use "shall" inconsistently with this
+    approach.
+
+    Proposal: Update the following sentence in the first paragraph of the
+    DESCRIPTION section, from:
+
+    "If no such instances are found, the function shall return success ..."
+
+    to:
+
+    "If no such instances are found, the function will return success ..."
+
+    For the following functions:
+
+    * CMPIBrokerFT.enumerateInstancesFiltered()
+    * CMPIBrokerFT.associatorsFiltered()
+    * CMPIBrokerFT.referencesFiltered()
+
+    Header files: DONE
+
+5.  In the qualifier functions, the name of the CMPIObjectPath argument
+    was changed from "op" to "classPath", which is inconsistent with the
+    other functions on CMPIObjectPath.
+
+    Proposal: Change the "classPath" argument name back to "op", for the
+    following functions:
+
+    * CMPIObjectPathFT.getClassQualifier()
+    * CMPIObjectPathFT.getPropertyQualifier()
+    * CMPIObjectPathFT.getMethodQualifier()
+    * CMPIObjectPathFT.getParameterQualifier()
+
+    Header files: DONE
+
+Changes for specific spots in the spec document
+-----------------------------------------------
+
+1.  In CMPIObjectPathFT.getKeyAt(), the description for the "name" output
+    argument misses one level of pointer indirection.
+
+    Proposal: Change the first sentence in the description of the "name"
+    argument of that function
+    from:
+
+    "The name output argument points to a CMPIString object that upon success
+     will have been updated with the name of the key binding."
+
+    to:
+
+    "The name output argument, if not NULL, points to a CMPIString pointer
+     that upon success will have been updated to point to a CMPIString object
+     containing the name of the key binding."
+
+    Header files: DONE
+
+2.  In CMPIObjectPathFT.getKey() and CMPIObjectPathFT.getKeyAt():
+
+    Their "RETURN VALUE" section has a paragraph "If successful, ...",
+    followed by a paragraph "If not successful", followed by remaining
+    paragraphs. The remaining paragraphs are meant to apply only to the
+    successful case, but given their location after the paragraph about the
+    not successful case, they can easily be misunderstood to apply to
+    both cases, or even to just the not successful case.
+
+    Proposal: Move the paragraph "If not successful, ..." to the end of the
+    "RETURN VALUE" section.
+
+    Header files: DONE
+
+3.  In CMPIBrokerFT.prepareAttachThread(), there are return codes documented,
+    but the function has no means to return return codes.
+
+    Our original CR during spec development proposed to remove the return
+    codes, but we apparently failed to correctly apply that part of the CR to
+    the spec during the spec development cycle.
+
+    Proposal: Replace the content of the ERRORS section of
+    CMPIBrokerFT.prepareAttachThread() with this sentence:
+
+    "For historical reasons, no additional error information is passed back."
+
+    Header files: DONE
+
+4.  In CMPIBrokerFT.enumerateInstanceNames(), the deprecation note for return
+    code CMPI_RC_ERR_NOT_FOUND mentions a "source instance", which is a term we
+    use for association calls but not for enumeration calls.
+
+    Proposal: Change the description of return code CMPI_RC_ERR_NOT_FOUND in
+    CMPIBrokerFT.enumerateInstanceNames() from:
+
+    "Instead of using this return code if the source instance does not exist,..."
+
+    To:
+
+    "Instead of using this return code if no instances exist,..."
+
+    Header files: DONE
+
+5.  The CMPIBrokerFT structure was not extended to add the prototypes for the
     new filtered "up-calls":
 
       * CMPIBrokerFT.enumerateInstancesFiltered()
@@ -130,9 +426,9 @@ and will be brought forward as review comments to the TOG review of the spec.
                  const char**, const char*, const char*, CMPIStatus*);
         } CMPIBrokerFT;
 
-    Already done in header files.
+    Header files: DONE
 
-8.  In CMPIBrokerFT.enumerateInstancesFiltered(), the list of return codes
+6.  In CMPIBrokerFT.enumerateInstancesFiltered(), the list of return codes
     has these issues:
 
     a) The following return codes are missing:
@@ -143,9 +439,9 @@ and will be brought forward as review comments to the TOG review of the spec.
         exist.
       * CMPI_RC_ERR_INVALID_PARAMETER - The property list specified in
         properties is invalid.
-      * CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED - Limits exceeded.
 
-      Proposal: Add those return codes to the ERRORS section of the function.
+      Proposal: Add those return codes to the ERRORS section of the function,
+      after the entry for "access denied".
 
       Reason: These return codes are needed because the target MI could
       return them, and this MB function needs to be able to handle them by
@@ -164,61 +460,78 @@ and will be brought forward as review comments to the TOG review of the spec.
       CMPIBrokerFT.enumerateInstances(), which has this return code
       deprecated.
 
-    Need to apply the result to the header files.
+    Header files: DONE
 
-9.  In CMPIBrokerFT.associatorsFiltered(), the list of return codes misses
+7.  In CMPIInstanceMIFT.getInstance(), there is no return code for
+    "limits exceeded".
+
+    Reason: First of all, the result set can be large even for a single instance
+    (e.g. via an array of embedded instances), and the server can get to its
+    limits also because of other things than a large result set.
+    Finally, supporting this return code makes it easier for up-call
+    implementations, which then can revert to functions that do not map 1:1.
+
+    Proposal: Add the following row:
+
+      * CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED | WIPG0240 | Limits exceeded.
+
+    before the rows for CMPI_RC_ERR_FAILED.
+
+    Header files: DONE
+
+8.  In CMPISubCondFT.getPredicate(), CMPI_RC_ERR_NO_SUCH_PROPERTY was added.
+    The change history in the function description incorrectly states that
+    code CMPI_RC_ERR_INVALID_PARAMETER has added. A corresponding entry in
+    the global change history is missing.
+
+    Proposals:
+
+    - In the change history text of the function, change
+      "CMPI_RC_ERR_INVALID_PARAMETER" to "CMPI_RC_ERR_NO_SUCH_PROPERTY".
+
+    - In C.1 "Changes in CMPI 2.1", add a bullet item at the end of section
+      "Changes to Return Codes":
+
+      "Added return code CMPI_RC_ERR_NO_SUCH_PROPERTY to
+      CMPISubCondFT.getPredicate()."
+
+    Header files: Not relevant.
+    
+9.  In CMPIInstanceFT.setPropertyFilter(), the "keyList" argument in the
+    description of return code CMPI_RC_ERR_INVALID_PARAMETER has regular font
+    and should be changed to have monospaced font.
+
+    Header files: Not relevant.
+    
+10. In CMPIBrokerFT.associatorsFiltered(), the list of return codes misses
     these return codes:
 
-    * CMPI_RC_ERR_INVALID_NAMESPACE - The namespace specified in instPath does
-      not exist.
-    * CMPI_RC_ERR_INVALID_CLASS - The class specified in instPath does not
-      exist.
+    * CMPI_RC_ERR_INVALID_NAMESPACE - The namespace specified in instPath is
+      invalid or does not exist.
+    * CMPI_RC_ERR_INVALID_CLASS - The class specified in instPath is invalid or
+      does not exist.
     * CMPI_RC_ERR_INVALID_PARAMETER - The assocClass, resultClass, role,
       resultRole, or properties arguments are invalid.
 
-    Proposal: Add those return codes to the ERRORS section of the function.
+    Proposal: Add those return codes to the ERRORS section of the function,
+    after the entry for CMPI_RC_ERR_ACCESS_DENIED.
 
-    Need to apply the result to the header files.
+    Header files: DONE
 
-10. In CMPIBrokerFT.referencesFiltered(), the list of return codes misses
+11. In CMPIBrokerFT.referencesFiltered(), the list of return codes misses
     these return codes:
 
-    * CMPI_RC_ERR_INVALID_NAMESPACE - The namespace specified in instPath does
-      not exist.
-    * CMPI_RC_ERR_INVALID_CLASS - The class specified in instPath does not
-      exist.
+    * CMPI_RC_ERR_INVALID_NAMESPACE - The namespace specified in instPath is
+      invalid or does not exist.
+    * CMPI_RC_ERR_INVALID_CLASS - The class specified in instPath is invalid or
+      does not exist.
     * CMPI_RC_ERR_INVALID_PARAMETER - The resultClass, role, or properties
       arguments are invalid.
 
-    Proposal: Add those return codes to the ERRORS section of the function.
+    Proposal: Add those return codes to the ERRORS section of the function,
+    after the entry for CMPI_RC_ERR_ACCESS_DENIED.
 
-    Need to apply the result to the header files.
-
-11. Incorrect use of "shall" for some MB functions.
-
-    Reason: The spec is generally written from an MI perspective, i.e. it uses
-    normative requirements language ("shall", "should") when it comes to
-    requirements against the MI, and it uses "will" or factual statements (e.g.
-    "returns") when it comes to descriptions about the behavior of MB functions.
-    The MB functions mentioned below use "shall" inconsistently with this
-    approach.
-
-    Proposal: Update the following sentence in the first paragraph of the
-    DESCRIPTION section, from:
-
-    "If no such instances are found, the function shall return success ..."
-
-    to:
-
-    "If no such instances are found, the function will return success ..."
-
-    For the following functions:
-
-    * CMPIBrokerFT.enumerateInstancesFiltered()
-    * CMPIBrokerFT.associatorsFiltered()
-    * CMPIBrokerFT.referencesFiltered()
-
-    Already done in header files.
+    Header files: DONE
 
 12. The short description of CMPIBrokerFT.associatorsFiltered() and
     CMPIBrokerFT.referencesFiltered() refers to just one filter
@@ -239,7 +552,7 @@ and will be brought forward as review comments to the TOG review of the spec.
     2. In the long description of these two functions, change the end of the
       first sentence from "the filter." to "the filters."
 
-    Already done in header files.
+    Header files: DONE
 
 13. The short description of CMPIBrokerFT.enumerateInstancesFiltered(),
     refers specifically to "filterQuery". It would be consistent with the
@@ -255,50 +568,24 @@ and will be brought forward as review comments to the TOG review of the spec.
 
     "... returning only those that match the given query filter"
 
-    Already done in header files.
+    Header files: DONE
 
-14. Terminology inconsistency in the description of the CMPIStatus return value.
-
-    Proposal:
-
-    1. Change all (3) occurrences of the following text throughout the spec
-      from:
-
-      "A CMPIStatus structure containing the function return status ..."
-
-      to:
-
-      "A CMPIStatus structure whose rc member specifies the function
-      return status ..."
-
-    2. Change all (84) occurrences of the following text throughout the spec
-      from:
-
-      "A CMPIStatus structure indicating the function return status ..."
-
-      to:
-
-      "A CMPIStatus structure whose rc member specifies the function
-      return status ..."
-
-    Already done in header files.
-
-15. In CMPIPredicateFT.getData(), the name of the "pr" argument is referred
+14. In CMPIPredicateFT.getData(), the name of the "pr" argument is referred
     to as "sc" in the description of the CMPI_RC_ERR_INVALID_HANDLE return code.
 
     Proposal: Change "sc" to "pr" in that description.
 
-    Already done in header files.
+    Header files: DONE
 
-16. In CMPIPredicateFT.evaluateUsingAccessor(), the name of the "pr" argument
+15. In CMPIPredicateFT.evaluateUsingAccessor(), the name of the "pr" argument
     is referred to as "se" in the description of the CMPI_RC_ERR_INVALID_HANDLE
     return code.
 
     Proposal: Change "se" to "pr" in that description.
 
-    Already done in header files.
+    Header files: DONE
 
-17. In CMPIBrokerEncFT.classPathIsA(), the description text of return code
+16. In CMPIBrokerEncFT.classPathIsA(), the description text of return code
     CMPI_RC_INVALID_PARAMETER is: "The type format is invalid". However, this
     function does not have a 'type' argument. Instead, the function does have
     a "className" argument, to which this error applies.
@@ -306,9 +593,9 @@ and will be brought forward as review comments to the TOG review of the spec.
     Proposal: Change that description text to:
     "The className format is invalid".
 
-    Already done in header files.
+    Header files: DONE
 
-18. In CMPIBrokerEncFT.getMessage(), the description of the "msgId" argument
+17. In CMPIBrokerEncFT.getMessage(), the description of the "msgId" argument
     says:
 
     "The msgId argument is a message ID ..."
@@ -319,9 +606,9 @@ and will be brought forward as review comments to the TOG review of the spec.
 
     "The msgId argument points to a string specifying a message ID ..."
 
-    Already done in header files.
+    Header files: DONE
 
-19. In CMPIContextFT.addEntry(), there is no information about the
+18. In CMPIContextFT.addEntry(), there is no information about the
     possibly entry names. We have defined those entry names in Table 10
     (Standard CMPIContext Entries).
 
@@ -330,111 +617,18 @@ and will be brought forward as review comments to the TOG review of the spec.
 
     "See Table 10 for a definition of entry names."
 
-    Already done in header files.
+    Header files: DONE
 
-20. Inconsistencies in description text for common return codes:
-    * CMPI_RC_OK:
-      - Function successful (144) <- use this one
-      - Function succeeded (25)
-    * CMPI_RC_ERR_FAILED
-      - Unspecific error occurred (35)
-      - A generic error occurred (27)
-      - Other error occurred (4) <- use this one
-    * CMPI_RC_ERR_NOT_SUPPORTED
-      - Function is not supported ... (72) <- use this one
-      - Function not supported ... (3)
-    * CMPI_RC_ERR_INVALID_HANDLE
-      - The {xxx} handle is invalid (103) <- use this one
-      - Invalid encapsulated data type handle (18)
-      - The {xxx} argument is invalid (2)
-    * CMPI_RC_ERR_INVALID_NAMESPACE
-      - The namespace specified in the {xxx} argument does not exist (18)
-      - The namespace is invalid (3)
-      - The namespace {xxx} is invalid (1)
-      - The namespace specified in {xxx} is invalid (1)
-      - The namespace implied by {xxx} is invalid (1)
-      - The namespace specified in the {xxx} argument is invalid or does not exist (0) <- use this one
-    * CMPI_RC_ERR_INVALID_CLASS
-      - The CIM class does not exist in the specified namespace (3)
-      - The class specified in the {xxx} argument does not exist (18)
-      - The class specified in the {xxx} argument is invalid or does not exist (0) <- use this one
-
-    Suggest to use the proposed ones, consistently.
-
-    Need to apply the result to the header files.
-
-21. Some return code names are split into two words at an underscore boundary.
-    That is mostly done in tables, and looks nicer than breaking the name at
-    whatever character hits the cell boundary, but it makes searching for a
-    return code name much harder.
-
-    Proposal: Remove the break character between the two parts of the return
-    code name, so that it becomes one word.
-
-    There are 29 occurrences of this issue, and they can be found by searching
-    for "_ " (underscore followed by space).
-
-    The header files did not have this issue.
-
-22. Inconsistencies in referencing the attributes of CMPIError objects:
-
-    * "attribute of a/the CMPIError ..." (76) <- proposed form
-    * "attribute in a/the CMPIError ..." (3)
-
-    Proposal: Change any other forms to the proposed form.
-
-    Need to apply the result to the header files.
-
-23. In the qualifier functions, the name of the CMPIObjectPath argument
-    was changed from "op" to "classPath", which is inconsistent with the
-    other functions on CMPIObjectPath.
-
-    Proposal: Change the "classPath" argument name back to "op", for the
-    following functions:
-
-    * CMPIObjectPathFT.getClassQualifier()
-    * CMPIObjectPathFT.getPropertyQualifier()
-    * CMPIObjectPathFT.getMethodQualifier()
-    * CMPIObjectPathFT.getParameterQualifier()
-
-    Need to apply the result to the header files.
-
-24. The ordering of return codes is partly inconsistent.
-
-    We never reviewed the order, and probably we don't have the time now to do
-    that now at a large scale, but I propose to do these little fixes:
-
-    * CMPISubCondFT.getPredicate(): Its "invalid handle" rc is second to last,
-      while quite often and particularly in CMPISubCondFT.getPredicateAt(),
-      it is last.
-
-      Proposal: In CMPISubCondFT.getPredicate(), move the return code for
-      "invalid handle" to become last in the list.
-
-    Need to apply the result to the header files.
-
-25. In CMPIPredicateFT.release() and CMPIPredicateFT.clone(), the description
+19. In CMPIPredicateFT.release() and CMPIPredicateFT.clone(), the description
     of CMPI_RC_ERR_INVALID_HANDLE uses the argument name "sc".
     The synopsis and description sections correctly use "pr".
 
     Proposal: Change "sc" to "pr" in the return code description of these
     functions.
 
-    Already done in header files.
+    Header files: DONE
 
-26. In CMPIInstanceMIFT.getInstance(), there is no return code for
-    "server limits exceeded".
-
-    Reason: First of all, the result set can be large even for a single instance
-    (e.g. via an array of embedded instances), and the server can get to its
-    limits also because of other things than a large result set.
-    Finally, supporting this return code makes it easier for up-call
-    implementations, which then can revert to functions that do not map 1:1.
-
-    Proposal: Suggest to add "server limits exceeded" return code to
-    CMPIInstanceMIFT.getInstance(), and to CMPIBrokerFT.getInstance().
-
-27. In CMPIBrokerFT.invokeMethod(), the description of the "out" argument states
+20. In CMPIBrokerFT.invokeMethod(), the description of the "out" argument states
     that the MI shall not release the CMPIArgs object. However, that object is
     allocated by the MI, and the statement in the description should not be
     about the CMPIArgs object, but about the objects that are being filled into
@@ -453,7 +647,9 @@ and will be brought forward as review comments to the TOG review of the spec.
      released by the MI; they will be automatically released by the MB, as
      described in Subclause 4.1.7."
 
-28. Add three function typedefs for thread functions:
+    Header files: DONE
+
+21. Add three function typedefs for thread functions:
 
     Reason: The definition of function prototypes without these new typedefs
     was always quite unwieldy, and it was not possible to properly create
@@ -464,8 +660,7 @@ and will be brought forward as review comments to the TOG review of the spec.
 
     The three new typedefs will become part of the CMPI 2.1 standard.
 
-    The remainder of this section describes the proposal to add them and use
-    them:
+    Proposal:
 
     a)  In subclause 9.14 (Operating System Encapsulation Services), insert the
       following description before the line
@@ -583,7 +778,9 @@ and will be brought forward as review comments to the TOG review of the spec.
             CMPIThreadKeyCleanupFunc* cleanup
         );
 
-29. In Subclause 7.1 (MB Capabilities), Table 8 is missing some functions that
+    Header files: DONE
+
+22. In Subclause 7.1 (MB Capabilities), Table 8 is missing some functions that
     are part of MB capabilities:
 
     Proposal: Add the missing function names in column "Provided Support",
@@ -603,22 +800,57 @@ and will be brought forward as review comments to the TOG review of the spec.
     "Encapsulated data types:"
     - CMPIResultFT functions: returnError()
 
-30. In Subclause 7.1 (MB Capabilities), the freeSelectExp() function listed in
+    Header files: DONE (via @capXXX tagging of the entities)
+
+23. In Subclause 7.1 (MB Capabilities), the freeSelectExp() function listed in
     Table 8 in the row for Memory Enhancement Services can only be implemented
     if the Query Normalization capability is available as well.
 
     Proposal: Add "(Note 6)" behind "freeSelectExp()", and add a Note 6 below
     the table:
 
-    "6. The CMPIBrokerExtFT.freeSelectExp() function, while part of the
-        Memory Enhancement Services capability can only be implemented if
-        the Query Normalization capability is available as well."
+    "6. The CMPIBrokerExtFT.freeSelectExp() function, while part of the Memory
+    Enhancement Services capability can only be implemented if the Query
+    Normalization capability is available as well."
 
-31. Inconsistency in how the Context Data capability is referenced.
-    In Table 8, this capability is named "Context Data", however it is
-    referenced throughout the document as
-    "Context Data Support capability" (4 occurrences).
+    Header files: DONE
 
-    Proposal: Consistent with other capability names, change the phrase
-    "Context Data Support capability" to "Context Data capability", throughout
-    the document.
+24. In CMPIBrokerFT.enumerateInstances(), the following sentence is confusing
+    w.r.t. the two possibilities for control. In addition, the two flags
+    are referenced by their protocol names but should be referenced by their
+    CMPI symbols.
+
+    Change from:
+
+    "The set of properties in the result instances can be controlled using the
+    LocalOnly and DeepInheritance flags in the CMPIInvocationFlags entry in ctx
+    and the properties argument."
+
+    to:
+
+    "The set of properties in the result instances can be controlled via the
+    properties argument and via the CMPI_FLAG_LocalOnly and
+    CMPI_FLAG_DeepInheritance flags in the CMPIInvocationFlags entry of the ctx
+    argument.
+
+    Header files: DONE
+
+25. In CMPIBrokerFT.enumerateInstancesFiltered(), the following sentence is
+    incorrect w.r.t. what is controlled. In addition, the specific subset of
+    the invocation flags that can be used for this controlling, are not
+    mentioned. Furthermore, the option to control via the properties argument
+    is missing.
+
+    Change from:
+
+    "Instance structures can be controlled using the CMPIInvocationFlags entry
+    in ctx."
+
+    to:
+
+    "The set of properties in the result instances can be controlled via the
+    properties argument and via the CMPI_FLAG_LocalOnly and
+    CMPI_FLAG_DeepInheritance flags in the CMPIInvocationFlags entry of the ctx
+    argument.
+
+    Header files: DONE
