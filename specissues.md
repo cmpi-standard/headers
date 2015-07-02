@@ -107,39 +107,63 @@ Changes throughout the spec document
 
 5.  There are inconsistencies in description text for some common return codes.
 
-    Proposal: Change all return code descriptions listed below, to use the
-    option marked with "use this one", throughout the document. The number in
+    Proposal: Change all return code descriptions listed below. The number in
     parenthesis is the number of occurrences in the spec document.
 
     * CMPI_RC_OK:
-      - Function successful (144) <- use this one
-      - Function succeeded (25)
-      - Operation successful (9)
-      - Indicates the CMPIError object was successfully created (2)
+      - Change to: "Function successful" (144)
+      - Change from:
+        * "Function succeeded" (25)
+        * "Operation successful" (9)
+        * "Indicates the CMPIError object was successfully created" (2)
 
       Header files: DONE
 
     * CMPI_RC_ERR_FAILED
-      - Other error occurred (23) <- use this one
-      - Unspecific error occurred (35)
-      - A generic error occurred (27)
+      - Change to: "Other error occurred" (23)
+      - Change from:
+        * "Unspecific error occurred" (35)
+        * "A generic error occurred" (27)
 
       Header files: DONE
 
     * CMPI_RC_ERR_NOT_SUPPORTED
-      - Function is not supported by ... (91) <- use this one
-      - Function not supported by ... (3)
+      - Change to: "Function is not supported by ..." (91)
+      - Change from:
+        * "Function not supported by ..." (3)
 
       Header files: DONE
 
     * CMPI_RC_ERR_INVALID_HANDLE
-      - The {xxx} handle is invalid (103) <- use this one
-      - Invalid encapsulated data type handle (18)
-      - The {xxx} argument is invalid (2), in these functions:
+      - Change to: "The {xxx} handle is invalid", with {xxx} listed below.
+      - Change from: "Invalid encapsulated data type handle", for these
+        functions with {xxx} being:
+        * CMPIBrokerFT.enumerateInstances(): mb, ctx or classPath
+        * CMPIBrokerFT.enumerateInstanceNames(): mb, ctx or classPath
+        * CMPIBrokerFT.getInstance(): mb, ctx or instPath
+        * CMPIBrokerFT.getProperty(): mb, ctx or instPath
+        * CMPIBrokerFT.setProperty(): mb, ctx or instPath
+        * CMPIBrokerFT.createInstance(): mb, ctx, classPath, or newInst
+        * CMPIBrokerFT.modifyInstance(): mb, ctx, instPath, or modInst
+        * CMPIBrokerFT.deleteInstance(): mb, ctx or instPath
+        * CMPIBrokerFT.invokeMethod(): mb, ctx, objPath, in, or out
+        * CMPIBrokerFT.associators(): mb, ctx or instPath
+        * CMPIBrokerFT.associatorNames(): mb, ctx or instPath
+        * CMPIBrokerFT.references(): mb, ctx or instPath
+        * CMPIBrokerFT.referenceNames(): mb, ctx or instPath
+        * CMPIBrokerFT.enumerateInstancesFiltered(): mb, ctx or classPath
+        * CMPIBrokerFT.associatorsFiltered(): mb, ctx or instPath
+        * CMPIBrokerFT.referencesFiltered(): mb, ctx or instPath
+        * CMPIBrokerFT.execQuery(): mb, ctx or classPath
+        * CMPIBrokerFT.prepareAttachThread(): mb, ctx
+      - Change from: "The {xxx} argument is invalid", for these functions:
         * CMPIObjectPathFT.toString()
         * CMPIBrokerEncFT.newCMPIError()
-
-      TODO: List functions for second case.
+      - Change from: "Either the {xxx} or {yyy} handle is invalid" (8)
+      - Change from: "The handle specified by the {xxx} argument is invalid",
+        for these functions with {xxx} being:
+        * CMPIBrokerFT.deliverIndication(): mb, ctx or ind
+      - Change from: "The {xxx} handle or {yyy} handle is invalid"
 
       Header files: TODO
 
@@ -198,34 +222,36 @@ Changes throughout the spec document
 Changes that apply to a number of functions
 -------------------------------------------
 
-1.  Some return codes were intended to be added in CMPI 2.1, and are also
-    mentioned in the change history to have been added, but are not actually
-    showing up in the list of return codes in the ERRORS section.
+1.  The CMPI_RC_ERR_INVALID_HANDLE return code is missing for some MB functions
+    that get handles, which could be invalid.
 
-    Proposal: Add the missing return codes as follows:
-
-    - Add an item with the following return code:
-
-      * CMPI_RC_ERR_INVALID_HANDLE - The ctx, filter, or classPath handles are
-        invalid.
-
-      after the item for CMPI_RC_ERR_ACCESS_DENIED, for the following functions:
+    Proposal: Add the return code CMPI_RC_ERR_INVALID_HANDLE, with the
+    description "The {xxx} handle is invalid", before return code
+    CMPI_RC_ERR_FAILED, for the following functions and {xxx}:
       
-      * CMPIIndicationMIFT.authorizeFilter()
-      * CMPIIndicationMIFT.activateFilter()
-      * CMPIIndicationMIFT.deActivateFilter()
+    * CMPIBrokerMemFT.mark(): mb
+    * CMPIBrokerMemFT.release(): mb
 
-    - Add an item with the following return code:
-
-      * CMPI_RC_ERR_INVALID_HANDLE - The ctx or collInst handles are invalid.
-
-      after the item for CMPI_RC_ERR_ACCESS_DENIED, for the following functions:
-
-      * CMPIIndicationMIFT.authorizeFilterCollection()
-      * CMPIIndicationMIFT.activateFilterCollection()
-      * CMPIIndicationMIFT.deActivateFilterCollection()
+    Change history: Needs to be updated.
 
     Header files: DONE
+
+1b. The change history of some functions is incorrect.
+
+    Proposal: Fix the change history of the following functions:
+
+    * In CMPIIndicationMIFT.authorizeFilter(), remove history item:
+      "In CMPI 2.1, added the CMPI_RC_ERR_INVALID_HANDLE return code."
+
+    * In CMPIIndicationMIFT.activateFilter(), remove history item:
+      "In CMPI 2.1, added the CMPI_RC_ERR_INVALID_HANDLE return code."
+
+    * In CMPIIndicationMIFT.deActivateFilter(), remove history item:
+      "In CMPI 2.1, added the CMPI_RC_ERR_INVALID_HANDLE return code."
+
+    Change history: Already covered by proposal.
+
+    Header files: Not relevant
 
 2.  Some functions got new return codes in CMPI 2.1, and they were simply added
     to the end of the existing list, without considering any rules for their
@@ -497,9 +523,12 @@ Changes for specific spots in the spec document
 
     Header files: Not relevant.
     
-9.  In CMPIInstanceFT.setPropertyFilter(), the "keyList" argument in the
-    description of return code CMPI_RC_ERR_INVALID_PARAMETER has regular font
-    and should be changed to have monospaced font.
+9.  The name of an argument in the description of a return code has regular font
+    and should be changed to have monospaced font, in these functions:
+
+    * CMPIInstanceFT.setPropertyFilter(): "keyList" in CMPI_RC_ERR_INVALID_PARAMETER
+    * CMPIBrokerEncFT.logMessage(): "string" in CMPI_RC_ERR_INVALID_HANDLE
+    * CMPIBrokerEncFT.trace(): "string" in CMPI_RC_ERR_INVALID_HANDLE
 
     Header files: Not relevant.
     

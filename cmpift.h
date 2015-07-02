@@ -519,8 +519,8 @@ typedef struct _CMPIBrokerFT {
           does not exist.
      @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found. (**Deprecated**)
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
-
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The ctx or classPath handle is invalid.
+     
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
@@ -593,7 +593,8 @@ typedef struct _CMPIBrokerFT {
          in @p properties is invalid.
      @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found.
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
+         invalid.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -660,7 +661,8 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The instance specified in
          @p inst is invalid.
      @li `CMPI_RC_ERR_ALREADY_EXISTS` - Instance already exists.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx, @p classPath, or @p newInst
+         handle is invalid.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -723,7 +725,8 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The instance specified in
          @p modInst, or the properties specified in @p propertyList are invalid.
      @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx, @p instPath, or @p modInst
+         handle is invalid.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -771,7 +774,8 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
          @p instPath does not exist.
      @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
+         invalid.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -836,7 +840,8 @@ typedef struct _CMPIBrokerFT {
          supported.
      @li `CMPI_RC_ERR_INVALID_QUERY` - Invalid query.
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p classPath handle is
+         invalid.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -908,7 +913,8 @@ typedef struct _CMPIBrokerFT {
          @p properties is invalid.
      @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found. (**Deprecated**)
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p classPath handle is
+         invalid.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -1003,7 +1009,8 @@ typedef struct _CMPIBrokerFT {
          @p properties arguments are invalid.
      @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found. (**Deprecated**)
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
+         invalid.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -1094,7 +1101,8 @@ typedef struct _CMPIBrokerFT {
          @p role, or @p resultRole arguments are invalid.
      @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found. (**Deprecated**)
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
+         invalid.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -1181,7 +1189,8 @@ typedef struct _CMPIBrokerFT {
          @p resultClass, or @p role arguments are invalid.
      @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found. (**Deprecated**)
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
+         invalid.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -1262,7 +1271,8 @@ typedef struct _CMPIBrokerFT {
          arguments are invalid.
      @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found. (**Deprecated**)
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
+         invalid.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -1357,7 +1367,8 @@ typedef struct _CMPIBrokerFT {
          supported by the targeted MI.
      @li `CMPI_RC_ERR_METHOD_NOT_FOUND` - Method not defined in the class.
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx, @p objPath, @p in, or @p out
+         handle is invalid.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -1424,7 +1435,8 @@ typedef struct _CMPIBrokerFT {
          is not found.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Property not found.
      @li `CMPI_RC_ERR_TYPE_MISMATCH` - Value types incompatible.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
+         invalid.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -1485,7 +1497,8 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_NOT_FOUND` - The class specified in
          @p instPath is not found.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Property not found.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
+         invalid.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -1575,7 +1588,8 @@ typedef struct _CMPIBrokerFT {
          @p instPath does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The property list specified
          in @p properties is invalid.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p classPath handle is
+         invalid.
      @li `CMPI_RC_ERR_QUERY_LANGUAGE_NOT_SUPPORTED` - The MB does not support
          the query language defined in the input arguments.
      @li `CMPI_RC_ERR_INVALID_QUERY` - @p filterQuery is not a valid filter in
@@ -1682,7 +1696,8 @@ typedef struct _CMPIBrokerFT {
          invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p assocClass, @p resultClass,
          @p role, @p resultRole, or @p properties arguments are invalid.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
+         invalid.
      @li `CMPI_RC_ERR_QUERY_LANGUAGE_NOT_SUPPORTED` - The MB does not support
          the query language defined in the input arguments.
      @li `CMPI_RC_ERR_INVALID_QUERY` - @p filterQuery is not a valid filter in
@@ -1782,7 +1797,8 @@ typedef struct _CMPIBrokerFT {
          invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p resultClass, @p role, or
          @p properties arguments are invalid.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
+         invalid.
      @li `CMPI_RC_ERR_QUERY_LANGUAGE_NOT_SUPPORTED` - The MB does not support
          the query language defined in the input arguments.
      @li `CMPI_RC_ERR_INVALID_QUERY` - @p filterQuery is not a valid filter in
@@ -1875,7 +1891,7 @@ typedef struct _CMPIBrokerEncFT {
          specified in @p instPath is invalid.
      @li `CMPI_RC_ERR_NOT_FOUND` - The class specified in
          @p instPath is not found.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p instPath handle is invalid.
 
      @see CMNewInstance()
     */
@@ -1906,10 +1922,10 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace
-         specified in @p ns does not exist.
+     @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in @p ns
+         does not exist.
      @li `CMPI_RC_ERR_NOT_FOUND` - Class in @p cn not found.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
      @see CMNewObjectPath()
     */
@@ -1937,7 +1953,7 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
      @see CMNewArgs()
     */
@@ -1968,7 +1984,7 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
      @see CMNewString()
     */
@@ -2010,7 +2026,7 @@ typedef struct _CMPIBrokerEncFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_DATA_TYPE` - Data type not valid.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
      @see CMNewArray()
     */
@@ -2043,7 +2059,7 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
      @see CMNewDateTime()
     */
@@ -2082,7 +2098,7 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
      @see CMNewDateTimeFromBinary()
     */
@@ -2117,7 +2133,7 @@ typedef struct _CMPIBrokerEncFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The utcTime format is invalid.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
      @see CMNewDateTimeFromChars()
     */
@@ -3551,6 +3567,7 @@ typedef struct _CMPIBrokerMemFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The mb handle is invalid
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @capmemory This function is part of the Memory Enhancement Services MB
          capability.
@@ -3580,6 +3597,7 @@ typedef struct _CMPIBrokerMemFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The mb handle is invalid
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @capmemory This function is part of the Memory Enhancement Services MB
          capability.
@@ -8073,7 +8091,7 @@ typedef struct _CMPIEnumerationFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p en handle is invalid.
 
      @see CMRelease()
     */
@@ -8255,7 +8273,7 @@ typedef struct _CMPIDateTimeFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p dt handle is invalid.
 
      @see CMRelease()
     */
@@ -8285,7 +8303,7 @@ typedef struct _CMPIDateTimeFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p dt handle is invalid.
 
      @see CMClone()
     */
@@ -8316,7 +8334,7 @@ typedef struct _CMPIDateTimeFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p dt handle is invalid.
 
      @see CMGetBinaryFormat()
     */
@@ -8354,7 +8372,7 @@ typedef struct _CMPIDateTimeFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p dt handle is invalid.
 
      @see CMGetStringFormat()
     */
@@ -8382,7 +8400,7 @@ typedef struct _CMPIDateTimeFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid encapsulated data type handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p dt handle is invalid.
 
      @see CMGetStringFormat()
     */
@@ -10727,8 +10745,6 @@ typedef struct _CMPIIndicationMIFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Operation not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx, @p filter, or @p classPath
-         handles are invalid.
      @li `CMPI_RC_ERR_INVALID_QUERY` - Invalid query or too complex.
 
      @deprecated @p owner is deprecated since CMPI 2.1.
@@ -10848,8 +10864,6 @@ typedef struct _CMPIIndicationMIFT {
          return code indicates general authorization related issues
          and does not specifically indicate that the filter itself
          would not be authorized.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx, @p filter, or @p classPath
-         handles are invalid.
      @li `CMPI_RC_ERR_INVALID_QUERY` - Invalid query or too complex.
     */
     CMPIStatus (*activateFilter) (CMPIIndicationMI* mi,
@@ -10924,8 +10938,6 @@ typedef struct _CMPIIndicationMIFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Operation not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx, @p filter, or @p classPath
-         handles are invalid.
      @li `CMPI_RC_ERR_INVALID_QUERY` - Invalid query or too complex.
 
      @todo TBD KS: We set first activation if this is first for
@@ -11047,8 +11059,6 @@ typedef struct _CMPIIndicationMIFT {
          Note: This return code indicates general authorization related
          issues and does not specifically indicate that the filter
          collection itself would not be authorized.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p collInst handles are
-         invalid.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Invalid indication filter
          collection.
 
@@ -11130,8 +11140,6 @@ typedef struct _CMPIIndicationMIFT {
          Note: This return code indicates general authorization related issues
          and does not specifically indicate that the filter collection
          itself would not be authorized.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p collInst handles are
-         invalid.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Invalid indication filter collection.
 
      @added210 Added in CMPI 2.1.0.
@@ -11208,15 +11216,13 @@ typedef struct _CMPIIndicationMIFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+     @li `CMPI_CMPIBrokerMemFT.markRC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI, or
          filter collection is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized. Note: This
          return code indicates general authorization related issues and
          does not specifically indicate that the filter collection itself
          would not be authorized.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p collInst handles are
-         invalid.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Invalid indication filter collection.
 
      @added210 Added in CMPI 2.1.0.
