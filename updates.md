@@ -1,3 +1,10 @@
+2 July - Andy
+-------------
+
+* Worked on specissues.md;
+  Found more spec issues;
+  Resolved most of the spec issues in the headers.
+
 1 July - Andy
 -------------
 
