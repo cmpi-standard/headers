@@ -214,6 +214,14 @@
 /**
 @defgroup symbols Preprocessor Symbols
 @{
+  @defgroup symbols-user Symbols definable by the CMPI user
+  @{
+    @brief These symbols can be defined by the user of the CMPI header files.
+
+    @defgroup sym-version CMPI_VERSION
+    @{
+    @}
+  @}
   @defgroup symbols-versioning Symbols related to CMPI versioning
   @{
     @defgroup sym-version-nnn CMPIVersion{NNN}
@@ -225,9 +233,6 @@
       86, 90) are not supported by this header file.
     @}
     @defgroup sym-current-version CMPICurrentVersion
-    @{
-    @}
-    @defgroup sym-version CMPI_VERSION
     @{
     @}
     @defgroup sym-ver-nnn CMPI_VER_{NNN}
