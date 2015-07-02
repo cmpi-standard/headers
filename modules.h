@@ -253,6 +253,39 @@
 </pre>
     @}
   @}
+  @defgroup symbols-os-encaps Symbols related to OS Encapsulation Services
+  @{
+    @defgroup sym-thread-type CMPI_THREAD_TYPE
+    @{
+    @}
+    @defgroup sym-thread-return CMPI_THREAD_RETURN
+    @{
+    @}
+    @defgroup sym-thread-cdecl CMPI_THREAD_CDECL
+    @{
+    @}
+    @defgroup sym-thread-key-type CMPI_THREAD_KEY_TYPE
+    @{
+    @}
+    @defgroup sym-mutex-type CMPI_MUTEX_TYPE
+    @{
+    @}
+    @defgroup sym-cond-type CMPI_COND_TYPE
+    @{
+    @}
+  @}
+  @defgroup symbols-export-import Symbols for exporting and importing symbols
+  @{
+    @defgroup sym-export CMPI_EXPORT
+    @{
+    @}
+    @defgroup sym-import CMPI_IMPORT
+    @{
+    @}
+    @defgroup sym-extern-c CMPI_EXTERN_C
+    @{
+    @}
+  @}
 @}
 @defgroup data-types Data Types (Subclause 5)
 @{

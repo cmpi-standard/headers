@@ -6,6 +6,7 @@
   Resolved most of the spec issues in the headers.
 * Changed all remaining references to documents to be links to the corresponding
   entry in the References section of the main page.
+* Moved @defgroup commands from cmpios.h to modules.h, for consistency.
 
 1 July - Andy
 -------------
