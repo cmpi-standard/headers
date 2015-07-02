@@ -3014,11 +3014,12 @@ typedef struct _CMPIBrokerExtFT {
      @return If successful, zero will be returned.
          If not successful, a non-zero error code will be returned.
          Error codes are defined in `errno.h`, specifically for the
-         ``pthread_cancel()`` function; both are defined in IEEE 1003.1. The
+         ``pthread_cancel()`` function; both are defined in 
+         @ref ref-ieee-1003-1 "IEEE 1003.1". The
          ``pthread_cancel()`` function does not define any error codes in
-         IEEE 1003.1. Some POSIX implementations use the following error code
-         for that function:
-          @li `ESRCH` -The specified thread could not be found.
+         @ref ref-ieee-1003-1 "IEEE 1003.1". Some POSIX implementations use
+         the following error code for that function:
+         @li `ESRCH` -The specified thread could not be found.
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
     */
@@ -3034,7 +3035,8 @@ typedef struct _CMPIBrokerExtFT {
      @return If successful, zero will be returned.
          If not successful, a non-zero error code will be returned.
 
-     Error codes are defined in `errno.h`, defined in IEEE 1003.1.
+     Error codes are defined in `errno.h`, defined in 
+         @ref ref-ieee-1003-1 "IEEE 1003.1".
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
     */
@@ -3070,7 +3072,8 @@ typedef struct _CMPIBrokerExtFT {
          If not successful, a non-zero error code will be returned.
 
          Error codes are defined in `errno.h`, specifically for the
-         ``pthread_once()`` function; both are defined in IEEE 1003.1.
+         ``pthread_once()`` function; both are defined in 
+         @ref ref-ieee-1003-1 "IEEE 1003.1".
      @endparblock
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
@@ -3094,8 +3097,8 @@ typedef struct _CMPIBrokerExtFT {
          If not successful, a non-zero error code will be returned.
          If successful, zero will be returned.
          Error codes are defined in `errno.h`, specifically for the
-         ``pthread_key_create()`` function; both are defined in IEEE
-         1003.1.
+         ``pthread_key_create()`` function; both are defined in
+         @ref ref-ieee-1003-1 "IEEE 1003.1".
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
     */
@@ -3114,7 +3117,8 @@ typedef struct _CMPIBrokerExtFT {
          successful, a non-zero error code will be returned.
 
          Error codes are defined in `errno.h`, specifically for the
-         ``pthread_key_delete()`` function; both are defined in IEEE 1003.1.
+         ``pthread_key_delete()`` function; both are defined in 
+         @ref ref-ieee-1003-1 "IEEE 1003.1".
      @endparblock
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
@@ -3187,7 +3191,7 @@ typedef struct _CMPIBrokerExtFT {
      shall fail in unlocking the mutex.
 
      This behavior is consistent with mutex type PTHREAD_MUTEX_RECURSIVE
-     defined in IEEE 1003.1.
+     defined in @ref ref-ieee-1003-1 "IEEE 1003.1".
 
      @param opt For future use. It should be ignored by the MB, and
          MIs should pass a value of 0
@@ -3321,7 +3325,8 @@ typedef struct _CMPIBrokerExtFT {
      @return If successful, zero will be returned.
         If not successful, returns a non-zero error code will be returned.
         Error codes are defined in `errno.h`, specifically for the
-        ``pthread_cond_wait()`` function; both are defined in IEEE 1003.1.
+        ``pthread_cond_wait()`` function; both are defined in 
+         @ref ref-ieee-1003-1 "IEEE 1003.1".
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
     */
@@ -11076,7 +11081,8 @@ typedef struct _CMPIIndicationMIFT {
      collection. For the concept of coverage of indications by an
      indication filter collection, see @ref ref-dmtf-dsp1054 "DSP1054".
 
-     As described in DSP1054, a filter collection conceptually has
+     As described in @ref ref-dmtf-dsp1054 "DSP1054", a filter collection
+     conceptually has
      members, but these members do not need to be instantiated using
      CIM. An MB shall handle subscriptions to a filter collection by
      calling CMPIIndicationMIFT.activateFilterCollection() for that
@@ -11161,7 +11167,8 @@ typedef struct _CMPIIndicationMIFT {
      the concept of coverage of indications by an indication filter
      collection, see @ref ref-dmtf-dsp1054 "DSP1054".
 
-     As described in DSP1054, a filter collection conceptually has
+     As described in @ref ref-dmtf-dsp1054 "DSP1054", a filter collection
+     conceptually has
      members, but these members do not need to be instantiated using CIM.
      An MB shall handle deletions to subscriptions to a filter collection
      by calling CMPIIndicationMIFT.deActivateFilterCollection() for that

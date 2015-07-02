@@ -4,6 +4,8 @@
 * Worked on specissues.md;
   Found more spec issues;
   Resolved most of the spec issues in the headers.
+* Changed all remaining references to documents to be links to the corresponding
+  entry in the References section of the main page.
 
 1 July - Andy
 -------------
