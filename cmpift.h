@@ -289,6 +289,9 @@ typedef struct _CMPIBrokerFT {
      * @todo (KS) what is the source that sets the brokerName value.
      *       I note in Pegasus that we do not use it for much of
      *       anything.
+     *       AM: The MB code when preparing the structure must set it.
+     *       SFCB sets it to its name and version, I believe. It is
+     *       informal. An MI could include the name e.g. in log records.
      */
     const char* brokerName;
 
@@ -1398,7 +1401,7 @@ typedef struct _CMPIBrokerFT {
      @parblock
          A CMPIType value defining the type of the value to be assigned to the
          property.
-         
+
          If the value of @p type is @ref CMPI_chars or @ref CMPI_charsA, the
          C-language string to which @p value.chars points is copied by this
          function and the original string memory may be freed by the MI right
@@ -1516,7 +1519,7 @@ typedef struct _CMPIBrokerFT {
      @p properties and via the @ref CMPI_FLAG_LocalOnly and
      @ref CMPI_FLAG_DeepInheritance flags in the @ref CMPIInvocationFlags entry
      of @p ctx.
-   
+
      Because the response interface does not support extended error responses,
      there is no argument to request continue on error as part of this function.
      The MB is expected to invoke any target MIs with @p continueOnError set to
@@ -2877,15 +2880,13 @@ struct timespec;
  * @ref brokerext-mutex "POSIX-conformant Mutexes", and
  * @ref brokerext-condition "POSIX-conformant Conditions".
  *
- * @capopsys @parblock
- *     All functions defined in this structure are part of the
+ * @capopsys All functions defined in this structure are part of the
  *     OS Encapsulation Services MB capability.
  *
- *     If that capability is not supported, the function pointers in this
- *     function table shall not be NULL, but shall point to a function that can
- *     be called and then indicate back to the caller that it is not supported,
- *     as specified in the description of the function.
- * @endparblock
+ * If the OS Encapsulation Services MB capability is not supported, the
+ * function pointers in this function table shall not be NULL, but shall point
+ * to a function that can be called and then indicate back to the caller that
+ * it is not supported, as specified in the description of the function.
  */
 typedef struct _CMPIBrokerExtFT {
 
@@ -3017,7 +3018,7 @@ typedef struct _CMPIBrokerExtFT {
      @return If successful, zero will be returned.
          If not successful, a non-zero error code will be returned.
          Error codes are defined in `errno.h`, specifically for the
-         ``pthread_cancel()`` function; both are defined in 
+         ``pthread_cancel()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1". The
          ``pthread_cancel()`` function does not define any error codes in
          @ref ref-ieee-1003-1 "IEEE 1003.1". Some POSIX implementations use
@@ -3038,7 +3039,7 @@ typedef struct _CMPIBrokerExtFT {
      @return If successful, zero will be returned.
          If not successful, a non-zero error code will be returned.
 
-     Error codes are defined in `errno.h`, defined in 
+     Error codes are defined in `errno.h`, defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
@@ -3075,7 +3076,7 @@ typedef struct _CMPIBrokerExtFT {
          If not successful, a non-zero error code will be returned.
 
          Error codes are defined in `errno.h`, specifically for the
-         ``pthread_once()`` function; both are defined in 
+         ``pthread_once()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
      @endparblock
      @capopsys This function is part of the OS Encapsulation Services MB
@@ -3120,7 +3121,7 @@ typedef struct _CMPIBrokerExtFT {
          successful, a non-zero error code will be returned.
 
          Error codes are defined in `errno.h`, specifically for the
-         ``pthread_key_delete()`` function; both are defined in 
+         ``pthread_key_delete()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
      @endparblock
      @capopsys This function is part of the OS Encapsulation Services MB
@@ -3328,7 +3329,7 @@ typedef struct _CMPIBrokerExtFT {
      @return If successful, zero will be returned.
         If not successful, returns a non-zero error code will be returned.
         Error codes are defined in `errno.h`, specifically for the
-        ``pthread_cond_wait()`` function; both are defined in 
+        ``pthread_cond_wait()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
