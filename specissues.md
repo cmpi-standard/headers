@@ -4,6 +4,9 @@ Changes during finalization of the CMPI specification
 These are proposals for spec changes that will be voted in the CMPI WG,
 and will be brought forward as review comments to the TOG review of the spec.
 
+**Important: This file is frozen as 2015-07-03.** Any updates should go directly to the
+[Issue 69 page on the CMPI WG Wiki](https://wiki.opengroup.org/councils-wiki/doku.php?id=forums:enterprise_management:cmpi:issues:issue69issuesfoundpostfinalopengroupsubmission).
+
 A: New substantive changes
 --------------------------
 
