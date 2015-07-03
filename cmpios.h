@@ -44,39 +44,25 @@
 #include <stdlib.h>          // To get size_t
 
 /**
- * @addtogroup symbols
+ * @addtogroup sym-thread-type
  * @{
- *
- * @todo TODO AM: In `cmpios.h`, we have the descriptions directly in the
- *     `defgroup`
- *     statements. Should we keep them like that, or apply the separation
- *     between order-defining `defgroup` statements and `addtogroup` statements
- *     in the actual descriptions, like we do for `cmpift.h` and `cmpidt.h`?@n
- *     AM: Move to modules.h, for consistency.
  */
 
 /**
- * @defgroup symbols-os-encaps Symbols related to OS Encapsulation Services
- * @{
- *   @defgroup sym-thread-type CMPI_THREAD_TYPE
- *   @{
- */
-
-/**
- *     @brief Type for the handle of a thread.
+ * @brief Type for the handle of a thread.
  */
 #define CMPI_THREAD_TYPE        void*
 
 /**
- *   @}
- *   @defgroup sym-thread-return CMPI_THREAD_RETURN
- *   @{
+ * @}
+ * @addtogroup sym-thread-return
+ * @{
  */
 
 /**
- *     @brief Type for the return value of a thread function.
+ * @brief Type for the return value of a thread function.
  *
- *     @platformspecific The definition of the
+ * @platformspecific The definition of the
  *     @ref sym-thread-return "CMPI_THREAD_RETURN"
  *     symbol depends on the platform (see @ref sym-platform).
  *     For details, examine the source code of `cmpios.h`.
@@ -86,16 +72,17 @@
 #else // all other platforms
 #  define CMPI_THREAD_RETURN      void*
 #endif
+
 /**
- *   @}
- *   @defgroup sym-thread-cdecl CMPI_THREAD_CDECL
- *   @{
+ * @}
+ * @addtogroup sym-thread-cdecl
+ * @{
  */
 
 /**
- *     @brief Modifier defining the calling convention for a thread function.
+ * @brief Modifier defining the calling convention for a thread function.
  *
- *     @platformspecific The definition of the
+ * @platformspecific The definition of the
  *     @ref sym-thread-cdecl "CMPI_THREAD_CDECL"
  *     symbol depends on the platform (see @ref sym-platform).
  *     For details, examine the source code of `cmpios.h`.
@@ -113,15 +100,15 @@
 #endif
 
 /**
- *   @}
- *   @defgroup sym-thread-key-type CMPI_THREAD_KEY_TYPE
- *   @{
+ * @}
+ * @defgroup sym-thread-key-type CMPI_THREAD_KEY_TYPE
+ * @{
  */
 
 /**
- *     @brief Type for a thread key of a thread.
+ * @brief Type for a thread key of a thread.
  *
- *     @platformspecific The definition of the
+ * @platformspecific The definition of the
  *     @ref sym-thread-key-type "CMPI_THREAD_KEY_TYPE"
  *     symbol depends on the platform (see @ref sym-platform).
  *     For details, examine the source code of `cmpios.h`.
@@ -136,75 +123,58 @@
 #endif
 
 /**
- *   @}
- *   @defgroup sym-mutex-type CMPI_MUTEX_TYPE
- *   @{
+ * @}
+ * @addtogroup sym-mutex-type
+ * @{
  */
 
 /**
- *     @brief Type for the handle of a mutex.
+ * @brief Type for the handle of a mutex.
  */
 #define CMPI_MUTEX_TYPE         void*
 
 /**
- *   @}
- *   @defgroup sym-cond-type CMPI_COND_TYPE
- *   @{
+ * @}
+ * @addtogroup sym-cond-type
+ * @{
  */
 
 /**
- *     @brief Type for the handle of a condition.
+ * @brief Type for the handle of a condition.
  */
 #define CMPI_COND_TYPE          void*
-
-/**
- *   @}
- */
-
-#if defined(CMPI_PLATFORM_WIN32_IX86_MSVC)
-#  ifndef HAVE_STRUCT_TIMESPEC
-#    define HAVE_STRUCT_TIMESPEC
-/**
- *   @}
- *   @defgroup struct-timespec struct timespec
- *   @{
- */
-/**
- *     @brief struct timespec for the MSCV compiler, if not yet defined.
- */
-struct timespec {
-    long tv_sec;
-    long tv_nsec;
-};
-/**
- *   @}
- */
-#  endif // HAVE_STRUCT_TIMESPEC
-#endif
 
 /**
  * @}
  */
 
+#if defined(CMPI_PLATFORM_WIN32_IX86_MSVC)
+#  ifndef HAVE_STRUCT_TIMESPEC
+#    define HAVE_STRUCT_TIMESPEC
+struct timespec {
+    long tv_sec;
+    long tv_nsec;
+};
+#  endif // HAVE_STRUCT_TIMESPEC
+#endif
+
 /**
- * @defgroup symbols-export-import Symbols for exporting and importing symbols
+ * @addtogroup sym-export
  * @{
- *   @defgroup sym-export CMPI_EXPORT
- *   @{
  */
 
 /**
- *     @brief Modifier on non-CMPI functions or data that are to be exported
+ * @brief Modifier on non-CMPI functions or data that are to be exported
  *     from MI load libraries
  *
- *     The compile mode (C vs. C++) needs to match between the exporter and the
- *     importer (see @ref sym-import "CMPI_IMPORT").
+ * The compile mode (C vs. C++) needs to match between the exporter and the
+ * importer (see @ref sym-import "CMPI_IMPORT").
  *
- *     CMPI related data or functions do not need to be exported by MBs or MIs
- *     using this modifier; however, it can be used for non-CMPI-related
- *     purposes.
+ * CMPI related data or functions do not need to be exported by MBs or MIs
+ * using this modifier; however, it can be used for non-CMPI-related
+ * purposes.
  *
- *     @platformspecific The definition of CMPI_EXPORT depends on the platform
+ * @platformspecific The definition of CMPI_EXPORT depends on the platform
  *     (see @ref sym-platform).
  *     For details, examine the source code of `cmpios.h`.
  */
@@ -217,23 +187,23 @@ struct timespec {
 #endif
 
 /**
- *   @}
- *   @defgroup sym-import CMPI_IMPORT
- *   @{
+ * @}
+ * @addtogroup sym-import
+ * @{
  */
 
 /**
- *     @brief Modifier on non-CMPI functions or data that are to be imported
+ * @brief Modifier on non-CMPI functions or data that are to be imported
  *     into MI load libraries
  *
- *     The compile mode (C vs. C++) needs to match between the exporter and the
- *     importer (see @ref sym-export "CMPI_EXPORT").
+ * The compile mode (C vs. C++) needs to match between the exporter and the
+ * importer (see @ref sym-export "CMPI_EXPORT").
  *
- *     CMPI related data or functions do not need to be exported by MBs or MIs
- *     using this modifier; however, it can be used for non-CMPI-related
- *     purposes.
+ * CMPI related data or functions do not need to be exported by MBs or MIs
+ * using this modifier; however, it can be used for non-CMPI-related
+ * purposes.
  *
- *     @platformspecific The definition of CMPI_IMPORT depends on the platform
+ * @platformspecific The definition of CMPI_IMPORT depends on the platform
  *     (see @ref sym-platform).
  *     For details, examine the source code of `cmpios.h`.
  */
@@ -246,24 +216,24 @@ struct timespec {
 #endif
 
 /**
- *   @}
- *   @defgroup sym-extern-c CMPI_EXTERN_C
- *   @{
+ * @}
+ * @addtogroup sym-extern-c
+ * @{
  */
 
 /**
- *     @brief Modifier for specifying the linkage of CMPI functions
+ * @brief Modifier for specifying the linkage of CMPI functions
  *     that are to be exported from MI load libraries
  *
- *     This modifier needs to be specified on the MI factory functions provided
- *     by MI load libraries.  MB functions and other MI functions do not need to
- *     specifiy this modifier.
+ * This modifier needs to be specified on the MI factory functions provided
+ * by MI load libraries.  MB functions and other MI functions do not need to
+ * specifiy this modifier.
  *
- *     @cxxspecific The definition of CMPI_EXTERN_C depends on whether the
+ * @cxxspecific The definition of CMPI_EXTERN_C depends on whether the
  *     headers are compiled for C or for C++.
  *     For details, examine the source code of `cmpios.h`.
  *
- *     @platformspecific The definition of CMPI_EXTERN_C depends on
+ * @platformspecific The definition of CMPI_EXTERN_C depends on
  *     @ref sym-export "CMPI_EXPORT", which in turn depends on the platform
  *     (see @ref sym-platform).
  *     For details, examine the source code of `cmpios.h`.
@@ -275,11 +245,6 @@ struct timespec {
 #endif
 
 /**
- *   @}
- */
-
-/**
- * @}
  * @}
  */
 

@@ -734,14 +734,14 @@ typedef unsigned int CMPIFlags;
  *
  * These test masks are used on @ref CMPIFlags.
  *
- * For considerations on the use of CMPI_FLAG_LocalOnly and
- * CMPI_FLAG_DeepInheritance, see
+ * For considerations on the use of @ref CMPI_FLAG_LocalOnly and
+ * @ref CMPI_FLAG_DeepInheritance, see
  * Subclause 4.4 of the @ref ref-cmpi-standard "CMPI Standard".
  */
-#define CMPI_FLAG_LocalOnly          1
-#define CMPI_FLAG_DeepInheritance    2
-#define CMPI_FLAG_IncludeQualifiers  4
-#define CMPI_FLAG_IncludeClassOrigin 8
+#define CMPI_FLAG_LocalOnly          1 ///< LocalOnly flag
+#define CMPI_FLAG_DeepInheritance    2 ///< DeepInheritance flag
+#define CMPI_FLAG_IncludeQualifiers  4 ///< IncludeQualifiers flag
+#define CMPI_FLAG_IncludeClassOrigin 8 ///< IncludeClassOrigin flag
 
 /**
  *   @}

@@ -225,46 +225,45 @@ ALIASES                =
 # The following alias defines a @platformspecific special command that is used to
 # indicate platform-specific definitions. Their list will be linked from the
 # "Related Pages" tab:
-ALIASES               += "platformspecific=@xrefitem platformspecific \"Platform-specific Definition\" \"Platform-specific Definitions\""
+ALIASES += "platformspecific=@xrefitem platformspecific \"Platform-specific Definition\" \"Platform-specific Definitions\""
 
 # The following alias defines a @cxxspecific special command that is used to
 # indicate whether a definition is specific to whether the headers are compiled
 # for C or for C++. Their list will be linked from the "Related Pages" tab:
-ALIASES               += "cxxspecific=@xrefitem cxxspecific \"C/C++-specific Definition\" \"C/C++-specific Definitions\""
+ALIASES += "cxxspecific=@xrefitem cxxspecific \"C/C++-specific Definition\" \"C/C++-specific Definitions\""
 
 # The following aliases define @addedNNN special commands that are used to
 # indicate that a definition was added in CMPI N.N.N Their list will be
 # linked from the "Related Pages" tab:
-ALIASES               += "added200=@xrefitem added200 \"Addition\" \"Added in CMPI 2.0.0\""
-ALIASES               += "added210=@xrefitem added210 \"Addition\" \"Added in CMPI 2.1.0\""
+ALIASES += "added200=@xrefitem added200 \"Addition\" \"Added in CMPI 2.0.0\""
+ALIASES += "added210=@xrefitem added210 \"Addition\" \"Added in CMPI 2.1.0\""
 
 # The following alias defines @requiredNNN special commands that are used to
 # indicate that a definition was required to be supported since CMPI N.N.N Their
 # list will be linked from the "Related Pages" tab:
-ALIASES               += "required200=@xrefitem required200 \"Requirement Change\" \"Required since CMPI 2.0.0\""
-ALIASES               += "required210=@xrefitem required210 \"Requirement Change\" \"Required since CMPI 2.1.0\""
+ALIASES += "required200=@xrefitem required200 \"Requirement Change\" \"Required since CMPI 2.0.0\""
+ALIASES += "required210=@xrefitem required210 \"Requirement Change\" \"Required since CMPI 2.1.0\""
 
 # The following alias defines @capXXXXXXX special commands that are used to
 # indicate that a definition is part of a particular MB capability.
 # Their list will be linked from the "Related Pages" tab:
-ALIASES               += "capread=@xrefitem capread \"Capabilities\" \"Basic Read MB Capability\""
-ALIASES               += "capwrite=@xrefitem capwrite \"Capabilities\" \"Basic Write MB Capability\""
-ALIASES               += "capmanipulation=@xrefitem capmanipulation \"Capabilities\" \"Instance Manipulation MB Capability\""
-ALIASES               += "capassociations=@xrefitem capassociations \"Capabilities\" \"Association Traversal MB Capability\""
-ALIASES               += "capqueryexec=@xrefitem capqueryexec \"Capabilities\" \"Query Execution MB Capability\""
-ALIASES               += "capquerynorm=@xrefitem capquerynorm \"Capabilities\" \"Query Normalization MB Capability\""
-ALIASES               += "capqualifiers=@xrefitem capqualifiers \"Capabilities\" \"Basic Qualifier MB Capability\""
-ALIASES               += "capindications=@xrefitem capindications \"Capabilities\" \"Indications MB Capability\""
-ALIASES               += "capopsys=@xrefitem capopsys \"Capabilities\" \"OS Encapsulation Services MB Capability\""
-ALIASES               += "capmemory=@xrefitem capmemory \"Capabilities\" \"Memory Enhancement Services MB Capability\""
-ALIASES               += "caperrors=@xrefitem caperrors \"Capabilities\" \"Extended Errors MB Capability\""
-ALIASES               += "caplogging=@xrefitem caplogging \"Capabilities\" \"Logging MB Capability\""
-ALIASES               += "captracing=@xrefitem captracing \"Capabilities\" \"Tracing MB Capability\""
-ALIASES               += "capfiltering=@xrefitem capfiltering \"Capabilities\" \"Property Filtering MB Capability\""
-ALIASES               += "capcodepage=@xrefitem capcodepage \"Capabilities\" \"Codepage Conversion MB Capability\""
-ALIASES               += "captranslation=@xrefitem captranslation \"Capabilities\" \"Message Translation MB Capability\""
-ALIASES               += "capcontext=@xrefitem capcontext \"Capabilities\" \"Context Data MB Capability\""
-
+ALIASES += "capread=@xrefitem capread \"Capabilities\" \"Basic Read MB Capability\""
+ALIASES += "capwrite=@xrefitem capwrite \"Capabilities\" \"Basic Write MB Capability\""
+ALIASES += "capmanipulation=@xrefitem capmanipulation \"Capabilities\" \"Instance Manipulation MB Capability\""
+ALIASES += "capassociations=@xrefitem capassociations \"Capabilities\" \"Association Traversal MB Capability\""
+ALIASES += "capqueryexec=@xrefitem capqueryexec \"Capabilities\" \"Query Execution MB Capability\""
+ALIASES += "capquerynorm=@xrefitem capquerynorm \"Capabilities\" \"Query Normalization MB Capability\""
+ALIASES += "capqualifiers=@xrefitem capqualifiers \"Capabilities\" \"Basic Qualifier MB Capability\""
+ALIASES += "capindications=@xrefitem capindications \"Capabilities\" \"Indications MB Capability\""
+ALIASES += "capopsys=@xrefitem capopsys \"Capabilities\" \"OS Encapsulation Services MB Capability\""
+ALIASES += "capmemory=@xrefitem capmemory \"Capabilities\" \"Memory Enhancement Services MB Capability\""
+ALIASES += "caperrors=@xrefitem caperrors \"Capabilities\" \"Extended Errors MB Capability\""
+ALIASES += "caplogging=@xrefitem caplogging \"Capabilities\" \"Logging MB Capability\""
+ALIASES += "captracing=@xrefitem captracing \"Capabilities\" \"Tracing MB Capability\""
+ALIASES += "capfiltering=@xrefitem capfiltering \"Capabilities\" \"Property Filtering MB Capability\""
+ALIASES += "capcodepage=@xrefitem capcodepage \"Capabilities\" \"Codepage Conversion MB Capability\""
+ALIASES += "captranslation=@xrefitem captranslation \"Capabilities\" \"Message Translation MB Capability\""
+ALIASES += "capcontext=@xrefitem capcontext \"Capabilities\" \"Context Data MB Capability\""
 
 # This tag can be used to specify a number of word-keyword mappings (TCL only).
 # A mapping has the form "name=value". For example adding "class=itcl::class"

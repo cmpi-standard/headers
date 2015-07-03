@@ -40,41 +40,46 @@
 #ifndef _CMPIPL_H_
 #define _CMPIPL_H_
 
+// We need to define the defgroup here, even in the same Doxygen comment as
+// the actual content, because this group does not define any C/C++ entity.
 /**
- * @addtogroup symbols
+ * @addtogroup symbols-user
  * @{
- *   @defgroup sym-platform CMPI_PLATFORM_{xxx}
- *   @{
- *     @brief Symbols for specifying a platform
+ * @defgroup sym-platform CMPI_PLATFORM_{xxx}
+ * @{
+ * @brief Symbols for specifying a platform
  *
- *     The platform symbols have names of the format:<br/>
+ * The platform symbols have names of the format:<br/>
  *
- *     <div style="margin-left:20px">
- *       <b>CMPI_PLATFORM_{os}_{mach}_{comp}</b><br/>
- *     </div>
+ * <div style="margin-left:20px">
+ *   <b>CMPI_PLATFORM_{os}_{mach}_{comp}</b><br/>
+ * </div>
  *
- *     where <b>{os}</b> indicates the operating system,
- *     <b>{mach}</b> indicates the machine architecture,
- *     and <b>{comp}</b> indicates the C/C++ compiler.
+ * where <b>{os}</b> indicates the operating system,
+ * <b>{mach}</b> indicates the machine architecture,
+ * and <b>{comp}</b> indicates the C/C++ compiler.
  *
- *     The valid platform symbols are:
+ * The valid platform symbols are:
  *
- *       * CMPI_PLATFORM_LINUX_GENERIC_GNU
- *       * CMPI_PLATFORM_HPUX_ACC
- *       * CMPI_PLATFORM_WIN32_IX86_MSVC
- *       * CMPI_PLATFORM_SOLARIS_SPARC_GNU
- *       * CMPI_PLATFORM_SOLARIS_SPARC_CC
- *       * CMPI_PLATFORM_AIX_RS_IBMCXX
- *       * CMPI_PLATFORM_ZOS_ZSERIES_IBM
- *       * CMPI_PLATFORM_TRU64_ALPHA_DECCXX
- *       * CMPI_PLATFORM_OS400_ISERIES_IBM
- *       * CMPI_PLATFORM_DARWIN_PPC_GNU
- *       * CMPI_PLATFORM_VMS_ALPHA_DECCXX
- *       * CMPI_PLATFORM_VMS_IA64_DECCXX
+ *   * CMPI_PLATFORM_LINUX_GENERIC_GNU
+ *   * CMPI_PLATFORM_HPUX_ACC
+ *   * CMPI_PLATFORM_WIN32_IX86_MSVC
+ *   * CMPI_PLATFORM_SOLARIS_SPARC_GNU
+ *   * CMPI_PLATFORM_SOLARIS_SPARC_CC
+ *   * CMPI_PLATFORM_AIX_RS_IBMCXX
+ *   * CMPI_PLATFORM_ZOS_ZSERIES_IBM
+ *   * CMPI_PLATFORM_TRU64_ALPHA_DECCXX
+ *   * CMPI_PLATFORM_OS400_ISERIES_IBM
+ *   * CMPI_PLATFORM_DARWIN_PPC_GNU
+ *   * CMPI_PLATFORM_VMS_ALPHA_DECCXX
+ *   * CMPI_PLATFORM_VMS_IA64_DECCXX
  *
- *     There is no default platform; the user of the CMPI header files needs to
- *     define exactly one of these symbols.
- *   @}
+ * There is no default platform; the user of the CMPI header files needs to
+ * define exactly one of these symbols.
+ *
+ * The `cmpipl.h` header file verifies that exactly one of these symbols has
+ * been defined.
+ * @}
  * @}
  */
 

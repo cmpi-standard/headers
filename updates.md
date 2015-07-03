@@ -4,7 +4,16 @@
 * Worked on specissues.md;
   Found more spec issues;
   Resolved most of the spec issues in the headers.
-
+* Changed all remaining references to documents to be links to the corresponding
+  entry in the References section of the main page.
+* Moved @defgroup commands from cmpios.h to modules.h, for consistency.
+* Moved @defgroup commands from cmpipl.h to modules.h, for consistency;
+  Created new modules group for symbols definable by CMPI user and moved
+  CMPI_PLATFORM_xxx and CMPI_VERSION into that group.
+* Added descriptions to invocation flags, and fixed linking to them.
+* Solved warnings with @capopsys comand. Was caused by using @parblock.
+* Backed out addition of invalid handle code to MI functions.
+ 
 1 July - Andy
 -------------
 

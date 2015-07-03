@@ -214,6 +214,14 @@
 /**
 @defgroup symbols Preprocessor Symbols
 @{
+  @defgroup symbols-user Symbols definable by the CMPI user
+  @{
+    @brief These symbols can be defined by the user of the CMPI header files.
+
+    @defgroup sym-version CMPI_VERSION
+    @{
+    @}
+  @}
   @defgroup symbols-versioning Symbols related to CMPI versioning
   @{
     @defgroup sym-version-nnn CMPIVersion{NNN}
@@ -225,9 +233,6 @@
       86, 90) are not supported by this header file.
     @}
     @defgroup sym-current-version CMPICurrentVersion
-    @{
-    @}
-    @defgroup sym-version CMPI_VERSION
     @{
     @}
     @defgroup sym-ver-nnn CMPI_VER_{NNN}
@@ -251,6 +256,39 @@
 // definition of feature that was added in CMPI 2.0.0
 \#endif
 </pre>
+    @}
+  @}
+  @defgroup symbols-os-encaps Symbols related to OS Encapsulation Services
+  @{
+    @defgroup sym-thread-type CMPI_THREAD_TYPE
+    @{
+    @}
+    @defgroup sym-thread-return CMPI_THREAD_RETURN
+    @{
+    @}
+    @defgroup sym-thread-cdecl CMPI_THREAD_CDECL
+    @{
+    @}
+    @defgroup sym-thread-key-type CMPI_THREAD_KEY_TYPE
+    @{
+    @}
+    @defgroup sym-mutex-type CMPI_MUTEX_TYPE
+    @{
+    @}
+    @defgroup sym-cond-type CMPI_COND_TYPE
+    @{
+    @}
+  @}
+  @defgroup symbols-export-import Symbols for exporting and importing symbols
+  @{
+    @defgroup sym-export CMPI_EXPORT
+    @{
+    @}
+    @defgroup sym-import CMPI_IMPORT
+    @{
+    @}
+    @defgroup sym-extern-c CMPI_EXTERN_C
+    @{
     @}
   @}
 @}
