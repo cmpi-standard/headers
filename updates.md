@@ -1,3 +1,10 @@
+
+Note
+----
+
+Andy: It seems we don't maintain this file anymore. Let's use clear commit
+messages and small, frequent commits, then we don't need it.
+
 2 July - Andy
 -------------
 

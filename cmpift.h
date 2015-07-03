@@ -360,8 +360,7 @@ typedef struct _CMPIBrokerFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle or @p ctx handle is
-         invalid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb or @p ctx handle is invalid.
 
      @see CBAttachThread()
     */
@@ -391,8 +390,7 @@ typedef struct _CMPIBrokerFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle or @p ctx handle is
-         invalid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb or @p ctx handle is invalid.
 
      @see CBDetachThread()
     */
@@ -452,8 +450,8 @@ typedef struct _CMPIBrokerFT {
          Note: If the MB is not ready for processing the delivery of
          indications, it may drop the indication and still return success.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The handle specified by @p ind
-          is invalid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb, @p ctx, or @p ind handle is
+         invalid.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The namespace specified by
          @p ns is invalid, or the indication instance specified by
          @p ind is invalid.
@@ -514,12 +512,13 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
-         @p classPath does not exist.
-     @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in @p classPath
-          does not exist.
+         @p classPath is invalid or does not exist.
+     @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
+         @p classPath is invalid or does not exist.
      @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found. (**Deprecated**)
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The ctx or classPath handle is invalid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p classPath handle is
+         invalid.
      
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -585,16 +584,16 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
-     @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified
-         in @p instPath does not exist.
+     @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
+         @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
-         @p instPath does not exist.
+         @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The property list specified
          in @p properties is invalid.
      @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found.
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
-         invalid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb, @p ctx or @p instPath handle
+         is invalid.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -655,14 +654,14 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
-         @p classPath does not exist.
+         @p classPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
-         @p classPath does not exist.
+         @p classPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The instance specified in
          @p inst is invalid.
      @li `CMPI_RC_ERR_ALREADY_EXISTS` - Instance already exists.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx, @p classPath, or @p newInst
-         handle is invalid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb, @p ctx, @p classPath, or
+         @p newInst handle is invalid.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -719,14 +718,14 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
-         @p instPath does not exist.
-     @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in @p instPath
-         does not exist.
+         @p instPath is invalid or does not exist.
+     @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
+         @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The instance specified in
          @p modInst, or the properties specified in @p propertyList are invalid.
      @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx, @p instPath, or @p modInst
-         handle is invalid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb, @p ctx, @p instPath, or
+         @p modInst handle is invalid.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -770,9 +769,9 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
-         @p instPath does not exist.
+         @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
-         @p instPath does not exist.
+         @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
          invalid.
@@ -833,9 +832,9 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
-         @p classPath does not exist.
+         @p classPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
-         @p classPath does not exist.
+         @p classPath is invalid or does not exist.
      @li `CMPI_RC_ERR_QUERY_LANGUAGE_NOT_SUPPORTED` - Query language not
          supported.
      @li `CMPI_RC_ERR_INVALID_QUERY` - Invalid query.
@@ -906,9 +905,9 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
-         @p classPath does not exist.
+         @p classPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
-         @p classPath does not exist.
+         @p classPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The property list specified in
          @p properties is invalid.
      @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found. (**Deprecated**)
@@ -1001,9 +1000,9 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
-         @p instPath does not exist.
+         @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
-         @p instPath does not exist.
+         @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p assocClass,
          @p resultClass, @p role, @p resultRole, or
          @p properties arguments are invalid.
@@ -1094,9 +1093,9 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
-         @p instPath does not exist.
+         @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
-         @p instPath does not exist.
+         @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p assocClass, @p resultClass,
          @p role, or @p resultRole arguments are invalid.
      @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found. (**Deprecated**)
@@ -1182,9 +1181,9 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
-         @p instPath does not exist.
+         @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
-         @p instPath does not exist.
+         @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The
          @p resultClass, or @p role arguments are invalid.
      @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found. (**Deprecated**)
@@ -1264,9 +1263,9 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
-         @p instPath does not exist.
+         @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
-         @p instPath does not exist.
+         @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p resultClass, or @p role
          arguments are invalid.
      @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found. (**Deprecated**)
@@ -1357,9 +1356,9 @@ typedef struct _CMPIBrokerFT {
          is not available).
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
-         @p objPath does not exist.
+         @p objPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
-         @p objPath does not exist.
+         @p objPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The method parameters specified in
          the @p in or @p out arguments are invalid.
      @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found.
@@ -1428,9 +1427,9 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
-         @p instPath is invalid.
-     @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in @p instPath
-         does not exist.
+         @p instPath is invalid or does not exist.
+     @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
+         @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_NOT_FOUND` - The class specified in @p instPath
          is not found.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Property not found.
@@ -1490,10 +1489,10 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not
          supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
-     @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace
-         specified in @p instPath is invalid.
+     @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
+         @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
-         @p instPath does not exist.
+         @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_NOT_FOUND` - The class specified in
          @p instPath is not found.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Property not found.
@@ -1582,10 +1581,10 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
-     @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified
-         in @p instPath does not exist.
+     @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
+         @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
-         @p instPath does not exist.
+         @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The property list specified
          in @p properties is invalid.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p classPath handle is
@@ -1692,8 +1691,8 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p instPath is invalid or does not exist.
-     @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in @p instPath is
-         invalid or does not exist.
+     @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
+         @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p assocClass, @p resultClass,
          @p role, @p resultRole, or @p properties arguments are invalid.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
@@ -1793,8 +1792,8 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p instPath is invalid or does not exist.
-     @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in @p instPath is
-         invalid or does not exist.
+     @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
+         @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p resultClass, @p role, or
          @p properties arguments are invalid.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
@@ -1887,8 +1886,8 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace
-         specified in @p instPath is invalid.
+     @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
+         @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_NOT_FOUND` - The class specified in
          @p instPath is not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p instPath handle is invalid.
@@ -1922,8 +1921,8 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in @p ns
-         does not exist.
+     @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
+         @p ns is invalid or does not exist.
      @li `CMPI_RC_ERR_NOT_FOUND` - Class in @p cn not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
@@ -2223,13 +2222,13 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace implied by
-         @p classPath is invalid.
+     @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
+         @p classPath is invalid or does not exist.
      @li `CMPI_RC_ERR_NOT_FOUND` - The class implied by @p classPath is not
          found.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p className format is invalid.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Either the @p mb or @p classPath handle
-         is invalid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb or @p classPath handle is
+         invalid.
 
      @see CMClassPathIsA()
     */
@@ -2260,8 +2259,8 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Either the @p mb or
-         @p object handle is invalid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb or @p object handle is
+         invalid.
 
      @see CDToString()
     */
@@ -2291,8 +2290,8 @@ typedef struct _CMPIBrokerEncFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p type format is invalid.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Either the @p mb or
-         @p object handle is invalid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb or @p object handle is
+         invalid.
 
      @see CDIsOfType()
     */
@@ -2330,8 +2329,8 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Either the @p mb or
-         @p object handle is invalid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb or @p object handle is
+         invalid.
 
      @see CDGetType()
     */
@@ -2532,9 +2531,8 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - @p mb is invalid.
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the parameters is
-         invalid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the parameters is invalid.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
@@ -2649,8 +2647,8 @@ typedef struct _CMPIBrokerEncFT {
      codes:
      @li `CMPI_RC_OK` - Function successful (including if the message file
          handle is NULL).
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Either the @p mb or
-         @p msgFileHandle handle is invalid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb or @p msgFileHandle handle
+         is invalid.
 
      @see CMCloseMessageFile()
      @added200 Added in CMPI 2.0.0.
@@ -2720,9 +2718,9 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_TYPE_MISMATCH` - Invalid insert pair.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Count value range violation.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Either the @p mb or @p msgFileHandle
-         handle is invalid. Note that NULL is a valid value for the
-         @p msgFileHandle handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb or @p msgFileHandle handle
+         is invalid.@n
+         Note that NULL is a valid value for the @p msgFileHandle handle.
      @captranslation This function is part of the Message Translation
          MB capability.
 
@@ -4363,8 +4361,9 @@ typedef struct _CMPIResultFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid, or the
-         MB has aborted the request for which this data is being returned.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt or @op handle is invalid,
+         or the MB has aborted the request for which this data is being
+         returned.
 
      @see CMReturnObjectPath()
     */
@@ -5750,8 +5749,7 @@ typedef struct _CMPIInstanceFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst handle or
-         @p op handle is invalid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst or @p op handle is invalid.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Object path components specified
          in @p op are invalid.
 
@@ -6295,10 +6293,10 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
-     @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace implied by
-         @p op is invalid.
+     @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
+         @p op is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
-         @p op does not exist.
+         @p op is invalid or does not exist.
      @li `CMPI_RC_ERR_NOT_FOUND` - The qualifier specified in
          @p qName is invalid for classes.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
@@ -6336,10 +6334,10 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
-     @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace implied by
-         @p op is invalid.
+     @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
+         @p op is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
-         @p op does not exist.
+         @p op is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The property (or reference)
          specified in @p pName is not exposed by the class
          specified in @p op.
@@ -6379,10 +6377,10 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
-     @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace implied by
-         @p op is invalid.
+     @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
+         @p op is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
-         @p op does not exist.
+         @p op is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The property (or reference)
          specified in @p pName is not exposed by the class
          specified in @p op.
@@ -6425,10 +6423,10 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
-     @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace implied by
-         @p op is invalid.
+     @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
+         @p op is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
-         @p op does not exist.
+         @p op is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The method
          specified in @p mName is not exposed by the class
          specified in @p op, or it does not have a
@@ -6472,7 +6470,7 @@ typedef struct _CMPIObjectPathFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
 
      @todo KS: Add see macro
     */
@@ -7979,8 +7977,7 @@ typedef struct _CMPIArrayFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - @p index value
          out of range.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar
-         handle is invalid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
 
      @see CMGetArrayElementAt()
     */
@@ -8469,7 +8466,7 @@ typedef struct _CMPIPropertyListFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid @p plist.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p plist handle is invalid.
 
      @see CMRelease()
     */
@@ -8498,7 +8495,7 @@ typedef struct _CMPIPropertyListFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid @p plist.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p plist handle is invalid.
 
      @see CMClone()
     */
@@ -8533,7 +8530,7 @@ typedef struct _CMPIPropertyListFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid @p plist.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p plist handle is invalid.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Invalid @p pname.
 
      @todo KS: Find macro for this
@@ -8709,8 +8706,7 @@ typedef struct _CMPIEnumerationFilterFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ef handle
-         is invalid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ef handle is invalid.
      @li `CMPI_RC_ERR_INVALID_QUERY` - The filterQuery is not a
          valid query in the specified filter query language
      @li `CMPI_RC_ERR_QUERY_FEATURE_NOT_SUPPORTED` - A feature of
@@ -10399,14 +10395,16 @@ typedef struct _CMPIPropertyMIFT {
      <TR><TD>`CMPI_RC_OK`</TD><TD>N/A</TD>
          <TD>Function Successful</TD></TR>
      <TR><TD>`CMPI_RC_ERR_INVALID_NAMESPACE`</TD><TD>N/A</TD>
-         <TD>The namespace is invalid. This condition is already verified by the
-         MB. (**Deprecated**)</TD></TR>
+         <TD>The namespace specified in @p instPath is invalid or does not
+         exist. This condition is already verified by the MB.
+         (**Deprecated**)</TD></TR>
      <TR><TD>`CMPI_RC_ERR_INVALID_PARAMETER`</TD><TD>N/A</TD>
          <TD>The parameter is invalid. This condition is already verified by the
          MB. (**Deprecated**)</TD></TR>
      <TR><TD>`CMPI_RC_ERR_INVALID_CLASS`</TD><TD>N/A</TD>
-         <TD>The CIM class does not exist. This condition is already verified by
-         the MB. (**Deprecated**)</TD></TR>
+         <TD>The class specified in @p instPath is invalid or does not
+         exist. This condition is already verified by the MB.
+         (**Deprecated**)</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>WIPG0228</TD>
          <TD>Function is not supported by the MB</TD></TR>
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
@@ -10425,8 +10423,8 @@ typedef struct _CMPIPropertyMIFT {
          deprecation of property client operations in DMTF specifications.
     */
     CMPIStatus (*setProperty) (CMPIPropertyMI* mi, const CMPIContext* ctx,
-        const CMPIResult* rslt, const CMPIObjectPath* op, const char* name,
-        const CMPIData data);
+        const CMPIResult* rslt, const CMPIObjectPath* instPath,
+        const char* name, const CMPIData data);
 
     /**
      @brief Retrieve property value of a given instance. (**Deprecated**)
@@ -10467,14 +10465,16 @@ typedef struct _CMPIPropertyMIFT {
      <TR><TD>`CMPI_RC_OK`</TD><TD>N/A</TD>
          <TD>Function Successful</TD></TR>
      <TR><TD>`CMPI_RC_ERR_INVALID_NAMESPACE`</TD><TD>N/A</TD>
-         <TD>The namespace is invalid. This condition is already verified by the
-         MB. (**Deprecated**)</TD></TR>
+         <TD>The namespace specified in @p instPath is invalid or does not
+         exist. This condition is already verified by the MB.
+         (**Deprecated**)</TD></TR>
      <TR><TD>`CMPI_RC_ERR_INVALID_PARAMETER`</TD><TD>N/A</TD>
          <TD>The parameter is invalid. This condition is already verified by the
          MB. (**Deprecated**)</TD></TR>
      <TR><TD>`CMPI_RC_ERR_INVALID_CLASS`</TD><TD>N/A</TD>
-         <TD>The CIM class does not exist. This condition is already verified by
-         the MB. (**Deprecated**)</TD></TR>
+         <TD>The class specified in @p instPath is invalid or does not
+         exist. This condition is already verified by the MB.
+         (**Deprecated**)</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>WIPG0228</TD>
          <TD>Function is not supported by the MB</TD></TR>
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
@@ -10543,14 +10543,16 @@ typedef struct _CMPIPropertyMIFT {
      <TR><TD>`CMPI_RC_OK`</TD><TD>N/A</TD>
          <TD>Function Successful</TD></TR>
      <TR><TD>`CMPI_RC_ERR_INVALID_NAMESPACE`</TD><TD>N/A</TD>
-         <TD>The namespace is invalid. This condition is already verified by the
-         MB. (**Deprecated**)</TD></TR>
+         <TD>The namespace specified in @p instPath is invalid or does not
+         exist. This condition is already verified by the MB.
+         (**Deprecated**)</TD></TR>
      <TR><TD>`CMPI_RC_ERR_INVALID_PARAMETER`</TD><TD>N/A</TD>
          <TD>The parameter is invalid. This condition is already verified by the
          MB. (**Deprecated**)</TD></TR>
      <TR><TD>`CMPI_RC_ERR_INVALID_CLASS`</TD><TD>N/A</TD>
-         <TD>The CIM class does not exist. This condition is already verified by
-         the MB. (**Deprecated**)</TD></TR>
+         <TD>The class specified in @p instPath is invalid or does not
+         exist. This condition is already verified by the MB.
+         (**Deprecated**)</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>WIPG0228</TD>
          <TD>Function is not supported by the MB</TD></TR>
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
