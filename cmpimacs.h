@@ -54,11 +54,11 @@
           bypassing the added step of getting from the broker
           object argument to the function table and the
           function. Thus, for example:
-         <pre>
+         @code(.c)
                  inst->ft->getProperty(inst, name, rc);
              is simplified by a convience function to:
                  CMGetProperty(inst, name, rc);
-          </pre>
+          @endcode
  *    @li macros that consolidate a group of cmpift.d calls into
  *        a single macro. The primary examples are CMPClone()
  *        and CMRelease() which call the clone() and release()
@@ -107,7 +107,7 @@
     @par Examples
       Example of Instance Provider ...EnumInstanceNames function that returns
       CMPI_RC_OK to the MB.
-      <pre>
+      @code(.c)
         CMPIStatus testProvEnumInstanceNames
           (CMPIInstanceMI * cThis, const CMPIContext * ctx,
            const CMPIResult * rslt, const CMPIObjectPath * ref)
@@ -115,7 +115,7 @@
           ....  Code to return instance names
           CMReturn (CMPI_RC_OK);
         }
-      </pre>
+      @endcode
    */
 noReturn CMReturn (CMPIrc rc);
 #   else
@@ -143,7 +143,7 @@ noReturn CMReturn (CMPIrc rc);
     @par Example
     Returns to calling function with CMPIStatus set with error
     code and CMPIString form of message text.
-    <pre>
+    @code(.c)
           if (brokerCapabilities & CMPI_MB_Supports_Extended_Error)
           {
              ...
@@ -154,7 +154,7 @@ noReturn CMReturn (CMPIrc rc);
                   CMNewString(_broker,
                   "Extended error support not avilable", NULL));
           }
-    </pre>
+    @endcode
    */
 noReturn CMReturnWithString (CMPIrc rc, CMPIString * str);
 #   else
@@ -185,7 +185,7 @@ noReturn CMReturnWithString (CMPIrc rc, CMPIString * str);
     @par Example
     This example returns to MB with CMPI_RC_ERR_NOT_SUPPORTED error and text
     for instance provider modify instance function.
-    <pre>
+    @code(.c)
         static const CMPIBroker * _broker;
         ...
         CMPIStatus cmpiPerf_TestClassAProviderModifyInstance(...)
@@ -193,7 +193,7 @@ noReturn CMReturnWithString (CMPIrc rc, CMPIString * str);
             CMReturnWithChars(_broker, CMPI_RC_ERR_NOT_SUPPORTED,
                 "Modify Instance not supported");
         }
-    </pre>
+    @endcode
 */
 noReturn CMReturnWithChars (const CMPIBroker * mb, CMPIrc rc, char *msg);
 #   else
@@ -218,8 +218,7 @@ noReturn CMReturnWithChars (const CMPIBroker * mb, CMPIrc rc, char *msg);
     CMPIStatus struct @p st with @p rcp a @ref CMPIrc error
     code and sets the message component CMPIStatus.message NULL.
 
-    @param st Pointer to CMPIStatus object in which @rcp is to
-              be inserted.
+    @param st Pointer to CMPIStatus object in which @p rcp is to be inserted.
     @param rcp CMPIrc return code
     @return This macro contains a return statement and exits
             the function in which it was called.
@@ -227,11 +226,11 @@ noReturn CMReturnWithChars (const CMPIBroker * mb, CMPIrc rc, char *msg);
     @todo why does example show broker?
     @see CMPIStatus
     @par Example
-    <pre>
+    @code(.c)
           static const CMPIBroker * _broker;
           CMPIStatus rc = { CMPI_RC_OK, NULL };
           CMSetStatus(_broker, &rc, CMPI_RC_ERR_NOT_SUPPORTED);
-    </pre>
+    @endcode
   */
 _CMPI_INLINE_MOD void CMSetStatus (CMPIStatus * st, CMPIrc rcp)
 {
@@ -255,12 +254,13 @@ _CMPI_INLINE_MOD void CMSetStatus (CMPIStatus * st, CMPIrc rcp)
 
 
 #   ifdef CMPI_INLINE
-/** @brief Initializes CMPIStatus object with @p rc CMPIStatus
-    and @p string message.
+/** @brief Initializes  provided CMPIStatus object @p st with @p
+           rcp CMPIStatus and @p string message.
 
     @param st Points to target CMPIStatus object.
-    @param rcp CMPIrc return code to be insered int @st.
-    @param string CMPIString containing Message to be inserted into @st.
+    @param rcp CMPIrc return code to be inserted int @p st.
+    @param string CMPIString containing Message text to be
+                  inserted into @p st.
   */
 _CMPI_INLINE_MOD void CMSetStatusWithString(
     CMPIStatus * st,
@@ -287,7 +287,7 @@ _CMPI_INLINE_MOD void CMSetStatusWithString(
 
 #   ifdef CMPI_INLINE
 /** @brief Initializes CMPIStatus struct with @p rcp and message
-           @p msg arguments.
+           text msg arguments.
 
     CMSetStatusWithChars convience function initializes a
     CMPIStatus struct with @p rcp and either a null msg or  a
@@ -342,21 +342,25 @@ _CMPI_INLINE_MOD void CMSetStatusWithChars(
 /** @brief Tests any CMPI object to determine if it is a NULL object.
 
     CMIsNullObject tests any CMPI object @p obj to determine if
-    its pointer is NULL.
+    its pointer is NULL. The function call is defined as void**
+    to encompass any CMPI strut type.
     @param obj CMPI Object pointer.
     @retval true The object is NULL.
     @retval false The object is NOT NULL.
     @par Example
-    <pre>
-        cop = CMNewObjectPath(_broker,"root/SampleProvider",_ClassName,&rc);
+    @code(.c)
+        cop = CMNewObjectPath(_broker,"root/SampleProvider", _ClassName, &rc);
         CMAddKey(cop2, "Identifier", (CMPIValue *)&value1, CMPI_uint8);
-        CMT: test for NULL before creating insance from cop
+        // test for NULL before creating insance from cop
         if(!CMIsNullObject(cop))
         {
             instance2 = CMNewInstance(_broker, cop2, &rc);
             ...
         }
-    </pre>
+    @endcode
+    @todo object is incorrect word.  Need to define what
+          encompasses CMPI Object. Do we need list of all
+          possibles?
   */
 _CMPI_INLINE_MOD CMPIBoolean CMIsNullObject (const void *obj)
 {
@@ -376,37 +380,31 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsNullObject (const void *obj)
     @retval false Not NULL CMPIData.val value.
     @see CMPIData
     @par Example
-    Process  received method call for class name, method name,
-    arguments, argument name and value in the argument
-    <pre>
-    CMT: processing a method input parameter
-    CMT: get the class name from object-path
+    Process  received method call that includes a CIMObject path @p ref for
+    classname, method name, arguments, argument name and value in the argument
+    @code(.c)
+    CMPIStatus* rc;
     className = CMGetClassName(ref, &rc);
-    CMT: get a pointer to a C char* representation of this String.
     name = CMGetCharsPtr(className, &rc);
-    if(!strcmp(name, _ClassName))
-    {
-       if(!strcmp ("SayHello", methodName))
-       {
-            CMT: gets the number of arguments contained in "in" Args.
-            if(CMGetArgCount(in, &rc) > 0)
-            {
-                CMT: gets Name argument value
-                data = CMGetArg(in, "Name", &rc);
-                CMT:check for data type and not null value of argument value
-                  recieved
-                if(data.type == CMPI_string &&  !(CMIsNullValue(data)))
-                {
+    if(!strcmp(name, _ClassName)){
+       if(!strcmp ("SayHello", methodName)){
+            // gets the number of arguments contained in "in"
+            Args. if(CMGetArgCount(in, &rc) > 0){
+                // gets Name argument value
+                data = CMGetArg(in, "MethodName", &rc);
+                // should we check rc on response.
+                //check for data type and !null value of
+                argument value rcvd if(data.type == CMPI_string
+                && !(CMIsNullValue(data))) {
                     strCat = CMGetCharsPtr(data.value.string, &rc);
                     strcat(result, strCat);
                     strcat(result, "!");
-                    CMT: create the new string to return to client
+                    // create the new string to return to client
                     str1 = CMNewString(_broker, result, &rc);
                     val1.string = str1;
                 }
-    </pre>
-    @todo do not know how we represent c comments within
-          Examples
+            . . .
+    @endcode
   */
 _CMPI_INLINE_MOD CMPIBoolean CMIsNullValue (const CMPIData val)
 {
@@ -417,13 +415,17 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsNullValue (const CMPIData val)
 #   endif
 
 #   ifdef CMPI_INLINE
-/** brief Tests  CMPIData object for keyValue data item.
+/** @brief Tests CMPIData object for keyValue data item.
 
-    @todo KS add detailed description
-      @param val CMPIValue object.
-      @retval true CMPIData object is KeyValue
-      @retval false CMPIData object is NOT KeyValue
-      @see CMPIValueState CMPIData
+    CMIsKeyValue() tests @val a CMPIValue to determine if it is a keyValue
+    data item.
+    @param val Points to CMPIValue object to be tested.
+    @retval true CMPIData object is keyValue
+    @retval false CMPIData object is NOT keyValue
+    @see CMPIValueState CMPIData
+    @todo No test for this in OpenPegasus
+    @todo this is value call, not pointer.  Shouldn't this be
+          pointer call?
   */
 _CMPI_INLINE_MOD CMPIBoolean CMIsKeyValue (CMPIData val)
 {
@@ -434,13 +436,16 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsKeyValue (CMPIData val)
 #   endif
 
 #   ifdef CMPI_INLINE
-/** brief Tests CMPIData object for array data item type.
+/** @brief Tests CMPIData object for array data item type.
 
-    @@todoKS add detailed description
-    @param val Value object
+    CMIsArray() tests @val a CMPIValue to determine if it is an
+    array.
+    @param val Points toValue object
     @retval true CMPIData object is array type.
     @retval false CMPIData object is NOT array type
     @todo KS this needs example.
+    @todo not tested in OpenPegasus
+    @todo this is defined as
   */
 _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
 {
@@ -480,18 +485,18 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
 
    @par Example
    Clone an instance to add to an array
-   <pre>
-       CMT: preexisting instance CMPIInstance * ci)
+   @code(.c)
+       // preexisting instance CMPIInstance * ci)
         {
             CMPIStatus rc = { CMPI_RC_OK, NULL };
             CMPIInstance * inst;
             if(ci)
             {
-                CMT: clone the instance to be added to the array
+                // clone the instance to be added to the array
                 inst = CMClone(ci, &rc);
                 . . .
             }
-   </pre>
+   @endcode
 
    @see CMPIContextFT.clone(), CMPIResultFT.clone(), CMPIErrorFT.clone(),
      CMPIInstanceFT.clone(), CMPIObjectPathFT.clone(),
@@ -500,6 +505,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
      CMPIArgsFT.clone(), CMPIStringFT.clone(),
      CMPIIEnumerationFT.clone(), CMPIDateTimeFT.clone(),
      CMPIPropertyListFT.clone(), CMPIEnumerationFilterFT.clone(),
+  @todo KS test if we need brief in this and release doc
 */
 #   define CMClone(o,rc)       ((o)->ft->clone((o),(rc)))
 
@@ -554,7 +560,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
     @return The newly created Instance.
     @see CMPIBrokerEncFT.newInstance()
     @par Example
-    <pre>
+    @code(.c)
     CMPIStatus testProvEnumInstances
       (CMPIInstanceMI * cThis, const CMPIContext * ctx, const CMPIResult * rslt,
        const CMPIObjectPath * ref, const char **properties)
@@ -580,7 +586,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
       CMReturnDone (rslt);
       CMReturn (CMPI_RC_OK);
     }
-    </pre>
+    @endcode
  */
 _CMPI_INLINE_MOD CMPIInstance * CMNewInstance (
     const CMPIBroker * mb,
@@ -596,10 +602,9 @@ _CMPI_INLINE_MOD CMPIInstance * CMNewInstance (
 #   ifdef CMPI_INLINE
 /** @brief ObjectPath factory service.
 
-    CMNewObjectPath convience function directly calls
-    CMPIBrokerEncFt.newObjectPath() with the same arguments
+    CMNewObjectPath convience function executes CMPIBrokerEncFt.newObjectPath()
     to create a new CMPIObjectPath.
-    @return The newly created ObjectPath.
+
     @see CMPIBrokerEncFT.newObjectPath()
 */
 _CMPI_INLINE_MOD CMPIObjectPath * CMNewObjectPath (
@@ -624,15 +629,15 @@ _CMPI_INLINE_MOD CMPIObjectPath * CMNewObjectPath (
 
     @see CMPIBrokerEncFT.newString()
     @par Example
-    <pre>
+    @code(.c)
 
         CMPIString1 *cmpiStr;
         CMPIString2 *cmpiStr;
         cmpiStr1 = CMNewString(_broker, NULL, &rc);
-        CMT: test rc for OK
+        // test rc for OK
         cmpiStr2 = CMNewString(_broker, "Tracing for level 5", &rc);
-        CMT: test rc for OK
-    </pre>
+        // test rc for OK
+    @endcode
 */
 _CMPI_INLINE_MOD CMPIString * CMNewString (
     const CMPIBroker * mb,
@@ -796,8 +801,8 @@ _CMPI_INLINE_MOD CMPIBoolean CMClassPathIsA(
     // Debugging macros
 
 #   ifdef CMPI_INLINE
-/** Attempts to transforms an CMPI object to a broker specific string format.
-         Intended for debugging purposes only.
+/** Attempts to transforms a CMPI object to a broker specific
+         string format. Intended for debugging purposes only.
      @param mb Points to CMPIBroker.
      @param object A valid CMPI object.
      @param rc Output: Service return status (suppressed when NULL).
@@ -876,10 +881,10 @@ _CMPI_INLINE_MOD CMPIString *CDGetType(
      @param rc Output: Service return status
 
     Example usage:
-     <PRE>
+     @code(.c)
          CMLogMessage(_broker, 1, "TestProvider",
              "Entering EnumerateInstance", NULL);
-     </PRE>
+     @endcode
     @see CMPIBrokerEncFT.logMessage()
 */
 
@@ -916,9 +921,9 @@ _CMPI_INLINE_MOD CMPIStatus CMLogMessage(
      @see CMPIBrokerEncFT.trace()
 
      Example usage:
-     <PRE>
+     @code(.c)
            CMTraceMessage( );
-     </PRE>
+     @endcode
 
 */
 _CMPI_INLINE_MOD CMPIStatus CMTraceMessage(
@@ -951,9 +956,9 @@ _CMPI_INLINE_MOD CMPIStatus CMTraceMessage(
     @see CMPIBrokerEncFT.newCMPIError()
 
     Example usage:
-    <PRE>
+    @code(.c)
         CMNewCMPIError( );
-    </PRE>
+    @endcode
 */
 _CMPI_INLINE_MOD CMPIError* CMNewCMPIError(
     const CMPIBroker* b,
@@ -985,9 +990,9 @@ _CMPI_INLINE_MOD CMPIError* CMNewCMPIError(
     @see CMPIBrokerEncFT.openMessageFile()
 
     Example usage:
-    <PRE>
+    @code(.c)
         CMOpenMessageFile(_broker,"/path/msgFile",&msgFileHandle);
-    </PRE>
+    @endcode
 */
 _CMPI_INLINE_MOD CMPIStatus CMOpenMessageFile(
     const CMPIBroker* b,
@@ -1010,9 +1015,9 @@ _CMPI_INLINE_MOD CMPIStatus CMOpenMessageFile(
     @return Service return status
     @see CMPIBrokerEncFT.closeMessageFile()
     Example usage:
-    <PRE>
+    @code(.c)
         CMCloseMessageFile(_broker,msgFileHandle);
-    </PRE>
+    @endcode
 */
 _CMPI_INLINE_MOD CMPIStatus CMCloseMessageFile(
     const CMPIBroker* b,
@@ -1055,10 +1060,10 @@ _CMPI_INLINE_MOD CMPIStatus CMCloseMessageFile(
     @return the translated message.
     @see CMPIBrokerEncFT.getMessage2()
     Example usage:
-    <PRE>
+    @code(.c)
        CMGetMessage2(_broker,"msgid",msgFileHandle,"Test $0 $1",
        NULL,CMFmtArgs2(CMFmtChars("message"),CMFmtSint(1));
-    </PRE>
+    @endcode
 */
 _CMPI_INLINE_MOD CMPIString* CMGetMessage2(
     const CMPIBroker* mb,
@@ -1271,11 +1276,11 @@ CMSetHostname (CMPIObjectPath * op, const char *hn)
 #   endif
 
 #   ifdef CMPI_INLINE
-/** Get the hostname component.
-     @param op ObjectPath this pointer.
-     @param rc Output: Service return status (suppressed when NULL).
-     @return The hostname component.
-     @see CMPIObjectPathFT.setHostname()
+/** @brief Get the hostname component from CIMObjectPath
+
+    CMGetHostName executes CMPIObjectPathFT.getHostname() to get
+    the host name component from @p op a CMPIObjectPath
+    @see CMPIObjectPathFT.getHostname()
       */
 _CMPI_INLINE_MOD CMPIString *CMGetHostname(
     const CMPIObjectPath * op,
@@ -1643,13 +1648,11 @@ _CMPI_INLINE_MOD CMPIStatus CMSetArrayElementAt(
 
 
 #   ifdef CMPI_INLINE
-/** Adds/replaces a named argument.
-    @param as Args this pointer.
-    @param name Argument name.
-    @param value Address of value structure.
-    @param type Value type.
-    @return Service return status.
-    @see  CMPIArgsFT.addArg()
+/** @brief Set a method parameter in a CMPIArgs object.
+    CMAddArg() executes CMPIArgsFT.addArg() to add or replace a method
+    parameter named @p name with the CMPIValue @p value and type @p type
+    in a CMPIArgs object @p as.
+    @see CMPIArgsFT.addArg()
 */
 _CMPI_INLINE_MOD CMPIStatus CMAddArg(
     CMPIArgs * as,
@@ -1665,11 +1668,10 @@ _CMPI_INLINE_MOD CMPIStatus CMAddArg(
 #   endif
 
 #   ifdef CMPI_INLINE
-/** Gets a named argument value.
-    @param as Args this pointer.
-    @param name Argument name.
-    @param rc Output: Service return status (suppressed when NULL).
-    @return Argument value.
+/** @brief Get a method parameter in a CMPIArgs object by name.
+
+    CMGetArg executes CMPIArgsFT.getArg() to get a method
+    parameter from a CMPIArgs object by its name.
     @see  CMPIArgsFT.getArg()
 */
 _CMPI_INLINE_MOD CMPIData CMGetArg(
@@ -1684,12 +1686,9 @@ _CMPI_INLINE_MOD CMPIData CMGetArg(
 #   endif
 
 #   ifdef CMPI_INLINE
-/** Gets a Argument value defined by its index.
-    @param as Args this pointer.
-    @param index Position in the internal Data array.
-    @param name Output: Returned argument name (suppressed when NULL).
-    @param rc Output: Service return status (suppressed when NULL).
-    @return Argument value.
+/** @brief Get a method parameter in a CMPIArgs object by index.
+    CMGetArgAt() executes CMPIArgsFT.getArgAt() to get an
+    argument value from a CMPIArgs object by its index.
     @see  CMPIArgsFT.getArgAt()
 */
 _CMPI_INLINE_MOD CMPIData CMGetArgAt(
@@ -1705,10 +1704,10 @@ _CMPI_INLINE_MOD CMPIData CMGetArgAt(
 #   endif
 
 #   ifdef CMPI_INLINE
-/** Gets the number of arguments contained in this Args.
-    @param as Args this pointer.
-    @param rc Output: Service return status (suppressed when NULL).
-    @return Number of properties.
+/** @brief Get number of arguments in a CMPIArgs array.
+
+    CMGetArgCount() executes CMPIArgsFT.getArgCount() to get the
+    number of arguments in the CMPIArgs array.
     @see  CMPIArgsFT.getArgCount()
 */
 _CMPI_INLINE_MOD CMPICount CMGetArgCount (const CMPIArgs * as, CMPIStatus * rc)
@@ -1813,11 +1812,9 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsInterval(
     @param rc Output: Service return status (suppressed when NULL).
     @return the error type this Error object conatins
     @see CMPIErrorFT.getErrorType()
-    @todo Looks like the inline form of this is
-          wrong. the Macro is CMGetErrorType. but it is
-          (*getErrorType) in line
+    @note Inline code fixed in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIErrorType (*getErrorType)(
+_CMPI_INLINE_MOD CMPIErrorType CMGetErrorType(
     const CMPIError* er,
     CMPIStatus* rc)
 {
@@ -1833,9 +1830,9 @@ _CMPI_INLINE_MOD CMPIErrorType (*getErrorType)(
     @param rc Output: Service return status (suppressed when NULL).
     @return A string, which can be NULL
     @see CMPIErrorFT.getOtherErrorType()
-    @looks like the inline form of this is wrong
+    @note Inline code fixed in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIString* (*getOtherErrorType)(
+_CMPI_INLINE_MOD CMPIString* CMGetOtherErrorType(
     const CMPIError* er,
     CMPIStatus* rc)
 {
@@ -1851,8 +1848,9 @@ _CMPI_INLINE_MOD CMPIString* (*getOtherErrorType)(
     @param rc Output: Service return status (suppressed when NULL).
     @return A string, which can be NULL
     @see CMPIErrorFT.getOwningEntity()
+    @note Inline code fixed in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIString* (*getOwningEntity)(
+_CMPI_INLINE_MOD CMPIString* CMGetOwningEntity(
     const CMPIError* er, CMPIStatus* rc)
 {
   return ((er)->ft->getOwningEntity ((er), (rc)));
@@ -1867,9 +1865,9 @@ _CMPI_INLINE_MOD CMPIString* (*getOwningEntity)(
     @param rc Output: Service return status (suppressed when NULL).
     @return A string, which can be NULL
     @see CMPIErrorFT.getMessageID()
-    @todo inline form wrong
+    @note Inline code fixed in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIString* (*getMessageID)(
+_CMPI_INLINE_MOD CMPIString* CMGetMessageID(
     const CMPIError* er,
     CMPIStatus* rc)
 {
@@ -1880,14 +1878,15 @@ _CMPI_INLINE_MOD CMPIString* (*getMessageID)(
 #   endif
 
 #   ifdef CMPI_INLINE
-/** Returns a string comnating an error message.
+/** Returns a string comntaining an error message.
     @param er Error this pointer
     @param rc Output: Service return status (suppressed when NULL).
     @return A string, which can be NULL
     @see CMPIErrorFT.getMessage()
-    @todo inline form wrong.
- */
-_CMPI_INLINE_MOD CMPIString* (*getMessage)(const CMPIError* er, CMPIStatus* rc)
+    @note Inline form corrected in CMPI 2.1
+    */
+_CMPI_INLINE_MOD CMPIString* CMGetErrorMessage(
+    const CMPIError* er, CMPIStatus* rc)
 {
   return ((er)->ft->getMessage ((er), (rc)));
 }
@@ -1901,9 +1900,9 @@ _CMPI_INLINE_MOD CMPIString* (*getMessage)(const CMPIError* er, CMPIStatus* rc)
     @param rc Output: Service return status (suppressed when NULL).
     @return the perceived severity
     @see CMPIErrorFT.getPerceivedSeverity()
-    @todo inline form wrong.
+    @note Inline form corrected in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIErrorSeverity (*getPerceivedSeverity)(
+_CMPI_INLINE_MOD CMPIErrorSeverity CMGetPerceivedSeverity(
     const CMPIError* er,
     CMPIStatus* rc)
 {
@@ -1920,9 +1919,9 @@ _CMPI_INLINE_MOD CMPIErrorSeverity (*getPerceivedSeverity)(
     @param rc Output: Service return status (suppressed when NULL).
     @return A probable cause value
     @see CMPIErrorFT.getProbableCause()
-    @todo inline form wrong.
+    @note Inline form corrected in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIErrorProbableCause (*getProbableCause)(
+_CMPI_INLINE_MOD CMPIErrorProbableCause CMGetProbableCause(
     const CMPIError* er,
     CMPIStatus* rc)
 {
@@ -1939,9 +1938,9 @@ _CMPI_INLINE_MOD CMPIErrorProbableCause (*getProbableCause)(
     @param rc Output: Service return status (suppressed when NULL).
     @return A string, which can be NULL
     @see CMPIErrorFT.getProbableCauseDescription()
-    @todo inline form wrong.
+    @note Inline form corrected in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIString* (*getProbableCauseDescription)(
+_CMPI_INLINE_MOD CMPIString* CMGetProbableCauseDescription(
     const CMPIError* er,
     CMPIStatus* rc)
 {
@@ -1958,9 +1957,9 @@ _CMPI_INLINE_MOD CMPIString* (*getProbableCauseDescription)(
     @param rc Output: Service return status (suppressed when NULL).
     @return A array of strings, which can be NULL
     @see CMPIErrorFT.getRecommendedActions()
-    @todo inline form wrong.
+    @note Inline form corrected in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIArray* (*getRecommendedActions)(
+_CMPI_INLINE_MOD CMPIArray* CMGetRecommendedActions(
     const CMPIError* er,
     CMPIStatus* rc)
 {
@@ -1977,16 +1976,16 @@ _CMPI_INLINE_MOD CMPIArray* (*getRecommendedActions)(
     @param rc Output: Service return status (suppressed when NULL).
     @return A string, which can be NULL
     @see CMPIErrorFT.getErrorSource()
-    @todo inline form wrong.
+    @note Inline form corrected in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIString* (*getErrorSource)(
+_CMPI_INLINE_MOD CMPIString* CMGetErrorSource(
     const CMPIError* er, CMPIStatus* rc)
 {
   return ((er)->ft->getErrorSource ((er), (rc)));
 }
 #   else
 #      define CMGetErrorSource(e,rc) \
-              ((e)->ft->getErrorSource((e),(rc)))
+              ((e)->ft->CMGetErrorSourcegetErrorSource((e),(rc)))
 #   endif
 
 #   ifdef CMPI_INLINE
@@ -1995,9 +1994,9 @@ _CMPI_INLINE_MOD CMPIString* (*getErrorSource)(
     @param rc Output: Service return status (suppressed when NULL).
     @return A error source format  code
     @see CMPIErrorFT.getErrorSourceFormat()
-    @todo inline form wrong.
+    @note Inline form corrected in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIErrorSrcFormat (*getErrorSourceFormat)(
+_CMPI_INLINE_MOD CMPIErrorSrcFormat CMGetErrorSourceFormat(
     const CMPIError* er,
     CMPIStatus* rc)
 {
@@ -2015,9 +2014,9 @@ _CMPI_INLINE_MOD CMPIErrorSrcFormat (*getErrorSourceFormat)(
     @param rc Output: Service return status (suppressed when NULL).
     @return A string, which can be NULL
     @see CMPIErrorFT.getOtherErrorSourceFormat()
-    @todo inline form wrong.
+    @note Inline form corrected in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIString* (*getOtherErrorSourceFormat)(
+_CMPI_INLINE_MOD CMPIString* CMGetOtherErrorSourceFormat(
     const CMPIError* er,
     CMPIStatus* rc)
 {
@@ -2034,9 +2033,9 @@ _CMPI_INLINE_MOD CMPIString* (*getOtherErrorSourceFormat)(
     @param rc Output: Service return status (suppressed when NULL).
     @return A CMPI Status code
     @see CMPIErrorFT.getCIMStatusCode()
-    @todo inline form wrong.
+    @note Inline form corrected in CMPI 2.1
 */
-_CMPI_INLINE_MOD CMPIrc (*getCIMStatusCode)(const CMPIError* er, CMPIStatus* rc)
+_CMPI_INLINE_MOD CMPIrc CMGetCIMStatusCode(const CMPIError* er, CMPIStatus* rc)
 {
     return ((er)->ft->getCIMStatusCode ((er), (rc)));
 }
@@ -2047,13 +2046,11 @@ _CMPI_INLINE_MOD CMPIrc (*getCIMStatusCode)(const CMPIError* er, CMPIStatus* rc)
 
 #   ifdef CMPI_INLINE
 /** Returns a string which describes the status code error.
-    @param er Error this pointer
-    @param rc Output: Service return status (suppressed when NULL).
-    @return A string, which can be NULL
+
     @see CMPIErrorFT.getCIMStatusCodeDescription()
-    @todo inline form wrong.
+    @note Inline form corrected in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIString* (*getCIMStatusCodeDescription)(
+_CMPI_INLINE_MOD CMPIString* CMGetCIMStatusCodeDescription(
     const CMPIError* er,
     CMPIStatus* rc)
 {
@@ -2066,13 +2063,11 @@ _CMPI_INLINE_MOD CMPIString* (*getCIMStatusCodeDescription)(
 
 #   ifdef CMPI_INLINE
 /** Returns an array which contains the dynamic content of the message.
-    @param er The Error this pointer
-    @param rc Output: Serbice return status (surpressed when NULL)
-    @return An array of CMPIStrings which represents the dynamic values
+
     @see CMPIErrorFT.getMessageArguments()
-    @todo inline form wrong.
+    @note Inline form corrected in CMPI 2.1
 */
-_CMPI_INLINE_MOD CMPIArray* (*getMessageArguments)(
+_CMPI_INLINE_MOD CMPIArray* CMGetMessageArguments(
     const CMPIError* er,
     CMPIStatus* rc)
 {
@@ -2089,9 +2084,9 @@ _CMPI_INLINE_MOD CMPIArray* (*getMessageArguments)(
     @param et The error type
     @return Output: Service return status
     @see CMPIErrorFT.setErrorType()
-    @todo inline form wrong.
+    @note Inline form corrected in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIStatus (*setErrorType)(
+_CMPI_INLINE_MOD CMPIStatus CMSetErrorType(
     CMPIError* er,
     const CMPIErrorType et)
 {
@@ -2109,9 +2104,9 @@ _CMPI_INLINE_MOD CMPIStatus (*setErrorType)(
         error type is "OTHER"
     @return Output: Service return status
     @see CMPIErrorFT.setOtherErrorType()
-    @todo inline form wrong.
+    @note Inline form corrected in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIStatus (*setOtherErrorType)(
+_CMPI_INLINE_MOD CMPIStatus CMSetOtherErrorType(
     CMPIError* er,
     const char * oet)
 {
@@ -2128,9 +2123,9 @@ _CMPI_INLINE_MOD CMPIStatus (*setOtherErrorType)(
     @param pc The probable cause string
     @return Output: Service return status
     @see CMPIErrorFT.setProbableCauseDescription()
-    @todo inline form wrong.
+    @note Inline form corrected in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIStatus (*setProbableCauseDescription)(
+_CMPI_INLINE_MOD CMPIStatus CMSetProbableCauseDescription(
     CMPIError* er,
     const char * pcd)
 {
@@ -2148,9 +2143,9 @@ _CMPI_INLINE_MOD CMPIStatus (*setProbableCauseDescription)(
               be taken t deal with this error
     @return Output: Service return status
     @see CMPIErrorFT.setRecommendedActions()
-    @todo inline form wrong.
+    @note Inline form corrected in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIStatus (*setRecommendedActions)(
+_CMPI_INLINE_MOD CMPIStatus CMSetRecommendedActions(
     CMPIError* er,
     const CMPIArray* ra)
 {
@@ -2168,9 +2163,9 @@ _CMPI_INLINE_MOD CMPIStatus (*setRecommendedActions)(
     @param es the string which describes the source
     @return Output: Service return status
     @see CMPIErrorFT.setErrorSource()
-    @todo inline form wrong.
+    @note Inline form corrected in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIStatus (*setErrorSource)(CMPIError* er, const char* es);
+_CMPI_INLINE_MOD CMPIStatus CMSetErrorSource(CMPIError* er, const char* es);
 {
   return ((er)->ft->setErrorSource ((er), (es)));
 }
@@ -2185,9 +2180,9 @@ _CMPI_INLINE_MOD CMPIStatus (*setErrorSource)(CMPIError* er, const char* es);
     @param esf the string which describes the source format
     @return Output: Service return status
     @see CMPIErrorFT.setErrorSourceFormat()
-    @todo inline form wrong.
+    @note Inline form corrected in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIStatus (*setErrorSourceFormat)(
+_CMPI_INLINE_MOD CMPIStatus CMSetErrorSourceFormat(
     CMPIError* er,
     const CMPIErrorSrcFormat esf);
 {
@@ -2204,9 +2199,9 @@ _CMPI_INLINE_MOD CMPIStatus (*setErrorSourceFormat)(
     @param oef the string which describes the other source format
     @return Output: Service return status
     @see CMPIErrorFT.setOtherErrorSourceFormat()
-    @todo inline form wrong.
+    @note Inline form corrected in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIStatus (*setOtherErrorSourceFormat)(
+_CMPI_INLINE_MOD CMPIStatus CMSetOtherErrorSourceFormat(
     CMPIError* er,
     const char* oesf)
 {
@@ -2223,9 +2218,9 @@ _CMPI_INLINE_MOD CMPIStatus (*setOtherErrorSourceFormat)(
     @param scd A string whcih describes the status code.
     @return Output: Service return status
     @see CMPIErrorFT.setCIMStatusCodeDescription()
-    @todo inline form wrong.
+    @note Inline form corrected in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIStatus (*setCIMStatusCodeDescription)(
+_CMPI_INLINE_MOD CMPIStatus CMSetCIMStatusCodeDescription(
     CMPIError* er,
     const char* cd);
 {
@@ -2242,9 +2237,9 @@ _CMPI_INLINE_MOD CMPIStatus (*setCIMStatusCodeDescription)(
     content of the message.
     @return Service return status
     @see CMPIErrorFT.setCIMMessageArguments()
-    @todo inline form wrong.
+    @note Inline form corrected in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIStatus (*setMessageArguments)(CMPIError* er, CMPIArray* ma)
+_CMPI_INLINE_MOD CMPIStatus CMSetMessageArguments(CMPIError* er, CMPIArray* ma)
 {
   return ((er)->ft->setMessageArguments ((er), (ma)));
 }
@@ -2277,10 +2272,10 @@ _CMPI_INLINE_MOD CMPIData CMGetNext(
 #   endif
 
 #   ifdef CMPI_INLINE
-/** Test for any elements left in this Enumeration.
-    @param en Enumeration this pointer.
-    @param rc Output: Service return status (suppressed when NULL).
-    @return True or false.
+/** @brief Test for any elements left in this Enumeration.
+
+    CMHasNext convience function executes CMPIEnumerationFt.hasNext() that
+    tests for any elements left in @p en the CMPIEnumeration object.
     @see CMPIEnumerationFT.hasNext()
       */
 _CMPI_INLINE_MOD CMPIBoolean CMHasNext(
@@ -2294,11 +2289,11 @@ _CMPI_INLINE_MOD CMPIBoolean CMHasNext(
 #   endif
 
 #   ifdef CMPI_INLINE
-/** Convert this Enumeration into an Array.
-     @param en Enumeration this pointer.
-     @param rc Output: Service return status (suppressed when NULL).
-     @return The Array.
-     @see CMPIEnumerationFT.toArray()
+/** @brief Convert a CMPIEnumeration object to a CMPIArray object.
+
+    CMToArray() executes CMPIEnumerationFT.toArray() converts the
+    CMPIEnumeration object represented by the argument @p en into a CMPIArray.
+    @see CMPIEnumerationFT.toArray()
 */
 _CMPI_INLINE_MOD CMPIArray *CMToArray(
    const CMPIEnumeration * en,
@@ -3237,16 +3232,16 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBReferenceNames(
 
     Parameters are exactly as defined in CMPIBrokerFT.invokeMethod().
     @see CMPIBrokerFT.invokeMethod()
-    @Example
+    @par Example
     Example executes CBInvokeMethod "TestCMPIError" on
     CMPIObjectPath and tests response for success and correct
     return data type.
-    <pre>
+    @code(.c)
         const CMPIArgs * in;
         CMPIArgs * out
         CMPIObjectPath* objPath;
         CMPIData retData;
-        CMT: define input arguments here
+        // define input arguments here
         objPath = CMNewObjectPath(_broker, "test/TestProvider",
             "TestCMPI_BrokerInstance", &rc);
 
@@ -3254,14 +3249,14 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBReferenceNames(
             in, out, &rc);
             PROV_LOG_OPEN (_ClassName, _ProviderLocation);
 
-        CMT: test to confirm return date data type and return status
+        // test to confirm return date data type and return status
         if (!retData.value.uint32 && rc.rc != CMPI_RC_OK)
         {
-            CMT: execute error function
+            // execute error function
         }
-        CMT: clean up and use retData
+        // clean up and use retData
         rc = CMRelease(objPath);
-    </pre>
+    @endcode
 */
 _CMPI_INLINE_MOD CMPIData CBInvokeMethod(
     const CMPIBroker * mb,
@@ -3355,7 +3350,9 @@ _CMPI_INLINE_MOD CMPIData CBGetProperty(
             &lt;pfx&gt;Cleanup,&lt;pfx&gt;EnumInstanceNames,
             &lt;pfx&gt;EnumInstances, &lt;pfx&gt;GetInstance,
             &lt;pfx&gt;CreateInstance, &lt;pfx&gt;SetInstance,
-            &lt;pfx&gt;DeleteInstance and &lt;pfx&gt;ExecQuery.
+            &lt;pfx&gt;DeleteInstance &lt;pfx&gt;ExecQuery.
+            &lt;pfx&gt;DeleteInstance and
+            &lt;pfx&gt;enumerateInstancesFiltered.
      @param pn The provider name under which this provider is registered.
             This is a character string without quotes.
      @param broker The name of the broker variable used by this macro to store
@@ -3376,12 +3373,13 @@ _CMPI_INLINE_MOD CMPIData CBGetProperty(
      This example documents the general structure of an instance
      provider using the CMInstanceMIStub macro. Note that only a
      couple of required functions are actually defined.
-     @code
+     @code(.c)
          static const CMPIBroker *_broker;
          static void initialize()
         {
         ...
         }
+        // Developer implements the following functions
         CMPIStatus InstProvCleanup (
             CMPIInstanceMI * mi,
             const CMPIContext * ctx,
@@ -3394,14 +3392,13 @@ _CMPI_INLINE_MOD CMPIData CBGetProperty(
             CMPIInstanceMI * mi,
             const CMPIContext * ctx,
             const CMPIResult * rslt,
-       MT: KS_TODO how do we show c COMMENTS??
-        Required Functions for InstProvEnumInstances
-            InstProvGetInstance
-            InstProvCreateInstance
-            InstProvModifyInstance
-            InstProvDeleteInstance
-            Optional Functions.
-            InstProvExecQuery
+        // OtherRequired  but not shown Functions for
+        //    InstProvEnumInstances InstProvGetInstance
+        //    InstProvCreateInstance
+        //    InstProvModifyInstance
+        //    InstProvDeleteInstance
+        // Optional Functions.
+        //    InstProvExecQuery InstProvEnumerateInstancesFiltered
 
         CMInstanceMIStub(
             InstProv,
@@ -3409,7 +3406,23 @@ _CMPI_INLINE_MOD CMPIData CBGetProperty(
             _broker,
             initialize())
      @endcode
+     @see CMPIInstanceMIFT, CMPIInstanceMIFT.cleanup(),
+          CMPIInstanceMIFT.enumerateInstanceNames(),
+          CMPIInstanceMIFT.enumerateInstances(),
+          CMPIInstanceMIFT.getInstance(),
+          CMPIInstanceMIFT.createInstance(),
+          MPIInstanceMIFT.deleteInstance(),
+          CMPIInstanceMIFT.execQuery(),
+          CMPIInstanceMIFT.enumerateInstancesFiltered()
+     @todo confirm that this @see works
+     @todo Despite the documentation, this apparently requires
+           implementations of all of the corresponding
+           functions. How to we handle the two that may well be
+           optional. (ExecQuery, EnumerateInstancesFiltered)
+     @todo Error here. the EnumerateInstancesFiltered optional
+           somehow.
       */
+
 CMPIInstanceMI *CMInstanceMIStub(
     chars pfx,
     chars pn,
@@ -3436,6 +3449,9 @@ CMPIInstanceMI *CMInstanceMIStub(
    CMInstanceMIStubChange(pfx), \
    pfx##DeleteInstance, \
    pfx##ExecQuery, \
+#  ifdef CMPI_VER_210
+   pfx##EnumerateInstancesFiltered, \
+#  endif
   }; \
   CMPI_EXTERN_C \
   CMPIInstanceMI* pn##_Create_InstanceMI( \
@@ -3454,10 +3470,12 @@ CMPIInstanceMI *CMInstanceMIStub(
 #   endif
 
 #   ifdef DOC_ONLY
-/** This macro generates the function table and initialization stub
-   for an association provider. The initialization routine
-   &lt;pn&gt;Create_AssociationMI
-   is called when this provider module is loaded by the broker.
+/** @brief generate function table and stub for association provider.
+   CMAssociationMIStub() macro generates the function table and initialization
+   stub for an association provider. The initialization routine
+   &lt;pn&gt;Create_AssociationMI is called when this provider module is
+   loaded by the broker.
+
    This macro is for CMPI providers written in plain C.
      @param pfx The prefix for all mandatory instance provider functions.
         This is a character string without quotes.
@@ -3478,8 +3496,10 @@ CMPIInstanceMI *CMInstanceMIStub(
      @return The function table of this association provider.
      @todo create example
      @todo what about optional functions
-
+     @todo need note about creating function that parallel
+           others but with cap
      @todo Need reference back to cmpift
+     @todo expand for cmpi 2.1
 */
 CMPIAssociationMI *CMAssociationMIStub(
     chars pfx,
@@ -3514,7 +3534,10 @@ CMPIAssociationMI *CMAssociationMIStub(
 #   endif
 
 #   ifdef DOC_ONLY
-/** This macro generates the function table and initialization stub
+/** @brief Generate the function table and initialization stub for a method
+     provider.
+
+    This macro generates the function table and initialization stub
        for a method provider. The initialization routine
        &lt;pn&gt;Create_MethodMI is called when this provider
        module is loaded by the broker. This macro is for CMPI
@@ -3534,8 +3557,7 @@ CMPIAssociationMI *CMAssociationMIStub(
             furtherInit(broker) or CMNoHook. Use CMNoHook
             if no further intialization is required.
      @return The function table of this method provider.
-
-     @todo Need reference back to cmpift
+     @todo Need  see reference back to cmpift. Do example
       */
 CMPIMethodMI *CMMethodMIStub(
     chars pfx,
@@ -3567,7 +3589,9 @@ CMPIMethodMI *CMMethodMIStub(
 #   endif
 
 #   ifdef DOC_ONLY
-/** This macro generates the function table and initialization stub
+/** Generates the function table and initialization stub
+    for a property provider (**Deprecated**).
+    This macro generates the function table and initialization stub
     for a property provider. The initialization
        routine &lt;pn&gt;Create_PropertyMI is called when
        this provider module is loaded by the broker. This
@@ -3592,8 +3616,11 @@ CMPIMethodMI *CMMethodMIStub(
                  CMNoHook. Use CMNoHook if no further
                  intialization is required.
      @return The function table of this property provider.
+     @deprecated in CMPI 2.1 because property providers have been deprecated
+     in the WBEM specifications.
 
-     @todo Need reference back to cmpift
+     @todo Need reference back to cmpift. No example because
+           deprecated.
       */
 CMPIPropertyMI *CMPropertyMIStub(
     chars pfx,
@@ -3626,8 +3653,11 @@ CMPIPropertyMI *CMPropertyMIStub(
 #   endif
 
 #   ifdef DOC_ONLY
-/** This macro generates the function table and initialization stub
-   for an indication provider. The initialization
+/** @brief generate the function table and initialization stub
+   for an indication provider.
+
+   This macro generates the function table and initialization
+   stub for an indication provider. The initialization
        routine &lt;pn&gt;Create_IndicationMI is called when
        this provider module is loaded by the broker. This
        macro is for CMPI providers written in plain C.
@@ -3650,7 +3680,7 @@ CMPIPropertyMI *CMPropertyMIStub(
             no further intialization is required.
      @return The function table of this indication provider.
 
-     @todo Need reference back to cmpift
+     @todo Need reference back to cmpift and example
       */
 CMPIIndicationMI *CMIndicationMIStub(
     chars pfx,
