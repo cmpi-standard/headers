@@ -2184,7 +2184,8 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_INVALID_QUERY` - The query expression is not
          valid.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
-     @capquerynorm This function is part of the Query Normalization MB capability.
+     @capquerynorm This function is part of the Query Normalization
+                   MB capability.
 
      @see CMNewSelectExp()
     */
@@ -2396,7 +2397,7 @@ typedef struct _CMPIBrokerEncFT {
      @captranslation This function is part of the Message Translation
          MB capability.
 
-     @todo KS: Add see macro
+     @()see CMGetErrorMessage()
      @deprecated This function is deprecated since CMPI 2.1. Use
          CMPIBrokerEncFT.getMessage2() instead.
     */
@@ -2817,7 +2818,7 @@ typedef struct _CMPIBrokerEncFT {
      @capcodepage This function is part of the Codepage Conversion
          MB capability.
 
-     @todo KS: Add see macro
+     @note No corresponding macro
      @added210 Added in CMPI 2.1.0.
     */
     CMPIString* (*newStringCP) (const CMPIBroker* mb, const char* data,
@@ -2997,7 +2998,7 @@ typedef struct _CMPIBrokerExtFT {
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
 
-     @todo KS: Add see macro
+     @note No corresponding macro
     */
     int (*joinThread) (CMPI_THREAD_TYPE thread, CMPI_THREAD_RETURN* retval);
 
@@ -3017,7 +3018,7 @@ typedef struct _CMPIBrokerExtFT {
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
 
-     @todo KS: Add see macro
+     @note No corresponding macro
     */
     int (*exitThread) (CMPI_THREAD_RETURN return_code);
 
@@ -3096,7 +3097,7 @@ typedef struct _CMPIBrokerExtFT {
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
 
-     @todo KS: No macro for this one.
+     @note No corresponding macro.
     */
     int (*threadOnce) (int* once, CMPIThreadOnceFunc* function);
 
@@ -3180,7 +3181,7 @@ typedef struct _CMPIBrokerExtFT {
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
 
-     @todo KS: No macro for this one.
+     @note No corresponding macro.
     */
     int (*setThreadSpecific) (CMPI_THREAD_KEY_TYPE key, void* value);
 
@@ -3494,7 +3495,7 @@ typedef struct _CMPIBrokerExtFT {
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
 
-     @todo KS: There is no macro for any of the condition functions
+     @note No corresponding macro
      @added210 Added in CMPI 2.1.0.
     */
     int (*destroyCondition2) (CMPI_COND_TYPE cond);
@@ -3622,7 +3623,7 @@ typedef struct _CMPIBrokerMemFT {
      @capmemory This function is part of the Memory Enhancement Services MB
          capability.
 
-     @todo KS: Add see macro
+     @note No corresponding macro
     */
     void* (*cmpiMalloc) (const CMPIBroker* mb, size_t size);
 
@@ -3650,7 +3651,7 @@ typedef struct _CMPIBrokerMemFT {
      @capmemory This function is part of the Memory Enhancement Services MB
          capability.
 
-     @todo KS: Add see macro
+     @note No corresponding macro
     */
     void* (*cmpiCalloc) (const CMPIBroker* mb, size_t nElems, size_t sizeElem);
 
@@ -3681,7 +3682,7 @@ typedef struct _CMPIBrokerMemFT {
      @capmemory This function is part of the Memory Enhancement Services MB
          capability.
 
-     @todo KS: Add see macro
+     @note No corresponding macro
     */
     void* (*cmpiRealloc) (const CMPIBroker* mb, void* ptr, size_t size);
 
@@ -3703,7 +3704,7 @@ typedef struct _CMPIBrokerMemFT {
      @capmemory This function is part of the Memory Enhancement Services MB
          capability.
 
-     @todo KS: Add see macro
+     @note No corresponding macro
     */
     char* (*cmpiStrDup) (const CMPIBroker* mb, const char* str);
 
@@ -3732,7 +3733,7 @@ typedef struct _CMPIBrokerMemFT {
      @capmemory This function is part of the Memory Enhancement Services MB
          capability.
 
-     @todo KS: Add see macro
+     @note No corresponding macro
     */
     void (*cmpiFree) (const CMPIBroker* mb, void* ptr);
 
@@ -3759,7 +3760,7 @@ typedef struct _CMPIBrokerMemFT {
      @capmemory This function is part of the Memory Enhancement Services MB
          capability.
 
-     @todo KS: Add see macro
+     @note No corresponding macro
     */
     void (*freeInstance) (const CMPIBroker* mb, CMPIInstance* inst);
 
@@ -3786,7 +3787,7 @@ typedef struct _CMPIBrokerMemFT {
      @capmemory This function is part of the Memory Enhancement Services MB
          capability.
 
-     @todo KS: Add see macro
+     @note No corresponding macro
     */
     void (*freeObjectPath) (const CMPIBroker* mb, CMPIObjectPath* obj);
 
@@ -3830,7 +3831,7 @@ typedef struct _CMPIBrokerMemFT {
      @capmemory This function is part of the Memory Enhancement Services MB
          capability.
 
-     @todo KS: Add see macro
+     @note No corresponding macro
     */
     void (*freeString) (const CMPIBroker* mb, CMPIString* str);
 
@@ -3857,7 +3858,7 @@ typedef struct _CMPIBrokerMemFT {
      @capmemory This function is part of the Memory Enhancement Services MB
          capability.
 
-     @todo KS: Add see macro
+     @note No corresponding macro
     */
     void (*freeArray) (const CMPIBroker* mb, CMPIArray* array);
 
@@ -3884,7 +3885,7 @@ typedef struct _CMPIBrokerMemFT {
      @capmemory This function is part of the Memory Enhancement Services MB
          capability.
 
-     @todo KS: Add see macro
+     @note No corresponding macro
     */
     void (*freeDateTime) (const CMPIBroker* mb, CMPIDateTime* dt);
 
@@ -3913,9 +3914,12 @@ typedef struct _CMPIBrokerMemFT {
          capability but can be implemented only if the Query Normalization MB
          capability is supported as well.
 
-     @todo KS: Add see macro
+     @note No corresponding macro
     */
     void (*freeSelectExp) (const CMPIBroker* mb, CMPISelectExp* se);
+    @todo implement macro form of all of the free functions
+    @todo Note that there appears to be no OpenPegasus use of any of
+        these free functions
 
 #ifdef CMPI_VER_210
 
@@ -3941,6 +3945,8 @@ typedef struct _CMPIBrokerMemFT {
      @capmemory This function is part of the Memory Enhancement Services MB
          capability.
      @added210 Added in CMPI 2.1.0.
+
+     @note No corresponding macro
     */
     void (*freeChars) (const CMPIBroker* mb, char* chars);
 
@@ -4654,12 +4660,12 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @todo KS: Add see macro
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @see CMGetOwningEntity
     */
     CMPIString* (*getOwningEntity) (const CMPIError* er, CMPIStatus* rc);
 
@@ -4702,6 +4708,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @see CMGetMessageID()
     */
     CMPIString* (*getMessageID) (const CMPIError* er, CMPIStatus* rc);
 
@@ -4737,6 +4744,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @see CMGetErrorMessage()
     */
     CMPIString* (*getMessage) (const CMPIError* er, CMPIStatus* rc);
 
@@ -4770,6 +4778,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @see CMGetPerceivedSeverity()
     */
     CMPIErrorSeverity (*getPerceivedSeverity) (const CMPIError* er,
         CMPIStatus* rc);
@@ -4804,6 +4813,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @see  CMGetProbableCause
     */
     CMPIErrorProbableCause (*getProbableCause) (const CMPIError* er,
         CMPIStatus* rc);
@@ -4842,6 +4852,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @see CMGetProbableCauseDescription()
     */
     CMPIString* (*getProbableCauseDescription) (const CMPIError* er,
         CMPIStatus* rc);
@@ -4881,6 +4892,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @see CMGetRecommendedActions()
     */
     CMPIArray* (*getRecommendedActions) (const CMPIError* er, CMPIStatus* rc);
 
@@ -4916,6 +4928,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @see CMGetErrorSource()
     */
     CMPIString* (*getErrorSource) (const CMPIError* er, CMPIStatus* rc);
 
@@ -4949,6 +4962,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @see CMGetErrorSourceFormat()
     */
     CMPIErrorSrcFormat (*getErrorSourceFormat) (const CMPIError* er,
         CMPIStatus* rc);
@@ -4987,6 +5001,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @see CMGetOtherErrorSourceFormat()
     */
     CMPIString* (*getOtherErrorSourceFormat) (const CMPIError* er,
         CMPIStatus* rc);
@@ -5024,6 +5039,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @see CMGetCIMStatusCode()
     */
     CMPIrc (*getCIMStatusCode) (const CMPIError* er, CMPIStatus* rc);
 
@@ -5062,6 +5078,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @see CMGetCIMStatusCodeDescription()
     */
     CMPIString* (*getCIMStatusCodeDescription) (const CMPIError* er,
         CMPIStatus* rc);
@@ -5099,6 +5116,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @see CMGetMessageArguments()
     */
     CMPIArray* (*getMessageArguments) (const CMPIError* er, CMPIStatus* rc);
 
@@ -5131,6 +5149,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @see CMSetErrorType()
     */
     CMPIStatus (*setErrorType) (const CMPIError* er, const CMPIErrorType et);
 
@@ -5164,6 +5183,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @see CMSetOtherErrorType()
     */
     CMPIStatus (*setOtherErrorType) (const CMPIError* er, const char* oet);
 
@@ -5196,6 +5216,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @see CMSetProbableCauseDescription()
     */
     CMPIStatus (*setProbableCauseDescription) (const CMPIError* er,
         const char* pcd);
@@ -5236,6 +5257,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @see CMSetRecommendedActions()
     */
     CMPIStatus (*setRecommendedActions) (const CMPIError* er,
         const CMPIArray* ra);
@@ -5272,6 +5294,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @see CMSetErrorSource()
     */
     CMPIStatus (*setErrorSource) (const CMPIError* er, const char* es);
 
@@ -5305,6 +5328,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @see CMSetErrorSourceFormat
     */
     CMPIStatus (*setErrorSourceFormat) (const CMPIError* er,
         const CMPIErrorSrcFormat esf);
@@ -5339,6 +5363,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @see CMSetOtherErrorSourceFormat()
     */
     CMPIStatus (*setOtherErrorSourceFormat) (const CMPIError* er,
         const char* oef);
@@ -5374,6 +5399,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @see CMSetCIMStatusCodeDescription()
     */
     CMPIStatus (*setCIMStatusCodeDescription) (const CMPIError* er,
         const char* scd);
@@ -5413,6 +5439,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @see CMSetMessageArguments()
     */
     CMPIStatus (*setMessageArguments) (const CMPIError* er,
         const CMPIArray* values);
@@ -6472,7 +6499,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
 
-     @todo KS: Add see macro
+     @note No corresponding macro
     */
     CMPIString* (*toString) (const CMPIObjectPath* op, CMPIStatus* rc);
 
@@ -7598,7 +7625,7 @@ typedef struct _CMPIArgsFT {
         CMPIString** name, CMPIStatus* rc);
 
     /**
-     @brief Get a method parameter in a CMPIArgs object by index.
+     @brief Get number of arguments in a CMPIArgs array.
 
      CMPIArgsFT.getArgCount() gets the number of arguments contained in this
      CMPIArgs object.
@@ -7792,8 +7819,8 @@ typedef struct _CMPIStringFT {
      @capcodepage This function is part of the Codepage Conversion
          MB capability.
 
-     @todo KS: Add see macro
      @added210 Added in CMPI 2.1.0.
+     @note No corresponding macro.
     */
     char* (*newCharsCP) (const CMPIString* str, const CMPICodepageID cpid,
         CMPIStatus* rc);
@@ -8533,7 +8560,7 @@ typedef struct _CMPIPropertyListFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p plist handle is invalid.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Invalid @p pname.
 
-     @todo KS: Find macro for this
+     @todo KS: Add macro for this
     */
     CMPIBoolean (*isPropertyInList) (const CMPIPropertyList* plist,
         const char* pname, CMPIStatus* rc);
@@ -8575,7 +8602,7 @@ typedef struct _CMPIPropertyListFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p plist handle is invalid.
 
-     @todo KS: Find macro for this
+     @todo KS: Add macro for this
     */
     const char** (*getProperties) (const CMPIPropertyList* plist,
         CMPIStatus* rc);
@@ -8828,6 +8855,7 @@ typedef struct _CMPIInstanceMIFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_DO_NOT_UNLOAD` - Operation successful - do not unload now.
      @li `CMPI_RC_NEVER_UNLOAD` - Operation successful - never unload.
+     @see CMInstanceMIStub()
     */
     CMPIStatus (*cleanup) (CMPIInstanceMI* mi, const CMPIContext* ctx,
         CMPIBoolean terminating);
@@ -8887,6 +8915,7 @@ typedef struct _CMPIInstanceMIFT {
          specific message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
+     @see CMInstanceMIStub()
     */
     CMPIStatus (*enumerateInstanceNames) (CMPIInstanceMI* mi,
         const CMPIContext* ctx, const CMPIResult* rslt,
@@ -8955,6 +8984,7 @@ typedef struct _CMPIInstanceMIFT {
          <TD>WIPG0227 + implementation-specific message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
+     @see CMInstanceMIStub()
     */
     CMPIStatus (*enumerateInstances) (CMPIInstanceMI* mi,
         const CMPIContext* ctx, const CMPIResult* rslt,
@@ -9020,6 +9050,7 @@ typedef struct _CMPIInstanceMIFT {
          <TD>WIPG0227 + implementation-specific message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
+     @see CMInstanceMIStub()
     */
     CMPIStatus (*getInstance) (CMPIInstanceMI* mi, const CMPIContext* ctx,
         const CMPIResult* rslt, const CMPIObjectPath* instPath,
@@ -9088,6 +9119,7 @@ typedef struct _CMPIInstanceMIFT {
      @deprecated The use of the key component in @p classPath is
          deprecated since CMPI 2.1; the key component should not be provided
          by MBs and should not be used by MIs.
+     @see CMInstanceMIStub()
     */
     CMPIStatus (*createInstance) (CMPIInstanceMI* mi, const CMPIContext* ctx,
         const CMPIResult* rslt, const CMPIObjectPath* classPath,
@@ -9159,6 +9191,7 @@ typedef struct _CMPIInstanceMIFT {
          <TD>WIPG0227 + implementation-specific message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
+     @see CMInstanceMIStub()
     */
     CMPIStatus (*modifyInstance) (CMPIInstanceMI* mi, const CMPIContext* ctx,
         const CMPIResult* rslt, const CMPIObjectPath* instPath,
@@ -9213,6 +9246,7 @@ typedef struct _CMPIInstanceMIFT {
          <TD>WIPG0227 + implementation-specific message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
+     @see CMInstanceMIStub()
     */
     CMPIStatus (*deleteInstance) (CMPIInstanceMI* mi, const CMPIContext* ctx,
         const CMPIResult* rslt, const CMPIObjectPath* op);
@@ -9283,6 +9317,7 @@ typedef struct _CMPIInstanceMIFT {
          <TD>WIPG0227 + implementation-specific message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
+     @see CMInstanceMIStub()
     */
     CMPIStatus (*execQuery) (CMPIInstanceMI* mi, const CMPIContext* ctx,
         const CMPIResult* rslt, const CMPIObjectPath* classPath,
@@ -9376,6 +9411,7 @@ typedef struct _CMPIInstanceMIFT {
      </TABLE>
 
      @added210 Added in CMPI 2.1.0.
+     @see CMInstanceMIStub()
     */
     CMPIStatus (*enumerateInstancesFiltered) (CMPIInstanceMI* mi,
         const CMPIContext* ctx, const CMPIResult* rslt,

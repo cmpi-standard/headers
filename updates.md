@@ -1,9 +1,31 @@
+3 July - Andy
+-------------
 
-Note
-----
+* Updated the spec issues to be ready for ballot.
+* Resolved all Todos from spec issues, except for one that I'd like to see
+  approved first.
 
-Andy: It seems we don't maintain this file anymore. Let's use clear commit
-messages and small, frequent commits, then we don't need it.
+2 July - Karl
+-------------
+
+* Cleaned up part of individual doc on cmpimacs.  Not yet finished but started
+  to remove params from doc entries so that macros that are not one-one
+  to functions have @params but the ones that are one-one do not but they
+  reference the corresponding function. This is only about 1/3 done now.
+* Fixed the macros that where the inline code was completely wrong. I started
+  to use @note for some things like, noting that the inline code had been
+  fixed in 2.1
+* Added doc to cmpimacs defining the different kinds of convience functions
+* Added examples to cmpimacs.h
+* changed <ref> </ref> to @code(.c) and @endcode.  Note that this actually
+  color codes syntax in the examples.
+* NOTE: // style comments work in example code but NOT  /* */
+* First cut and CMInstanceStub for 2.1 adding enumerateInstancesFiltered. Not
+  done
+* Added some @see statements for macros to cmpift.h. Change number of TODOs
+  for adding macros to @note No macro for this function.
+  Probably needs more.
+* Ran removetrailingblanks and chksrc on headers and cleaned up some issues.
 
 2 July - Andy
 -------------
