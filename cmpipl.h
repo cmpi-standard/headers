@@ -47,9 +47,9 @@
  * @{
  * @defgroup sym-platform CMPI_PLATFORM_{xxx}
  * @{
- * @brief Symbols for specifying a platform
+ * @brief Compile platform for CMPI
  *
- * The platform symbols have names of the format:<br/>
+ * The symbols for the compile platform have names of the format:<br/>
  *
  * <div style="margin-left:20px">
  *   <b>CMPI_PLATFORM_{os}_{mach}_{comp}</b><br/>
@@ -59,7 +59,7 @@
  * <b>{mach}</b> indicates the machine architecture,
  * and <b>{comp}</b> indicates the C/C++ compiler.
  *
- * The valid platform symbols are:
+ * The valid symbols for the CMPI compile platform are:
  *
  *   * CMPI_PLATFORM_LINUX_GENERIC_GNU
  *   * CMPI_PLATFORM_HPUX_ACC
@@ -74,8 +74,8 @@
  *   * CMPI_PLATFORM_VMS_ALPHA_DECCXX
  *   * CMPI_PLATFORM_VMS_IA64_DECCXX
  *
- * There is no default platform; the user of the CMPI header files needs to
- * define exactly one of these symbols.
+ * There is no default compile platform; the user of the CMPI header files needs
+ * to define exactly one of these symbols.
  *
  * The `cmpipl.h` header file verifies that exactly one of these symbols has
  * been defined.

@@ -4,6 +4,8 @@
 * Updated the spec issues to be ready for ballot.
 * Resolved all Todos from spec issues, except for one that I'd like to see
   approved first.
+* Improved description of version-related preprocessor symbols in cmpidt.h and
+  modules.h.
 
 2 July - Karl
 -------------

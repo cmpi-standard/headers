@@ -216,36 +216,41 @@
 @{
   @defgroup symbols-user Symbols definable by the CMPI user
   @{
-    @brief These symbols can be defined by the user of the CMPI header files.
+    These symbols can be defined by the user of the CMPI header files.
 
     @defgroup sym-version CMPI_VERSION
     @{
+      @brief CMPI version that is implemented.
     @}
   @}
   @defgroup symbols-versioning Symbols related to CMPI versioning
   @{
     @defgroup sym-version-nnn CMPIVersion{NNN}
     @{
-      @brief These symbols encapsulate the values for the numeric CMPI
-          version numbers.
+      @brief Numeric CMPI version numbers.
 
       Note: Historical CMPI levels (before the first CMPI Standard, e.g.
       86, 90) are not supported by this header file.
     @}
     @defgroup sym-current-version CMPICurrentVersion
     @{
+      @brief Current CMPI version of the header files.
     @}
     @defgroup sym-ver-nnn CMPI_VER_{NNN}
     @{
-      @brief Boolean flags for testing whether CMPI version dependent
-          features should be available, given the implemented version.
+      @brief Tests for CMPI version dependent features.
 
-      The term 'available' as used here means that the feature is defined in
+      These symbols are used by the CMPI headers and can be used by MB or MI
+      implementations supporting multiple CMPI versions, to test whether CMPI
+      version dependent features should be made available, given the
+      implemented version defined by @ref CMPI_VERSION.
+
+      The term *available* as used here means that the feature is defined in
       the header files and subsequently can be supported in the MB or MI
       implementation.
 
-      A symbol for a particular version (e.g. CMPI_VER_200) is defined if its
-      version is lower than or equal to the CMPI version that is implemented
+      A symbol for a particular version (e.g. @ref CMPI_VER_200) is defined if
+      its version is lower than or equal to the CMPI version that is implemented
       (as indicated by @ref CMPI_VERSION). Otherwise, it is undefined.
 
       This allows a feature that was introduced in a particular CMPI version
@@ -253,7 +258,7 @@
 
 <pre>
 \#ifdef CMPI_VER_200
-// definition of feature that was added in CMPI 2.0.0
+// definition or use of feature that was added in CMPI 2.0.0
 \#endif
 </pre>
     @}

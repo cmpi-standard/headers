@@ -61,14 +61,14 @@ extern "C" {
  */
 
 /**
- * @brief The current CMPI version.
+ * @brief Current CMPI version of the header files.
  *
- * The current CMPI version is the version described by this version of
- * the online documentation.
+ * The current CMPI version is the version described by this version of the
+ * CMPI header files (and online documentation).
  *
- * At the same time, this is the highest CMPI version supported by the
- * corresponding CMPI header files. See @ref sym-version "CMPI_VERSION"
- * for implementing a lower CMPI version.
+ * That is also the highest CMPI version supported by this version of the CMPI
+ * header files. See @ref sym-version "CMPI_VERSION" for implementing against
+ * a lower CMPI version.
  */
 #define CMPICurrentVersion CMPIVersion210
 
@@ -79,7 +79,7 @@ extern "C" {
  */
 
 /**
- * @brief The CMPI version that is implemented.
+ * @brief CMPI version that is implemented.
  *
  * This symbol is only set in this header file if not set outside of this
  * header file. Its default value is @ref sym-current-version
