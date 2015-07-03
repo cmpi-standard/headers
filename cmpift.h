@@ -515,11 +515,11 @@ typedef struct _CMPIBrokerFT {
          @p classPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
          @p classPath is invalid or does not exist.
-     @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found. (**Deprecated**)
+     @li `CMPI_RC_ERR_NOT_FOUND` - No instances found. (**Deprecated**)
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p classPath handle is
          invalid.
-     
+
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
      the calling MI.
@@ -910,7 +910,7 @@ typedef struct _CMPIBrokerFT {
          @p classPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The property list specified in
          @p properties is invalid.
-     @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found. (**Deprecated**)
+     @li `CMPI_RC_ERR_NOT_FOUND` - No instances found. (**Deprecated**)
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p classPath handle is
          invalid.
@@ -1006,7 +1006,7 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p assocClass,
          @p resultClass, @p role, @p resultRole, or
          @p properties arguments are invalid.
-     @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found. (**Deprecated**)
+     @li `CMPI_RC_ERR_NOT_FOUND` - Source instance not found. (**Deprecated**)
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
          invalid.
@@ -1098,7 +1098,7 @@ typedef struct _CMPIBrokerFT {
          @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p assocClass, @p resultClass,
          @p role, or @p resultRole arguments are invalid.
-     @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found. (**Deprecated**)
+     @li `CMPI_RC_ERR_NOT_FOUND` - Source instance not found. (**Deprecated**)
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
          invalid.
@@ -1186,7 +1186,7 @@ typedef struct _CMPIBrokerFT {
          @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The
          @p resultClass, or @p role arguments are invalid.
-     @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found. (**Deprecated**)
+     @li `CMPI_RC_ERR_NOT_FOUND` - Source instance not found. (**Deprecated**)
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
          invalid.
@@ -1268,7 +1268,7 @@ typedef struct _CMPIBrokerFT {
          @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p resultClass, or @p role
          arguments are invalid.
-     @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found. (**Deprecated**)
+     @li `CMPI_RC_ERR_NOT_FOUND` - Source instance not found. (**Deprecated**)
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
          invalid.
@@ -1361,7 +1361,7 @@ typedef struct _CMPIBrokerFT {
          @p objPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The method parameters specified in
          the @p in or @p out arguments are invalid.
-     @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found.
+     @li `CMPI_RC_ERR_NOT_FOUND` - Target object not found.
      @li `CMPI_RC_ERR_METHOD_NOT_AVAILABLE` - The extrinsic method is not
          supported by the targeted MI.
      @li `CMPI_RC_ERR_METHOD_NOT_FOUND` - Method not defined in the class.
@@ -1453,12 +1453,14 @@ typedef struct _CMPIBrokerFT {
         const CMPIObjectPath* instPath, const char* name,
         const CMPIValue* value, CMPIType type);
 
-// TODO_AM Sync function descriptions with spec, from here on down.
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Get the named property of a given instance. (**Deprecated**)
+     @brief Get a property of an existing instance. (**Deprecated**)
 
-     CMPIBrokerFT.getProperty() gets the named property value of an
-     Instance defined by the @p instPath parameter.
+     CMPIBrokerFT.getProperty() function gets a property of an existing
+     instance.
+
+     The target MI is identified by the MB based on @p instPath.
 
      @param mb Points to a CMPIBroker structure.
      @param ctx Points to a CMPIContext object that specifies the same
@@ -1468,17 +1470,19 @@ typedef struct _CMPIBrokerFT {
          used to invoke the MI function that calls this MB function.
          Any invocation flags (@ref CMPIInvocationFlags entry) will be ignored
          by this function.
-     @param instPath ObjectPath containing namespace, classname
-         and key components.
-     @param name Property name
+     @param instPath Points to a CMPIObjectPath object that references the
+         instance to be retrieved and that shall contain the namespace, class
+         name, and key components. The hostname component, if present, will be
+         ignored by the MB.
+     @param name Points to a string specifying the property name.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, returns CMPIData with property
-         value.
+         If successful, a CMPIData structure containing the specified property
+         will be returned.
 
-         If not successful CMPIData.state will have CMPI_BadValue flag
-         set to true
+         If not successful, CMPIData.state will have the @ref CMPI_badValue
+         flag set to true.
      @endparblock
 
      @par Errors
@@ -1493,8 +1497,7 @@ typedef struct _CMPIBrokerFT {
          @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
          @p instPath is invalid or does not exist.
-     @li `CMPI_RC_ERR_NOT_FOUND` - The class specified in
-         @p instPath is not found.
+     @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Property not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
          invalid.
@@ -1516,6 +1519,7 @@ typedef struct _CMPIBrokerFT {
     CMPIData (*getProperty) (const CMPIBroker* mb, const CMPIContext* ctx,
         const CMPIObjectPath* instPath, const char* name, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate the instances of a given class (and its subclasses),
          returning only those that match the given query filter.
@@ -1610,6 +1614,7 @@ typedef struct _CMPIBrokerFT {
         const char** properties, const char* filterQueryLanguage,
         const char* filterQuery, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate the instances associated with a given source instance,
          returning only those that match the given filters.
@@ -1721,6 +1726,7 @@ typedef struct _CMPIBrokerFT {
         const char** properties, const char* filterQueryLanguage,
         const char* filterQuery, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate the instances referencing a given source instance,
          returning only those that match the given filters.
@@ -1857,29 +1863,43 @@ typedef struct _CMPIBrokerEncFT {
      *   @{
      */
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a new CMPIInstance object initialized to a given instance
          path.
 
      CMPIBrokerEncFT.newInstance() creates a new
-     CMPIInstance object. The new object should have no properties.
-     The purpose of class-defined derault values for properties is
-     to act as defaults for unspecified input properties when a
-     client creates an instance, not to act as defualts for not
-     explicity set properties when a client retrieves an instance.
+     CMPIInstance object that is initialized to a given instance path.
+
+     The new CMPIInstance object should have no properties. In CMPI 2.1, all
+     other behaviors w.r.t. setting properties in the new CMPIInstance object
+     (such as setting all class-defined properties, or setting properties with
+     non-Null default values in their class definition), were deprecated. Note
+     that the purpose of class-defined default values for properties is to act
+     as defaults for unspecified input properties when a client creates an
+     instance, and not to act as defaults for not explicitly set properties
+     when a client retrieves an instance.
 
      @param mb Points to a CMPIBroker structure.
-     @param instPath ObjectPath containing namespace and classname.
+     @param instPath points to a CMPIObjectPath object. The object path of the
+         new CMPIInstance object will be set to the object path in the instPath
+         argument. The object path in @p instPath shall specify a non-NULL
+         namespace and a non-NULL creation class name. The object path shall
+         specify no or all keys for the instance. The object path may specify a
+         non-NULL host name for the instance (this is used for instances
+         returned by cross-host associations).
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful returns the newly created
-         instance. if not successful returns NULL.
+         If successful, a pointer to the new CMPIInstance object will be
+         returned.
 
-         The new object will be automatically released by the MB.
-         If the new object is no longer used by the MI, it
-         may be explicitly released by the MI using
-         CMPIBrokerMemFT.freeInstance().
+         The new object will be automatically released by the MB, as described
+         in Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard". If
+         the new object is no longer used by the MI, it may be explicitly
+         released by the MI using CMPIBrokerMemFT.freeInstance().
+
+         If not successful, NULL will be returned.
      @endparblock
 
      @par Errors
@@ -1890,20 +1910,22 @@ typedef struct _CMPIBrokerEncFT {
          @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_NOT_FOUND` - The class specified in
          @p instPath is not found.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p instPath handle is invalid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p instPath handle is invalid, or
+         other object path components specified in @p instPath are invalid.
 
      @see CMNewInstance()
     */
     CMPIInstance* (*newInstance) (const CMPIBroker* mb,
         const CMPIObjectPath* instPath, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
+// TODO_AM Sync function descriptions with spec, from here on down.
     /**
      @brief Create a new CMPIObjectPath initialized to a given namespace and
          class name
 
-     CMPIBrokerEncFT.newObjectPath() creates a new
-     CMPIObjectPath object that is initialized to a given namespace
-     and class name.
+     CMPIBrokerEncFT.newObjectPath() creates a new CMPIObjectPath object that
+     is initialized to a given namespace and class name.
 
      @param mb Points to a CMPIBroker structure.
      @param ns Points to a string specifying the namespace name.
@@ -1911,10 +1933,15 @@ typedef struct _CMPIBrokerEncFT {
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful returns the newly created
-         CMPIObjectPath.
+         If successful, a pointer to the new CMPIObjectPath object will be
+         returned.
 
-         If not successful returns NULL.
+         The new object will be automatically released by the MB, as described
+         in Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard". If
+         the new object is no longer used by the MI, it may be explicitly
+         released by the MI using CMPIBrokerMemFT.freeObjectPath().
+
+         If not successful, NULL will be returned.
      @endparblock
 
      @par Errors
@@ -1923,7 +1950,8 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p ns is invalid or does not exist.
-     @li `CMPI_RC_ERR_NOT_FOUND` - Class in @p cn not found.
+     @li `CMPI_RC_ERR_NOT_FOUND` - The class specified in @p cn is invalid or
+         does not exist.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
      @see CMNewObjectPath()
@@ -1972,11 +2000,12 @@ typedef struct _CMPIBrokerEncFT {
      @return @parblock
          If successful returns the newly created CMPIString.
 
-         If not successful returns NULL.
+         The new object will be automatically released by the MB, as described
+         in Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard". If
+         the new object is no longer used by the MI, it may be explicitly
+         released by the MI using CMPIBrokerMemFT.freeString().
 
-         The new object will be automatically released by the MB. If the new
-         object is no longer used by the MI, it may be explicitly released
-         by the MI using CMPIBrokerMemFT.freeString().
+         If not successful returns NULL.
      @endparblock
 
      @par Errors
@@ -2169,7 +2198,7 @@ typedef struct _CMPIBrokerEncFT {
          The new object will be automatically released by the MB, as described
          in Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard".
          If the new object is no longer used by the MI, it may be explicitly
-         released by the MI using CMPIBrokerMemFT.freeDateTime().
+         released by the MI using CMPIBrokerMemFT.freeSelectExp().
 
          If not successful NULL will be returned.
      @endparblock
@@ -2225,8 +2254,8 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p classPath is invalid or does not exist.
-     @li `CMPI_RC_ERR_NOT_FOUND` - The class implied by @p classPath is not
-         found.
+     @li `CMPI_RC_ERR_NOT_FOUND` - The class specified in @p classPath is
+         invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p className format is invalid.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb or @p classPath handle is
          invalid.
@@ -2379,12 +2408,11 @@ typedef struct _CMPIBrokerEncFT {
          If not successful, the default message without insert resolution will
          be returned.
 
-         In both cases, the new object will be automatically released by the MB,
-         as described
-         in Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard".
-         There is no function to explicitly release the new object.
-         Specifically, the MI shall not use CMPIBrokerMemFT.freeString() on the
-         new object.
+         In both cases, the new object will be automatically released by the
+         MB, as described in Subclause 4.1.7 of the @ref ref-cmpi-standard
+         "CMPI Standard". There is no function to explicitly release the new
+         object. Specifically, the MI shall not use
+         CMPIBrokerMemFT.freeString() on the new object.
      @endparblock
 
      @par Errors
@@ -8903,7 +8931,7 @@ typedef struct _CMPIInstanceMIFT {
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>N/A</TD>
-         <TD>Instance not found. Instead of using this return code if the source
+         <TD>No instances found. Instead of using this return code if the source
          instance does not exist, the MI should return success with an empty
          result data container. The MB shall treat this return code as a
          successful return of an empty result set. (**Deprecated**)</TD></TR>
@@ -8972,7 +9000,7 @@ typedef struct _CMPIInstanceMIFT {
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>N/A</TD>
-         <TD>Instance not found. Instead of using this return code if the source
+         <TD>No instances found. Instead of using this return code if the source
          instance does not exist, the MI should return success with an empty
          result data container. The MB shall treat this return code as a
          successful return of an empty result set. (**Deprecated**)</TD></TR>
@@ -9389,11 +9417,6 @@ typedef struct _CMPIInstanceMIFT {
          <TD>Function is not supported by the MB</TD></TR>
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>WIPG0213</TD>
-         <TD>Instance not found. Instead of using this return code if the source
-         instance does not exist, the MI should return success with an empty
-         result data container. The MB shall treat this return code as a
-         successful return of an empty result set. (**Deprecated**)</TD></TR>
      <TR><TD>`CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED`</TD><TD>WIPG0240</TD>
          <TD>Limits exceeded.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
@@ -9601,7 +9624,7 @@ typedef struct _CMPIAssociationMIFT {
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>WIPG0213</TD>
-         <TD>Instance not found. Instead of using this return code if the source
+         <TD>Source instance not found. Instead of using this return code if the source
          instance does not exist, the MI should return success with an empty
          result data container. The MB shall treat this return code as a
          successful return of an empty result set. (**Deprecated**)</TD></TR>
@@ -9690,7 +9713,7 @@ typedef struct _CMPIAssociationMIFT {
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>WIPG0213</TD>
-         <TD>Instance not found. Instead of using this return code if the source
+         <TD>Source instance not found. Instead of using this return code if the source
          instance does not exist, the MI should return success with an empty
          result data container. The MB shall treat this return code as a
          successful return of an empty result set. (**Deprecated**)</TD></TR>
@@ -9770,7 +9793,7 @@ typedef struct _CMPIAssociationMIFT {
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>WIPG0213</TD>
-         <TD>Instance not found. Instead of using this return code if the source
+         <TD>Source instance not found. Instead of using this return code if the source
          instance does not exist, the MI should return success with an empty
          result data container. The MB shall treat this return code as a
          successful return of an empty result set. (**Deprecated**)</TD></TR>
@@ -9848,7 +9871,7 @@ typedef struct _CMPIAssociationMIFT {
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>WIPG0213</TD>
-         <TD>Instance not found. Instead of using this return code if the source
+         <TD>Source instance not found. Instead of using this return code if the source
          instance does not exist, the MI should return success with an empty
          result data container. The MB shall treat this return code as a
          successful return of an empty result set. (**Deprecated**)</TD></TR>
@@ -9961,11 +9984,6 @@ typedef struct _CMPIAssociationMIFT {
          <TD>Invalid filter parameters.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>WIPG0213</TD>
-         <TD>Instance not found. Instead of using this return code if the source
-         instance does not exist, the MI should return success with an empty
-         result data container. The MB shall treat this return code as a
-         successful return of an empty result set. (**Deprecated**)</TD></TR>
      <TR><TD>`CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED`</TD><TD>WIPG0240</TD>
          <TD>Limits exceeded.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
@@ -10065,11 +10083,6 @@ typedef struct _CMPIAssociationMIFT {
          <TD>Invalid filter parameters.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>WIPG0213</TD>
-         <TD>Instance not found. Instead of using this return code if the source
-         instance does not exist, the MI should return success with an empty
-         result data container. The MB shall treat this return code as a
-         successful return of an empty result set. (**Deprecated**)</TD></TR>
      <TR><TD>`CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED`</TD><TD>WIPG0240</TD>
          <TD>Limits exceeded.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
@@ -10249,7 +10262,7 @@ typedef struct _CMPIMethodMIFT {
          <TD>The parameter is invalid. This condition is already verified by the
          MB. (**Deprecated**)</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>WIPG0213</TD>
-         <TD>Instance not found.</TD></TR>
+         <TD>Target object not found.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED`</TD><TD>WIPG0240</TD>
          <TD>Limits Exceeded.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
