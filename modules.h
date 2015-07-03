@@ -3,6 +3,14 @@
 /* ------------------------------------------------------------------------- */
 
 /**
+ * @file modules.h
+ * @brief A dummy header file defining the module structure for Doxygen; it is
+ *     not part of the CMPI header files.
+ *
+ * @todo AM: modules.h shows up in file list of HTML output (Files tab).
+ */
+
+/**
  * @page added200 Added in CMPI 2.0.0
  * @brief Entities that were added in CMPI 2.0.0
  */
@@ -503,6 +511,4 @@
   @{
   @}
 @}
-
-@todo AM: modules.h shows up in file list of HTML output (Files tab).
 */

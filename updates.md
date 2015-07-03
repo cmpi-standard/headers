@@ -6,6 +6,8 @@
   approved first.
 * Improved description of version-related preprocessor symbols in cmpidt.h and
   modules.h.
+* Added brief description to modules.h to clarify that it is not part of the
+  CMPI header files.
 
 2 July - Karl
 -------------
