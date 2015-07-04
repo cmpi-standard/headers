@@ -1,3 +1,10 @@
+3 July - Karl
+
+* Cleanup to some of cmpimacs.
+* review of Changes Andy proposed an discussion. We agreed that what is in
+  issue 69 is what we want. 
+* Worked on issues in trying to get the stub macros extended to handle
+  for 2.1.
 3 July - Andy
 -------------
 
