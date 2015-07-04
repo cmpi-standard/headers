@@ -15,6 +15,9 @@
   modules.h.
 * Added brief description to modules.h to clarify that it is not part of the
   CMPI header files.
+* Resolved spec issue D15: Description improvements for CMPI_RC_ERR_NOT_FOUND;
+  Resolved leftovers of other spec issues;
+  Brought more function descriptions in sync with spec.
 
 2 July - Karl
 -------------
@@ -53,7 +56,7 @@
 * Added descriptions to invocation flags, and fixed linking to them.
 * Solved warnings with @capopsys comand. Was caused by using @parblock.
 * Backed out addition of invalid handle code to MI functions.
- 
+
 1 July - Andy
 -------------
 
@@ -81,7 +84,7 @@
 * Moved thread function typedefs into cmpidt.h and described spec update.
 * Created special commands @capXXXXX for capabilities and used them.
 * Moved issues from ISSUES.md to TODOs.md and as @todo into headers.
- 
+
 30 June - Karl
 --------------
 
