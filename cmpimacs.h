@@ -341,10 +341,9 @@ _CMPI_INLINE_MOD void CMSetStatusWithChars(
 #   ifdef CMPI_INLINE
 /** @brief Tests any CMPI object to determine if it is a NULL object.
 
-    CMIsNullObject tests any CMPI object @p obj to determine if
-    its pointer is NULL. The function call is defined as void**
-    to encompass any CMPI strut type.
-    @param obj CMPI Object pointer.
+    CMIsNullObject tests any CMPI object @p obj to determine if it is NULL.
+    The function call is defined as void* to encompass any CMPI strut type.
+    @param obj points to any CMPI object.
     @retval true The object is NULL.
     @retval false The object is NOT NULL.
     @par Example
@@ -417,8 +416,8 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsNullValue (const CMPIData val)
 #   ifdef CMPI_INLINE
 /** @brief Tests CMPIData object for keyValue data item.
 
-    CMIsKeyValue() tests @val a CMPIValue to determine if it is a keyValue
-    data item.
+    CMIsKeyValue() tests @p val a CMPIValue to determine if it
+    is a keyValue data item.
     @param val Points to CMPIValue object to be tested.
     @retval true CMPIData object is keyValue
     @retval false CMPIData object is NOT keyValue
@@ -438,9 +437,9 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsKeyValue (CMPIData val)
 #   ifdef CMPI_INLINE
 /** @brief Tests CMPIData object for array data item type.
 
-    CMIsArray() tests @val a CMPIValue to determine if it is an
-    array.
-    @param val Points toValue object
+    CMIsArray() tests @p val a CMPIValue to determine if it is
+    an array.
+    @param val Points to Value object
     @retval true CMPIData object is array type.
     @retval false CMPIData object is NOT array type
     @todo KS this needs example.
