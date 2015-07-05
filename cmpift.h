@@ -2057,7 +2057,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
      @see CMNewArray() 
-     @todo.  (KS) Spec question. is the the size or max size determined   
+     @todo.  (KS) Spec question. is the size or max size determined   
           by the size arg.  Normally CIM arrays are flexible size
           except when a specific size is specified.  Here seems to
           force size.
@@ -2221,10 +2221,11 @@ typedef struct _CMPIBrokerEncFT {
                    MB capability.
 
      @see CMNewSelectExp() 
-     @see (KS) todo last parm is rc in doc and st in definition. 
+     @see (KS) todo last parm is rc in doc and st in definition. Changed implementation
+           to rc 
     */
     CMPISelectExp* (*newSelectExp) (const CMPIBroker* mb, const char* query,
-        const char* lang, CMPIArray** projection, CMPIStatus* st);
+        const char* lang, CMPIArray** projection, CMPIStatus* rc);
 
     /**
      *   @}
