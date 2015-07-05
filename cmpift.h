@@ -9861,7 +9861,7 @@ typedef struct _CMPIAssociationMIFT {
         const char* resultClass, const char* role,
         const char** properties);
 
-    /* *
+    /**
      @brief Enumerate the instance paths of association instances
          referencing a given source instance that are serviced by this MI.
 
