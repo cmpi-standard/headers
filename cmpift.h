@@ -1515,7 +1515,7 @@ typedef struct _CMPIBrokerFT {
          is not implemented by the target MI.
          New MIs should replace the use of CMPIBrokerFT.getProperty() with the
          use of CMPIBrokerFT.getInstance().
-    */
+      */
     CMPIData (*getProperty) (const CMPIBroker* mb, const CMPIContext* ctx,
         const CMPIObjectPath* instPath, const char* name, CMPIStatus* rc);
 
@@ -2056,7 +2056,11 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_INVALID_DATA_TYPE` - Data type not valid.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
-     @see CMNewArray()
+     @see CMNewArray() 
+     @todo.  (KS) Spec question. is the the size or max size determined   
+          by the size arg.  Normally CIM arrays are flexible size
+          except when a specific size is specified.  Here seems to
+          force size.
     */
     CMPIArray* (*newArray) (const CMPIBroker* mb, CMPICount size,
         CMPIType type, CMPIStatus* rc);
@@ -2216,7 +2220,8 @@ typedef struct _CMPIBrokerEncFT {
      @capquerynorm This function is part of the Query Normalization
                    MB capability.
 
-     @see CMNewSelectExp()
+     @see CMNewSelectExp() 
+     @see (KS) todo last parm is rc in doc and st in definition. 
     */
     CMPISelectExp* (*newSelectExp) (const CMPIBroker* mb, const char* query,
         const char* lang, CMPIArray** projection, CMPIStatus* st);
@@ -2292,7 +2297,9 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb or @p object handle is
          invalid.
 
-     @see CDToString()
+     @see CDToString() 
+     @todo KS - in brief CMPIEncapsulated looks like a CMPI type. Is   
+           there a definition/list of the encapsulated data types?
     */
     CMPIString* (*toString) (const CMPIBroker* mb, const void* object,
         CMPIStatus* rc);
@@ -4395,9 +4402,9 @@ typedef struct _CMPIResultFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt or @op handle is invalid,
-         or the MB has aborted the request for which this data is being
-         returned.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt or @p op handle 
+         is invalid, or the MB has aborted the request for which
+         this data is being returned.
 
      @see CMReturnObjectPath()
     */
