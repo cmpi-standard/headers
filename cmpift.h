@@ -1919,7 +1919,6 @@ typedef struct _CMPIBrokerEncFT {
         const CMPIObjectPath* instPath, CMPIStatus* rc);
 
 // DONE_AM Next function is already synced with spec.
-// TODO_AM Sync function descriptions with spec, from here on down.
     /**
      @brief Create a new CMPIObjectPath initialized to a given namespace and
          class name
@@ -1959,21 +1958,26 @@ typedef struct _CMPIBrokerEncFT {
     CMPIObjectPath* (*newObjectPath) (const CMPIBroker* mb, const char* ns,
         const char* cn, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a new CMPIArgs object initialized to have no method
          parameters.
 
-     CMPIBrokerEncFT.newArgs() creates a new CMPIArgs object with no method
-     parameters.
+     CMPIBrokerEncFT.newArgs() creates a new CMPIArgs object that is
+     initialized to have no method parameters.
 
      @param mb Points to a CMPIBroker structure.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, returns the newly created
-         CMPIArgs object.
+         If successful, a pointer to the new CMPIArgs object will be returned.
 
-         If not successful returns NULL.
+         The new object will be automatically released by the MB, as described
+         in Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard". If
+         the new object is no longer used by the MI, it may be explicitly
+         released by the MI using CMPIBrokerMemFT.freeArgs().
+
+         If not successful, NULL will be returned.
      @endparblock
 
      @par Errors
@@ -1986,15 +1990,16 @@ typedef struct _CMPIBrokerEncFT {
     */
     CMPIArgs* (*newArgs) (const CMPIBroker* mb, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a new CMPIString object initialized from a C-language string.
 
-     CMPIBrokerEncFT.newString() creates a new
-     CMPIString object that is initialized from a C-language
-     string.
+     CMPIBrokerEncFT.newString() creates a new CMPIString object that is
+     initialized from a C-language string.
 
      @param mb Points to a CMPIBroker structure.
-     @param data String data
+     @param data Points to a string that is used to initialize the new
+         CMPIString object.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
@@ -2019,27 +2024,25 @@ typedef struct _CMPIBrokerEncFT {
     CMPIString* (*newString) (const CMPIBroker* mb, const char* data,
         CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a new CMPIArray object of a given fixed array size for a
          given type of elements.
 
-     CMPIBrokerEncFT.newArray() returns a new CMPIArray
-     object. Once created, the size of the array is fixed by the @p size
-     argument and all elements are of the same type defined by @p type.
-     The array in initialized to have no array elements.
+     CMPIBrokerEncFT.newArray() returns a new CMPIArray object. Once created,
+     the size of the array is fixed and all elements are of the same type. The
+     array is initialized to have no array elements.
 
      @param mb Points to a CMPIBroker structure.
-     @param size Specifies the size of the created CMPIArray
-         (number of elements).
-     @param type Specifies the type of each element. @p type
-         specifies the type of single array elements; for
-         example, the value for an array that contains CMPIString
-         objects will be @ref CMPI_string, and not @ref CMPI_stringA.
+     @param size Specifies the size of the array.
+     @param type Specifies the type of each element. @p type specifies the type
+         of single array elements; for example, the value for an array that
+         contains CMPIString objects will be @ref CMPI_string, and not @ref
+         CMPI_stringA.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful,returns a pointer to the new
-         CMPIArray object.
+         If successful, a pointer to the new CMPIArray object will be returned.
 
          The new object will be automatically released by the MB, as described
          in Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard".
@@ -2057,10 +2060,30 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
      @see CMNewArray()
+
+     @todo AM: On Karls comment:@n
+     Variable CIM arrays can still be represented with a fixed size CMPIArray
+     data type. At the time the variable CIM array is transmitted, it has a
+     deterministic size. The CMPIArray object is simply initialized to that
+     size, and it only lives during transfer of the array. During that time,
+     there is no need to change the array size.@n
+     The change in its description was introduced between WIP V3T and the first
+     V4A without being based on any CR. I could not find any reasoning
+     documented: Change of arg name from 'max' to 'size'; change description
+     from max size to size; add that the initialized array has no array
+     elements.@n
+     I think there is a contradiction between the notion of initializing to the
+     final unchangeable size, and the notion that the so initialized array has
+     no array elements. What would getSize() return right after creating it?@n
+     Assuming we stick with the concept of an unchangeable number of entries,
+     the oly workable option I can see is to clearly say these elements exist,
+     and to clarify what their value is (NULL or undefined).
     */
     CMPIArray* (*newArray) (const CMPIBroker* mb, CMPICount size,
         CMPIType type, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
+// TODO_AM Sync function descriptions with spec, from here on down.
     /**
      @brief Create a new CMPIDataTime object with current date and time.
 
