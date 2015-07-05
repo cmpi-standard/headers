@@ -1341,8 +1341,7 @@ typedef struct _CMPIBrokerFT {
          If successful, a CMPIData structure containing the method return
          value will be returned.
 
-         If not successful, CMPIData.state will have the @ref CMPI_badValue flag
-         set to true.
+         If not successful, CMPIData.state will be undefined.
      @endparblock
 
      @par Errors
@@ -1481,8 +1480,7 @@ typedef struct _CMPIBrokerFT {
          If successful, a CMPIData structure containing the specified property
          will be returned.
 
-         If not successful, CMPIData.state will have the @ref CMPI_badValue
-         flag set to true.
+         If not successful, CMPIData.state will be undefined.
      @endparblock
 
      @par Errors
@@ -2028,12 +2026,12 @@ typedef struct _CMPIBrokerEncFT {
     /**
      @brief Create a new CMPIArray object of a given size and type of elements.
 
-     CMPIBrokerEncFT.newArray() returns a new CMPIArray object of a array size
+     CMPIBrokerEncFT.newArray() returns a new CMPIArray object of a given size
      and type of elements. The elements of the array will exist and will have
      been set to the specified type and to NULL.
 
-     Once created, the size of the array cannot be changed anymore. This is
-     still suitable for both fixed-size and variable-size CIM arrays, because
+     Once created, the size of the array cannot be changed. This is still
+     suitable for both fixed-size and variable-size CIM arrays, because
      CMPIArray is used only during the time a particular array value is
      transmitted between MB and MI, and even for variable-size CIM arrays, the
      actual array value does not change during that time.
@@ -2300,7 +2298,7 @@ typedef struct _CMPIBrokerEncFT {
 
 // DONE_AM Next function is already synced with spec.
     /**
-     @brief Convert any CMPIEncapsulated data type object into a string
+     @brief Convert any CMPI encapsulated data type object into a string
          representation.
 
      CMPIBrokerEncFT.toString() converts any CMPI encapsulated data type object
@@ -2353,8 +2351,8 @@ typedef struct _CMPIBrokerEncFT {
      @return @parblock
          If successful, a CMPIBoolean value indicating the test result will be
          returned, as follows:
-         @li True indicates that @p type matches the @p object type;
-         @li False indicates that this is not the case.
+         @li True indicates that the object is of the specified CMPI type
+         @li False indicates that this is not the case
 
          If not successful, False will be returned.
      @endparblock
@@ -2373,29 +2371,25 @@ typedef struct _CMPIBrokerEncFT {
         const char* type, CMPIStatus* rc);
 
 // DONE_AM Next function is already synced with spec.
-// TODO_AM Sync function descriptions with spec, from here on down.
     /**
      @brief Get the type name of a CMPI ensapsulated data type object.
 
-     CMPIBrokerEncFT.getType() retrieves the CMPI type of @p object.
-
-     Intended for debugging purposes only.
+     CMPIBrokerEncFT.getType() gets the type name of a CMPI encapsulated data
+     type object.
 
      @param mb Points to a CMPIBroker structure.
-     @param [out] object If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status
+     @param [out] object Points to a CMPI encapsulated data type object.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a pointer to a CMPIString
-         object specifying the type name of the encapsulated data
-         type (e.g., CMPIInstance) will be returned.
+         If successful, a pointer to a CMPIString object specifying the type
+         name of the encapsulated data type (e.g., "CMPIInstance") will be
+         returned.
 
-         The returned CMPIString object shall not be explicitly released
-         by the MI, because it may be an internal object of the CMPI
-         encapsulated data type object which will be released along with
-         that object, or a new object created by the MB which will be
-         automatically released by the MB
+         The returned CMPIString object shall not be explicitly released by the
+         MI, because it may be an internal object of the CMPI encapsulated data
+         type object which will be released along with that object, or a new
+         object created by the MB which will be automatically released by the MB
          (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
 
          If not successful, NULL will be returned.
@@ -2415,7 +2409,7 @@ typedef struct _CMPIBrokerEncFT {
 
 // DONE_AM Next function is already synced with spec.
     /**
-     @brief get a translated MB implementation-specific message text by message
+     @brief Get a translated MB implementation-specific message text by message
          ID. (**Deprecated**)
 
      CMPIBrokerEncFT.getMessage() gets a translated MB implementation-specific
@@ -2478,6 +2472,8 @@ typedef struct _CMPIBrokerEncFT {
     CMPIString* (*getMessage) (const CMPIBroker* mb, const char* msgId,
         const char* defMsg, CMPIStatus* rc, CMPICount count, ...);
 
+// DONE_AM Next function is already synced with spec.
+// TODO_AM Sync function descriptions with spec, from here on down.
     /**
      @brief Log a diagnostic message.
 
@@ -4150,8 +4146,7 @@ typedef struct _CMPIContextFT {
          If successful, a CMPIData structure containing the
          specified context entry will be returned.
 
-         If not successful, CMPIData.state will have the @ref CMPI_badValue
-         flag set to true.
+         If not successful, CMPIData.state will be undefined.
      @endparblock
 
      @par Errors
@@ -4195,8 +4190,7 @@ typedef struct _CMPIContextFT {
          If successful, returns a CMPIData structure
          containing the specified context entry.
 
-         If not successful, CMPIData.state will have the @ref CMPI_badValue
-         flag set to true.
+         If not successful, CMPIData.state will be undefined.
      @endparblock
 
      @par Errors
@@ -5626,8 +5620,7 @@ typedef struct _CMPIInstanceFT {
          If successful, a CMPIData structure containing the
          specified property will be returned.
 
-         If not successful, CMPIData.state will have the @ref CMPI_badValue flag
-         set to true.
+         If not successful, CMPIData.state will be undefined.
      @endparblock
 
      @par Errors
@@ -5664,8 +5657,7 @@ typedef struct _CMPIInstanceFT {
          If successful, a CMPIData structure
          containing the specified property.
 
-         If not successful, CMPIData state will have the @ref CMPI_badValue
-         is flag set to true.
+         If not successful, CMPIData.state will be undefined.
      @endparblock
 
      @par Errors
@@ -6215,8 +6207,7 @@ typedef struct _CMPIObjectPathFT {
          In addition, the @ref CMPI_keyValue flag will be set in CMPIData.state
          to indicate that the value is a key binding.
 
-         If not successful, CMPIData.state will have the @ref CMPI_badValue flag
-         set to true.
+         If not successful, CMPIData.state will be undefined.
      @endparblock
 
      @par Errors
@@ -6273,8 +6264,7 @@ typedef struct _CMPIObjectPathFT {
          In addition, the @ref CMPI_keyValue flag will be set in CMPIData.state
          to indicate that the value is a key binding.
 
-         If not successful, CMPIData.state will have the @ref CMPI_badValue flag
-         set to true.
+         If not successful, CMPIData.state will be undefined.
      @endparblock
 
      @par Errors
@@ -6384,8 +6374,7 @@ typedef struct _CMPIObjectPathFT {
          If successful, returns a CMPIData structure
          containing the specified qualifier.
 
-         If not successful, CMPIData.state @ref CMPI_badValue flag set
-         to true.
+         If not successful, CMPIData.state will be undefined.
      @endparblock
 
      @par Errors
@@ -6425,8 +6414,7 @@ typedef struct _CMPIObjectPathFT {
          If successful, returns a CMPIData structure
          containing the specified qualifier will be returned.
 
-         If not successful, returns CMPIData.state with @ref CMPI_badValue flag
-         set to true.
+         If not successful, CMPIData.state will be undefined.
      @endparblock
 
      @par Errors
@@ -6468,8 +6456,7 @@ typedef struct _CMPIObjectPathFT {
          If successful, a CMPIData structure
          containing the specified qualifier will be returned.
 
-         If not successful, CMPIData.state will have the @ref CMPI_badValue
-         flag set to true.
+         If not successful, CMPIData.state will be undefined.
      @endparblock
 
      @par Errors
@@ -6514,8 +6501,7 @@ typedef struct _CMPIObjectPathFT {
          If successful, a CMPIData structure containing the specified qualifier
          will be returned.
 
-         If not successful, CMPIData.state will have the @ref CMPI_badValue flag
-         set to true.
+         If not successful, CMPIData.state will be undefined.
      @endparblock
 
      @par Errors
@@ -7641,8 +7627,7 @@ typedef struct _CMPIArgsFT {
          If successful,returns a CMPIData structure
          containing the specified method parameter.
 
-         If not successful, CMPIData.state will have the @ref CMPI_badValue flag
-         set to true
+         If not successful, CMPIData.state will be undefined.
      @endparblock
 
      @par Errors
@@ -7682,8 +7667,7 @@ typedef struct _CMPIArgsFT {
          If successful, returns a CMPIData structure
          containing the specified method parameter.
 
-         If not successful, CMPIData.state will have the @ref CMPI_badValue flag
-         set to true.
+         If not successful, CMPIData.state will be undefined.
      @endparblock
 
      @par Errors
@@ -7711,8 +7695,7 @@ typedef struct _CMPIArgsFT {
          If successful, returns a CMPIData structure
          containing the specified method parameter.
 
-         If not successful, CMPIData.state will have the @ref CMPI_badValue flag
-         set to true.
+         If not successful, 0 will be returned.
      @endparblock
 
      @par Errors
@@ -8068,8 +8051,7 @@ typedef struct _CMPIArrayFT {
          If successful, returns a CMPIData structure
          containing the specified array element.
 
-         If not successful, CMPIData.state will have the @ref CMPI_badValue flag
-         set to true.
+         If not successful, CMPIData.state will be undefined.
      @endparblock
 
      @par Errors
@@ -8238,8 +8220,7 @@ typedef struct _CMPIEnumerationFT {
          If successful, a CMPIData structure
          containing the next element will be returned.
 
-         If not successful, CMPIData.state will have the @ref CMPI_badValue
-         flag set to true
+         If not successful, CMPIData.state will be undefined.
      @endparblock
 
      @par Errors
