@@ -1868,8 +1868,8 @@ typedef struct _CMPIBrokerEncFT {
      @brief Create a new CMPIInstance object initialized to a given instance
          path.
 
-     CMPIBrokerEncFT.newInstance() creates a new
-     CMPIInstance object that is initialized to a given instance path.
+     CMPIBrokerEncFT.newInstance() creates a new CMPIInstance object that is
+     initialized to a given instance path.
 
      The new CMPIInstance object should have no properties. In CMPI 2.1, all
      other behaviors w.r.t. setting properties in the new CMPIInstance object
@@ -1882,12 +1882,12 @@ typedef struct _CMPIBrokerEncFT {
 
      @param mb Points to a CMPIBroker structure.
      @param instPath points to a CMPIObjectPath object. The object path of the
-         new CMPIInstance object will be set to the object path in the instPath
-         argument. The object path in @p instPath shall specify a non-NULL
-         namespace and a non-NULL creation class name. The object path shall
-         specify no or all keys for the instance. The object path may specify a
-         non-NULL host name for the instance (this is used for instances
-         returned by cross-host associations).
+         new CMPIInstance object will be set to the object path in @p instPath
+         The object path in @p instPath shall specify a non-NULL namespace and
+         a non-NULL creation class name. The object path shall specify no or
+         all keys for the instance. The object path may specify a non-NULL host
+         name for the instance (this is used for instances returned by
+         cross-host associations).
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
@@ -2026,15 +2026,21 @@ typedef struct _CMPIBrokerEncFT {
 
 // DONE_AM Next function is already synced with spec.
     /**
-     @brief Create a new CMPIArray object of a given fixed array size for a
-         given type of elements.
+     @brief Create a new CMPIArray object of a given size and type of elements.
 
-     CMPIBrokerEncFT.newArray() returns a new CMPIArray object. Once created,
-     the size of the array is fixed and all elements are of the same type. The
-     array is initialized to have no array elements.
+     CMPIBrokerEncFT.newArray() returns a new CMPIArray object of a array size
+     and type of elements. The elements of the array will exist and will have
+     been set to the specified type and to NULL.
+
+     Once created, the size of the array cannot be changed anymore. This is
+     still suitable for both fixed-size and variable-size CIM arrays, because
+     CMPIArray is used only during the time a particular array value is
+     transmitted between MB and MI, and even for variable-size CIM arrays, the
+     actual array value does not change during that time.
 
      @param mb Points to a CMPIBroker structure.
-     @param size Specifies the size of the array.
+     @param size Specifies the size of the array. A value of 0 is valid and
+         specifies an empty array.
      @param type Specifies the type of each element. @p type specifies the type
          of single array elements; for example, the value for an array that
          contains CMPIString objects will be @ref CMPI_string, and not @ref
@@ -2083,20 +2089,19 @@ typedef struct _CMPIBrokerEncFT {
         CMPIType type, CMPIStatus* rc);
 
 // DONE_AM Next function is already synced with spec.
-// TODO_AM Sync function descriptions with spec, from here on down.
     /**
-     @brief Create a new CMPIDataTime object with current date and time.
+     @brief Create a new CMPIDateTime object initialized to the current date
+     and time.
 
-     CMPIBrokerEncFT.newDateTime() creates a new
-     CMPIDateTime object that is initialized with the current
-     date and time.
+     CMPIBrokerEncFT.newDateTime() creates a new CMPIDateTime object that is
+     initialized with the current date and time.
 
      @param mb Points to a CMPIBroker structure.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, returns a pointer to the new
-         CMPIDateTime object.
+         If successful, a pointer to the new CMPIDateTime object will be
+         returned.
 
          The new object will be automatically released by the MB, as described
          in Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard".
@@ -2116,60 +2121,26 @@ typedef struct _CMPIBrokerEncFT {
     */
     CMPIDateTime* (*newDateTime) (const CMPIBroker* mb, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a new CMPIDateTime object initialized to a specific value.
 
-     CMPIBrokerEncFT.newDateTimeFromBinary() creates
-     a new CMPIDateTime object that is initialized with the
-     specified date and time from @p binTime.
+     CMPIBrokerEncFT.newDateTimeFromBinary() creates a new CMPIDateTime object
+     that is initialized with the specified date and time.
 
      @param mb Points to a CMPIBroker structure.
-     @param binTime When interval is false, @p binTime
+     @param binTime When @p interval is false, @p binTime
          contains a point in time value expressed as a 64-bit unsigned integer
          in microseconds since 00:00:00 GMT, January 1, 1970. Otherwise,
          @p binTime contains a time interval expressed as
-         a 64-bit unsigned integer in microseconds
-     @param interval When true, defines @p binTime definition to be
-         an interval value.
+         a 64-bit unsigned integer in microseconds.
+     @param interval If true, indicates that @p binTime is considered to be a
+         time interval.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, returns a pointer to the new
-         CMPIDateTime object.
-
-         The new object will be automatically released by the MB, as described
-         in Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard".
-         If the new object is no longer used by the MI, it may be explicitly
-         released by the MI using CMPIBrokerMemFT.freeDateTime().
-
-         If not successful, returns NULL.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
-
-     @see CMNewDateTimeFromBinary()
-    */
-    CMPIDateTime* (*newDateTimeFromBinary) (const CMPIBroker* mb,
-        CMPIUint64 binTime, CMPIBoolean interval, CMPIStatus* rc);
-
-    /**
-     @brief Create a new CMPIDateTime object initialized from input.
-
-     CMPIBrokerEncFT.newDateTimeFromChars() creates a new
-     CMPIDateTime object that is initialized with
-     @p utcTime, the specified date and time.
-
-     @param mb Points to a CMPIBroker structure.
-     @param datetime Date/Time definition in CIM datetime string format.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful,returns a pointer to the new
-         CMPIArray object.
+         If successful, a pointer to the new CMPIDateTime object will be
+         returned.
 
          The new object will be automatically released by the MB, as described
          in Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard".
@@ -2183,7 +2154,44 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` - The utcTime format is invalid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
+
+     @see CMNewDateTimeFromBinary()
+    */
+    CMPIDateTime* (*newDateTimeFromBinary) (const CMPIBroker* mb,
+        CMPIUint64 binTime, CMPIBoolean interval, CMPIStatus* rc);
+
+// DONE_AM Next function is already synced with spec.
+    /**
+     @brief Create a new CMPIDateTime object initialized to a specified value.
+
+     CMPIBrokerEncFT.newDateTimeFromChars() creates a new CMPIDateTime object
+     that is initialized with the specified date and time.
+
+     @param mb Points to a CMPIBroker structure.
+     @param datetime Points to a string specifying the date/time value to be
+         used for the new object in the string format for CIM datetime values
+         defined in @ref ref-dmtf-dsp0004 "DSP0004". Both the interval and
+         point in time formats are supported.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful, a pointer to the new CMPIDateTime object will be
+         returned.
+
+         The new object will be automatically released by the MB, as described
+         in Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard".
+         If the new object is no longer used by the MI, it may be explicitly
+         released by the MI using CMPIBrokerMemFT.freeDateTime().
+
+         If not successful, NULL will be returned.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p datetime format is invalid.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
      @see CMNewDateTimeFromChars()
@@ -2191,39 +2199,37 @@ typedef struct _CMPIBrokerEncFT {
     CMPIDateTime* (*newDateTimeFromChars) (const CMPIBroker* mb,
         const char* datetime, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a new CMPISelectExp object initialized from a select
-         expression.
+         expression specified in a query language.
 
-     CMPIBrokerEncFT.newSelectExp() creates a new CMPISelectExp
-     object that is initialized from a select expression specified
-     in a query language.
+     CMPIBrokerEncFT.newSelectExp() creates a new CMPISelectExp object that is
+     initialized from a select expression specified in a query language.
 
      @param mb Points to a CMPIBroker structure.
      @param query Points to a string containing the select expression.
      @param lang Points to a string containing the query language.
-     @param [out] projection Points to a CMPIArray pointer that upon
-         success will have been updated to point to a new CMPIArray
-         object of CMPIString entries containing the
-         projection specification. The pointer will be set to NULL if no
-         projection was specified in the select expression. The
-         projection specification is query language-specific. Hence
-         the entries format of the projection output array
-         CMPIString might be different depending on the query
-         language. Be sure to check @p lang for the query
-         language your MI will support.
+     @param [out] projection Points to a CMPIArray pointer that upon success
+         will have been updated to point to a new CMPIArray object of
+         CMPIString entries containing the projection specification. The
+         pointer will be set to NULL if no projection was specified in the
+         select expression. The projection specification is query
+         language-specific. Hence the entries format of the projection output
+         array CMPIString might be different depending on the query language.
+         Be sure to check @p lang for the query language your MI will support.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful returns a pointer to the new
-         CMPIArray object.
+         If successful, a pointer to the new CMPISelectExp object will be
+         returned.
 
          The new object will be automatically released by the MB, as described
          in Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard".
          If the new object is no longer used by the MI, it may be explicitly
          released by the MI using CMPIBrokerMemFT.freeSelectExp().
 
-         If not successful NULL will be returned.
+         If not successful, NULL will be returned.
      @endparblock
 
      @par Errors
@@ -2231,10 +2237,9 @@ typedef struct _CMPIBrokerEncFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-     @li `CMPI_RC_ERR_QUERY_LANGUAGE_NOT_SUPPORTED` - The query
-         language is not supported.
-     @li `CMPI_RC_ERR_INVALID_QUERY` - The query expression is not
-         valid.
+     @li `CMPI_RC_ERR_QUERY_LANGUAGE_NOT_SUPPORTED` - The query language is not
+         supported.
+     @li `CMPI_RC_ERR_INVALID_QUERY` - The query expression is not valid.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
      @capquerynorm This function is part of the Query Normalization
                    MB capability.
@@ -2252,6 +2257,7 @@ typedef struct _CMPIBrokerEncFT {
      *   @{
      */
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Test whether a class path is of a specified class or any of its
         subclasses.
@@ -2267,12 +2273,15 @@ typedef struct _CMPIBrokerEncFT {
      @param className Specifies the class name to be tested for.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
-     @return If successful, a CMPIBoolean value indicating the test result will
+     @return @parblock
+         If successful, a CMPIBoolean value indicating the test result will
          be returned, as follows:
          @li True indicates that the class path is of the specified class or
              any of that class's subclasses
          @li False indicates that this is not the case
 
+         If not successful, False will be returned.
+     @endparblock
      @par Errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
@@ -2291,23 +2300,30 @@ typedef struct _CMPIBrokerEncFT {
         const CMPIObjectPath* classPath, const char* className,
         CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Convert CMPIEncapsulated data type object into a string
+     @brief Convert any CMPIEncapsulated data type object into a string
          representation.
 
-     CMPIBrokerEncFT.toString() converts any CMPI encapsulated
-     data type object into an MB implementation-specific string
-     representation. Intended for debugging purposes only.
+     CMPIBrokerEncFT.toString() converts any CMPI encapsulated data type object
+     into an MB implementation-specific string representation.
 
      @param mb Points to a CMPIBroker structure.
      @param object Points to a CMPI encapsulated data type object.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful returns CMPIString from representation
-         of @p object.
+         If successful, a pointer to a CMPIString object containing the MB
+         implementation-specific string representation of the CMPI encapsulated
+         data type object will be returned.
 
-      If not successful returns NULL.
+         The returned CMPIString object shall not be explicitly released by the
+         MI, because it may be an internal object of the CMPI encapsulated data
+         type object which will be released along with that object, or a new
+         object created by the MB which will be automatically released by the MB
+         (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard".).
+
+         If not successful, NULL will be returned.
      @endparblock
 
      @par Errors
@@ -2324,23 +2340,28 @@ typedef struct _CMPIBrokerEncFT {
     CMPIString* (*toString) (const CMPIBroker* mb, const void* object,
         CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Tests whether a CMPI encapsulated data type object is of a
-         specified CMPI type.
+     @brief Test whether a CMPI encapsulated data type object is of a specified
+         CMPI type.
 
-     CMPIBrokerEncFT.isOfType() verifies whether @p object is of
-     CMPI type @p type. Intended for debugging purposes only.
+     CMPIBrokerEncFT.isOfType() tests whether a CMPI encapsulated data type
+     object is of a specified CMPI type.
 
      @param mb Points to a CMPIBroker structure.
-     @param object A valid CMPI object.
-     @param type Points to a string specifying a valid CMPI Object type
-         ("CMPIInstance", "CMPIObjectPath", etc).
+     @param object Points to a CMPI encapsulated data type object.
+     @param type points to a string specifying the type name of the
+         encapsulated data type to be tested for (e.g., "CMPIInstance").
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status..
-     @return If successful, a CMPIBoolean value indicating the test result will
-         be returned, as follows:
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful, a CMPIBoolean value indicating the test result will be
+         returned, as follows:
          @li True indicates that @p type matches the @p object type;
          @li False indicates that this is not the case.
+
+         If not successful, False will be returned.
+     @endparblock
 
      @par Errors
      The function return status will indicate one of the following @ref CMPIrc
@@ -2355,6 +2376,8 @@ typedef struct _CMPIBrokerEncFT {
     CMPIBoolean (*isOfType) (const CMPIBroker* mb, const void* object,
         const char* type, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
+// TODO_AM Sync function descriptions with spec, from here on down.
     /**
      @brief Get the type name of a CMPI ensapsulated data type object.
 
