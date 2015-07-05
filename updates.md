@@ -1,3 +1,16 @@
+5 July - Karl
+* Broke macros into modules but probably not correctly  Did it by type
+  of macro and it should probably also be by CMPIBroker, others separation.
+  The types I have so far are:
+      * convience functions that just cmpift.d call functions
+      * convience functions that extend functionality beyond cmpift.h functions
+      * provider initialization stubs.
+  In particular, there are a couple of extending function way down in the
+  broker section that do not show up correctly
+* Continuing cleanup of existing functions. Note that I have kept @params in
+  them but very short form.  
+* Trying to sort out how we do the stubs since 2.1 is different than 2.0 and
+  we need both.  Not done and I have a question about the filtered functions.
 3 July - Karl
 
 * Cleanup to some of cmpimacs.
