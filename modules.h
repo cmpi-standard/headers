@@ -511,4 +511,28 @@
   @{
   @}
 @}
+@defgroup cmpi-conviencefunc CMPI Convience functions
+@{
+   @defgroup cmpi-function-supplements Inline functions that supplement \
+       function calls.
+   @{
+   The inline functions in this group supplement the functions defined in the
+   specification, for example, adding a function that creates status and does
+   a return in a single call
+
+   They aid the access to cmpi selected variables or otherwise provide
+   functionality not directly available through a function. Examples of
+   this are CMReturn() andCMIsNull()
+   @}
+   @defgroup cmpi-conv-func-calls Convience functions that directly map to \
+   cmpi specified functions.
+   @{
+   These macros simplify the code by eliminating the direct
+   reference to the function table. Every convience function in this group
+   directly maps to a cmpi function.
+   @}
+   @defgroup cmpi-providerfactories Provider Stub CreationFactories.
+   @{
+   @}
+@}
 */
