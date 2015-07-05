@@ -2244,9 +2244,9 @@ typedef struct _CMPIBrokerEncFT {
      @capquerynorm This function is part of the Query Normalization
                    MB capability.
 
-     @see CMNewSelectExp() 
-     @see (KS) todo last parm is rc in doc and st in definition. Changed implementation
-           to rc 
+     @see CMNewSelectExp()
+     @see (KS) todo last parm is rc in doc and st in definition. Changed
+     implementation to rc
     */
     CMPISelectExp* (*newSelectExp) (const CMPIBroker* mb, const char* query,
         const char* lang, CMPIArray** projection, CMPIStatus* rc);
@@ -2333,8 +2333,8 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb or @p object handle is
          invalid.
 
-     @see CDToString() 
-     @todo KS - in brief CMPIEncapsulated looks like a CMPI type. Is   
+     @see CDToString()
+     @todo KS - in brief CMPIEncapsulated looks like a CMPI type. Is
            there a definition/list of the encapsulated data types?
     */
     CMPIString* (*toString) (const CMPIBroker* mb, const void* object,
@@ -4445,7 +4445,7 @@ typedef struct _CMPIResultFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt or @p op handle 
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt or @p op handle
          is invalid, or the MB has aborted the request for which
          this data is being returned.
 
@@ -9674,10 +9674,10 @@ typedef struct _CMPIAssociationMIFT {
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>WIPG0213</TD>
-         <TD>Source instance not found. Instead of using this return code if the source
-         instance does not exist, the MI should return success with an empty
-         result data container. The MB shall treat this return code as a
-         successful return of an empty result set. (**Deprecated**)</TD></TR>
+         <TD>Source instance not found. Instead of using this return code if
+         the source instance does not exist, the MI should return success with
+         an empty result data container. The MB shall treat this return code as
+         a successful return of an empty result set. (**Deprecated**)</TD></TR>
      <TR><TD>`CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED`</TD><TD>WIPG0240</TD>
          <TD>Limits exceeded.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
@@ -9763,10 +9763,10 @@ typedef struct _CMPIAssociationMIFT {
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>WIPG0213</TD>
-         <TD>Source instance not found. Instead of using this return code if the source
-         instance does not exist, the MI should return success with an empty
-         result data container. The MB shall treat this return code as a
-         successful return of an empty result set. (**Deprecated**)</TD></TR>
+         <TD>Source instance not found. Instead of using this return code if
+         the source instance does not exist, the MI should return success with
+         an empty result data container. The MB shall treat this return code as
+         a successful return of an empty result set. (**Deprecated**)</TD></TR>
      <TR><TD>`CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED`</TD><TD>WIPG0240</TD>
          <TD>Limits exceeded.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
@@ -9843,10 +9843,10 @@ typedef struct _CMPIAssociationMIFT {
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>WIPG0213</TD>
-         <TD>Source instance not found. Instead of using this return code if the source
-         instance does not exist, the MI should return success with an empty
-         result data container. The MB shall treat this return code as a
-         successful return of an empty result set. (**Deprecated**)</TD></TR>
+         <TD>Source instance not found. Instead of using this return code if
+         the source instance does not exist, the MI should return success with
+         an empty result data container. The MB shall treat this return code as
+         a successful return of an empty result set. (**Deprecated**)</TD></TR>
      <TR><TD>`CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED`</TD><TD>WIPG0240</TD>
          <TD>Limits exceeded.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
@@ -9861,7 +9861,7 @@ typedef struct _CMPIAssociationMIFT {
         const char* resultClass, const char* role,
         const char** properties);
 
-    /**
+    /* *
      @brief Enumerate the instance paths of association instances
          referencing a given source instance that are serviced by this MI.
 
@@ -9921,10 +9921,10 @@ typedef struct _CMPIAssociationMIFT {
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>WIPG0213</TD>
-         <TD>Source instance not found. Instead of using this return code if the source
-         instance does not exist, the MI should return success with an empty
-         result data container. The MB shall treat this return code as a
-         successful return of an empty result set. (**Deprecated**)</TD></TR>
+         <TD>Source instance not found. Instead of using this return code if
+         the source instance does not exist, the MI should return success with
+         an empty result data container. The MB shall treat this return code as
+         a successful return of an empty result set. (**Deprecated**)</TD></TR>
      <TR><TD>`CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED`</TD><TD>WIPG0240</TD>
          <TD>Limits exceeded.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
