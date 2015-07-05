@@ -2064,24 +2064,6 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
      @see CMNewArray()
-
-     @todo AM: On Karls comment:@n
-     Variable CIM arrays can still be represented with a fixed size CMPIArray
-     data type. At the time the variable CIM array is transmitted, it has a
-     deterministic size. The CMPIArray object is simply initialized to that
-     size, and it only lives during transfer of the array. During that time,
-     there is no need to change the array size.@n
-     The change in its description was introduced between WIP V3T and the first
-     V4A without being based on any CR. I could not find any reasoning
-     documented: Change of arg name from 'max' to 'size'; change description
-     from max size to size; add that the initialized array has no array
-     elements.@n
-     I think there is a contradiction between the notion of initializing to the
-     final unchangeable size, and the notion that the so initialized array has
-     no array elements. What would getSize() return right after creating it?@n
-     Assuming we stick with the concept of an unchangeable number of entries,
-     the oly workable option I can see is to clearly say these elements exist,
-     and to clarify what their value is (NULL or undefined).
     */
     CMPIArray* (*newArray) (const CMPIBroker* mb, CMPICount size,
         CMPIType type, CMPIStatus* rc);
