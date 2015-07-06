@@ -3570,9 +3570,6 @@ typedef struct _CMPIBrokerExtFT {
      CMPIBrokerExtFT.destroyMutex2() destroys a POSIX threading-conformant
      mutex.
 
-     This function supersedes the original CMPIBrokerExtFT.destroyMutex()
-     function.
-
      @param mutex Handle of the mutex to be destroyed.
      @return @parblock
          If successful, zero will be returned.
@@ -3585,7 +3582,8 @@ typedef struct _CMPIBrokerExtFT {
          @ref ref-ieee-1003-1 "IEEE 1003.1".
      @capopsys This function is part of the OS Encapsulation Services
          capability.
-     @added210 Added in CMPI 2.1.0.
+     @added210 Added in CMPI 2.1.0, superseding the deprecated
+         CMPIBrokerExtFT.destroyMutex() function.
     */
     int (*destroyMutex2) (CMPI_MUTEX_TYPE mutex);
 
@@ -3600,9 +3598,6 @@ typedef struct _CMPIBrokerExtFT {
 
      The behavior in case the mutex is already locked by the current thread
      is defined in the description of CMPIBrokerExtFT.newMutex().
-
-     This function supersedes the original CMPIBrokerExtFT.lockMutex()
-     function.
 
      @param mutex Handle of the mutex to be locked.
      @return @parblock
@@ -3630,9 +3625,6 @@ typedef struct _CMPIBrokerExtFT {
      The behavior in case the mutex is not locked by the current thread is
      defined in the description of CMPIBrokerExtFT.newMutex().
 
-     This function supersedes the original CMPIBrokerExtFT.unlockMutex()
-     function.
-
      @param mutex Handle of the mutex to be unlocked.
      @return @parblock
          If successful, zero will be returned.
@@ -3645,7 +3637,8 @@ typedef struct _CMPIBrokerExtFT {
          @ref ref-ieee-1003-1 "IEEE 1003.1".
      @capopsys This function is part of the OS Encapsulation Services
          capability.
-     @added210 Added in CMPI 2.1.0.
+     @added210 Added in CMPI 2.1.0, superseding the deprecated
+         CMPIBrokerExtFT.unlockMutex() function.
     */
     int (*unlockMutex2) (CMPI_MUTEX_TYPE mutex);
 
@@ -3662,9 +3655,6 @@ typedef struct _CMPIBrokerExtFT {
      CMPIBrokerExtFT.destroyCondition2() destroys a POSIX threading-conformant
      condition variable.
 
-     This function supersedes the original CMPIBrokerExtFT.destroyCondition()
-     function.
-
      @param cond Handle of the condition variable to be destroyed.
      @return @parblock
          If successful, zero will be returned.
@@ -3679,7 +3669,8 @@ typedef struct _CMPIBrokerExtFT {
          capability.
 
      @note No corresponding macro
-     @added210 Added in CMPI 2.1.0.
+     @added210 Added in CMPI 2.1.0, superseding the deprecated
+         CMPIBrokerExtFT.destroyCondition() function.
     */
     int (*destroyCondition2) (CMPI_COND_TYPE cond);
 
@@ -4191,10 +4182,13 @@ typedef struct _CMPIBrokerMemFT {
  * @brief CMPIContext encapsulated data type object.
  *
  * CMPIContext objects are used by the MB to pass context data about the
- * invoked operation to the MI.
+ * invoked operation to the MI. The context data is organized as name-value
+ * pairs. See
+ * @ref def-context-fieldnames "Names of CMPIContext fields" for defined names
+ * of contex data entries.
  *
- * The context data consists of named entries. See
- * @ref def-context-fieldnames "Names of CMPIContext fields" for defined names.
+ * For more details, see Subclause 8.1 of the
+ * @ref ref-cmpi-standard "CMPI Standard".
  *
  * @capcontext This encapsulated data type is part of the Context Data
  *     capability.
@@ -4371,8 +4365,8 @@ typedef struct _CMPIContextFT {
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a CMPICount value indicating the number of entries in
-         the CMPIContext object will be returned.
+         If successful, a @ref CMPICount value indicating the number of entries
+         in the CMPIContext object will be returned.
 
          If not successful, the return value will be undefined.
      @endparblock
@@ -4437,6 +4431,12 @@ typedef struct _CMPIContextFT {
 
 /**
  * @brief CMPIResult encapsulated data type object.
+ *
+ * CMPI enables an MB to actively accept result data as it is generated, using
+ * the CMPIResult encapsulated data type.
+ *
+ * For more details, see Subclause 8.2 of the
+ * @ref ref-cmpi-standard "CMPI Standard".
  */
 typedef struct _CMPIResult {
 
@@ -4688,6 +4688,11 @@ typedef struct _CMPIResultFT {
 
 /**
  * @brief CMPIString encapsulated data type object.
+ *
+ * CMPIString objects represent a sequence of UCS characters. The rules stated
+ * in Subclause 5.2.1 of the @ref ref-cmpi-standard "CMPI Standard" apply to
+ * any C-language strings that are passed into or returned from CMPIString
+ * functions (including the CMPIBrokerEncFT.newString() factory function).
  */
 typedef struct _CMPIString {
 
@@ -4861,6 +4866,16 @@ typedef struct _CMPIStringFT {
 
 /**
  * @brief CMPIArray encapsulated data type object.
+ *
+ * CMPIArray objects represent arrays of values of the same base types;
+ * however, some of them can be CIM NULL values. CMPIArray objects are used for
+ * example in CMPIData structures that are returned from and passed to many MB
+ * and MI functions and are returned directly from some specific retrieval
+ * functions, such as CMPIErrorFT.getMessageArguments().
+ * 
+ * @todo In the CMPI Standard document, replace the introductory description
+ *     for CMPIArray support (first three paragraphs) with the description of
+ *     the header file.
  */
 typedef struct _CMPIArray {
 
@@ -5105,6 +5120,13 @@ typedef struct _CMPIArrayFT {
 
 /**
  * @brief CMPIEnumeration encapsulated data type object.
+ *
+ * CMPIEnumeration objects are used to store the results of enumerating MB
+ * functions, such as CMPIBrokerFT.enumerateInstances(), or
+ * CMPIBrokerFT.associatorNames().
+ *
+ * @todo In the CMPI Standard document, replace the introductory description
+ *     for CMPIEnumeration support with the description of the header file.
  */
 typedef struct _CMPIEnumeration {
 
@@ -5292,6 +5314,13 @@ typedef struct _CMPIEnumerationFT {
 
 /**
  * @brief CMPIInstance encapsulated data type object.
+ *
+ * CMPIInstance represents an instance specification, consisting of instance
+ * path, class name, and property values. It is used to transfer the state of
+ * an instance between MB and MI (and vice versa).
+ *
+ * @todo In the CMPI Standard document, add an introductory description
+ *     for CMPIInstance support, using the description from the header file.
  */
 typedef struct _CMPIInstance {
 
@@ -5309,6 +5338,11 @@ typedef struct _CMPIInstance {
 
 /**
  * @brief Function table of CMPIInstance encapsulated data type object.
+ *
+ * For functions that are not supported, their function pointers in the
+ * CMPIInstanceFT function table shall not be NULL, but shall point to a
+ * function that can be called and then indicates back to the caller that it is
+ * not supported, as specified in the description of the function.
  */
 typedef struct _CMPIInstanceFT {
 
@@ -5459,9 +5493,9 @@ typedef struct _CMPIInstanceFT {
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a CMPICount value indicating the number of properties
-         in the instance will be returned.
-         
+         If successful, a @ref CMPICount value indicating the number of
+         properties in the instance will be returned.
+
          If not successful, 0 will be returned.
      @endparblock
 
@@ -5722,6 +5756,14 @@ typedef struct _CMPIInstanceFT {
 
 /**
  * @brief CMPIObjectPath encapsulated data type object.
+ *
+ * CMPIObjectPath represents a CIM object path, consisting of hostname,
+ * namespace name, class name and key bindings. It can be used to represent
+ * namespace paths, class paths, or instance paths.
+ * See @ref ref-dmtf-dsp0004 "DSP0004" for more details on object paths.
+ *
+ * @todo In the CMPI Standard document, add an introductory description
+ *     for CMPIObjectPath support, using the description from the header file.
  */
 typedef struct _CMPIObjectPath {
 
@@ -6126,9 +6168,9 @@ typedef struct _CMPIObjectPathFT {
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a CMPICount value indicating the number of key bindings
-         will be returned. If the CMPIObjectPath object does not have a key
-         component, the function will succeed and return 0.
+         If successful, a @ref CMPICount value indicating the number of key
+         bindings will be returned. If the CMPIObjectPath object does not have
+         a key component, the function will succeed and return 0.
 
          If not successful, 0 will be returned.
      @endparblock
@@ -6431,6 +6473,12 @@ typedef struct _CMPIObjectPathFT {
 
 /**
  * @brief CMPIArgs encapsulated data type object.
+ *
+ * CMPIArgs is a container that is used to represent method parameter values for
+ * method invocations.
+ *
+ * @todo In the CMPI Standard document, replace the introductory description
+ *     for CMPIArgs support with the description of the header file.
  */
 typedef struct _CMPIArgs {
 
@@ -6532,7 +6580,7 @@ typedef struct _CMPIArgsFT {
          Type of the method parameter.
 
          All types of CIM values are supported.
-         
+
          If the value of @p type is @ref CMPI_chars or @ref CMPI_charsA, the
          C-language string to which the @p chars member of @p value points is
          copied by this function and the original string memory may be freed by
@@ -6635,7 +6683,7 @@ typedef struct _CMPIArgsFT {
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a CMPICount value indicating the number of method
+         If successful, a @ref CMPICount value indicating the number of method
          parameters in the CMPIArgs object will be returned.
 
          If not successful, 0 will be returned.
@@ -7247,7 +7295,7 @@ typedef struct _CMPISelectCondFT {
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a CMPICount value will be returned, indicating the
+         If successful, a @ref CMPICount value will be returned, indicating the
          number of subconditions.
 
          If not successful, 0 will be returned.
@@ -7437,8 +7485,8 @@ typedef struct _CMPISubCondFT {
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a CMPICount value indicating the number of predicates
-         in the CMPISubCond object will be returned.
+         If successful, a @ref CMPICount value indicating the number of
+         predicates in the CMPISubCond object will be returned.
 
          If not successful, 0 will be returned.
      @endparblock
