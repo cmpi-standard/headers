@@ -1,4 +1,19 @@
+
+5 July - Andy
+-------------
+
+* Synced some more functions in cmpift.h with spec.
+* Addressed the new issue CMPI-C15 that the size of the new CMPIArray object
+  returned by newArray() was stated to be fixed, with no elements in the
+  object. The text now confirms that these elements exist and that they are
+  NULL.
+* Addressed the new issue CMPI-A7 that MB functions stated that CMPIData.state
+  had to set CMPI_badValue in case of error. This was changed to state that
+  CMPIData.state is undefined.
+
 5 July - Karl
+-------------
+
 * Broke macros into modules but probably not correctly  Did it by type
   of macro and it should probably also be by CMPIBroker, others separation.
   The types I have so far are:
@@ -8,7 +23,7 @@
   In particular, there are a couple of extending function way down in the
   broker section that do not show up correctly
 * Continuing cleanup of existing functions. Note that I have kept @params in
-  them but very short form.  
+  them but very short form.
 * Trying to sort out how we do the stubs since 2.1 is different than 2.0 and
   we need both.  Not done and I have a question about the filtered functions.
 * First pass at documenting macros done except for stubs.  They are
@@ -18,9 +33,10 @@
 
 * Cleanup to some of cmpimacs.
 * review of Changes Andy proposed an discussion. We agreed that what is in
-  issue 69 is what we want. 
+  issue 69 is what we want.
 * Worked on issues in trying to get the stub macros extended to handle
   for 2.1.
+
 3 July - Andy
 -------------
 
