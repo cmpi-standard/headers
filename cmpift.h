@@ -285,9 +285,9 @@ typedef struct _CMPIBrokerFT {
      * @brief Informal MB-specific name for this MB.
      *
      * @see CBBrokerName()
-     * @todo (KS) what is the source that sets the brokerName value.
+     * @todo TBD KS: What is the source that sets the brokerName value.
      *       I note in Pegasus that we do not use it for much of
-     *       anything.
+     *       anything.@n
      *       AM: The MB code when preparing the structure must set it.
      *       SFCB sets it to its name and version, I believe. It is
      *       informal. An MI could include the name e.g. in log records.
@@ -3028,11 +3028,11 @@ typedef struct _CMPIBrokerExtFT {
 
          If not successful, NULL will be returned.
      @endparblock
-     @todo AM: The old text in the description of the return value said:@n
-         Space for this string has been obtained using POSIX ``malloc()`` and
+     @todo TBD AM: The old text in the description of the return value said:@n
+         "Space for this string has been obtained using POSIX ``malloc()`` and
          must be released using POSIX ``free()`` by the caller.
          In case no storage could be obtained for the complemented library
-         name, returns NULL.@n
+         name, returns NULL."@n
          The spec says we changed that to auto-release by MB.
          Double check in implementation whether that is really true.
     */
@@ -3814,8 +3814,7 @@ typedef struct _CMPIBrokerMemFT {
          capability.
 
      @note No corresponding macro
-     @todo Add the reference to Subclause 4.1.7 back to the CMPI Standard
-         document.
+     @todo In the CMPI Standard document, add a reference to Subclause 4.1.7.
     */
     void* (*cmpiMalloc) (const CMPIBroker* mb, size_t size);
 
@@ -3847,8 +3846,7 @@ typedef struct _CMPIBrokerMemFT {
          capability.
 
      @note No corresponding macro
-     @todo Add the reference to Subclause 4.1.7 back to the CMPI Standard
-         document.
+     @todo In the CMPI Standard document, add a reference to Subclause 4.1.7.
     */
     void* (*cmpiCalloc) (const CMPIBroker* mb, size_t nElems, size_t sizeElem);
 
@@ -3891,8 +3889,7 @@ typedef struct _CMPIBrokerMemFT {
          capability.
 
      @note No corresponding macro
-     @todo Add the reference to Subclause 4.1.7 back to the CMPI Standard
-         document.
+     @todo In the CMPI Standard document, add a reference to Subclause 4.1.7.
     */
     void* (*cmpiRealloc) (const CMPIBroker* mb, void* ptr, size_t size);
 
@@ -3922,8 +3919,7 @@ typedef struct _CMPIBrokerMemFT {
          capability.
 
      @note No corresponding macro
-     @todo Add the reference to Subclause 4.1.7 back to the CMPI Standard
-         document.
+     @todo In the CMPI Standard document, add a reference to Subclause 4.1.7.
     */
     char* (*cmpiStrDup) (const CMPIBroker* mb, const char* str);
 
@@ -4097,9 +4093,9 @@ typedef struct _CMPIBrokerMemFT {
          capability.
 
      @note No corresponding macro
-     @todo Add the additional functions newDateTimeFromBinary() and
-         newDateTimeFromChars() that may have created the object, back to the
-         CMPI Standard.
+     @todo In the CMPI Standard, add newDateTimeFromBinary() and
+         newDateTimeFromChars() as additional functions that may have created
+         the object.
     */
     void (*freeDateTime) (const CMPIBroker* mb, CMPIDateTime* dt);
 
@@ -4551,7 +4547,7 @@ typedef struct _CMPIResultFT {
          being returned.
 
      @see CMReturnData()
-     @todo AM: Why does the description for CMPI_RC_ERR_INVALID_HANDLE say
+     @todo TBD AM: Why does the description for CMPI_RC_ERR_INVALID_HANDLE say
            "or NULL"?
     */
     CMPIStatus (*returnData) (const CMPIResult* rslt, const CMPIValue* value,
@@ -4625,7 +4621,7 @@ typedef struct _CMPIResultFT {
          or the MB has aborted the request for which this result is defined.
 
      @see CMReturnDone()
-     @todo AM: Why does the description for CMPI_RC_ERR_INVALID_HANDLE say
+     @todo TBD AM: Why does the description for CMPI_RC_ERR_INVALID_HANDLE say
            "or NULL"?
     */
     CMPIStatus (*returnDone) (const CMPIResult* rslt);
@@ -5044,8 +5040,8 @@ typedef struct _CMPIArrayFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
 
      @see CMGetArrayElementAt()
-     @todo Add the phrase "by index" to the description in the CMPI Standard
-         document.
+     @todo In the CMPI Standard document, add the phrase "by index" to the
+         description.
     */
     CMPIData (*getElementAt) (const CMPIArray* ar, CMPICount index,
         CMPIStatus* rc);
@@ -5104,8 +5100,8 @@ typedef struct _CMPIArrayFT {
          since CMPI 2.1.
          Instead, callers should assume that it is undefined whether the array
          element's state has changed when the function was not successful.
-     @todo Add the phrase "by index" to the description in the CMPI Standard
-         document.
+     @todo In the CMPI Standard document, add the phrase "by index" to the
+         description.
     */
     CMPIStatus (*setElementAt) (const CMPIArray* ar, CMPICount index,
         const CMPIValue* value, CMPIType type);
