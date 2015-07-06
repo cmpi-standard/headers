@@ -2222,7 +2222,7 @@ typedef struct _CMPIBrokerEncFT {
                    capability.
 
      @see CMNewSelectExp()
-     @see (KS) todo last parm is rc in doc and st in definition. Changed
+     @todo (KS) todo last parm is rc in doc and st in definition. Changed
      implementation to rc
     */
     CMPISelectExp* (*newSelectExp) (const CMPIBroker* mb, const char* query,
@@ -4872,9 +4872,9 @@ typedef struct _CMPIStringFT {
  * example in CMPIData structures that are returned from and passed to many MB
  * and MI functions and are returned directly from some specific retrieval
  * functions, such as CMPIErrorFT.getMessageArguments().
- * 
+ *
  * @todo In the CMPI Standard document, replace the introductory description
- *     for CMPIArray support (first three paragraphs) with the description of
+ *     for CMPIArray support (first three paragraphs) with the description from
  *     the header file.
  */
 typedef struct _CMPIArray {
@@ -5126,7 +5126,8 @@ typedef struct _CMPIArrayFT {
  * CMPIBrokerFT.associatorNames().
  *
  * @todo In the CMPI Standard document, replace the introductory description
- *     for CMPIEnumeration support with the description of the header file.
+ *     for CMPIEnumeration support (first two paragraphs) with the description
+ *     from the header file.
  */
 typedef struct _CMPIEnumeration {
 
@@ -6478,7 +6479,8 @@ typedef struct _CMPIObjectPathFT {
  * method invocations.
  *
  * @todo In the CMPI Standard document, replace the introductory description
- *     for CMPIArgs support with the description of the header file.
+ *     for CMPIArgs support (first paragraph) with the description from the
+ *     header file.
  */
 typedef struct _CMPIArgs {
 
@@ -6708,7 +6710,16 @@ typedef struct _CMPIArgsFT {
  */
 
 /**
- * @brief CMPIDateTime Support (Subclause 8.9)
+ * @brief CMPIDateTime encapsulated data type object.
+ *
+ * In order to be platform-independent, support for the CIM ``datetime`` data
+ * type is encapsulated using CMPIDateTime. It supports both point-in-time and
+ * interval values. For details on the CIM ``datetime`` data type, see
+ * @ref ref-dmtf-dsp0004 "DSP0004".
+ *
+ * @todo In the CMPI Standard document, replace the introductory description
+ *     for CMPIDateTime support (first paragraph) with the description from the
+ *     header file.
  */
 typedef struct _CMPIDateTime {
 
@@ -6795,22 +6806,19 @@ typedef struct _CMPIDateTimeFT {
     CMPIDateTime* (*clone) (const CMPIDateTime* dt, CMPIStatus* rc);
 
 // DONE_AM Next function is already synced with spec.
-// TODO_AM Sync function descriptions with spec, from here on down.
     /**
      @brief Get the value of a CMPIDateTime object in binary format.
 
-     CMPIDateTimeFT.getBinaryFormat() gets the value of a
-     CMPIDateTime object as a 64-bit
-     unsigned integer in microseconds starting since 00:00:00
-     GMT, January 1, 1970, or as an interval in microseconds,
-     depending on what kind of value the CMPIDateTime object
-     contains.
+     CMPIDateTimeFT.getBinaryFormat() gets the value of a CMPIDateTime object
+     as a 64-bit unsigned integer in microseconds starting since 00:00:00 GMT,
+     January 1, 1970, or as an interval in microseconds, depending on what kind
+     of value the CMPIDateTime object contains.
 
      @param dt Points to the CMPIDateTime object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a CMPIUint64 value containing the value of the
+         If successful, a @ref CMPIUint64 value containing the value of the
          CMPIDateTime object in binary format will be returned.
 
          If not successful, 0 will be returned.
@@ -6827,28 +6835,29 @@ typedef struct _CMPIDateTimeFT {
     CMPIUint64 (*getBinaryFormat) (const CMPIDateTime* dt,
         CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the value of a CMPIDateTime object in the string
-         format defined for the CIM datetime type.
+         format defined for the CIM ``datetime`` type.
 
-     CMPIDateTimeFT.getStringFormat() gets the value of a
-     CMPIDateTime object as a string in the format defined
-     in @ref ref-dmtf-dsp0004 "DSP0004" for the CIM datetime type.
+     CMPIDateTimeFT.getStringFormat() gets the value of a CMPIDateTime object
+     as a string in the format defined in @ref ref-dmtf-dsp0004 "DSP0004" for
+     the CIM ``datetime`` type.
 
      @param dt Points to the CMPIDateTime object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
          If successful, a pointer to a CMPIString object containing the value
-         of a CMPIDateTime object in the format defined in @ref
-         ref-dmtf-dsp0004 "DSP0004" for the CIM datetime type will be returned.
+         of a CMPIDateTime object in the format defined in
+         @ref ref-dmtf-dsp0004 "DSP0004" for the CIM ``datetime`` type will be
+         returned.
 
-         The returned CMPIString object shall not be explicitly released
-         by the MI, because it may be an internal object of the CMPIDateTime
-         object which will be released along with that object, or a new
-         object created by the MB which will be released automatically by
-         the MB
-         (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
+         The returned CMPIString object shall not be explicitly released by the
+         MI, because it may be an internal object of the CMPIDateTime object
+         which will be released along with that object, or a new object created
+         by the MB which will be released automatically by the MB (see
+         Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
 
          If not successful, NULL will be returned.
      @endparblock
@@ -6863,17 +6872,19 @@ typedef struct _CMPIDateTimeFT {
     */
     CMPIString* (*getStringFormat) (const CMPIDateTime* dt, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Test whether a CMPIDateTime object contains an interval value.
 
-     CMPIDateTimeFT.isInterval() tests whether DateTime is an interval value.
+     CMPIDateTimeFT.isInterval() tests whether a CMPIDateTime object contains
+     an interval value.
 
      @param dt Points to the CMPIDateTime object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a CMPIBoolean value indicating the test result will be
-         returned, as follows:
+         If successful, a @ref CMPIBoolean value indicating the test result
+         will be returned, as follows:
          @li True indicates that the CMPIDateTime object contains an interval
          value;
          @li False indicates that this is not an interval.
@@ -6989,20 +7000,22 @@ typedef struct _CMPISelectExpFT {
     */
     CMPISelectExp* (*clone) (const CMPISelectExp* se, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Test whether an instance matches the select expression in a
          CMPISelectExp object.
 
-     CMPISelectExpFT.evaluate() evaluates the instance @p inst using this
-     select expression.
+     CMPISelectExpFT.evaluate() tests whether an instance matches the select
+     expression in a CMPISelectExp object.
 
      @param se Points to the CMPISelectExp object for this function.
-     @param inst Instance to be evaluated.
+     @param inst Points to a CMPIInstance object containing the instance to be
+         tested.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a CMPIBoolean value will be returned, indicating the
-         test result as follows:
+         If successful, a @ref CMPIBoolean value will be returned, indicating
+         the test result as follows:
          @li True indicates that the instance matches the select expression;
          @li False indicates that this is not the case.
 
@@ -7021,11 +7034,12 @@ typedef struct _CMPISelectExpFT {
     CMPIBoolean (*evaluate) (const CMPISelectExp* se, const CMPIInstance* inst,
         CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the select expression in a CMPISelectExp object as a string.
 
-     CMPISelectExpFT.getString() returns the select expression in
-     string format.
+     CMPISelectExpFT.getString() gets the select expression in a CMPISelectExp
+     object as a string.
 
      @param se Points to the CMPISelectExp object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
@@ -7034,12 +7048,11 @@ typedef struct _CMPISelectExpFT {
          If successful, a pointer to a CMPIString object cointaining the select
          expression in string format will be returned.
 
-         The returned CMPIString object shall not be explicitly released
-         by the MI, because it may be an internal object of the CMPISelectExp
-         object which will be released along with that object, or a new
-         object created by the MB which will be released automatically by the
-         MB
-         (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
+         The returned CMPIString object shall not be explicitly released by the
+         MI, because it may be an internal object of the CMPISelectExp object
+         which will be released along with that object, or a new object created
+         by the MB which will be released automatically by the MB (see
+         Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
 
          If not successful, NULL will be returned.
      @endparblock
@@ -7054,16 +7067,16 @@ typedef struct _CMPISelectExpFT {
     */
     CMPIString* (*getString) (const CMPISelectExp* se, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the select expression in a CMPISelectExp object
          as a disjunction of conjunctions.
 
-     CMPISelectExpFT.getDOC() gets the select expression as a
-     disjunction of conjunctions. This function transforms the WHERE
-     clause of the select expression into a canonical disjunction of
-     onjunctions (DOC) form (OR?ing of AND?ed comparison expressions).
-     This enables handling of the expression in the WHERE clause more
-     easily than using a tree form.
+     CMPISelectExpFT.getDOC() gets the select expression as a disjunction of
+     conjunctions. This function transforms the WHERE clause of the select
+     expression into a canonical disjunction of onjunctions (DOC) form (OR'ing
+     of AND'ed comparison expressions). This enables handling of the expression
+     in the WHERE clause more easily than using a tree form.
 
      @param se Points to the CMPISelectExp object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
@@ -7072,12 +7085,11 @@ typedef struct _CMPISelectExpFT {
          If successful, a pointer to a CMPISelectCond object containing the
          transformed select expression will be returned.
 
-         The returned CMPISelectCond object shall not be explicitly released
-         by the MI, because it may be an internal object of the
-         CMPISelectExp object which will be released along with that
-         object, or a new object created by the MB which will be
-         released automatically by the MB
-         (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
+         The returned CMPISelectCond object shall not be explicitly released by
+         the MI, because it may be an internal object of the CMPISelectExp
+         object which will be released along with that object, or a new object
+         created by the MB which will be released automatically by the MB (see
+         Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
 
          If not successful, NULL will be returned.
      @endparblock
@@ -7094,12 +7106,17 @@ typedef struct _CMPISelectExpFT {
     */
     CMPISelectCond* (*getDOC) (const CMPISelectExp* se, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the select expression in a CMPISelectExp object as
          a conjunction of disjunctions.
 
-     CMPISelectExpFT.getCOD() returns the select expression as
-     conjunction of disjunctions.
+     CMPISelectExpFT.getCOD() returns the select expression as conjunction of
+     disjunctions.This function transforms the WHERE clause of the select
+     expression into a canonical conjunction of disjunctions (COD) form
+     (AND'ing of OR'ed comparison expressions). This enables handling of the
+     expression in the WHERE clause more easily than using a tree form. See
+     Subclause 4.6.3 of the @ref ref-cmpi-standard "CMPI Standard" for details.
 
      @param se Points to the CMPISelectExp object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
@@ -7108,12 +7125,11 @@ typedef struct _CMPISelectExpFT {
          If successful, a pointer to a CMPISelectCond object containing the
          transformed select expression will be returned.
 
-         The returned CMPISelectCond object shall not be explicitly released
-         by the MI, because it may be an internal object of the
-         CMPISelectExp object which will be released along with that
-         object, or a new object created by the MB which will be
-         released automatically by the MB
-         (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
+         The returned CMPISelectCond object shall not be explicitly released by
+         the MI, because it may be an internal object of the CMPISelectExp
+         object which will be released along with that object, or a new object
+         created by the MB which will be released automatically by the MB (see
+         Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
 
          If not successful, NULL will be returned.
      @endparblock
@@ -7130,29 +7146,35 @@ typedef struct _CMPISelectExpFT {
     */
     CMPISelectCond* (*getCOD) (const CMPISelectExp* se, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Test whether the properties returned by an accessor
         function match the select expression in a CMPISelectExp object.
 
      CMPISelectExpFT.evaluateUsingAccessor() tests whether the properties
-     returned by an accessor
-     function match the select expression in a CMPISelectExp object.
-     This function is a variation of CMPISelectExpFT.evaluate(). It enables
-     evaluation without the need to create a CMPIInstance object
+     returned by an accessor function match the select expression in a
+     CMPISelectExp object. This function is a variation of
+     CMPISelectExpFT.evaluate(). It enables evaluation without the need to
+     create a CMPIInstance object.
 
-     @param se Points to the CMPISelectExp object for this function.
-     @param accessor Address of data accessor routine.
-     @param parm Data accessor routine parameter.
+     @param se Points to the CMPISelectExp object for this function, containing
+         the select expression.
+     @param accessorFnc Points to a property value accessor function. The
+         evaluation process will invoke this function to request a CMPIData
+         structure for a particular property. For a definition of the signature
+         of the accessor function, see @ref CMPIAccessor.
+     @param parm A parameter that will be passed to the accessor function and
+         can be used for providing context data to the accessor function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a CMPIBoolean value indicating the test result will be
-         returned, as follows:
+         If successful, a @ref CMPIBoolean value indicating the test result
+         will be returned, as follows:
          @li True indicates that the properties returned by the accessor
              function match the select expression;
          @li False indicates that this is not the case.
 
-         If not successful, false will be returned
+         If not successful, false will be returned.
      @endparblock
 
      @par Errors
@@ -7160,8 +7182,7 @@ typedef struct _CMPISelectExpFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p se handle is invalid.
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p accessorFnc handle is
-         invalid.
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p accessorFnc is invalid.
 
      @see CMEvaluateSelExpUsingAccessor()
     */
@@ -7280,23 +7301,23 @@ typedef struct _CMPISelectCondFT {
     */
     CMPISelectCond* (*clone) (const CMPISelectCond* sc, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the number and type of subconditions in a CMPISelectCond object.
 
-     CMPISelectCondFT.getCountAndType() returns the number of subconditions
-     that are part of this SelectCond.
-     Optionally, the SelectCond type (COD or DOC) will be returned.
+     CMPISelectCondFT.getCountAndType() gets the number and type of the
+     subconditions in a CMPISelectCond object.
 
      @param sc Points to the CMPISelectCond object for this function.
      @param [out] type If not NULL, points to an integer that upon success
          is updated with the subcondition type. A value of 0 indicates a
-         DOC type, and a value of 1 indicates a COD type. If type is NULL,
+         DOC type, and a value of 1 indicates a COD type. If @p type is NULL,
          no type information is returned.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a @ref CMPICount value will be returned, indicating the
-         number of subconditions.
+         If successful, a @ref CMPICount value indicating the number of
+         subconditions will be returned.
 
          If not successful, 0 will be returned.
      @endparblock
@@ -7319,11 +7340,12 @@ typedef struct _CMPISelectCondFT {
     CMPICount (*getCountAndType) (const CMPISelectCond* sc, int* type,
             CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a subcondition in a CMPISelectCond object by index.
 
      CMPISelectCondFT.getSubCondAt() gets the subcondition in a
-     CMPISelectCond object, by its index in the internal data array
+     CMPISelectCond object, by its index in the internal data array.
 
      @param sc Points to the CMPISelectCond object for this function.
      @param index Zero-based position of the subcondition in the internal data
@@ -7473,15 +7495,14 @@ typedef struct _CMPISubCondFT {
      */
     CMPISubCond* (*clone) (const CMPISubCond* sc, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the number of predicates in a CMPISubCond object.
 
-     CMPISubCondFT.getCount() gets the number of predicates in @p sc
-     CMPISubCond object.
+     CMPISubCondFT.getCount() gets the number of predicates in a CMPISubCond
+     object.
 
      @param sc Points to the CMPISubCond object for this function.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
@@ -7505,29 +7526,32 @@ typedef struct _CMPISubCondFT {
          @ref CMPI_MB_QueryNormalization "Query Normalization" capability
          is not available, this function cannot be called by the MI because no
          instance of its encapsulated data type can exist.
+     @todo In the CMPI Standard document, change "CMPISubCondFT object" to
+         "CMPISubCond object" in the description of the sc argument.
     */
     CMPICount (*getCount) (const CMPISubCond* sc, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a predicate in a CMPISubCond object by index.
 
-     CMPISubCondFT.getPredicateAt() gets a predicate in a CMPISubCond
-     object, by its index in the internal data array.
+     CMPISubCondFT.getPredicateAt() gets a predicate in a CMPISubCond object,
+     by its index in the internal data array.
 
      @param sc Points to the CMPISubCond object for this function.
-     @param index Zero-based position of the predicate in the
-         internal data array.
+     @param index Zero-based position of the predicate in the internal data
+         array.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
          If successful, a pointer to a CMPIPredicate object containing the
          specified predicate will be returned.
 
-         The returned CMPIPredicate object shall not be explicitly
-         released by the MI, because it may be an internal object of
-         the CMPISubCond object which will be released along with that
-         object, or a new object created by the MB which will be released
-         automatically by the MB.
+         The returned CMPIPredicate object shall not be explicitly released by
+         the MI, because it may be an internal object of the CMPISubCond object
+         which will be released along with that object, or a new object created
+         by the MB which will be released automatically by the MB (see
+         Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
 
          If not successful, NULL will be returned.
      @endparblock
@@ -7553,15 +7577,16 @@ typedef struct _CMPISubCondFT {
     CMPIPredicate* (*getPredicateAt) (const CMPISubCond* sc, CMPICount index,
         CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a predicate in a CMPISubCond object by name.
 
-     CMPISubCondFT.getPredicate() gets a predicate in a CMPISubCond
-      object, by its @p name argument.
+     CMPISubCondFT.getPredicate() gets a predicate in a CMPISubCond object by
+     name.
 
      @param sc Points to the CMPISubCond object for this function.
-     @param name Predicate name. The name is the left-hand side
-         of the predicate.
+     @param name Predicate name. The name is the left-hand side of the
+         predicate.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
@@ -7708,22 +7733,23 @@ typedef struct _CMPIPredicateFT {
     */
     CMPIPredicate* (*clone) (const CMPIPredicate* pr, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the predicate components of a CMPIPredicate object.
 
-     CMPIPredicateFT.getData() gets the predicate components of a
-     CMPIPredicate object.
+     CMPIPredicateFT.getData() gets the predicate components of a CMPIPredicate
+     object.
 
-     The CMPIString objects returned by lhs and rhs shall not be explicitly
-     released by the MI, because they may be internal objects of the
+     The CMPIString objects returned by @p lhs and @p rhs shall not be
+     explicitly released by the MI, because they may be internal objects of the
      CMPIContext object which will be released along with that object, or new
-     objects created by the MB which will be automatically released by the
-     MB
+     objects created by the MB which will be automatically released by the MB
      (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
 
      @param pr Points to the CMPIPredicate object for this function.
-     @param [out] type If not NULL, points to a CMPIType structure that upon
-         success will have been updated with the data type of the predicate.
+     @param [out] type If not NULL, points to a @ref CMPIType structure that
+         upon success will have been updated with the data type of the
+         predicate.
      @param [out] prop If not NULL, points to a @ref CMPIPredOp object that upon
          success will have been updated with the predicate operation.
      @param [out] lhs If not NULL, points to a pointer to a CMPIString object
@@ -7733,8 +7759,8 @@ typedef struct _CMPIPredicateFT {
          that upon success will have been updated with the address of a
          CMPIString object representing the right-hand side of the predicate.
      @return @parblock
-         A CMPIStatus structure indicating the
-         function return status will be returned.
+         A CMPIStatus structure indicating the function return status will be
+         returned.
 
          If not successful, @p lhs and @p rhs will be set to NULL, and the
          state of @p type and @p prop is undefined.
@@ -7758,36 +7784,35 @@ typedef struct _CMPIPredicateFT {
     CMPIStatus (*getData) (const CMPIPredicate* pr, CMPIType* type,
             CMPIPredOp* prop, CMPIString** lhs, CMPIString** rhs);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Test whether the properties returned by an accessor
          function match the predicate in a CMPIPredicate object.
 
-     CMPIPredicateFT.evaluateUsingAccessor() tests whether the
-     properties returned by an accessor function match the predicate in a
-     CMPIPredicate object.
+     CMPIPredicateFT.evaluateUsingAccessor() tests whether the properties
+     returned by an accessor function match the predicate in a CMPIPredicate
+     object.
 
-     The CMPIString objects returned by lhs and rhs shall not be explicitly
-     released by the MI, because they may be internal objects of the
+     The CMPIString objects returned by @p lhs and @p rhs shall not be
+     explicitly released by the MI, because they may be internal objects of the
      CMPIContext object which will be released along with that object, or new
-     objects created by the MB which will be automatically released by the
-     MB
+     objects created by the MB which will be automatically released by the MB
      (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
 
      @param pr Points to the CMPIPredicate object for this function.
-     @param accessorFnc Points to a property value accessor
-         function. The evaluation process will invoke this function to
-         request a CMPIData structure for a particular property. The
-         signature of the accessor function is: CMPIData
-         CMPIAccessor(const char* propertyName, void* parm);
-     @param parm Parameter that will be passed to the accessor function and
+     @param accessorFnc Points to a property value accessor function. The
+         evaluation process will invoke this function to request a CMPIData
+         structure for a particular property. For a definition of the signature
+         of the accessor function, see @ref CMPIAccessor.
+     @param parm A parameter that will be passed to the accessor function and
          can be used for providing context data to the accessor function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a CMPIBoolean value indicating
-         the test result will be returned, as follows:
-         @li True indicates that the properties returned by the
-         accessor function match the predicate;
+         If successful, a @ref CMPIBoolean value indicating the test result
+         will be returned, as follows:
+         @li True indicates that the properties returned by the accessor
+             function match the predicate;
          @li False indicates that this is not the case.
 
          If not successful, false will be returned.
@@ -7822,11 +7847,20 @@ typedef struct _CMPIPredicateFT {
 /**
  * @brief CMPIError encapsulated data type object.
  *
+ * CMPIError encapsulates extended errors as described in
+ * @ref ref-dmtf-dsp0223 "DSP0223". MIs can supply extended errors in order to
+ * provide more detailed error information, compared to CMPI status codes. MBs
+ * will return such extended error information back to WBEM clients, in WBEM
+ * protocols that support the representation of extended errors.
+ *
  * @caperrors This encapsulated data type is part of the Extended Errors
  *     capability.
  *
  * @added200 Added in CMPI 2.0.0.
  * @required210 Required to be supported since CMPI 2.1.0.
+ *
+ * @todo In the CMPI Standard document, add this description to the
+ *     introductory description of the CMPIError support.
  */
 typedef struct _CMPIError {
 
@@ -7969,6 +8003,8 @@ typedef struct _CMPIErrorFT {
     */
     CMPIErrorType (*getErrorType) (const CMPIError* er, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
+// TODO_AM Sync function descriptions with spec, from here on down.
     /**
      @brief Get the `OtherErrorType` attribute of a CMPIError object.
 
@@ -8039,12 +8075,12 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @see CMGetOwningEntity()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @see CMGetOwningEntity
     */
     CMPIString* (*getOwningEntity) (const CMPIError* er, CMPIStatus* rc);
 
@@ -8082,12 +8118,12 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @see CMGetMessageID()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @see CMGetMessageID()
     */
     CMPIString* (*getMessageID) (const CMPIError* er, CMPIStatus* rc);
 
@@ -8119,12 +8155,12 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @see CMGetErrorMessage()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @see CMGetErrorMessage()
     */
     CMPIString* (*getMessage) (const CMPIError* er, CMPIStatus* rc);
 
@@ -8153,12 +8189,12 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @see CMGetPerceivedSeverity()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @see CMGetPerceivedSeverity()
     */
     CMPIErrorSeverity (*getPerceivedSeverity) (const CMPIError* er,
         CMPIStatus* rc);
@@ -8188,12 +8224,12 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @see CMGetProbableCause()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @see  CMGetProbableCause
     */
     CMPIErrorProbableCause (*getProbableCause) (const CMPIError* er,
         CMPIStatus* rc);
@@ -8227,12 +8263,12 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @see CMGetProbableCauseDescription()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @see CMGetProbableCauseDescription()
     */
     CMPIString* (*getProbableCauseDescription) (const CMPIError* er,
         CMPIStatus* rc);
@@ -8267,12 +8303,12 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @see CMGetRecommendedActions()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @see CMGetRecommendedActions()
     */
     CMPIArray* (*getRecommendedActions) (const CMPIError* er, CMPIStatus* rc);
 
@@ -8305,12 +8341,12 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @see CMGetErrorSource()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @see CMGetErrorSource()
     */
     CMPIString* (*getErrorSource) (const CMPIError* er, CMPIStatus* rc);
 
@@ -8339,12 +8375,12 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @see CMGetErrorSourceFormat()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @see CMGetErrorSourceFormat()
     */
     CMPIErrorSrcFormat (*getErrorSourceFormat) (const CMPIError* er,
         CMPIStatus* rc);
@@ -8379,12 +8415,12 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @see CMGetOtherErrorSourceFormat()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @see CMGetOtherErrorSourceFormat()
     */
     CMPIString* (*getOtherErrorSourceFormat) (const CMPIError* er,
         CMPIStatus* rc);
@@ -8416,12 +8452,12 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @see CMGetCIMStatusCode()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @see CMGetCIMStatusCode()
     */
     CMPIrc (*getCIMStatusCode) (const CMPIError* er, CMPIStatus* rc);
 
@@ -8455,12 +8491,12 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @see CMGetCIMStatusCodeDescription()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @see CMGetCIMStatusCodeDescription()
     */
     CMPIString* (*getCIMStatusCodeDescription) (const CMPIError* er,
         CMPIStatus* rc);
@@ -8495,12 +8531,12 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @see CMGetMessageArguments()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @see CMGetMessageArguments()
     */
     CMPIArray* (*getMessageArguments) (const CMPIError* er, CMPIStatus* rc);
 
@@ -8528,12 +8564,12 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @see CMSetErrorType()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @see CMSetErrorType()
     */
     CMPIStatus (*setErrorType) (const CMPIError* er, const CMPIErrorType et);
 
@@ -8561,12 +8597,12 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @see CMSetOtherErrorType()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @see CMSetOtherErrorType()
     */
     CMPIStatus (*setOtherErrorType) (const CMPIError* er, const char* oet);
 
@@ -8594,12 +8630,12 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @see CMSetProbableCauseDescription()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @see CMSetProbableCauseDescription()
     */
     CMPIStatus (*setProbableCauseDescription) (const CMPIError* er,
         const char* pcd);
@@ -8635,12 +8671,12 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @see CMSetRecommendedActions()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @see CMSetRecommendedActions()
     */
     CMPIStatus (*setRecommendedActions) (const CMPIError* er,
         const CMPIArray* ra);
@@ -8672,12 +8708,12 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @see CMSetErrorSource()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @see CMSetErrorSource()
     */
     CMPIStatus (*setErrorSource) (const CMPIError* er, const char* es);
 
@@ -8706,12 +8742,12 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @see CMSetErrorSourceFormat()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @see CMSetErrorSourceFormat
     */
     CMPIStatus (*setErrorSourceFormat) (const CMPIError* er,
         const CMPIErrorSrcFormat esf);
@@ -8739,12 +8775,12 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @see CMSetOtherErrorSourceFormat()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @see CMSetOtherErrorSourceFormat()
     */
     CMPIStatus (*setOtherErrorSourceFormat) (const CMPIError* er,
         const char* oef);
@@ -8775,12 +8811,12 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @see CMSetCIMStatusCodeDescription()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @see CMSetCIMStatusCodeDescription()
     */
     CMPIStatus (*setCIMStatusCodeDescription) (const CMPIError* er,
         const char* scd);
@@ -8815,12 +8851,12 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @see CMSetMessageArguments()
      @required210 Support for this function is required since CMPI 2.1.0.
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @see CMSetMessageArguments()
     */
     CMPIStatus (*setMessageArguments) (const CMPIError* er,
         const CMPIArray* values);
@@ -8839,6 +8875,10 @@ typedef struct _CMPIErrorFT {
 
 /**
  * @brief CMPIPropertyList encapsulated data type object.
+ *
+ * CMPIPropertyList provides MIs with an efficient way to implement property
+ * filtering. For more details, see Subclause 8.15 of the
+ * @ref ref-cmpi-standard "CMPI Standard".
  *
  * @added210 Added in CMPI 2.1.0.
  */
@@ -9016,7 +9056,11 @@ typedef struct _CMPIPropertyListFT {
  */
 
 /**
- * @brief CMPIEnumerationFilter Support (Subclause 8.16)
+ * @brief CMPIEnumerationFilter encapsulated data type object.
+ *
+ * CMPIEnumerationFilter provides MIs with an efficient way to implement
+ * filtering of instances in the results of filtered operations. For more
+ * details, see Subclause 8.16 of the @ref ref-cmpi-standard "CMPI Standard".
  *
  * @added210 Added in CMPI 2.1.0.
  */
@@ -9257,6 +9301,7 @@ typedef struct _CMPIInstanceMIFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_DO_NOT_UNLOAD` - Operation successful - do not unload now.
      @li `CMPI_RC_NEVER_UNLOAD` - Operation successful - never unload.
+
      @see CMInstanceMIStub()
     */
     CMPIStatus (*cleanup) (CMPIInstanceMI* mi, const CMPIContext* ctx,
@@ -9517,11 +9562,10 @@ typedef struct _CMPIInstanceMIFT {
          <TD>WIPG0227 + implementation-specific message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
-
+     @see CMInstanceMIStub()
      @deprecated The use of the key component in @p classPath is
          deprecated since CMPI 2.1; the key component should not be provided
          by MBs and should not be used by MIs.
-     @see CMInstanceMIStub()
     */
     CMPIStatus (*createInstance) (CMPIInstanceMI* mi, const CMPIContext* ctx,
         const CMPIResult* rslt, const CMPIObjectPath* classPath,
@@ -9805,9 +9849,8 @@ typedef struct _CMPIInstanceMIFT {
      <TR><TD>`CMPI_RC_ERR_INVALID_QUERY`</TD>
          <TD>WIPG0223</TD><TD>Invalid query.</TD></TR>
      </TABLE>
-
-     @added210 Added in CMPI 2.1.0.
      @see CMInstanceMIStub()
+     @added210 Added in CMPI 2.1.0.
     */
     CMPIStatus (*enumerateInstancesFiltered) (CMPIInstanceMI* mi,
         const CMPIContext* ctx, const CMPIResult* rslt,

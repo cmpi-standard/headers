@@ -623,8 +623,8 @@ typedef struct _CMPIData {
  * A pointer to such a function is passed to
  * CMPISelectExpFT.evaluateUsingAccessor().
  *
- * @param propertyName Points to a string containing the name of the property
- *     the accessor function is asked to evaluate.
+ * @param propertyName Name of the property the accessor function is asked to
+ *     evaluate.
  * @param parm A parameter that can be used for providing context data.
  * @return A CMPIData structure containing the evaluation result for the
  *     property.
