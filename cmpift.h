@@ -2254,13 +2254,13 @@ typedef struct _CMPIBrokerEncFT {
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a CMPIBoolean value indicating the test result will
-         be returned, as follows:
+         If successful, a @ref CMPIBoolean value indicating the test result
+         will be returned, as follows:
          @li True indicates that the class path is of the specified class or
              any of that class's subclasses
          @li False indicates that this is not the case
 
-         If not successful, False will be returned.
+         If not successful, false will be returned.
      @endparblock
      @par Errors
      The function return status will indicate one of the following @ref CMPIrc
@@ -2286,7 +2286,8 @@ typedef struct _CMPIBrokerEncFT {
          representation.
 
      CMPIBrokerEncFT.toString() converts any CMPI encapsulated data type object
-     into an MB implementation-specific string representation.
+     (see @ref mb-edt "MB Encapsulated Data Type Support") into an MB
+     implementation-specific string representation.
 
      @param mb Points to a CMPIBroker structure.
      @param object Points to a CMPI encapsulated data type object.
@@ -2301,7 +2302,7 @@ typedef struct _CMPIBrokerEncFT {
          MI, because it may be an internal object of the CMPI encapsulated data
          type object which will be released along with that object, or a new
          object created by the MB which will be automatically released by the MB
-         (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard".).
+         (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
 
          If not successful, NULL will be returned.
      @endparblock
@@ -2314,8 +2315,12 @@ typedef struct _CMPIBrokerEncFT {
          invalid.
 
      @see CDToString()
-     @todo KS - in brief CMPIEncapsulated looks like a CMPI type. Is
-           there a definition/list of the encapsulated data types?
+
+     @todo DONE. KS - in brief CMPIEncapsulated looks like a CMPI type. Is
+           there a definition/list of the encapsulated data types?@n
+           AM: Fixed. This was mispelled, and in the spec it reads "CMPI
+           encapsulated data type". Added a link to the list of all
+           encapsulated types.
     */
     CMPIString* (*toString) (const CMPIBroker* mb, const void* object,
         CMPIStatus* rc);
@@ -2326,7 +2331,8 @@ typedef struct _CMPIBrokerEncFT {
          CMPI type.
 
      CMPIBrokerEncFT.isOfType() tests whether a CMPI encapsulated data type
-     object is of a specified CMPI type.
+     object (see @ref mb-edt "MB Encapsulated Data Type Support") is of a
+     specified CMPI type.
 
      @param mb Points to a CMPIBroker structure.
      @param object Points to a CMPI encapsulated data type object.
@@ -2335,12 +2341,12 @@ typedef struct _CMPIBrokerEncFT {
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a CMPIBoolean value indicating the test result will be
-         returned, as follows:
+         If successful, a @ref CMPIBoolean value indicating the test result
+         will be returned, as follows:
          @li True indicates that the object is of the specified CMPI type
          @li False indicates that this is not the case
 
-         If not successful, False will be returned.
+         If not successful, false will be returned.
      @endparblock
 
      @par Errors
@@ -2451,7 +2457,7 @@ typedef struct _CMPIBrokerEncFT {
      @captranslation This function is part of the Message Translation
          MB capability.
 
-     @()see CMGetErrorMessage()
+     @see CMGetErrorMessage()
      @deprecated This function is deprecated since CMPI 2.1. Use
          CMPIBrokerEncFT.getMessage2() instead.
     */
@@ -2459,28 +2465,23 @@ typedef struct _CMPIBrokerEncFT {
         const char* defMsg, CMPIStatus* rc, CMPICount count, ...);
 
 // DONE_AM Next function is already synced with spec.
-// TODO_AM Sync function descriptions with spec, from here on down.
     /**
      @brief Log a diagnostic message.
 
-     CMPIBrokerEncFT.logMessage() logs a diagnostic message defined by the
-     input arguments. It exists to provide a mechanism to MIs to
-     provider information about errors, status, etc.
-
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_Logging "Logging" capability
-     is available; otherwise, it shall not be supported.
+     CMPIBrokerEncFT.logMessage() logs a diagnostic message. This function
+     exists to provide a mechanism to MIs by which to provide information about
+     errors.
 
      @param mb Points to a CMPIBroker structure.
-     @param severity @p level describes the level of
-         logmessage. Levels are defined in Subclause 4.9(TBD).
+     @param severity Specifies the severity of the log message. Severity levels
+         are defined @ref CMPISeverity.
      @param id If not NULL, points to a string specifying a message ID or
          any other identifying string.
-     @param text If not NULL, points to a string specifying the
-         message text to be logged.
+     @param text If not NULL, points to a string specifying the message text to
+         be logged.
      @param string If not NULL, points to a CMPIString object specifying the
-         message text to be logged. @p string will be ignored
-         when text is not NULL.
+         message text to be logged. @p string will be ignored when @p text is
+         not NULL.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -2488,8 +2489,8 @@ typedef struct _CMPIBrokerEncFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - @p mb or @p string
-         handle is invalid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb or @p string handle is
+         invalid.
      @caplogging This function is part of the Logging MB capability.
 
      @see CMLogMessage()
@@ -2497,30 +2498,28 @@ typedef struct _CMPIBrokerEncFT {
     CMPIStatus (*logMessage) (const CMPIBroker* mb, int severity,
         const char* id, const char* text, const CMPIString* string);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Trace a diagnostic message with a specific trace level and
-         component definition.
+     @brief Trace a diagnostic message with a specific trace level.
 
-     CMPIBrokerEncFT.trace() traces a diagnostic message with a
-     specific trace level. This function exists to provide a mechanism to MIs
-     by which debugging information may be generated.
+     CMPIBrokerEncFT.trace() traces a diagnostic message with a specific trace
+     level. This function exists to provide a mechanism to MIs by which
+     debugging information may be generated.
 
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_Tracing "Tracing" capability
-     is available; otherwise, it shall not be supported.
-
-     MBs may support tracing in such a way that trace level and component
-     ID can be used for deciding whether a diagnostic message is actually
-     kept versus discarded.
+     MBs may support tracing in such a way that trace level and component ID
+     can be used for deciding whether a diagnostic message is actually kept
+     versus discarded.
 
      @param mb Points to a CMPIBroker structure.
-     @param level Describes the level of log message. Levels are defined in
-         Subclause 5.11(TBD).
-     @param component If not NULL, is the implementation-specific component ID.
+     @param level specifies the trace level of the message. Trace levels are
+         defined in @ref CMPILevel.
+     @param component If not NULL, points to a string specifying an MI
+         implementation-specific component ID.
      @param text If not NULL, points to a string specifying the message text
          to be traced.
-     @param string If not NULL, is the message text to
-         be output. @p string will be ignored when text is not NULL.
+     @param string If not NULL, points to a CMPIString object specifying the
+         message text to be traced. @p string will be ignored when @p text is
+         not NULL.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -2528,7 +2527,8 @@ typedef struct _CMPIBrokerEncFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - @p mb or @p string handle is invalid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb or @p string handle is
+         invalid.
      @captracing This function is part of the Tracing MB capability.
 
      @see CMTraceMessage()
@@ -2544,44 +2544,76 @@ typedef struct _CMPIBrokerEncFT {
      *   @{
      */
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Create a new CMPIError object initialized with attributes defined
-         by the input parameters.
+     @brief Create a new CMPIError object initialized with certain core
+         attributes.
 
-     CMPIBrokerEncFT.newCMPIError() creates a new CMPIError
-     object that is initialized with certain core attributes.
+     CMPIBrokerEncFT.newCMPIError() creates a new CMPIError object that is
+     initialized with certain core attributes.
 
-     The input data may (or may not) be defined in a DMTF message
-     registry (see @ref ref-dmtf-dsp0228 "DSP0228" for the format of message
-     registries, and @ref ref-dmtf-dsp8016 "DSP8016" for the messages defined
-     for the MI functions of CMPI).
+     The input data may (or may not) be defined in a DMTF message registry (see
+     @ref ref-dmtf-dsp0228 "DSP0228" for the format of message registries, and
+     @ref ref-dmtf-dsp8016 "DSP8016" for the messages defined for the MI
+     functions of CMPI).
+
+     Any attributes of the new CMPIError object that are not initializeable via
+     input arguments of this function will have an initial value of NULL.
 
      @param mb Points to a CMPIBroker structure.
-     @param owner A string specifying the value for the OwningEntity attribute
-     @param msgID A string which uniquely identifies the
-         `MessageID` attribute of the CMPIError object For a description of
-         the MessageID attribute, see the description of the
-         MessageID property in the CIM_Error class in the CIM
-         Schema. If the error message is defined in a DMTF message
-         registry, the string value of this argument shall be
-         the message ID defined for the message in the registry
-         (the concatenation of the values of the PREFIX and
-         SEQUENCE_NUMBER attributes of the MESSAGE_ID element for
-         the message).
-     @param msg A string which represenst the formatted message.
-     @param sev The percieved severity of the error.
-     @param pc The probably cause of this error
-     @param cimStatusCode CIM status code to be associated with this error.
+     @param owner Points to a string specifying the value for the `OwningEntity`
+         attribute of the CMPIError object. For a description of the
+         `OwningEntity` attribute, see the description of the `OwningEntity`
+         property in the `CIM_Error` class in the CIM Schema. If the error
+         message is defined in a DMTF message registry, the string value of
+         @p owner shall be the content of the OWNING_ENTITY element defined for
+         the registry.
+     @param msgID Points to a string specifying the value for the `MessageID`
+         attribute of the CMPIError object. For a description of the
+         `MessageID` attribute, see the description of the `MessageID` property
+         in the `CIM_Error` class in the CIM Schema. If the error message is
+         defined in a DMTF message registry, the string value of @p msgID shall
+         be the message ID defined for the message in the registry (the
+         concatenation of the values of the PREFIX and SEQUENCE_NUMBER
+         attributes of the MESSAGE_ID element for the message).
+     @param msg Points to a string specifying the value for the `Message`
+         attribute of the CMPIError object. For a description of the `Message`
+         attribute, see the description of the `Message` property in the
+         `CIM_Error` class in the CIM Schema. This message is the formatted and
+         translated message, with any dynamic values expanded.
+     @param sev A @ref CMPIErrorSeverity enumeration value specifying the value
+         for the `PerceivedSeverity` attribute of the CMPIError object. For a
+         description of the `PerceivedSeverity` attribute, see the description
+         of the `PerceivedSeverity` property in the `CIM_Error` class in the
+         CIM Schema. If the error message is defined in a DMTF message
+         registry, the string value of @p sev shall be the content of the
+         PERCEIVED_SEVERITY element defined for the message in the registry.
+     @param pc A @ref CMPIErrorProbableCause enumeration value specifying the
+         value for the `PerceivedSeverity` attribute of the CMPIError object.
+         For a description of the `PerceivedSeverity` attribute, see the
+         description of the `PerceivedSeverity` property in the CIM_Error class
+         in the CIM Schema. If the error message is defined in a DMTF message
+         registry, note that the string value of @p pc is not defined in the
+         message in the registry.
+     @param cimStatusCode a @ref CMPIrc enumeration value specifying the value
+         for the `CIMStatusCode` attribute of the CMPIError object. For a
+         description of the `CIMStatusCode` attribute, see the description of
+         the `CIMStatusCode` property in the `CIM_Error` class in the CIM
+         Schema. Not all status codes are valid for each operation. The
+         specification for each MI function defines the status codes that may
+         be returned. If the error message is defined in a DMTF message
+         registry, @p cimStatusCode shall reflect the content of the
+         CIMSTATUSCODE element defined for the message in the registry.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, returns a pointer to a new CMPIError object.
+         If successful, a pointer to the new CMPIError object will be returned.
 
          The new object will be released automatically by the MB, as described
          in Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard".
          There is no function to explicitly release the new object.
 
-         If not successful, returns NULL.
+         If not successful, NULL will be returned.
      @endparblock
 
      @par Errors
@@ -2614,24 +2646,24 @@ typedef struct _CMPIBrokerEncFT {
      *   @{
      */
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Open a message file and return a handle to the file.
 
-     If the MB supports message files, CMPIBrokerEncFT.openMessageFile()
-     opens a message file and returns a message file handle to that
-     file. This function will use the @ref CMPIAcceptLanguage entry from the
-     current context to determine the language for the messages, and will
-     set the @ref CMPIContentLanguage entry in the current context to the
-     language
-     that was used. All subsequent calls to CMPIBrokerEncFT.getMessage2()
-     using this message file handle will return messages based on
-     that language.
+     If the MB supports the @ref cap-translation "Message Translation"
+     capability, CMPIBrokerEncFT.openMessageFile() opens a message file and
+     returns a message file handle to that file. This function will use the
+     @ref CMPIAcceptLanguage entry from the current context to determine the
+     language for the messages, and will set the @ref CMPIContentLanguage entry
+     in the current context to the language that was used. All subsequent calls
+     to CMPIBrokerEncFT.getMessage2() using this message file handle will
+     return messages based on that language.
 
-     If the MB does not support message files, or if the function fails
-     for other reasons, the function returns NULL as the message file handle.
-     Subsequent calls to CMPIBrokerEncFT.getMessage2() using the
-     NULL message file handle will cause the default message template to be
-     used.
+     If the MB does not support the @ref cap-translation "Message Translation"
+     capability, or if the function fails for other reasons, the function
+     returns NULL as the message file handle. Subsequent calls to
+     CMPIBrokerEncFT.getMessage2() using the NULL message file handle will
+     cause the default message template to be used.
 
      @param mb Points to a CMPIBroker structure.
      @param msgFile
@@ -2640,33 +2672,34 @@ typedef struct _CMPIBrokerEncFT {
          the message file, or a part thereof.
 
          Examples for such implementation-specific file paths are:
-         @li Base name of the message file (does not include file
-             extension and directory path). The message file contains
-             all languages, and the language is used to locate the
-             message in the correct language within the message file.
-         @li Base name of the message file (does not include file
-             extension and directory path). The message file contains
+         @li Base name of the message file (does not include file extension and
+             directory path). The message file contains all languages, and the
+             language is used to locate the message in the correct language
+             within the message file.
+         @li Base name of the message file (does not include file extension and
+             directory path). The message file contains messages in only one
+             language, and some identifier for that language is part of the
+             base name.
+         @li Absolute path of the message file. The message file contains all
+             languages, and the language is used to locate the message in the
+             correct language within the message file.
+         @li Absolute path of the message file. The message file contains
              messages in only one language, and some identifier for that
-             language is part of the base name.
-         @li Absolute path of the message file. The message file
-             contains all languages, and the language is used to locate
-             the message in the correct language within the message
-             file.
-         @li Absolute path of the message file. The message file
-             contains messages in only one language, and some identifier
-             for that language is part of the file path.
+             language is part of the file path.
 
          The format of the content of the message file is also
          implementation-specific.
      @endparblock
-     @param [out] msgFileHandle points to a @ref CMPIMsgFileHandle structure
+     @param [out] msgFileHandle Points to a @ref CMPIMsgFileHandle structure
          that will have been updated with a handle that can be passed to the
          CMPIBrokerEncFT.getMessage2() and CMPIBrokerEncFT.closeMessageFile()
-         functions. If the MB supports message files and the function was
-         successful, the @ref CMPIMsgFileHandle structure will have been updated
-         with a non-NULL handle to the open message file. If the MB does not
-         support message files, or if the function failed for other reasons,
-         the @ref CMPIMsgFileHandle structure will have been updated with a NULL
+         functions. If the MB supports the
+         @ref cap-translation "Message Translation" capability and the function
+         was successful, the @ref CMPIMsgFileHandle structure will have been
+         updated with a non-NULL handle to the open message file. If the MB
+         does not support the @ref cap-translation "Message Translation"
+         capability, or if the function failed for other reasons, the
+         @ref CMPIMsgFileHandle structure will have been updated with a NULL
          handle.
      @return CMPIStatus structure containing the function return status.
 
@@ -2674,10 +2707,13 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_FOUND` - The MB supports message files and the
-         message file was not found, or the MB does not support message
-         files.
+     @li `CMPI_RC_ERR_NOT_FOUND` - The MB supports the
+         @ref cap-translation "Message Translation" capability and the message
+         file was not found, or the MB does not support the
+         @ref cap-translation "Message Translation" capability.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
+     @captranslation This function is part of the Message Translation
+         MB capability.
 
      @see CMOpenMessageFile()
      @added200 Added in CMPI 2.0.0.
@@ -2685,17 +2721,17 @@ typedef struct _CMPIBrokerEncFT {
     CMPIStatus (*openMessageFile) (const CMPIBroker* mb, const char* msgFile,
         CMPIMsgFileHandle* msgFileHandle);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Close a message file.
 
-     CMPIBrokerEncFT.closeMessageFile() closes a message file
-     previously opened by CMPIBrokerEncFT.openMessageFile(). If the message
-     file handle is NULL, the message file is not closed, and this is not
-     considered a failure.
+     CMPIBrokerEncFT.closeMessageFile() closes a message file previously opened
+     by CMPIBrokerEncFT.openMessageFile(). If the message file handle is NULL,
+     the message file is not closed, and this is not considered a failure.
 
      @param mb Points to a CMPIBroker structure.
-     @param msgFileHandle @p msgFileHandle contains a message file
-         handle (including NULL) that was returned by a previous call to
+     @param msgFileHandle @p Contains a message file handle (including NULL)
+         that was returned by a previous call to
          CMPIBrokerEncFT.openMessageFile().
      @return CMPIStatus structure containing the function return status.
 
@@ -2706,6 +2742,8 @@ typedef struct _CMPIBrokerEncFT {
          handle is NULL).
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb or @p msgFileHandle handle
          is invalid.
+     @captranslation This function is part of the Message Translation
+         MB capability.
 
      @see CMCloseMessageFile()
      @added200 Added in CMPI 2.0.0.
@@ -2725,13 +2763,16 @@ typedef struct _CMPIBrokerEncFT {
      @param msgId Points to a string specifying a message ID that is used to
          locate a message template in the open message file.
      @param msgFileHandle Message file handle that was returned by a previous
-         call to CMPIBrokerEncFT.openMessageFile(). If the MB supports message
-         files, that handle identifies an open message file. If the MB does not
-         support message files, that handle is NULL.
+         call to CMPIBrokerEncFT.openMessageFile(). If the MB supports the
+         @ref cap-translation "Message Translation" capability, that handle
+         identifies an open message file. If the MB does not support the
+         @ref cap-translation "Message Translation" capability, that handle is
+         NULL.
      @param defMsg
      @parblock
          Points to a string specifying the default message template that will
-         be used when the MB does not support message files or when the
+         be used when the MB does not support the
+         @ref cap-translation "Message Translation" capability or when the
          message ID cannot be located.
 
          The message template string specified in @p defMsg may contain up to
@@ -2739,9 +2780,10 @@ typedef struct _CMPIBrokerEncFT {
          be expanded; that is, the insert trigger string will be replaced with
          a string representation of the value of the corresponding insert pair
          in the variable arguments of this function. The MI is not affected
-         when the MB does not support message files or when the message ID
-         cannot be located, because this function still succeeds and returns
-         a message with expanded message insert triggers.
+         when the MB does not support the
+         @ref cap-translation "Message Translation" capability or when the
+         message ID cannot be located, because this function still succeeds and
+         returns a message with expanded message insert triggers.
      @endparblock
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
@@ -2798,23 +2840,24 @@ typedef struct _CMPIBrokerEncFT {
 
 #ifdef CMPI_VER_210
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Create a new CIMPropertyList object initialized to a list of
+     @brief Create a new CMPIPropertyList object initialized to a list of
          property names.
 
-     CMPIBrokerEncFT.newPropertyList() creates a new
-     CMPIPropertyList that is initialized to a list of property names
-     specified by @p properties.
+     CMPIBrokerEncFT.newPropertyList() creates a new CMPIPropertyList that is
+     initialized to a list of property names.
 
      @param mb Points to a CMPIBroker structure.
-     @param properties pointer to the first entry of a
-         NULL-terminated array of pointers to C strings that specify the
-         property names for the property list.
+     @param properties Points to the first entry of a NULL-terminated array of
+         pointers to C strings that specify the property names in the property
+         list. The entries in that array may be in any order and in any lexical
+         case.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, returns a pointer to the new
-         CMPIPropertyList object.
+         If successful, a pointer to the new CMPIPropertyList object will be
+         returned.
 
          The new object will be automatically released by the MB, as described
          in Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard".
@@ -2827,36 +2870,34 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - Invalid @p mb handle.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
      @added210 Added in CMPI 2.1.0.
     */
     CMPIPropertyList* (*newPropertyList) (const CMPIBroker* mb,
         const char** properties, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a new CMPIString object from a C-language string in a
          specific codepage.
 
-     CMPIBrokerEncFT.newStringCP() creates a new
-     CMPIString object that is initialized from a C-language
-     string in a specific codepage
+     CMPIBrokerEncFT.newStringCP() creates a new CMPIString object that is
+     initialized from a C-language string in a specific codepage
 
      @param mb Points to a CMPIBroker structure.
-     @param data Points to a string that is represented in the
-         codepage specified in @p cpid. @p data
-         is used to initialize the new CMPIString object after
-         converting it from its codepage to UTF-8.
-     @param cpid specifies the CMPI-specific codepage ID for the
-         codepage that is used to interpret the Bytes in the @p data
-         argument. See Subclause 5.2.2(TBD) for a list of supported
-         codepages and their codepage ID values.
+     @param data Points to a string that is represented in the codepage
+         specified in @p cpid. @p data is used to initialize the new CMPIString
+         object after converting it from its codepage to UTF-8.
+     @param cpid specifies the CMPI-specific codepage ID for the codepage that
+         is used to interpret the Bytes in the @p data argument. See
+         @ref CMPICodepageID for a list of supported codepages and their
+         codepage ID values.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a pointer to the new
-         CMPIString object containing the UTF-8 represented string
-         will be returned.
+         If successful, a pointer to the new CMPIString object containing the
+         UTF-8 represented string will be returned.
 
          The new object will be released automatically by the MB, as described
          in Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard".
@@ -2880,6 +2921,7 @@ typedef struct _CMPIBrokerEncFT {
     CMPIString* (*newStringCP) (const CMPIBroker* mb, const char* data,
         const CMPICodepageID cpid, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a new CMPIEnumerationFilter object initialized with a
          filter query.
@@ -2976,24 +3018,37 @@ typedef struct _CMPIBrokerExtFT {
      *   @{
      */
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Resolve a generic load library name to its file name.
 
-     CMPIBrokerExtFT.resolveFileName() complements a generic dynamic library
-     name to its OS-dependent native format.
+     CMPIBrokerExtFT.resolveFileName() resolves a generic load library name to
+     its file name.
 
-     @param filename Points to the generic library name,
+     @param libName A generic load library name. Depending on the underlying OS,
+         load library names have specific formats: For the generic load library
+         name "MyLibrary", the corresponding file name on Linux is
+         "libMyLibrary.so". The corresponding file name on Windows is
+         "MyLibrary.dll".
      @return @parblock
-         The returned char* pointer to the
-         complemented library name in native OS format.
+         If successful, a pointer to a new C-language string containing the
+         file name of the load library (without path) will be returned.
 
+         The character array of the returned string shall not be explicitly
+         released by the MI, because it will be automatically released by the
+         MB (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
+
+         If not successful, NULL will be returned.
+     @endparblock
+     @todo AM: The old text in the description of the return value said:@n
          Space for this string has been obtained using POSIX ``malloc()`` and
          must be released using POSIX ``free()`` by the caller.
          In case no storage could be obtained for the complemented library
-         name, returns NULL.
-     @endparblock
+         name, returns NULL.@n
+         The spec says we changed that to auto-release by MB.
+         Double check in implementation whether that is really true.
     */
-    char* (*resolveFileName) (const char* filename);
+    char* (*resolveFileName) (const char* libName);
 
     /**
      *   @}
@@ -3001,29 +3056,30 @@ typedef struct _CMPIBrokerExtFT {
      *   @{
      */
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Start a new thread.
+     @brief Start a new thread, using POSIX threading semantics.
 
-     CMPIBrokerExtFT.newThread() starts a new thread,
-     using POSIX threading semantics.
+     CMPIBrokerExtFT.newThread() starts a new thread, using POSIX threading
+     semantics.
 
      Creating a thread using CMPIBrokerExtFT.newThread() does not inform
-     the MB that the current thread will begin using MB functions. Thus,
+     the MB that the new thread will begin using MB functions. Thus,
      @ref CMPIBrokerFT::attachThread "CMPIBrokerFT.attachThread()"
-     must be called by the new thread before
-     it uses MB functions.
+     must be called by the new thread before it uses MB functions.
 
      @param start Points to the function to be started as a thread.
          For details, see type @ref CMPIThreadFunc.
      @param parm Points to argument(s) to be passed to that function.
-     @param detached If not zero, defines that the new thread should
-         run in detached mode. In detached mode, termination of the
-         thread that called this function does not cause the new
-         thread to be canceled. See @ref ref-ieee-1003-1 "IEEE 1003.1"
-         for details on detached mode.
-     @return If successful, the handle of the started thread will be returned.
-         If not successful, returns NULL.
+     @param detached If not zero, defines that the new thread should run in
+         detached mode. In detached mode, termination of the thread that called
+         this function does not cause the new thread to be canceled. See
+         @ref ref-ieee-1003-1 "IEEE 1003.1" for details on detached mode.
+     @return @parblock
+         If successful, the handle of the started thread will be returned.
 
+         If not successful, NULL will be returned.
+     @endparblock
      @par Errors
      For historical reasons, no additional error information is passed back.
      @capopsys This function is part of the OS Encapsulation Services MB
@@ -3037,19 +3093,26 @@ typedef struct _CMPIBrokerExtFT {
     CMPI_THREAD_TYPE (*newThread) (CMPIThreadFunc* start, void* parm,
         int detached);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Wait until the specified thread ends.
+     @brief Wait until the specified thread ends, using POSIX threading
+         semantics.
 
-     CMPIBrokerExtFT.joinThread() suspends the current thread
-     until the specified thread ends using the POSIX threading semantics.
+     CMPIBrokerExtFT.joinThread() suspends the current thread to wait until the
+     specified thread ends, using POSIX threading semantics.
 
-     @param thread The thread ID of the thread waiting for completion.
-     @param retval Points to the return value of the thread.
-     @return If successful, zero will be returned.
+     @param thread The handle of the thread to wait for.
+     @param retval Points to the return value of the thread. On successful
+         completion, the return value of the thread will be stored in this
+         location.
+     @return @parblock
+         If successful, zero will be returned.
+
          If not successful, a non-zero error code will be returned.
-
-     The Error codes are defined in `errno.h`, specifically for
-     the ``pthread_join()`` function; both are defined in
+     @endparblock
+     @par Errors
+     Error codes are defined in `errno.h`, specifically for the
+     ``pthread_join()`` function; both are defined in
      @ref ref-ieee-1003-1 "IEEE 1003.1".
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
@@ -3058,19 +3121,23 @@ typedef struct _CMPIBrokerExtFT {
     */
     int (*joinThread) (CMPI_THREAD_TYPE thread, CMPI_THREAD_RETURN* retval);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Cause current thread to exit with the passed-in return code,
+     @brief Cause current thread to exit with the passed-in return code, using
+         POSIX threading semantics.
 
-     CMPIBrokerExtFT.exitThread() causes the current thread to exit
-     with the passed in return code using POSIX threading semantics.
+     CMPIBrokerExtFT.exitThread() causes the current thread to exit with the
+     passed-in return code, using POSIX threading semantics.
 
      The current thread can also exit by simply returning from its thread
-     function; the purpose of the CMPIBrokerExtFT.exitThread()
-     function is to make premature returns more convenient.
+     function; the purpose of the CMPIBrokerExtFT.exitThread() function is to
+     make premature returns more convenient.
 
-     @param return_code Is the return code that should be used for the thread.
+     @param return_code The return code that should be used for the thread.
      @return The function never returns, regardless of whether it is
          successful or encounters errors.
+     @par Errors
+     None; the function never returns.
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
 
@@ -3078,61 +3145,71 @@ typedef struct _CMPIBrokerExtFT {
     */
     int (*exitThread) (CMPI_THREAD_RETURN return_code);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Cancel a running thread.
+     @brief Cancel a running thread, using POSIX threading semantics.
 
-     CMPIBrokerExtFT.cancelThread() cancels the thread
-     identified by @p thread, using POSIX threading
-     semantics.
+     CMPIBrokerExtFT.cancelThread() cancels the thread identified by @p thread,
+     using POSIX threading semantics.
 
-     @param thread The thread to be canceled.
-     @return If successful, zero will be returned.
+     @param thread The handle of the thread to be canceled.
+     @return @parblock
+         If successful, zero will be returned.
+
          If not successful, a non-zero error code will be returned.
+     @endparblock
+     @par Errors
+     @parblock
          Error codes are defined in `errno.h`, specifically for the
          ``pthread_cancel()`` function; both are defined in
-         @ref ref-ieee-1003-1 "IEEE 1003.1". The
-         ``pthread_cancel()`` function does not define any error codes in
-         @ref ref-ieee-1003-1 "IEEE 1003.1". Some POSIX implementations use
-         the following error code for that function:
+         @ref ref-ieee-1003-1 "IEEE 1003.1".
+
+         The ``pthread_cancel()`` function does not define any error codes in
+         @ref ref-ieee-1003-1 "IEEE 1003.1". Some POSIX implementations use the
+         following error code for that function:
          @li `ESRCH` -The specified thread could not be found.
+     @endparblock
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
     */
     int (*cancelThread) (CMPI_THREAD_TYPE thread);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Suspend execution of current thread for a specified duration.
 
      CMPIBrokerExtFT.threadSleep() suspends the execution of the
-     current thread for the duration specified by @p msec.
+     current thread for a specified duration.
 
      @param msec The suspend duration in milliseconds.
-     @return If successful, zero will be returned.
-         If not successful, a non-zero error code will be returned.
+     @return @parblock
+         If successful, zero will be returned.
 
-     Error codes are defined in `errno.h`, defined in
+         If not successful, a non-zero error code will be returned.
+     @endparblock
+     @par Errors
+         Error codes are defined in `errno.h`, defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
     */
     int (*threadSleep) (CMPIUint32 msec);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Call a function once for a given once-object.
 
-     CMPIBrokerExtFT.threadOnce() executes the specified
-     function procedure only once during the lifetime of the
-     thread. The once-object is an integer that initially shall
-     have a value of zero. The first call to
-     CMPIBrokerExtFT.threadOnce() with an initialized
-     once-object will call the specified function. On return from
-     CMPIBrokerExtFT.threadOnce(), it is guaranteed that the
-     specified function has completed, and that the once-object has
-     been updated to indicate that. Subsequent calls to
-     CMPIBrokerExtFT.threadOnce() by any thread within the
-     process with that once-object will not call the specified function.
+     CMPIBrokerExtFT.threadOnce() calls a function once for a given
+     <i>once-object</i>. The once-object is an integer that initially shall
+     have a value of zero. The first call to CMPIBrokerExtFT.threadOnce() with
+     an initialized once-object will call the specified function. On return
+     from CMPIBrokerExtFT.threadOnce(), it is guaranteed that the specified
+     function has completed, and that the once-object has been updated to
+     indicate that. Subsequent calls to CMPIBrokerExtFT.threadOnce() by any
+     thread within the process with that once-object will not call the
+     specified function.
 
-     @param once Points to the *once-object*. The value of the
+     @param [inout] once Points to the once-object. The value of the
          once-object controls whether the specified function has yet to be
          called. The once-object may be located in thread-specific memory
          (that is, each thread has its own separate copy), or in memory
@@ -3144,12 +3221,13 @@ typedef struct _CMPIBrokerExtFT {
          For details, see type @ref CMPIThreadOnceFunc.
      @return @parblock
          If successful, zero will be returned.
-         If not successful, a non-zero error code will be returned.
 
+         If not successful, a non-zero error code will be returned.
+     @endparblock
+     @par Errors
          Error codes are defined in `errno.h`, specifically for the
          ``pthread_once()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
-     @endparblock
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
 
@@ -3157,20 +3235,23 @@ typedef struct _CMPIBrokerExtFT {
     */
     int (*threadOnce) (int* once, CMPIThreadOnceFunc* function);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a POSIX threading-conformant thread key for
          accessing the thread local store.
 
-     CMPIBrokerExtFT.createThreadKey() creates a POSIX threading
-     conformant thread key. This key can be used as a key to
-     access the thread local store.
+     CMPIBrokerExtFT.createThreadKey() creates a POSIX threading-conformant
+     thread key that can be used as a key to access the thread local store.
 
-     @param key Points to the thread key to be returned.
+     @param [out] key Points to the thread key to be returned.
      @param cleanup Points to the function to be invoked during thread local
          store cleanup. For details, see type @ref CMPIThreadKeyCleanupFunc.
-     @return If successful, zero will be returned.
-         If not successful, a non-zero error code will be returned.
+     @return @parblock
          If successful, zero will be returned.
+
+         If not successful, a non-zero error code will be returned.
+     @endparblock
+     @par Errors
          Error codes are defined in `errno.h`, specifically for the
          ``pthread_key_create()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
@@ -3180,60 +3261,69 @@ typedef struct _CMPIBrokerExtFT {
     int (*createThreadKey) (CMPI_THREAD_KEY_TYPE* key,
         CMPIThreadKeyCleanupFunc* cleanup);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Destroy a thread key for accessing the thread local store.
+     @brief Destroy a POSIX threading-conformant thread key for accessing the
+         thread local store.
 
-     CMPIBrokerExtFT.destroyThreadKey() destroys a POSIX threading conformant
+     CMPIBrokerExtFT.destroyThreadKey() destroys a POSIX threading-conformant
      thread key for accessing the thread local store.
 
      @param key The thread key to be destroyed.
      @return @parblock
-         If successful, zero will be returned. If not
-         successful, a non-zero error code will be returned.
+         If successful, zero will be returned.
 
+         If not successful, a non-zero error code will be returned.
+     @endparblock
+     @par Errors
          Error codes are defined in `errno.h`, specifically for the
          ``pthread_key_delete()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
-     @endparblock
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
     */
     int (*destroyThreadKey) (CMPI_THREAD_KEY_TYPE key);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Get a data pointer from the thread local store using a thread key.
+     @brief Get a data pointer from the thread local store using a POSIX
+         threading-conformant thread key.
 
-     CMPIBrokerExtFT.getThreadSpecific() gets a data
-     pointer from the thread local store using a POSIX
-     threading-conformant thread key.
+     CMPIBrokerExtFT.getThreadSpecific() gets a data pointer from the thread
+     local store using a POSIX threading-conformant thread key.
 
-     @param key The key to be used to retrieve the data pointer.
-     @return If successful, returns the data pointer.
-         If not successful, returns NULL.
+     @param key The thread key to be used to retrieve the data pointer.
+     @return @parblock
+         If successful, the data pointer will be returned.
 
+         If not successful, NULL will be returned.
+     @endparblock
      @par Errors
-     For historical reasons, no additional error information is passed back.
+         For historical reasons, no additional error information is passed back.
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
     */
     void* (*getThreadSpecific) (CMPI_THREAD_KEY_TYPE key);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Set a data pointer in the thread local store using a thread key.
+     @brief Set a data pointer in the thread local store using a POSIX
+         threading-conformant thread key.
 
      CMPIBrokerExtFT.setThreadSpecific() sets a data pointer in the thread
-     local store using a POSIX threading-conformant  thread key.
+     local store using a POSIX threading-conformant thread key.
 
-     @param key The key to be used.
+     @param key The thread key to be used.
      @param value The data pointer that is stored in the thread local store.
      @return @parblock
-         If successful, returns zero.
+         If successful, zero will be returned.
 
-         If not successful, returns a non-zero error code. Error
-         codes are defined in `errno.h`, specifically for the
+         If not successful, a non-zero error code will be returned.
+     @endparblock
+     @par Errors
+         Error codes are defined in `errno.h`, specifically for the
          ``pthread_setspecific()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
-     @endparblock
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
 
@@ -3247,98 +3337,103 @@ typedef struct _CMPIBrokerExtFT {
      *   @{
      */
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Create a POSIX thread conformant mutex.
+     @brief Create a POSIX threading-conformant mutex.
 
-     CMPIBrokerExtFT.newMutex() creates a POSIX threading
-     conformant recursive mutex.
+     CMPIBrokerExtFT.newMutex() creates a POSIX threading-conformant mutex.
 
-     The mutex that is created shall exhibits the following behavior:
-     @li For locking a locked mutex: A thread that holds a lock on a
-     mutex and attempts to lock that mutex again without first
-     unlocking it shall succeed in locking the mutex. Multiple
-     locks of the mutex (by the same thread) shall require the same
-     number of unlocks (by that same thread) to release the mutex
-     before another thread can acquire the mutex.
-     @li For unlocking an unlocked mutex: A thread attempting to
-     unlock a mutex that is not locked by that thread (that is, the
-     mutex is either entirely unlocked or locked by another thread)
-     shall fail in unlocking the mutex.
+     The mutex that is created shall be of a type that exhibits the following
+     behavior:
+     @li For locking a locked mutex: A thread that holds a lock on a mutex and
+         attempts to lock that mutex again without first unlocking it shall
+         succeed in locking the mutex. Multiple locks of the mutex (by the same
+         thread) shall require the same number of unlocks (by that same thread)
+         to release the mutex before another thread can acquire the mutex.
+     @li For unlocking an unlocked mutex: A thread attempting to unlock a mutex
+         that is not locked by that thread (that is, the mutex is either
+         entirely unlocked or locked by another thread) shall fail in unlocking
+         the mutex.
 
      This behavior is consistent with mutex type PTHREAD_MUTEX_RECURSIVE
      defined in @ref ref-ieee-1003-1 "IEEE 1003.1".
 
-     @param opt For future use. It should be ignored by the MB, and
-         MIs should pass a value of 0
-     @return If successful, returns the handle of the new mutex.
-         If not successful, returns NULL.
+     @param opt For future use. It should be ignored by the MB, and MIs should
+         pass a value of 0.
+     @return @parblock
+         If successful, the handle of the new mutex will be returned.
 
+         If not successful, NULL will be returned.
+     @endparblock
      @par Errors
-     For historical reasons, no additional error information is passed back.
+         For historical reasons, no additional error information is passed back.
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
     */
     CMPI_MUTEX_TYPE (*newMutex) (int opt);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Destroy a POSIX threading-conformant mutex. (**Deprecated**)
 
-     CMPIBrokerExtFT.destroyMutex() destroys a POSIX threading conformant
+     CMPIBrokerExtFT.destroyMutex() destroys a POSIX threading-conformant
      mutex.
 
-     @param mutex The mutex to be destroyed.
+     @param mutex The handle of the mutex to be destroyed.
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
-     @deprecated This function is deprecated since CMPI 2.1,
-         because it does not indicate whether it succeeded or failed. Use
+     @deprecated This function is deprecated since CMPI 2.1, because it does
+         not indicate whether it succeeded or failed. Use
          CMPIBrokerExtFT.destroyMutex2() instead.
     */
     void (*destroyMutex) (CMPI_MUTEX_TYPE mutex);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Lock a POSIX threading-conformant mutex. (**Deprecated**)
 
      CMPIBrokerExtFT.lockMutex() locks a POSIX threading-conformant mutex.
 
      If the mutex is locked by another thread, the current thread is suspended
-     until the lock is granted. The behavior in case the mutex is already
-     locked by the current thread is defined in the description of
-     CMPIBrokerExtFT.newMutex().
+     until the lock is granted.
 
-     @param mutex The mutex to be locked.
+     The behavior in case the mutex is already locked by the current thread is
+     defined in the description of CMPIBrokerExtFT.newMutex().
+
+     @param mutex The handle of the mutex to be locked.
      @return None.
 
      @par Errors
-     For historical reasons, this function does not indicate whether it
-     succeeded or failed.
+         For historical reasons, this function does not indicate whether it
+         succeeded or failed.
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
-     @deprecated This function is deprecated since CMPI 2.1,
-         because it does not indicate whether it succeeded or failed.
-         Use CMPIBrokerExtFT.lockMutex2() instead.
+     @deprecated This function is deprecated since CMPI 2.1, because it does
+         not indicate whether it succeeded or failed. Use
+         CMPIBrokerExtFT.lockMutex2() instead.
     */
     void (*lockMutex) (CMPI_MUTEX_TYPE mutex);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Unlock a POSIX threading-conformant mutex. (**Deprecated**)
 
-     CMPIBrokerExtFT.unlockMutex() releases control of the mutex.
+     CMPIBrokerExtFT.unlockMutex() unlocks a POSIX threading-conformant mutex.
 
-     The behavior in case the mutex is not
-     locked by the current thread is defined in the description of
-     CMPIBrokerExtFT.newMutex().
+     The behavior in case the mutex is not locked by the current thread is
+     defined in the description of CMPIBrokerExtFT.newMutex().
 
-     @param mutex The mutex to be unlocked.
+     @param mutex The handle of the mutex to be unlocked.
      @return None.
 
      @par Errors
-     For historical reasons, this function does not indicate whether it
-     succeeded or failed.
+         For historical reasons, this function does not indicate whether it
+         succeeded or failed.
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
-     @deprecated This function is deprecated since CMPI 2.1,
-         because it does not indicate whether it succeeded or failed.
-         Use CMPIBrokerExtFT.unlockMutex2() instead.
+     @deprecated This function is deprecated since CMPI 2.1, because it does
+         not indicate whether it succeeded or failed. Use
+         CMPIBrokerExtFT.unlockMutex2() instead.
     */
     void (*unlockMutex) (CMPI_MUTEX_TYPE mutex);
 
@@ -3348,36 +3443,42 @@ typedef struct _CMPIBrokerExtFT {
      *   @{
      */
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Create a new condition variable.
+     @brief Create a new POSIX threading-conformant condition variable.
 
      CMPIBrokerExtFT.newCondition() creates a new POSIX threading-conformant
      condition variable.
 
-     @param opt for future use. It should be ignored by the MB, and MIs
-         should pass a value of 0.
-     @return If successful, handle of newly created condition
-         variable. If not successful, NULL.
+     @param opt For future use. It should be ignored by the MB, and MIs should
+         pass a value of 0.
+     @return @parblock
+         If successful, the handle of the new condition variable will be
+         returned.
 
+         If not successful, NULL will be returned.
+     @endparblock
      @par Errors
-     For historical reasons, no additional error information is passed back.
+         For historical reasons, no additional error information is passed back.
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
     */
     CMPI_COND_TYPE (*newCondition) (int opt);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Destroy a condition variable. (**Deprecated**)
+     @brief Destroy a POSIX threading-conformant condition variable.
+         (**Deprecated**)
 
-     CMPIBrokerExtFT.destroyCondition() destroys a POSIX threading conformant
-     condition variable. (**Deprecated**)
+     CMPIBrokerExtFT.destroyCondition() destroys a POSIX threading-conformant
+     condition variable.
 
-     @param cond The condition variable to be destroyed.
+     @param cond The handle of the condition variable to be destroyed.
      @return None.
 
      @par Errors
-     For historical reasons, this function does not indicate whether it
-     succeeded or failed.
+         For historical reasons, this function does not indicate whether it
+         succeeded or failed.
      @capopsys This function is part of the OS Encapsulation Services MB
          capability.
      @deprecated This function is deprecated since CMPI 2.1,
@@ -3386,20 +3487,26 @@ typedef struct _CMPIBrokerExtFT {
     */
     void (*destroyCondition) (CMPI_COND_TYPE cond);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Wait until condition is signalled.
+     @brief Wait until a POSIX threading-conformant condition variable is
+         signalled.
 
-     CMPIBrokerExtFT.condWait() waits until the condition has been
-     signalled. If the condition variable has been signalled already, the
-     function returns immediately; otherwise, it suspends the current thread
-     to wait for the signal and then returns.
+     CMPIBrokerExtFT.condWait() waits until a POSIX threading-conformant
+     condition variable is signaled. If the condition variable has been
+     signaled already, the function returns immediately; otherwise, it
+     suspends the current thread to wait for the signal and then returns.
 
      @param cond The handle of the condition variable to be used.
-     @param mutex The handle of a locked mutex guarding this
-         condition variable.
-     @return If successful, zero will be returned.
-        If not successful, returns a non-zero error code will be returned.
-        Error codes are defined in `errno.h`, specifically for the
+     @param mutex The handle of a locked mutex guarding this condition
+         variable.
+     @return @parblock
+         If successful, zero will be returned.
+
+         If not successful, a non-zero error code will be returned.
+     @endparblock
+     @par Errors
+         Error codes are defined in `errno.h`, specifically for the
         ``pthread_cond_wait()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
      @capopsys This function is part of the OS Encapsulation Services MB
@@ -3407,23 +3514,31 @@ typedef struct _CMPIBrokerExtFT {
     */
     int (*condWait) (CMPI_COND_TYPE cond, CMPI_MUTEX_TYPE mutex);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Wait until the condition is signalled or a timeout value expires.
+     @brief Wait until a POSIX threading-conformant condition variable is
+         signaled using a timeout value.
 
-     CMPIBrokerExtFT.timedCondWait() waits until a POSIX
-     threading-conformant condition variable is signalled. If the condition
-     variable has been signalled already, the function returns immediately;
-     otherwise, it suspends the current thread to wait for the signal and
-     then returns. The function returns when the timeout expires before the
-     condition is signalled.
+     CMPIBrokerExtFT.timedCondWait() waits until a POSIX threading-conformant
+     condition variable is signalled. If the condition variable has been
+     signalled already, the function returns immediately; otherwise, it
+     suspends the current thread to wait for the signal and then returns. The
+     function returns when the timeout expires before the condition is
+     signalled.
 
      @param cond Specifies the handle of the condition variable to be used.
-     @param mutex Specifies the handle of a locked mutex guarding
-         this condition variable.
-     @param wait Specifies the timeout value.
-     @return If successful, zero will be returned.
-         If not successful, a non-zero error code will be returned. Error
-         codes are defined in `errno.h`, specifically for the
+     @param mutex Specifies the handle of a locked mutex guarding this
+         condition variable.
+     @param wait Specifies the timeout value. See structure ``timespec`` defined
+         in `time.h` for details; both are defined in
+         @ref ref-ieee-1003-1 "IEEE 1003.1".
+     @return @parblock
+         If successful, zero will be returned.
+
+         If not successful, a non-zero error code will be returned.
+     @endparblock
+     @par Errors
+         Error codes are defined in `errno.h`, specifically for the
          ``pthread_cond_timedwait()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
      @capopsys This function is part of the OS Encapsulation Services MB
@@ -3432,17 +3547,21 @@ typedef struct _CMPIBrokerExtFT {
     int (*timedCondWait) (CMPI_COND_TYPE cond, CMPI_MUTEX_TYPE mutex,
         struct timespec* wait);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Send a signal to a condition variable.
+     @brief Send a signal to a POSIX threading-conformant condition variable.
 
-     CMPIBrokerExtFT.signalCondition() sends a signal
-     to a POSIX threading-conformant condition variable.
+     CMPIBrokerExtFT.signalCondition() sends a signal to a POSIX
+     threading-conformant condition variable.
 
-     @param cond Specifies the handle of the condition variable to
-         send the signal.
-     @return If successful, zero will be returned.
-         If not successful, a non-zero error code will be returned. Error
-         codes are defined in `errno.h`, specifically for the
+     @param cond The handle of the target condition variable.
+     @return @parblock
+         If successful, zero will be returned.
+
+         If not successful, a non-zero error code will be returned.
+     @endparblock
+     @par Errors
+         Error codes are defined in `errno.h`, specifically for the
          ``pthread_cond_signal()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
      @capopsys This function is part of the OS Encapsulation Services MB
@@ -3458,19 +3577,24 @@ typedef struct _CMPIBrokerExtFT {
 
 #ifdef CMPI_VER_210
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Destroy a POSIX threading-conformant mutex.
 
-     CMPIBrokerExtFT.destroyMutex2() destroys a POSIX threading conformant
+     CMPIBrokerExtFT.destroyMutex2() destroys a POSIX threading-conformant
      mutex.
 
-     This function superceedes the original CMPIBrokerExtFT.destroyMutex()
+     This function supersedes the original CMPIBrokerExtFT.destroyMutex()
      function.
 
-     @param mutex The mutex to be destroyed.
-     @return If successful, zero will be returned.
-         If not successful, a non-zero error code will be returned. Error codes
-         are defined in `errno.h`, specifically for the
+     @param mutex The handle of the mutex to be destroyed.
+     @return @parblock
+         If successful, zero will be returned.
+
+         If not successful, a non-zero error code will be returned.
+     @endparblock
+     @par Errors
+         Error codes are defined in `errno.h`, specifically for the
          ``pthread_mutex_destroy()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
      @capopsys This function is part of the OS Encapsulation Services MB
@@ -3479,22 +3603,29 @@ typedef struct _CMPIBrokerExtFT {
     */
     int (*destroyMutex2) (CMPI_MUTEX_TYPE mutex);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Lock a POSIX threading-conformant mutex.
 
      CMPIBrokerExtFT.lockMutex2() locks a POSIX threading conformant mutex.
-     If the mutex is locked by another
-     thread, the current thread is suspended until the lock is granted.
+     
+     If the mutex is locked by another thread, the current thread is suspended
+     until the lock is granted.
+
      The behavior in case the mutex is already locked by the current thread
      is defined in the description of CMPIBrokerExtFT.newMutex().
 
-     This function superceedes the original CMPIBrokerExtFT.lockMutex()
+     This function supersedes the original CMPIBrokerExtFT.lockMutex()
      function.
 
-     @param mutex The mutex to be locked.
-     @return If successful, zero will be returned.
-         If not successful, a non-zero error code will be returned. Error codes
-         are defined in `errno.h`, specifically for the
+     @param mutex The handle of the mutex to be locked.
+     @return @parblock
+         If successful, zero will be returned.
+
+         If not successful, a non-zero error code will be returned.
+     @endparblock
+     @par Errors
+         Error codes are defined in `errno.h`, specifically for the
          ``pthread_mutex_lock()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
      @capopsys This function is part of the OS Encapsulation Services MB
@@ -3504,21 +3635,26 @@ typedef struct _CMPIBrokerExtFT {
     */
     int (*lockMutex2) (CMPI_MUTEX_TYPE mutex);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Unlock a POSIX threading-conformant mutex.
 
-     CMPIBrokerExtFT.unlockMutex2() unlocks a POSIX
-     threading conformant mutex. The behavior in case the mutex
-     is not locked by the current thread is defined in the description of
-     CMPIBrokerExtFT.newMutex().
+     CMPIBrokerExtFT.unlockMutex2() unlocks a POSIX threading conformant mutex.
 
-     This function superceedes the original CMPIBrokerExtFT.unlockMutex()
+     The behavior in case the mutex is not locked by the current thread is
+     defined in the description of CMPIBrokerExtFT.newMutex().
+
+     This function supersedes the original CMPIBrokerExtFT.unlockMutex()
      function.
 
-     @param mutex TBD
-     @return If successful, zero will be returned.
-         If not successful, a non-zero error code will be returned. Error codes
-         are defined in `errno.h`, specifically for the
+     @param mutex The handle of the mutex to be unlocked.
+     @return @parblock
+         If successful, zero will be returned.
+
+         If not successful, a non-zero error code will be returned.
+     @endparblock
+     @par Errors
+         Error codes are defined in `errno.h`, specifically for the
          ``pthread_mutex_lock()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
      @capopsys This function is part of the OS Encapsulation Services MB
@@ -3533,19 +3669,24 @@ typedef struct _CMPIBrokerExtFT {
      *   @{
      */
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Destroy a POSIX threading-conformant condition variable.
 
-     CMPIBrokerExtFT.destroyCondition2() destroys a POSIX
-     threading-conformant condition variable.
+     CMPIBrokerExtFT.destroyCondition2() destroys a POSIX threading-conformant
+     condition variable.
 
-     This function superceedes the original
-     CMPIBrokerExtFT.destroyCondition() function.
+     This function supersedes the original CMPIBrokerExtFT.destroyCondition()
+     function.
 
-     @param cond TBD
-     @return If successful, zero will be returned.
-         If not successful, a non-zero error code will be returned. Error codes
-         are defined in `errno.h`, specifically for the
+     @param cond The handle of the condition variable to be destroyed.
+     @return @parblock
+         If successful, zero will be returned.
+
+         If not successful, a non-zero error code will be returned.
+     @endparblock
+     @par Errors
+         Error codes are defined in `errno.h`, specifically for the
          ``pthread_cond_destroy()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
      @capopsys This function is part of the OS Encapsulation Services MB
@@ -3593,6 +3734,8 @@ typedef struct _CMPIBrokerMemFT {
      *   @{
      */
 
+// DONE_AM Next function is already synced with spec.
+// TODO_AM Sync function descriptions with spec, from here on down.
     /**
      @brief Mark a new object lifecycle level for subsequent newly created
          CMPI encapsulated data type objects.
@@ -6673,7 +6816,7 @@ typedef struct _CMPISelectExpFT {
          expression;
          @li False indicates that this is not the case.
 
-         If not successful, False will be returned.
+         If not successful, false will be returned.
      @endparblock
 
      @par Errors
@@ -6822,7 +6965,7 @@ typedef struct _CMPISelectExpFT {
          function match the select expression; False indicates that
          this is not the case.
 
-         If not successful, False will be returned
+         If not successful, false will be returned
      @endparblock
 
      @par Errors
@@ -7454,7 +7597,7 @@ typedef struct _CMPIPredicateFT {
          accessor function match the predicate;
          @li False indicates that this is not the case.
 
-         If not successful, False will be returned.
+         If not successful, false will be returned.
      @endparblock
 
      @par Errors
@@ -8234,7 +8377,7 @@ typedef struct _CMPIEnumerationFT {
          True indicates that the enumeration has more elements left;
          False indicates that this is not the case.
 
-         If not successful, False will be returned.
+         If not successful, false will be returned.
      @endparblock
 
      @par Errors
@@ -8458,7 +8601,7 @@ typedef struct _CMPIDateTimeFT {
          value;
          @li False indicates that this is not an interval.
 
-         If not successful, False will be returned.
+         If not successful, false will be returned.
      @endparblock
 
      @par Errors

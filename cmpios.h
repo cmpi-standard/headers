@@ -152,8 +152,8 @@
 #  ifndef HAVE_STRUCT_TIMESPEC
 #    define HAVE_STRUCT_TIMESPEC
 struct timespec {
-    long tv_sec;
-    long tv_nsec;
+    long tv_sec;   // seconds
+    long tv_nsec;  // nanoseconds
 };
 #  endif // HAVE_STRUCT_TIMESPEC
 #endif

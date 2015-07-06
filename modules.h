@@ -168,18 +168,20 @@
 
 /**
  * @page captranslation Message Translation MB capability
+ * @anchor cap-translation
  * @brief Entities that are part of the Message Translation MB capability
  *
  * Optional to be supported.
  *
  * Support for the Message Translation MB capability cannot be discovered by
- * means of CMPIBrokerFT.brokerCapabilities. However, the functions that are
- * part of this capability always have a non-NULl function pointer and can thus
- * be invoked to find out whether they are supported.
+ * means of CMPIBrokerFT.brokerCapabilities. The functions that are part of
+ * this capability perform a default behavior if the Message Translation MB
+ * capability is not supported.
  */
 
 /**
  * @page capcontext Context Data MB capability
+ * @anchor cap-context
  * @brief Entities that are part of the Context Data MB capability
  *
  * Required to be supported.
