@@ -11,6 +11,9 @@
   them but very short form.  
 * Trying to sort out how we do the stubs since 2.1 is different than 2.0 and
   we need both.  Not done and I have a question about the filtered functions.
+* First pass at documenting macros done except for stubs.  They are
+  broken.  NOTE: Have lots of todos to indicate Openpegasus usage. Need
+  to do something with those.
 3 July - Karl
 
 * Cleanup to some of cmpimacs.

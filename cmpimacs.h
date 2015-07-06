@@ -1912,7 +1912,7 @@ _CMPI_INLINE_MOD CMPIData CMGetArgAt(
     @param rc Output: Service return status (suppressed when NULL).
     @return Number of properties.
     @see  CMPIArgsFT.getArgCount()
-    @tod OpenPegasus used
+    @todo OpenPegasus used
 */
 _CMPI_INLINE_MOD CMPICount CMGetArgCount (const CMPIArgs * as, CMPIStatus * rc)
 {
@@ -2998,7 +2998,7 @@ _CMPI_INLINE_MOD CMPIPredicate *CMGetPredicate(
 /** @brief Get the predicate components of a CMPIPredicate object.
     CMGetPredicateData() executes CMPIPredicateFT.getData().
     @param pr Predicate this pointer.
-    @param[out] VMPItype Property type.
+    @param[out] type CMPItype Property type.
     @param[out] prop CMPIPredOp operation.
     @param[out] lhs Left hand side of predicate.
     @param[out] rhs Right hand side of predicate.
@@ -4219,6 +4219,7 @@ CMPIAssociationMI *CMAssociationMIFactory (chars cn, chars pn);
      @return The function table of this association provider.
 
      @todo Need reference back to cmpift
+     @todo KS Add macro for filtered operations.
       */
 CMPIMethodMI *CMMethodMIFactory (chars cn, chars pn);
 #   else
@@ -4268,6 +4269,9 @@ CMPIMethodMI *CMMethodMIFactory (chars cn, chars pn);
             This is a character string without quotes.
      @return The function table of this association provider.
      @todo Need reference back to cmpift
+     @todo document as deprecated
+     @deprecated The CMPIPropertyMIFT has been deprecated in
+                 CMPI 2.1.
       */
 CMPIPropertyMI *CMPropertyMIFactory(chars cn, chars pn);
 #   else
@@ -4366,6 +4370,10 @@ CMPIIndicationMI *CMIndicationMIFactory (chars cn, chars pn);
  }
 #   endif
 //// KS Same comment about provider->intialize
+/** KS_TODO
+    @param pn KS_TODO
+    @todo document this
+*/
 #   define CMProviderBase(pn) \
    CmpiProviderBase base##pn;
 
