@@ -4243,7 +4243,6 @@ typedef struct _CMPIContextFT {
     CMPIVersion ftVersion;
 
 // DONE_AM Next function is already synced with spec.
-// TODO_AM Sync function descriptions with spec, from here on down.
     /**
      @brief Release a CMPIContext object.
 
@@ -4269,6 +4268,7 @@ typedef struct _CMPIContextFT {
     */
     CMPIStatus (*release) (CMPIContext* ctx);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIContext object.
 
@@ -4298,21 +4298,22 @@ typedef struct _CMPIContextFT {
     */
     CMPIContext* (*clone) (const CMPIContext* ctx, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a context entry in a CMPIContext object by name.
 
-     CMPIContextFT.getEntry() gets a context entry in a
-     CMPIContext object by supplying its name.
+     CMPIContextFT.getEntry() gets a context entry in a CMPIContext object by
+     supplying its name.
 
      @param ctx Points to the CMPIContext object for this function.
-     @param name string specifying the context entry name.
+     @param name string Points to a string specifying the context entry name.
          See @ref def-context-fieldnames "Names of CMPIContext fields"
          for defined names
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a CMPIData structure containing the
-         specified context entry will be returned.
+         If successful, a CMPIData structure containing the specified context
+         entry will be returned.
 
          If not successful, CMPIData.state will be undefined.
      @endparblock
@@ -4329,28 +4330,28 @@ typedef struct _CMPIContextFT {
     CMPIData (*getEntry) (const CMPIContext* ctx, const char* name,
         CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a context entry in a CMPIContext object by index.
 
-     CMPIContextFT.getEntryAt() gets a Context entry value defined
-     by its index.
+     CMPIContextFT.getEntryAt() gets a context entry in a CMPIContext object by
+     supplying its index.
 
      @param ctx Points to the CMPIContext object for this function.
-     @param index Specifies the zero-based position of the
-         context entry in the internal data array. The order of
-         context entries in the internal data array is
-         implementation-defined.
+     @param index Specifies the zero-based position of the context entry in the
+         internal data array. The order of context entries in the internal data
+         array is implementation-defined.
      @param [out] name
      @parblock
-         If not NULL, points to a CMPIString pointer that upon
-         success will have been updated to point to a CMPIString object
-         containing the name of the returned context entry.
+         If not NULL, points to a CMPIString pointer that upon success will
+         have been updated to point to a CMPIString object containing the name
+         of the returned context entry.
 
-         The returned CMPIString object shall not be explicitly released
-         by the MI, because it may be an internal object of the CMPIContext
-         object which will be released along with that object, or a new object
-         created by the MB which will be automatically released by the MB
-         (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
+         The returned CMPIString object shall not be explicitly released by the
+         MI, because it may be an internal object of the CMPIContext object
+         which will be released along with that object, or a new object created
+         by the MB which will be automatically released by the MB (see
+         Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
      @endparblock
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
@@ -4373,18 +4374,19 @@ typedef struct _CMPIContextFT {
     CMPIData (*getEntryAt) (const CMPIContext* ctx, CMPICount index,
         CMPIString** name, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the number of context entries in a CMPIContext object.
 
-     CMPIContextFT.getEntryCount() gets the number of entries
-     contained in this CMPIContext.
+     CMPIContextFT.getEntryCount() gets the number of entries in a CMPIContext
+     object.
 
      @param ctx Points to the CMPIContext object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a CMPICount value indicating the number
-         of entries in the CMPIContext object.
+         If successful, a CMPICount value indicating the number of entries in
+         the CMPIContext object will be returned.
 
          If not successful, the return value will be undefined.
      @endparblock
@@ -4409,8 +4411,8 @@ typedef struct _CMPIContextFT {
 
      @param ctx Points to the CMPIContext object for this function.
      @param name Points to a string specifying the context entry name.
-         See @ref def-context-fieldnames "Names of CMPIContext fields"
-         for defined names.
+         See @ref def-context-fieldnames "Names of CMPIContext fields" for
+         defined names.
      @param value Points to a CMPIValue structure containing the non-NULL value
          to be assigned to the context entry, or NULL to specify that NULL is
          to be assigned.
@@ -4479,6 +4481,7 @@ typedef struct _CMPIResultFT {
      */
     CMPIVersion ftVersion;
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIResult object.
 
@@ -4503,6 +4506,7 @@ typedef struct _CMPIResultFT {
     */
     CMPIStatus (*release) (CMPIResult* rslt);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIResult object.
 
@@ -4531,21 +4535,22 @@ typedef struct _CMPIResultFT {
     */
     CMPIResult* (*clone) (const CMPIResult* rslt, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Add a value/type pair to a CMPIResult object.
 
-     CMPIResultFT.returnData() adds a value/type pair to be
-     returned to the MB, to a CMPIResult object.
+     CMPIResultFT.returnData() adds a value/type pair to be returned to the MB,
+     to a CMPIResult object.
 
      @param rslt Points to the CMPIResult object for this function.
-     @param value Points to CMPIValue structure specifying the non-NULL value
+     @param value Points to a CMPIValue structure specifying the non-NULL value
          to be returned, or is NULL to specify that NULL is to be returned
-     @param type CMPIType value specifying the type to be returned.
-         If the value of @p type is @ref CMPI_chars or
-         @ref CMPI_charsA, the C-language string to which the @p chars member
-         of @p value points is copied by this function and the
-         original string memory may be freed by the MI right after this
-         function returns.
+     @param type CMPIType value specifying the type to be returned. Specific
+         return types are defined for each function that returns CMPIResult
+         objects. If the value of @p type is @ref CMPI_chars or
+         @ref CMPI_charsA, the C-language string to which the @p chars member of
+         @p value points is copied by this function and the original string
+         memory may be freed by the MI right after this function returns.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -4553,17 +4558,20 @@ typedef struct _CMPIResultFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_DATA_TYPE` - An attempt to return a data type
-         that is not allowed for this MI function invocation
-         or @p type is not recognized.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid
-         or NULL, or the MB has aborted the request operation for which
-         this data is being returned.
+         that is not allowed for this MI function invocation or @p type is not
+         recognized.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid or NULL,
+         or the MB has aborted the request operation for which this data is
+         being returned.
 
      @see CMReturnData()
+     @todo AM: Why does the description for CMPI_RC_ERR_INVALID_HANDLE say
+           "or NULL"?
     */
     CMPIStatus (*returnData) (const CMPIResult* rslt, const CMPIValue* value,
         const CMPIType type);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Add an instance to a CMPIResult object.
 
@@ -4571,16 +4579,16 @@ typedef struct _CMPIResultFT {
      to a CMPIResult object.
 
      @param rslt Points to the CMPIResult object for this function.
-     @param inst Instance to be returned.
+     @param inst Points to a CMPIInstance object representing the instance to
+         be returned.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid
-         or the MB has aborted the request for which this data
-         is returned.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid or the MB
+         has aborted the request for which this data is returned.
 
      @see CMReturnInstance()
     */
@@ -4603,21 +4611,22 @@ typedef struct _CMPIResultFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt or @p op handle
-         is invalid, or the MB has aborted the request for which
-         this data is being returned.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt or @p op handle is invalid,
+         or the MB has aborted the request for which this data is being
+         returned.
 
      @see CMReturnObjectPath()
     */
     CMPIStatus (*returnObjectPath) (const CMPIResult* rslt,
         const CMPIObjectPath* op);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Indicate that no more items will be added to a CMPIResult object.
+     @brief Indicate that no further  items will be added to a CMPIResult object.
 
-     CMPIResultFT.returnDone() indicates to the MB that
-     no further items will be added to a CMPIResult object; that
-     is, the MI will not return any more data to the MB.
+     CMPIResultFT.returnDone() indicates to the MB that no further items will
+     be added to a CMPIResult object; that is, the MI will not return any more
+     data to the MB.
 
      @param rslt Points to the CMPIResult object for this function.
      @return CMPIStatus structure containing the function return status.
@@ -4626,20 +4635,26 @@ typedef struct _CMPIResultFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid
-         or the MB has aborted the request for which this data is returned.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid or NULL,
+         or the MB has aborted the request for which this result is defined.
 
      @see CMReturnDone()
+     @todo AM: Why does the description for CMPI_RC_ERR_INVALID_HANDLE say
+           "or NULL"?
     */
     CMPIStatus (*returnDone) (const CMPIResult* rslt);
 
 #ifdef CMPI_VER_200
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Add an error to a CMPIResult object.
 
      CMPIResultFT.returnError() adds an error to be returned to the MB, to a
      CMPIResult object.
+
+     This function may be called multiple times, each time adding one CMPIError
+     object to the set of extended errors for this result.
 
      In WBEM protocols that support multiple extended errors in an error
      response, the MB shall represent the extended errors in the protocol in
@@ -4649,17 +4664,25 @@ typedef struct _CMPIResultFT {
      result.
 
      @param rslt Points to the CMPIResult object for this function.
-     @param er Points to a CMPIError object representing the error to be
-         returned. This function may be called multiple times, each time adding
-         one CMPIError object to the set of extended errors for this result.
+     @param er
+     @parblock
+         Points to a CMPIError object representing the error to be returned.
+
+         The CIM status code in the CMPIError object of the first call to this
+         function for the result data container of an MI function must match
+         the CMPIrc code returned by that MI function.
+
+         The messages in the CMPIError objects are described in each MI
+         function.
+     @endparblock
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid
-         or the MB has aborted the request for which this data is returned.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid or the MB
+         has aborted the request for which this data is returned.
      @caperrors This function is part of the Extended Errors capability.
 
      @see CMReturnError()
@@ -4754,6 +4777,7 @@ typedef struct _CMPIErrorFT {
     */
     CMPIStatus (*release) (CMPIError* er);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIError object.
 
@@ -4828,6 +4852,8 @@ typedef struct _CMPIErrorFT {
     */
     CMPIErrorType (*getErrorType) (const CMPIError* er, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
+// TODO_AM Sync function descriptions with spec, from here on down.
     /**
      @brief Get the `OtherErrorType` attribute of a CMPIError object.
 
@@ -5729,6 +5755,7 @@ typedef struct _CMPIInstanceFT {
      */
     CMPIVersion ftVersion;
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIInstance object.
 
@@ -5753,6 +5780,7 @@ typedef struct _CMPIInstanceFT {
     */
     CMPIStatus (*release) (CMPIInstance* inst);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIInstance object.
 
@@ -6110,6 +6138,7 @@ typedef struct _CMPIObjectPathFT {
      */
     CMPIVersion ftVersion;
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIObjectPath object.
 
@@ -6134,6 +6163,7 @@ typedef struct _CMPIObjectPathFT {
     */
     CMPIStatus (*release) (CMPIObjectPath* op);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIObjectPath object.
 
@@ -6792,6 +6822,7 @@ typedef struct _CMPISelectExpFT {
      */
     CMPIVersion ftVersion;
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPISelectExp object.
 
@@ -6816,6 +6847,7 @@ typedef struct _CMPISelectExpFT {
     */
     CMPIStatus (*release) (CMPISelectExp* se);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPISelectExp object.
 
@@ -7067,6 +7099,7 @@ typedef struct _CMPISelectCondFT {
      */
     CMPIVersion ftVersion;
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPISelectCond object.
 
@@ -7098,6 +7131,7 @@ typedef struct _CMPISelectCondFT {
     */
     CMPIStatus (*release) (CMPISelectCond* sc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPISelectCond object.
 
@@ -7259,6 +7293,7 @@ typedef struct _CMPISubCondFT {
      */
     CMPIVersion ftVersion;
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPISubCond object.
 
@@ -7290,6 +7325,7 @@ typedef struct _CMPISubCondFT {
     */
     CMPIStatus (*release) (CMPISubCond* sc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPISubCond object.
 
@@ -7489,6 +7525,7 @@ typedef struct _CMPIPredicateFT {
      */
     CMPIVersion ftVersion;
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPPredicate object.
 
@@ -7520,6 +7557,7 @@ typedef struct _CMPIPredicateFT {
     */
     CMPIStatus (*release) (CMPIPredicate* pr);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIPredicate object.
 
@@ -7697,6 +7735,7 @@ typedef struct _CMPIArgsFT {
      */
     CMPIVersion ftVersion;
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIArgs object.
 
@@ -7721,6 +7760,7 @@ typedef struct _CMPIArgsFT {
     */
     CMPIStatus (*release) (CMPIArgs* args);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIRArgs object.
 
@@ -7917,6 +7957,7 @@ typedef struct _CMPIStringFT {
      */
     CMPIVersion ftVersion;
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIString object.
 
@@ -7941,6 +7982,7 @@ typedef struct _CMPIStringFT {
     */
     CMPIStatus (*release) (CMPIString* str);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIString object.
 
@@ -8091,6 +8133,7 @@ typedef struct _CMPIArrayFT {
      */
     CMPIVersion ftVersion;
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIArray object.
 
@@ -8115,6 +8158,7 @@ typedef struct _CMPIArrayFT {
     */
     CMPIStatus (*release) (CMPIArray* ar);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIArray object.
 
@@ -8318,6 +8362,7 @@ typedef struct _CMPIEnumerationFT {
      */
     CMPIVersion ftVersion;
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIEnumeration object.
 
@@ -8342,6 +8387,7 @@ typedef struct _CMPIEnumerationFT {
     */
     CMPIStatus (*release) (CMPIEnumeration* en);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIEnumeration object.
 
@@ -8497,6 +8543,7 @@ typedef struct _CMPIDateTimeFT {
      */
     CMPIVersion ftVersion;
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIDateTime object.
 
@@ -8521,6 +8568,7 @@ typedef struct _CMPIDateTimeFT {
     */
     CMPIStatus (*release) (CMPIDateTime* dt);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIDateTime object.
 
@@ -8691,6 +8739,7 @@ typedef struct _CMPIPropertyListFT {
      */
     CMPIVersion ftVersion;
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIPropertyList object.
 
@@ -8715,6 +8764,7 @@ typedef struct _CMPIPropertyListFT {
     */
     CMPIStatus (*release) (CMPIPropertyList* plist);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIPropertyList object.
 
@@ -8867,6 +8917,7 @@ typedef struct _CMPIEnumerationFilterFT {
      */
     CMPIVersion ftVersion;
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIResult object.
 
@@ -8892,6 +8943,7 @@ typedef struct _CMPIEnumerationFilterFT {
     */
     CMPIStatus (*release) (CMPIEnumerationFilter* ef);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIEnumerationFilter object.
 
