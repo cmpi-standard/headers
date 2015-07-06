@@ -996,63 +996,63 @@ typedef struct _CMPIStatus {
  */
 
 /**
- * @brief Basic Read MB capability.
+ * @brief Basic Read capability.
  *
  * Optional to be supported.
  */
 #define CMPI_MB_BasicRead                0x00000001
 /**
- * @brief Basic Write MB capability.
+ * @brief Basic Write capability.
  *
  * Optional to be supported.
- * Requires the @ref CMPI_MB_BasicRead "Basic Read" MB capability.
+ * Requires the @ref CMPI_MB_BasicRead "Basic Read" capability.
  */
 #define CMPI_MB_BasicWrite               0x00000003
 /**
- * @brief Instance Manipulation MB capability.
+ * @brief Instance Manipulation capability.
  *
  * Optional to be supported.
- * Requires the @ref CMPI_MB_BasicWrite "Basic Write" MB capability.
+ * Requires the @ref CMPI_MB_BasicWrite "Basic Write" capability.
  */
 #define CMPI_MB_InstanceManipulation     0x00000007
 /**
- * @brief Association Traversal MB capability.
+ * @brief Association Traversal capability.
  *
  * Optional to be supported.
- * Requires the @ref CMPI_MB_BasicRead "Basic Read" MB capability.
+ * Requires the @ref CMPI_MB_BasicRead "Basic Read" capability.
  */
 #define CMPI_MB_AssociationTraversal     0x00000009
 /**
- * @brief Query Execution MB capability.
+ * @brief Query Execution capability.
  *
  * Optional to be supported.
- * Requires the @ref CMPI_MB_BasicRead "Basic Read" MB capability.
+ * Requires the @ref CMPI_MB_BasicRead "Basic Read" capability.
  */
 #define CMPI_MB_QueryExecution           0x00000011
 /**
- * @brief Query Normalization MB capability.
+ * @brief Query Normalization capability.
  *
  * Optional to be supported.
- * Requires the @ref CMPI_MB_QueryExecution "Query Execution" MB capability.
+ * Requires the @ref CMPI_MB_QueryExecution "Query Execution" capability.
  */
 #define CMPI_MB_QueryNormalization       0x00000031
 /**
- * @brief Basic Qualifier MB capability.
+ * @brief Basic Qualifier capability.
  *
  * Optional to be supported.
  * Requires the @ref CMPI_MB_InstanceManipulation "Instance Manipulation"
- * MB capability.
+ * capability.
  */
 #define CMPI_MB_BasicQualifierSupport       0x00000047
 /**
- * @brief Indications MB capability.
+ * @brief Indications capability.
  *
  * Optional to be supported.
- * Requires the @ref CMPI_MB_BasicRead "Basic Read" MB capability.
+ * Requires the @ref CMPI_MB_BasicRead "Basic Read" capability.
  */
 #define CMPI_MB_Indications                 0x00000081
 /**
- * @brief OS Encapsulation Services MB capability.
+ * @brief OS Encapsulation Services capability.
  *
  * Required to be supported.
  *
@@ -1063,7 +1063,7 @@ typedef struct _CMPIStatus {
 #ifdef CMPI_VER_200
 
 /**
- * @brief Memory Enhancement Services MB capability.
+ * @brief Memory Enhancement Services capability.
  *
  * Optional to be supported.
  *
@@ -1071,7 +1071,7 @@ typedef struct _CMPIStatus {
  */
 #define CMPI_MB_Supports_MemEnhancements    0x00004000
 /**
- * @brief Extended Errors MB capability.
+ * @brief Extended Errors capability.
  *
  * Required to be supported.
  *
@@ -1085,7 +1085,7 @@ typedef struct _CMPIStatus {
 #ifdef CMPI_VER_210
 
 /**
- * @brief Logging MB capability.
+ * @brief Logging capability.
  *
  * Optional to be supported.
  *
@@ -1094,7 +1094,7 @@ typedef struct _CMPIStatus {
  */
 #define CMPI_MB_Logging                     0x00010000
 /**
- * @brief Tracing MB capability.
+ * @brief Tracing capability.
  *
  * Optional to be supported.
  *
@@ -1103,17 +1103,17 @@ typedef struct _CMPIStatus {
  */
 #define CMPI_MB_Tracing                     0x00020000
 /**
- * @brief Property Filtering MB capability.
+ * @brief Property Filtering capability.
  *
  * Optional to be supported.
- * Requires the @ref CMPI_MB_BasicRead "Basic Read" MB capability.
+ * Requires the @ref CMPI_MB_BasicRead "Basic Read" capability.
  *
  * @added210 Added the capability flag in CMPI 2.1.0; the capability itself
  *     existed since CMPI 1.0.0.
  */
 #define CMPI_MB_PropertyFiltering           0x00040001
 /**
- * @brief Codepage Conversion MB capability.
+ * @brief Codepage Conversion capability.
  *
  * Optional to be supported.
  *

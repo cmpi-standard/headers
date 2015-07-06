@@ -31,88 +31,88 @@
  */
 
 /**
- * @page capread Basic Read MB capability
- * @brief Entities that are part of the Basic Read MB capability
+ * @page capread Basic Read capability
+ * @brief Entities that are part of the Basic Read capability
  *
  * These entities shall be supported, if the
- * @ref CMPI_MB_BasicRead "Basic Read" MB capability
+ * @ref CMPI_MB_BasicRead "Basic Read" capability
  * is available; otherwise, they shall not be supported.
  */
 
 /**
- * @page capwrite Basic Write MB capability
- * @brief Entities that are part of the Basic Write MB capability
+ * @page capwrite Basic Write capability
+ * @brief Entities that are part of the Basic Write capability
  *
  * These entities shall be supported, if the
- * @ref CMPI_MB_BasicWrite "Basic Write" MB capability
+ * @ref CMPI_MB_BasicWrite "Basic Write" capability
  * is available; otherwise, they shall not be supported.
  */
 
 /**
- * @page capmanipulation Instance Manipulation MB capability
- * @brief Entities that are part of the Instance Manipulation MB capability
+ * @page capmanipulation Instance Manipulation capability
+ * @brief Entities that are part of the Instance Manipulation capability
  *
  * These entities shall be supported, if the
- * @ref CMPI_MB_InstanceManipulation "Instance Manipulation" MB capability
+ * @ref CMPI_MB_InstanceManipulation "Instance Manipulation" capability
  * is available; otherwise, they shall not be supported.
  */
 
 /**
- * @page capassociations Association Traversal MB capability
- * @brief Entities that are part of the Association Traversal MB capability
+ * @page capassociations Association Traversal capability
+ * @brief Entities that are part of the Association Traversal capability
  *
  * These entities shall be supported, if the
- * @ref CMPI_MB_AssociationTraversal "Association Traversal" MB capability
+ * @ref CMPI_MB_AssociationTraversal "Association Traversal" capability
  * is available; otherwise, they shall not be supported.
  */
 
 /**
- * @page capqueryexec Query Execution MB capability
- * @brief Entities that are part of the Query Execution MB capability
+ * @page capqueryexec Query Execution capability
+ * @brief Entities that are part of the Query Execution capability
  *
  * These entities shall be supported, if the
- * @ref CMPI_MB_QueryExecution "Query Execution" MB capability
+ * @ref CMPI_MB_QueryExecution "Query Execution" capability
  * is available; otherwise, they shall not be supported.
  */
 
 /**
- * @page capquerynorm Query Normalization MB capability
- * @brief Entities that are part of the Query Normalization MB capability
+ * @page capquerynorm Query Normalization capability
+ * @brief Entities that are part of the Query Normalization capability
  *
  * These entities shall be supported, if the
- * @ref CMPI_MB_QueryNormalization "Query Normalization" MB capability
+ * @ref CMPI_MB_QueryNormalization "Query Normalization" capability
  * is available; otherwise, they shall not be supported.
  */
 
 /**
- * @page capqualifiers Basic Qualifier MB capability
- * @brief Entities that are part of the Basic Qualifier MB capability
+ * @page capqualifiers Basic Qualifier capability
+ * @brief Entities that are part of the Basic Qualifier capability
  *
  * These entities shall be supported, if the
- * @ref CMPI_MB_BasicQualifierSupport "Basic Qualifier" MB capability
+ * @ref CMPI_MB_BasicQualifierSupport "Basic Qualifier" capability
  * is available; otherwise, they shall not be supported.
  */
 
 /**
- * @page capindications Indications MB capability
- * @brief Entities that are part of the Indications MB capability
+ * @page capindications Indications capability
+ * @brief Entities that are part of the Indications capability
  *
  * These entities shall be supported, if the
- * @ref CMPI_MB_Indications "Indications" MB capability
+ * @ref CMPI_MB_Indications "Indications" capability
  * is available; otherwise, they shall not be supported.
  */
 
 /**
- * @page capopsys OS Encapsulation Services MB capability
- * @brief Entities that are part of the OS Encapsulation Services MB capability
+ * @page capopsys OS Encapsulation Services capability
+ * @brief Entities that are part of the OS Encapsulation Services capability
  *
  * These entities shall be supported, if the
- * @ref CMPI_MB_OSEncapsulationSupport "OS Encapsulation Services" MB capability
+ * @ref CMPI_MB_OSEncapsulationSupport "OS Encapsulation Services" capability
  * is available; otherwise, they shall not be supported.
  */
 
 /**
- * @page capmemory Memory Enhancement Services MB capability
+ * @page capmemory Memory Enhancement Services capability
  * @brief Entities that are part of the Memory Enhancement Services MB
  *     Capability
  *
@@ -122,71 +122,71 @@
  */
 
 /**
- * @page caperrors Extended Errors MB capability
- * @brief Entities that are part of the Extended Errors MB capability
+ * @page caperrors Extended Errors capability
+ * @brief Entities that are part of the Extended Errors capability
  *
  * These entities shall be supported, if the
- * @ref CMPI_MB_Supports_Extended_Error "Extended Errors" MB capability
+ * @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
  * is available; otherwise, they shall not be supported.
  */
 
 /**
- * @page caplogging Logging MB capability
- * @brief Entities that are part of the Logging MB capability
+ * @page caplogging Logging capability
+ * @brief Entities that are part of the Logging capability
  *
  * These entities shall be supported, if the
- * @ref CMPI_MB_Logging "Logging" MB capability
+ * @ref CMPI_MB_Logging "Logging" capability
  * is available; otherwise, they shall not be supported.
  */
 
 /**
- * @page captracing Tracing MB capability
- * @brief Entities that are part of the Tracing MB capability
+ * @page captracing Tracing capability
+ * @brief Entities that are part of the Tracing capability
  *
  * These entities shall be supported, if the
- * @ref CMPI_MB_Tracing "Tracing" MB capability
+ * @ref CMPI_MB_Tracing "Tracing" capability
  * is available; otherwise, they shall not be supported.
  */
 
 /**
- * @page capfiltering Property Filtering MB capability
- * @brief Entities that are part of the Property Filtering MB capability
+ * @page capfiltering Property Filtering capability
+ * @brief Entities that are part of the Property Filtering capability
  *
  * These entities shall be supported, if the
- * @ref CMPI_MB_PropertyFiltering "Property Filtering" MB capability
+ * @ref CMPI_MB_PropertyFiltering "Property Filtering" capability
  * is available; otherwise, they shall not be supported.
  */
 
 /**
- * @page capcodepage Codepage Conversion MB capability
- * @brief Entities that are part of the Codepage Conversion MB capability
+ * @page capcodepage Codepage Conversion capability
+ * @brief Entities that are part of the Codepage Conversion capability
  *
  * These entities shall be supported, if the
- * @ref CMPI_MB_CodepageConversion "Codepage Conversion" MB capability
+ * @ref CMPI_MB_CodepageConversion "Codepage Conversion" capability
  * is available; otherwise, they shall not be supported.
  */
 
 /**
- * @page captranslation Message Translation MB capability
+ * @page captranslation Message Translation capability
  * @anchor cap-translation
- * @brief Entities that are part of the Message Translation MB capability
+ * @brief Entities that are part of the Message Translation capability
  *
  * Optional to be supported.
  *
- * Support for the Message Translation MB capability cannot be discovered by
+ * Support for the Message Translation capability cannot be discovered by
  * means of CMPIBrokerFT.brokerCapabilities. The functions that are part of
  * this capability perform a default behavior if the Message Translation MB
  * capability is not supported.
  */
 
 /**
- * @page capcontext Context Data MB capability
+ * @page capcontext Context Data capability
  * @anchor cap-context
- * @brief Entities that are part of the Context Data MB capability
+ * @brief Entities that are part of the Context Data capability
  *
  * Required to be supported.
  *
- * Support for the Context Data MB capability cannot be discovered by
+ * Support for the Context Data capability cannot be discovered by
  * means of CMPIBrokerFT.brokerCapabilities.
  *
  * @required210 Support for this capability is required since CMPI 2.1.0.
