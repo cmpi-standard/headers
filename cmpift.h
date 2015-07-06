@@ -4696,22 +4696,14 @@ typedef struct _CMPIResultFT {
 
 /**
  * @}
- * @addtogroup edt-error
+ * @addtogroup edt-string
  * @{
  */
 
-#ifdef CMPI_VER_200
-
 /**
- * @brief CMPIError encapsulated data type object.
- *
- * @caperrors This encapsulated data type is part of the Extended Errors
- *     capability.
- *
- * @added200 Added in CMPI 2.0.0.
- * @required210 Required to be supported since CMPI 2.1.0.
+ * @brief CMPIString encapsulated data type object.
  */
-typedef struct _CMPIError {
+typedef struct _CMPIString {
 
     /**
      * @brief Opaque pointer to MB-specific implementation data for this object.
@@ -4721,17 +4713,14 @@ typedef struct _CMPIError {
     /**
      * @brief Pointer to the function table for this object.
      */
-    const CMPIErrorFT* ft;
+    const CMPIStringFT* ft;
 
-} CMPIError;
+} CMPIString;
 
 /**
- * @brief Function table of CMPIError encapsulated data type object.
- *
- * @added200 Added in CMPI 2.0.0.
- * @required210 Required to be supported since CMPI 2.1.0.
+ * @brief Function table of CMPIString encapsulated data type object.
  */
-typedef struct _CMPIErrorFT {
+typedef struct _CMPIStringFT {
 
     /**
      * @brief CMPI version supported by the MB for this function table.
@@ -4745,53 +4734,44 @@ typedef struct _CMPIErrorFT {
 
 // DONE_AM Next function is already synced with spec.
     /**
-     @brief Release a CMPIError object.
+     @brief Release a CMPIString object.
 
-     CMPIErrorFT.release() releases a CMPIError object.
-
-     This indicates to the MB that the object (including any objects it
-     contains) will no longer be used by the MI. The MB may free (=reclaim) the
-     memory associated with the object during the call to this function, or
-     later during some garbage collection cycle (see Subclause 4.1.7 of the
+     CMPIStringFT.release() releases a CMPIString object. This indicates to the
+     MB that the object (including any objects it contains) will no longer be
+     used by the MI. The MB may free (=reclaim) the memory associated with the
+     object during the call to this function, or later during some garbage
+     collection cycle (see Subclause 4.1.7 of the
      @ref ref-cmpi-standard "CMPI Standard").
 
-     @param er Points to the CMPIError object that is to be released.
-         That object shall have been created using CMPIErrorFT.clone().
+     @param str Points to the CMPIString object that is to be released.
+         That object shall have been created using CMPIStringFT.clone().
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p er is invalid.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p str handle is invalid.
 
      @see CMRelease()
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
     */
-    CMPIStatus (*release) (CMPIError* er);
+    CMPIStatus (*release) (CMPIString* str);
 
 // DONE_AM Next function is already synced with spec.
     /**
-     @brief Create an independent copy of a CMPIError object.
+     @brief Create an independent copy of a CMPIString object.
 
-     CMPIErrorFT.clone() creates an independent copy of a CMPIError object.
+     CMPIStringFT.clone() creates an independent copy of a CMPIString object.
 
-     @param er Points to the CMPIError object that is to be copied.
+     @param str Points to the CMPIString object that is to be copied.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a pointer to the copied CMPIError object will be
+         If successful, a pointer to the copied CMPIString object will be
          returned.
 
-         The returned CMPIError object shall be explicitly released by the MI
-         using CMPIErrorFT.release().
+         The returned CMPIString object shall be explicitly released by the MI
+         using CMPIStringFT.release().
 
          If not successful, NULL will be returned.
      @endparblock
@@ -4800,922 +4780,505 @@ typedef struct _CMPIErrorFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p str handle is invalid.
 
      @see CMClone()
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
     */
-    CMPIError* (*clone) (const CMPIError* er, CMPIStatus* rc);
+    CMPIString* (*clone) (const CMPIString* str, CMPIStatus* rc);
+
+    /**
+     @brief Get a pointer to a C-language string representation of a
+         CMPIString object.
+
+     CMPIStringFT.getCharPtr() gets a pointer to a C char* representation of
+     this CMPIString object.
+
+     @param str Points to the CMPIString object for this function.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful, a pointer to a C-language string will be returned.
+
+         The character array of the returned string shall not be explicitly
+         released by the MI, because it may point to an internal data area in
+         the CMPIString object which will be released along with that object,
+         or it may point to a new character array created by the MB which will
+         be released automatically by the MB.
+
+         If not successful, NULL will be returned.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p str handle is invalid.
+
+     @see CMGetCharsPtr()
+    */
+    const char* (*getCharPtr) (const CMPIString* str, CMPIStatus* rc);
+
+#ifdef CMPI_VER_210
+
+    /**
+     @brief Create a C-language string that has converted a CMPIString
+         object into a specific codepage
+
+     CMPIStringFT.newCharsCP() creates a new C-language string
+     that contains the string in a CMPIString
+     object, converted into a specific codepage.
+
+     This function shall be supported by the MB if the
+     @ref CMPI_MB_CodepageConversion "Codepage Conversion" capability
+     is available; otherwise, it shall not be supported.
+
+     @param str Points to the CMPIString object for this function.
+     @param cpid CMPICodePageID specifies the CMPI-specific codepage
+         ID for the codepage to convert to. See subclause 5.2.2 in the
+         @ref ref-cmpi-standard "CMPI Standard" (CodePage for a list
+         of supported codepages and their codepage ID values.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful, a new C-language string will be returned, in the
+         codepage specified in @p cpid.
+
+         The returned C-language string must be freed by the MI using
+         CMPIBrokerMemFT.freeChars().
+
+         If not successful, NULL will be returned.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p str handle is invalid.
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p cpid is invalid.
+     @li `CMPI_RC_ERR_NOT_IN_CODEPAGE` - The string contains characters that
+         are not representable in the specified codepage.
+     @capcodepage This function is part of the Codepage Conversion
+         capability.
+
+     @added210 Added in CMPI 2.1.0.
+     @note No corresponding macro.
+    */
+    char* (*newCharsCP) (const CMPIString* str, const CMPICodepageID cpid,
+        CMPIStatus* rc);
+
+#endif /*CMPI_VER_210*/
+
+} CMPIStringFT;
+
+/**
+ * @}
+ * @addtogroup edt-array
+ * @{
+ */
+
+/**
+ * @brief CMPIArray encapsulated data type object.
+ */
+typedef struct _CMPIArray {
+
+    /**
+     * @brief Opaque pointer to MB-specific implementation data for this object.
+     */
+    const void* hdl;
+
+    /**
+     * @brief Pointer to the function table for this object.
+     */
+    const CMPIArrayFT* ft;
+
+} CMPIArray;
+
+/**
+ * @brief Function table of CMPIArray encapsulated data type object.
+ */
+typedef struct _CMPIArrayFT {
+
+    /**
+     * @brief CMPI version supported by the MB for this function table.
+     *
+     * Any earlier CMPI versions are implicitly also supported.
+     *
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * version numbers.
+     */
+    CMPIVersion ftVersion;
 
 // DONE_AM Next function is already synced with spec.
     /**
-     @brief Get the `ErrorType` attribute of a CMPIError object.
+     @brief Release a CMPIArray object.
 
-     CMPIErrorFT.getErrorType() gets the value of the `ErrorType` attribute
-     in a CMPIError object.
+     CMPIArrayFT.release() releases a CMPIArray object. This indicates to the
+     MB that the object (including any objects it contains) will no longer be
+     used by the MI. The MB may free (=reclaim) the memory associated with the
+     object during the call to this function, or later during some garbage
+     collection cycle (see Subclause 4.1.7 of the
+     @ref ref-cmpi-standard "CMPI Standard").
 
-     For a description of the `ErrorType` attribute, see @ref CMPIErrorType
-     and the description of the `ErrorType` property in the `CIM_Error` class
-     in the CIM Schema.
-
-     @param er Points to the CMPIError object for this function.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful, a @ref CMPIErrorType enumeration value will be returned,
-         indicating the value of the `ErrorType` attribute of the CMPIError
-         object.
-
-         If not successful, the returned value is undefined.
-     @endparblock
+     @param ar Points to the CMPIArray object that is to be released.
+         That object shall have been created using CMPIArrayFT.clone().
+     @return CMPIStatus structure containing the function return status.
 
      @par Errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
 
-     @see CMGetErrorType()
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
+     @see CMRelease()
     */
-    CMPIErrorType (*getErrorType) (const CMPIError* er, CMPIStatus* rc);
+    CMPIStatus (*release) (CMPIArray* ar);
 
 // DONE_AM Next function is already synced with spec.
-// TODO_AM Sync function descriptions with spec, from here on down.
     /**
-     @brief Get the `OtherErrorType` attribute of a CMPIError object.
+     @brief Create an independent copy of a CMPIArray object.
 
-     CMPIErrorFT.getOtherErrorType() gets the value of the `OtherErrorType`
-     attribute of a CMPIError object.
+     CMPIArrayFT.clone() creates an independent copy of a CMPIArray object.
 
-     For a description of the `OtherErrorType` attribute, see the description of
-     the `OtherErrorType` property in the `CIM_Error` class in the CIM Schema.
-
-     @param er Points to the CMPIError object for this function.
+     @param ar Points to the CMPIArray object that is to be copied.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful and the `OtherErrorType` attribute of the CMPIError
-         object is non-NULL, a pointer to a CMPIString object will be returned,
-         indicating the value of the `OtherErrorType` attribute of the
-         CMPIError object.
+         If successful, a pointer to the copied CMPIArray object will be
+         returned.
 
-         Otherwise, NULL will be returned.
+         The returned CMPIArray object shall be explicitly released by the MI
+         using CMPIArrayFT.release().
 
-         The caller must inspect the function return status to see whether the
-         function failed.
+         If not successful, NULL will be returned.
      @endparblock
 
      @par Errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
 
-     @see CMGetOtherErrorType()
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
+     @see CMClone()
     */
-    CMPIString* (*getOtherErrorType) (const CMPIError* er, CMPIStatus* rc);
+    CMPIArray* (*clone) (const CMPIArray* ar, CMPIStatus* rc);
 
     /**
-     @brief Get the `OwningEntity` attribute of a CMPIError object.
+     @brief Get the number of array elements in a CMPIArray object.
 
-     CMPIErrorFT.getOwningEntity() returns a string which describes the
-     owning entity.
+     CMPIArrayFT.getSize() gets the number of array
+     elements in a CMPIArray object.
 
-     @param er Points to the CMPIError object for this function.
+     @param ar Points to the CMPIArray object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful and the `OwningEntity` attribute of the
-         CMPIError object is non-NULL, a pointer to a CMPIString object will be
-         returned, indicating the value of the `OwningEntity` attribute of the
-         CMPIError object.
+         If successful, a CMPICount value indicating
+         the number of array elements will be returned.
 
-         Otherwise, NULL will be returned.
-
-         The caller must inspect the function return status to see whether
-         the function failed.
+         If not successful, 0 will be returned.
      @endparblock
 
      @par Errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
 
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
-     @see CMGetOwningEntity
+     @see CMGetArrayCount()
     */
-    CMPIString* (*getOwningEntity) (const CMPIError* er, CMPIStatus* rc);
+    CMPICount (*getSize) (const CMPIArray* ar, CMPIStatus* rc);
 
     /**
-     @brief Get the `MessageID` attribute of a CMPIError object.
+     @brief Get the type of the array elements in a CMPIArray object.
 
-     CMPIErrorFT.getMessageID() returns a string which is the message ID.
+     CMPIArrayFT.getSimpleType() gets the type of the array elements in a
+     CMPIArray object.
 
-     @param er Points to the CMPIError object for this function.
+     @param ar Points to the CMPIArray object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful and the `MessageID` attribute of the CMPIError object is
-         non-NULL, a pointer to a CMPIString object will be returned,
-         indicating the value of the `MessageID` attribute of the CMPIError
-         object.
+         If successful, a @ref CMPIType value indicating the type of the
+         CMPIArray elements will be returned. The returned value indicates the
+         type of single array elements; for example, the value returned for
+         a CMPIArray object that contains CMPIString objects, will be
+         @ref CMPI_string, and not @ref CMPI_stringA.
 
-         The returned CMPIString object shall not be explicitly released
-         by the MI, because it may be an internal object of the CMPIError
+         If not successful, @ref CMPI_null will be returned.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
+
+     @see CMGetArrayType()
+
+    */
+    CMPIType (*getSimpleType) (const CMPIArray* ar, CMPIStatus* rc);
+
+    /**
+     @brief Get the value of an array element in a CMPIArray object by index.
+
+     CMPIArrayFT.getElementAt() gets the value of an array element defined
+     by the zero-based position
+     @p index of the array element in a CMPIArray object @p ar.
+
+     @param ar Points to the CMPIArray object for this function.
+     @param index Zero-based position in the CMPIArray. The position shall
+         be equal to or greater than 0 and less than the size of the array.
+         Returns error if index out of range of the array.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful, a CMPIData structure containing the specified array
+         element will be returned.
+
+         If not successful, CMPIData.state will be undefined.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - @p index value
+         out of range.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
+
+     @see CMGetArrayElementAt()
+    */
+    CMPIData (*getElementAt) (const CMPIArray* ar, CMPICount index,
+        CMPIStatus* rc);
+
+    /**
+     @brief Set the value of an existing array element in a CMPIArray object
+         by index.
+
+     CMPIArrayFT.setElementAt() sets the value @p value and @p type
+     into an existing element defined by @p index in the
+     array object defined by @p ar.
+
+     @param ar Points to the CMPIArray object for this function.
+     @param index zero-based position of the existing element in the
+         CMPIArray object. The position shall be equal to or greater than
+         0 and less than the size of the array.
+     @param value Points to a CMPIValue structure containing
+         the non-NULL value to be assigned to the element, or is NULL to
+         specify that the element will be set to NULL.
+     @param type Either the simple base type of the array or @ref CMPI_null.
+         If the value of @p type is @ref CMPI_chars, the C-language
+         string to which the @p chars member of @p value points is
+         copied by this function and the original string memory may be
+         freed by the MI right after this function returns
+     @return CMPIStatus structure containing the function return status.
+
+     If not successful, the array element's state shall be set to
+     @ref CMPI_nullValue, if possible.
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - @p index value out of range.
+     @li `CMPI_RC_ERR_TYPE_MISMATCH` - @p type does not correspond to the
+         simple base type of @p ar.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
+
+     @see CMSetArrayElementAt()
+     @deprecated The use of @ref CMPI_null for @p type is deprecated since
+         CMPI 2.1. Specify the simple base type of the array instead.
+     @deprecated The behavior of setting the array element's state to
+         @ref CMPI_nullValue when the function was not successful, is deprecated
+         since CMPI 2.1.
+         Instead, callers should assume that it is undefined whether the array
+         element's state has changed when the function was not successful.
+    */
+    CMPIStatus (*setElementAt) (const CMPIArray* ar, CMPICount index,
+        const CMPIValue* value, CMPIType type);
+
+} CMPIArrayFT;
+
+/**
+ * @}
+ * @addtogroup edt-enumeration
+ * @{
+ */
+
+/**
+ * @brief CMPIEnumeration encapsulated data type object.
+ */
+typedef struct _CMPIEnumeration {
+
+    /**
+     * @brief Opaque pointer to MB-specific implementation data for this object.
+     */
+    const void* hdl;
+
+    /**
+     * @brief Pointer to the function table for this object.
+     */
+    const CMPIEnumerationFT* ft;
+
+} CMPIEnumeration;
+
+/**
+ * @brief Function table of CMPIEnumeration encapsulated data type object.
+ */
+typedef struct _CMPIEnumerationFT {
+
+    /**
+     * @brief CMPI version supported by the MB for this function table.
+     *
+     * Any earlier CMPI versions are implicitly also supported.
+     *
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * version numbers.
+     */
+    CMPIVersion ftVersion;
+
+// DONE_AM Next function is already synced with spec.
+    /**
+     @brief Release a CMPIEnumeration object.
+
+     CMPIEnumerationFT.release() releases a CMPIEnumeration object. This
+     indicates to the MB that the object (including any objects it contains)
+     will no longer be used by the MI. The MB may free (=reclaim) the memory
+     associated with the object during the call to this function, or later
+     during some garbage collection cycle (see Subclause 4.1.7 of the
+     @ref ref-cmpi-standard "CMPI Standard").
+
+     @param en Points to the CMPIEnumeration object that is to be released.
+        That object shall have been created using CMPIEnumerationFT.clone().
+     @return CMPIStatus structure containing the function return status.
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p en handle is invalid.
+
+     @see CMRelease()
+    */
+    CMPIStatus (*release) (CMPIEnumeration* en);
+
+// DONE_AM Next function is already synced with spec.
+    /**
+     @brief Create an independent copy of a CMPIEnumeration object.
+
+     CMPIEnumerationFT.clone() creates an independent copy of a CMPIEnumeration
+     object.
+
+     @param en Points to the CMPIEnumeration object that is to be copied.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful, a pointer to the copied CMPIEnumeration object will be
+         returned.
+
+         The returned CMPIEnumeration object shall be explicitly released by
+         the MI using CMPIEnumerationFT.release().
+
+         If not successful, NULL will be returned.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p en handle is invalid.
+
+     @see CMClone()
+    */
+    CMPIEnumeration* (*clone) (const CMPIEnumeration* en, CMPIStatus* rc);
+
+    /**
+     @brief Get the next element in a CMPIEnumeration object.
+
+     CMPIEnumerationFT.getNext() gets the next element in a
+     CMPIEnumeration object.
+
+     @param en Points to the CMPIEnumeration object for this function.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful, a CMPIData structure
+         containing the next element will be returned.
+
+         If not successful, CMPIData.state will be undefined.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p en handle is invalid.
+
+     @see CMGetNext()
+    */
+    CMPIData (*getNext) (const CMPIEnumeration* en, CMPIStatus* rc);
+
+    /**
+     @brief Test for any elements left in a CMPIEnumeration object.
+
+     CMPIEnumerationFT.hasNext() tests for any elements left in @p en the
+     CMPIEnumeration object.
+
+     @param en Points to the CMPIEnumeration object for this function.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful, a CMPIBoolean value indicating the test result will be
+         returned, as follows:
+         @li True indicates that the enumeration has more elements left;
+         @li False indicates that this is not the case.
+
+         If not successful, false will be returned.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p en handle is invalid.
+
+     @see CMHasNext()
+    */
+    CMPIBoolean (*hasNext) (const CMPIEnumeration* en, CMPIStatus* rc);
+
+    /**
+     @brief Convert a CMPIEnumeration object to a CMPIArray object.
+
+     CMPIEnumerationFT.toArray() converts  the CMPIEnumeration object
+     represented by the argument @p en into a CMPIArray.
+
+     @param en Points to the CMPIEnumeration object for this function.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful, a pointer to a CMPIArray object containing the elements
+         from the CMPIEnumeration object will be returned.
+
+         The returned CMPIArray object shall not be explicitly released
+         by the MI, because it may be an internal object of the CMPIEnumeration
          object which will be released along with that object, or a new object
          created by the MB which will be released automatically by the MB
          (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
 
-         Otherwise, NULL will be returned.
-
-         The caller must inspect the function return status to see whether the
-         function failed.
+         If not successful, NULL will be returned.
      @endparblock
 
      @par Errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p en handle is invalid.
 
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
-     @see CMGetMessageID()
+     @see CMToArray()
     */
-    CMPIString* (*getMessageID) (const CMPIError* er, CMPIStatus* rc);
+    CMPIArray* (*toArray) (const CMPIEnumeration* en, CMPIStatus* rc);
 
-    /**
-     @brief Get the `Message` attribute of a CMPIError object.
-
-     CMPIErrorFT.getMessage() returns a string comnating an error message.
-
-     @param er Points to the CMPIError object for this function.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful and the `Message` attribute of the CMPIError object is
-         non-NULL, a pointer to a CMPIString object will be returned,
-         indicating the value of the `Message` attribute of the CMPIError
-         object.
-
-         Otherwise, NULL will be returned.
-
-         The caller must inspect the function return status to see whether
-         the function failed.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
-     @see CMGetErrorMessage()
-    */
-    CMPIString* (*getMessage) (const CMPIError* er, CMPIStatus* rc);
-
-    /**
-     @brief Get the `PerceivedSeverity` attribute of a CMPIError object
-
-     CMPIErrorFT.getPerceivedSeverity() returns the PerceivedSeverity
-     attribute of a CMPIError object.
-
-     @param er Points to the CMPIError object for this function.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful, a @ref CMPIErrorSeverity enumeration
-         value will be returned, indicating the value of the `PerceivedSeverity`
-         attribute of the CMPIError object.
-
-         If not successful, the returned value is undefined.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
-     @see CMGetPerceivedSeverity()
-    */
-    CMPIErrorSeverity (*getPerceivedSeverity) (const CMPIError* er,
-        CMPIStatus* rc);
-
-    /**
-     @brief Get the `ProbableCause` attribute of a CMPIError object.
-
-     CMPIErrorFT.getProbableCause() returns the ProbableCause attribute
-     of a CMPIError object.
-
-     @param er Points to the CMPIError object for this function.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful, a @ref CMPIErrorProbableCause enumeration
-         value will be returned, indicating the value of the @p ProbableCause
-         attribute of the CMPIError object.
-
-         If not successful, the returned value is undefined.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
-     @see  CMGetProbableCause
-    */
-    CMPIErrorProbableCause (*getProbableCause) (const CMPIError* er,
-        CMPIStatus* rc);
-
-    /**
-     @brief Get the `ProbableCauseDescription` attribute of a CMPIError object.
-
-     CMPIErrorFT.getProbableCauseDescription() returns a string which
-     describes the probable cause.
-
-     @param er Points to the CMPIError object for this function.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful and the `ProbableCauseDescription` attribute of the
-         CMPIError object is non-NULL, a pointer to a CMPIString object will be
-         returned, indicating the value of the ProbableCauseDescription
-         attribute of the CMPIError object.
-
-         Otherwise, NULL will be returned.
-
-         The caller must inspect the function return status to see whether
-         the function failed.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
-     @see CMGetProbableCauseDescription()
-    */
-    CMPIString* (*getProbableCauseDescription) (const CMPIError* er,
-        CMPIStatus* rc);
-
-    /**
-     @brief Get the `RecommendedActions` array attribute of a CMPIError object.
-
-     CMPIErrorFT.getRecommendedActions() returns an array of strings which
-     describes recomended actions of the CMPIError object.
-
-     @param er Points to the CMPIError object for this function.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful and the `RecommendedActions` array attribute of the
-         CMPIError object is non-NULL, a pointer to a CMPIArray object will be
-         returned, containing CMPIString elements that represent the array
-         elements of the `RecommendedActions` array attribute in the CMPIError
-         object.
-
-         Otherwise, NULL will be returned.
-
-         The caller must inspect the function return status to see whether
-         the function failed.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
-     @see CMGetRecommendedActions()
-    */
-    CMPIArray* (*getRecommendedActions) (const CMPIError* er, CMPIStatus* rc);
-
-    /**
-     @brief Get the `ErrorSource` attribute of a CMPIError object.
-
-     CMPIErrorFT.getErrorSource() returns a string which describes the
-     Error source of the CMPIError object.
-
-     @param er Points to the CMPIError object for this function.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful and the `ErrorSource` attribute of the CMPIError object
-         is non-NULL, a pointer to a CMPIString object will be returned,
-         indicating the value of the `ErrorSource` attribute of the CMPIError
-         object.
-
-         Otherwise, NULL will be returned.
-
-         The caller must inspect the function return status to see whether
-         the function failed.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
-     @see CMGetErrorSource()
-    */
-    CMPIString* (*getErrorSource) (const CMPIError* er, CMPIStatus* rc);
-
-    /**
-     @brief Get the `ErrorSourceFormat` attribute of a CMPIError object.
-
-     CMPIErrorFT.getErrorSourceFormat() returns a the format that the
-     error src is in.
-
-     @param er Points to the CMPIError object for this function.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful, a @ref CMPIErrorSrcFormat enumeration will be returned,
-         indicating the value of the `ErrorSourceFormat` attribute of the
-         CMPIError object.
-
-         If not successful, the returned value is undefined.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
-     @see CMGetErrorSourceFormat()
-    */
-    CMPIErrorSrcFormat (*getErrorSourceFormat) (const CMPIError* er,
-        CMPIStatus* rc);
-
-    /**
-     @brief Get the `OtherErrorSourceFormat` attribute of a CMPIError object.
-
-     CMPIErrorFT.getOtherErrorSourceFormat() returns a string which
-     describes the 'other' format; only available
-     if the error source is OTHER.
-
-     @param er Points to the CMPIError object for this function.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful and the `OtherErrorSource` attribute of the CMPIError
-         object is non-NULL, a pointer to a CMPIString object will be returned,
-         indicating the value of the `OtherErrorSourceFormat` attribute of the
-         CMPIError object.
-
-         Otherwise, NULL will be returned.
-
-         The caller must inspect the function return status to see whether
-         the function failed.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
-     @see CMGetOtherErrorSourceFormat()
-    */
-    CMPIString* (*getOtherErrorSourceFormat) (const CMPIError* er,
-        CMPIStatus* rc);
-
-    /**
-     @brief Get the `CIMStatusCode` attribute of a CMPIError object.
-
-     CMPIErrorFT.getCIMStatusCode() gets the value of the
-     `CIMStatusCode` attribute of a CMPIError object.
-
-     @param er Points to the CMPIError object for this function.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful, a @ref CMPIrc value will be returned, indicating the
-         value of the `CIMStatusCode` attribute of the CMPIError object. Please
-         note that not all status codes apply to all situations.
-
-         It is up to the MI to ensure the correct status code is set.
-
-         If not successful, the returned value is undefined.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
-     @see CMGetCIMStatusCode()
-    */
-    CMPIrc (*getCIMStatusCode) (const CMPIError* er, CMPIStatus* rc);
-
-    /**
-     @brief Get `CIMStatusCodeDescription` attribute of a CMPIError object.
-
-     CMPIErrorFT.getCIMStatusCodeDescription() gets the
-     value of the `CIMStatusCodeDescription` attribute of a CMPIError
-     object.
-
-     @param er Points to the CMPIError object for this function.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful and the `CIMStatusCodeDescription` attribute of the
-         CMPIError object is non-NULL, a pointer to a CMPIString object will be
-         returned, indicating the value of the CIMStatusCodeDescription
-         attribute of the CMPIError object.
-
-         Otherwise, NULL will be returned.
-
-         The caller must inspect the function return status to see
-         whether the function failed.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
-     @see CMGetCIMStatusCodeDescription()
-    */
-    CMPIString* (*getCIMStatusCodeDescription) (const CMPIError* er,
-        CMPIStatus* rc);
-
-    /**
-     @brief Get the `MessageArguments` array attribute of a CMPIError object.
-
-     CMPIErrorFT.getMessageArguments() gets the value of
-     the `MessageArguments` array attribute of a CMPIError object.
-
-     @param er Points to the CMPIError object for this function.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful and the `MessageArguments` array attribute of the
-         CMPIError object is non-NULL, a pointer to a CMPIArray object will be
-         returned, containing CMPIString objects that represent the array
-         elements of the MessageArguments array attribute of the CMPIError
-         object.
-
-         Otherwise, NULL will be returned.
-
-         The caller must inspect the function return status to see whether the
-         function failed.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
-     @see CMGetMessageArguments()
-    */
-    CMPIArray* (*getMessageArguments) (const CMPIError* er, CMPIStatus* rc);
-
-    /**
-     @brief Set the `ErrorType` attribute of a CMPIError object.
-
-     CMPIErrorFT.setErrorType() sets the value of the
-     `ErrorType` attribute of this CMPIError object.
-
-     @param er Points to the CMPIError object for this function.
-     @param et CMPIErrorType enumeration value specifying the new value for
-         the `ErrorType` attribute. If the error message in the
-         CMPIError object
-         is defined in a DMTF message registry, @p et shall
-         reflect the content of the `ERROR_TYPE` element defined for
-         the message in the registry.
-     @return CMPIStatus structure containing the function return status
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
-     @see CMSetErrorType()
-    */
-    CMPIStatus (*setErrorType) (const CMPIError* er, const CMPIErrorType et);
-
-    /**
-     @brief Set the `OtherErrorType` attribute of a CMPIError object.
-
-     CMPIErrorFT.setOtherErrorType() sets the `OtherErrorType` attribute
-     of this CMPIError object.
-
-     @param er Points to the CMPIError object for this function.
-     @param oet Points to a string specifying the new non-NULL
-         value for the OtherErrorType attribute, or is NULL
-         specifying that the attribute will be set to NULL. If the
-         error message is defined in a DMTF message registry, the
-         string value of @p oet shall be the content of
-         the OTHER_ERROR_TYPE element defined for the message in the
-         registry It is only valid when error type is "OTHER"
-     @return CMPIStatus structure containing the function return status.
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
-     @see CMSetOtherErrorType()
-    */
-    CMPIStatus (*setOtherErrorType) (const CMPIError* er, const char* oet);
-
-    /**
-     @brief Set the `ProbableCauseDescription` attribute of a CMPIError object.
-
-     CMPIErrorFT.setProbableCauseDescription() sets the description of the
-     probable cause.
-
-     @param er Points to the CMPIError object for this function.
-     @param pcd string specifying the new non-NULL value for the
-         `ProbableCauseDescription` attribute, or is NULL specifying
-         that the attribute will be set to NULL. If the error
-         message is defined in a DMTF message registry, note that
-         the string value of @p pcd is not defined in the
-         message in the registry.
-     @return CMPIStatus structure containing the function return status.
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
-     @see CMSetProbableCauseDescription()
-    */
-    CMPIStatus (*setProbableCauseDescription) (const CMPIError* er,
-        const char* pcd);
-
-    /**
-     @brief Set the `RecommendedActions` array attribute of a CMPIError object.
-
-     CMPIErrorFT.setRecommendedActions() sets the value
-     of the `RecommendedActions` array attribute of a CMPIError
-     object.
-
-     For a description of the RecommendedActions attribute, see
-     the description of the RecommendedActions property in the
-     CIM_Error class in the CIM Schema.
-
-     @param er Points to the CMPIError object for this function.
-     @param ra pointer to a CMPIArray object specifying the new array value
-         for the RecommendedActions array attribute. The CMPIArray object
-         contains CMPIString objects or NULL values as array elements. @p ra
-         may be NULL, specifying that the RecommendedActions array
-         attribute will be set to NULL. If the error message is defined in a
-         DMTF message registry, @p ra shall reflect the values
-         defined in the RECOMMENDED_ACTION elements defined for the message
-         in the registry, in the order defined there.
-     @return CMPIStatus structure containing the function return status.
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
-     @see CMSetRecommendedActions()
-    */
-    CMPIStatus (*setRecommendedActions) (const CMPIError* er,
-        const CMPIArray* ra);
-
-    /**
-     @brief Set the `ErrorSource` attribute of a CMPIError object.
-
-     CMPIErrorFT.setErrorSource() sets the value of the ErrorSource
-     attribute of a CMPIError object.
-
-     For a description of the ErrorSource attribute, see the
-     description of the ErrorSource property in the CIM_Error class
-     in the CIM Schema
-
-     @param er Points to the CMPIError object for this function.
-     @param es string specifying the new non-NULL value for the ErrorSource
-         attribute, or is NULL specifying that the attribute will be set to
-         NULL. If the error message is defined in a DMTF message registry,
-         the string value of @p es shall be the content of the
-         ERROR_SOURCE element defined for the message in the registry.
-     @return CMPIStatus structure containing the function return status.
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
-     @see CMSetErrorSource()
-    */
-    CMPIStatus (*setErrorSource) (const CMPIError* er, const char* es);
-
-    /**
-     @brief Set the `ErrorSourceFormat` attribute of a CMPIError object.
-
-     CMPIErrorFT.setErrorSourceFormat() sets the source format of
-     the error object. For a description of the ErrorSourceFormat
-     attribute, see the description of the ErrorSourceFormat
-     property in the CIM_Error class in the CIM Schema.
-
-     @param er Points to the CMPIError object for this function.
-     @param esf CMPIErrorSrcFormat enumeration value specifying the new value
-         for the ErrorSourceFormat attribute. If the error message is defined
-         in a DMTF message registry, the string value of @p esf shall
-         be the content of the ERROR_SOURCE_FORMAT element defined for the
-         message in the registry
-     @return CMPIStatus structure containing the function return status.
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
-     @see CMSetErrorSourceFormat
-    */
-    CMPIStatus (*setErrorSourceFormat) (const CMPIError* er,
-        const CMPIErrorSrcFormat esf);
-
-    /**
-     @brief Set the `OtherErrorSourceFormat` attribute of a CMPIError object
-
-     CMPIErrorFT.setOtherErrorSourceFormat() specifies a string
-     defining "Other" values for `ErrorSourceFormat`
-
-     @param er Points to the CMPIError object for this function.
-     @param oef Points to a string specifying the new non-NULL value for
-         the `OtherErrorSourceFormat` attribute, or NULL specifying
-         that the attribute will be set to NULL. If the error message is
-         defined in a DMTF message registry, the string value of
-         @p oef shall be the content of the
-         OTHER_ERROR_SOURCE_FORMAT element defined for the message in the
-         registry.
-     @return CMPIStatus structure containing the function return status.
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
-     @see CMSetOtherErrorSourceFormat()
-    */
-    CMPIStatus (*setOtherErrorSourceFormat) (const CMPIError* er,
-        const char* oef);
-
-    /**
-     @brief Set the `CIMStatusCodeDescription` attribute of a CMPIError object
-
-     CMPIErrorFT.setCIMStatusCodeDescription() sets the
-     description of the status code. For a description of the
-     `CIMStatusCodeDescription` attribute, see the description of the
-     `CIMStatusCodeDescription` property in the `CIM_Error`
-     class in the CIM Schema.
-
-     @param er Points to the CMPIError object for this function.
-     @param scd A Pointer to a string specifying the new non-NULL value
-         for the `CIMStatusCodeDescription` attribute, or NULL specifying
-         that the attribute will be set to NULL. If the error message is defined
-         in a DMTF message registry, note that the string value of
-         @p scd is not defined in the message in the registry.
-     @return CMPIStatus structure containing the function return status.
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
-     @see CMSetCIMStatusCodeDescription()
-    */
-    CMPIStatus (*setCIMStatusCodeDescription) (const CMPIError* er,
-        const char* scd);
-
-    /**
-     @brief Set the `MessageArguments` array attribute of a CMPIError object.
-
-     CMPIErrorFT.setMessageArguments() sets an array of strings
-     for the dynamic content of the message. For a
-     description of the `MessageArguments` attribute, see the
-     description of the `MessageArguments` property in the
-     `CIM_Error` class in the CIM Schema.
-
-     @param er Points to the CMPIError object for this function.
-     @param values CMPIArray object specifying the new array value
-         for the `MessageArguments` array attribute. The CMPIArray
-         object contains CMPIString objects or NULL values as array
-         elements. @p values may be NULL, specifying that the
-         `MessageArguments` array attribute will be set to NULL. If the
-         error message is defined in a DMTF message registry, @p values
-         shall reflect the values defined in the DYNAMIC_ELEMENT
-         elements defined for the message in the registry, in the order
-         defined there.
-     @return CMPIStatus structure containing the function return status.
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
-         (**Deprecated**)
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-
-     @required210 Support for this function is required since CMPI 2.1.0.
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. It will not be returned because the
-         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
-         will be available.
-     @see CMSetMessageArguments()
-    */
-    CMPIStatus (*setMessageArguments) (const CMPIError* er,
-        const CMPIArray* values);
-
-} CMPIErrorFT;
-
-#endif /*CMPI_VER_200*/
+} CMPIEnumerationFT;
 
 /**
  * @}
@@ -6782,6 +6345,421 @@ typedef struct _CMPIObjectPathFT {
  *   @li CMPIObjectPathFT.getPropertyQualifier()
  *   @li CMPIObjectPathFT.getMethodQualifier()
  *   @li CMPIObjectPathFT.getParameterQualifier()
+ */
+
+/**
+ * @}
+ * @addtogroup edt-args
+ * @{
+ */
+
+/**
+ * @brief CMPIArgs encapsulated data type object.
+ */
+typedef struct _CMPIArgs {
+
+    /**
+     * @brief Opaque pointer to MB-specific implementation data for this object.
+     */
+    const void* hdl;
+
+    /**
+     * @brief Pointer to the function table for this object.
+     */
+    const CMPIArgsFT* ft;
+
+} CMPIArgs;
+
+/**
+ * @brief Function table of CMPIArgs encapsulated data type object.
+ */
+typedef struct _CMPIArgsFT {
+
+    /**
+     * @brief CMPI version supported by the MB for this function table.
+     *
+     * Any earlier CMPI versions are implicitly also supported.
+     *
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * version numbers.
+     */
+    CMPIVersion ftVersion;
+
+// DONE_AM Next function is already synced with spec.
+    /**
+     @brief Release a CMPIArgs object.
+
+     CMPIArgsFT.release() releases a CMPIArgs object. This indicates to the
+     MB that the object (including any objects it contains) will no longer
+     be used by the MI. The MB may free (=reclaim) the memory associated
+     with the object during the call to this function, or later during some
+     garbage collection cycle
+     (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
+
+     @param args Points to the CMPIArgs object that is to be released.
+         That object shall have been created using CMPIArgsFT.clone().
+     @return CMPIStatus structure containing the function return status.
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
+
+     @see CMRelease()
+    */
+    CMPIStatus (*release) (CMPIArgs* args);
+
+// DONE_AM Next function is already synced with spec.
+    /**
+     @brief Create an independent copy of a CMPIRArgs object.
+
+     CMPIArgsFT.clone() creates an independent copy of a CMPIRArgs object.
+
+     @param args Points to the CMPIArgs object that is to be copied.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful, a pointer to the copied CMPIArgs object will be
+         returned.
+
+         The returned CMPIArgs object shall be explicitly released by the MI
+         using CMPIArgsFT.release().
+
+         If not successful, NULL will be returned
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
+
+     @see CMClone()
+    */
+    CMPIArgs* (*clone) (const CMPIArgs* args, CMPIStatus* rc);
+
+    /**
+     @brief Set a method parameter in a CMPIArgs object.
+
+     CMPIArgsFT.addArg() adds or replaces a method parameter in a CMPIArgs
+     object.
+
+     @param args Points to the CMPIArgs object for this function.
+     @param name Argument name.
+     @param value Points to a CMPIValue structure containing the non-NULL
+         value to be assigned to the method parameter, or NULL to specify that
+         NULL is to be assigned
+     @param type type of the method parameter. All types of CIM values are
+         supported.
+         If the value of @p type is @ref CMPI_chars or
+         @ref CMPI_charsA, the
+         C-language string to which the chars member of @p value
+         points is copied by this function and the original string memory may
+         be freed by the MI right after this function returns.
+     @return CMPIStatus structure containing the function return status.
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_DATA_TYPE` - Data type not valid.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
+
+     @see CMAddArg()
+    */
+    CMPIStatus (*addArg) (const CMPIArgs* args, const char* name,
+            const CMPIValue* value,
+            const CMPIType type);
+
+    /**
+     @brief Get a method parameter in a CMPIArgs object by name.
+
+     CMPIArgsFT.getArg() gets a method parameter in a CMPIArgs object,
+     by its name.
+
+     @param args Points to the CMPIArgs object for this function.
+     @param name Specifies the name of the method parameter.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful, a CMPIData structure containing the specified method
+         parameter will be returned.
+
+         If not successful, CMPIData.state will be undefined.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Method parameter not found.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
+
+     @see CMGetArg()
+    */
+    CMPIData (*getArg) (const CMPIArgs* args, const char* name, CMPIStatus* rc);
+
+    /**
+     @brief Get a method parameter in a CMPIArgs object by index.
+
+     CMPIArgsFT.getArgAt() gets a Argument value defined by its index.
+
+     @param args Points to the CMPIArgs object for this function.
+     @param index Position in the internal Data array.
+     @param [out] name
+     @parblock
+         If not NULL, points to a
+         CMPIString pointer that upon success will have been updated to point
+         to a CMPIString object containing the method parameter name.
+
+         The returned CMPIString object shall not be explicitly released
+         by the MI, because it may be an internal object of the CMPIArgs object
+         which will be released along with that object, or a new object
+         created by the MB which will be automatically released by the
+         MB
+         (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
+     @endparblock
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful, a CMPIData structure containing the specified method
+         parameter will be returned.
+
+         If not successful, CMPIData.state will be undefined.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Method parameter not found.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
+
+     @see CMGetArgAt()
+    */
+    CMPIData (*getArgAt) (const CMPIArgs* args, CMPICount index,
+        CMPIString** name, CMPIStatus* rc);
+
+    /**
+     @brief Get number of arguments in a CMPIArgs array.
+
+     CMPIArgsFT.getArgCount() gets the number of arguments contained in this
+     CMPIArgs object.
+
+     @param args Points to the CMPIArgs object for this function.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful, a CMPIData structure containing the specified method
+         parameter will be returned.
+
+         If not successful, 0 will be returned.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
+
+     @see CMGetArgCount()
+    */
+    CMPICount (*getArgCount) (const CMPIArgs* args, CMPIStatus* rc);
+
+} CMPIArgsFT;
+
+/**
+ * @}
+ * @addtogroup edt-datetime
+ * @{
+ */
+
+/**
+ * @brief CMPIDateTime Support (Subclause 8.9)
+ */
+typedef struct _CMPIDateTime {
+
+    /**
+     * @brief Opaque pointer to MB-specific implementation data for this object.
+     */
+    const void* hdl;
+
+    /**
+     * @brief Pointer to the function table for this object.
+     */
+    const CMPIDateTimeFT* ft;
+
+} CMPIDateTime;
+
+/**
+ * @brief Function table of CMPIDateTime encapsulated data type object.
+ */
+typedef struct _CMPIDateTimeFT {
+
+    /**
+     * @brief CMPI version supported by the MB for this function table.
+     *
+     * Any earlier CMPI versions are implicitly also supported.
+     *
+     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * version numbers.
+     */
+    CMPIVersion ftVersion;
+
+// DONE_AM Next function is already synced with spec.
+    /**
+     @brief Release a CMPIDateTime object.
+
+     CMPIDateTimeFT.release() releases a CMPIDateTime object. This indicates to
+     the MB that the object (including any objects it contains) will no longer
+     be used by the MI. The MB may free (=reclaim) the memory associated with
+     the object during the call to this function, or later during some garbage
+     collection cycle (see Subclause 4.1.7 of the
+     @ref ref-cmpi-standard "CMPI Standard").
+
+     @param dt Points to the CMPIDateTime object that is to be released.
+         That object shall have been created using CMPIDateTimeFT.clone().
+     @return CMPIStatus structure containing the function return status.
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p dt handle is invalid.
+
+     @see CMRelease()
+    */
+    CMPIStatus (*release) (CMPIDateTime* dt);
+
+// DONE_AM Next function is already synced with spec.
+    /**
+     @brief Create an independent copy of a CMPIDateTime object.
+
+     CMPIDateTimeFT.clone() creates an independent copy of a CMPIDateTime
+     object.
+
+     @param dt Points to the CMPIDateTime object that is to be copied.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful, a pointer to the copied CMPIDateTime object will be
+         returned.
+
+         The returned CMPIDateTime object shall be explicitly released by the MI
+         using CMPIDateTimeFT.release().
+
+         If not successful, NULL will be returned.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p dt handle is invalid.
+
+     @see CMClone()
+    */
+    CMPIDateTime* (*clone) (const CMPIDateTime* dt, CMPIStatus* rc);
+
+    /**
+     @brief Get the value of a CMPIDateTime object in binary format.
+
+     CMPIDateTimeFT.getBinaryFormat() gets the value of a
+     CMPIDateTime object as a 64-bit
+     unsigned integer in microseconds starting since 00:00:00
+     GMT, January 1, 1970, or as an interval in microseconds,
+     depending on what kind of value the CMPIDateTime object
+     contains.
+
+     @param dt Points to the CMPIDateTime object for this function.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful, a CMPIUint64 value containing the value of the
+         CMPIDateTime object in binary format will be returned.
+
+         If not successful, 0 will be returned.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p dt handle is invalid.
+
+     @see CMGetBinaryFormat()
+    */
+    CMPIUint64 (*getBinaryFormat) (const CMPIDateTime* dt,
+        CMPIStatus* rc);
+
+    /**
+     @brief Get the value of a CMPIDateTime object in the string
+         format defined for the CIM datetime type.
+
+     CMPIDateTimeFT.getStringFormat() gets the value of a
+     CMPIDateTime object as a string in the format defined
+     in @ref ref-dmtf-dsp0004 "DSP0004" for the CIM datetime type.
+
+     @param dt Points to the CMPIDateTime object for this function.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful, a pointer to a CMPIString object containing the value
+         of a CMPIDateTime object in the format defined in @ref
+         ref-dmtf-dsp0004 "DSP0004" for the CIM datetime type will be returned.
+
+         The returned CMPIString object shall not be explicitly released
+         by the MI, because it may be an internal object of the CMPIDateTime
+         object which will be released along with that object, or a new
+         object created by the MB which will be released automatically by
+         the MB
+         (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
+
+         If not successful, NULL will be returned.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p dt handle is invalid.
+
+     @see CMGetStringFormat()
+    */
+    CMPIString* (*getStringFormat) (const CMPIDateTime* dt, CMPIStatus* rc);
+
+    /**
+     @brief Test whether a CMPIDateTime object contains an interval value.
+
+     CMPIDateTimeFT.isInterval() tests whether DateTime is an interval value.
+
+     @param dt Points to the CMPIDateTime object for this function.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful, a CMPIBoolean value indicating the test result will be
+         returned, as follows:
+         @li True indicates that the CMPIDateTime object contains an interval
+         value;
+         @li False indicates that this is not an interval.
+
+         If not successful, false will be returned.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p dt handle is invalid.
+
+     @see CMGetStringFormat()
+    */
+    CMPIBoolean (*isInterval) (const CMPIDateTime* dt, CMPIStatus* rc);
+
+} CMPIDateTimeFT;
+
+/**
  * @}
  * @addtogroup edt-selectexp
  * @{
@@ -7699,14 +7677,22 @@ typedef struct _CMPIPredicateFT {
 
 /**
  * @}
- * @addtogroup edt-args
+ * @addtogroup edt-error
  * @{
  */
 
+#ifdef CMPI_VER_200
+
 /**
- * @brief CMPIArgs encapsulated data type object.
+ * @brief CMPIError encapsulated data type object.
+ *
+ * @caperrors This encapsulated data type is part of the Extended Errors
+ *     capability.
+ *
+ * @added200 Added in CMPI 2.0.0.
+ * @required210 Required to be supported since CMPI 2.1.0.
  */
-typedef struct _CMPIArgs {
+typedef struct _CMPIError {
 
     /**
      * @brief Opaque pointer to MB-specific implementation data for this object.
@@ -7716,14 +7702,17 @@ typedef struct _CMPIArgs {
     /**
      * @brief Pointer to the function table for this object.
      */
-    const CMPIArgsFT* ft;
+    const CMPIErrorFT* ft;
 
-} CMPIArgs;
+} CMPIError;
 
 /**
- * @brief Function table of CMPIArgs encapsulated data type object.
+ * @brief Function table of CMPIError encapsulated data type object.
+ *
+ * @added200 Added in CMPI 2.0.0.
+ * @required210 Required to be supported since CMPI 2.1.0.
  */
-typedef struct _CMPIArgsFT {
+typedef struct _CMPIErrorFT {
 
     /**
      * @brief CMPI version supported by the MB for this function table.
@@ -7737,963 +7726,977 @@ typedef struct _CMPIArgsFT {
 
 // DONE_AM Next function is already synced with spec.
     /**
-     @brief Release a CMPIArgs object.
+     @brief Release a CMPIError object.
 
-     CMPIArgsFT.release() releases a CMPIArgs object. This indicates to the
-     MB that the object (including any objects it contains) will no longer
-     be used by the MI. The MB may free (=reclaim) the memory associated
-     with the object during the call to this function, or later during some
-     garbage collection cycle
-     (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
+     CMPIErrorFT.release() releases a CMPIError object.
 
-     @param args Points to the CMPIArgs object that is to be released.
-         That object shall have been created using CMPIArgsFT.clone().
+     This indicates to the MB that the object (including any objects it
+     contains) will no longer be used by the MI. The MB may free (=reclaim) the
+     memory associated with the object during the call to this function, or
+     later during some garbage collection cycle (see Subclause 4.1.7 of the
+     @ref ref-cmpi-standard "CMPI Standard").
+
+     @param er Points to the CMPIError object that is to be released.
+         That object shall have been created using CMPIErrorFT.clone().
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p er is invalid.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      @see CMRelease()
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
     */
-    CMPIStatus (*release) (CMPIArgs* args);
+    CMPIStatus (*release) (CMPIError* er);
 
 // DONE_AM Next function is already synced with spec.
     /**
-     @brief Create an independent copy of a CMPIRArgs object.
+     @brief Create an independent copy of a CMPIError object.
 
-     CMPIArgsFT.clone() creates an independent copy of a CMPIRArgs object.
+     CMPIErrorFT.clone() creates an independent copy of a CMPIError object.
 
-     @param args Points to the CMPIArgs object that is to be copied.
+     @param er Points to the CMPIError object that is to be copied.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a pointer to the copied CMPIArgs object will be
+         If successful, a pointer to the copied CMPIError object will be
          returned.
 
-         The returned CMPIArgs object shall be explicitly released by the MI
-         using CMPIArgsFT.release().
+         The returned CMPIError object shall be explicitly released by the MI
+         using CMPIErrorFT.release().
 
-         If not successful, NULL will be returned
+         If not successful, NULL will be returned.
      @endparblock
 
      @par Errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      @see CMClone()
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
     */
-    CMPIArgs* (*clone) (const CMPIArgs* args, CMPIStatus* rc);
+    CMPIError* (*clone) (const CMPIError* er, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Set a method parameter in a CMPIArgs object.
+     @brief Get the `ErrorType` attribute of a CMPIError object.
 
-     CMPIArgsFT.addArg() adds or replaces a method parameter in a CMPIArgs
-     object.
+     CMPIErrorFT.getErrorType() gets the value of the `ErrorType` attribute
+     in a CMPIError object.
 
-     @param args Points to the CMPIArgs object for this function.
-     @param name Argument name.
-     @param value Points to a CMPIValue structure containing the non-NULL
-         value to be assigned to the method parameter, or NULL to specify that
-         NULL is to be assigned
-     @param type type of the method parameter. All types of CIM values are
-         supported.
-         If the value of @p type is @ref CMPI_chars or
-         @ref CMPI_charsA, the
-         C-language string to which the chars member of @p value
-         points is copied by this function and the original string memory may
-         be freed by the MI right after this function returns.
-     @return CMPIStatus structure containing the function return status.
+     For a description of the `ErrorType` attribute, see @ref CMPIErrorType
+     and the description of the `ErrorType` property in the `CIM_Error` class
+     in the CIM Schema.
 
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_DATA_TYPE` - Data type not valid.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
-
-     @see CMAddArg()
-    */
-    CMPIStatus (*addArg) (const CMPIArgs* args, const char* name,
-            const CMPIValue* value,
-            const CMPIType type);
-
-    /**
-     @brief Get a method parameter in a CMPIArgs object by name.
-
-     CMPIArgsFT.getArg() gets a method parameter in a CMPIArgs object,
-     by its name.
-
-     @param args Points to the CMPIArgs object for this function.
-     @param name Specifies the name of the method parameter.
+     @param er Points to the CMPIError object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a CMPIData structure containing the specified method
-         parameter will be returned.
+         If successful, a @ref CMPIErrorType enumeration value will be returned,
+         indicating the value of the `ErrorType` attribute of the CMPIError
+         object.
 
-         If not successful, CMPIData.state will be undefined.
+         If not successful, the returned value is undefined.
      @endparblock
 
      @par Errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Method parameter not found.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMGetArg()
+     @see CMGetErrorType()
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
     */
-    CMPIData (*getArg) (const CMPIArgs* args, const char* name, CMPIStatus* rc);
+    CMPIErrorType (*getErrorType) (const CMPIError* er, CMPIStatus* rc);
+
+// DONE_AM Next function is already synced with spec.
+// TODO_AM Sync function descriptions with spec, from here on down.
+    /**
+     @brief Get the `OtherErrorType` attribute of a CMPIError object.
+
+     CMPIErrorFT.getOtherErrorType() gets the value of the `OtherErrorType`
+     attribute of a CMPIError object.
+
+     For a description of the `OtherErrorType` attribute, see the description of
+     the `OtherErrorType` property in the `CIM_Error` class in the CIM Schema.
+
+     @param er Points to the CMPIError object for this function.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful and the `OtherErrorType` attribute of the CMPIError
+         object is non-NULL, a pointer to a CMPIString object will be returned,
+         indicating the value of the `OtherErrorType` attribute of the
+         CMPIError object.
+
+         Otherwise, NULL will be returned.
+
+         The caller must inspect the function return status to see whether the
+         function failed.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+
+     @see CMGetOtherErrorType()
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
+    */
+    CMPIString* (*getOtherErrorType) (const CMPIError* er, CMPIStatus* rc);
 
     /**
-     @brief Get a method parameter in a CMPIArgs object by index.
+     @brief Get the `OwningEntity` attribute of a CMPIError object.
 
-     CMPIArgsFT.getArgAt() gets a Argument value defined by its index.
+     CMPIErrorFT.getOwningEntity() returns a string which describes the
+     owning entity.
 
-     @param args Points to the CMPIArgs object for this function.
-     @param index Position in the internal Data array.
-     @param [out] name
-     @parblock
-         If not NULL, points to a
-         CMPIString pointer that upon success will have been updated to point
-         to a CMPIString object containing the method parameter name.
+     @param er Points to the CMPIError object for this function.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful and the `OwningEntity` attribute of the
+         CMPIError object is non-NULL, a pointer to a CMPIString object will be
+         returned, indicating the value of the `OwningEntity` attribute of the
+         CMPIError object.
+
+         Otherwise, NULL will be returned.
+
+         The caller must inspect the function return status to see whether
+         the function failed.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
+     @see CMGetOwningEntity
+    */
+    CMPIString* (*getOwningEntity) (const CMPIError* er, CMPIStatus* rc);
+
+    /**
+     @brief Get the `MessageID` attribute of a CMPIError object.
+
+     CMPIErrorFT.getMessageID() returns a string which is the message ID.
+
+     @param er Points to the CMPIError object for this function.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful and the `MessageID` attribute of the CMPIError object is
+         non-NULL, a pointer to a CMPIString object will be returned,
+         indicating the value of the `MessageID` attribute of the CMPIError
+         object.
 
          The returned CMPIString object shall not be explicitly released
-         by the MI, because it may be an internal object of the CMPIArgs object
-         which will be released along with that object, or a new object
-         created by the MB which will be automatically released by the
-         MB
-         (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
-     @endparblock
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful, a CMPIData structure containing the specified method
-         parameter will be returned.
-
-         If not successful, CMPIData.state will be undefined.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Method parameter not found.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
-
-     @see CMGetArgAt()
-    */
-    CMPIData (*getArgAt) (const CMPIArgs* args, CMPICount index,
-        CMPIString** name, CMPIStatus* rc);
-
-    /**
-     @brief Get number of arguments in a CMPIArgs array.
-
-     CMPIArgsFT.getArgCount() gets the number of arguments contained in this
-     CMPIArgs object.
-
-     @param args Points to the CMPIArgs object for this function.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful, a CMPIData structure containing the specified method
-         parameter will be returned.
-
-         If not successful, 0 will be returned.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
-
-     @see CMGetArgCount()
-    */
-    CMPICount (*getArgCount) (const CMPIArgs* args, CMPIStatus* rc);
-
-} CMPIArgsFT;
-
-/**
- * @}
- * @addtogroup edt-string
- * @{
- */
-
-/**
- * @brief CMPIString encapsulated data type object.
- */
-typedef struct _CMPIString {
-
-    /**
-     * @brief Opaque pointer to MB-specific implementation data for this object.
-     */
-    const void* hdl;
-
-    /**
-     * @brief Pointer to the function table for this object.
-     */
-    const CMPIStringFT* ft;
-
-} CMPIString;
-
-/**
- * @brief Function table of CMPIString encapsulated data type object.
- */
-typedef struct _CMPIStringFT {
-
-    /**
-     * @brief CMPI version supported by the MB for this function table.
-     *
-     * Any earlier CMPI versions are implicitly also supported.
-     *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
-     * version numbers.
-     */
-    CMPIVersion ftVersion;
-
-// DONE_AM Next function is already synced with spec.
-    /**
-     @brief Release a CMPIString object.
-
-     CMPIStringFT.release() releases a CMPIString object. This indicates to the
-     MB that the object (including any objects it contains) will no longer be
-     used by the MI. The MB may free (=reclaim) the memory associated with the
-     object during the call to this function, or later during some garbage
-     collection cycle (see Subclause 4.1.7 of the
-     @ref ref-cmpi-standard "CMPI Standard").
-
-     @param str Points to the CMPIString object that is to be released.
-         That object shall have been created using CMPIStringFT.clone().
-     @return CMPIStatus structure containing the function return status.
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p str handle is invalid.
-
-     @see CMRelease()
-    */
-    CMPIStatus (*release) (CMPIString* str);
-
-// DONE_AM Next function is already synced with spec.
-    /**
-     @brief Create an independent copy of a CMPIString object.
-
-     CMPIStringFT.clone() creates an independent copy of a CMPIString object.
-
-     @param str Points to the CMPIString object that is to be copied.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful, a pointer to the copied CMPIString object will be
-         returned.
-
-         The returned CMPIString object shall be explicitly released by the MI
-         using CMPIStringFT.release().
-
-         If not successful, NULL will be returned.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p str handle is invalid.
-
-     @see CMClone()
-    */
-    CMPIString* (*clone) (const CMPIString* str, CMPIStatus* rc);
-
-    /**
-     @brief Get a pointer to a C-language string representation of a
-         CMPIString object.
-
-     CMPIStringFT.getCharPtr() gets a pointer to a C char* representation of
-     this CMPIString object.
-
-     @param str Points to the CMPIString object for this function.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful, a pointer to a C-language string will be returned.
-
-         The character array of the returned string shall not be explicitly
-         released by the MI, because it may point to an internal data area in
-         the CMPIString object which will be released along with that object,
-         or it may point to a new character array created by the MB which will
-         be released automatically by the MB.
-
-         If not successful, NULL will be returned.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p str handle is invalid.
-
-     @see CMGetCharsPtr()
-    */
-    const char* (*getCharPtr) (const CMPIString* str, CMPIStatus* rc);
-
-#ifdef CMPI_VER_210
-
-    /**
-     @brief Create a C-language string that has converted a CMPIString
-         object into a specific codepage
-
-     CMPIStringFT.newCharsCP() creates a new C-language string
-     that contains the string in a CMPIString
-     object, converted into a specific codepage.
-
-     This function shall be supported by the MB if the
-     @ref CMPI_MB_CodepageConversion "Codepage Conversion" capability
-     is available; otherwise, it shall not be supported.
-
-     @param str Points to the CMPIString object for this function.
-     @param cpid CMPICodePageID specifies the CMPI-specific codepage
-         ID for the codepage to convert to. See subclause 5.2.2 in the
-         @ref ref-cmpi-standard "CMPI Standard" (CodePage for a list
-         of supported codepages and their codepage ID values.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful, a new C-language string will be returned, in the
-         codepage specified in @p cpid.
-
-         The returned C-language string must be freed by the MI using
-         CMPIBrokerMemFT.freeChars().
-
-         If not successful, NULL will be returned.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p str handle is invalid.
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p cpid is invalid.
-     @li `CMPI_RC_ERR_NOT_IN_CODEPAGE` - The string contains characters that
-         are not representable in the specified codepage.
-     @capcodepage This function is part of the Codepage Conversion
-         capability.
-
-     @added210 Added in CMPI 2.1.0.
-     @note No corresponding macro.
-    */
-    char* (*newCharsCP) (const CMPIString* str, const CMPICodepageID cpid,
-        CMPIStatus* rc);
-
-#endif /*CMPI_VER_210*/
-
-} CMPIStringFT;
-
-/**
- * @}
- * @addtogroup edt-array
- * @{
- */
-
-/**
- * @brief CMPIArray encapsulated data type object.
- */
-typedef struct _CMPIArray {
-
-    /**
-     * @brief Opaque pointer to MB-specific implementation data for this object.
-     */
-    const void* hdl;
-
-    /**
-     * @brief Pointer to the function table for this object.
-     */
-    const CMPIArrayFT* ft;
-
-} CMPIArray;
-
-/**
- * @brief Function table of CMPIArray encapsulated data type object.
- */
-typedef struct _CMPIArrayFT {
-
-    /**
-     * @brief CMPI version supported by the MB for this function table.
-     *
-     * Any earlier CMPI versions are implicitly also supported.
-     *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
-     * version numbers.
-     */
-    CMPIVersion ftVersion;
-
-// DONE_AM Next function is already synced with spec.
-    /**
-     @brief Release a CMPIArray object.
-
-     CMPIArrayFT.release() releases a CMPIArray object. This indicates to the
-     MB that the object (including any objects it contains) will no longer be
-     used by the MI. The MB may free (=reclaim) the memory associated with the
-     object during the call to this function, or later during some garbage
-     collection cycle (see Subclause 4.1.7 of the
-     @ref ref-cmpi-standard "CMPI Standard").
-
-     @param ar Points to the CMPIArray object that is to be released.
-         That object shall have been created using CMPIArrayFT.clone().
-     @return CMPIStatus structure containing the function return status.
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
-
-     @see CMRelease()
-    */
-    CMPIStatus (*release) (CMPIArray* ar);
-
-// DONE_AM Next function is already synced with spec.
-    /**
-     @brief Create an independent copy of a CMPIArray object.
-
-     CMPIArrayFT.clone() creates an independent copy of a CMPIArray object.
-
-     @param ar Points to the CMPIArray object that is to be copied.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful, a pointer to the copied CMPIArray object will be
-         returned.
-
-         The returned CMPIArray object shall be explicitly released by the MI
-         using CMPIArrayFT.release().
-
-         If not successful, NULL will be returned.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
-
-     @see CMClone()
-    */
-    CMPIArray* (*clone) (const CMPIArray* ar, CMPIStatus* rc);
-
-    /**
-     @brief Get the number of array elements in a CMPIArray object.
-
-     CMPIArrayFT.getSize() gets the number of array
-     elements in a CMPIArray object.
-
-     @param ar Points to the CMPIArray object for this function.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful, a CMPICount value indicating
-         the number of array elements will be returned.
-
-         If not successful, 0 will be returned.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
-
-     @see CMGetArrayCount()
-    */
-    CMPICount (*getSize) (const CMPIArray* ar, CMPIStatus* rc);
-
-    /**
-     @brief Get the type of the array elements in a CMPIArray object.
-
-     CMPIArrayFT.getSimpleType() gets the type of the array elements in a
-     CMPIArray object.
-
-     @param ar Points to the CMPIArray object for this function.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful, a @ref CMPIType value indicating the type of the
-         CMPIArray elements will be returned. The returned value indicates the
-         type of single array elements; for example, the value returned for
-         a CMPIArray object that contains CMPIString objects, will be
-         @ref CMPI_string, and not @ref CMPI_stringA.
-
-         If not successful, @ref CMPI_null will be returned.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
-
-     @see CMGetArrayType()
-
-    */
-    CMPIType (*getSimpleType) (const CMPIArray* ar, CMPIStatus* rc);
-
-    /**
-     @brief Get the value of an array element in a CMPIArray object by index.
-
-     CMPIArrayFT.getElementAt() gets the value of an array element defined
-     by the zero-based position
-     @p index of the array element in a CMPIArray object @p ar.
-
-     @param ar Points to the CMPIArray object for this function.
-     @param index Zero-based position in the CMPIArray. The position shall
-         be equal to or greater than 0 and less than the size of the array.
-         Returns error if index out of range of the array.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful, a CMPIData structure containing the specified array
-         element will be returned.
-
-         If not successful, CMPIData.state will be undefined.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - @p index value
-         out of range.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
-
-     @see CMGetArrayElementAt()
-    */
-    CMPIData (*getElementAt) (const CMPIArray* ar, CMPICount index,
-        CMPIStatus* rc);
-
-    /**
-     @brief Set the value of an existing array element in a CMPIArray object
-         by index.
-
-     CMPIArrayFT.setElementAt() sets the value @p value and @p type
-     into an existing element defined by @p index in the
-     array object defined by @p ar.
-
-     @param ar Points to the CMPIArray object for this function.
-     @param index zero-based position of the existing element in the
-         CMPIArray object. The position shall be equal to or greater than
-         0 and less than the size of the array.
-     @param value Points to a CMPIValue structure containing
-         the non-NULL value to be assigned to the element, or is NULL to
-         specify that the element will be set to NULL.
-     @param type Either the simple base type of the array or @ref CMPI_null.
-         If the value of @p type is @ref CMPI_chars, the C-language
-         string to which the @p chars member of @p value points is
-         copied by this function and the original string memory may be
-         freed by the MI right after this function returns
-     @return CMPIStatus structure containing the function return status.
-
-     If not successful, the array element's state shall be set to
-     @ref CMPI_nullValue, if possible.
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - @p index value out of range.
-     @li `CMPI_RC_ERR_TYPE_MISMATCH` - @p type does not correspond to the
-         simple base type of @p ar.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
-
-     @see CMSetArrayElementAt()
-     @deprecated The use of @ref CMPI_null for @p type is deprecated since
-         CMPI 2.1. Specify the simple base type of the array instead.
-     @deprecated The behavior of setting the array element's state to
-         @ref CMPI_nullValue when the function was not successful, is deprecated
-         since CMPI 2.1.
-         Instead, callers should assume that it is undefined whether the array
-         element's state has changed when the function was not successful.
-    */
-    CMPIStatus (*setElementAt) (const CMPIArray* ar, CMPICount index,
-        const CMPIValue* value, CMPIType type);
-
-} CMPIArrayFT;
-
-/**
- * @}
- * @addtogroup edt-enumeration
- * @{
- */
-
-/**
- * @brief CMPIEnumeration encapsulated data type object.
- */
-typedef struct _CMPIEnumeration {
-
-    /**
-     * @brief Opaque pointer to MB-specific implementation data for this object.
-     */
-    const void* hdl;
-
-    /**
-     * @brief Pointer to the function table for this object.
-     */
-    const CMPIEnumerationFT* ft;
-
-} CMPIEnumeration;
-
-/**
- * @brief Function table of CMPIEnumeration encapsulated data type object.
- */
-typedef struct _CMPIEnumerationFT {
-
-    /**
-     * @brief CMPI version supported by the MB for this function table.
-     *
-     * Any earlier CMPI versions are implicitly also supported.
-     *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
-     * version numbers.
-     */
-    CMPIVersion ftVersion;
-
-// DONE_AM Next function is already synced with spec.
-    /**
-     @brief Release a CMPIEnumeration object.
-
-     CMPIEnumerationFT.release() releases a CMPIEnumeration object. This
-     indicates to the MB that the object (including any objects it contains)
-     will no longer be used by the MI. The MB may free (=reclaim) the memory
-     associated with the object during the call to this function, or later
-     during some garbage collection cycle (see Subclause 4.1.7 of the
-     @ref ref-cmpi-standard "CMPI Standard").
-
-     @param en Points to the CMPIEnumeration object that is to be released.
-        That object shall have been created using CMPIEnumerationFT.clone().
-     @return CMPIStatus structure containing the function return status.
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p en handle is invalid.
-
-     @see CMRelease()
-    */
-    CMPIStatus (*release) (CMPIEnumeration* en);
-
-// DONE_AM Next function is already synced with spec.
-    /**
-     @brief Create an independent copy of a CMPIEnumeration object.
-
-     CMPIEnumerationFT.clone() creates an independent copy of a CMPIEnumeration
-     object.
-
-     @param en Points to the CMPIEnumeration object that is to be copied.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful, a pointer to the copied CMPIEnumeration object will be
-         returned.
-
-         The returned CMPIEnumeration object shall be explicitly released by
-         the MI using CMPIEnumerationFT.release().
-
-         If not successful, NULL will be returned.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p en handle is invalid.
-
-     @see CMClone()
-    */
-    CMPIEnumeration* (*clone) (const CMPIEnumeration* en, CMPIStatus* rc);
-
-    /**
-     @brief Get the next element in a CMPIEnumeration object.
-
-     CMPIEnumerationFT.getNext() gets the next element in a
-     CMPIEnumeration object.
-
-     @param en Points to the CMPIEnumeration object for this function.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful, a CMPIData structure
-         containing the next element will be returned.
-
-         If not successful, CMPIData.state will be undefined.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p en handle is invalid.
-
-     @see CMGetNext()
-    */
-    CMPIData (*getNext) (const CMPIEnumeration* en, CMPIStatus* rc);
-
-    /**
-     @brief Test for any elements left in a CMPIEnumeration object.
-
-     CMPIEnumerationFT.hasNext() tests for any elements left in @p en the
-     CMPIEnumeration object.
-
-     @param en Points to the CMPIEnumeration object for this function.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful, a CMPIBoolean value indicating the test result will be
-         returned, as follows:
-         @li True indicates that the enumeration has more elements left;
-         @li False indicates that this is not the case.
-
-         If not successful, false will be returned.
-     @endparblock
-
-     @par Errors
-     The function return status will indicate one of the following @ref CMPIrc
-     codes:
-     @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p en handle is invalid.
-
-     @see CMHasNext()
-    */
-    CMPIBoolean (*hasNext) (const CMPIEnumeration* en, CMPIStatus* rc);
-
-    /**
-     @brief Convert a CMPIEnumeration object to a CMPIArray object.
-
-     CMPIEnumerationFT.toArray() converts  the CMPIEnumeration object
-     represented by the argument @p en into a CMPIArray.
-
-     @param en Points to the CMPIEnumeration object for this function.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful, a pointer to a CMPIArray object containing the elements
-         from the CMPIEnumeration object will be returned.
-
-         The returned CMPIArray object shall not be explicitly released
-         by the MI, because it may be an internal object of the CMPIEnumeration
+         by the MI, because it may be an internal object of the CMPIError
          object which will be released along with that object, or a new object
          created by the MB which will be released automatically by the MB
          (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
 
-         If not successful, NULL will be returned.
+         Otherwise, NULL will be returned.
+
+         The caller must inspect the function return status to see whether the
+         function failed.
      @endparblock
 
      @par Errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p en handle is invalid.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMToArray()
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
+     @see CMGetMessageID()
     */
-    CMPIArray* (*toArray) (const CMPIEnumeration* en, CMPIStatus* rc);
-
-} CMPIEnumerationFT;
-
-/**
- * @}
- * @addtogroup edt-datetime
- * @{
- */
-
-/**
- * @brief CMPIDateTime Support (Subclause 8.9)
- */
-typedef struct _CMPIDateTime {
+    CMPIString* (*getMessageID) (const CMPIError* er, CMPIStatus* rc);
 
     /**
-     * @brief Opaque pointer to MB-specific implementation data for this object.
-     */
-    const void* hdl;
+     @brief Get the `Message` attribute of a CMPIError object.
+
+     CMPIErrorFT.getMessage() returns a string comnating an error message.
+
+     @param er Points to the CMPIError object for this function.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful and the `Message` attribute of the CMPIError object is
+         non-NULL, a pointer to a CMPIString object will be returned,
+         indicating the value of the `Message` attribute of the CMPIError
+         object.
+
+         Otherwise, NULL will be returned.
+
+         The caller must inspect the function return status to see whether
+         the function failed.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
+     @see CMGetErrorMessage()
+    */
+    CMPIString* (*getMessage) (const CMPIError* er, CMPIStatus* rc);
 
     /**
-     * @brief Pointer to the function table for this object.
-     */
-    const CMPIDateTimeFT* ft;
+     @brief Get the `PerceivedSeverity` attribute of a CMPIError object
 
-} CMPIDateTime;
+     CMPIErrorFT.getPerceivedSeverity() returns the PerceivedSeverity
+     attribute of a CMPIError object.
 
-/**
- * @brief Function table of CMPIDateTime encapsulated data type object.
- */
-typedef struct _CMPIDateTimeFT {
+     @param er Points to the CMPIError object for this function.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful, a @ref CMPIErrorSeverity enumeration
+         value will be returned, indicating the value of the `PerceivedSeverity`
+         attribute of the CMPIError object.
+
+         If not successful, the returned value is undefined.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
+     @see CMGetPerceivedSeverity()
+    */
+    CMPIErrorSeverity (*getPerceivedSeverity) (const CMPIError* er,
+        CMPIStatus* rc);
 
     /**
-     * @brief CMPI version supported by the MB for this function table.
-     *
-     * Any earlier CMPI versions are implicitly also supported.
-     *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
-     * version numbers.
-     */
-    CMPIVersion ftVersion;
+     @brief Get the `ProbableCause` attribute of a CMPIError object.
 
-// DONE_AM Next function is already synced with spec.
+     CMPIErrorFT.getProbableCause() returns the ProbableCause attribute
+     of a CMPIError object.
+
+     @param er Points to the CMPIError object for this function.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful, a @ref CMPIErrorProbableCause enumeration
+         value will be returned, indicating the value of the @p ProbableCause
+         attribute of the CMPIError object.
+
+         If not successful, the returned value is undefined.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
+     @see  CMGetProbableCause
+    */
+    CMPIErrorProbableCause (*getProbableCause) (const CMPIError* er,
+        CMPIStatus* rc);
+
     /**
-     @brief Release a CMPIDateTime object.
+     @brief Get the `ProbableCauseDescription` attribute of a CMPIError object.
 
-     CMPIDateTimeFT.release() releases a CMPIDateTime object. This indicates to
-     the MB that the object (including any objects it contains) will no longer
-     be used by the MI. The MB may free (=reclaim) the memory associated with
-     the object during the call to this function, or later during some garbage
-     collection cycle (see Subclause 4.1.7 of the
-     @ref ref-cmpi-standard "CMPI Standard").
+     CMPIErrorFT.getProbableCauseDescription() returns a string which
+     describes the probable cause.
 
-     @param dt Points to the CMPIDateTime object that is to be released.
-         That object shall have been created using CMPIDateTimeFT.clone().
+     @param er Points to the CMPIError object for this function.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful and the `ProbableCauseDescription` attribute of the
+         CMPIError object is non-NULL, a pointer to a CMPIString object will be
+         returned, indicating the value of the ProbableCauseDescription
+         attribute of the CMPIError object.
+
+         Otherwise, NULL will be returned.
+
+         The caller must inspect the function return status to see whether
+         the function failed.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
+     @see CMGetProbableCauseDescription()
+    */
+    CMPIString* (*getProbableCauseDescription) (const CMPIError* er,
+        CMPIStatus* rc);
+
+    /**
+     @brief Get the `RecommendedActions` array attribute of a CMPIError object.
+
+     CMPIErrorFT.getRecommendedActions() returns an array of strings which
+     describes recomended actions of the CMPIError object.
+
+     @param er Points to the CMPIError object for this function.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful and the `RecommendedActions` array attribute of the
+         CMPIError object is non-NULL, a pointer to a CMPIArray object will be
+         returned, containing CMPIString elements that represent the array
+         elements of the `RecommendedActions` array attribute in the CMPIError
+         object.
+
+         Otherwise, NULL will be returned.
+
+         The caller must inspect the function return status to see whether
+         the function failed.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
+     @see CMGetRecommendedActions()
+    */
+    CMPIArray* (*getRecommendedActions) (const CMPIError* er, CMPIStatus* rc);
+
+    /**
+     @brief Get the `ErrorSource` attribute of a CMPIError object.
+
+     CMPIErrorFT.getErrorSource() returns a string which describes the
+     Error source of the CMPIError object.
+
+     @param er Points to the CMPIError object for this function.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful and the `ErrorSource` attribute of the CMPIError object
+         is non-NULL, a pointer to a CMPIString object will be returned,
+         indicating the value of the `ErrorSource` attribute of the CMPIError
+         object.
+
+         Otherwise, NULL will be returned.
+
+         The caller must inspect the function return status to see whether
+         the function failed.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
+     @see CMGetErrorSource()
+    */
+    CMPIString* (*getErrorSource) (const CMPIError* er, CMPIStatus* rc);
+
+    /**
+     @brief Get the `ErrorSourceFormat` attribute of a CMPIError object.
+
+     CMPIErrorFT.getErrorSourceFormat() returns a the format that the
+     error src is in.
+
+     @param er Points to the CMPIError object for this function.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful, a @ref CMPIErrorSrcFormat enumeration will be returned,
+         indicating the value of the `ErrorSourceFormat` attribute of the
+         CMPIError object.
+
+         If not successful, the returned value is undefined.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
+     @see CMGetErrorSourceFormat()
+    */
+    CMPIErrorSrcFormat (*getErrorSourceFormat) (const CMPIError* er,
+        CMPIStatus* rc);
+
+    /**
+     @brief Get the `OtherErrorSourceFormat` attribute of a CMPIError object.
+
+     CMPIErrorFT.getOtherErrorSourceFormat() returns a string which
+     describes the 'other' format; only available
+     if the error source is OTHER.
+
+     @param er Points to the CMPIError object for this function.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful and the `OtherErrorSource` attribute of the CMPIError
+         object is non-NULL, a pointer to a CMPIString object will be returned,
+         indicating the value of the `OtherErrorSourceFormat` attribute of the
+         CMPIError object.
+
+         Otherwise, NULL will be returned.
+
+         The caller must inspect the function return status to see whether
+         the function failed.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
+     @see CMGetOtherErrorSourceFormat()
+    */
+    CMPIString* (*getOtherErrorSourceFormat) (const CMPIError* er,
+        CMPIStatus* rc);
+
+    /**
+     @brief Get the `CIMStatusCode` attribute of a CMPIError object.
+
+     CMPIErrorFT.getCIMStatusCode() gets the value of the
+     `CIMStatusCode` attribute of a CMPIError object.
+
+     @param er Points to the CMPIError object for this function.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful, a @ref CMPIrc value will be returned, indicating the
+         value of the `CIMStatusCode` attribute of the CMPIError object. Please
+         note that not all status codes apply to all situations.
+
+         It is up to the MI to ensure the correct status code is set.
+
+         If not successful, the returned value is undefined.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
+     @see CMGetCIMStatusCode()
+    */
+    CMPIrc (*getCIMStatusCode) (const CMPIError* er, CMPIStatus* rc);
+
+    /**
+     @brief Get `CIMStatusCodeDescription` attribute of a CMPIError object.
+
+     CMPIErrorFT.getCIMStatusCodeDescription() gets the
+     value of the `CIMStatusCodeDescription` attribute of a CMPIError
+     object.
+
+     @param er Points to the CMPIError object for this function.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful and the `CIMStatusCodeDescription` attribute of the
+         CMPIError object is non-NULL, a pointer to a CMPIString object will be
+         returned, indicating the value of the CIMStatusCodeDescription
+         attribute of the CMPIError object.
+
+         Otherwise, NULL will be returned.
+
+         The caller must inspect the function return status to see
+         whether the function failed.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
+     @see CMGetCIMStatusCodeDescription()
+    */
+    CMPIString* (*getCIMStatusCodeDescription) (const CMPIError* er,
+        CMPIStatus* rc);
+
+    /**
+     @brief Get the `MessageArguments` array attribute of a CMPIError object.
+
+     CMPIErrorFT.getMessageArguments() gets the value of
+     the `MessageArguments` array attribute of a CMPIError object.
+
+     @param er Points to the CMPIError object for this function.
+     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
+         return will have been updated with the function return status.
+     @return @parblock
+         If successful and the `MessageArguments` array attribute of the
+         CMPIError object is non-NULL, a pointer to a CMPIArray object will be
+         returned, containing CMPIString objects that represent the array
+         elements of the MessageArguments array attribute of the CMPIError
+         object.
+
+         Otherwise, NULL will be returned.
+
+         The caller must inspect the function return status to see whether the
+         function failed.
+     @endparblock
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
+     @see CMGetMessageArguments()
+    */
+    CMPIArray* (*getMessageArguments) (const CMPIError* er, CMPIStatus* rc);
+
+    /**
+     @brief Set the `ErrorType` attribute of a CMPIError object.
+
+     CMPIErrorFT.setErrorType() sets the value of the
+     `ErrorType` attribute of this CMPIError object.
+
+     @param er Points to the CMPIError object for this function.
+     @param et CMPIErrorType enumeration value specifying the new value for
+         the `ErrorType` attribute. If the error message in the
+         CMPIError object
+         is defined in a DMTF message registry, @p et shall
+         reflect the content of the `ERROR_TYPE` element defined for
+         the message in the registry.
+     @return CMPIStatus structure containing the function return status
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
+     @see CMSetErrorType()
+    */
+    CMPIStatus (*setErrorType) (const CMPIError* er, const CMPIErrorType et);
+
+    /**
+     @brief Set the `OtherErrorType` attribute of a CMPIError object.
+
+     CMPIErrorFT.setOtherErrorType() sets the `OtherErrorType` attribute
+     of this CMPIError object.
+
+     @param er Points to the CMPIError object for this function.
+     @param oet Points to a string specifying the new non-NULL
+         value for the OtherErrorType attribute, or is NULL
+         specifying that the attribute will be set to NULL. If the
+         error message is defined in a DMTF message registry, the
+         string value of @p oet shall be the content of
+         the OTHER_ERROR_TYPE element defined for the message in the
+         registry It is only valid when error type is "OTHER"
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p dt handle is invalid.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMRelease()
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
+     @see CMSetOtherErrorType()
     */
-    CMPIStatus (*release) (CMPIDateTime* dt);
+    CMPIStatus (*setOtherErrorType) (const CMPIError* er, const char* oet);
 
-// DONE_AM Next function is already synced with spec.
     /**
-     @brief Create an independent copy of a CMPIDateTime object.
+     @brief Set the `ProbableCauseDescription` attribute of a CMPIError object.
 
-     CMPIDateTimeFT.clone() creates an independent copy of a CMPIDateTime
+     CMPIErrorFT.setProbableCauseDescription() sets the description of the
+     probable cause.
+
+     @param er Points to the CMPIError object for this function.
+     @param pcd string specifying the new non-NULL value for the
+         `ProbableCauseDescription` attribute, or is NULL specifying
+         that the attribute will be set to NULL. If the error
+         message is defined in a DMTF message registry, note that
+         the string value of @p pcd is not defined in the
+         message in the registry.
+     @return CMPIStatus structure containing the function return status.
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
+     @see CMSetProbableCauseDescription()
+    */
+    CMPIStatus (*setProbableCauseDescription) (const CMPIError* er,
+        const char* pcd);
+
+    /**
+     @brief Set the `RecommendedActions` array attribute of a CMPIError object.
+
+     CMPIErrorFT.setRecommendedActions() sets the value
+     of the `RecommendedActions` array attribute of a CMPIError
      object.
 
-     @param dt Points to the CMPIDateTime object that is to be copied.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful, a pointer to the copied CMPIDateTime object will be
-         returned.
+     For a description of the RecommendedActions attribute, see
+     the description of the RecommendedActions property in the
+     CIM_Error class in the CIM Schema.
 
-         The returned CMPIDateTime object shall be explicitly released by the MI
-         using CMPIDateTimeFT.release().
-
-         If not successful, NULL will be returned.
-     @endparblock
+     @param er Points to the CMPIError object for this function.
+     @param ra pointer to a CMPIArray object specifying the new array value
+         for the RecommendedActions array attribute. The CMPIArray object
+         contains CMPIString objects or NULL values as array elements. @p ra
+         may be NULL, specifying that the RecommendedActions array
+         attribute will be set to NULL. If the error message is defined in a
+         DMTF message registry, @p ra shall reflect the values
+         defined in the RECOMMENDED_ACTION elements defined for the message
+         in the registry, in the order defined there.
+     @return CMPIStatus structure containing the function return status.
 
      @par Errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p dt handle is invalid.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMClone()
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
+     @see CMSetRecommendedActions()
     */
-    CMPIDateTime* (*clone) (const CMPIDateTime* dt, CMPIStatus* rc);
+    CMPIStatus (*setRecommendedActions) (const CMPIError* er,
+        const CMPIArray* ra);
 
     /**
-     @brief Get the value of a CMPIDateTime object in binary format.
+     @brief Set the `ErrorSource` attribute of a CMPIError object.
 
-     CMPIDateTimeFT.getBinaryFormat() gets the value of a
-     CMPIDateTime object as a 64-bit
-     unsigned integer in microseconds starting since 00:00:00
-     GMT, January 1, 1970, or as an interval in microseconds,
-     depending on what kind of value the CMPIDateTime object
-     contains.
+     CMPIErrorFT.setErrorSource() sets the value of the ErrorSource
+     attribute of a CMPIError object.
 
-     @param dt Points to the CMPIDateTime object for this function.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful, a CMPIUint64 value containing the value of the
-         CMPIDateTime object in binary format will be returned.
+     For a description of the ErrorSource attribute, see the
+     description of the ErrorSource property in the CIM_Error class
+     in the CIM Schema
 
-         If not successful, 0 will be returned.
-     @endparblock
+     @param er Points to the CMPIError object for this function.
+     @param es string specifying the new non-NULL value for the ErrorSource
+         attribute, or is NULL specifying that the attribute will be set to
+         NULL. If the error message is defined in a DMTF message registry,
+         the string value of @p es shall be the content of the
+         ERROR_SOURCE element defined for the message in the registry.
+     @return CMPIStatus structure containing the function return status.
 
      @par Errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p dt handle is invalid.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMGetBinaryFormat()
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
+     @see CMSetErrorSource()
     */
-    CMPIUint64 (*getBinaryFormat) (const CMPIDateTime* dt,
-        CMPIStatus* rc);
+    CMPIStatus (*setErrorSource) (const CMPIError* er, const char* es);
 
     /**
-     @brief Get the value of a CMPIDateTime object in the string
-         format defined for the CIM datetime type.
+     @brief Set the `ErrorSourceFormat` attribute of a CMPIError object.
 
-     CMPIDateTimeFT.getStringFormat() gets the value of a
-     CMPIDateTime object as a string in the format defined
-     in @ref ref-dmtf-dsp0004 "DSP0004" for the CIM datetime type.
+     CMPIErrorFT.setErrorSourceFormat() sets the source format of
+     the error object. For a description of the ErrorSourceFormat
+     attribute, see the description of the ErrorSourceFormat
+     property in the CIM_Error class in the CIM Schema.
 
-     @param dt Points to the CMPIDateTime object for this function.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful, a pointer to a CMPIString object containing the value
-         of a CMPIDateTime object in the format defined in @ref
-         ref-dmtf-dsp0004 "DSP0004" for the CIM datetime type will be returned.
-
-         The returned CMPIString object shall not be explicitly released
-         by the MI, because it may be an internal object of the CMPIDateTime
-         object which will be released along with that object, or a new
-         object created by the MB which will be released automatically by
-         the MB
-         (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
-
-         If not successful, NULL will be returned.
-     @endparblock
+     @param er Points to the CMPIError object for this function.
+     @param esf CMPIErrorSrcFormat enumeration value specifying the new value
+         for the ErrorSourceFormat attribute. If the error message is defined
+         in a DMTF message registry, the string value of @p esf shall
+         be the content of the ERROR_SOURCE_FORMAT element defined for the
+         message in the registry
+     @return CMPIStatus structure containing the function return status.
 
      @par Errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p dt handle is invalid.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMGetStringFormat()
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
+     @see CMSetErrorSourceFormat
     */
-    CMPIString* (*getStringFormat) (const CMPIDateTime* dt, CMPIStatus* rc);
+    CMPIStatus (*setErrorSourceFormat) (const CMPIError* er,
+        const CMPIErrorSrcFormat esf);
 
     /**
-     @brief Test whether a CMPIDateTime object contains an interval value.
+     @brief Set the `OtherErrorSourceFormat` attribute of a CMPIError object
 
-     CMPIDateTimeFT.isInterval() tests whether DateTime is an interval value.
+     CMPIErrorFT.setOtherErrorSourceFormat() specifies a string
+     defining "Other" values for `ErrorSourceFormat`
 
-     @param dt Points to the CMPIDateTime object for this function.
-     @param [out] rc If not NULL, points to a CMPIStatus structure that upon
-         return will have been updated with the function return status.
-     @return @parblock
-         If successful, a CMPIBoolean value indicating the test result will be
-         returned, as follows:
-         @li True indicates that the CMPIDateTime object contains an interval
-         value;
-         @li False indicates that this is not an interval.
-
-         If not successful, false will be returned.
-     @endparblock
+     @param er Points to the CMPIError object for this function.
+     @param oef Points to a string specifying the new non-NULL value for
+         the `OtherErrorSourceFormat` attribute, or NULL specifying
+         that the attribute will be set to NULL. If the error message is
+         defined in a DMTF message registry, the string value of
+         @p oef shall be the content of the
+         OTHER_ERROR_SOURCE_FORMAT element defined for the message in the
+         registry.
+     @return CMPIStatus structure containing the function return status.
 
      @par Errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p dt handle is invalid.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMGetStringFormat()
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
+     @see CMSetOtherErrorSourceFormat()
     */
-    CMPIBoolean (*isInterval) (const CMPIDateTime* dt, CMPIStatus* rc);
+    CMPIStatus (*setOtherErrorSourceFormat) (const CMPIError* er,
+        const char* oef);
 
-} CMPIDateTimeFT;
+    /**
+     @brief Set the `CIMStatusCodeDescription` attribute of a CMPIError object
+
+     CMPIErrorFT.setCIMStatusCodeDescription() sets the
+     description of the status code. For a description of the
+     `CIMStatusCodeDescription` attribute, see the description of the
+     `CIMStatusCodeDescription` property in the `CIM_Error`
+     class in the CIM Schema.
+
+     @param er Points to the CMPIError object for this function.
+     @param scd A Pointer to a string specifying the new non-NULL value
+         for the `CIMStatusCodeDescription` attribute, or NULL specifying
+         that the attribute will be set to NULL. If the error message is defined
+         in a DMTF message registry, note that the string value of
+         @p scd is not defined in the message in the registry.
+     @return CMPIStatus structure containing the function return status.
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
+     @see CMSetCIMStatusCodeDescription()
+    */
+    CMPIStatus (*setCIMStatusCodeDescription) (const CMPIError* er,
+        const char* scd);
+
+    /**
+     @brief Set the `MessageArguments` array attribute of a CMPIError object.
+
+     CMPIErrorFT.setMessageArguments() sets an array of strings
+     for the dynamic content of the message. For a
+     description of the `MessageArguments` attribute, see the
+     description of the `MessageArguments` property in the
+     `CIM_Error` class in the CIM Schema.
+
+     @param er Points to the CMPIError object for this function.
+     @param values CMPIArray object specifying the new array value
+         for the `MessageArguments` array attribute. The CMPIArray
+         object contains CMPIString objects or NULL values as array
+         elements. @p values may be NULL, specifying that the
+         `MessageArguments` array attribute will be set to NULL. If the
+         error message is defined in a DMTF message registry, @p values
+         shall reflect the values defined in the DYNAMIC_ELEMENT
+         elements defined for the message in the registry, in the order
+         defined there.
+     @return CMPIStatus structure containing the function return status.
+
+     @par Errors
+     The function return status will indicate one of the following @ref CMPIrc
+     codes:
+     @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+         (**Deprecated**)
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+
+     @required210 Support for this function is required since CMPI 2.1.0.
+     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
+         is deprecated since CMPI 2.1. It will not be returned because the
+         @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
+         will be available.
+     @see CMSetMessageArguments()
+    */
+    CMPIStatus (*setMessageArguments) (const CMPIError* er,
+        const CMPIArray* values);
+
+} CMPIErrorFT;
+
+#endif /*CMPI_VER_200*/
 
 /**
  * @}
