@@ -2582,10 +2582,10 @@ typedef struct _CMPIBrokerEncFT {
      @param pc A @ref CMPIErrorProbableCause enumeration value specifying the
          value for the `PerceivedSeverity` attribute of the CMPIError object.
          For a description of the `PerceivedSeverity` attribute, see the
-         description of the `PerceivedSeverity` property in the CIM_Error class
-         in the CIM Schema. If the error message is defined in a DMTF message
-         registry, note that the string value of @p pc is not defined in the
-         message in the registry.
+         description of the `PerceivedSeverity` property in the `CIM_Error`
+         class in the CIM Schema. If the error message is defined in a DMTF
+         message registry, note that the string value of @p pc is not defined
+         in the message in the registry.
      @param cimStatusCode A @ref CMPIrc enumeration value specifying the value
          for the `CIMStatusCode` attribute of the CMPIError object. For a
          description of the `CIMStatusCode` attribute, see the description of
@@ -7964,12 +7964,12 @@ typedef struct _CMPIErrorFT {
     /**
      @brief Get the `ErrorType` attribute of a CMPIError object.
 
-     CMPIErrorFT.getErrorType() gets the value of the `ErrorType` attribute
-     in a CMPIError object.
+     CMPIErrorFT.getErrorType() gets the value of the `ErrorType` attribute of
+     a CMPIError object.
 
-     For a description of the `ErrorType` attribute, see @ref CMPIErrorType
-     and the description of the `ErrorType` property in the `CIM_Error` class
-     in the CIM Schema.
+     For a description of the `ErrorType` attribute, see @ref CMPIErrorType and
+     the description of the `ErrorType` property in the `CIM_Error` class in
+     the CIM Schema.
 
      @param er Points to the CMPIError object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
@@ -8000,7 +8000,6 @@ typedef struct _CMPIErrorFT {
     CMPIErrorType (*getErrorType) (const CMPIError* er, CMPIStatus* rc);
 
 // DONE_AM Next function is already synced with spec.
-// TODO_AM Sync function descriptions with spec, from here on down.
     /**
      @brief Get the `OtherErrorType` attribute of a CMPIError object.
 
@@ -8018,6 +8017,12 @@ typedef struct _CMPIErrorFT {
          object is non-NULL, a pointer to a CMPIString object will be returned,
          indicating the value of the `OtherErrorType` attribute of the
          CMPIError object.
+
+         The returned CMPIString object shall not be explicitly released by the
+         MI, because it may be an internal object of the CMPIError object which
+         will be released along with that object, or a new object created by
+         the MB which will be released automatically by the MB (see Subclause
+         4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
 
          Otherwise, NULL will be returned.
 
@@ -8039,14 +8044,22 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @todo In the CMPI Standard document, update the paragraph defining the
+         attribute, and add the paragraph about releasing the returned object.
     */
     CMPIString* (*getOtherErrorType) (const CMPIError* er, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `OwningEntity` attribute of a CMPIError object.
 
-     CMPIErrorFT.getOwningEntity() returns a string which describes the
-     owning entity.
+     CMPIErrorFT.getOwningEntity() gets the value of the `OwningEntity`
+     attribute of a CMPIError object.
+
+     For a description of the `OwningEntity` attribute, see the description of
+     the `OwningEntity` property in the `CIM_Error` class in the CIM Schema,
+     and the description of the @p owner argument of
+     CMPIBrokerEncFT.newCMPIError().
 
      @param er Points to the CMPIError object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
@@ -8056,6 +8069,12 @@ typedef struct _CMPIErrorFT {
          CMPIError object is non-NULL, a pointer to a CMPIString object will be
          returned, indicating the value of the `OwningEntity` attribute of the
          CMPIError object.
+
+         The returned CMPIString object shall not be explicitly released by the
+         MI, because it may be an internal object of the CMPIError object which
+         will be released along with that object, or a new object created by
+         the MB which will be released automatically by the MB (see Subclause
+         4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
 
          Otherwise, NULL will be returned.
 
@@ -8077,13 +8096,21 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @todo In the CMPI Standard document, update the paragraph defining the
+         attribute, and add the paragraph about releasing the returned object.
     */
     CMPIString* (*getOwningEntity) (const CMPIError* er, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `MessageID` attribute of a CMPIError object.
 
-     CMPIErrorFT.getMessageID() returns a string which is the message ID.
+     CMPIErrorFT.getMessageID() gets the value of the `MessageID` attribute of
+     a CMPIError object.
+     
+     For a description of the `MessageID` attribute, see the description of the
+     `MessageID` property in the `CIM_Error` class in the CIM Schema, and the
+     description of the @p msgID argument of CMPIBrokerEncFT.newCMPIError().
 
      @param er Points to the CMPIError object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
@@ -8094,11 +8121,11 @@ typedef struct _CMPIErrorFT {
          indicating the value of the `MessageID` attribute of the CMPIError
          object.
 
-         The returned CMPIString object shall not be explicitly released
-         by the MI, because it may be an internal object of the CMPIError
-         object which will be released along with that object, or a new object
-         created by the MB which will be released automatically by the MB
-         (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
+         The returned CMPIString object shall not be explicitly released by the
+         MI, because it may be an internal object of the CMPIError object which
+         will be released along with that object, or a new object created by
+         the MB which will be released automatically by the MB (see Subclause
+         4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
 
          Otherwise, NULL will be returned.
 
@@ -8120,13 +8147,21 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @todo In the CMPI Standard document, update the paragraph defining the
+         attribute.
     */
     CMPIString* (*getMessageID) (const CMPIError* er, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `Message` attribute of a CMPIError object.
 
-     CMPIErrorFT.getMessage() returns a string comnating an error message.
+     CMPIErrorFT.getMessage() gets the value of the `Message` attribute of a
+     CMPIError object.
+
+     For a description of the `Message` attribute, see the description of the
+     `Message` property in the `CIM_Error` class in the CIM Schema, and the
+     description of the @p msg argument of CMPIBrokerEncFT.newCMPIError().
 
      @param er Points to the CMPIError object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
@@ -8136,6 +8171,12 @@ typedef struct _CMPIErrorFT {
          non-NULL, a pointer to a CMPIString object will be returned,
          indicating the value of the `Message` attribute of the CMPIError
          object.
+
+         The returned CMPIString object shall not be explicitly released by the
+         MI, because it may be an internal object of the CMPIError object which
+         will be released along with that object, or a new object created by
+         the MB which will be released automatically by the MB (see Subclause
+         4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
 
          Otherwise, NULL will be returned.
 
@@ -8157,14 +8198,22 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @todo In the CMPI Standard document, add the paragraph about releasing the
+         returned object
     */
     CMPIString* (*getMessage) (const CMPIError* er, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `PerceivedSeverity` attribute of a CMPIError object
 
-     CMPIErrorFT.getPerceivedSeverity() returns the PerceivedSeverity
-     attribute of a CMPIError object.
+     CMPIErrorFT.getPerceivedSeverity() gets the value of the
+     `PerceivedSeverity` attribute of a CMPIError object.
+
+     For a description of the `PerceivedSeverity` attribute, see
+     @ref CMPIPerceivedSeverity, the description of the `PerceivedSeverity`
+     property in the `CIM_Error` class in the CIM Schema, and the description
+     of the @p sev argument of CMPIBrokerEncFT.newCMPIError().
 
      @param er Points to the CMPIError object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
@@ -8191,15 +8240,23 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @todo In the CMPI Standard document, update the paragraph defining the
+         attribute.
     */
     CMPIErrorSeverity (*getPerceivedSeverity) (const CMPIError* er,
         CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `ProbableCause` attribute of a CMPIError object.
 
-     CMPIErrorFT.getProbableCause() returns the ProbableCause attribute
-     of a CMPIError object.
+     CMPIErrorFT.getProbableCause() gets the value of the `ProbableCause`
+     attribute of a CMPIError object.
+
+     For a description of the `ProbableCause` attribute, see
+     @ref CMPIProbableCause, the description of the `ProbableCause` property in
+     the `CIM_Error` class in the CIM Schema, and the description of the @p pc
+     argument of CMPIBrokerEncFT.newCMPIError().
 
      @param er Points to the CMPIError object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
@@ -8226,15 +8283,22 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @todo In the CMPI Standard document, update the paragraph defining the
+         attribute.
     */
     CMPIErrorProbableCause (*getProbableCause) (const CMPIError* er,
         CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `ProbableCauseDescription` attribute of a CMPIError object.
 
-     CMPIErrorFT.getProbableCauseDescription() returns a string which
-     describes the probable cause.
+     CMPIErrorFT.getProbableCauseDescription() gets the value of the
+     `ProbableCauseDescription` attribute of a CMPIError object.
+
+     For a description of the `ProbableCauseDescription` attribute, see the
+     description of the `ProbableCauseDescription` property in the `CIM_Error`
+     class in the CIM Schema.
 
      @param er Points to the CMPIError object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
@@ -8242,8 +8306,14 @@ typedef struct _CMPIErrorFT {
      @return @parblock
          If successful and the `ProbableCauseDescription` attribute of the
          CMPIError object is non-NULL, a pointer to a CMPIString object will be
-         returned, indicating the value of the ProbableCauseDescription
+         returned, indicating the value of the `ProbableCauseDescription`
          attribute of the CMPIError object.
+
+         The returned CMPIString object shall not be explicitly released by the
+         MI, because it may be an internal object of the CMPIError object which
+         will be released along with that object, or a new object created by
+         the MB which will be released automatically by the MB (see Subclause
+         4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
 
          Otherwise, NULL will be returned.
 
@@ -8265,15 +8335,22 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @todo In the CMPI Standard document, add the paragraph defining the
+         attribute, and add the paragraph about releasing the returned object.
     */
     CMPIString* (*getProbableCauseDescription) (const CMPIError* er,
         CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `RecommendedActions` array attribute of a CMPIError object.
 
-     CMPIErrorFT.getRecommendedActions() returns an array of strings which
-     describes recomended actions of the CMPIError object.
+     CMPIErrorFT.getRecommendedActions() gets the value of the
+     `RecommendedActions` array attribute of a CMPIError object.
+
+     For a description of the `RecommendedActions` attribute, see the
+     description of the `RecommendedActions` property in the `CIM_Error` class
+     in the CIM Schema.
 
      @param er Points to the CMPIError object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
@@ -8305,14 +8382,20 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @todo In the CMPI Standard document, add the paragraph defining the
+         attribute.
     */
     CMPIArray* (*getRecommendedActions) (const CMPIError* er, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `ErrorSource` attribute of a CMPIError object.
 
-     CMPIErrorFT.getErrorSource() returns a string which describes the
-     Error source of the CMPIError object.
+     CMPIErrorFT.getErrorSource() gets the value of the `ErrorSource` attribute
+     of a CMPIError object.
+
+     For a description of the `ErrorSource` attribute, see the description of
+     the `ErrorSource` property in the `CIM_Error` class in the CIM Schema.
 
      @param er Points to the CMPIError object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
@@ -8322,6 +8405,12 @@ typedef struct _CMPIErrorFT {
          is non-NULL, a pointer to a CMPIString object will be returned,
          indicating the value of the `ErrorSource` attribute of the CMPIError
          object.
+
+         The returned CMPIString object shall not be explicitly released by the
+         MI, because it may be an internal object of the CMPIError object which
+         will be released along with that object, or a new object created by
+         the MB which will be released automatically by the MB (see Subclause
+         4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
 
          Otherwise, NULL will be returned.
 
@@ -8343,14 +8432,21 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @todo In the CMPI Standard document, add the paragraph defining the
+         attribute, and add the paragraph about releasing the returned object.
     */
     CMPIString* (*getErrorSource) (const CMPIError* er, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `ErrorSourceFormat` attribute of a CMPIError object.
 
-     CMPIErrorFT.getErrorSourceFormat() returns a the format that the
-     error src is in.
+     CMPIErrorFT.getErrorSourceFormat() gets the value of the
+     `ErrorSourceFormat` attribute of a CMPIError object.
+
+     For a description of the `ErrorSourceFormat` attribute, see the
+     description of the `ErrorSourceFormat` property in the `CIM_Error` class
+     in the CIM Schema.
 
      @param er Points to the CMPIError object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
@@ -8377,16 +8473,22 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @todo In the CMPI Standard document, add the paragraph defining the
+         attribute.
     */
     CMPIErrorSrcFormat (*getErrorSourceFormat) (const CMPIError* er,
         CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `OtherErrorSourceFormat` attribute of a CMPIError object.
 
-     CMPIErrorFT.getOtherErrorSourceFormat() returns a string which
-     describes the 'other' format; only available
-     if the error source is OTHER.
+     CMPIErrorFT.getOtherErrorSourceFormat() gets the value of the
+     `OtherErrorSourceFormat` attribute of a CMPIError object.
+
+     For a description of the `OtherErrorSourceFormat` attribute, see the
+     description of the `OtherErrorSourceFormat` property in the `CIM_Error`
+     class in the CIM Schema.
 
      @param er Points to the CMPIError object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
@@ -8396,6 +8498,12 @@ typedef struct _CMPIErrorFT {
          object is non-NULL, a pointer to a CMPIString object will be returned,
          indicating the value of the `OtherErrorSourceFormat` attribute of the
          CMPIError object.
+
+         The returned CMPIString object shall not be explicitly released by the
+         MI, because it may be an internal object of the CMPIError object which
+         will be released along with that object, or a new object created by
+         the MB which will be released automatically by the MB (see Subclause
+         4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
 
          Otherwise, NULL will be returned.
 
@@ -8417,15 +8525,23 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @todo In the CMPI Standard document, add the paragraph defining the
+         attribute, and add the paragraph about releasing the returned object.
     */
     CMPIString* (*getOtherErrorSourceFormat) (const CMPIError* er,
         CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `CIMStatusCode` attribute of a CMPIError object.
 
-     CMPIErrorFT.getCIMStatusCode() gets the value of the
-     `CIMStatusCode` attribute of a CMPIError object.
+     CMPIErrorFT.getCIMStatusCode() gets the value of the `CIMStatusCode`
+     attribute of a CMPIError object.
+
+     For a description of the `CIMStatusCode` attribute, see the description of
+     the `CIMStatusCode` property in the `CIM_Error` class in the CIM Schema,
+     and the description of the @p cimStatusCode argument of
+     CMPIBrokerEncFT.newCMPIError().
 
      @param er Points to the CMPIError object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
@@ -8454,15 +8570,21 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @todo In the CMPI Standard document, add the paragraph defining the
+         attribute.
     */
     CMPIrc (*getCIMStatusCode) (const CMPIError* er, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Get `CIMStatusCodeDescription` attribute of a CMPIError object.
+     @brief Get the `CIMStatusCodeDescription` attribute of a CMPIError object.
 
-     CMPIErrorFT.getCIMStatusCodeDescription() gets the
-     value of the `CIMStatusCodeDescription` attribute of a CMPIError
-     object.
+     CMPIErrorFT.getCIMStatusCodeDescription() gets the value of the
+     `CIMStatusCodeDescription` attribute of a CMPIError object.
+
+     For a description of the `CIMStatusCodeDescription` attribute, see the
+     description of the `CIMStatusCodeDescription` property in the `CIM_Error`
+     class in the CIM Schema.
 
      @param er Points to the CMPIError object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
@@ -8470,8 +8592,14 @@ typedef struct _CMPIErrorFT {
      @return @parblock
          If successful and the `CIMStatusCodeDescription` attribute of the
          CMPIError object is non-NULL, a pointer to a CMPIString object will be
-         returned, indicating the value of the CIMStatusCodeDescription
+         returned, indicating the value of the `CIMStatusCodeDescription`
          attribute of the CMPIError object.
+
+         The returned CMPIString object shall not be explicitly released by the
+         MI, because it may be an internal object of the CMPIError object which
+         will be released along with that object, or a new object created by
+         the MB which will be released automatically by the MB (see Subclause
+         4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
 
          Otherwise, NULL will be returned.
 
@@ -8493,15 +8621,22 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @todo In the CMPI Standard document, add the paragraph defining the
+         attribute, and add the paragraph about releasing the returned object.
     */
     CMPIString* (*getCIMStatusCodeDescription) (const CMPIError* er,
         CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `MessageArguments` array attribute of a CMPIError object.
 
-     CMPIErrorFT.getMessageArguments() gets the value of
-     the `MessageArguments` array attribute of a CMPIError object.
+     CMPIErrorFT.getMessageArguments() gets the value of the `MessageArguments`
+     array attribute of a CMPIError object.
+
+     For a description of the `MessageArguments` attribute, see the description
+     of the `MessageArguments` property in the `CIM_Error` class in the CIM
+     Schema.
 
      @param er Points to the CMPIError object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
@@ -8510,7 +8645,7 @@ typedef struct _CMPIErrorFT {
          If successful and the `MessageArguments` array attribute of the
          CMPIError object is non-NULL, a pointer to a CMPIArray object will be
          returned, containing CMPIString objects that represent the array
-         elements of the MessageArguments array attribute of the CMPIError
+         elements of the `MessageArguments` array attribute of the CMPIError
          object.
 
          Otherwise, NULL will be returned.
@@ -8533,22 +8668,28 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
+     @todo In the CMPI Standard document, add the paragraph defining the
+         attribute, and add the paragraph about releasing the returned object.
     */
     CMPIArray* (*getMessageArguments) (const CMPIError* er, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the `ErrorType` attribute of a CMPIError object.
 
-     CMPIErrorFT.setErrorType() sets the value of the
-     `ErrorType` attribute of this CMPIError object.
+     CMPIErrorFT.setErrorType() sets the value of the `ErrorType` attribute of
+     a CMPIError object.
+
+     For a description of the `ErrorType` attribute, see @ref CMPIErrorType and
+     the description of the `ErrorType` property in the `CIM_Error` class in
+     the CIM Schema.
 
      @param er Points to the CMPIError object for this function.
-     @param et CMPIErrorType enumeration value specifying the new value for
-         the `ErrorType` attribute. If the error message in the
-         CMPIError object
-         is defined in a DMTF message registry, @p et shall
-         reflect the content of the `ERROR_TYPE` element defined for
-         the message in the registry.
+     @param et A @ref CMPIErrorType enumeration value specifying the new value
+         for the `ErrorType` attribute. If the error message in the CMPIError
+         object is defined in a DMTF message registry, @p et shall reflect the
+         content of the ERROR_TYPE element defined for the message in the
+         registry.
      @return CMPIStatus structure containing the function return status
 
      @par Errors
@@ -8569,19 +8710,22 @@ typedef struct _CMPIErrorFT {
     */
     CMPIStatus (*setErrorType) (const CMPIError* er, const CMPIErrorType et);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the `OtherErrorType` attribute of a CMPIError object.
 
-     CMPIErrorFT.setOtherErrorType() sets the `OtherErrorType` attribute
-     of this CMPIError object.
+     CMPIErrorFT.setOtherErrorType() sets the value of the `OtherErrorType`
+     attribute of a CMPIError object.
+
+     For a description of the `OtherErrorType` attribute, see the description of
+     the `OtherErrorType` property in the `CIM_Error` class in the CIM Schema.
 
      @param er Points to the CMPIError object for this function.
-     @param oet New non-NULL value for the OtherErrorType attribute, or is NULL
-         specifying that the attribute will be set to NULL. If the error
-         message is defined in a DMTF message registry, the string value of @p
-         oet shall be the content of the OTHER_ERROR_TYPE element defined for
-         the message in the registry It is only valid when error type is
-         "OTHER"
+     @param ot New non-NULL value for the `OtherErrorType` attribute, or is
+         NULL specifying that the attribute will be set to NULL. If the error
+         message is defined in a DMTF message registry, the string value of
+         @p ot shall be the content of the OTHER_ERROR_TYPE element defined for
+         the message in the registry.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -8600,21 +8744,25 @@ typedef struct _CMPIErrorFT {
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
     */
-    CMPIStatus (*setOtherErrorType) (const CMPIError* er, const char* oet);
+    CMPIStatus (*setOtherErrorType) (const CMPIError* er, const char* ot);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the `ProbableCauseDescription` attribute of a CMPIError object.
 
-     CMPIErrorFT.setProbableCauseDescription() sets the description of the
-     probable cause.
+     CMPIErrorFT.setProbableCauseDescription() sets the value of the
+     `ProbableCauseDescription` attribute of a CMPIError object.
+
+     For a description of the `ProbableCauseDescription` attribute, see the
+     description of the `ProbableCauseDescription` property in the `CIM_Error`
+     class in the CIM Schema.
 
      @param er Points to the CMPIError object for this function.
-     @param pcd New non-NULL value for the
-         `ProbableCauseDescription` attribute, or is NULL specifying
-         that the attribute will be set to NULL. If the error
-         message is defined in a DMTF message registry, note that
-         the string value of @p pcd is not defined in the
-         message in the registry.
+     @param pcd New non-NULL value for the `ProbableCauseDescription`
+         attribute, or is NULL specifying that the attribute will be set to
+         NULL. If the error message is defined in a DMTF message registry, note
+         that the string value of @p pcd is not defined in the message in the
+         registry.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -8636,26 +8784,26 @@ typedef struct _CMPIErrorFT {
     CMPIStatus (*setProbableCauseDescription) (const CMPIError* er,
         const char* pcd);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the `RecommendedActions` array attribute of a CMPIError object.
 
-     CMPIErrorFT.setRecommendedActions() sets the value
-     of the `RecommendedActions` array attribute of a CMPIError
-     object.
+     CMPIErrorFT.setRecommendedActions() sets the value of the
+     `RecommendedActions` array attribute of a CMPIError object.
 
-     For a description of the RecommendedActions attribute, see
-     the description of the RecommendedActions property in the
-     CIM_Error class in the CIM Schema.
+     For a description of the `RecommendedActions` attribute, see the
+     description of the `RecommendedActions` property in the `CIM_Error` class
+     in the CIM Schema.
 
      @param er Points to the CMPIError object for this function.
-     @param ra Points to a CMPIArray object specifying the new array value
-         for the RecommendedActions array attribute. The CMPIArray object
+     @param ra Points to a CMPIArray object specifying the new array value for
+         the `RecommendedActions` array attribute. The CMPIArray object
          contains CMPIString objects or NULL values as array elements. @p ra
-         may be NULL, specifying that the RecommendedActions array
-         attribute will be set to NULL. If the error message is defined in a
-         DMTF message registry, @p ra shall reflect the values
-         defined in the RECOMMENDED_ACTION elements defined for the message
-         in the registry, in the order defined there.
+         may be NULL, specifying that the `RecommendedActions` array attribute
+         will be set to NULL. If the error message is defined in a DMTF message
+         registry, @p ra shall reflect the values defined in the
+         RECOMMENDED_ACTION elements defined for the message in the registry,
+         in the order defined there.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -8677,22 +8825,22 @@ typedef struct _CMPIErrorFT {
     CMPIStatus (*setRecommendedActions) (const CMPIError* er,
         const CMPIArray* ra);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the `ErrorSource` attribute of a CMPIError object.
 
-     CMPIErrorFT.setErrorSource() sets the value of the ErrorSource
-     attribute of a CMPIError object.
+     CMPIErrorFT.setErrorSource() sets the value of the `ErrorSource` attribute
+     of a CMPIError object.
 
-     For a description of the ErrorSource attribute, see the
-     description of the ErrorSource property in the CIM_Error class
-     in the CIM Schema
+     For a description of the `ErrorSource` attribute, see the description of
+     the `ErrorSource` property in the `CIM_Error` class in the CIM Schema.
 
      @param er Points to the CMPIError object for this function.
-     @param es New non-NULL value for the ErrorSource
-         attribute, or is NULL specifying that the attribute will be set to
-         NULL. If the error message is defined in a DMTF message registry,
-         the string value of @p es shall be the content of the
-         ERROR_SOURCE element defined for the message in the registry.
+     @param es New non-NULL value for the `ErrorSource` attribute, or is NULL
+         specifying that the attribute will be set to NULL. If the error
+         message is defined in a DMTF message registry, the string value of
+         @p es shall be the content of the ERROR_SOURCE element defined for the
+         message in the registry.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -8713,20 +8861,23 @@ typedef struct _CMPIErrorFT {
     */
     CMPIStatus (*setErrorSource) (const CMPIError* er, const char* es);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the `ErrorSourceFormat` attribute of a CMPIError object.
 
-     CMPIErrorFT.setErrorSourceFormat() sets the source format of
-     the error object. For a description of the ErrorSourceFormat
-     attribute, see the description of the ErrorSourceFormat
-     property in the CIM_Error class in the CIM Schema.
+     CMPIErrorFT.setErrorSourceFormat() sets the value of the
+     `ErrorSourceFormat` attribute of a CMPIError object.
+
+     For a description of the `ErrorSourceFormat` attribute, see the
+     description of the `ErrorSourceFormat` property in the `CIM_Error` class
+     in the CIM Schema.
 
      @param er Points to the CMPIError object for this function.
-     @param esf CMPIErrorSrcFormat enumeration value specifying the new value
-         for the ErrorSourceFormat attribute. If the error message is defined
-         in a DMTF message registry, the string value of @p esf shall
+     @param esf A @ref CMPIErrorSrcFormat enumeration value specifying the new
+         value for the `ErrorSourceFormat` attribute. If the error message is
+         defined in a DMTF message registry, the string value of @p esf shall
          be the content of the ERROR_SOURCE_FORMAT element defined for the
-         message in the registry
+         message in the registry.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -8748,11 +8899,16 @@ typedef struct _CMPIErrorFT {
     CMPIStatus (*setErrorSourceFormat) (const CMPIError* er,
         const CMPIErrorSrcFormat esf);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Set the `OtherErrorSourceFormat` attribute of a CMPIError object
+     @brief Set the `OtherErrorSourceFormat` attribute of a CMPIError object.
 
-     CMPIErrorFT.setOtherErrorSourceFormat() specifies a string
-     defining "Other" values for `ErrorSourceFormat`
+     CMPIErrorFT.setOtherErrorSourceFormat() sets the value of the
+     `OtherErrorSourceFormat` attribute of a CMPIError object.
+
+     For a description of the `OtherErrorSourceFormat` attribute, see the
+     description of the `OtherErrorSourceFormat` property in the `CIM_Error`
+     class in the CIM Schema.
 
      @param er Points to the CMPIError object for this function.
      @param oef New non-NULL value for the `OtherErrorSourceFormat` attribute,
@@ -8781,21 +8937,23 @@ typedef struct _CMPIErrorFT {
     CMPIStatus (*setOtherErrorSourceFormat) (const CMPIError* er,
         const char* oef);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Set the `CIMStatusCodeDescription` attribute of a CMPIError object
+     @brief Set the `CIMStatusCodeDescription` attribute of a CMPIError object.
 
-     CMPIErrorFT.setCIMStatusCodeDescription() sets the
-     description of the status code. For a description of the
-     `CIMStatusCodeDescription` attribute, see the description of the
-     `CIMStatusCodeDescription` property in the `CIM_Error`
+     CMPIErrorFT.setCIMStatusCodeDescription() sets the value of the
+     `CIMStatusCodeDescription` attribute of a CMPIError object.
+
+     For a description of the `CIMStatusCodeDescription` attribute, see the
+     description of the `CIMStatusCodeDescription` property in the `CIM_Error`
      class in the CIM Schema.
 
      @param er Points to the CMPIError object for this function.
-     @param scd A Pointer to a string specifying the new non-NULL value
-         for the `CIMStatusCodeDescription` attribute, or NULL specifying
-         that the attribute will be set to NULL. If the error message is defined
-         in a DMTF message registry, note that the string value of
-         @p scd is not defined in the message in the registry.
+     @param scd New non-NULL value for the `CIMStatusCodeDescription`
+         attribute, or NULL specifying that the attribute will be set to NULL.
+         If the error message is defined in a DMTF message registry, note that
+         the string value of @p scd is not defined in the message in the
+         registry.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -8817,25 +8975,26 @@ typedef struct _CMPIErrorFT {
     CMPIStatus (*setCIMStatusCodeDescription) (const CMPIError* er,
         const char* scd);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the `MessageArguments` array attribute of a CMPIError object.
 
-     CMPIErrorFT.setMessageArguments() sets an array of strings
-     for the dynamic content of the message. For a
-     description of the `MessageArguments` attribute, see the
-     description of the `MessageArguments` property in the
-     `CIM_Error` class in the CIM Schema.
+     CMPIErrorFT.setMessageArguments() sets the value of the `MessageArguments`
+     array attribute of a CMPIError object.
+
+     For a description of the `MessageArguments` attribute, see the description
+     of the `MessageArguments` property in the `CIM_Error` class in the CIM
+     Schema.
 
      @param er Points to the CMPIError object for this function.
-     @param values CMPIArray object specifying the new array value
-         for the `MessageArguments` array attribute. The CMPIArray
-         object contains CMPIString objects or NULL values as array
-         elements. @p values may be NULL, specifying that the
-         `MessageArguments` array attribute will be set to NULL. If the
-         error message is defined in a DMTF message registry, @p values
-         shall reflect the values defined in the DYNAMIC_ELEMENT
-         elements defined for the message in the registry, in the order
-         defined there.
+     @param values CMPIArray object specifying the new array value for the
+         `MessageArguments` array attribute. The CMPIArray object contains
+         CMPIString objects or NULL values as array elements. @p values may be
+         NULL, specifying that the `MessageArguments` array attribute will be
+         set to NULL. If the error message is defined in a DMTF message
+         registry, @p values shall reflect the values defined in the
+         DYNAMIC_ELEMENT elements defined for the message in the registry, in
+         the order defined there.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -8964,6 +9123,7 @@ typedef struct _CMPIPropertyListFT {
     */
     CMPIPropertyList* (*clone) (const CMPIPropertyList* plist, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Test whether a property is in the property list
          represented by a CMPIPropertyList object.
@@ -8976,15 +9136,14 @@ typedef struct _CMPIPropertyListFT {
      function only once for each property, and cache the result.
 
      @param plist Points to the CMPIPropertyList object for this function.
-     @param pname A CMPIString specifying the name of the property to be
-         tested.
+     @param pname Name of the property to be tested.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return has been updated with the function return status
      @return @parblock
-         If successful, a CMPIBoolean value indicating
-         the test result will be returned, as follows: True
-         indicates that the property is in the property list; False
-         indicates that this is not the case.
+         If successful, a @ref CMPIBoolean value indicating the test result
+         will be returned, as follows:
+         @li True indicates that the property is in the property list;
+         @li False indicates that this is not the case.
 
          If not successful, False will be returned.
      @endparblock
@@ -8994,20 +9153,21 @@ typedef struct _CMPIPropertyListFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p plist handle is invalid.
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` - Invalid @p pname.
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p pname value is invalid.
 
      @todo KS: Add macro for this
     */
     CMPIBoolean (*isPropertyInList) (const CMPIPropertyList* plist,
         const char* pname, CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Return the property list represented by a CMPIPropertyList object
      as an array of strings.
 
-     CMPIPropertyListFT.getProperties() returns the property list
-     represented by @p plist CMPIPropertyList object as a NULL-terminated array
-     of pointers to strings.
+     CMPIPropertyListFT.getProperties() returns the property list represented
+     by a CMPIPropertyList object as a NULL-terminated array of pointers to
+     strings.
 
      @param plist Points to the CMPIPropertyList object for this function.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
@@ -9025,9 +9185,9 @@ typedef struct _CMPIPropertyListFT {
          The returned array shall not be explicitly released by the MI, because
          it may point to an internal data area in the CMPIPropertyList object
          which will be released along with that object, or it may point to a
-         new array created by the MB which will be released automatically
-         by the MB
-         (see Subclause 4.1.7 of the @ref ref-cmpi-standard "CMPI Standard").
+         new array created by the MB which will be released automatically by
+         the MB (see Subclause 4.1.7 of the
+         @ref ref-cmpi-standard "CMPI Standard").
 
          If not successful, NULL will be returned.
      @endparblock
@@ -9148,23 +9308,26 @@ typedef struct _CMPIEnumerationFilterFT {
     CMPIEnumerationFilter* (*clone) (const CMPIEnumerationFilter* ef,
         CMPIStatus* rc);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Instance matches the filter represented by a
-         CMPIEnumerationFilter object
+     @brief Test whether an instance matches the filter represented by a
+         CMPIEnumerationFilter object.
 
-     CMPIEnumerationFilterFT.match() tests whether an instance matches
-     the filter
-     represented by the CMPIEnumerationFilter object @p ef.
-     The filter matches the instance if the conditions defined in the
-     filter are met by the properties of the instance.
+     CMPIEnumerationFilterFT.match() tests whether an instance matches the
+     filter represented by a CMPIEnumerationFilter object. The filter matches
+     the instance if the conditions defined in the filter are met by the
+     properties of the instance.
+
+     The MB's implementation of this function should be efficient.
 
      @param ef Points to the CMPIEnumerationFilter object for this function.
-     @param inst CMPIInstance object that is to be tested against the filter.
+     @param inst Points to the CMPIInstance object to be tested against the
+         filter.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a CMPIBoolean value indicating the test result will be
-         returned as follows:
+         If successful, a @ref CMPIBoolean value indicating the test result
+         will be returned as follows:
          @li True indicates that the instance matches the filter;
          @li False indicates that this is not the case.
 
@@ -9184,6 +9347,8 @@ typedef struct _CMPIEnumerationFilterFT {
          codes occurred.
 
      @todo KS: Create macro for this
+     @todo In the CMPI Standard document, add the definition of when a filter
+         matches.
     */
     CMPIBoolean (*match) (const CMPIEnumerationFilter* ef,
         const CMPIInstance* inst, CMPIStatus* rc);
@@ -9245,6 +9410,8 @@ typedef struct _CMPIInstanceMIFT {
      */
     const char* miName;
 
+// DONE_AM Next function is already synced with spec.
+// TODO_AM Sync function descriptions with spec, from here on down.
     /**
      @brief Perform cleanup for an Instance MI.
 
@@ -11504,9 +11671,9 @@ typedef struct _CMPIIndicationMIFT {
          There is no defined client operation that determines the context data.
          As a result, not all context data entries may be present.
      @param collInst Points to a CMPIInstance object with the
-         CIM_FilterCollection instance representing the indication
+         `CIM_FilterCollection` instance representing the indication
          filter collection. Note that the indication filter collection
-         can be identified by inspecting the CollectionName property
+         can be identified by inspecting the `CollectionName` property
          of this instance
      @return CMPIStatus structure containing the function return status.
 
@@ -11582,9 +11749,9 @@ typedef struct _CMPIIndicationMIFT {
          that originally created the subscription determines the context
          data.
      @param collInst Points to a CMPIInstance object with the
-         CIM_FilterCollection instance representing the indication
+         `CIM_FilterCollection` instance representing the indication
          filter collection. Note that the indication filter collection
-         can be identified by inspecting the CollectionName property
+         can be identified by inspecting the `CollectionName` property
          of this instance.
      @param firstActivation Set to true if this is the first activation
          of this indication filter collection after having been inactive,
@@ -11666,9 +11833,9 @@ typedef struct _CMPIIndicationMIFT {
          that originally created the subscription determines the context
          data.
      @param collInst Points to a CMPIInstance object with the
-         CIM_FilterCollection instance representing the indication
+         `CIM_FilterCollection` instance representing the indication
          filter collection. Note that the indication filter collection
-         can be identified by inspecting the CollectionName property
+         can be identified by inspecting the `CollectionName` property
          of this instance.
      @param lastDeactivation Set to true if this is the last deactivation
          of this indication filter collection after having been active;
