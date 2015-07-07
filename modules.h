@@ -222,91 +222,6 @@
  */
 
 /**
-@defgroup symbols Preprocessor Symbols
-@{
-  @defgroup symbols-user Symbols definable by the CMPI user
-  @{
-    These symbols can be defined by the user of the CMPI header files.
-
-    @defgroup sym-version CMPI_VERSION
-    @{
-      @brief CMPI version that is implemented.
-    @}
-  @}
-  @defgroup symbols-versioning Symbols related to CMPI versioning
-  @{
-    @defgroup sym-version-nnn CMPIVersion{NNN}
-    @{
-      @brief Numeric CMPI version numbers.
-
-      Note: Historical CMPI levels (before the first CMPI Standard, e.g.
-      86, 90) are not supported by this header file.
-    @}
-    @defgroup sym-current-version CMPICurrentVersion
-    @{
-      @brief Current CMPI version of the header files.
-    @}
-    @defgroup sym-ver-nnn CMPI_VER_{NNN}
-    @{
-      @brief Tests for CMPI version dependent features.
-
-      These symbols are used by the CMPI headers and can be used by MB or MI
-      implementations supporting multiple CMPI versions, to test whether CMPI
-      version dependent features should be made available, given the
-      implemented version defined by @ref CMPI_VERSION.
-
-      The term *available* as used here means that the feature is defined in
-      the header files and subsequently can be supported in the MB or MI
-      implementation.
-
-      A symbol for a particular version (e.g. @ref CMPI_VER_200) is defined if
-      its version is lower than or equal to the CMPI version that is implemented
-      (as indicated by @ref CMPI_VERSION). Otherwise, it is undefined.
-
-      This allows a feature that was introduced in a particular CMPI version
-      to be defined like in the following example:
-
-<pre>
-\#ifdef CMPI_VER_200
-// definition or use of feature that was added in CMPI 2.0.0
-\#endif
-</pre>
-    @}
-  @}
-  @defgroup symbols-os-encaps Symbols related to OS Encapsulation Services
-  @{
-    @defgroup sym-thread-type CMPI_THREAD_TYPE
-    @{
-    @}
-    @defgroup sym-thread-return CMPI_THREAD_RETURN
-    @{
-    @}
-    @defgroup sym-thread-cdecl CMPI_THREAD_CDECL
-    @{
-    @}
-    @defgroup sym-thread-key-type CMPI_THREAD_KEY_TYPE
-    @{
-    @}
-    @defgroup sym-mutex-type CMPI_MUTEX_TYPE
-    @{
-    @}
-    @defgroup sym-cond-type CMPI_COND_TYPE
-    @{
-    @}
-  @}
-  @defgroup symbols-export-import Symbols for exporting and importing symbols
-  @{
-    @defgroup sym-export CMPI_EXPORT
-    @{
-    @}
-    @defgroup sym-import CMPI_IMPORT
-    @{
-    @}
-    @defgroup sym-extern-c CMPI_EXTERN_C
-    @{
-    @}
-  @}
-@}
 @defgroup data-types Data Types (Subclause 5)
 @{
   @defgroup type-codepage-id Codepage Conversion (Subclause 5.2.2)
@@ -513,28 +428,136 @@
   @{
   @}
 @}
-@defgroup cmpi-conviencefunc CMPI Convience functions
+@defgroup symbols Preprocessor Symbols
 @{
-   @defgroup cmpi-function-supplements Inline functions that supplement \
-       function calls.
-   @{
-   The inline functions in this group supplement the functions defined in the
-   specification, for example, adding a function that creates status and does
-   a return in a single call
+  @defgroup symbols-user Symbols definable by the CMPI user
+  @{
+    These symbols can be defined by the user of the CMPI header files.
 
-   They aid the access to cmpi selected variables or otherwise provide
-   functionality not directly available through a function. Examples of
-   this are CMReturn() andCMIsNull()
-   @}
-   @defgroup cmpi-conv-func-calls Convience functions that directly map to \
-   cmpi specified functions.
-   @{
-   These macros simplify the code by eliminating the direct
-   reference to the function table. Every convience function in this group
-   directly maps to a cmpi function.
-   @}
-   @defgroup cmpi-providerfactories Provider Stub CreationFactories.
-   @{
-   @}
+    @defgroup sym-version CMPI_VERSION
+    @{
+      @brief CMPI version that is implemented.
+    @}
+  @}
+  @defgroup symbols-versioning Symbols related to CMPI versioning
+  @{
+    @defgroup sym-version-nnn CMPIVersion{NNN}
+    @{
+      @brief Numeric CMPI version numbers.
+
+      Note: Historical CMPI levels (before the first CMPI Standard, e.g.
+      86, 90) are not supported by this header file.
+    @}
+    @defgroup sym-current-version CMPICurrentVersion
+    @{
+      @brief Current CMPI version of the header files.
+    @}
+    @defgroup sym-ver-nnn CMPI_VER_{NNN}
+    @{
+      @brief Tests for CMPI version dependent features.
+
+      These symbols are used by the CMPI headers and can be used by MB or MI
+      implementations supporting multiple CMPI versions, to test whether CMPI
+      version dependent features should be made available, given the
+      implemented version defined by @ref CMPI_VERSION.
+
+      The term *available* as used here means that the feature is defined in
+      the header files and subsequently can be supported in the MB or MI
+      implementation.
+
+      A symbol for a particular version (e.g. @ref CMPI_VER_200) is defined if
+      its version is lower than or equal to the CMPI version that is implemented
+      (as indicated by @ref CMPI_VERSION). Otherwise, it is undefined.
+
+      This allows a feature that was introduced in a particular CMPI version
+      to be defined like in the following example:
+
+<pre>
+\#ifdef CMPI_VER_200
+// definition or use of feature that was added in CMPI 2.0.0
+\#endif
+</pre>
+    @}
+  @}
+  @defgroup symbols-os-encaps Symbols related to OS Encapsulation Services
+  @{
+    @defgroup sym-thread-type CMPI_THREAD_TYPE
+    @{
+    @}
+    @defgroup sym-thread-return CMPI_THREAD_RETURN
+    @{
+    @}
+    @defgroup sym-thread-cdecl CMPI_THREAD_CDECL
+    @{
+    @}
+    @defgroup sym-thread-key-type CMPI_THREAD_KEY_TYPE
+    @{
+    @}
+    @defgroup sym-mutex-type CMPI_MUTEX_TYPE
+    @{
+    @}
+    @defgroup sym-cond-type CMPI_COND_TYPE
+    @{
+    @}
+  @}
+  @defgroup symbols-export-import Symbols for exporting and importing symbols
+  @{
+    @defgroup sym-export CMPI_EXPORT
+    @{
+    @}
+    @defgroup sym-import CMPI_IMPORT
+    @{
+    @}
+    @defgroup sym-extern-c CMPI_EXTERN_C
+    @{
+    @}
+  @}
+@}
+@defgroup convience-func CMPI Convenience Functions
+@{
+  In CMPI 1.0, the CMPI convenience functions were defined as C preprocessor
+  macros, which coined the term "CMPI macros". Since CMPI 2.0, they are
+  defined as C inline functions wherever possible. Only a small number of them
+  is still defined as C preprocessor macros.
+
+  @todo TBD AM: Should we describe that the user can switch between macro and
+        inline?
+
+  The CMPI convenience functions are not a part of the CMPI Standard.
+
+  @defgroup convience-func-supplements Supplements to CMPI Standard functions
+  @{
+    @brief Convenience functions that supplement functions defined in the CMPI
+        Standard.
+
+    The convenience functions in this group supplement functions defined in the
+    @ref ref-cmpi-standard "CMPI Standard".
+
+    They aid the access to selected CMPI variables or otherwise provide
+    functionality not directly available through a CMPI Standard function. An
+    example is CMReturn() which creates a function result status and returns
+    from the current MI function in a single call.
+  @}
+  @defgroup convience-func-direct-calls Direct calls to CMPI Standard functions
+  @{
+    @brief Convenience functions that directly call functions defined in the
+        CMPI Standard.
+
+    The convenience functions in this group directly call functions defined in
+    the @ref ref-cmpi-standard "CMPI Standard".
+
+    They simplify the code by eliminating the references to function tables.
+  @}
+  @defgroup convience-func-mi-factory-stubs MI Factory Stubs
+  @{
+    @brief Convenience functions that help creating the basic implementation of
+        MI factory functions.
+
+    The convenience functions in this group help creating the basic
+    implementation of the @ref mi-factory "MI factory functions".
+
+    Their use is necessary because they provide some anchor variables that are
+    used by the other convenience functions.
+  @}
 @}
 */

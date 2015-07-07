@@ -79,10 +79,12 @@
  *    @todo discuss inline vs macros.
  *    @todo macros is bad word.  Maybe we call them convience
  *          functions to cover macro vs inline versions.
+ *    @todo AM: Should we move this description to the defgroup "CMPI
+ *          Convenience Functions" in modules.h?
  */
 
 /**
- * @addtogroup cmpi-function-supplements
+ * @addtogroup convience-func-supplements
  * @{
  */
 #ifndef _CMPIMACS_H_
@@ -469,7 +471,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
 
 /**
  * @}
- * @addtogroup cmpi-conv-func-calls
+ * @addtogroup convience-func-direct-calls
  * @{
  */
 
@@ -3649,7 +3651,7 @@ _CMPI_INLINE_MOD CMPIData CBGetProperty(
 */
 /**
  * @}
- * @addtogroup cmpi-providerfactories
+ * @addtogroup convience-func-mi-factory-stubs
  * @{
  */
 #   ifndef DOC_ONLY

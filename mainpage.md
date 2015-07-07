@@ -40,25 +40,25 @@ or by electronic mail to:
 Structure of this online documentation
 --------------------------------------
 
-The [Modules](modules.html) tab (at the top of this page) attempts to resemble
-the heading structure of the CMPI Standard as much as possible. In addition, it
-has modules for preprocessor symbols and for the CMPI convenience functions
-(also known as CMPI macros). This tab should be used as a general entry point,
-unless you know exactly what you are looking for.
+The [<b>Modules</b>](modules.html) tab (at the top of this page) attempts to
+resemble the heading structure of the CMPI Standard as much as possible. In
+addition, it has modules for preprocessor symbols and for the CMPI convenience
+functions (also known as CMPI macros). This tab should be used as a general
+entry point, unless you know exactly what you are looking for.
 
-The [Related Pages](pages.html) tab provides automatically generated lists,
-such as things added in CMPI 2.1, or things made mandatory in CMPI 2.1, or the
-MB capabilities, or a list of deprecated elements.
+The [<b>Related Pages</b>](pages.html) tab provides automatically generated
+lists, such as things added in CMPI 2.1, or things made mandatory in CMPI 2.1,
+or the MB capabilities, or a list of deprecated elements.
 
-The [Data Structures](annotated.html) tab provides an alphabetically sorted list
-of all structures and unions of the CMPI Standard, and of their data fields.
-This list does not contain any enumerations, preprocessor symbols, or typedefs
-that are unrelated to structures or unions.
+The [<b>Data Structures</b>](annotated.html) tab provides an alphabetically
+sorted list of all structures and unions of the CMPI Standard, and of their
+data fields. This list does not contain any enumerations, preprocessor symbols,
+or typedefs that are unrelated to structures or unions.
 
-The [Files](files.html) tab lists the CMPI header files, and with each of them,
-the list of data structures (structs and unions), macros (including symbols),
-typedefs, and enumerations. There is also an alphabetically sorted list of
-globals.
+The [<b>Files</b>](files.html) tab lists the CMPI header files, and with each
+of them, the list of data structures (structs and unions), macros (including
+symbols), typedefs, and enumerations. There is also an alphabetically sorted
+list of globals.
 
 C/C++ Language Considerations and Header Files
 ----------------------------------------------
@@ -81,9 +81,9 @@ The CMPI header files are:
     `cmpimacs.h`.
   * `cmpios.h` - OS-specific defines for threading structures, etc.; it is
     included by `cmpift.h`.
-  * `cmpipl.h` - Platform checker that verifies that a valid @ref sym-platform
-    "CMPI_PLATFORM_{xxx}" symbol has been defined; it is included by `cmpidt.h`
-    and `cmpios.h`.
+  * `cmpipl.h` - Platform checker that verifies that a valid compile platform
+    (@ref sym-platform "CMPI_PLATFORM_{xxx}" symbol) has been defined; it is
+    included by `cmpidt.h` and `cmpios.h`.
 
 For the benefit of developers, copies of these header files are downloadable
 from the CMPI website
