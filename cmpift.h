@@ -3746,7 +3746,7 @@ typedef struct _CMPIBrokerMemFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @capmemory This function is part of the Memory Enhancement Services
          capability.
-     @todo In the CMPI Standard document, add the more specific statement about
+     @bug In the CMPI Standard document, add the more specific statement about
          overlapping stacked object lifecycle levels.
     */
     CMPIGcStat* (*mark) (const CMPIBroker* mb, CMPIStatus* rc);
@@ -3814,7 +3814,7 @@ typedef struct _CMPIBrokerMemFT {
          capability.
 
      @note No corresponding macro
-     @todo In the CMPI Standard document, add a reference to Subclause 4.1.7.
+     @bug In the CMPI Standard document, add a reference to Subclause 4.1.7.
     */
     void* (*cmpiMalloc) (const CMPIBroker* mb, size_t size);
 
@@ -3846,7 +3846,7 @@ typedef struct _CMPIBrokerMemFT {
          capability.
 
      @note No corresponding macro
-     @todo In the CMPI Standard document, add a reference to Subclause 4.1.7.
+     @bug In the CMPI Standard document, add a reference to Subclause 4.1.7.
     */
     void* (*cmpiCalloc) (const CMPIBroker* mb, size_t nElems, size_t sizeElem);
 
@@ -3889,7 +3889,7 @@ typedef struct _CMPIBrokerMemFT {
          capability.
 
      @note No corresponding macro
-     @todo In the CMPI Standard document, add a reference to Subclause 4.1.7.
+     @bug In the CMPI Standard document, add a reference to Subclause 4.1.7.
     */
     void* (*cmpiRealloc) (const CMPIBroker* mb, void* ptr, size_t size);
 
@@ -3919,7 +3919,7 @@ typedef struct _CMPIBrokerMemFT {
          capability.
 
      @note No corresponding macro
-     @todo In the CMPI Standard document, add a reference to Subclause 4.1.7.
+     @bug In the CMPI Standard document, add a reference to Subclause 4.1.7.
     */
     char* (*cmpiStrDup) (const CMPIBroker* mb, const char* str);
 
@@ -4093,7 +4093,7 @@ typedef struct _CMPIBrokerMemFT {
          capability.
 
      @note No corresponding macro
-     @todo In the CMPI Standard, add newDateTimeFromBinary() and
+     @bug In the CMPI Standard, add newDateTimeFromBinary() and
          newDateTimeFromChars() as additional functions that may have created
          the object.
     */
@@ -4153,7 +4153,7 @@ typedef struct _CMPIBrokerMemFT {
      @added210 Added in CMPI 2.1.0.
 
      @note No corresponding macro
-     @todo In the CMPI Standard document, add the additional dependency on
+     @bug In the CMPI Standard document, add the additional dependency on
          supporting the Codepage Conversion capability.
     */
     void (*freeChars) (const CMPIBroker* mb, char* chars);
@@ -4869,7 +4869,7 @@ typedef struct _CMPIStringFT {
  * and MI functions and are returned directly from some specific retrieval
  * functions, such as CMPIErrorFT.getMessageArguments().
  *
- * @todo In the CMPI Standard document, replace the introductory description
+ * @bug In the CMPI Standard document, replace the introductory description
  *     for CMPIArray support (first three paragraphs) with the description from
  *     the header file.
  */
@@ -5040,7 +5040,7 @@ typedef struct _CMPIArrayFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
 
      @see CMGetArrayElementAt()
-     @todo In the CMPI Standard document, add the phrase "by index" to the
+     @bug In the CMPI Standard document, add the phrase "by index" to the
          description.
     */
     CMPIData (*getElementAt) (const CMPIArray* ar, CMPICount index,
@@ -5100,7 +5100,7 @@ typedef struct _CMPIArrayFT {
          since CMPI 2.1.
          Instead, callers should assume that it is undefined whether the array
          element's state has changed when the function was not successful.
-     @todo In the CMPI Standard document, add the phrase "by index" to the
+     @bug In the CMPI Standard document, add the phrase "by index" to the
          description.
     */
     CMPIStatus (*setElementAt) (const CMPIArray* ar, CMPICount index,
@@ -5121,7 +5121,7 @@ typedef struct _CMPIArrayFT {
  * functions, such as CMPIBrokerFT.enumerateInstances(), or
  * CMPIBrokerFT.associatorNames().
  *
- * @todo In the CMPI Standard document, replace the introductory description
+ * @bug In the CMPI Standard document, replace the introductory description
  *     for CMPIEnumeration support (first two paragraphs) with the description
  *     from the header file.
  */
@@ -5316,7 +5316,7 @@ typedef struct _CMPIEnumerationFT {
  * path, class name, and property values. It is used to transfer the state of
  * an instance between MB and MI (and vice versa).
  *
- * @todo In the CMPI Standard document, add an introductory description
+ * @bug In the CMPI Standard document, add an introductory description
  *     for CMPIInstance support, using the description from the header file.
  */
 typedef struct _CMPIInstance {
@@ -5433,7 +5433,7 @@ typedef struct _CMPIInstanceFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst handle is invalid.
 
      @see CMGetProperty()
-     @todo In the CMPI Standard document, add "by name" to the long description.
+     @bug In the CMPI Standard document, add "by name" to the long description.
     */
     CMPIData (*getProperty) (const CMPIInstance* inst, const char* name,
         CMPIStatus* rc);
@@ -5472,7 +5472,7 @@ typedef struct _CMPIInstanceFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst handle is invalid.
 
      @see CMGetPropertyAt()
-     @todo In the CMPI Standard document, add "by index" to the long
+     @bug In the CMPI Standard document, add "by index" to the long
          description, and change "index number" to "position" in the
          description of the index argument.
     */
@@ -5553,7 +5553,7 @@ typedef struct _CMPIInstanceFT {
      @see CMSetProperty()
      @added210 In CMPI 2.1.0, added return code CMPI_RC_ERR_INVALID_PARAMETER.
 
-     @todo In the CMPI Standard document, add "by name" to the long description.
+     @bug In the CMPI Standard document, add "by name" to the long description.
     */
     CMPIStatus (*setProperty) (const CMPIInstance* inst, const char* name,
         const CMPIValue* value, CMPIType type);
@@ -5673,7 +5673,7 @@ typedef struct _CMPIInstanceFT {
          @p op are invalid.
 
      @see CMSetObjectPath()
-     @todo In the CMPI Standard document, change the first sentence of the
+     @bug In the CMPI Standard document, change the first sentence of the
          description to use wording that is consistent with the short
          description.
     */
@@ -5734,7 +5734,7 @@ typedef struct _CMPIInstanceFT {
 
      @see CMSetPropertyWithOrigin()
      @added200 Added in CMPI 2.0.0.
-     @todo In the CMPI Standard document, add "and class origin" in the short
+     @bug In the CMPI Standard document, add "and class origin" in the short
          and long descriptions.
     */
     CMPIStatus (*setPropertyWithOrigin) (const CMPIInstance* inst,
@@ -5759,7 +5759,7 @@ typedef struct _CMPIInstanceFT {
  * namespace paths, class paths, or instance paths.
  * See @ref ref-dmtf-dsp0004 "DSP0004" for more details on object paths.
  *
- * @todo In the CMPI Standard document, add an introductory description
+ * @bug In the CMPI Standard document, add an introductory description
  *     for CMPIObjectPath support, using the description from the header file.
  */
 typedef struct _CMPIObjectPath {
@@ -5864,7 +5864,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
 
      @see CMSetNameSpace()
-     @todo In the CMPI Standard document, change "set or replace" to "set", in
+     @bug In the CMPI Standard document, change "set or replace" to "set", in
          the short and long descriptions.
     */
     CMPIStatus (*setNameSpace) (const CMPIObjectPath* op, const char* ns);
@@ -5920,7 +5920,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
 
      @see CMSetHostname()
-     @todo In the CMPI Standard document, change "set or replace" to "set", in
+     @bug In the CMPI Standard document, change "set or replace" to "set", in
          the short and long descriptions.
     */
     CMPIStatus (*setHostname) (const CMPIObjectPath* op, const char* hn);
@@ -5976,7 +5976,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
 
      @see CMGetClassName()
-     @todo In the CMPI Standard document, change "set or replace" to "set", in
+     @bug In the CMPI Standard document, change "set or replace" to "set", in
          the short and long descriptions.
     */
     CMPIStatus (*setClassName) (const CMPIObjectPath* op, const char* cn);
@@ -6046,7 +6046,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p key or @p value is invalid.
 
      @see CMAddKey()
-     @todo In the CMPI Standard document, add "by name" to the long description.
+     @bug In the CMPI Standard document, add "by name" to the long description.
     */
     CMPIStatus (*addKey) (const CMPIObjectPath* op, const char* key,
         const CMPIValue* value, const CMPIType type);
@@ -6204,7 +6204,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p src is invalid.
 
      @see CMSetNameSpaceFromObjectPath()
-     @todo In the CMPI Standard document, change "set or replace" to "set", in
+     @bug In the CMPI Standard document, change "set or replace" to "set", in
          the short and long descriptions.
     */
     CMPIStatus (*setNameSpaceFromObjectPath) (const CMPIObjectPath* op,
@@ -6232,7 +6232,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p src is invalid.
 
      @see CMSetHostAndNameSpaceFromObjectPath()
-     @todo In the CMPI Standard document, change "set or replace" to "set", in
+     @bug In the CMPI Standard document, change "set or replace" to "set", in
          the short and long descriptions.
     */
     CMPIStatus (*setHostAndNameSpaceFromObjectPath) (const CMPIObjectPath* op,
@@ -6474,7 +6474,7 @@ typedef struct _CMPIObjectPathFT {
  * CMPIArgs is a container that is used to represent method parameter values for
  * method invocations.
  *
- * @todo In the CMPI Standard document, replace the introductory description
+ * @bug In the CMPI Standard document, replace the introductory description
  *     for CMPIArgs support (first paragraph) with the description from the
  *     header file.
  */
@@ -6713,7 +6713,7 @@ typedef struct _CMPIArgsFT {
  * interval values. For details on the CIM ``datetime`` data type, see
  * @ref ref-dmtf-dsp0004 "DSP0004".
  *
- * @todo In the CMPI Standard document, replace the introductory description
+ * @bug In the CMPI Standard document, replace the introductory description
  *     for CMPIDateTime support (first paragraph) with the description from the
  *     header file.
  */
@@ -7522,7 +7522,7 @@ typedef struct _CMPISubCondFT {
          @ref CMPI_MB_QueryNormalization "Query Normalization" capability
          is not available, this function cannot be called by the MI because no
          instance of its encapsulated data type can exist.
-     @todo In the CMPI Standard document, change "CMPISubCondFT object" to
+     @bug In the CMPI Standard document, change "CMPISubCondFT object" to
          "CMPISubCond object" in the description of the sc argument.
     */
     CMPICount (*getCount) (const CMPISubCond* sc, CMPIStatus* rc);
@@ -7567,7 +7567,7 @@ typedef struct _CMPISubCondFT {
          @ref CMPI_MB_QueryNormalization "Query Normalization" capability
          is not available, this function cannot be called by the MI because no
          instance of its encapsulated data type can exist.
-     @todo In the CMPI Standard document, change "index" to "position" in the
+     @bug In the CMPI Standard document, change "index" to "position" in the
          description of the index argument.
     */
     CMPIPredicate* (*getPredicateAt) (const CMPISubCond* sc, CMPICount index,
@@ -7855,7 +7855,7 @@ typedef struct _CMPIPredicateFT {
  * @added200 Added in CMPI 2.0.0.
  * @required210 Required to be supported since CMPI 2.1.0.
  *
- * @todo In the CMPI Standard document, add this description to the
+ * @bug In the CMPI Standard document, add this description to the
  *     introductory description of the CMPIError support.
  */
 typedef struct _CMPIError {
@@ -8044,7 +8044,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @todo In the CMPI Standard document, update the paragraph defining the
+     @bug In the CMPI Standard document, update the paragraph defining the
          attribute, and add the paragraph about releasing the returned object.
     */
     CMPIString* (*getOtherErrorType) (const CMPIError* er, CMPIStatus* rc);
@@ -8096,7 +8096,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @todo In the CMPI Standard document, update the paragraph defining the
+     @bug In the CMPI Standard document, update the paragraph defining the
          attribute, and add the paragraph about releasing the returned object.
     */
     CMPIString* (*getOwningEntity) (const CMPIError* er, CMPIStatus* rc);
@@ -8147,7 +8147,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @todo In the CMPI Standard document, update the paragraph defining the
+     @bug In the CMPI Standard document, update the paragraph defining the
          attribute.
     */
     CMPIString* (*getMessageID) (const CMPIError* er, CMPIStatus* rc);
@@ -8198,7 +8198,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @todo In the CMPI Standard document, add the paragraph about releasing the
+     @bug In the CMPI Standard document, add the paragraph about releasing the
          returned object
     */
     CMPIString* (*getMessage) (const CMPIError* er, CMPIStatus* rc);
@@ -8240,7 +8240,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @todo In the CMPI Standard document, update the paragraph defining the
+     @bug In the CMPI Standard document, update the paragraph defining the
          attribute.
     */
     CMPIErrorSeverity (*getPerceivedSeverity) (const CMPIError* er,
@@ -8283,7 +8283,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @todo In the CMPI Standard document, update the paragraph defining the
+     @bug In the CMPI Standard document, update the paragraph defining the
          attribute.
     */
     CMPIErrorProbableCause (*getProbableCause) (const CMPIError* er,
@@ -8335,7 +8335,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @todo In the CMPI Standard document, add the paragraph defining the
+     @bug In the CMPI Standard document, add the paragraph defining the
          attribute, and add the paragraph about releasing the returned object.
     */
     CMPIString* (*getProbableCauseDescription) (const CMPIError* er,
@@ -8382,7 +8382,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @todo In the CMPI Standard document, add the paragraph defining the
+     @bug In the CMPI Standard document, add the paragraph defining the
          attribute.
     */
     CMPIArray* (*getRecommendedActions) (const CMPIError* er, CMPIStatus* rc);
@@ -8432,7 +8432,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @todo In the CMPI Standard document, add the paragraph defining the
+     @bug In the CMPI Standard document, add the paragraph defining the
          attribute, and add the paragraph about releasing the returned object.
     */
     CMPIString* (*getErrorSource) (const CMPIError* er, CMPIStatus* rc);
@@ -8473,7 +8473,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @todo In the CMPI Standard document, add the paragraph defining the
+     @bug In the CMPI Standard document, add the paragraph defining the
          attribute.
     */
     CMPIErrorSrcFormat (*getErrorSourceFormat) (const CMPIError* er,
@@ -8525,7 +8525,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @todo In the CMPI Standard document, add the paragraph defining the
+     @bug In the CMPI Standard document, add the paragraph defining the
          attribute, and add the paragraph about releasing the returned object.
     */
     CMPIString* (*getOtherErrorSourceFormat) (const CMPIError* er,
@@ -8570,7 +8570,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @todo In the CMPI Standard document, add the paragraph defining the
+     @bug In the CMPI Standard document, add the paragraph defining the
          attribute.
     */
     CMPIrc (*getCIMStatusCode) (const CMPIError* er, CMPIStatus* rc);
@@ -8621,7 +8621,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @todo In the CMPI Standard document, add the paragraph defining the
+     @bug In the CMPI Standard document, add the paragraph defining the
          attribute, and add the paragraph about releasing the returned object.
     */
     CMPIString* (*getCIMStatusCodeDescription) (const CMPIError* er,
@@ -8668,7 +8668,7 @@ typedef struct _CMPIErrorFT {
          is deprecated since CMPI 2.1. It will not be returned because the
          @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
          will be available.
-     @todo In the CMPI Standard document, add the paragraph defining the
+     @bug In the CMPI Standard document, add the paragraph defining the
          attribute, and add the paragraph about releasing the returned object.
     */
     CMPIArray* (*getMessageArguments) (const CMPIError* er, CMPIStatus* rc);
@@ -9347,7 +9347,7 @@ typedef struct _CMPIEnumerationFilterFT {
          codes occurred.
 
      @todo KS: Create macro for this
-     @todo In the CMPI Standard document, add the definition of when a filter
+     @bug In the CMPI Standard document, add the definition of when a filter
          matches.
     */
     CMPIBoolean (*match) (const CMPIEnumerationFilter* ef,
@@ -9470,7 +9470,7 @@ typedef struct _CMPIInstanceMIFT {
          the MB will not retry an unload later unless it shuts down.
 
      @see CMInstanceMIStub()
-     @todo In the CMPI Standard document, add the sentence about the number of
+     @bug In the CMPI Standard document, add the sentence about the number of
          invocations relative to the number of namespaces serviced.
     */
     CMPIStatus (*cleanup) (CMPIInstanceMI* mi, const CMPIContext* ctx,
@@ -10025,7 +10025,7 @@ typedef struct _CMPIInstanceMIFT {
      @see CMInstanceMIStub()
      @added210 Added in CMPI 2.1.0.
 
-     @todo In the CMPI Standard document, simplify the description of
+     @bug In the CMPI Standard document, simplify the description of
          filterQueryLanguage for the case of NULL, to match the description in
          the header file.
     */
@@ -10816,7 +10816,7 @@ typedef struct _CMPIMethodMIFT {
      @li `CMPI_RC_NEVER_UNLOAD` - Function successful, never unload;
          the MB will not retry an unload later unless it shuts down.
 
-     @todo In the CMPI Standard document, add the sentence about the number of
+     @bug In the CMPI Standard document, add the sentence about the number of
          invocations relative to the number of namespaces serviced.
     */
     CMPIStatus (*cleanup) (CMPIMethodMI* mi, const CMPIContext* ctx,
@@ -11031,7 +11031,7 @@ typedef struct _CMPIPropertyMIFT {
 
      @deprecated This function is deprecated since CMPI 2.1, in accord with the
          deprecation of property client operations in DMTF specifications.
-     @todo In the CMPI Standard document, add the sentence about the number of
+     @bug In the CMPI Standard document, add the sentence about the number of
          invocations relative to the number of namespaces serviced.
     */
     CMPIStatus (*cleanup) (CMPIPropertyMI* mi, const CMPIContext* ctx,
@@ -11378,7 +11378,7 @@ typedef struct _CMPIIndicationMIFT {
      @li `CMPI_RC_NEVER_UNLOAD` - Function successful, never unload;
          the MB will not retry an unload later unless it shuts down.
 
-     @todo In the CMPI Standard document, add the sentence about the number of
+     @bug In the CMPI Standard document, add the sentence about the number of
          invocations relative to the number of namespaces serviced.
     */
     CMPIStatus (*cleanup) (CMPIIndicationMI* mi, const CMPIContext* ctx,
