@@ -11,9 +11,7 @@ LIST OF TODOs for CMPI header file Documentation
 
 * Andy: Sync function descriptions in cmpift.h with spec.
 
-  Status: In progress, this is being done in order of the functions in the file;
-  TODO_AM indicates where this stands, DONE_AM marks specific ones in the yet
-  unprocessed area.
+  Status: DONE.
 
 * Karl: Make decision about the poor doc in macro files. Remove much of it, make
   same as cmpift, or leave it.
