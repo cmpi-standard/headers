@@ -8107,7 +8107,7 @@ typedef struct _CMPIErrorFT {
 
      CMPIErrorFT.getMessageID() gets the value of the `MessageID` attribute of
      a CMPIError object.
-     
+
      For a description of the `MessageID` attribute, see the description of the
      `MessageID` property in the `CIM_Error` class in the CIM Schema, and the
      description of the @p msgID argument of CMPIBrokerEncFT.newCMPIError().
@@ -8211,7 +8211,7 @@ typedef struct _CMPIErrorFT {
      `PerceivedSeverity` attribute of a CMPIError object.
 
      For a description of the `PerceivedSeverity` attribute, see
-     @ref CMPIPerceivedSeverity, the description of the `PerceivedSeverity`
+     @ref CMPIErrorSeverity, the description of the `PerceivedSeverity`
      property in the `CIM_Error` class in the CIM Schema, and the description
      of the @p sev argument of CMPIBrokerEncFT.newCMPIError().
 
@@ -8253,8 +8253,8 @@ typedef struct _CMPIErrorFT {
      CMPIErrorFT.getProbableCause() gets the value of the `ProbableCause`
      attribute of a CMPIError object.
 
-     For a description of the `ProbableCause` attribute, see
-     @ref CMPIProbableCause, the description of the `ProbableCause` property in
+     For a description of the `ProbableCause` attribute, see @ref
+     CMPIErrorProbableCause, the description of the `ProbableCause` property in
      the `CIM_Error` class in the CIM Schema, and the description of the @p pc
      argument of CMPIBrokerEncFT.newCMPIError().
 
@@ -8262,9 +8262,9 @@ typedef struct _CMPIErrorFT {
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock
-         If successful, a @ref CMPIErrorProbableCause enumeration
-         value will be returned, indicating the value of the @p ProbableCause
-         attribute of the CMPIError object.
+         If successful, a @ref CMPIErrorProbableCause enumeration value will be
+         returned, indicating the value of the @p ProbableCause attribute of
+         the CMPIError object.
 
          If not successful, the returned value is undefined.
      @endparblock
@@ -10155,23 +10155,31 @@ typedef struct _CMPIAssociationMIFT {
         CMPIBoolean terminating);
 
 // DONE_AM Next function is already synced with spec.
-// TODO_AM Sync function descriptions with spec, from here on down.
     /**
      @brief Enumerate the instances associated with a given source instance
          that are serviced by this MI.
 
-     CMPIAssociationMIFT.associators() shall enumerate the
-     instances associated with a given source instance and that are serviced
-     by this MI, by accessing the underlying managed elements.
+     CMPIAssociationMIFT.associators() shall enumerate the instances associated
+     with a given source instance and that are serviced by this MI, by
+     accessing the underlying managed elements.
 
      This function is provided by the MI in context of a particular MI name.
-     The class of @p instPath for which this function will
-     be called by the MB depends on the specifics of how the MB relates classes
-     and MI names, which is out of scope for this standard. As a result, the MB
-     may call this function for classes for which the MI is not responsible. In
-     order for an MI to be portable across MB implementations with different
-     approaches to relate MI names and classes, the MI must check whether it
-     services the class specified in @p instPath.
+     The class of @p instPath for which this function will be called by the MB
+     depends on the specifics of how the MB relates classes and MI names, which
+     is out of scope for this standard. As a result, the MB may call this
+     function for classes for which the MI is not responsible. In order for an
+     MI to be portable across MB implementations with different approaches to
+     relate MI names and classes, the MI must check whether it services the
+     class specified in @p instPath.
+
+     If the @p assocClass or @p resultClass filters are specified in a call to
+     this function, the MB is not required to scope calls to this function to
+     only the MIs that service these classes. As a result, the MB may (and
+     will, in most implementations) call this function for classes in @p
+     assocClass or @p resultClass for which the MI is not responsible. In order
+     for an MI to be portable across MB implementations, the MI must check
+     whether it services the classes specified in the @p assocClass and @p
+     resultClass arguments.
 
      @param mi Points to a CMPIAssociationMI structure.
      @param ctx Points to a CMPIContext object containing the context data
@@ -10180,28 +10188,40 @@ typedef struct _CMPIAssociationMIFT {
          container. Upon successful return, the MI shall have put all
          instance paths representing the result set into this container.
      @param instPath Points to a CMPIObjectPath object that references the
-         given source instance and that contains the namespace, class name,
-         and key components. The hostname component, if present,
-         has no meaning and should be ignored. If the source instance
-         does not exist, this function shall either return success with
-         an empty result data container or CMPI_RC_ERR_NOT_FOUND.
-         (**Deprecated**)
-     @param role If not NULL, MUST be a valid Property name.
-         It acts as a filter on the returned set of Objects by mandating
-         that each returned Object MUST be associated to the source Object
-         via an Association in which the source Object plays the specified role
-         (i.e. the name of the Property in the Association Class that refers
-         to the source Object MUST match the value of this parameter).
-     @param resultRole If not NULL, MUST be a valid Property name.
-         It acts as a filter on the returned set of Objects by mandating
-         that each returned Object MUST be associated to the source Object
-         via an Association in which the returned Object plays the specified
-         role (i.e. the name of the Property in the Association Class that
-         refers to the returned Object MUST match the value of this parameter).
-     @param properties If not NULL, the members of the array define one or more
-         Property names. Each returned Object MUST NOT include elements for any
-         Properties missing from this list. If NULL all properties must be
-         returned.
+         given source instance and that contains the namespace, class name, and
+         key components. The hostname component, if present, has no meaning and
+         should be ignored. If the source instance does not exist, this
+         function shall either return success with an empty result data
+         container or `CMPI_RC_ERR_NOT_FOUND`. The use of
+         `CMPI_RC_ERR_NOT_FOUND` if the source instance does not exist, is
+         **deprecated**.
+     @param assocClass If not NULL, shall be a valid association class name. It
+         acts as a filter on the returned set of objects by mandating that each
+         returned object shall be associated with the source object via an
+         instance of this class or one of its subclasses.
+     @param resultClass If not NULL, shall be a valid class name. It acts as a
+         filter on the returned set of objects by mandating that each returned
+         object shall be an instance of this class or one of its subclasses.
+     @param role If not NULL, shall be a valid property name. It acts as a
+         filter on the returned set of objects by mandating that each returned
+         object shall be associated with the source object via an association
+         in which the source object plays the specified role (i.e., the name of
+         the property in the association class that refers to the source object
+         shall match the value of this argument).
+     @param resultRole If not NULL, shall be a valid property name. It acts as
+         a filter on the returned set of objects by mandating that each
+         returned object shall be associated with the source object via an
+         association in which the returned object plays the specified role
+         (i.e., the name of the property in the association class that refers
+         to the returned object shall match the value of this argument).
+     @param properties If not NULL, is an array of zero or more pointers to
+         strings, each specifying a property name. The end of the array is
+         identified by a NULL pointer. The invocation flags specified in the
+         @ref CMPIInvocationFlags entry of the @p ctx argument have no meaning
+         for this function. Each returned instance shall not include elements
+         for any properties missing from this list. If the properties argument
+         is NULL, this indicates that all properties shall be included in each
+         returned instance.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -10233,29 +10253,41 @@ typedef struct _CMPIAssociationMIFT {
          <TD>WIPG0227 + implementation-specific message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
+     @bug In the CMPI Standard document, the explanation of the deprecated use
+         of CMPI_RC_ERR_NOT_FOUND in the description of the instPath argument
+         should be updated with the wording from the header file.
     */
     CMPIStatus (*associators) (CMPIAssociationMI* mi, const CMPIContext* ctx,
         const CMPIResult* rslt, const CMPIObjectPath* op,
         const char* asscClass, const char* resultClass, const char* role,
         const char* resultRole, const char** properties);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate the instance paths of instances associated with a given
          source instance that are serviced by this MI.
 
-     CMPIAssociationMIFT.associatorNames() shall enumerate
-     the instance paths of instances associated with a given source instance
-     and that are serviced by this MI, by accessing the underlying managed
-     elements.
+     CMPIAssociationMIFT.associatorNames() shall enumerate the instance paths
+     of instances associated with a given source instance and that are serviced
+     by this MI, by accessing the underlying managed elements.
 
      This function is provided by the MI in context of a particular MI name.
-     The class of @p instPath for which this function will
-     be called by the MB depends on the specifics of how the MB relates classes
-     and MI names, which is out of scope for this standard.  As a result, the
-     MB may call this function for classes for which the MI is not responsible.
-     In order for an MI to be portable across MB implementations with different
-     approaches to relate MI names and classes, the MI must check whether it
-     services the class specified in @p instPath.
+     The class of @p instPath for which this function will be called by the MB
+     depends on the specifics of how the MB relates classes and MI names, which
+     is out of scope for this standard. As a result, the MB may call this
+     function for classes for which the MI is not responsible. In order for an
+     MI to be portable across MB implementations with different approaches to
+     relate MI names and classes, the MI must check whether it services the
+     class specified in @p instPath.
+
+     If the @p assocClass or @p resultClass filters are specified in a call to
+     this function, the MB is not required to scope calls to this function to
+     only the MIs that service these classes. As a result, the MB may (and
+     will, in most implementations) call this function for classes in @p
+     assocClass or @p resultClass for which the MI is not responsible. In order
+     for an MI to be portable across MB implementations, the MI must check
+     whether it services the classes specified in the @p assocClass and @p
+     resultClass arguments.
 
      @param mi Points to a CMPIAssociationMI structure.
      @param ctx Points to a CMPIContext object containing the context data
@@ -10264,33 +10296,32 @@ typedef struct _CMPIAssociationMIFT {
          container. Upon successful return, the MI shall have put all
          instance paths representing the result set into this container.
      @param instPath Points to a CMPIObjectPath object that references the
-         given source instance and that contains the namespace, class name,
-         and key components. The hostname component, if present,
-         has no meaning and should be ignored. If the source instance
-         does not exist, this function shall either return success with
-         an empty result data container or CMPI_RC_ERR_NOT_FOUND.
-         (**Deprecated**)
-     @param assocClass If not NULL, MUST be a valid Association Class name.
-         It acts as a filter on the returned set of objects by mandating that
-         each returned object MUST be associated to the source Object via an
+         given source instance and that contains the namespace, class name, and
+         key components. The hostname component, if present, has no meaning and
+         should be ignored. If the source instance does not exist, this
+         function shall either return success with an empty result data
+         container or `CMPI_RC_ERR_NOT_FOUND`. The use of
+         `CMPI_RC_ERR_NOT_FOUND` if the source instance does not exist, is
+         **deprecated**.
+     @param assocClass If not NULL, shall be a valid association class name. It
+         acts as a filter on the returned set of objects by mandating that each
+         returned object shall be associated with the source object via an
          instance of this class or one of its subclasses.
-     @param resultClass If not NULL, MUST be a valid Class name.
-         It acts as a filter on the returned set of Objects by mandating that
-         each returned Object MUST be either an Instance of this Class (or one
-         of its subclasses).
-     @param role If not NULL, MUST be a valid Property name.
-         It acts as a filter on the returned set of Objects by mandating
-         that each returned Object MUST be associated to the source Object
-         via an Association in which the source Object plays the specified role
-         (i.e. the name of the Property in the Association Class that refers
-         to the source Object MUST match the value of this parameter).
-     @param resultRole If not NULL, MUST be a valid Property name.
-         It acts as a filter on the returned set of Objects by mandating
-         that each returned Object MUST be associated to the source Object
-         via an Association in which the returned Object plays the specified
-         role (i.e. the name of the Property in the Association
-         Class that refers to the returned Object MUST match the
-         value of this parameter).
+     @param resultClass If not NULL, shall be a valid class name. It acts as a
+         filter on the returned set of objects by mandating that each returned
+         object shall be an instance of this class or one of its subclasses.
+     @param role If not NULL, shall be a valid property name. It acts as a
+         filter on the returned set of objects by mandating that each returned
+         object shall be associated with the source object via an association
+         in which the source object plays the specified role (i.e., the name of
+         the property in the association class that refers to the source object
+         shall match the value of this argument).
+     @param resultRole If not NULL, shall be a valid property name. It acts as
+         a filter on the returned set of objects by mandating that each
+         returned object shall be associated with the source object via an
+         association in which the returned object plays the specified role
+         (i.e., the name of the property in the association class that refers
+         to the returned object shall match the value of this argument).
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -10322,55 +10353,72 @@ typedef struct _CMPIAssociationMIFT {
          <TD>WIPG0227 + implementation-specific message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
+     @bug In the CMPI Standard document, the explanation of the deprecated use
+         of CMPI_RC_ERR_NOT_FOUND in the description of the instPath argument
+         should be updated with the wording from the header file.
     */
     CMPIStatus (*associatorNames) (CMPIAssociationMI* mi,
         const CMPIContext* ctx, const CMPIResult* rslt,
         const CMPIObjectPath* instPath, const char* assocClass,
         const char* resultClass, const char* role, const char* resultRole);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Enumerate the instance paths of instances associated
-         with a given source instance that are serviced by this MI.
+     @brief Enumerate the association instances referencing a given source
+         instance that are serviced by this MI.
 
-     CMPIAssociationMIFT.associatorNames() shall
-     enumerate the instance paths of instances associated with @p instPath
-     a given source instance and that are serviced by this MI, by accessing
-     the underlying managed elements.
+     CMPIAssociationMIFT.references() shall enumerate the association instances
+     referencing a given source instance and that are serviced by this MI, by
+     accessing the underlying managed elements.
 
-     If the @p assocClass or @p resultClass filters are specified
-     in a call to this function, the MB is not required to scope calls to this
-     function to only the MIs that service these classes.  As a result, the MB
-     may (and will, in most implementations) call this function for classes in
-     the @p assocClass or @p resultClass arguments for which the MI
-     is not responsible.  In order for an MI to be portable across MB
-     implementations, the MI must check whether it services the classes
-     specified in the @p assocClass and @p resultClass arguments.
+     This function is provided by the MI in context of a particular MI name.
+     The class of @p instPath for which this function will be called by the MB
+     depends on the specifics of how the MB relates classes and MI names, which
+     is out of scope for this standard. As a result, the MB may call this
+     function for classes for which the MI is not responsible. In order for an
+     MI to be portable across MB implementations with different approaches to
+     relate MI names and classes, the MI must check whether it services the
+     class specified in @p instPath.
+
+     If the @p resultClass filter is specified in a call to this function, the
+     MB is not required to scope calls to this function to only the MIs that
+     service this class. As a result, the MB may (and will, in most
+     implementations) call this function for classes in @p resultClass for
+     which the MI is not responsible. In order for an MI to be portable across
+     MB implementations, the MI must check whether it services the class
+     specified in @p resultClass.
 
      @param mi Points to a CMPIAssociationMI structure.
      @param ctx Points to a CMPIContext object containing the context data
          for the invocation.
      @param rslt Points to a CMPIResult object that is the result data
-         container.
-     @param instPath Points to a CMPIObjectPath object that references
-         the given source instance and that contains the namespace,
-         class name, and key components. The hostname component,
-         if present, has no meaning and should be ignored.
-         If the source instance does not exist, this function
-         shall either return success with an empty result data
-         container or CMPI_RC_ERR_NOT_FOUND. (**Deprecated**)
-     @param resultClass If not NULL, MUST be a valid Class name.
-         It acts as a filter on the returned set of Objects by mandating that
-         each returned Object MUST be either an Instance of this Class (or one
-         of its subclasses).
-     @param role If not NULL, MUST be a valid Property name.
-         It acts as a filter on the returned set of Objects by mandating
-         that each returned Object MUST be associated to the source Object
-         via an Association in which the source Object plays the specified role
-         (i.e. the name of the Property in the Association Class that refers
-         to the source Object MUST match the value of this parameter).
-     @param properties If not NULL, the members of the array define one or
-         more Property names. Each returned Object MUST NOT include
-         elements for any Properties missing from this list
+         container. Upon successful return, the MI shall have put all
+         instance paths representing the result set into this container.
+     @param instPath Points to a CMPIObjectPath object that references the
+         given source instance and that contains the namespace, class name, and
+         key components. The hostname component, if present, has no meaning and
+         should be ignored. If the source instance does not exist, this
+         function shall either return success with an empty result data
+         container or `CMPI_RC_ERR_NOT_FOUND`. The use of
+         `CMPI_RC_ERR_NOT_FOUND` if the source instance does not exist, is
+         **deprecated**.
+     @param resultClass If not NULL, shall be a valid class name. It acts as a
+         filter on the returned set of objects by mandating that each returned
+         object shall be an instance of this class or one of its subclasses.
+     @param role If not NULL, shall be a valid property name. It acts as a
+         filter on the returned set of objects by mandating that each returned
+         object shall be associated with the source object via an association
+         in which the source object plays the specified role (i.e., the name of
+         the property in the association class that refers to the source object
+         shall match the value of this argument).
+     @param properties If not NULL, is an array of zero or more pointers to
+         strings, each specifying a property name. The end of the array is
+         identified by a NULL pointer. The invocation flags specified in the
+         @ref CMPIInvocationFlags entry of the @p ctx argument have no meaning
+         for this function. Each returned instance shall not include elements
+         for any properties missing from this list. If the properties argument
+         is NULL, this indicates that all properties shall be included in each
+         returned instance.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -10402,12 +10450,16 @@ typedef struct _CMPIAssociationMIFT {
          <TD>WIPG0227 + implementation-specific message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
+     @bug In the CMPI Standard document, the explanation of the deprecated use
+         of CMPI_RC_ERR_NOT_FOUND in the description of the instPath argument
+         should be updated with the wording from the header file.
     */
     CMPIStatus (*references) (CMPIAssociationMI* mi, const CMPIContext* ctx,
-        const CMPIResult* rslt, const CMPIObjectPath* op,
+        const CMPIResult* rslt, const CMPIObjectPath* instPath,
         const char* resultClass, const char* role,
         const char** properties);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate the instance paths of association instances
          referencing a given source instance that are serviced by this MI.
@@ -10418,13 +10470,21 @@ typedef struct _CMPIAssociationMIFT {
      underlying managed elements.
 
      This function is provided by the MI in context of a particular MI name.
-     The class of @p instPath for which this function will be called
-     by the MB depends on the specifics of how the MB relates classes and MI
-     names, which is out of scope for this standard. As a result, the MB may
-     call this function for classes for which the MI is not responsible. In
-     order for an MI to be portable across MB implementations with different
-     approaches to relate MI names and classes, the MI must check whether it
-     services the class specified in @p instPath.
+     The class of @p instPath for which this function will be called by the MB
+     depends on the specifics of how the MB relates classes and MI names, which
+     is out of scope for this standard. As a result, the MB may call this
+     function for classes for which the MI is not responsible. In order for an
+     MI to be portable across MB implementations with different approaches to
+     relate MI names and classes, the MI must check whether it services the
+     class specified in @p instPath.
+
+     If the @p resultClass filter is specified in a call to this function, the
+     MB is not required to scope calls to this function to only the MIs that
+     service this class. As a result, the MB may (and will, in most
+     implementations) call this function for classes in @p resultClass for
+     which the MI is not responsible. In order for an MI to be portable across
+     MB implementations, the MI must check whether it services the class
+     specified in @p resultClass.
 
      @param mi Points to a CMPIAssociationMI structure.
      @param ctx Points to a CMPIContext object containing the context data
@@ -10433,22 +10493,22 @@ typedef struct _CMPIAssociationMIFT {
          container. Upon successful return, the MI shall have put all
          instance paths representing the result set into this container.
      @param instPath Points to a CMPIObjectPath object that references the
-         given source instance and that contains the namespace, class name,
-         and key components. The hostname component, if present,
-         has no meaning and should be ignored. If the source instance
-         does not exist, this function shall either return success with
-         an empty result data container or CMPI_RC_ERR_NOT_FOUND.
-         (**Deprecated**)
-     @param resultClass If not NULL, MUST be a valid Class name.
-         It acts as a filter on the returned set of Objects by mandating that
-         each returned Object MUST be either an Instance of this Class (or one
-         of its subclasses).
-     @param role If not NULL, MUST be a valid Property name.
-         It acts as a filter on the returned set of Objects by mandating
-         that each returned Object MUST be associated to the source Object
-         via an Association in which the source Object plays the specified role
-         (i.e. the name of the Property in the Association Class that refers
-         to the source Object MUST match the value of this argument).
+         given source instance and that contains the namespace, class name, and
+         key components. The hostname component, if present, has no meaning and
+         should be ignored. If the source instance does not exist, this
+         function shall either return success with an empty result data
+         container or `CMPI_RC_ERR_NOT_FOUND`. The use of
+         `CMPI_RC_ERR_NOT_FOUND` if the source instance does not exist, is
+         **deprecated**.
+     @param resultClass If not NULL, shall be a valid class name. It acts as a
+         filter on the returned set of objects by mandating that each returned
+         object shall be an instance of this class or one of its subclasses.
+     @param role If not NULL, shall be a valid property name. It acts as a
+         filter on the returned set of objects by mandating that each returned
+         object shall be associated with the source object via an association
+         in which the source object plays the specified role (i.e., the name of
+         the property in the association class that refers to the source object
+         shall match the value of this argument).
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -10480,6 +10540,9 @@ typedef struct _CMPIAssociationMIFT {
          <TD>WIPG0227 + implementation-specific message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
+     @bug In the CMPI Standard document, the explanation of the deprecated use
+         of CMPI_RC_ERR_NOT_FOUND in the description of the instPath argument
+         should be updated with the wording from the header file.
     */
     CMPIStatus (*referenceNames) (CMPIAssociationMI* mi,
             const CMPIContext* ctx, const CMPIResult* rslt,
@@ -10488,19 +10551,36 @@ typedef struct _CMPIAssociationMIFT {
 
 #ifdef CMPI_VER_210
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Enumerate the instances associated with a given
-         source instance serviced by this MI, returning only instances
-         that match @p filterQuery.
+     @brief Enumerate the instances associated with a given source instance
+         that are serviced by this MI, returning only those instances that
+         match a given query filter.
 
-     CMPIAssociationMIFT.associatorsFiltered() shall
-     enumerate instances associated with a source instance and that
-     are serviced by this MI, returning only those instances that
-     match the `filterQuery argument`, by accessing the underlying
-     managed elements. The returned instances shall have their
-     instance paths set. If no such instances are found, the
-     function shall return success with an empty result data
-     container.
+     CMPIAssociationMIFT.associatorsFiltered() shall enumerate instances
+     associated with a source instance and that are serviced by this MI,
+     returning only those instances that match a given query filter, by
+     accessing the underlying managed elements. The returned instances shall
+     have their instance paths set. If no such instances are found, the
+     function shall return success with an empty result data container.
+
+     This function is provided by the MI in context of a particular MI name.
+     The class of @p instPath for which this function will be called by the MB
+     depends on the specifics of how the MB relates classes and MI names, which
+     is out of scope for this standard. As a result, the MB may call this
+     function for classes for which the MI is not responsible. In order for an
+     MI to be portable across MB implementations with different approaches to
+     relate MI names and classes, the MI must check whether it services the
+     class specified in @p instPath.
+
+     If the @p assocClass or @p resultClass filters are specified in a call to
+     this function, the MB is not required to scope calls to this function to
+     only the MIs that service these classes. As a result, the MB may (and
+     will, in most implementations) call this function for classes in @p
+     assocClass or @p resultClass for which the MI is not responsible. In order
+     for an MI to be portable across MB implementations, the MI must check
+     whether it services the classes specified in the @p assocClass and @p
+     resultClass arguments.
 
      @param mi Points to a CMPIAssociationMI structure.
      @param ctx Points to a CMPIContext object containing the context data
@@ -10509,61 +10589,55 @@ typedef struct _CMPIAssociationMIFT {
          container. Upon successful return, the MI shall have put all
          instance paths representing the result set into this container.
      @param instPath Points to a CMPIObjectPath object that references the
-         given source instance and that contains the namespace, class name,
-         and key components. The hostname component, if present,
-         has no meaning and should be ignored. If the source instance
-         does not exist, this function shall either return success with
-         an empty result data container or CMPI_RC_ERR_NOT_FOUND.
-         (**Deprecated**)
-     @param assocClass If not NULL, shall be a valid association class name.
-         It acts as a filter on the returned set of objects by mandating that
-         each returned object shall be associated with the source object via
-         an instance of this class or one of its subclasses.
-     @param resultClass If not NULL, MUST be a valid Class name.
-         It acts as a filter on the returned set of Objects by mandating that
-         each returned Object MUST be either an Instance of this Class (or one
-         of its subclasses).
-     @param role If not NULL, MUST be a valid Property name.
-         It acts as a filter on the returned set of Objects by mandating
-         that each returned Object MUST be associated to the source Object
-         via an Association in which the source Object plays the specified role
-         (i.e. the name of the Property in the Association Class that refers
-         to the source Object MUST match the value of this argument).
-     @param resultRole If not NULL, shall be a valid property name.
-         It acts as a filter on the returned set of objects by
-         mandating that each returned object shall be associated
-         with the source object via an association in which the
-         returned object plays the specified role (i.e., the name of
-         the property in the association class that refers to the
-         returned object shall match the value of this argument).
+         given source instance and that contains the namespace, class name, and
+         key components. The hostname component, if present, has no meaning and
+         should be ignored. If the source instance does not exist, this
+         function shall return success with an empty result data container.
+     @param assocClass If not NULL, shall be a valid association class name. It
+         acts as a filter on the returned set of objects by mandating that each
+         returned object shall be associated with the source object via an
+         instance of this class or one of its subclasses.
+     @param resultClass If not NULL, shall be a valid class name. It acts as a
+         filter on the returned set of objects by mandating that each returned
+         object shall be an instance of this class or one of its subclasses.
+     @param role If not NULL, shall be a valid property name. It acts as a
+         filter on the returned set of objects by mandating that each returned
+         object shall be associated with the source object via an association
+         in which the source object plays the specified role (i.e., the name of
+         the property in the association class that refers to the source object
+         shall match the value of this argument).
+     @param resultRole If not NULL, shall be a valid property name. It acts as
+         a filter on the returned set of objects by mandating that each
+         returned object shall be associated with the source object via an
+         association in which the returned object plays the specified role
+         (i.e., the name of the property in the association class that refers
+         to the returned object shall match the value of this argument).
      @param properties If not NULL, is an array of zero or more pointers to
          strings, each specifying a property name. The end of the array is
          identified by a NULL pointer. The invocation flags specified in the
-         @ref CMPIInvocationFlags entry of @p ctx have no meaning for
-         this function. Each returned instance shall not include elements for
-         any properties missing from this list. If @p properties is
-         NULL, this indicates that all properties shall be included in each
-         returned instance.
-     @param filterQueryLanguage Query language used by
-         @p filterQuery. If it is NULL, @p filterQuery
-         is ignored and no filtering is performed. Note that FQL
-         (see @ref ref-dmtf-dsp0212 "DSP0212") is required
-         to be supported by MIs as a query language; see Subclause 4.5 in the
-         @ref ref-cmpi-standard "CMPI Standard".
-     @param filterQuery Query in the query language defined by
-         @p filterQueryLanguage. If NULL, no filtering is performed.
-         A request that specifies a filter through valid and non-NULL
-         @p filterQueryLanguage and @p filterQuery arguments shall return only
-         instances that match that filter as defined in the
-         filter specification.
+         @ref CMPIInvocationFlags entry of @p ctx have no meaning for this
+         function. Each returned instance shall not include elements for any
+         properties missing from this list. If @p properties is NULL, this
+         indicates that all properties shall be included in each returned
+         instance.
+     @param filterQueryLanguage Query language used by @p filterQuery. If NULL,
+         no filtering is performed. Note that FQL (see @ref ref-dmtf-dsp0212
+         "DSP0212") is required to be supported by MIs as a query language; see
+         Subclause 4.5 in the @ref ref-cmpi-standard "CMPI Standard".
+     @param filterQuery Query in the query language defined by @p
+         filterQueryLanguage. If NULL, no filtering is performed. A request
+         that specifies a filter through valid and non-NULL @p
+         filterQueryLanguage and @p filterQuery arguments shall return only
+         instances that match that filter as defined in the filter
+         specification.
      @param continueOnError Defines whether this operation may continue to
          return objects after it returns an error. If false, the MI shall
-         terminate after returning an error to the result data container.
-         If true, the MI may continue to returning data (objects and subsequent
+         terminate after returning an error to the result data container. If
+         true, the MI may continue to returning data (objects and subsequent
          errors) to the result data container after returning an error. An MI
          that cannot continue after returning an error shall ignore the value
-         of @p continueOnError and shall behave as if it was
-         specified as false.
+         of @p continueOnError and shall behave as if it was specified as
+         false.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -10590,8 +10664,16 @@ typedef struct _CMPIAssociationMIFT {
          <TD>WIPG0227 + implementation-specific message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
-
      @added210 Added in CMPI 2.1.0.
+
+     @bug In the CMPI Standard document, fix the incorrect structure name in
+         the description of the mi argument, from CMPIInstanceMI to
+         CMPIAssociationMI.
+     @bug In the CMPI Standard document, simplify the description of
+         filterQueryLanguage for the case of NULL, to match the description in
+         the header file.
+     @bug In the CMPI Standard document, add the second and third paragraph
+        (about scope of MI) from the header file.
     */
     CMPIStatus (*associatorsFiltered) (CMPIAssociationMI* mi,
         const CMPIContext* ctx, const CMPIResult* rslt,
@@ -10600,18 +10682,35 @@ typedef struct _CMPIAssociationMIFT {
         const char** properties, const char* filterQueryLanguage,
         const char* filterQuery, CMPIBoolean continueOnError);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate the association instances referencing a given source
-     instance that are serviced by this MI, returning only those instances
-     that match @p filterQuery.
+         instance that are serviced by this MI, returning only those instances
+         that match a given query filter.
 
-     CMPIAssociationMIFT.referencesFiltered() shall
-     enumerate the association instances referencing a given source instance
-     and that are serviced by this MI, returning only those instances that
-     match @p filterQuery, by accessing the underlying managed
-     elements. The returned instances shall have their instance paths set.
-     If no such instances are found, the function shall return success with
-     an empty result data container.
+     CMPIAssociationMIFT.referencesFiltered() shall enumerate the association
+     instances referencing a given source instance and that are serviced by
+     this MI, returning only those instances that match a given query filter,
+     by accessing the underlying managed elements. The returned instances shall
+     have their instance paths set. If no such instances are found, the
+     function shall return success with an empty result data container.
+
+     This function is provided by the MI in context of a particular MI name.
+     The class of @p instPath for which this function will be called by the MB
+     depends on the specifics of how the MB relates classes and MI names, which
+     is out of scope for this standard. As a result, the MB may call this
+     function for classes for which the MI is not responsible. In order for an
+     MI to be portable across MB implementations with different approaches to
+     relate MI names and classes, the MI must check whether it services the
+     class specified in @p instPath.
+
+     If the @p resultClass filter is specified in a call to this function, the
+     MB is not required to scope calls to this function to only the MIs that
+     service this class. As a result, the MB may (and will, in most
+     implementations) call this function for classes in @p resultClass for
+     which the MI is not responsible. In order for an MI to be portable across
+     MB implementations, the MI must check whether it services the class
+     specified in @p resultClass.
 
      @param mi Points to a CMPIAssociationMI structure.
      @param ctx Points to a CMPIContext object containing the context data
@@ -10620,50 +10719,45 @@ typedef struct _CMPIAssociationMIFT {
          container. Upon successful return, the MI shall have put all
          instance paths representing the result set into this container.
      @param instPath Points to a CMPIObjectPath object that references the
-         given source instance and that contains the namespace, class name,
-         and key components. The hostname component, if present,
-         has no meaning and should be ignored. If the source instance
-         does not exist, this function shall either return success with
-         an empty result data container or CMPI_RC_ERR_NOT_FOUND.
-         (**Deprecated**)
-     @param resultClass If not NULL, MUST be a valid Class name.
-         It acts as a filter on the returned set of Objects by mandating that
-         each returned Object MUST be either an Instance of this Class (or one
-         of its subclasses).
-     @param role If not NULL, MUST be a valid Property name.
-         It acts as a filter on the returned set of Objects by mandating
-         that each returned Object MUST be associated to the source Object
-         via an Association in which the source Object plays the specified role
-         (i.e. the name of the Property in the Association Class that refers
-         to the source Object MUST match the value of this argument).
+         given source instance and that contains the namespace, class name, and
+         key components. The hostname component, if present, has no meaning and
+         should be ignored. If the source instance does not exist, this
+         function shall return success with an empty result data container.
+     @param resultClass If not NULL, shall be a valid class name. It acts as a
+         filter on the returned set of objects by mandating that each returned
+         object shall be an instance of this class or one of its subclasses.
+     @param role If not NULL, shall be a valid property name. It acts as a
+         filter on the returned set of objects by mandating that each returned
+         object shall be associated with the source object via an association
+         in which the source object plays the specified role (i.e., the name of
+         the property in the association class that refers to the source object
+         shall match the value of this argument).
      @param properties If not NULL, is an array of zero or more pointers to
          strings, each specifying a property name. The end of the array is
          identified by a NULL pointer. The invocation flags specified in the
-         @ref CMPIInvocationFlags entry of @p ctx have no meaning for
-         this function. Each returned instance shall not include elements for
-         any properties missing from this list. If @p properties is
-         NULL, this indicates that all properties shall be included in each
-         returned instance.
-     @param filterQueryLanguage Query language used by
-         @p filterQuery. If it is NULL, @p filterQuery
-         is ignored and no filtering is performed. Note that FQL
-         (see @ref ref-dmtf-dsp0212 "DSP0212") is required
-         to be supported by MIs as a query language; see Subclause 4.5 in the
-         @ref ref-cmpi-standard "CMPI Standard".
-     @param filterQuery Query in the query language defined by
-         @p filterQueryLanguage. If NULL, no filtering is performed.
-         A request that specifies a filter through valid and non-NULL
-         @p filterQueryLanguage and @p filterQuery arguments shall return only
-         instances that match that filter as defined in the
-         filter specification.
+         @ref CMPIInvocationFlags entry of @p ctx have no meaning for this
+         function. Each returned instance shall not include elements for any
+         properties missing from this list. If @p properties is NULL, this
+         indicates that all properties shall be included in each returned
+         instance.
+     @param filterQueryLanguage Query language used by @p filterQuery. If NULL,
+         no filtering is performed. Note that FQL (see @ref ref-dmtf-dsp0212
+         "DSP0212") is required to be supported by MIs as a query language; see
+         Subclause 4.5 in the @ref ref-cmpi-standard "CMPI Standard".
+     @param filterQuery Query in the query language defined by @p
+         filterQueryLanguage. If NULL, no filtering is performed. A request
+         that specifies a filter through valid and non-NULL @p
+         filterQueryLanguage and @p filterQuery arguments shall return only
+         instances that match that filter as defined in the filter
+         specification.
      @param continueOnError Defines whether this operation may continue to
          return objects after it returns an error. If false, the MI shall
-         terminate after returning an error to the result data container.
-         If true, the MI may continue to returning data (objects and subsequent
+         terminate after returning an error to the result data container. If
+         true, the MI may continue to returning data (objects and subsequent
          errors) to the result data container after returning an error. An MI
          that cannot continue after returning an error shall ignore the value
-         of @p continueOnError and shall behave as if it was
-         specified as false.
+         of @p continueOnError and shall behave as if it was specified as
+         false.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -10690,8 +10784,16 @@ typedef struct _CMPIAssociationMIFT {
          <TD>WIPG0227 + implementation-specific message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
-
      @added210 Added in CMPI 2.1.0.
+
+     @bug In the CMPI Standard document, fix the incorrect structure name in
+         the description of the mi argument, from CMPIInstanceMI to
+         CMPIAssociationMI.
+     @bug In the CMPI Standard document, simplify the description of
+         filterQueryLanguage for the case of NULL, to match the description in
+         the header file.
+     @bug In the CMPI Standard document, add the second and third paragraph
+        (about scope of MI) from the header file.
     */
     CMPIStatus (*referencesFiltered) (CMPIAssociationMI* mi,
         const CMPIContext* ctx, const CMPIResult* rslt,
@@ -10822,24 +10924,23 @@ typedef struct _CMPIMethodMIFT {
     CMPIStatus (*cleanup) (CMPIMethodMI* mi, const CMPIContext* ctx,
         CMPIBoolean terminating);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Invoke a method on a target object.
 
-     CMPIMethodMIFT.invokeMethod() shall invoke a named,
-     extrinsic method on a target object, by accessing the underlying
-     managed elements. Instance methods (i.e., non-static methods)
-     can be invoked only on instances. Class methods (i.e., static methods)
-     can be invoked on instances and classes
+     CMPIMethodMIFT.invokeMethod() shall invoke a named, extrinsic method on a
+     target object, by accessing the underlying managed elements. Instance
+     methods (i.e., non-static methods) can be invoked only on instances. Class
+     methods (i.e., static methods) can be invoked on instances and classes
 
-     This function is provided by the MI in context of a particular
-     MI name. The class of @p objPath for which this function
-     will be called by the MB depends on the specifics of how the MB
-     relates classes and MI names, which is out of scope for this
-     standard. As a result, the MB may call this function for classes
-     for which the MI is not responsible. In order for an MI to be
-     portable across MB implementations with different approaches
-     to relate MI names and classes, the MI must check whether
-     it services the class specified in @p objPath.
+     This function is provided by the MI in context of a particular MI name.
+     The class of @p objPath for which this function will be called by the MB
+     depends on the specifics of how the MB relates classes and MI names, which
+     is out of scope for this standard. As a result, the MB may call this
+     function for classes for which the MI is not responsible. In order for an
+     MI to be portable across MB implementations with different approaches to
+     relate MI names and classes, the MI must check whether it services the
+     class specified in @p objPath.
 
      @param mi Points to a CMPIMethodMI structure.
      @param ctx Points to a CMPIContext object containing the context data
@@ -10849,30 +10950,29 @@ typedef struct _CMPIMethodMIFT {
          return value of the method into this container.
          The CMPIResultFT function to be used for that depends on the
          data type of the method return, as follows:
-     @li Return values declared as embedded instances (see Subclause
-         4.1.3) shall be returned using
-         CMPIResultFT.returnInstance().
-     @li Return values declared with type `ref <classname>` (see
-         Subclause 4.1.3(TBD)) shall be returned using
-         CMPIResultFT.returnObjectPath().
-     @li Any other return values shall be returned using
-         CMPIResultFT.returnData().
-     @param objPath Points to the CMPIObjectPath object that references
-         the target object on which the method is invoked. If the target
-         object is an instance, this object path will contain the namespace,
-         class name, and key components. The hostname component, if present,
-         has no meaning and should be ignored. If the target object is
-         a class, this object path will contain the namespace and
-         class name components. The hostname and key components,
-         if present, have no meaning and should be ignored.
+         @li Return values declared as embedded instances (see Subclause 4.1.3
+             of the @ref ref-cmpi-standard "CMPI Standard") shall be returned
+             using CMPIResultFT.returnInstance().
+         @li Return values declared with type `ref <classname>` (see Subclause
+             4.1.3 of the @ref ref-cmpi-standard "CMPI Standard") shall be
+             returned using CMPIResultFT.returnObjectPath().
+         @li Any other return values shall be returned using
+             CMPIResultFT.returnData().
+     @param objPath Points to the CMPIObjectPath object that references the
+         target object on which the method is invoked. If the target object is
+         an instance, this object path will contain the namespace, class name,
+         and key components. The hostname component, if present, has no meaning
+         and should be ignored. If the target object is a class, this object
+         path will contain the namespace and class name components. The
+         hostname and key components, if present, have no meaning and should be
+         ignored.
      @param method Method name.
-     @param in Points to a CMPIArgs object (whether the
-         method has any input parameters or not) that contains the
-         method input parameters.
-     @param [out] out Points to an empty CMPIArgs object
-         (whether the method has any output parameters or not) that,
-         upon successful return of the method, shall have been
-         updated by the MI to contain the method output parameters.
+     @param in Points to a CMPIArgs object (whether the method has any input
+         parameters or not) that contains the method input parameters.
+     @param [out] out Points to an empty CMPIArgs object (whether the method
+         has any output parameters or not) that, upon successful return of the
+         method, shall have been updated by the MI to contain the method output
+         parameters.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -11037,36 +11137,35 @@ typedef struct _CMPIPropertyMIFT {
     CMPIStatus (*cleanup) (CMPIPropertyMI* mi, const CMPIContext* ctx,
             CMPIBoolean terminating); /*Deprecated*/
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Set or modify the value of a property of a given instance.
+     @brief Set the value of a property of an existing instance.
          (**Deprecated**)
 
-     CMPIPropertyMIFT.setProperty() shall set or modify the named property
-     value of an instance defined by the @p instPath parameter.
+     CMPIPropertyMIFT.setProperty() shall set the value of a property of an
+     existing instance, by accessing the underlying managed elements.
 
      This function is provided by the MI in context of a particular MI name.
-     The class of @p instPath for which this function will be
-     called by the MB depends on the specifics of how the MB relates
-     classes and MI names, which is out of scope for this standard. As
-     a result, the MB may call this function for classes for which the
-     MI is not responsible. In order for an MI to be portable across
-     MB implementations with different approaches to relate MI names
-     and classes, the MI must check whether it services the class
-     specified in @p instPath.
+     The class of @p instPath for which this function will be called by the MB
+     depends on the specifics of how the MB relates classes and MI names, which
+     is out of scope for this standard. As a result, the MB may call this
+     function for classes for which the MI is not responsible. In order for an
+     MI to be portable across MB implementations with different approaches to
+     relate MI names and classes, the MI must check whether it services the
+     class specified in @p instPath.
 
      @param mi Points to a CMPIPropertyMI structure.
      @param ctx Points to a CMPIContext object containing the context data
          for the invocation.
      @param rslt Points to a CMPIResult object that is the result data
-         container. Upon successful return, the MI shall have
-         left this container empty.
-     @param instPath Points to a CMPIObjectPath object that
-         references the given instance and that contains the
-         namespace, class name, and key components. The hostname
-         component, if present, has no meaning and should be
-         ignored.
+         container. Upon successful return, the MI shall have left this
+         container empty.
+     @param instPath Points to a CMPIObjectPath object that references the
+         instance to be modified and that contains the namespace, class name,
+         and key components. The hostname component, if present, has no meaning
+         and should be ignored.
      @param name Property name.
-     @param data CMPIData structure specifying the value to be assigned
+     @param data A CMPIData structure specifying the value to be assigned
          to the property.
      @return CMPIStatus structure containing the function return status.
 
@@ -11107,36 +11206,39 @@ typedef struct _CMPIPropertyMIFT {
      </TABLE>
      @deprecated This function is deprecated since CMPI 2.1, in accord with the
          deprecation of property client operations in DMTF specifications.
+     @bug In the CMPI Standard document, change "set or modify" to "set" in the
+         short and long descriptions.
     */
     CMPIStatus (*setProperty) (CMPIPropertyMI* mi, const CMPIContext* ctx,
         const CMPIResult* rslt, const CMPIObjectPath* instPath,
         const char* name, const CMPIData data);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Retrieve property value of a given instance. (**Deprecated**)
+     @brief Retrieve a property value of an existing instance. (**Deprecated**)
 
-     CMPIPropertyMIFT.getProperty() shall get the named property value
-     of an instance defined by the @p instPath parameter.
+     CMPIPropertyMIFT.getProperty() shall retrieve a property value of an
+     existing instance, by accessing the underlying managed elements.
 
      @param mi Points to a CMPIPropertyMI structure.
      @param ctx Points to a CMPIContext object containing the context data
          for the invocation.
      @param rslt Points to a CMPIResult object that is the result data
-         container. Upon successful return, the MI shall have put the
-         retrieved property value into this container.
-         The CMPIResultFT function to be used for that depends on the data
-         type of the property, as follows:
-         @li The values of properties declared as embedded instances
-            (see Subclause 4.1.3(TBD)) shall be returned using
-            CMPIResultFT.returnInstance().
-         @li The values of references (see Subclause 4.1.3(TBD)) shall be
-            returned using CMPIResultFT.returnObjectPath().
+         container. Upon successful return, the MI shall have put the retrieved
+         property value into this container. The CMPIResultFT function to be
+         used for that depends on the data type of the property, as follows:
+         @li The values of properties declared as embedded instances (see
+             Subclause 4.1.3 of the @ref ref-cmpi-standard "CMPI Standard")
+             shall be returned using CMPIResultFT.returnInstance().
+         @li The values of references (see Subclause 4.1.3 of the @ref
+             ref-cmpi-standard "CMPI Standard") shall be returned using
+             CMPIResultFT.returnObjectPath().
          @li Any other property values shall be returned using
-            CMPIResultFT.returnData().
-     @param instPath Points to a CMPIObjectPath object that references
-         the given instance and that contains the namespace, class name,
-         and key components. The hostname component, if present, has no
-         meaning and should be ignored.
+             CMPIResultFT.returnData().
+     @param instPath Points to a CMPIObjectPath object that references the
+         given instance and that contains the namespace, class name, and key
+         components. The hostname component, if present, has no meaning and
+         should be ignored.
      @param name Property name.
      @return CMPIStatus structure containing the function return status.
 
@@ -11184,38 +11286,39 @@ typedef struct _CMPIPropertyMIFT {
 
 #ifdef CMPI_VER_200
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Set or modify the value of a property of a given
-            instance. (**Deprecated**)
+     @brief Set the value and origin of a property of an existing instance.
+         (**Deprecated**)
 
-     CMPIPropertyMIFT.setPropertyWithOrigin()  shall set or modify the value
-     and origin of a property of an existing instance, by accessing the
-     underlying managed elements.
+     CMPIPropertyMIFT.setPropertyWithOrigin() shall set the value and origin of
+     a property of an existing instance, by accessing the underlying managed
+     elements.
 
      This function is provided by the MI in context of a particular MI name.
-     The class of @p instPath for which this function will be called
-     by the MB depends on the specifics of how the MB relates classes and MI
-     names, which is out of scope for this standard. As a result, the MB may
-     call this function for classes for which the MI is not responsible. In
-     order for an MI to be portable across MB implementations with different
-     approaches to relate MI names and classes, the MI must check whether it
-     services the class specified in @p instPath.
+     The class of @p instPath for which this function will be called by the MB
+     depends on the specifics of how the MB relates classes and MI names, which
+     is out of scope for this standard. As a result, the MB may call this
+     function for classes for which the MI is not responsible. In order for an
+     MI to be portable across MB implementations with different approaches to
+     relate MI names and classes, the MI must check whether it services the
+     class specified in @p instPath.
 
      @param mi Points to a CMPIPropertyMI structure.
      @param ctx Points to a CMPIContext object containing the context data
          for the invocation.
      @param rslt Points to a CMPIResult object that is the result data
-     container. Upon successful return, the MI shall have left this
-     container empty.
+         container. Upon successful return, the MI shall have left this
+         container empty.
      @param instPath Points to a CMPIObjectPath object that references the
-     instance to be retrieved and that contains the namespace, class name,
-     and key components. The hostname component, if present, has no meaning
-     and should be ignored.
+         instance to be retrieved and that contains the namespace, class name,
+         and key components. The hostname component, if present, has no meaning
+         and should be ignored.
      @param name Property name.
      @param data A CMPIData structure specifying the value to be assigned
-     to the property.
-     @param origin Class origin (class name) to be
-     set for the property. If NULL, no origin is set for the property.
+         to the property.
+     @param origin Origin (class name) to be set for the property. If NULL, no
+         origin is set for the property.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -11384,6 +11487,8 @@ typedef struct _CMPIIndicationMIFT {
     CMPIStatus (*cleanup) (CMPIIndicationMI* mi, const CMPIContext* ctx,
             CMPIBoolean terminating);
 
+// DONE_AM Next function is already synced with spec.
+// TODO_AM Sync function descriptions with spec, from here on down.
     /**
      @brief Ask an MI to verify whether an indication filter is
          supported by the MI.
