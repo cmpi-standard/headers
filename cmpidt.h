@@ -415,7 +415,8 @@ typedef unsigned short CMPIType;
 #define CMPI_uint16       ((8+1)<<4)    ///< Indicates a CMPIValue.uint16 value
 #define CMPI_uint32       ((8+2)<<4)    ///< Indicates a CMPIValue.uint32 value
 #define CMPI_uint64       ((8+3)<<4)    ///< Indicates a CMPIValue.uint64 value
-/// Test mask for CIM signed integer types
+/// @todo TBD AM: This is not a test mask for signed, it also matches unsigned.
+///       Use ((0+4)<<4) instead?
 #define CMPI_SINT         ((8+4)<<4)
 #define CMPI_sint8        ((8+4)<<4)    ///< Indicates a CMPIValue.uint8 value
 #define CMPI_sint16       ((8+5)<<4)    ///< Indicates a CMPIValue.uint16 value
