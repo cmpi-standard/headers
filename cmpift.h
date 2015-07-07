@@ -9500,10 +9500,10 @@ typedef struct _CMPIInstanceMIFT {
      @param rslt Points to a CMPIResult object that is the result data
          container. Upon successful return, the MI shall have put all instance
          paths representing the result set into this container.
-     @param classPath Points to CMPIObjectPath object that references the given
-         class and that contains the namespace and class name components. The
-         hostname and key components, if present, have no meaning and should be
-         ignored.
+     @param classPath Points to a CMPIObjectPath object that references the
+         given class and that contains the namespace and class name components.
+         The hostname and key components, if present, have no meaning and
+         should be ignored.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -10010,7 +10010,7 @@ typedef struct _CMPIInstanceMIFT {
      <TR><TD>`CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED`</TD><TD>WIPG0240</TD>
          <TD>Limits exceeded.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
-         <TD>Timeout occurred.</TD>>/TR>
+         <TD>Timeout occurred.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD>
          <TD>WIPG0227 + implementation-specific message</TD>
          <TD>Other error occurred.</TD></TR>
