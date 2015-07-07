@@ -9411,49 +9411,51 @@ typedef struct _CMPIInstanceMIFT {
     const char* miName;
 
 // DONE_AM Next function is already synced with spec.
-// TODO_AM Sync function descriptions with spec, from here on down.
     /**
      @brief Perform cleanup for an Instance MI.
 
-     CMPIInstanceMIFT.cleanup() shall perform any necessary cleanup operation
-     of the library of which this Instance MI @p mi unless the MI
-     postpones the cleanup.
+     CMPIInstanceMIFT.cleanup() shall perform any necessary cleanup for the
+     Instance MI identified by @p mi, unless the MI postpones the cleanup.
 
      While this function executes, the MB will not call any other MI functions
-     for this MI. After this function returns, the MB may unload the load
-     library this MI is part of, unless the MI postpones the cleanup
+     for this MI. This function will be called once for a specific MI (unless
+     the MI postpones the cleanup), even if that MI services more than one
+     namespace. After this function returns, the MB may unload the load library
+     this MI is part of, unless the MI postpones the cleanup.
 
      @param mi Points to a CMPIInstanceMI structure.
-     @param ctx Points to a CMPIContext object containing the context data
-         for the invocation.
+     @param ctx Points to a CMPIContext object containing the context data for
+         the invocation. The context data entries are MB
+         implementation-specific.
      @param terminating
      @parblock
-         When True, the MB is in the process of shutting down.
-         The MI shall perform any necessary cleanup and shall not
-         postpone the cleanup. After this function returns (successful
-         or in error), the MB will consider this MI to be uninitialized
-         and will not call further MI functions for this MI.
+         Indicates whether the MB is in the process of shutting down and thus
+         cannot tolerate postponing of the cleanup, as follows:
 
-         When False, the MI can choose to perform or postpone the
-         cleanup, by performing one of these actions:
+         When True, the MB is in the process of shutting down. The MI shall
+         perform any necessary cleanup and shall not postpone the cleanup.
+         After this function returns (successful or in error), the MB will
+         consider this MI to be uninitialized and will not call further MI
+         functions for this MI.
+
+         When False, the MI can choose to perform or postpone the cleanup, by
+         performing one of these actions:
 
          @li The MI performs any necessary cleanup and does not request
-         postponing the cleanup. After this function returns (successful
-         or in error), the MB will consider this MI to be uninitialized
-         and will not call further MI functions for this MI.
-         @li The MI does not perform any cleanup and temporarily
-         postpones the cleanup, by returning CMPI_RC_DO_NOT_UNLOAD. This
-         will cause the MB to consider this MI still to be initialized,
-         and the MB may call further MI functions of this MI. The MB may
-         call this function again after some MB implementation-specific
-         time.
-         @li The MI does not perform any cleanup and permanently
-         postpones the cleanup, by returning `CMPI_RC_NEVER_UNLOAD`.
-         This will cause the MB to consider this MI still to be
-         initialized, and the MB may call further MI functions of this
-         MI. The MB will not call this function again until the MB
-         terminates (at which time the MB calls this function with
-         terminating set to true).
+             postponing the cleanup. After this function returns (successful or
+             in error), the MB will consider this MI to be uninitialized and
+             will not call further MI functions for this MI.
+         @li The MI does not perform any cleanup and temporarily postpones the
+             cleanup, by returning `CMPI_RC_DO_NOT_UNLOAD`. This will cause the
+             MB to consider this MI still to be initialized, and the MB may
+             call further MI functions of this MI. The MB may call this
+             function again after some MB implementation-specific time.
+         @li The MI does not perform any cleanup and permanently postpones the
+             cleanup, by returning `CMPI_RC_NEVER_UNLOAD`. This will cause the
+             MB to consider this MI still to be initialized, and the MB may
+             call further MI functions of this MI. The MB will not call this
+             function again until the MB terminates (at which time the MB calls
+             this function with terminating set to true).
      @endparblock
      @return CMPIStatus structure containing the function return status.
 
@@ -9462,30 +9464,35 @@ typedef struct _CMPIInstanceMIFT {
      function return status:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-     @li `CMPI_RC_DO_NOT_UNLOAD` - Operation successful - do not unload now.
-     @li `CMPI_RC_NEVER_UNLOAD` - Operation successful - never unload.
+     @li `CMPI_RC_DO_NOT_UNLOAD` - Function successful, do not unload now;
+         the MB may retry an unload later.
+     @li `CMPI_RC_NEVER_UNLOAD` - Function successful, never unload;
+         the MB will not retry an unload later unless it shuts down.
 
      @see CMInstanceMIStub()
+     @todo In the CMPI Standard document, add the sentence about the number of
+         invocations relative to the number of namespaces serviced.
     */
     CMPIStatus (*cleanup) (CMPIInstanceMI* mi, const CMPIContext* ctx,
         CMPIBoolean terminating);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Enumerate instance paths of instances of a given class serviced
-         by this MI.
+     @brief Enumerate instance paths of instances of a given class serviced by
+         this MI.
 
-     CMPIInstanceMIFT.enumerateInstanceNames() enumerates the instance
-     paths of instances of a given class defined by @p classPath that are
-     serviced by this MI, by accessing the underlying managed elements.
+     CMPIInstanceMIFT.enumerateInstanceNames() shall enumerate the instance
+     paths of instances of a given class that are serviced by this MI, by
+     accessing the underlying managed elements.
 
-     This function is provided by the MI in context of @p mi a particular
-     MI name. The class of @p op for which this function will be
-     called by the MB depends on the specifics of how the MB relates classes
-     and MI names, which is out of scope for this standard. As a result, the
-     MB may call this function for classes for which the MI is not responsible.
-     In order for an MI to be portable across MB implementations with different
-     approaches to relate MI names and classes, the MI must check whether it
-     services the class specified in @p classPath.
+     This function is provided by the MI in context of a particular MI name.
+     The class of @p classPath for which this function will be called by the MB
+     depends on the specifics of how the MB relates classes and MI names, which
+     is out of scope for this standard. As a result, the MB may call this
+     function for classes for which the MI is not responsible. In order for an
+     MI to be portable across MB implementations with different approaches to
+     relate MI names and classes, the MI must check whether it services the
+     class specified in @p classPath.
 
      @param mi Points to a CMPIInstanceMI structure.
      @param ctx Points to a CMPIContext object containing the context data
@@ -9493,9 +9500,10 @@ typedef struct _CMPIInstanceMIFT {
      @param rslt Points to a CMPIResult object that is the result data
          container. Upon successful return, the MI shall have put all instance
          paths representing the result set into this container.
-     @param classPath Points to CMPIObjectPath containing namespace and
-         classname components. Hostname and key components, if present, have
-         no meaning and should be ignored.
+     @param classPath Points to CMPIObjectPath object that references the given
+         class and that contains the namespace and class name components. The
+         hostname and key components, if present, have no meaning and should be
+         ignored.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -9531,22 +9539,23 @@ typedef struct _CMPIInstanceMIFT {
         const CMPIContext* ctx, const CMPIResult* rslt,
         const CMPIObjectPath* classPath);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Enumerate the instances of a given class serviced by this MI.
+     @brief Enumerate the instances of a given class that are serviced by this
+         MI.
 
-     CMPIInstanceMIFT.enumerateInstances() shall enumerate the instances
-     of a given class that are serviced by this MI, by accessing the
-     underlying managed elements.
+     CMPIInstanceMIFT.enumerateInstances() shall enumerate the instances of a
+     given class that are serviced by this MI, by accessing the underlying
+     managed elements.
 
-     This function is provided by the MI in context of @p mi
-     a particular MI name. The class of @p op for which this
-     function will be called by the MB depends on the specifics of how the MB
-     relates classes and MI names, which is out of scope for this standard. As
-     a result, the MB may call this function for classes for which the MI is
-     not responsible. In order for an MI to be portable across MB
-     implementations with different approaches to relate MI names and classes,
-     the MI must check whether it services the class specified
-     in @p classPath.
+     This function is provided by the MI in context of a particular MI name.
+     The class of @p classPath for which this function will be called by the MB
+     depends on the specifics of how the MB relates classes and MI names, which
+     is out of scope for this standard. As a result, the MB may call this
+     function for classes for which the MI is not responsible. In order for an
+     MI to be portable across MB implementations with different approaches to
+     relate MI names and classes, the MI must check whether it services the
+     class specified in @p classPath.
 
      @param mi Points to a CMPIInstanceMI structure.
      @param ctx Points to a CMPIContext object containing the context data
@@ -9554,13 +9563,14 @@ typedef struct _CMPIInstanceMIFT {
      @param rslt Points to a CMPIResult object that is the result data
          container. Upon successful return, the MI shall have put all instances
          representing the result set into this container.
-     @param classPath Points to CMPIObjectPath containing namespace and
-         classname components. Hostname and key components, if present, have no
-         meaning and should be ignored.
+     @param classPath Points to a CMPIObjectPath object that references the
+         given class and that contains the namespace and class name components.
+         The hostname and key components, if present, have no meaning and
+         should be ignored.
      @param properties If not NULL, is an array of zero or more pointers to
          strings, each specifying a property name. This set of property names
          will reflect the effects of any invocation flags specified in the
-         CMPIInvocationFlags entry of @p ctx. The end of the array
+         @ref CMPIInvocationFlags entry of @p ctx. The end of the array
          is identified by a NULL pointer. Each returned object shall not
          include elements for any properties missing from this list. If the
          properties argument is NULL, this indicates that all properties shall
@@ -9666,22 +9676,22 @@ typedef struct _CMPIInstanceMIFT {
         const CMPIResult* rslt, const CMPIObjectPath* instPath,
         const char** properties);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an instance of a given class.
 
-     CMPIInstanceMIFT.createInstance() shall create an instance of a
-     given class @p op in the namespace of
-     that class defined in @p op and the properties defined in @p inst.
+     CMPIInstanceMIFT.createInstance() shall create an instance of a given
+     class in the namespace of that class, by creating the underlying managed
+     elements.
 
-     This function is provided by the MI in context of a particular MI
-     name. The class of @p classPath for which this
-     function will be called by the MB depends on the specifics of how the
-     MB relates classes and MI names, which is out of scope for this
-     standard. As a result, the MB may call this function for classes
-     for which the MI is not responsible. In order for an MI to be
-     portable across MB implementations with different approaches to
-     relate MI names and classes, the MI must check whether it services
-     the class specified in @p classPath.
+     This function is provided by the MI in context of a particular MI name.
+     The class of @p classPath for which this function will be called by the MB
+     depends on the specifics of how the MB relates classes and MI names, which
+     is out of scope for this standard. As a result, the MB may call this
+     function for classes for which the MI is not responsible. In order for an
+     MI to be portable across MB implementations with different approaches to
+     relate MI names and classes, the MI must check whether it services the
+     class specified in @p classPath.
 
      @param mi Points to a CMPIInstanceMI structure.
      @param ctx Points to a CMPIContext object containing the context data
@@ -9689,14 +9699,13 @@ typedef struct _CMPIInstanceMIFT {
      @param rslt Points to a CMPIResult object that is the result data
          container. Upon successful return, the MI shall have put the
          instance path of the created instance into this container.
-     @param classPath Points to a CMPIObjectPath object that references
-         the given class. The hostname and key components, if present, have
-         no meaning and should be ignored.
-     @param inst Points to a CMPIInstance object specifying
-         property values for the new instance. The object path
-         component within this CMPIInstance object has no meaning;
-         it should not be provided by MBs and should not be used by
-         MIs
+     @param classPath Points to a CMPIObjectPath object that references the
+         given class. The hostname and key components, if present, have no
+         meaning and should be ignored.
+     @param inst Points to a CMPIInstance object specifying property values for
+         the new instance. The object path component within this CMPIInstance
+         object has no meaning; it should not be provided by MBs and should not
+         be used by MIs.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -9734,21 +9743,21 @@ typedef struct _CMPIInstanceMIFT {
         const CMPIResult* rslt, const CMPIObjectPath* classPath,
         const CMPIInstance* inst);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Modify property values of a given instance.
+     @brief Modify property values of an existing instance.
 
-     CMPIInstanceMIFT.modifyInstance() shall modify property values of
-     @p mi, a given instance with properties defined in @p modInst and using
-     @p properties, an array of pointers to property names, as a filter,
+     CMPIInstanceMIFT.modifyInstance() shall modify property values of an
+     existing instance, by accessing the underlying managed elements.
 
      This function is provided by the MI in context of a particular MI name.
-     The class in @p instPath for which this function will
-     be called by the MB depends on the specifics of how the MB relates classes
-     and MI names, which is out of scope for this standard. As a result, the MB
-     may call this function for classes for which the MI is not responsible. In
-     order for an MI to be portable across MB implementations with different
-     approaches to relate MI names and classes, the MI must check whether
-     it services the class specified in @p instPath.
+     The class in @p instPath for which this function will be called by the MB
+     depends on the specifics of how the MB relates classes and MI names, which
+     is out of scope for this standard. As a result, the MB may call this
+     function for classes for which the MI is not responsible. In order for an
+     MI to be portable across MB implementations with different approaches to
+     relate MI names and classes, the MI must check whether it services the
+     class specified in @p instPath.
 
      @param mi Points to a CMPIInstanceMI structure.
      @param ctx Points to a CMPIContext object containing the context data
@@ -9756,22 +9765,21 @@ typedef struct _CMPIInstanceMIFT {
      @param rslt Points to a CMPIResult object that is the result data
          container. Upon successful return, the MI shall have left this
          container empty.
-     @param instPath Points to a CMPIObjectPath object that references
-         the given instance and that contains the namespace, class name,
-         and key components. The hostname component, if present, has no
-         meaning and should be ignored.
-     @param modInst Points to a CMIPInstance object specifying new values
-         for the properties to be modified. The object path component within
-         this CMPIInstance object has no meaning; it should not be provided by
-         MBs and should not be used by MIs.
+     @param instPath Points to a CMPIObjectPath object that references the
+         instance to be modified and that contains the namespace, class name,
+         and key components. The hostname component, if present, has no meaning
+         and should be ignored.
+     @param modInst Points to a CMIPInstance object specifying new values for
+         the properties to be modified. The object path component within this
+         CMPIInstance object has no meaning; it should not be provided by MBs
+         and should not be used by MIs.
      @param properties If not NULL, is an array of zero or more pointers to
          strings, each specifying a property name. The end of the array is
-         identified by a NULL pointer. The invocation flags specified in
-         the CMPIInvocationFlags entry of @p ctx have no meaning
-         for this function. The function shall not modify elements for any
-         properties missing from this list. If @p properties
-         is NULL, this indicates that all properties specified in
-         @p modInst are modified
+         identified by a NULL pointer. The invocation flags specified in the
+         @ref CMPIInvocationFlags entry of @p ctx have no meaning for this
+         function. The function shall not modify elements for any properties
+         missing from this list. If @p properties is NULL, this indicates that
+         all properties specified in @p modInst are modified.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -9806,20 +9814,21 @@ typedef struct _CMPIInstanceMIFT {
         const CMPIResult* rslt, const CMPIObjectPath* instPath,
         const CMPIInstance* modInst, const char** properties);
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Delete a given instance.
+     @brief Delete an existing instance.
 
-     CMPIInstanceMIFT.deleteInstance() shall delete an existing instance
-     defined by @p instPath.
+     CMPIInstanceMIFT.deleteInstance() shall delete an existing instance, by
+     deleting the underlying managed elements.
 
      This function is provided by the MI in context of a particular MI name.
-     The class in @p instPath for which this function will be called
-     by the MB depends on the specifics of how the MB relates classes and MI
-     names, which is out of scope for this standard. As a result, the MB may
-     call this function for classes for which the MI is not responsible. In
-     order for an MI to be portable across MB implementations with different
-     approaches to relate MI names and classes, the MI must check whether
-     it services the class specified in @p instPath.
+     The class in @p instPath for which this function will be called by the MB
+     depends on the specifics of how the MB relates classes and MI names, which
+     is out of scope for this standard. As a result, the MB may call this
+     function for classes for which the MI is not responsible. In order for an
+     MI to be portable across MB implementations with different approaches to
+     relate MI names and classes, the MI must check whether it services the
+     class specified in @p instPath.
 
      @param mi Points to a CMPIInstanceMI structure.
      @param ctx Points to a CMPIContext object containing the context data
@@ -9827,10 +9836,10 @@ typedef struct _CMPIInstanceMIFT {
      @param rslt Points to a CMPIResult object that is the result data
          container. Upon successful return, the MI shall have left this
          container empty.
-     @param instPath Points to a CMPIObjectPath object that references
-         the given instance and that contains the namespace, class name,
-         and key components. The hostname component, if present, has no
-         meaning and should be ignored.
+     @param instPath Points to a CMPIObjectPath object that references the
+         instance to be deleted and that contains the namespace, class name,
+         and key components. The hostname component, if present, has no meaning
+         and should be ignored.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -9860,21 +9869,21 @@ typedef struct _CMPIInstanceMIFT {
     CMPIStatus (*deleteInstance) (CMPIInstanceMI* mi, const CMPIContext* ctx,
         const CMPIResult* rslt, const CMPIObjectPath* op);
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Execute a query on a given class and return the query result.
 
-     CMPIInstanceMIFT.execQuery() shall query the enumeration of instances
-     of the class (and subclasses) defined
-     by @p op using @p query expression.
+     CMPIInstanceMIFT.execQuery() shall execute a query on a given class and
+     return the query result, by accessing the underlying managed elements.
 
      This function is provided by the MI in context of a particular MI name.
-     The class in @p instPath for which this function will be called
-     by the MB depends on the specifics of how the MB relates classes and MI
-     names, which is out of scope for this standard. As a result, the MB may
-     call this function for classes for which the MI is not responsible. In
-     order for an MI to be portable across MB implementations with different
-     approaches to relate MI names and classes, the MI must check whether
-     it services the class specified in @p instPath.
+     The class in @p classPath for which this function will be called by the MB
+     depends on the specifics of how the MB relates classes and MI names, which
+     is out of scope for this standard. As a result, the MB may call this
+     function for classes for which the MI is not responsible. In order for an
+     MI to be portable across MB implementations with different approaches to
+     relate MI names and classes, the MI must check whether it services the
+     class specified in @p classPath.
 
      @param mi Points to a CMPIInstanceMI structure.
      @param ctx Points to a CMPIContext object containing the context data
@@ -9882,9 +9891,10 @@ typedef struct _CMPIInstanceMIFT {
      @param rslt Points to a CMPIResult object that is the result data
          container. Upon successful return, the MI shall have left this
          container empty.
-     @param classPath Points to a CMPIObjectPath object that references
-         the given class. The hostname and key components, if present, have
-         no meaning and should be ignored.
+     @param classPath Points to a CMPIObjectPath object that references the
+         given class and that contains the namespace and class name components.
+         The hostname and key components, if present, have no meaning and
+         should be ignored.
      @param query Select expression.
      @param lang Query language (case-sensitive).
      @return CMPIStatus structure containing the function return status.
@@ -9933,17 +9943,17 @@ typedef struct _CMPIInstanceMIFT {
 
 #ifdef CMPI_VER_210
 
+// DONE_AM Next function is already synced with spec.
     /**
-     @brief Enumerate the instances of a given class that are
-         serviced by this MI, returning only those that match
-         @p filterQuery.
+     @brief Enumerate the instances of a given class that are serviced by this
+         MI, returning only those that match a given query filter.
 
-     CMPIInstanceMIFT.enumerateInstancesFiltered() shall
-     enumerate the instances of a given class that are serviced by this MI,
-     returning only those instances that match @p filterQuery,
-     by enumerating the underlying managed elements. The returned instances
-     shall have their instance paths set. If no such instances are found,
-     the function shall return success with an empty result data container.
+     CMPIInstanceMIFT.enumerateInstancesFiltered() shall enumerate the
+     instances of a given class that are serviced by this MI, returning only
+     those instances that match a given query filter, by enumerating the
+     underlying managed elements. The returned instances shall have their
+     instance paths set. If no such instances are found, the function shall
+     return success with an empty result data container.
 
      @param mi Points to a CMPIInstanceMI structure.
      @param ctx Points to a CMPIContext object containing the context data
@@ -9951,36 +9961,36 @@ typedef struct _CMPIInstanceMIFT {
      @param rslt Points to a CMPIResult object that is the result data
          container. Upon successful return the MI shall have put all
          instances representing the result set into this container.
-     @param classPath Points to a CMPIObjectPath object that references
-         the given class and that contains namespace and class name components.
-         The hostname and key components, if present, have no meaning and
-         should be ignored.
+     @param classPath Points to a CMPIObjectPath object that references the
+        given class and that contains namespace and class name components. The
+        hostname and key components, if present, have no meaning and should be
+        ignored.
      @param properties If not NULL, is an array of zero or more pointers
          to strings, each specifying a property name. The end of the array
          is identified by a NULL pointer. This set of property names will
          reflect the effects of any invocation flags specified in the
-         CMPIInvocationFlags entry of @p ctx. Each returned
+         @ref CMPIInvocationFlags entry of @p ctx. Each returned
          instance shall not include elements for any properties missing
          from this list. If @p properties is NULL, this indicates
          that all properties shall be included in each returned instance.
-     @param filterquerylanguage Query language used by
-         @p filterQuery. If it is NULL, @p filterQuery is
-         ignored and no filtering is performed. Note that FQL
-         (see @ref ref-dmtf-dsp0212 "DSP0212") is required
-         to be supported by MIs as a query language; see Subclause 4.5(TBD).
-     @param filterquery Query language used by the @p filterQuery
-         argument. If it is NULL, @p filterQuery is ignored and
+     @param filterQueryLanguage Query language used by @p filterQuery. If NULL,
          no filtering is performed. Note that FQL (see @ref ref-dmtf-dsp0212
-         "DSP0212") is required to be supported by MIs as a query language;
-         see Subclause 4.5(TBD).
-     @param continueOnerror Defines whether this operation may continue to
+         "DSP0212") is required to be supported by MIs as a query language; see
+         Subclause 4.5 in the @ref ref-cmpi-standard "CMPI Standard".
+     @param filterQuery Query in the query language defined by @p
+         filterQueryLanguage. If NULL, no filtering is performed. A request
+         that specifies a filter through valid and non-NULL @p
+         filterQueryLanguage and @p filterQuery arguments shall return only
+         instances that match that filter as defined in the filter
+         specification.
+     @param continueOnError Defines whether this operation may continue to
          return objects after it returns an error. If false, the MI shall
          terminate after returning an error to the result data container. If
          true, the MI may continue to return data (objects and subsequent
          errors) to the result data container after returning an error. An MI
          that cannot continue after returning an error shall ignore the value
-         of @p continueOnError and shall behave as if it was
-         specified as false.
+         of @p continueOnError and shall behave as if it was specified as
+         false.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -10014,6 +10024,10 @@ typedef struct _CMPIInstanceMIFT {
      </TABLE>
      @see CMInstanceMIStub()
      @added210 Added in CMPI 2.1.0.
+
+     @todo In the CMPI Standard document, simplify the description of
+         filterQueryLanguage for the case of NULL, to match the description in
+         the header file.
     */
     CMPIStatus (*enumerateInstancesFiltered) (CMPIInstanceMI* mi,
         const CMPIContext* ctx, const CMPIResult* rslt,
@@ -10078,49 +10092,52 @@ typedef struct _CMPIAssociationMIFT {
      */
     const char* miName;
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Perform cleanup for an @ref CMPIAssociationMI object.
 
-     CMPIAssociationMIFT.cleanup() shall perform any necessary cleanup
-     operations prior to the
-     unloading of the library of which this MI group is part.
+     CMPIAssociationMIFT.cleanup() shall perform any necessary cleanup for the
+     Association MI identified by @p mi, unless the MI postpones the cleanup.
 
      While this function executes, the MB will not call any other MI functions
-     for this MI. This function will be called once for a specific MI
-     (unless the MI postpones the cleanup), even if that MI services more
-     than one namespace. After this function returns, the MB may unload
-     the load library this MI is part of, unless the MI postpones the
-     cleanup.
+     for this MI. This function will be called once for a specific MI (unless
+     the MI postpones the cleanup), even if that MI services more than one
+     namespace. After this function returns, the MB may unload the load library
+     this MI is part of, unless the MI postpones the cleanup.
 
      @param mi Points to a CMPIAssociationMI structure.
-     @param ctx Points to a CMPIContext object containing the context data
-         for the invocation. The context data entries are MB
+     @param ctx Points to a CMPIContext object containing the context data for
+         the invocation. The context data entries are MB
          implementation-specific.
      @param terminating
      @parblock
-         When true, the MB is in the process of shutting down.he MI shall
+         Indicates whether the MB is in the process of shutting down and thus
+         cannot tolerate postponing of the cleanup, as follows:
+
+         When True, the MB is in the process of shutting down. The MI shall
          perform any necessary cleanup and shall not postpone the cleanup.
          After this function returns (successful or in error), the MB will
          consider this MI to be uninitialized and will not call further MI
          functions for this MI.
 
-         When false, the MI can choose to perform or postpone the cleanup, by
+         When False, the MI can choose to perform or postpone the cleanup, by
          performing one of these actions:
+
          @li The MI performs any necessary cleanup and does not request
-             postponing the cleanup. After this function returns (successful
-             or in error), the MB will consider this MI to be uninitialized and
+             postponing the cleanup. After this function returns (successful or
+             in error), the MB will consider this MI to be uninitialized and
              will not call further MI functions for this MI.
          @li The MI does not perform any cleanup and temporarily postpones the
-             cleanup, by returning CMPI_RC_DO_NOT_UNLOAD. This will cause the
+             cleanup, by returning `CMPI_RC_DO_NOT_UNLOAD`. This will cause the
              MB to consider this MI still to be initialized, and the MB may
              call further MI functions of this MI. The MB may call this
              function again after some MB implementation-specific time.
          @li The MI does not perform any cleanup and permanently postpones the
-             cleanup, by returning CMPI_RC_NEVER_UNLOAD. This will cause the MB
-             to consider this MI still to be initialized, and the MB may call
-             further MI functions of this MI. The MB will not call this function
-             again, until the MB terminates (at which time the MB calls this
-             function with @p terminating set to true).
+             cleanup, by returning `CMPI_RC_NEVER_UNLOAD`. This will cause the
+             MB to consider this MI still to be initialized, and the MB may
+             call further MI functions of this MI. The MB will not call this
+             function again until the MB terminates (at which time the MB calls
+             this function with terminating set to true).
      @endparblock
      @return CMPIStatus structure containing the function return status.
 
@@ -10129,15 +10146,16 @@ typedef struct _CMPIAssociationMIFT {
      function return status:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-     @li `CMPI_RC_DO_NOT_UNLOAD` - Function successful, do not
-         unload now; the MB may retry an unload later.
-     @li `CMPI_RC_NEVER_UNLOAD` - Function successful, never
-         unload; the MB will not retry an unload later unless it
-         shuts down.
+     @li `CMPI_RC_DO_NOT_UNLOAD` - Function successful, do not unload now;
+         the MB may retry an unload later.
+     @li `CMPI_RC_NEVER_UNLOAD` - Function successful, never unload;
+         the MB will not retry an unload later unless it shuts down.
     */
     CMPIStatus (*cleanup) (CMPIAssociationMI* mi, const CMPIContext* ctx,
         CMPIBoolean terminating);
 
+// DONE_AM Next function is already synced with spec.
+// TODO_AM Sync function descriptions with spec, from here on down.
     /**
      @brief Enumerate the instances associated with a given source instance
          that are serviced by this MI.
@@ -10521,7 +10539,7 @@ typedef struct _CMPIAssociationMIFT {
      @param properties If not NULL, is an array of zero or more pointers to
          strings, each specifying a property name. The end of the array is
          identified by a NULL pointer. The invocation flags specified in the
-         CMPIInvocationFlags entry of @p ctx have no meaning for
+         @ref CMPIInvocationFlags entry of @p ctx have no meaning for
          this function. Each returned instance shall not include elements for
          any properties missing from this list. If @p properties is
          NULL, this indicates that all properties shall be included in each
@@ -10530,7 +10548,8 @@ typedef struct _CMPIAssociationMIFT {
          @p filterQuery. If it is NULL, @p filterQuery
          is ignored and no filtering is performed. Note that FQL
          (see @ref ref-dmtf-dsp0212 "DSP0212") is required
-         to be supported by MIs as a query language; see Subclause 4.5(TBD).
+         to be supported by MIs as a query language; see Subclause 4.5 in the
+         @ref ref-cmpi-standard "CMPI Standard".
      @param filterQuery Query in the query language defined by
          @p filterQueryLanguage. If NULL, no filtering is performed.
          A request that specifies a filter through valid and non-NULL
@@ -10620,7 +10639,7 @@ typedef struct _CMPIAssociationMIFT {
      @param properties If not NULL, is an array of zero or more pointers to
          strings, each specifying a property name. The end of the array is
          identified by a NULL pointer. The invocation flags specified in the
-         CMPIInvocationFlags entry of @p ctx have no meaning for
+         @ref CMPIInvocationFlags entry of @p ctx have no meaning for
          this function. Each returned instance shall not include elements for
          any properties missing from this list. If @p properties is
          NULL, this indicates that all properties shall be included in each
@@ -10629,7 +10648,8 @@ typedef struct _CMPIAssociationMIFT {
          @p filterQuery. If it is NULL, @p filterQuery
          is ignored and no filtering is performed. Note that FQL
          (see @ref ref-dmtf-dsp0212 "DSP0212") is required
-         to be supported by MIs as a query language; see Subclause 4.5(TBD).
+         to be supported by MIs as a query language; see Subclause 4.5 in the
+         @ref ref-cmpi-standard "CMPI Standard".
      @param filterQuery Query in the query language defined by
          @p filterQueryLanguage. If NULL, no filtering is performed.
          A request that specifies a filter through valid and non-NULL
@@ -10737,22 +10757,53 @@ typedef struct _CMPIMethodMIFT {
      */
     const char* miName;
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Perform cleanup for an Instance MI.
 
-     CMPIMethodMIFT.cleanup() shall perform any
-     necessary cleanup operation prior to the unloading of the
-     library of which this MI group is part. This function is called
-     prior to the unloading of the provider.
+     CMPIMethodMIFT.cleanup() shall perform any necessary cleanup for the
+     Method MI identified by @p mi, unless the MI postpones the cleanup.
+
+     While this function executes, the MB will not call any other MI functions
+     for this MI. This function will be called once for a specific MI (unless
+     the MI postpones the cleanup), even if that MI services more than one
+     namespace. After this function returns, the MB may unload the load library
+     this MI is part of, unless the MI postpones the cleanup.
 
      @param mi Points to a CMPIMethodMI structure.
-     @param ctx Points to a CMPIContext object containing the context data
-         for the invocation.
-     @param terminating When true, @p terminating indicates that
-         the MB is in the process of terminating and that cleanup must be done.
-         When set to false, the MI may respond with CMPI_IRC_DO_NOT_UNLOAD,
-         or CMPI_IRC_NEVER_UNLOAD, indicating that unload will
-         interfere with current MI processing.
+     @param ctx Points to a CMPIContext object containing the context data for
+         the invocation. The context data entries are MB
+         implementation-specific.
+     @param terminating
+     @parblock
+         Indicates whether the MB is in the process of shutting down and thus
+         cannot tolerate postponing of the cleanup, as follows:
+
+         When True, the MB is in the process of shutting down. The MI shall
+         perform any necessary cleanup and shall not postpone the cleanup.
+         After this function returns (successful or in error), the MB will
+         consider this MI to be uninitialized and will not call further MI
+         functions for this MI.
+
+         When False, the MI can choose to perform or postpone the cleanup, by
+         performing one of these actions:
+
+         @li The MI performs any necessary cleanup and does not request
+             postponing the cleanup. After this function returns (successful or
+             in error), the MB will consider this MI to be uninitialized and
+             will not call further MI functions for this MI.
+         @li The MI does not perform any cleanup and temporarily postpones the
+             cleanup, by returning `CMPI_RC_DO_NOT_UNLOAD`. This will cause the
+             MB to consider this MI still to be initialized, and the MB may
+             call further MI functions of this MI. The MB may call this
+             function again after some MB implementation-specific time.
+         @li The MI does not perform any cleanup and permanently postpones the
+             cleanup, by returning `CMPI_RC_NEVER_UNLOAD`. This will cause the
+             MB to consider this MI still to be initialized, and the MB may
+             call further MI functions of this MI. The MB will not call this
+             function again until the MB terminates (at which time the MB calls
+             this function with terminating set to true).
+     @endparblock
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -10760,8 +10811,13 @@ typedef struct _CMPIMethodMIFT {
      function return status:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-     @li `CMPI_RC_DO_NOT_UNLOAD` - Operation successful - do not unload now.
-     @li `CMPI_RC_NEVER_UNLOAD` - Operation successful - never unload.
+     @li `CMPI_RC_DO_NOT_UNLOAD` - Function successful, do not unload now;
+         the MB may retry an unload later.
+     @li `CMPI_RC_NEVER_UNLOAD` - Function successful, never unload;
+         the MB will not retry an unload later unless it shuts down.
+
+     @todo In the CMPI Standard document, add the sentence about the number of
+         invocations relative to the number of namespaces serviced.
     */
     CMPIStatus (*cleanup) (CMPIMethodMI* mi, const CMPIContext* ctx,
         CMPIBoolean terminating);
@@ -10914,51 +10970,52 @@ typedef struct _CMPIPropertyMIFT {
      */
     const char* miName;
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Perform cleanup for a Property MI. (**Deprecated**)
 
-     CMPIPropertyMIFT.cleanup() shall perform any necessary cleanup
-     operations prior to the
-     unloading of the library of which this MI group is part.
+     CMPIPropertyMIFT.cleanup() shall perform any necessary cleanup for the
+     Property MI identified by @p mi, unless the MI postpones the cleanup.
 
      While this function executes, the MB will not call any other MI functions
-     for this MI. This function will be called once for a specific MI
-     (unless the MI postpones the cleanup), even if that MI services more
-     than one namespace. After this function returns, the MB may unload
-     the load library this MI is part of, unless the MI postpones the
-     cleanup.
+     for this MI. This function will be called once for a specific MI (unless
+     the MI postpones the cleanup), even if that MI services more than one
+     namespace. After this function returns, the MB may unload the load library
+     this MI is part of, unless the MI postpones the cleanup.
 
      @param mi Points to a CMPIPropertyMI structure.
-     @param ctx Points to a CMPIContext object containing the context data
-         for the invocation.
-         The context data entries are MB implementation-specific.
+     @param ctx Points to a CMPIContext object containing the context data for
+         the invocation. The context data entries are MB
+         implementation-specific.
      @param terminating
      @parblock
-         When true, the MB is in the process of shutting down.
-         The MI shall perform any necessary cleanup and shall not postpone
-         the cleanup. After this function returns (successful or in error),
-         the MB will consider this MI to be uninitialized and will not call
-         further MI functions for this MI.
+         Indicates whether the MB is in the process of shutting down and thus
+         cannot tolerate postponing of the cleanup, as follows:
 
-         When false, the MI can choose to perform or postpone the cleanup, by
+         When True, the MB is in the process of shutting down. The MI shall
+         perform any necessary cleanup and shall not postpone the cleanup.
+         After this function returns (successful or in error), the MB will
+         consider this MI to be uninitialized and will not call further MI
+         functions for this MI.
+
+         When False, the MI can choose to perform or postpone the cleanup, by
          performing one of these actions:
+
          @li The MI performs any necessary cleanup and does not request
-         postponing the cleanup. After this function returns (successful
-         or in error), the MB will consider this MI to be uninitialized
-         and will not call further MI functions for this MI.
-         @li The MI does not perform any cleanup and temporarily
-         postpones the cleanup, by returning CMPI_RC_DO_NOT_UNLOAD. This
-         will cause the MB to consider this MI still to be initialized,
-         and the MB may call further MI functions of this MI. The MB may
-         call this function again after some MB implementation-specific
-         time.
-         @li The MI does not perform any cleanup and permanently
-         postpones the cleanup, by returning CMPI_RC_NEVER_UNLOAD. This
-         will cause the MB to consider this MI still to be initialized,
-         and the MB may call further MI functions of this MI. The MB
-         will not call this function again, until the MB terminates (at
-         which time the MB calls this function with terminating set to
-         true).
+             postponing the cleanup. After this function returns (successful or
+             in error), the MB will consider this MI to be uninitialized and
+             will not call further MI functions for this MI.
+         @li The MI does not perform any cleanup and temporarily postpones the
+             cleanup, by returning `CMPI_RC_DO_NOT_UNLOAD`. This will cause the
+             MB to consider this MI still to be initialized, and the MB may
+             call further MI functions of this MI. The MB may call this
+             function again after some MB implementation-specific time.
+         @li The MI does not perform any cleanup and permanently postpones the
+             cleanup, by returning `CMPI_RC_NEVER_UNLOAD`. This will cause the
+             MB to consider this MI still to be initialized, and the MB may
+             call further MI functions of this MI. The MB will not call this
+             function again until the MB terminates (at which time the MB calls
+             this function with terminating set to true).
      @endparblock
      @return CMPIStatus structure containing the function return status.
 
@@ -10967,14 +11024,15 @@ typedef struct _CMPIPropertyMIFT {
      function return status:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-     @li `CMPI_RC_DO_NOT_UNLOAD` - Function successful - do not
-         unload now; the MB may retry an unload later.
-     @li `CMPI_RC_NEVER_UNLOAD` - Function successful - never
-         unload; the MB will not retry an unload later unless it
-         shuts down.
+     @li `CMPI_RC_DO_NOT_UNLOAD` - Function successful, do not unload now;
+         the MB may retry an unload later.
+     @li `CMPI_RC_NEVER_UNLOAD` - Function successful, never unload;
+         the MB will not retry an unload later unless it shuts down.
 
      @deprecated This function is deprecated since CMPI 2.1, in accord with the
          deprecation of property client operations in DMTF specifications.
+     @todo In the CMPI Standard document, add the sentence about the number of
+         invocations relative to the number of namespaces serviced.
     */
     CMPIStatus (*cleanup) (CMPIPropertyMI* mi, const CMPIContext* ctx,
             CMPIBoolean terminating); /*Deprecated*/
@@ -11261,51 +11319,52 @@ typedef struct _CMPIIndicationMIFT {
      */
     const char* miName;
 
+// DONE_AM Next function is already synced with spec.
     /**
      @brief Perform cleanup for an Indication MI.
 
-     CMPIIndicationMIFT.cleanup() shall perform any necessary cleanup
-     operations prior to the
-     unloading of the library of which this MI group is part.
+     CMPIIndicationMIFT.cleanup() shall perform any necessary cleanup for the
+     Indication MI identified by @p mi, unless the MI postpones the cleanup.
 
      While this function executes, the MB will not call any other MI functions
-     for this MI. This function will be called once for a specific MI
-     (unless the MI postpones the cleanup), even if that MI services more
-     than one namespace. After this function returns, the MB may unload
-     the load library this MI is part of, unless the MI postpones the
-     cleanup.
+     for this MI. This function will be called once for a specific MI (unless
+     the MI postpones the cleanup), even if that MI services more than one
+     namespace. After this function returns, the MB may unload the load library
+     this MI is part of, unless the MI postpones the cleanup.
 
      @param mi Points to a CMPIIndicationMI structure.
-     @param ctx Points to a CMPIContext object containing the context data
-         for the invocation.
-         The context data entries are MB implementation-specific.
+     @param ctx Points to a CMPIContext object containing the context data for
+         the invocation. The context data entries are MB
+         implementation-specific.
      @param terminating
      @parblock
-         When true, the MB is in the process of shutting down.
-         The MI shall perform any necessary cleanup and shall not postpone
-         the cleanup. After this function returns (successful or in error),
-         the MB will consider this MI to be uninitialized and will not call
-         further MI functions for this MI.
+         Indicates whether the MB is in the process of shutting down and thus
+         cannot tolerate postponing of the cleanup, as follows:
 
-         When false, the MI can choose to perform or postpone the cleanup, by
+         When True, the MB is in the process of shutting down. The MI shall
+         perform any necessary cleanup and shall not postpone the cleanup.
+         After this function returns (successful or in error), the MB will
+         consider this MI to be uninitialized and will not call further MI
+         functions for this MI.
+
+         When False, the MI can choose to perform or postpone the cleanup, by
          performing one of these actions:
+
          @li The MI performs any necessary cleanup and does not request
-         postponing the cleanup. After this function returns (successful
-         or in error), the MB will consider this MI to be uninitialized
-         and will not call further MI functions for this MI.
-         @li The MI does not perform any cleanup and temporarily
-         postpones the cleanup, by returning CMPI_RC_DO_NOT_UNLOAD. This
-         will cause the MB to consider this MI still to be initialized,
-         and the MB may call further MI functions of this MI. The MB may
-         call this function again after some MB implementation-specific
-         time.
-         @li The MI does not perform any cleanup and permanently
-         postpones the cleanup, by returning CMPI_RC_NEVER_UNLOAD. This
-         will cause the MB to consider this MI still to be initialized,
-         and the MB may call further MI functions of this MI. The MB
-         will not call this function again, until the MB terminates (at
-         which time the MB calls this function with terminating set to
-         true).
+             postponing the cleanup. After this function returns (successful or
+             in error), the MB will consider this MI to be uninitialized and
+             will not call further MI functions for this MI.
+         @li The MI does not perform any cleanup and temporarily postpones the
+             cleanup, by returning `CMPI_RC_DO_NOT_UNLOAD`. This will cause the
+             MB to consider this MI still to be initialized, and the MB may
+             call further MI functions of this MI. The MB may call this
+             function again after some MB implementation-specific time.
+         @li The MI does not perform any cleanup and permanently postpones the
+             cleanup, by returning `CMPI_RC_NEVER_UNLOAD`. This will cause the
+             MB to consider this MI still to be initialized, and the MB may
+             call further MI functions of this MI. The MB will not call this
+             function again until the MB terminates (at which time the MB calls
+             this function with terminating set to true).
      @endparblock
      @return CMPIStatus structure containing the function return status.
 
@@ -11314,10 +11373,13 @@ typedef struct _CMPIIndicationMIFT {
      function return status:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-     @li `CMPI_RC_DO_NOT_UNLOAD` - Function successful, do not
-         unload now; the MB may retry an unload later.
+     @li `CMPI_RC_DO_NOT_UNLOAD` - Function successful, do not unload now;
+         the MB may retry an unload later.
      @li `CMPI_RC_NEVER_UNLOAD` - Function successful, never unload;
          the MB will not retry an unload later unless it shuts down.
+
+     @todo In the CMPI Standard document, add the sentence about the number of
+         invocations relative to the number of namespaces serviced.
     */
     CMPIStatus (*cleanup) (CMPIIndicationMI* mi, const CMPIContext* ctx,
             CMPIBoolean terminating);
