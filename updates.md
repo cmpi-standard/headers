@@ -1,4 +1,21 @@
 
+6+7 July - Andy
+---------------
+
+* Completed syncing the functions in cmpift.h with spec.
+* Changed use of 'todo' command for spec issues to use the 'bug' command. Makes
+  them show up in the Related Pages as "Bug List". These are the bugs that did
+  not make it into the TOG review. Most of them, we should be able to live with.
+* Updated the main page to reflect changes in the rest of the documentation.
+* Updated Doxyfile to use a more straight forward project name and project brief
+  description.
+* Cleaned up the module level description for the CMPI convenience functions.
+* Added and improved the introductory descriptions of encapsulated data types.
+* Reordered encapsulated data types to by in sync with spec chapter order.
+* Removed 'MB' before 'capabilities'.
+* Reflected solutions to all TOG review issues that are marked with
+ "Header files: DONE" in issue 69.
+
 5 July - Andy
 -------------
 
