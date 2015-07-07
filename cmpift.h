@@ -55,7 +55,6 @@ extern "C" {
  *   see Subclause 6.1 of the @ref ref-cmpi-standard "CMPI Standard".
  */
 
-// DONE_AM Next function is already synced with spec.
 /**
  @defgroup mi-factory-specific MI-specific MI factory function.
 
@@ -121,7 +120,6 @@ extern "C" {
  additional return codes.
 */
 
-// DONE_AM Next function is already synced with spec.
 /**
  @defgroup mi-factory-generic Generic MI factory function.
 
@@ -299,7 +297,6 @@ typedef struct _CMPIBrokerFT {
      *   @{
      */
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Prepare the MB to accept a new thread that will be using MB
          functions.
@@ -336,7 +333,6 @@ typedef struct _CMPIBrokerFT {
     CMPIContext* (*prepareAttachThread) (const CMPIBroker* mb,
         const CMPIContext* ctx);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Inform the MB that the current thread will begin using MB functions.
 
@@ -365,7 +361,6 @@ typedef struct _CMPIBrokerFT {
     */
     CMPIStatus (*attachThread) (const CMPIBroker* mb, const CMPIContext* ctx);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Inform the MB that the current thread will no longer use MB
          functions.
@@ -401,7 +396,6 @@ typedef struct _CMPIBrokerFT {
      *   @{
      */
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Request delivery of an indication.
 
@@ -466,7 +460,6 @@ typedef struct _CMPIBrokerFT {
      *   @{
      */
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate the instance paths of the instances of a given class (and
          its subclasses).
@@ -534,7 +527,6 @@ typedef struct _CMPIBrokerFT {
         const CMPIContext* ctx, const CMPIObjectPath* classPath,
         CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get an existing instance.
 
@@ -604,7 +596,6 @@ typedef struct _CMPIBrokerFT {
         const CMPIObjectPath* instPath, const char** properties,
         CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an instance of a given class.
 
@@ -677,7 +668,6 @@ typedef struct _CMPIBrokerFT {
         const CMPIContext* ctx, const CMPIObjectPath* classPath,
         const CMPIInstance* newInst, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Modify property values of an existing instance.
 
@@ -737,7 +727,6 @@ typedef struct _CMPIBrokerFT {
         const CMPIObjectPath* instPath, const CMPIInstance* modInst,
         const char** properties);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Delete an existing instance.
 
@@ -785,7 +774,6 @@ typedef struct _CMPIBrokerFT {
     CMPIStatus (*deleteInstance) (const CMPIBroker* mb, const CMPIContext* ctx,
         const CMPIObjectPath* instPath);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Execute a query on a given class and return the query result.
 
@@ -851,7 +839,6 @@ typedef struct _CMPIBrokerFT {
         const CMPIContext* ctx, const CMPIObjectPath* classPath,
         const char* query, const char* lang, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate the instances of a given class (and its subclasses).
 
@@ -929,7 +916,6 @@ typedef struct _CMPIBrokerFT {
         const CMPIContext* ctx, const CMPIObjectPath* classPath,
         const char** properties, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate the instances associated with a given source instance.
 
@@ -1027,7 +1013,6 @@ typedef struct _CMPIBrokerFT {
         const char* assocClass, const char* resultClass, const char* role,
         const char* resultRole, const char** properties, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate the instance paths of the instances associated with a
          given source instance.
@@ -1119,7 +1104,6 @@ typedef struct _CMPIBrokerFT {
         const char* assocClass, const char* resultClass, const char* role,
         const char* resultRole, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate the association instances referencing a given source
          instance.
@@ -1207,7 +1191,6 @@ typedef struct _CMPIBrokerFT {
         const char* resultClass, const char* role, const char** properties,
         CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate the instance paths of the association instances
          referencing a given source instance.
@@ -1288,7 +1271,6 @@ typedef struct _CMPIBrokerFT {
         const CMPIContext* ctx, const CMPIObjectPath* instPath,
         const char* resultClass, const char* role, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Invoke a method on a target object.
 
@@ -1378,7 +1360,6 @@ typedef struct _CMPIBrokerFT {
         const CMPIObjectPath* objPath, const char* method,
         const CMPIArgs* in, CMPIArgs* out, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Set or modify a property of an existing instance. (**Deprecated**)
 
@@ -1450,7 +1431,6 @@ typedef struct _CMPIBrokerFT {
         const CMPIObjectPath* instPath, const char* name,
         const CMPIValue* value, CMPIType type);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a property of an existing instance. (**Deprecated**)
 
@@ -1515,7 +1495,6 @@ typedef struct _CMPIBrokerFT {
     CMPIData (*getProperty) (const CMPIBroker* mb, const CMPIContext* ctx,
         const CMPIObjectPath* instPath, const char* name, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate the instances of a given class (and its subclasses),
          returning only those that match the given query filter.
@@ -1610,7 +1589,6 @@ typedef struct _CMPIBrokerFT {
         const char** properties, const char* filterQueryLanguage,
         const char* filterQuery, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate the instances associated with a given source instance,
          returning only those that match the given filters.
@@ -1722,7 +1700,6 @@ typedef struct _CMPIBrokerFT {
         const char** properties, const char* filterQueryLanguage,
         const char* filterQuery, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate the instances referencing a given source instance,
          returning only those that match the given filters.
@@ -1859,7 +1836,6 @@ typedef struct _CMPIBrokerEncFT {
      *   @{
      */
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a new CMPIInstance object initialized to a given instance
          path.
@@ -1914,7 +1890,6 @@ typedef struct _CMPIBrokerEncFT {
     CMPIInstance* (*newInstance) (const CMPIBroker* mb,
         const CMPIObjectPath* instPath, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a new CMPIObjectPath initialized to a given namespace and
          class name
@@ -1954,7 +1929,6 @@ typedef struct _CMPIBrokerEncFT {
     CMPIObjectPath* (*newObjectPath) (const CMPIBroker* mb, const char* ns,
         const char* cn, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a new CMPIArgs object initialized to have no method
          parameters.
@@ -1986,7 +1960,6 @@ typedef struct _CMPIBrokerEncFT {
     */
     CMPIArgs* (*newArgs) (const CMPIBroker* mb, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a new CMPIString object initialized from a C-language string.
 
@@ -2019,7 +1992,6 @@ typedef struct _CMPIBrokerEncFT {
     CMPIString* (*newString) (const CMPIBroker* mb, const char* data,
         CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a new CMPIArray object of a given size and type of elements.
 
@@ -2065,7 +2037,6 @@ typedef struct _CMPIBrokerEncFT {
     CMPIArray* (*newArray) (const CMPIBroker* mb, CMPICount size,
         CMPIType type, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a new CMPIDateTime object initialized to the current date
      and time.
@@ -2098,7 +2069,6 @@ typedef struct _CMPIBrokerEncFT {
     */
     CMPIDateTime* (*newDateTime) (const CMPIBroker* mb, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a new CMPIDateTime object initialized to a specific value.
 
@@ -2138,7 +2108,6 @@ typedef struct _CMPIBrokerEncFT {
     CMPIDateTime* (*newDateTimeFromBinary) (const CMPIBroker* mb,
         CMPIUint64 binTime, CMPIBoolean interval, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a new CMPIDateTime object initialized to a specified value.
 
@@ -2176,7 +2145,6 @@ typedef struct _CMPIBrokerEncFT {
     CMPIDateTime* (*newDateTimeFromChars) (const CMPIBroker* mb,
         const char* datetime, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a new CMPISelectExp object initialized from a select
          expression specified in a query language.
@@ -2234,7 +2202,6 @@ typedef struct _CMPIBrokerEncFT {
      *   @{
      */
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Test whether a class path is of a specified class or any of its
         subclasses.
@@ -2277,7 +2244,6 @@ typedef struct _CMPIBrokerEncFT {
         const CMPIObjectPath* classPath, const char* className,
         CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Convert any CMPI encapsulated data type object into a string
          representation.
@@ -2322,7 +2288,6 @@ typedef struct _CMPIBrokerEncFT {
     CMPIString* (*toString) (const CMPIBroker* mb, const void* object,
         CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Test whether a CMPI encapsulated data type object is of a specified
          CMPI type.
@@ -2359,7 +2324,6 @@ typedef struct _CMPIBrokerEncFT {
     CMPIBoolean (*isOfType) (const CMPIBroker* mb, const void* object,
         const char* type, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the type name of a CMPI ensapsulated data type object.
 
@@ -2396,7 +2360,6 @@ typedef struct _CMPIBrokerEncFT {
     CMPIString* (*getType) (const CMPIBroker* mb, const void* object,
         CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a translated MB implementation-specific message text by message
          ID. (**Deprecated**)
@@ -2461,7 +2424,6 @@ typedef struct _CMPIBrokerEncFT {
     CMPIString* (*getMessage) (const CMPIBroker* mb, const char* msgId,
         const char* defMsg, CMPIStatus* rc, CMPICount count, ...);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Log a diagnostic message.
 
@@ -2493,7 +2455,6 @@ typedef struct _CMPIBrokerEncFT {
     CMPIStatus (*logMessage) (const CMPIBroker* mb, int severity,
         const char* id, const char* text, const CMPIString* string);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Trace a diagnostic message with a specific trace level.
 
@@ -2537,7 +2498,6 @@ typedef struct _CMPIBrokerEncFT {
      *   @{
      */
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a new CMPIError object initialized with certain core
          attributes.
@@ -2637,7 +2597,6 @@ typedef struct _CMPIBrokerEncFT {
      *   @{
      */
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Open a message file and return a handle to the file.
 
@@ -2712,7 +2671,6 @@ typedef struct _CMPIBrokerEncFT {
     CMPIStatus (*openMessageFile) (const CMPIBroker* mb, const char* msgFile,
         CMPIMsgFileHandle* msgFileHandle);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Close a message file.
 
@@ -2742,7 +2700,6 @@ typedef struct _CMPIBrokerEncFT {
     CMPIStatus (*closeMessageFile) (const CMPIBroker* mb,
         const CMPIMsgFileHandle msgFileHandle);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a translated message text from an open message file by
          message ID.
@@ -2830,7 +2787,6 @@ typedef struct _CMPIBrokerEncFT {
 
 #ifdef CMPI_VER_210
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a new CMPIPropertyList object initialized to a list of
          property names.
@@ -2867,7 +2823,6 @@ typedef struct _CMPIBrokerEncFT {
     CMPIPropertyList* (*newPropertyList) (const CMPIBroker* mb,
         const char** properties, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a new CMPIString object from a C-language string in a
          specific codepage.
@@ -2910,7 +2865,6 @@ typedef struct _CMPIBrokerEncFT {
     CMPIString* (*newStringCP) (const CMPIBroker* mb, const char* data,
         const CMPICodepageID cpid, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a new CMPIEnumerationFilter object initialized with a
          filter query.
@@ -3006,7 +2960,6 @@ typedef struct _CMPIBrokerExtFT {
      *   @{
      */
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Resolve a generic load library name to its file name.
 
@@ -3044,7 +2997,6 @@ typedef struct _CMPIBrokerExtFT {
      *   @{
      */
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Start a new thread, using POSIX threading semantics.
 
@@ -3081,7 +3033,6 @@ typedef struct _CMPIBrokerExtFT {
     CMPI_THREAD_TYPE (*newThread) (CMPIThreadFunc* start, void* parm,
         int detached);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Wait until the specified thread ends, using POSIX threading
          semantics.
@@ -3109,7 +3060,6 @@ typedef struct _CMPIBrokerExtFT {
     */
     int (*joinThread) (CMPI_THREAD_TYPE thread, CMPI_THREAD_RETURN* retval);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Cause current thread to exit with the passed-in return code, using
          POSIX threading semantics.
@@ -3133,7 +3083,6 @@ typedef struct _CMPIBrokerExtFT {
     */
     int (*exitThread) (CMPI_THREAD_RETURN return_code);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Cancel a running thread, using POSIX threading semantics.
 
@@ -3162,7 +3111,6 @@ typedef struct _CMPIBrokerExtFT {
     */
     int (*cancelThread) (CMPI_THREAD_TYPE thread);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Suspend execution of current thread for a specified duration.
 
@@ -3183,7 +3131,6 @@ typedef struct _CMPIBrokerExtFT {
     */
     int (*threadSleep) (CMPIUint32 msec);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Call a function once for a given once-object.
 
@@ -3223,7 +3170,6 @@ typedef struct _CMPIBrokerExtFT {
     */
     int (*threadOnce) (int* once, CMPIThreadOnceFunc* function);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a POSIX threading-conformant thread key for
          accessing the thread local store.
@@ -3249,7 +3195,6 @@ typedef struct _CMPIBrokerExtFT {
     int (*createThreadKey) (CMPI_THREAD_KEY_TYPE* key,
         CMPIThreadKeyCleanupFunc* cleanup);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Destroy a POSIX threading-conformant thread key for accessing the
          thread local store.
@@ -3272,7 +3217,6 @@ typedef struct _CMPIBrokerExtFT {
     */
     int (*destroyThreadKey) (CMPI_THREAD_KEY_TYPE key);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a data pointer from the thread local store using a POSIX
          threading-conformant thread key.
@@ -3293,7 +3237,6 @@ typedef struct _CMPIBrokerExtFT {
     */
     void* (*getThreadSpecific) (CMPI_THREAD_KEY_TYPE key);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Set a data pointer in the thread local store using a POSIX
          threading-conformant thread key.
@@ -3325,7 +3268,6 @@ typedef struct _CMPIBrokerExtFT {
      *   @{
      */
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a POSIX threading-conformant mutex.
 
@@ -3360,7 +3302,6 @@ typedef struct _CMPIBrokerExtFT {
     */
     CMPI_MUTEX_TYPE (*newMutex) (int opt);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Destroy a POSIX threading-conformant mutex. (**Deprecated**)
 
@@ -3376,7 +3317,6 @@ typedef struct _CMPIBrokerExtFT {
     */
     void (*destroyMutex) (CMPI_MUTEX_TYPE mutex);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Lock a POSIX threading-conformant mutex. (**Deprecated**)
 
@@ -3402,7 +3342,6 @@ typedef struct _CMPIBrokerExtFT {
     */
     void (*lockMutex) (CMPI_MUTEX_TYPE mutex);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Unlock a POSIX threading-conformant mutex. (**Deprecated**)
 
@@ -3431,7 +3370,6 @@ typedef struct _CMPIBrokerExtFT {
      *   @{
      */
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a new POSIX threading-conformant condition variable.
 
@@ -3453,7 +3391,6 @@ typedef struct _CMPIBrokerExtFT {
     */
     CMPI_COND_TYPE (*newCondition) (int opt);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Destroy a POSIX threading-conformant condition variable.
          (**Deprecated**)
@@ -3475,7 +3412,6 @@ typedef struct _CMPIBrokerExtFT {
     */
     void (*destroyCondition) (CMPI_COND_TYPE cond);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Wait until a POSIX threading-conformant condition variable is
          signalled.
@@ -3502,7 +3438,6 @@ typedef struct _CMPIBrokerExtFT {
     */
     int (*condWait) (CMPI_COND_TYPE cond, CMPI_MUTEX_TYPE mutex);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Wait until a POSIX threading-conformant condition variable is
          signaled using a timeout value.
@@ -3533,7 +3468,6 @@ typedef struct _CMPIBrokerExtFT {
     int (*timedCondWait) (CMPI_COND_TYPE cond, CMPI_MUTEX_TYPE mutex,
         struct timespec* wait);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Send a signal to a POSIX threading-conformant condition variable.
 
@@ -3563,7 +3497,6 @@ typedef struct _CMPIBrokerExtFT {
 
 #ifdef CMPI_VER_210
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Destroy a POSIX threading-conformant mutex.
 
@@ -3587,7 +3520,6 @@ typedef struct _CMPIBrokerExtFT {
     */
     int (*destroyMutex2) (CMPI_MUTEX_TYPE mutex);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Lock a POSIX threading-conformant mutex.
 
@@ -3616,7 +3548,6 @@ typedef struct _CMPIBrokerExtFT {
     */
     int (*lockMutex2) (CMPI_MUTEX_TYPE mutex);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Unlock a POSIX threading-conformant mutex.
 
@@ -3648,7 +3579,6 @@ typedef struct _CMPIBrokerExtFT {
      *   @{
      */
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Destroy a POSIX threading-conformant condition variable.
 
@@ -3711,7 +3641,6 @@ typedef struct _CMPIBrokerMemFT {
      *   @{
      */
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Mark a new object lifecycle level for subsequent newly created
          CMPI encapsulated data type objects.
@@ -3751,7 +3680,6 @@ typedef struct _CMPIBrokerMemFT {
     */
     CMPIGcStat* (*mark) (const CMPIBroker* mb, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release all CMPI encapsulated data type objects created at the
          specified object lifecycle level, and remove that level.
@@ -3787,7 +3715,6 @@ typedef struct _CMPIBrokerMemFT {
     */
     CMPIStatus (*release) (const CMPIBroker* mb, const CMPIGcStat* gc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Allocate an uninitalized memory block of the specified size.
 
@@ -3818,7 +3745,6 @@ typedef struct _CMPIBrokerMemFT {
     */
     void* (*cmpiMalloc) (const CMPIBroker* mb, size_t size);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Allocate a memory block of the specified size and initialize it to
          zero.
@@ -3850,7 +3776,6 @@ typedef struct _CMPIBrokerMemFT {
     */
     void* (*cmpiCalloc) (const CMPIBroker* mb, size_t nElems, size_t sizeElem);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Change the size of a memory block.
 
@@ -3893,7 +3818,6 @@ typedef struct _CMPIBrokerMemFT {
     */
     void* (*cmpiRealloc) (const CMPIBroker* mb, void* ptr, size_t size);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Allocate a memory block and initialize it with a string.
 
@@ -3923,7 +3847,6 @@ typedef struct _CMPIBrokerMemFT {
     */
     char* (*cmpiStrDup) (const CMPIBroker* mb, const char* str);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a memory block.
 
@@ -3950,7 +3873,6 @@ typedef struct _CMPIBrokerMemFT {
     */
     void (*cmpiFree) (const CMPIBroker* mb, void* ptr);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIInstance object.
 
@@ -3974,7 +3896,6 @@ typedef struct _CMPIBrokerMemFT {
     */
     void (*freeInstance) (const CMPIBroker* mb, CMPIInstance* inst);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIObjectPath object.
 
@@ -3999,7 +3920,6 @@ typedef struct _CMPIBrokerMemFT {
     */
     void (*freeObjectPath) (const CMPIBroker* mb, CMPIObjectPath* obj);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIArgs object.
 
@@ -4021,7 +3941,6 @@ typedef struct _CMPIBrokerMemFT {
     */
     void (*freeArgs) (const CMPIBroker* mb, CMPIArgs* args);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIString object.
 
@@ -4046,7 +3965,6 @@ typedef struct _CMPIBrokerMemFT {
     */
     void (*freeString) (const CMPIBroker* mb, CMPIString* str);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIArray object.
 
@@ -4070,7 +3988,6 @@ typedef struct _CMPIBrokerMemFT {
     */
     void (*freeArray) (const CMPIBroker* mb, CMPIArray* array);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIDateTime object.
 
@@ -4099,7 +4016,6 @@ typedef struct _CMPIBrokerMemFT {
     */
     void (*freeDateTime) (const CMPIBroker* mb, CMPIDateTime* dt);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPISelectExp object.
 
@@ -4130,7 +4046,6 @@ typedef struct _CMPIBrokerMemFT {
 
 #ifdef CMPI_VER_210
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Free the memory of a C-language string.
 
@@ -4218,7 +4133,6 @@ typedef struct _CMPIContextFT {
      */
     CMPIVersion ftVersion;
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIContext object.
 
@@ -4244,7 +4158,6 @@ typedef struct _CMPIContextFT {
     */
     CMPIStatus (*release) (CMPIContext* ctx);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIContext object.
 
@@ -4274,7 +4187,6 @@ typedef struct _CMPIContextFT {
     */
     CMPIContext* (*clone) (const CMPIContext* ctx, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a context entry in a CMPIContext object by name.
 
@@ -4306,7 +4218,6 @@ typedef struct _CMPIContextFT {
     CMPIData (*getEntry) (const CMPIContext* ctx, const char* name,
         CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a context entry in a CMPIContext object by index.
 
@@ -4350,7 +4261,6 @@ typedef struct _CMPIContextFT {
     CMPIData (*getEntryAt) (const CMPIContext* ctx, CMPICount index,
         CMPIString** name, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the number of context entries in a CMPIContext object.
 
@@ -4378,7 +4288,6 @@ typedef struct _CMPIContextFT {
     */
     CMPICount (*getEntryCount) (const CMPIContext* ctx, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Add or replace a context entry in a CMPIContext object.
 
@@ -4463,7 +4372,6 @@ typedef struct _CMPIResultFT {
      */
     CMPIVersion ftVersion;
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIResult object.
 
@@ -4488,7 +4396,6 @@ typedef struct _CMPIResultFT {
     */
     CMPIStatus (*release) (CMPIResult* rslt);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIResult object.
 
@@ -4517,7 +4424,6 @@ typedef struct _CMPIResultFT {
     */
     CMPIResult* (*clone) (const CMPIResult* rslt, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Add a value/type pair to a CMPIResult object.
 
@@ -4553,7 +4459,6 @@ typedef struct _CMPIResultFT {
     CMPIStatus (*returnData) (const CMPIResult* rslt, const CMPIValue* value,
         const CMPIType type);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Add an instance to a CMPIResult object.
 
@@ -4577,7 +4482,6 @@ typedef struct _CMPIResultFT {
     CMPIStatus (*returnInstance) (const CMPIResult* rslt,
         const CMPIInstance* inst);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Add an object path to a CMPIResult object.
 
@@ -4602,7 +4506,6 @@ typedef struct _CMPIResultFT {
     CMPIStatus (*returnObjectPath) (const CMPIResult* rslt,
         const CMPIObjectPath* op);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Indicate that no further  items will be added to a CMPIResult object.
 
@@ -4628,7 +4531,6 @@ typedef struct _CMPIResultFT {
 
 #ifdef CMPI_VER_200
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Add an error to a CMPIResult object.
 
@@ -4719,7 +4621,6 @@ typedef struct _CMPIStringFT {
      */
     CMPIVersion ftVersion;
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIString object.
 
@@ -4744,7 +4645,6 @@ typedef struct _CMPIStringFT {
     */
     CMPIStatus (*release) (CMPIString* str);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIString object.
 
@@ -4773,7 +4673,6 @@ typedef struct _CMPIStringFT {
     */
     CMPIString* (*clone) (const CMPIString* str, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a pointer to a C-language string representation of a
          CMPIString object.
@@ -4809,7 +4708,6 @@ typedef struct _CMPIStringFT {
 
 #ifdef CMPI_VER_210
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create a C-language string that has converted a CMPIString
          object into a specific codepage.
@@ -4902,7 +4800,6 @@ typedef struct _CMPIArrayFT {
      */
     CMPIVersion ftVersion;
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIArray object.
 
@@ -4927,7 +4824,6 @@ typedef struct _CMPIArrayFT {
     */
     CMPIStatus (*release) (CMPIArray* ar);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIArray object.
 
@@ -4956,7 +4852,6 @@ typedef struct _CMPIArrayFT {
     */
     CMPIArray* (*clone) (const CMPIArray* ar, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the number of array elements in a CMPIArray object.
 
@@ -4983,7 +4878,6 @@ typedef struct _CMPIArrayFT {
     */
     CMPICount (*getSize) (const CMPIArray* ar, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the type of the array elements in a CMPIArray object.
 
@@ -5013,7 +4907,6 @@ typedef struct _CMPIArrayFT {
     */
     CMPIType (*getSimpleType) (const CMPIArray* ar, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the value of an array element in a CMPIArray object by index.
 
@@ -5046,7 +4939,6 @@ typedef struct _CMPIArrayFT {
     CMPIData (*getElementAt) (const CMPIArray* ar, CMPICount index,
         CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the value of an existing array element in a CMPIArray object
          by index.
@@ -5154,7 +5046,6 @@ typedef struct _CMPIEnumerationFT {
      */
     CMPIVersion ftVersion;
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIEnumeration object.
 
@@ -5179,7 +5070,6 @@ typedef struct _CMPIEnumerationFT {
     */
     CMPIStatus (*release) (CMPIEnumeration* en);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIEnumeration object.
 
@@ -5209,7 +5099,6 @@ typedef struct _CMPIEnumerationFT {
     */
     CMPIEnumeration* (*clone) (const CMPIEnumeration* en, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the next element in a CMPIEnumeration object.
 
@@ -5239,7 +5128,6 @@ typedef struct _CMPIEnumerationFT {
     */
     CMPIData (*getNext) (const CMPIEnumeration* en, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Test for any elements left in a CMPIEnumeration object.
 
@@ -5268,7 +5156,6 @@ typedef struct _CMPIEnumerationFT {
     */
     CMPIBoolean (*hasNext) (const CMPIEnumeration* en, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Convert a CMPIEnumeration object to a CMPIArray object.
 
@@ -5353,7 +5240,6 @@ typedef struct _CMPIInstanceFT {
      */
     CMPIVersion ftVersion;
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIInstance object.
 
@@ -5378,7 +5264,6 @@ typedef struct _CMPIInstanceFT {
     */
     CMPIStatus (*release) (CMPIInstance* inst);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIInstance object.
 
@@ -5407,7 +5292,6 @@ typedef struct _CMPIInstanceFT {
     */
     CMPIInstance* (*clone) (const CMPIInstance* inst, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a property in a CMPIInstance object by name.
 
@@ -5438,7 +5322,6 @@ typedef struct _CMPIInstanceFT {
     CMPIData (*getProperty) (const CMPIInstance* inst, const char* name,
         CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a property in a CMPIInstance object by index.
 
@@ -5479,7 +5362,6 @@ typedef struct _CMPIInstanceFT {
     CMPIData (*getPropertyAt) (const CMPIInstance* inst, CMPICount index,
         CMPIString** name, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the number of properties in a CMPIInstance object.
 
@@ -5506,7 +5388,6 @@ typedef struct _CMPIInstanceFT {
     */
     CMPICount (*getPropertyCount) (const CMPIInstance* inst, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Add or replace a property value in a CMPIInstance object by name.
 
@@ -5558,7 +5439,6 @@ typedef struct _CMPIInstanceFT {
     CMPIStatus (*setProperty) (const CMPIInstance* inst, const char* name,
         const CMPIValue* value, CMPIType type);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a CMPIObjectPath object from the namespace, class name, and key
          properties of a CMPIInstance object.
@@ -5593,7 +5473,6 @@ typedef struct _CMPIInstanceFT {
     CMPIObjectPath* (*getObjectPath) (const CMPIInstance* inst,
         CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Attach a property filter to a CMPIInstance object.
 
@@ -5639,7 +5518,6 @@ typedef struct _CMPIInstanceFT {
     CMPIStatus (*setPropertyFilter) (const CMPIInstance* inst,
         const char** properties, const char** keyList);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the instance path component of a CMPIInstance object.
 
@@ -5682,7 +5560,6 @@ typedef struct _CMPIInstanceFT {
 
 #ifdef CMPI_VER_200
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Add or replace a property value and class origin in a CMPIInstance
          object by name.
@@ -5791,7 +5668,6 @@ typedef struct _CMPIObjectPathFT {
      */
     CMPIVersion ftVersion;
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIObjectPath object.
 
@@ -5816,7 +5692,6 @@ typedef struct _CMPIObjectPathFT {
     */
     CMPIStatus (*release) (CMPIObjectPath* op);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIObjectPath object.
 
@@ -5846,7 +5721,6 @@ typedef struct _CMPIObjectPathFT {
     */
     CMPIObjectPath* (*clone) (const CMPIObjectPath* op, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the namespace component in a CMPIObjectPath object.
 
@@ -5869,7 +5743,6 @@ typedef struct _CMPIObjectPathFT {
     */
     CMPIStatus (*setNameSpace) (const CMPIObjectPath* op, const char* ns);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the namespace component from a CMPIObjectPath object.
 
@@ -5902,7 +5775,6 @@ typedef struct _CMPIObjectPathFT {
     */
     CMPIString* (*getNameSpace) (const CMPIObjectPath* op, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the host name component in a CMPIObjectPath object.
 
@@ -5925,7 +5797,6 @@ typedef struct _CMPIObjectPathFT {
     */
     CMPIStatus (*setHostname) (const CMPIObjectPath* op, const char* hn);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the host name component in a CMPIObjectPath object.
 
@@ -5958,7 +5829,6 @@ typedef struct _CMPIObjectPathFT {
     */
     CMPIString* (*getHostname) (const CMPIObjectPath* op, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the class name component in a CMPIObjectPath object.
 
@@ -5981,7 +5851,6 @@ typedef struct _CMPIObjectPathFT {
     */
     CMPIStatus (*setClassName) (const CMPIObjectPath* op, const char* cn);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the class name component in a CIMObjectPath object.
 
@@ -6014,7 +5883,6 @@ typedef struct _CMPIObjectPathFT {
     */
     CMPIString* (*getClassName) (const CMPIObjectPath* op, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Add or replace a key binding in a CMPIObjectPath object by name.
 
@@ -6051,7 +5919,6 @@ typedef struct _CMPIObjectPathFT {
     CMPIStatus (*addKey) (const CMPIObjectPath* op, const char* key,
         const CMPIValue* value, const CMPIType type);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a key binding in a CMPIObjectPath object by name.
 
@@ -6098,7 +5965,6 @@ typedef struct _CMPIObjectPathFT {
     CMPIData (*getKey) (const CMPIObjectPath* op, const char* name,
         CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a key binding in a CMPIObjectPath object by index.
 
@@ -6154,7 +6020,6 @@ typedef struct _CMPIObjectPathFT {
     CMPIData (*getKeyAt) (const CMPIObjectPath* op, CMPICount index,
             CMPIString** name, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the number of key bindings in a CMPIObjectPath object.
 
@@ -6182,7 +6047,6 @@ typedef struct _CMPIObjectPathFT {
     */
     CMPICount (*getKeyCount) (const CMPIObjectPath* op, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the namespace and class name components in a CMPIObjectPath
          object from another CMPIObjectPath object.
@@ -6210,7 +6074,6 @@ typedef struct _CMPIObjectPathFT {
     CMPIStatus (*setNameSpaceFromObjectPath) (const CMPIObjectPath* op,
         const CMPIObjectPath* src);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the host name, namespace, and class name components in a
          CMPIObjectPath object from another CMPIObjectPath object.
@@ -6238,7 +6101,6 @@ typedef struct _CMPIObjectPathFT {
     CMPIStatus (*setHostAndNameSpaceFromObjectPath) (const CMPIObjectPath* op,
         const CMPIObjectPath* src);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a class qualifier.
 
@@ -6278,7 +6140,6 @@ typedef struct _CMPIObjectPathFT {
     CMPIData (*getClassQualifier) (const CMPIObjectPath* op,
         const char* qName, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a property qualifier.
 
@@ -6321,7 +6182,6 @@ typedef struct _CMPIObjectPathFT {
     CMPIData (*getPropertyQualifier) (const CMPIObjectPath* op,
         const char* pName, const char* qName, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a method qualifier.
 
@@ -6364,7 +6224,6 @@ typedef struct _CMPIObjectPathFT {
     CMPIData (*getMethodQualifier) (const CMPIObjectPath* op,
         const char* methodName, const char* qName, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a parameter qualifier.
 
@@ -6411,7 +6270,6 @@ typedef struct _CMPIObjectPathFT {
         const char* mName, const char* pName, const char* qName,
         CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Convert a CMPIObjectPath object into an implementation-specific
          string format.
@@ -6507,7 +6365,6 @@ typedef struct _CMPIArgsFT {
      */
     CMPIVersion ftVersion;
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIArgs object.
 
@@ -6532,7 +6389,6 @@ typedef struct _CMPIArgsFT {
     */
     CMPIStatus (*release) (CMPIArgs* args);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIRArgs object.
 
@@ -6561,7 +6417,6 @@ typedef struct _CMPIArgsFT {
     */
     CMPIArgs* (*clone) (const CMPIArgs* args, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Add or replace a method parameter in a CMPIArgs object.
 
@@ -6599,7 +6454,6 @@ typedef struct _CMPIArgsFT {
             const CMPIValue* value,
             const CMPIType type);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a method parameter in a CMPIArgs object by name.
 
@@ -6627,7 +6481,6 @@ typedef struct _CMPIArgsFT {
     */
     CMPIData (*getArg) (const CMPIArgs* args, const char* name, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a method parameter in a CMPIArgs object by index.
 
@@ -6670,7 +6523,6 @@ typedef struct _CMPIArgsFT {
     CMPIData (*getArgAt) (const CMPIArgs* args, CMPICount index,
         CMPIString** name, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the number of method parameters in a CMPIArgs object.
 
@@ -6746,7 +6598,6 @@ typedef struct _CMPIDateTimeFT {
      */
     CMPIVersion ftVersion;
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIDateTime object.
 
@@ -6771,7 +6622,6 @@ typedef struct _CMPIDateTimeFT {
     */
     CMPIStatus (*release) (CMPIDateTime* dt);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIDateTime object.
 
@@ -6801,7 +6651,6 @@ typedef struct _CMPIDateTimeFT {
     */
     CMPIDateTime* (*clone) (const CMPIDateTime* dt, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the value of a CMPIDateTime object in binary format.
 
@@ -6831,7 +6680,6 @@ typedef struct _CMPIDateTimeFT {
     CMPIUint64 (*getBinaryFormat) (const CMPIDateTime* dt,
         CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the value of a CMPIDateTime object in the string
          format defined for the CIM ``datetime`` type.
@@ -6868,7 +6716,6 @@ typedef struct _CMPIDateTimeFT {
     */
     CMPIString* (*getStringFormat) (const CMPIDateTime* dt, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Test whether a CMPIDateTime object contains an interval value.
 
@@ -6941,7 +6788,6 @@ typedef struct _CMPISelectExpFT {
      */
     CMPIVersion ftVersion;
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPISelectExp object.
 
@@ -6966,7 +6812,6 @@ typedef struct _CMPISelectExpFT {
     */
     CMPIStatus (*release) (CMPISelectExp* se);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPISelectExp object.
 
@@ -6996,7 +6841,6 @@ typedef struct _CMPISelectExpFT {
     */
     CMPISelectExp* (*clone) (const CMPISelectExp* se, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Test whether an instance matches the select expression in a
          CMPISelectExp object.
@@ -7030,7 +6874,6 @@ typedef struct _CMPISelectExpFT {
     CMPIBoolean (*evaluate) (const CMPISelectExp* se, const CMPIInstance* inst,
         CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the select expression in a CMPISelectExp object as a string.
 
@@ -7063,7 +6906,6 @@ typedef struct _CMPISelectExpFT {
     */
     CMPIString* (*getString) (const CMPISelectExp* se, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the select expression in a CMPISelectExp object
          as a disjunction of conjunctions.
@@ -7102,7 +6944,6 @@ typedef struct _CMPISelectExpFT {
     */
     CMPISelectCond* (*getDOC) (const CMPISelectExp* se, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the select expression in a CMPISelectExp object as
          a conjunction of disjunctions.
@@ -7142,7 +6983,6 @@ typedef struct _CMPISelectExpFT {
     */
     CMPISelectCond* (*getCOD) (const CMPISelectExp* se, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Test whether the properties returned by an accessor
         function match the select expression in a CMPISelectExp object.
@@ -7228,7 +7068,6 @@ typedef struct _CMPISelectCondFT {
      */
     CMPIVersion ftVersion;
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPISelectCond object.
 
@@ -7260,7 +7099,6 @@ typedef struct _CMPISelectCondFT {
     */
     CMPIStatus (*release) (CMPISelectCond* sc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPISelectCond object.
 
@@ -7297,7 +7135,6 @@ typedef struct _CMPISelectCondFT {
     */
     CMPISelectCond* (*clone) (const CMPISelectCond* sc, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the number and type of subconditions in a CMPISelectCond object.
 
@@ -7336,7 +7173,6 @@ typedef struct _CMPISelectCondFT {
     CMPICount (*getCountAndType) (const CMPISelectCond* sc, int* type,
             CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a subcondition in a CMPISelectCond object by index.
 
@@ -7423,7 +7259,6 @@ typedef struct _CMPISubCondFT {
      */
     CMPIVersion ftVersion;
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPISubCond object.
 
@@ -7455,7 +7290,6 @@ typedef struct _CMPISubCondFT {
     */
     CMPIStatus (*release) (CMPISubCond* sc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPISubCond object.
 
@@ -7491,7 +7325,6 @@ typedef struct _CMPISubCondFT {
      */
     CMPISubCond* (*clone) (const CMPISubCond* sc, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the number of predicates in a CMPISubCond object.
 
@@ -7527,7 +7360,6 @@ typedef struct _CMPISubCondFT {
     */
     CMPICount (*getCount) (const CMPISubCond* sc, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a predicate in a CMPISubCond object by index.
 
@@ -7573,7 +7405,6 @@ typedef struct _CMPISubCondFT {
     CMPIPredicate* (*getPredicateAt) (const CMPISubCond* sc, CMPICount index,
         CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get a predicate in a CMPISubCond object by name.
 
@@ -7660,7 +7491,6 @@ typedef struct _CMPIPredicateFT {
      */
     CMPIVersion ftVersion;
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPPredicate object.
 
@@ -7692,7 +7522,6 @@ typedef struct _CMPIPredicateFT {
     */
     CMPIStatus (*release) (CMPIPredicate* pr);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIPredicate object.
 
@@ -7729,7 +7558,6 @@ typedef struct _CMPIPredicateFT {
     */
     CMPIPredicate* (*clone) (const CMPIPredicate* pr, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the predicate components of a CMPIPredicate object.
 
@@ -7780,7 +7608,6 @@ typedef struct _CMPIPredicateFT {
     CMPIStatus (*getData) (const CMPIPredicate* pr, CMPIType* type,
             CMPIPredOp* prop, CMPIString** lhs, CMPIString** rhs);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Test whether the properties returned by an accessor
          function match the predicate in a CMPIPredicate object.
@@ -7890,7 +7717,6 @@ typedef struct _CMPIErrorFT {
      */
     CMPIVersion ftVersion;
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIError object.
 
@@ -7924,7 +7750,6 @@ typedef struct _CMPIErrorFT {
     */
     CMPIStatus (*release) (CMPIError* er);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIError object.
 
@@ -7960,7 +7785,6 @@ typedef struct _CMPIErrorFT {
     */
     CMPIError* (*clone) (const CMPIError* er, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `ErrorType` attribute of a CMPIError object.
 
@@ -7999,7 +7823,6 @@ typedef struct _CMPIErrorFT {
     */
     CMPIErrorType (*getErrorType) (const CMPIError* er, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `OtherErrorType` attribute of a CMPIError object.
 
@@ -8049,7 +7872,6 @@ typedef struct _CMPIErrorFT {
     */
     CMPIString* (*getOtherErrorType) (const CMPIError* er, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `OwningEntity` attribute of a CMPIError object.
 
@@ -8101,7 +7923,6 @@ typedef struct _CMPIErrorFT {
     */
     CMPIString* (*getOwningEntity) (const CMPIError* er, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `MessageID` attribute of a CMPIError object.
 
@@ -8152,7 +7973,6 @@ typedef struct _CMPIErrorFT {
     */
     CMPIString* (*getMessageID) (const CMPIError* er, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `Message` attribute of a CMPIError object.
 
@@ -8203,7 +8023,6 @@ typedef struct _CMPIErrorFT {
     */
     CMPIString* (*getMessage) (const CMPIError* er, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `PerceivedSeverity` attribute of a CMPIError object
 
@@ -8246,7 +8065,6 @@ typedef struct _CMPIErrorFT {
     CMPIErrorSeverity (*getPerceivedSeverity) (const CMPIError* er,
         CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `ProbableCause` attribute of a CMPIError object.
 
@@ -8289,7 +8107,6 @@ typedef struct _CMPIErrorFT {
     CMPIErrorProbableCause (*getProbableCause) (const CMPIError* er,
         CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `ProbableCauseDescription` attribute of a CMPIError object.
 
@@ -8341,7 +8158,6 @@ typedef struct _CMPIErrorFT {
     CMPIString* (*getProbableCauseDescription) (const CMPIError* er,
         CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `RecommendedActions` array attribute of a CMPIError object.
 
@@ -8387,7 +8203,6 @@ typedef struct _CMPIErrorFT {
     */
     CMPIArray* (*getRecommendedActions) (const CMPIError* er, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `ErrorSource` attribute of a CMPIError object.
 
@@ -8437,7 +8252,6 @@ typedef struct _CMPIErrorFT {
     */
     CMPIString* (*getErrorSource) (const CMPIError* er, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `ErrorSourceFormat` attribute of a CMPIError object.
 
@@ -8479,7 +8293,6 @@ typedef struct _CMPIErrorFT {
     CMPIErrorSrcFormat (*getErrorSourceFormat) (const CMPIError* er,
         CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `OtherErrorSourceFormat` attribute of a CMPIError object.
 
@@ -8531,7 +8344,6 @@ typedef struct _CMPIErrorFT {
     CMPIString* (*getOtherErrorSourceFormat) (const CMPIError* er,
         CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `CIMStatusCode` attribute of a CMPIError object.
 
@@ -8575,7 +8387,6 @@ typedef struct _CMPIErrorFT {
     */
     CMPIrc (*getCIMStatusCode) (const CMPIError* er, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `CIMStatusCodeDescription` attribute of a CMPIError object.
 
@@ -8627,7 +8438,6 @@ typedef struct _CMPIErrorFT {
     CMPIString* (*getCIMStatusCodeDescription) (const CMPIError* er,
         CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get the `MessageArguments` array attribute of a CMPIError object.
 
@@ -8673,7 +8483,6 @@ typedef struct _CMPIErrorFT {
     */
     CMPIArray* (*getMessageArguments) (const CMPIError* er, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the `ErrorType` attribute of a CMPIError object.
 
@@ -8710,7 +8519,6 @@ typedef struct _CMPIErrorFT {
     */
     CMPIStatus (*setErrorType) (const CMPIError* er, const CMPIErrorType et);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the `OtherErrorType` attribute of a CMPIError object.
 
@@ -8746,7 +8554,6 @@ typedef struct _CMPIErrorFT {
     */
     CMPIStatus (*setOtherErrorType) (const CMPIError* er, const char* ot);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the `ProbableCauseDescription` attribute of a CMPIError object.
 
@@ -8784,7 +8591,6 @@ typedef struct _CMPIErrorFT {
     CMPIStatus (*setProbableCauseDescription) (const CMPIError* er,
         const char* pcd);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the `RecommendedActions` array attribute of a CMPIError object.
 
@@ -8825,7 +8631,6 @@ typedef struct _CMPIErrorFT {
     CMPIStatus (*setRecommendedActions) (const CMPIError* er,
         const CMPIArray* ra);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the `ErrorSource` attribute of a CMPIError object.
 
@@ -8861,7 +8666,6 @@ typedef struct _CMPIErrorFT {
     */
     CMPIStatus (*setErrorSource) (const CMPIError* er, const char* es);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the `ErrorSourceFormat` attribute of a CMPIError object.
 
@@ -8899,7 +8703,6 @@ typedef struct _CMPIErrorFT {
     CMPIStatus (*setErrorSourceFormat) (const CMPIError* er,
         const CMPIErrorSrcFormat esf);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the `OtherErrorSourceFormat` attribute of a CMPIError object.
 
@@ -8937,7 +8740,6 @@ typedef struct _CMPIErrorFT {
     CMPIStatus (*setOtherErrorSourceFormat) (const CMPIError* er,
         const char* oef);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the `CIMStatusCodeDescription` attribute of a CMPIError object.
 
@@ -8975,7 +8777,6 @@ typedef struct _CMPIErrorFT {
     CMPIStatus (*setCIMStatusCodeDescription) (const CMPIError* er,
         const char* scd);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the `MessageArguments` array attribute of a CMPIError object.
 
@@ -9068,7 +8869,6 @@ typedef struct _CMPIPropertyListFT {
      */
     CMPIVersion ftVersion;
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIPropertyList object.
 
@@ -9093,7 +8893,6 @@ typedef struct _CMPIPropertyListFT {
     */
     CMPIStatus (*release) (CMPIPropertyList* plist);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIPropertyList object.
 
@@ -9123,7 +8922,6 @@ typedef struct _CMPIPropertyListFT {
     */
     CMPIPropertyList* (*clone) (const CMPIPropertyList* plist, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Test whether a property is in the property list
          represented by a CMPIPropertyList object.
@@ -9160,7 +8958,6 @@ typedef struct _CMPIPropertyListFT {
     CMPIBoolean (*isPropertyInList) (const CMPIPropertyList* plist,
         const char* pname, CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Return the property list represented by a CMPIPropertyList object
      as an array of strings.
@@ -9251,7 +9048,6 @@ typedef struct _CMPIEnumerationFilterFT {
      */
     CMPIVersion ftVersion;
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Release a CMPIResult object.
 
@@ -9277,7 +9073,6 @@ typedef struct _CMPIEnumerationFilterFT {
     */
     CMPIStatus (*release) (CMPIEnumerationFilter* ef);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an independent copy of a CMPIEnumerationFilter object.
 
@@ -9308,7 +9103,6 @@ typedef struct _CMPIEnumerationFilterFT {
     CMPIEnumerationFilter* (*clone) (const CMPIEnumerationFilter* ef,
         CMPIStatus* rc);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Test whether an instance matches the filter represented by a
          CMPIEnumerationFilter object.
@@ -9410,7 +9204,6 @@ typedef struct _CMPIInstanceMIFT {
      */
     const char* miName;
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Perform cleanup for an Instance MI.
 
@@ -9476,7 +9269,6 @@ typedef struct _CMPIInstanceMIFT {
     CMPIStatus (*cleanup) (CMPIInstanceMI* mi, const CMPIContext* ctx,
         CMPIBoolean terminating);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate instance paths of instances of a given class serviced by
          this MI.
@@ -9539,7 +9331,6 @@ typedef struct _CMPIInstanceMIFT {
         const CMPIContext* ctx, const CMPIResult* rslt,
         const CMPIObjectPath* classPath);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate the instances of a given class that are serviced by this
          MI.
@@ -9610,7 +9401,6 @@ typedef struct _CMPIInstanceMIFT {
         const CMPIContext* ctx, const CMPIResult* rslt,
         const CMPIObjectPath* classPath , const char** properties);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Get an existing instance.
 
@@ -9676,7 +9466,6 @@ typedef struct _CMPIInstanceMIFT {
         const CMPIResult* rslt, const CMPIObjectPath* instPath,
         const char** properties);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Create an instance of a given class.
 
@@ -9743,7 +9532,6 @@ typedef struct _CMPIInstanceMIFT {
         const CMPIResult* rslt, const CMPIObjectPath* classPath,
         const CMPIInstance* inst);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Modify property values of an existing instance.
 
@@ -9814,7 +9602,6 @@ typedef struct _CMPIInstanceMIFT {
         const CMPIResult* rslt, const CMPIObjectPath* instPath,
         const CMPIInstance* modInst, const char** properties);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Delete an existing instance.
 
@@ -9869,7 +9656,6 @@ typedef struct _CMPIInstanceMIFT {
     CMPIStatus (*deleteInstance) (CMPIInstanceMI* mi, const CMPIContext* ctx,
         const CMPIResult* rslt, const CMPIObjectPath* op);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Execute a query on a given class and return the query result.
 
@@ -9943,7 +9729,6 @@ typedef struct _CMPIInstanceMIFT {
 
 #ifdef CMPI_VER_210
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate the instances of a given class that are serviced by this
          MI, returning only those that match a given query filter.
@@ -10092,7 +9877,6 @@ typedef struct _CMPIAssociationMIFT {
      */
     const char* miName;
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Perform cleanup for an @ref CMPIAssociationMI object.
 
@@ -10154,7 +9938,6 @@ typedef struct _CMPIAssociationMIFT {
     CMPIStatus (*cleanup) (CMPIAssociationMI* mi, const CMPIContext* ctx,
         CMPIBoolean terminating);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate the instances associated with a given source instance
          that are serviced by this MI.
@@ -10262,7 +10045,6 @@ typedef struct _CMPIAssociationMIFT {
         const char* asscClass, const char* resultClass, const char* role,
         const char* resultRole, const char** properties);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate the instance paths of instances associated with a given
          source instance that are serviced by this MI.
@@ -10362,7 +10144,6 @@ typedef struct _CMPIAssociationMIFT {
         const CMPIObjectPath* instPath, const char* assocClass,
         const char* resultClass, const char* role, const char* resultRole);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate the association instances referencing a given source
          instance that are serviced by this MI.
@@ -10459,7 +10240,6 @@ typedef struct _CMPIAssociationMIFT {
         const char* resultClass, const char* role,
         const char** properties);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate the instance paths of association instances
          referencing a given source instance that are serviced by this MI.
@@ -10551,7 +10331,6 @@ typedef struct _CMPIAssociationMIFT {
 
 #ifdef CMPI_VER_210
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate the instances associated with a given source instance
          that are serviced by this MI, returning only those instances that
@@ -10682,7 +10461,6 @@ typedef struct _CMPIAssociationMIFT {
         const char** properties, const char* filterQueryLanguage,
         const char* filterQuery, CMPIBoolean continueOnError);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Enumerate the association instances referencing a given source
          instance that are serviced by this MI, returning only those instances
@@ -10859,7 +10637,6 @@ typedef struct _CMPIMethodMIFT {
      */
     const char* miName;
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Perform cleanup for an Instance MI.
 
@@ -10924,7 +10701,6 @@ typedef struct _CMPIMethodMIFT {
     CMPIStatus (*cleanup) (CMPIMethodMI* mi, const CMPIContext* ctx,
         CMPIBoolean terminating);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Invoke a method on a target object.
 
@@ -11070,7 +10846,6 @@ typedef struct _CMPIPropertyMIFT {
      */
     const char* miName;
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Perform cleanup for a Property MI. (**Deprecated**)
 
@@ -11137,7 +10912,6 @@ typedef struct _CMPIPropertyMIFT {
     CMPIStatus (*cleanup) (CMPIPropertyMI* mi, const CMPIContext* ctx,
             CMPIBoolean terminating); /*Deprecated*/
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the value of a property of an existing instance.
          (**Deprecated**)
@@ -11213,7 +10987,6 @@ typedef struct _CMPIPropertyMIFT {
         const CMPIResult* rslt, const CMPIObjectPath* instPath,
         const char* name, const CMPIData data);
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Retrieve a property value of an existing instance. (**Deprecated**)
 
@@ -11286,7 +11059,6 @@ typedef struct _CMPIPropertyMIFT {
 
 #ifdef CMPI_VER_200
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Set the value and origin of a property of an existing instance.
          (**Deprecated**)
@@ -11422,7 +11194,6 @@ typedef struct _CMPIIndicationMIFT {
      */
     const char* miName;
 
-// DONE_AM Next function is already synced with spec.
     /**
      @brief Perform cleanup for an Indication MI.
 
@@ -11487,52 +11258,44 @@ typedef struct _CMPIIndicationMIFT {
     CMPIStatus (*cleanup) (CMPIIndicationMI* mi, const CMPIContext* ctx,
             CMPIBoolean terminating);
 
-// DONE_AM Next function is already synced with spec.
-// TODO_AM Sync function descriptions with spec, from here on down.
     /**
-     @brief Ask an MI to verify whether an indication filter is
-         supported by the MI.
+     @brief Verify whether an indication filter is supported by the MI.
 
-     CMPIIndicationMIFT.authorizeFilter() shall verify whether an
-     indication filter is supported by the MI.
+     CMPIIndicationMIFT.authorizeFilter() shall verify whether an indication
+     filter is supported by the MI.
 
      An MB implementation is free to choose whether this function is called
-     when the MB starts up independently of whether or not there are
-     any subscriptions for the filter, or only when the first
-     subscription to the filter is made.
+     when the MB starts up independently of whether or not there are any
+     subscriptions for the filter, or only when the first subscription to the
+     filter is made.
 
-     In any case, for any particular filter this function is called on,
-     it shall be called by the MB before CMPIIndicationMIFT.activateFilter()
-     is called for the first time on the same filter.
+     In any case, for any particular filter this function is called on, it
+     shall be called by the MB before CMPIIndicationMIFT.activateFilter() is
+     called for the first time on the same filter.
 
      @param mi Points to a CMPIIndicationMI structure.
      @param ctx Points to a CMPIContext object containing the context data
-         for the invocation.
-         There is no defined client operation that determines the context data.
-         As a result, not all context data entries may be present.
-     @param filter Points to a CMPISelectExp object containing the
-         filter specification defined by the indication filter that is being
-         suthorized.
-     @param className Class name extracted
-         from the FROM clause of the filter specification contained in the
-         filter argument. If the filter specification contains joins, it
-         is undefined which of the joined classes is used for this argument.
+         for the invocation. There is no defined client operation that
+         determines the context data. As a result, not all context data entries
+         may be present.
+     @param filter Points to a CMPISelectExp object containing the filter
+         specification defined by the indication filter that is being verified.
+     @param className Class name extracted from the FROM-clause of the filter
+         specification contained in the filter argument. If the filter
+         specification contains joins, it is undefined which of the joined
+         classes is used for this argument.
      @param classPath Points to a CMPIObjectPath object that is a reference
          to a class or to a namespace, as follows:
-            @li If the filter specification covers lifecycle
-            indications, the CMPIObjectPath object specifies the
-            class path of the class for which lifecycle monitoring
-            is required. Note that this class may be a subclass of
-            the class specified in @p className, for
-            example when the filter query constrains the class to be
-            monitored using constructs such as the ISA operator of
-            CQL.
-            @li If the filter specification covers process
-            indications, the CMPIObjectPath object specifies the
-            namespace path of the origin namespace of the process
-            indications.
-     @param owner @p owner points to a string
-         specifying the destination owner.
+         @li If the filter specification covers lifecycle indications, the
+            CMPIObjectPath object specifies the class path of the class for
+            which lifecycle monitoring is required. Note that this class may be
+            a subclass of the class specified in @p className, for example when
+            the filter query constrains the class to be monitored using
+            constructs such as the `ISA` operator of CQL.
+         @li If the filter specification covers process indications, the
+            CMPIObjectPath object specifies the namespace path of the origin
+            namespace of the process indications.
+     @param owner Destination owner. (**Deprecated**)
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -11540,14 +11303,19 @@ typedef struct _CMPIIndicationMIFT {
      codes:
      @li `CMPI_RC_OK` - Function successful, filter is supported.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Operation not supported by this MI.
-     @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
-     @li `CMPI_RC_ERR_INVALID_QUERY` - Invalid query or too complex.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI, or
+         filter is not supported by this MI.
+     @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized. Note: This return code
+         indicates general authorization related issues and does not
+         specifically indicate that the filter itself would not be authorized.
+     @li `CMPI_RC_ERR_INVALID_QUERY` - Filter query is invalid or too complex.
 
-     @deprecated @p owner is deprecated since CMPI 2.1.
-         MBs may pass an empty string in @p owner. For
-         compatibility reasons, MBs shall not pass a NULL pointer
-         in @p owner.
+     @deprecated @p owner is deprecated since CMPI 2.1. MBs may pass an empty
+         string in @p owner. For compatibility reasons, MBs shall not pass a
+         NULL pointer in @p owner.
+
+     @bug In the CMPI Standard document, change "Ask an MI to verify" to
+     "Verify", in the short description.
     */
     CMPIStatus (*authorizeFilter) (CMPIIndicationMI* mi,
         const CMPIContext* ctx, const CMPISelectExp* filter,
@@ -11555,25 +11323,45 @@ typedef struct _CMPIIndicationMIFT {
         const char* owner);
 
     /**
-     @brief Ask the MI whether indication polling should be used
-         for an indication filter. (**Deprecated**)
+     @brief Ask the MI whether indication polling should be used for an
+         indication filter. (**Deprecated**)
 
-     CMPIIndicationMIFT.mustPoll() asks the MI whether polling mode
-     should be used.
+     CMPIIndicationMIFT.mustPoll() asks the MI whether indication polling
+     should be used for an indication filter.
 
      This function enables very simple MIs to support indications without
-     providing a complete indication support implementation. When true
-     is returned, the MB will enumerate the instances of this MI at
-     regular intervals and apply indication filters.
+     providing a complete indication support implementation. When true is
+     returned, the MI indicates to the MB that it relies on indication polling
+     for this indication filter. If the MB supports indication polling and the
+     MI relies on indication polling, the MB will invoke appropriate instance
+     MI functions at regular intervals, apply the specified indication filter
+     and deliver any resulting indications.
 
      @param mi Points to a CMPIIndicationMI structure.
-     @param ctx Points to a CMPIContext object containing the context data
-         for the invocation.
-     @param className Class name extracted from the filter FROM clause.
-     @param filter Name of the class for which monitoring is required.
-         Only the namespace part is set if eventType is a process indication.
-     @param classPath Name of the class for which polling would be used.
-         Only the namespace part is set if  className is a process indication.
+     @param ctx Points to a CMPIContext object containing the context data for
+         the invocation. There is no defined client operation that determines
+         the context data. As a result, not all context data entries may be
+         present.
+     @param [out] rslt Points to a CMPIResult object used to return a
+         @ref CMPIBoolean indicating whether indication polling should be used.
+     @param filter Points to a CMPISelectExp object containing the filter
+         specification defined by the indication filter for which this request
+         is made.
+     @param className Class name extracted from the FROM-clause of the filter
+         specification contained in the filter argument. If the filter
+         specification contains joins, it is undefined which of the joined
+         classes is used for this argument.
+     @param classPath Points to a CMPIObjectPath object that is a reference to a
+         class or to a namespace, as follows:
+         @li If the filter specification covers lifecycle indications, the
+             CMPIObjectPath object specifies the class path of the class for
+             which lifecycle monitoring is required. Note that this class may
+             be a subclass of the class specified in @p className, for example
+             when the filter query constrains the class to be monitored using
+             constructs such as the `ISA` operator of CQL.
+         @li If the filter specification covers process indications, the
+             CMPIObjectPath object specifies the namespace path of the origin
+             namespace of the process indications.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -11581,73 +11369,76 @@ typedef struct _CMPIIndicationMIFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Operation not supported by
-         this MI.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
      @li `CMPI_RC_ERR_INVALID_QUERY` - Invalid query or too complex.
 
      @deprecated This function is deprecated since CMPI 2.1,
          because the concept of indication polling has been deprecated in
          CMPI 2.1.
+     @todo TBD AM: In the 2.0 headers (both CMPI standard and OpenPegasus
+         2.13), the rslt argument was missing from the prototype. The 2.0
+         pubished standard document has the rslt argument. Given that the rslt
+         argument contains the logical result of the function, having it is
+         correct. I have added it in the header.
+         We should double check this.
     */
     CMPIStatus (*mustPoll) (CMPIIndicationMI* mi, const CMPIContext* ctx,
-        const CMPISelectExp* filter, const char* className,
-        const CMPIObjectPath* classPath);
+        const CMPIResult* rslt, const CMPISelectExp* filter,
+        const char* className, const CMPIObjectPath* classPath);
 
     /**
      @brief Informs the MI that an indication filter has become active.
 
-     CMPIIndicationMIFT.activateFilter() informs the MI
-     that the specified indication filter has become active. This function
-     shall be called by the MB when:
-     @li a client creates a subscription to an indication filter
-     @li if persisted subscriptions are supported
-     by the MB, for any persisted subscriptions to indication filters
-     when the MB starts up.
+     CMPIIndicationMIFT.activateFilter() informs the MI that the specified
+     indication filter has become active. This function shall be called by the
+     MB:
+     @li when a client creates a subscription to an indication filter, and
+     @li if persisted subscriptions are supported by the MB, for any persisted
+         subscriptions to indication filters when the MB starts up.
 
-     An MB implementation is free to choose whether this function
-     is called upon each subscription to a particular filter, or only upon
-     the first subscription (see @p firstActivation). As a
-     result, the MI will always be informed about the first activation of the
-     filter after having been inactive, but has no guarantee to be informed
-     about subsequent activations of the same filter.
+     An MB implementation is free to choose whether this function is called
+     upon each subscription to a particular filter, or only upon the first
+     subscription (see @p firstActivation). As a result, the MI will always be
+     informed about the first activation of the filter after having been
+     inactive, but has no guarantee to be informed about subsequent activations
+     of the same filter.
 
      Generally, MIs should disable the monitoring of any resources for
      indications if there is no interest in them. Consequently, in this
      function the MI needs to start the monitoring of any resources that
-     trigger indications that are covered by the specified indication
-     filter, during the first activation of the filter. For the concept
-     of coverage of indications by an indication filter, see
-     @ref ref-dmtf-dsp1054 "DSP1054".
+     trigger indications that are covered by the specified indication filter,
+     during the first activation of the filter. For the concept of coverage of
+     indications by an indication filter, see @ref ref-dmtf-dsp1054 "DSP1054".
 
      @param mi Points to a CMPIIndicationMI structure.
-     @param ctx Points to a CMPIContext object containing the context data
-         for the invocation.
-     @param filter Points to a CMPISelectExp object containing the
-         filter specification defined by the indication filter that is
-         activated.
-     @param className Class name
-         extracted from the FROM clause of the filter specification contained
-         in @p filter. If the filter specification contains
-         joins, it is undefined which of the joined classes is used for this
-         argument.
-     @param classPath Points to a CMPIObjectPath object that is a
-         reference to a class or to a namespace, as follows:
-            @li If the filter specification covers lifecycle
-            indications, the CMPIObjectPath object specifies the
-            class path of the class for which lifecycle monitoring
-            is required. Note that this class may be a subclass of
-            the class specified in the `>className` argument, for
-            example when the filter query constrains the class to be
-            monitored using constructs such as the `ISA` operator of
-            CQL.
-            @li If the filter specification covers process
-            indications, the CMPIObjectPath object specifies the
-            namespace path of the origin namespace of the process
-            indications.
+     @param ctx Points to a CMPIContext object containing the context data for
+         the invocation. If the filter is activated because a client creates a
+         subscription to the filter, the client operation that creates the
+         subscription determines the context data. If the filter is activated
+         during MB startup on behalf of a persisted earlier subscription, the
+         client operation that originally created the subscription determines
+         the context data.
+     @param filter Points to a CMPISelectExp object containing the filter
+         specification defined by the indication filter that is activated.
+     @param className class name extracted from the FROM-clause of the filter
+         specification contained in @p filter. If the filter specification
+         contains joins, it is undefined which of the joined classes is used
+         for this argument.
+     @param classPath Points to a CMPIObjectPath object that is a reference to a
+         class or to a namespace, as follows:
+         @li If the filter specification covers lifecycle indications, the
+             CMPIObjectPath object specifies the class path of the class for
+             which lifecycle monitoring is required. Note that this class may
+             be a subclass of the class specified in @p className, for example
+             when the filter query constrains the class to be monitored using
+             constructs such as the `ISA` operator of CQL.
+         @li If the filter specification covers process indications, the
+             CMPIObjectPath object specifies the namespace path of the origin
+             namespace of the process indications.
      @param firstActivation Set to true if this is the first activation of this
-     indication filter after having been inactive, and is set to false
-     otherwise.
+         indication filter after having been inactive, and is set to false
+         otherwise.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -11655,13 +11446,15 @@ typedef struct _CMPIIndicationMIFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Operation Function or filter
-         is not supported by this MI.
-     @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized. Note: This
-         return code indicates general authorization related issues
-         and does not specifically indicate that the filter itself
-         would not be authorized.
-     @li `CMPI_RC_ERR_INVALID_QUERY` - Invalid query or too complex.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI, or
+         filter is not supported by this MI.
+     @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized. Note: This return code
+         indicates general authorization related issues and does not
+         specifically indicate that the filter itself would not be authorized.
+     @li `CMPI_RC_ERR_INVALID_QUERY` - Filter query is invalid or too complex.
+
+     @bug In the CMPI Standard document, use the list form from the header file
+        for the description of the call triggers in the first paragraph.
     */
     CMPIStatus (*activateFilter) (CMPIIndicationMI* mi,
         const CMPIContext* ctx, const CMPISelectExp* filter,
@@ -11669,63 +11462,55 @@ typedef struct _CMPIIndicationMIFT {
         CMPIBoolean firstActivation);
 
     /**
-     @brief Inform the MI that an indication filter has become inactive.
+     @brief Informs the MI that an indication filter has become inactive.
 
-     CMPIIndicationMIFT.deActivateFilter() informs the MI that monitoring
-     using this filter should stop.
-     This function shall be called by the MB when a client deletes a
-     subscription to an indication filter, and for any existing
-     subscriptions to indication filters when the MB shuts down.
+     CMPIIndicationMIFT.deActivateFilter() informs the MI that the specified
+     indication filter has become inactive. This function shall be called by
+     the MB:
+     @li when a client deletes a subscription to an indication filter, and
+     @li for any existing subscriptions to indication filters, when the MB
+         shuts down.
 
-     The function invocation mandates the MI to stop monitoring the resource
-     using this filter.
-
-     An MB implementation is free to choose whether this function is called
-     for each deletion of a subscription to a particular filter, or
-     only upon the last deletion (see @p lastDeActivation).
-     As a result, the MI will always be informed about the last
-     deactivation of the filter, but has no guarantee to be informed
-     about prior deactivations of the same filter.
+     An MB implementation is free to choose whether this function is called for
+     each deletion of a subscription to a particular filter, or only upon the
+     last deletion (see @p lastDeActivation). As a result, the MI will always
+     be informed about the last deactivation of the filter, but has no
+     guarantee to be informed about prior deactivations of the same filter.
 
      Generally, MIs should disable the monitoring of any resources for
      indications if there is no interest in them. Consequently, in this
-     function the MI should stop the monitoring of any resources that
-     trigger indications that are covered by the specified indication
-     filter, during the last deactivation of the filter. For the concept
-     of coverage of indications by an indication filter, see
-     @ref ref-dmtf-dsp1054 "DSP1054".
+     function the MI should stop the monitoring of any resources that trigger
+     indications that are covered by the specified indication filter, during
+     the last deactivation of the filter. For the concept of coverage of
+     indications by an indication filter, see @ref ref-dmtf-dsp1054 "DSP1054".
 
      @param mi Points to a CMPIIndicationMI structure.
      @param ctx Points to a CMPIContext object containing the context data
-         for the invocation.
-         If the filter is deactivated because a client deletes a subscription
-         to the filter, the client operation that deletes the subscription
-         determines the context data.
-         If the filter is deactivated during MB shutdown, the client operation
-         that originally created the subscription determines the context data
-     @param filter Points to a CMPISelectExp object containing the
-         filter specification defined by the indication filter that is
-         deactivated.
-     @param className Class name extracted
-        from the FROM clause of the filter specification contained in the
-        @p filter argument. If the filter specification contains joins,
-        it is undefined which of the joined classes is used for this argument.
-     @param classPath Points to a CMPIObjectPath object is a reference to
-         a class or to a namespace, as follows:
-            @li If the filter specification covers lifecycle
-            indications, the CMPIObjectPath object specifies the
-            class path of the class for which lifecycle monitoring
-            is required.  Note that this class may be a subclass of
-            the class specified in @p className, for
-            example when the filter query constrains the class to be
-            monitored using constructs such as the ISA operator of
-            CQL.
-            @li If the filter specification covers process
-            indications, the CMPIObjectPath object specifies the
-            namespace path of the origin namespace of the process
-            indications
-     @param lastActiviation Set to true if this is the last filter for
-         @p className.
+         for the invocation. If the filter is deactivated because a client
+         deletes a subscription to the filter, the client operation that
+         deletes the subscription determines the context data. If the filter is
+         deactivated during MB shutdown, the client operation that originally
+         created the subscription determines the context data.
+     @param filter Points to a CMPISelectExp object containing the filter
+         specification defined by the indication filter that is deactivated.
+     @param className Class name extracted from the FROM-clause of the filter
+         specification contained in the @p filter argument. If the filter
+         specification contains joins, it is undefined which of the joined
+         classes is used for this argument.
+     @param classPath Points to a CMPIObjectPath object is a reference to a
+         class or to a namespace, as follows:
+         @li If the filter specification covers lifecycle indications, the
+             CMPIObjectPath object specifies the class path of the class for
+             which lifecycle monitoring is required.  Note that this class may
+             be a subclass of the class specified in @p className, for example
+             when the filter query constrains the class to be monitored using
+             constructs such as the `ISA` operator of CQL.
+         @li If the filter specification covers process indications, the
+             CMPIObjectPath object specifies the namespace path of the origin
+             namespace of the process indications.
+     @param lastDeActiviation Set to true if this is the last deactivation of
+         this indication filter after having been active, and is set to false
+         otherwise.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -11733,13 +11518,22 @@ typedef struct _CMPIIndicationMIFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Operation not supported by this MI.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI, or
+         filter is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
-     @li `CMPI_RC_ERR_INVALID_QUERY` - Invalid query or too complex.
+     @li `CMPI_RC_ERR_INVALID_QUERY` - Filter query is invalid or too complex.
+
+     @bug In the CMPI Standard document, fix the incorrect name of the
+         lastDeActivation argument (is lastActivation in the document).
+
+     @bug In the CMPI Standard document, use the list form from the header file
+        for the description of the call triggers in the first paragraph.
 
      @todo TBD KS: We set first activation if this is first for
            filter and lastActivation if last for className (not
-           filter)
+           filter).@n
+           AM: I think this is solved after syncing the description with the
+           spec. Now, both are based on the filter.
     */
     CMPIStatus (*deActivateFilter) (CMPIIndicationMI* mi,
         const CMPIContext* ctx, const CMPISelectExp* filter,
@@ -11747,27 +11541,25 @@ typedef struct _CMPIIndicationMIFT {
         CMPIBoolean lastDeActiviation);
 
     /**
-     @brief Inform the MI that the MB is now ready to process the delivery of
+     @brief Informs the MI that the MB is now ready to process the delivery of
          indications.
 
-     CMPIIndicationMIFT.enableIndications() informs the MI that the MB
-     is now ready to process the delivery of
-     indications. This function is typically called when the MB is starting
-     up its indication services (from either a permanent or temporary
-     shutdown of its indication services).
+     CMPIIndicationMIFT.enableIndications() informs the MI that the MB is now
+     ready to process the delivery of indications. This function is typically
+     called when the MB is starting up its indication services (from either a
+     permanent or temporary shutdown of its indication services).
 
-     The relative order in which an MB enables indications using this
-     function and activates filters and filter collections is not defined.
-     As a result, MIs need to track the readiness of the MB to process
-     the delivery of indications and check that readiness before calling
-     @ref CMPIBrokerFT::deliverIndication
-     "CMPIBrokerFT.deliverIndication()".
+     The relative order in which an MB enables indications using this function
+     and activates filters and filter collections is not defined. As a result,
+     MIs need to track the readiness of the MB to process the delivery of
+     indications and check that readiness before calling @ref
+     CMPIBrokerFT.deliverIndication().
 
      @param mi Points to a CMPIIndicationMI structure.
-     @param ctx Points to a CMPIContext object containing the context data
-         for the invocation.
-         There is no defined client operation that determines the context data.
-         As a result, not all context data entries may be present.
+     @param ctx Points to a CMPIContext object containing the context data for
+         the invocation. There is no defined client operation that determines
+         the context data. As a result, not all context data entries may be
+         present.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -11775,33 +11567,31 @@ typedef struct _CMPIIndicationMIFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Operation not supported by
-         this MI.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
     */
     CMPIStatus (*enableIndications) (CMPIIndicationMI* mi,
         const CMPIContext* ctx);
 
     /**
-     @brief Inform the MI that the MB is no longer ready to
-         process the delivery of indications.
+     @brief Informs the MI that the MB is no longer ready to process the
+         delivery of indications.
 
-     CMPIIndicationMIFT.disableIndications() informs the MI that the MB
-     is no longer ready to process the delivery of
-     indications.  This function is typically called when the MB is shutting
-     down its indication services either temporarily or permanently.
+     CMPIIndicationMIFT.disableIndications() informs the MI that the MB is no
+     longer ready to process the delivery of indications.  This function is
+     typically called when the MB is shutting down its indication services
+     either temporarily or permanently.
 
-     The relative order in which an MB disables indications using this
-     function and deactivates filters and filter collections is not
-     defined. As a result, MIs need to track the readiness of the MB
-     to process the delivery of indications and check that readiness
-     before calling @ref CMPIBrokerFT::deliverIndication
-     "CMPIBrokerFT.deliverIndication()".
+     The relative order in which an MB disables indications using this function
+     and deactivates filters and filter collections is not defined. As a
+     result, MIs need to track the readiness of the MB to process the delivery
+     of indications and check that readiness before calling @ref
+     CMPIBrokerFT.deliverIndication().
 
      @param mi Points to a CMPIIndicationMI structure.
-     @param ctx Points to a CMPIContext object containing the context data
-         for the invocation.
-         There is no defined client operation that determines the context data.
-         As a result, not all context data entries may be present.
+     @param ctx Points to a CMPIContext object containing the context data for
+         the invocation. There is no defined client operation that determines
+         the context data. As a result, not all context data entries may be
+         present.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -11809,39 +11599,38 @@ typedef struct _CMPIIndicationMIFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Operation not supported by
-         this MI.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
     */
     CMPIStatus (*disableIndications) (CMPIIndicationMI* mi,
         const CMPIContext* ctx);
 
     /**
-     @brief Ask an MI to verify whether an indication filter
-         collection is supported by the MI.
+     @brief Verify whether an indication filter collection is supported by the
+         MI.
 
      CMPIIndicationMIFT.authorizeFilterCollection() shall verify whether an
      indication filter collection is supported by the MI.
 
-     An MB implementation is free to choose whether this function
-     is called when the MB starts up independently of whether or not
-     there are any subscriptions for the filter collection, or only
-     when the first subscription to the filter collection is made.
+     An MB implementation is free to choose whether this function is called
+     when the MB starts up independently of whether or not there are any
+     subscriptions for the filter collection, or only when the first
+     subscription to the filter collection is made.
 
-     In any case, for any particular filter collection this function
-     is called on, it shall be called by the MB before
-     CMPIIndicationMIFT.activateFilterCollection() is called for the
-     first time on the same filter collection.
+     In any case, for any particular filter collection this function is called
+     on, it shall be called by the MB before
+     CMPIIndicationMIFT.activateFilterCollection() is called for the first time
+     on the same filter collection.
 
      @param mi Points to a CMPIIndicationMI structure.
-     @param ctx Points to a CMPIContext object containing the context data
-         for the invocation.
-         There is no defined client operation that determines the context data.
-         As a result, not all context data entries may be present.
+     @param ctx Points to a CMPIContext object containing the context data for
+         the invocation. There is no defined client operation that determines
+         the context data. As a result, not all context data entries may be
+         present.
      @param collInst Points to a CMPIInstance object with the
-         `CIM_FilterCollection` instance representing the indication
-         filter collection. Note that the indication filter collection
-         can be identified by inspecting the `CollectionName` property
-         of this instance
+         `CIM_FilterCollection` instance representing the indication filter
+         collection. Note that the indication filter collection can be
+         identified by inspecting the `CollectionName` property of this
+         instance.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -11852,77 +11641,78 @@ typedef struct _CMPIIndicationMIFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI, or
          filter collection is not supported by this MI.
-     @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
-         Note: This return code indicates general authorization related
-         issues and does not specifically indicate that the filter
-         collection itself would not be authorized.
+     @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized. Note: This return code
+         indicates general authorization related issues and does not
+         specifically indicate that the filter collection itself would not be
+         authorized.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Invalid indication filter
          collection.
 
      @added210 Added in CMPI 2.1.0.
+
+     @bug In the CMPI Standard document, change "Ask an MI to verify" to
+     "Verify", in the short description.
+
+     @bug In the CMPI Standard document, use the list form from the header file
+        for the description of the call triggers in the first paragraph.
     */
     CMPIStatus (*authorizeFilterCollection) (CMPIIndicationMI* mi,
         const CMPIContext* ctx, const CMPIInstance* collInst);
 
     /**
-     @brief Inform the MI that an indication filter collection
-         has become active.
+     @brief Informs the MI that an indication filter collection has become
+         active.
 
-     CMPIIndicationMIFT.activateFilterCollection() informs the
-     MI that the specified indication filter collection has become active.
-     This function shall be called by the MB when a client creates a
-     subscription to an indication filter collection, and if persisted
-     subscriptions are supported by the MB, for any persisted subscriptions
-     to indication filter collections when the MB starts up.
+     CMPIIndicationMIFT.activateFilterCollection() informs the MI that the
+     specified indication filter collection has become active. This function
+     shall be called by the MB:
+     @li when a client creates a subscription to an indication filter
+         collection, and
+     @li if persisted subscriptions are supported by the MB, for any persisted
+         subscriptions to indication filter collections when the MB starts up.
 
-     An MB implementation is free to choose whether this function is
-     called upon each subscription to a particular filter collection, or
-     only upon the first subscription (see the @p firstActivation
-     argument).
+     An MB implementation is free to choose whether this function is called
+     upon each subscription to a particular filter collection, or only upon the
+     first subscription (see @p firstActivation).
 
-     As a result, the MI will always be informed about the first
-     activation of the filter collection, but has no guarantee to be
-     informed about subsequent activations of the same filter collection.
+     As a result, the MI will always be informed about the first activation of
+     the filter collection, but has no guarantee to be informed about
+     subsequent activations of the same filter collection.
 
      Generally, MIs should disable the monitoring of any resources for
      indications if there is no interest in them. Consequently, in this
      function the MI needs to start the monitoring of any resources that
-     trigger indications that are covered by the specified indication
-     filter collection, during the first activation of the filter
-     collection. For the concept of coverage of indications by an
-     indication filter collection, see @ref ref-dmtf-dsp1054 "DSP1054".
+     trigger indications that are covered by the specified indication filter
+     collection, during the first activation of the filter collection. For the
+     concept of coverage of indications by an indication filter collection, see
+     @ref ref-dmtf-dsp1054 "DSP1054".
 
      As described in @ref ref-dmtf-dsp1054 "DSP1054", a filter collection
-     conceptually has
-     members, but these members do not need to be instantiated using
-     CIM. An MB shall handle subscriptions to a filter collection by
-     calling CMPIIndicationMIFT.activateFilterCollection() for that
-     filter collection; the MB shall not additionally call the activation
-     functions for the individual members of the filter collection.
-     The implementation of CMPIIndicationMIFT.activateFilterCollection()
-     is responsible for activating the entire filter collection including
-     all of its members (regardless of whether or not these members are
-     instantiated using CIM).
+     conceptually has members, but these members do not need to be instantiated
+     using CIM. An MB shall handle subscriptions to a filter collection by
+     calling CMPIIndicationMIFT.activateFilterCollection() for that filter
+     collection; the MB shall not additionally call the activation functions
+     for the individual members of the filter collection. The implementation of
+     CMPIIndicationMIFT.activateFilterCollection() is responsible for
+     activating the entire filter collection including all of its members
+     (regardless of whether or not these members are instantiated using CIM).
 
      @param mi Points to a CMPIIndicationMI structure.
-     @param ctx Points to a CMPIContext object containing the context data
-         for the invocation.
-         If the filter
-         collection is activated because a client creates a
-         subscription to the filter collection, the client operation
-         that creates the subscription determines the context data.
-         If the filter collection is activated during MB startup on
-         behalf of a persisted earlier subscription, the client operation
-         that originally created the subscription determines the context
-         data.
+     @param ctx Points to a CMPIContext object containing the context data for
+         the invocation. If the filter collection is activated because a client
+         creates a subscription to the filter collection, the client operation
+         that creates the subscription determines the context data. If the
+         filter collection is activated during MB startup on behalf of a
+         persisted earlier subscription, the client operation that originally
+         created the subscription determines the context data.
      @param collInst Points to a CMPIInstance object with the
-         `CIM_FilterCollection` instance representing the indication
-         filter collection. Note that the indication filter collection
-         can be identified by inspecting the `CollectionName` property
-         of this instance.
-     @param firstActivation Set to true if this is the first activation
-         of this indication filter collection after having been inactive,
-         and is set to false otherwise
+         `CIM_FilterCollection` instance representing the indication filter
+         collection. Note that the indication filter collection can be
+         identified by inspecting the `CollectionName` property of this
+         instance.
+     @param firstActivation Set to true if this is the first activation of this
+         indication filter collection after having been inactive, and is set to
+         false otherwise
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -11930,13 +11720,12 @@ typedef struct _CMPIIndicationMIFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not
-         supported by this MI, or filter collection is not
-         supported by this MI.
-     @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
-         Note: This return code indicates general authorization related issues
-         and does not specifically indicate that the filter collection
-         itself would not be authorized.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI, or
+         filter collection is not supported by this MI.
+     @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized. Note: This return code
+         indicates general authorization related issues and does not
+         specifically indicate that the filter collection itself would not be
+         authorized.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Invalid indication filter collection.
 
      @added210 Added in CMPI 2.1.0.
@@ -11946,67 +11735,63 @@ typedef struct _CMPIIndicationMIFT {
         CMPIBoolean firstActivation);
 
     /**
-     @brief Informs the MI that an indication filter collection
-         has become inactive.
+     @brief Informs the MI that an indication filter collection has become
+         inactive.
 
-     CMPIIndicationMIFT.deActivateFilterCollection() informs
-     the MI that the specified indication filter collection has become
-     inactive. This function shall be called by the MB when a client
-     deletes a subscription to an indication filter collection, and for
-     any existing subscriptions to indication filter collections when
-     the MB shuts down.
+     CMPIIndicationMIFT.deActivateFilterCollection() informs the MI that the
+     specified indication filter collection has become inactive. This function
+     shall be called by the MB:
+     @li when a client deletes a subscription to an indication filter
+         collection, and
+     @li for any existing subscriptions to indication filter collections when
+         the MB shuts down.
 
-     This function is called either when a client deletes a subscription
-     to an indication filter collection, or when the MB shuts down
-     and deactivates a subscription.
+     This function is called either when a client deletes a subscription to an
+     indication filter collection, or when the MB shuts down and deactivates a
+     subscription.
 
-     An MB implementation is free to choose whether this function is
-     called upon each deletion of a subscription to a particular
-     filter collection, or only upon the last deletion
-     (see @p lastDeActivation). As a result, the MI will
-     always be informed about the last deactivation of the filter
-     collection, but has no guarantee to be informed about prior
-     deactivations of the same filter collection.
+     An MB implementation is free to choose whether this function is called
+     upon each deletion of a subscription to a particular filter collection, or
+     only upon the last deletion (see @p lastDeActivation). As a result, the MI
+     will always be informed about the last deactivation of the filter
+     collection, but has no guarantee to be informed about prior deactivations
+     of the same filter collection.
 
      Generally, MIs should disable the monitoring of any resources for
      indications if there is no interest in them. Consequently, in this
-     function the MI should stop the monitoring of any resources that
-     trigger indications that are covered by the specified indication
-     filter collection, during the last deactivation of the filter. For
-     the concept of coverage of indications by an indication filter
-     collection, see @ref ref-dmtf-dsp1054 "DSP1054".
+     function the MI should stop the monitoring of any resources that trigger
+     indications that are covered by the specified indication filter
+     collection, during the last deactivation of the filter. For the concept of
+     coverage of indications by an indication filter collection, see @ref
+     ref-dmtf-dsp1054 "DSP1054".
 
      As described in @ref ref-dmtf-dsp1054 "DSP1054", a filter collection
-     conceptually has
-     members, but these members do not need to be instantiated using CIM.
-     An MB shall handle deletions to subscriptions to a filter collection
-     by calling CMPIIndicationMIFT.deActivateFilterCollection() for that
-     filter collection; the MB shall not additionally call the deactivation
-     functions for the individual members of the filter collection.
-     The implementation of CMPIIndicationMIFT.deActivateFilterCollection()
-     is responsible for deactivating the entire filter collection including
-     all of its members (regardless of whether or not these members are
-     instantiated using CIM).
+     conceptually has members, but these members do not need to be instantiated
+     using CIM. An MB shall handle deletions to subscriptions to a filter
+     collection by calling CMPIIndicationMIFT.deActivateFilterCollection() for
+     that filter collection; the MB shall not additionally call the
+     deactivation functions for the individual members of the filter
+     collection. The implementation of
+     CMPIIndicationMIFT.deActivateFilterCollection() is responsible for
+     deactivating the entire filter collection including all of its members
+     (regardless of whether or not these members are instantiated using CIM).
 
      @param mi Points to a CMPIIndicationMI structure.
-     @param ctx Points to a CMPIContext object containing the context data
-         for the invocation.
-         If the filter
-         collection is activated because a client creates a
-         subscription to the filter collection, the client operation
-         that creates the subscription determines the context data.
-         If the filter collection is activated during MB startup on
-         behalf of a persisted earlier subscription, the client operation
-         that originally created the subscription determines the context
-         data.
+     @param ctx Points to a CMPIContext object containing the context data for
+         the invocation. If the filter collection is activated because a client
+         creates a subscription to the filter collection, the client operation
+         that creates the subscription determines the context data. If the
+         filter collection is activated during MB startup on behalf of a
+         persisted earlier subscription, the client operation that originally
+         created the subscription determines the context data.
      @param collInst Points to a CMPIInstance object with the
-         `CIM_FilterCollection` instance representing the indication
-         filter collection. Note that the indication filter collection
-         can be identified by inspecting the `CollectionName` property
-         of this instance.
-     @param lastDeactivation Set to true if this is the last deactivation
-         of this indication filter collection after having been active;
-         set to false otherwise.
+         `CIM_FilterCollection` instance representing the indication filter
+         collection. Note that the indication filter collection can be
+         identified by inspecting the `CollectionName` property of this
+         instance.
+     @param lastDeActivation Set to true if this is the last deactivation of
+         this indication filter collection after having been active; set to
+         false otherwise.
      @return CMPIStatus structure containing the function return status.
 
      @par Errors
@@ -12016,13 +11801,16 @@ typedef struct _CMPIIndicationMIFT {
      @li `CMPI_CMPIBrokerMemFT.markRC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI, or
          filter collection is not supported by this MI.
-     @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized. Note: This
-         return code indicates general authorization related issues and
-         does not specifically indicate that the filter collection itself
-         would not be authorized.
+     @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized. Note: This return code
+         indicates general authorization related issues and does not
+         specifically indicate that the filter collection itself would not be
+         authorized.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Invalid indication filter collection.
 
      @added210 Added in CMPI 2.1.0.
+
+     @bug In the CMPI Standard document, use the list form from the header file
+        for the description of the call triggers in the first paragraph.
     */
     CMPIStatus (*deActivateFilterCollection) (CMPIIndicationMI* mi,
         const CMPIContext* ctx, const CMPIInstance* collInst,
