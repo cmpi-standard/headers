@@ -641,9 +641,9 @@ typedef CMPIData CMPIAccessor(const char* propertyName, void* parm);
  */
 
 /**
- * @brief A function type for a POSIX thread function.
+ * @brief A function pointer type for a POSIX thread function.
  *
- * A pointer to such a function is passed to CMPIBrokerExtFT.newThread().
+ * Such a function pointer is passed to CMPIBrokerExtFT.newThread().
  *
  * @param parm A pointer to arbitrary data, which was passed to
  *     CMPIBrokerExtFT.newThread().
@@ -653,25 +653,25 @@ typedef CMPIData CMPIAccessor(const char* propertyName, void* parm);
  * For more details on such functions, see the ``pthread_create()``
  * function defined in @ref ref-ieee-1003-1 "IEEE 1003.1".
  */
-//typedef CMPI_THREAD_CDECL CMPI_THREAD_RETURN CMPIThreadFunc(void* parm);
 typedef CMPI_THREAD_RETURN (CMPI_THREAD_CDECL *CMPIThreadFunc)(void* parm);
 
 /**
- * @brief A function type for a function that is called once in a POSIX thread.
+ * @brief A function pointer type for a function that is called once in a POSIX
+ *     thread.
  *
- * A pointer to such a function is passed to CMPIBrokerExtFT.threadOnce().
+ * Such a function pointer is passed to CMPIBrokerExtFT.threadOnce().
  *
  * @return None.
  *
  * For more details on such functions, see the ``pthread_once()``
  * function defined in @ref ref-ieee-1003-1 "IEEE 1003.1".
  */
-typedef void CMPIThreadOnceFunc(void);
+typedef void (*CMPIThreadOnceFunc)(void);
 
 /**
- * @brief A function type for a POSIX thread key cleanup function.
+ * @brief A function pointer type for a POSIX thread key cleanup function.
  *
- * A pointer to such a function is passed to CMPIBrokerExtFT.createThreadKey().
+ * Such a function pointer is passed to CMPIBrokerExtFT.createThreadKey().
  *
  * @param key A pointer to the previous key value before cleanup.
  * @return None.
@@ -679,7 +679,7 @@ typedef void CMPIThreadOnceFunc(void);
  * For more details on such functions, see the ``pthread_key_create()``
  * function defined in @ref ref-ieee-1003-1 "IEEE 1003.1".
  */
-typedef void CMPIThreadKeyCleanupFunc(void* key);
+typedef void (*CMPIThreadKeyCleanupFunc)(void* key);
 
 /**
  * @}

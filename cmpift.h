@@ -39,8 +39,8 @@
 #ifndef _CMPIFT_H_
 #define _CMPIFT_H_
 
-#include "cmpidt.h"
 #include "cmpios.h"
+#include "cmpidt.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -3014,7 +3014,7 @@ typedef struct _CMPIBrokerExtFT {
            @ref CMPIThreadOnceFunc,
            @ref CMPIThreadKeyCleanupFunc.
     */
-    CMPI_THREAD_TYPE (*newThread) (CMPIThreadFunc* start, void* parm,
+    CMPI_THREAD_TYPE (*newThread) (CMPIThreadFunc start, void* parm,
         int detached);
 
     /**
@@ -3152,7 +3152,7 @@ typedef struct _CMPIBrokerExtFT {
 
      @note No corresponding macro.
     */
-    int (*threadOnce) (int* once, CMPIThreadOnceFunc* function);
+    int (*threadOnce) (int* once, CMPIThreadOnceFunc function);
 
     /**
      @brief Create a POSIX threading-conformant thread key for
@@ -3177,7 +3177,7 @@ typedef struct _CMPIBrokerExtFT {
          capability.
     */
     int (*createThreadKey) (CMPI_THREAD_KEY_TYPE* key,
-        CMPIThreadKeyCleanupFunc* cleanup);
+        CMPIThreadKeyCleanupFunc cleanup);
 
     /**
      @brief Destroy a POSIX threading-conformant thread key for accessing the
