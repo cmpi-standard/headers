@@ -283,12 +283,6 @@ typedef struct _CMPIBrokerFT {
      * @brief Informal MB-specific name for this MB.
      *
      * @see CBBrokerName()
-     * @todo TBD KS: What is the source that sets the brokerName value.
-     *       I note in Pegasus that we do not use it for much of
-     *       anything.@n
-     *       AM: The MB code when preparing the structure must set it.
-     *       SFCB sets it to its name and version, I believe. It is
-     *       informal. An MI could include the name e.g. in log records.
      */
     const char* brokerName;
 
@@ -2278,12 +2272,6 @@ typedef struct _CMPIBrokerEncFT {
          invalid.
 
      @see CDToString()
-
-     @todo DONE. KS - in brief CMPIEncapsulated looks like a CMPI type. Is
-           there a definition/list of the encapsulated data types?@n
-           AM: Fixed. This was mispelled, and in the spec it reads "CMPI
-           encapsulated data type". Added a link to the list of all
-           encapsulated types.
     */
     CMPIString* (*toString) (const CMPIBroker* mb, const void* object,
         CMPIStatus* rc);
@@ -2906,10 +2894,6 @@ typedef struct _CMPIBrokerEncFT {
          language is not supported.
 
      @added210 Added in CMPI 2.1.0.
-
-     @todo TBD KS: In description. What does "set to do no filtering" mean?@n
-           AM: It means that it does not restrict anything, i.e. its match()
-           always returns true. Do we need a spec update to improve the wording?
     */
     CMPIEnumerationFilter* (*newEnumerationFilter) (const CMPIBroker* mb,
             const char* filterQueryLanguage, const char* filterQuery,
@@ -4448,13 +4432,11 @@ typedef struct _CMPIResultFT {
      @li `CMPI_RC_ERR_INVALID_DATA_TYPE` - An attempt to return a data type
          that is not allowed for this MI function invocation or @p type is not
          recognized.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid or NULL,
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid,
          or the MB has aborted the request operation for which this data is
          being returned.
 
      @see CMReturnData()
-     @todo TBD AM: Why does the description for CMPI_RC_ERR_INVALID_HANDLE say
-           "or NULL"?
     */
     CMPIStatus (*returnData) (const CMPIResult* rslt, const CMPIValue* value,
         const CMPIType type);
@@ -4520,12 +4502,10 @@ typedef struct _CMPIResultFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid or NULL,
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid,
          or the MB has aborted the request for which this result is defined.
 
      @see CMReturnDone()
-     @todo TBD AM: Why does the description for CMPI_RC_ERR_INVALID_HANDLE say
-           "or NULL"?
     */
     CMPIStatus (*returnDone) (const CMPIResult* rslt);
 
@@ -11382,6 +11362,7 @@ typedef struct _CMPIIndicationMIFT {
          argument contains the logical result of the function, having it is
          correct. I have added it in the header.
          We should double check this.
+         TODO: Add "incompatibility" command for this one.
     */
     CMPIStatus (*mustPoll) (CMPIIndicationMI* mi, const CMPIContext* ctx,
         const CMPIResult* rslt, const CMPISelectExp* filter,
@@ -11528,12 +11509,6 @@ typedef struct _CMPIIndicationMIFT {
 
      @bug In the CMPI Standard document, use the list form from the header file
         for the description of the call triggers in the first paragraph.
-
-     @todo TBD KS: We set first activation if this is first for
-           filter and lastActivation if last for className (not
-           filter).@n
-           AM: I think this is solved after syncing the description with the
-           spec. Now, both are based on the filter.
     */
     CMPIStatus (*deActivateFilter) (CMPIIndicationMI* mi,
         const CMPIContext* ctx, const CMPISelectExp* filter,

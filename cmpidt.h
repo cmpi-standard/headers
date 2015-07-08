@@ -415,8 +415,10 @@ typedef unsigned short CMPIType;
 #define CMPI_uint16       ((8+1)<<4)    ///< Indicates a CMPIValue.uint16 value
 #define CMPI_uint32       ((8+2)<<4)    ///< Indicates a CMPIValue.uint32 value
 #define CMPI_uint64       ((8+3)<<4)    ///< Indicates a CMPIValue.uint64 value
-/// @todo TBD AM: This is not a test mask for signed, it also matches unsigned.
-///       Use ((0+4)<<4) instead?
+/// Test mask for CIM signed integer types
+/// @bug The CMPI_SINT test mask matches not only for signed integer types, but
+///     in addition for unsigned integers. For compatibility reasons, this
+///     cannot be fixed in CMPI 2.x.
 #define CMPI_SINT         ((8+4)<<4)
 #define CMPI_sint8        ((8+4)<<4)    ///< Indicates a CMPIValue.uint8 value
 #define CMPI_sint16       ((8+5)<<4)    ///< Indicates a CMPIValue.uint16 value
@@ -651,7 +653,8 @@ typedef CMPIData CMPIAccessor(const char* propertyName, void* parm);
  * For more details on such functions, see the ``pthread_create()``
  * function defined in @ref ref-ieee-1003-1 "IEEE 1003.1".
  */
-typedef CMPI_THREAD_CDECL CMPI_THREAD_RETURN CMPIThreadFunc(void* parm);
+//typedef CMPI_THREAD_CDECL CMPI_THREAD_RETURN CMPIThreadFunc(void* parm);
+typedef CMPI_THREAD_RETURN (CMPI_THREAD_CDECL *CMPIThreadFunc)(void* parm);
 
 /**
  * @brief A function type for a function that is called once in a POSIX thread.
