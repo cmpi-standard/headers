@@ -244,6 +244,11 @@ ALIASES += "added210=@xrefitem added210 \"Addition\" \"Added in CMPI 2.1.0\""
 ALIASES += "required200=@xrefitem required200 \"Requirement Change\" \"Required since CMPI 2.0.0\""
 ALIASES += "required210=@xrefitem required210 \"Requirement Change\" \"Required since CMPI 2.1.0\""
 
+# The following alias defines @incompatibleNNN special commands that are used to
+# indicate that a definition was changed in an incompatible way in CMPI N.N.N.
+# Their list will be linked from the "Related Pages" tab:
+ALIASES += "incompatible210=@xrefitem incompatible210 \"Incompatible Change\" \"Incompatible change in CMPI 2.1.0\""
+
 # The following alias defines @capXXXXXXX special commands that are used to
 # indicate that a definition is part of a particular MB capability.
 # Their list will be linked from the "Related Pages" tab:
@@ -264,6 +269,11 @@ ALIASES += "capfiltering=@xrefitem capfiltering \"Capabilities\" \"Property Filt
 ALIASES += "capcodepage=@xrefitem capcodepage \"Capabilities\" \"Codepage Conversion MB Capability\""
 ALIASES += "captranslation=@xrefitem captranslation \"Capabilities\" \"Message Translation MB Capability\""
 ALIASES += "capcontext=@xrefitem capcontext \"Capabilities\" \"Context Data MB Capability\""
+
+# The following alias defines @testNNN special commands that are used to show
+# the test status for a particular MB. Their list will be linked from the
+# "Related Pages" tab:
+ALIASES += "testopenpegasus=@xrefitem testopenpegasus \"Test Status OpenPegasus\" \"Test Status OpenPegasus\""
 
 # This tag can be used to specify a number of word-keyword mappings (TCL only).
 # A mapping has the form "name=value". For example adding "class=itcl::class"
