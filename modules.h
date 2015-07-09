@@ -11,23 +11,40 @@
  */
 
 /**
- * @page added200 Added in CMPI 2.0.0
- * @brief Entities that were added in CMPI 2.0.0
+ * @page added200 Added in CMPI 2.0
+ * @brief Entities that were added in CMPI 2.0
  */
 
 /**
- * @page added210 Added in CMPI 2.1.0
- * @brief Entities that were added in CMPI 2.1.0
+ * @page added210 Added in CMPI 2.1
+ * @brief Entities that were added in CMPI 2.1
  */
 
 /**
- * @page required200 Required since CMPI 2.0.0
- * @brief Entities that are required to be supported since CMPI 2.0.0
+ * @page changed210 Changed in CMPI 2.1
+ * @brief Entities that were changed in CMPI 2.1
+ *
+ * These are not believed to be incompatibilities for MIs conforming to earlier
+ * versions of CMPI. New requirements for MBs are not considered
+ * incompatibilities.
  */
 
 /**
- * @page required210 Required since CMPI 2.1.0
- * @brief Entities that are required to be supported since CMPI 2.1.0
+ * @page incompatible210 Incompatibilities in CMPI 2.1
+ * @brief Entities that were changed incompatibly in CMPI 2.1
+ *
+ * These only include incompatibilities for MIs conforming to earlier versions
+ * of CMPI. New requirements for MBs are not considered incompatibilities.
+ */
+
+/**
+ * @page required200 Required since CMPI 2.0
+ * @brief Entities that are required to be supported since CMPI 2.0
+ */
+
+/**
+ * @page required210 Required since CMPI 2.1
+ * @brief Entities that are required to be supported since CMPI 2.1
  */
 
 /**
@@ -189,7 +206,7 @@
  * Support for the Context Data capability cannot be discovered by
  * means of CMPIBrokerFT.brokerCapabilities.
  *
- * @required210 Support for this capability is required since CMPI 2.1.0.
+ * @required210 Support for this capability is required since CMPI 2.1.
  */
 
 /**
