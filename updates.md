@@ -1,4 +1,7 @@
+
 9 July - Karl
+-------------
+
 * Worked on getting the new header files to compile in OpenPegasus. Not
   compiling yet but down to specific errors now, some of which are actually
   issue that OpenPegasus had when they modified the release files.
@@ -9,11 +12,19 @@
 * For latest proposed by Andy found an issue in that cmpidt.h must include
   cmpios.h to correctly compile. The defines required for the typedef are in
   cmpios.h. Committed this change.
+
 9 July - Andy
 -------------
 
 * Applied issue CMPI-C2 (Reordering of return codes);
   Fixed some typos and formatting issues in return codes.
+* Added test source file examples/changetoenum.c.
+* Added *.o to .gitignore.
+* Added @changed210 and @incompatible210 commands to Doxyfile.
+* Fixed some unsynced return codes;
+  Shortened use of full versions 2.1.0 to 2.1, etc.;
+  Changed tagging of added return codes to be changes, not additions;
+  Synced all changes from spec, except clarifications.
 
 6+7 July - Andy
 ---------------
