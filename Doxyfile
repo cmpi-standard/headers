@@ -233,21 +233,26 @@ ALIASES += "platformspecific=@xrefitem platformspecific \"Platform-specific Defi
 ALIASES += "cxxspecific=@xrefitem cxxspecific \"C/C++-specific Definition\" \"C/C++-specific Definitions\""
 
 # The following aliases define @addedNNN special commands that are used to
-# indicate that a definition was added in CMPI N.N.N Their list will be
+# indicate that an entity was added in CMPI N.N.N Their list will be
 # linked from the "Related Pages" tab:
 ALIASES += "added200=@xrefitem added200 \"Addition\" \"Added in CMPI 2.0.0\""
 ALIASES += "added210=@xrefitem added210 \"Addition\" \"Added in CMPI 2.1.0\""
 
 # The following alias defines @requiredNNN special commands that are used to
-# indicate that a definition was required to be supported since CMPI N.N.N Their
+# indicate that an entity is required to be supported since CMPI N.N.N Their
 # list will be linked from the "Related Pages" tab:
 ALIASES += "required200=@xrefitem required200 \"Requirement Change\" \"Required since CMPI 2.0.0\""
 ALIASES += "required210=@xrefitem required210 \"Requirement Change\" \"Required since CMPI 2.1.0\""
 
-# The following alias defines @incompatibleNNN special commands that are used to
-# indicate that a definition was changed in an incompatible way in CMPI N.N.N.
+# The following alias defines @changedNNN special commands that are used to
+# indicate that an entity was changed in CMPI N.N.N.
 # Their list will be linked from the "Related Pages" tab:
-ALIASES += "incompatible210=@xrefitem incompatible210 \"Incompatible Change\" \"Incompatible change in CMPI 2.1.0\""
+ALIASES += "changed210=@xrefitem changed210 \"Change\" \"Changed in CMPI 2.1.0\""
+
+# The following alias defines @incompatibleNNN special commands that are used to
+# indicate that an entity was changed in an incompatible way in CMPI N.N.N.
+# Their list will be linked from the "Related Pages" tab:
+ALIASES += "incompatible210=@xrefitem incompatible210 \"Incompatibility\" \"Incompatibilities in CMPI 2.1.0\""
 
 # The following alias defines @capXXXXXXX special commands that are used to
 # indicate that a definition is part of a particular MB capability.
