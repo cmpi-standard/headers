@@ -41,6 +41,8 @@
 
 #include "cmpipl.h"
 
+#include "cmpios.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
