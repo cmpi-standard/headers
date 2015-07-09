@@ -1,4 +1,10 @@
 
+9 July - Andy
+-------------
+
+* Applied issue CMPI-C2 (Reordering of return codes);
+  Fixed some typos and formatting issues in return codes.
+
 6+7 July - Andy
 ---------------
 

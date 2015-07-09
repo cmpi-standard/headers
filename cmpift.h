@@ -110,9 +110,9 @@ extern "C" {
  The following @ref CMPIrc codes shall be used by the MI in the
  function return status:
  @li `CMPI_RC_OK` - Function successful.
- @li `CMPI_RC_ERR_FAILED` - Other error occurred.
  @li `CMPI_RC_ERR_NOT_SUPPORTED` - MI type not supported for this MI name.
  @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
+ @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
  CMPI 2.1 documented these return codes for the first time. For backwards
  compatibility, MBs conforming to CMPI 2.1 that use MIs conforming to prior
@@ -176,10 +176,10 @@ extern "C" {
  The following @ref CMPIrc codes shall be used by the MI in the
  function return status:
  @li `CMPI_RC_OK` - Function successful.
- @li `CMPI_RC_ERR_FAILED` - Other error occurred.
  @li `CMPI_RC_ERR_NOT_FOUND` - MI name not found.
  @li `CMPI_RC_ERR_NOT_SUPPORTED` - MI type not supported for this MI name.
  @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
+ @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
  CMPI 2.1 documented these return codes for the first time. For backwards
  compatibility, MBs conforming to CMPI 2.1 that use MIs conforming to prior
@@ -493,17 +493,17 @@ typedef struct _CMPIBrokerFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p classPath handle is
+         invalid.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p classPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
          @p classPath is invalid or does not exist.
      @li `CMPI_RC_ERR_NOT_FOUND` - No instances found. (**Deprecated**)
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p classPath handle is
-         invalid.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -565,9 +565,10 @@ typedef struct _CMPIBrokerFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb, @p ctx or @p instPath handle
+         is invalid.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
@@ -576,8 +577,7 @@ typedef struct _CMPIBrokerFT {
          in @p properties is invalid.
      @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found.
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb, @p ctx or @p instPath handle
-         is invalid.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -633,9 +633,10 @@ typedef struct _CMPIBrokerFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb, @p ctx, @p classPath, or
+         @p newInst handle is invalid.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p classPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
@@ -643,8 +644,7 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The instance specified in
          @p inst is invalid.
      @li `CMPI_RC_ERR_ALREADY_EXISTS` - Instance already exists.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb, @p ctx, @p classPath, or
-         @p newInst handle is invalid.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -696,9 +696,10 @@ typedef struct _CMPIBrokerFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb, @p ctx, @p instPath, or
+         @p modInst handle is invalid.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
@@ -706,8 +707,7 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The instance specified in
          @p modInst, or the properties specified in @p propertyList are invalid.
      @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb, @p ctx, @p instPath, or
-         @p modInst handle is invalid.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -746,16 +746,16 @@ typedef struct _CMPIBrokerFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
+         invalid.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
          @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
-         invalid.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -808,9 +808,10 @@ typedef struct _CMPIBrokerFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p classPath handle is
+         invalid.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p classPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
@@ -819,8 +820,7 @@ typedef struct _CMPIBrokerFT {
          supported.
      @li `CMPI_RC_ERR_INVALID_QUERY` - Invalid query.
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p classPath handle is
-         invalid.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -880,9 +880,10 @@ typedef struct _CMPIBrokerFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p classPath handle is
+         invalid.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p classPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
@@ -891,8 +892,7 @@ typedef struct _CMPIBrokerFT {
          @p properties is invalid.
      @li `CMPI_RC_ERR_NOT_FOUND` - No instances found. (**Deprecated**)
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p classPath handle is
-         invalid.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -974,9 +974,10 @@ typedef struct _CMPIBrokerFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
+         invalid.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
@@ -986,8 +987,7 @@ typedef struct _CMPIBrokerFT {
          @p properties arguments are invalid.
      @li `CMPI_RC_ERR_NOT_FOUND` - Source instance not found. (**Deprecated**)
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
-         invalid.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -1066,9 +1066,10 @@ typedef struct _CMPIBrokerFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
+         invalid.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
@@ -1077,8 +1078,7 @@ typedef struct _CMPIBrokerFT {
          @p role, or @p resultRole arguments are invalid.
      @li `CMPI_RC_ERR_NOT_FOUND` - Source instance not found. (**Deprecated**)
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
-         invalid.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -1153,9 +1153,10 @@ typedef struct _CMPIBrokerFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
+         invalid.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
@@ -1164,8 +1165,7 @@ typedef struct _CMPIBrokerFT {
          @p resultClass, or @p role arguments are invalid.
      @li `CMPI_RC_ERR_NOT_FOUND` - Source instance not found. (**Deprecated**)
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
-         invalid.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -1234,9 +1234,10 @@ typedef struct _CMPIBrokerFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
+         invalid.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
@@ -1245,8 +1246,7 @@ typedef struct _CMPIBrokerFT {
          arguments are invalid.
      @li `CMPI_RC_ERR_NOT_FOUND` - Source instance not found. (**Deprecated**)
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
-         invalid.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -1322,12 +1322,13 @@ typedef struct _CMPIBrokerFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Invocation of extrinsic methods is not
          supported by the MB (that is, the
          @ref CMPI_MB_InstanceManipulation "Instance Manipulation" capability
          is not available).
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx, @p objPath, @p in, or @p out
+         handle is invalid.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p objPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
@@ -1339,8 +1340,7 @@ typedef struct _CMPIBrokerFT {
          supported by the targeted MI.
      @li `CMPI_RC_ERR_METHOD_NOT_FOUND` - Method not defined in the class.
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx, @p objPath, @p in, or @p out
-         handle is invalid.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -1395,9 +1395,10 @@ typedef struct _CMPIBrokerFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
+         invalid.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
@@ -1406,8 +1407,7 @@ typedef struct _CMPIBrokerFT {
          is not found.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Property not found.
      @li `CMPI_RC_ERR_TYPE_MISMATCH` - Value types incompatible.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
-         invalid.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -1459,18 +1459,17 @@ typedef struct _CMPIBrokerFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not
-         supported by this MI.
+     @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
+         invalid.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
          @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_NOT_FOUND` - Instance not found.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Property not found.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
-         invalid.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -1551,17 +1550,16 @@ typedef struct _CMPIBrokerFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p classPath handle is
+         invalid.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
          @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The property list specified
          in @p properties is invalid.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p classPath handle is
-         invalid.
      @li `CMPI_RC_ERR_QUERY_LANGUAGE_NOT_SUPPORTED` - The MB does not support
          the query language defined in the input arguments.
      @li `CMPI_RC_ERR_INVALID_QUERY` - @p filterQuery is not a valid filter in
@@ -1569,6 +1567,7 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_QUERY_FEATURE_NOT_SUPPORTED` - A feature of the query
          language is not supported.
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -1659,17 +1658,16 @@ typedef struct _CMPIBrokerFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
+         invalid.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
          @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p assocClass, @p resultClass,
          @p role, @p resultRole, or @p properties arguments are invalid.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
-         invalid.
      @li `CMPI_RC_ERR_QUERY_LANGUAGE_NOT_SUPPORTED` - The MB does not support
          the query language defined in the input arguments.
      @li `CMPI_RC_ERR_INVALID_QUERY` - @p filterQuery is not a valid filter in
@@ -1677,6 +1675,7 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_QUERY_FEATURE_NOT_SUPPORTED` - A feature of the query
          language is not supported.
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -1760,17 +1759,16 @@ typedef struct _CMPIBrokerFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
+         invalid.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_CLASS` - The class specified in
          @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p resultClass, @p role, or
          @p properties arguments are invalid.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx or @p instPath handle is
-         invalid.
      @li `CMPI_RC_ERR_QUERY_LANGUAGE_NOT_SUPPORTED` - The MB does not support
          the query language defined in the input arguments.
      @li `CMPI_RC_ERR_INVALID_QUERY` - @p filterQuery is not a valid filter in
@@ -1778,6 +1776,7 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_ERR_QUERY_FEATURE_NOT_SUPPORTED` - A feature of the query
          language is not supported.
      @li `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED` - Limits exceeded.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      Extended error handling is not supported by this MB function; thus, any
      CMPIError objects returned by the targeted MI cannot be made available to
@@ -1872,12 +1871,12 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p instPath handle is invalid, or
+         other object path components specified in @p instPath are invalid.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p instPath is invalid or does not exist.
      @li `CMPI_RC_ERR_NOT_FOUND` - The class specified in
          @p instPath is not found.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p instPath handle is invalid, or
-         other object path components specified in @p instPath are invalid.
 
      @see CMNewInstance()
     */
@@ -1912,11 +1911,11 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p ns is invalid or does not exist.
      @li `CMPI_RC_ERR_NOT_FOUND` - The class specified in @p cn is invalid or
          does not exist.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
      @see CMNewObjectPath()
     */
@@ -2023,8 +2022,8 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_DATA_TYPE` - Data type not valid.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
+     @li `CMPI_RC_ERR_INVALID_DATA_TYPE` - Data type not valid.
 
      @see CMNewArray()
     */
@@ -2131,8 +2130,8 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p datetime format is invalid.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p datetime format is invalid.
 
      @see CMNewDateTimeFromChars()
     */
@@ -2176,10 +2175,10 @@ typedef struct _CMPIBrokerEncFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
      @li `CMPI_RC_ERR_QUERY_LANGUAGE_NOT_SUPPORTED` - The query language is not
          supported.
      @li `CMPI_RC_ERR_INVALID_QUERY` - The query expression is not valid.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
      @capquerynorm This function is part of the Query Normalization
                    capability.
 
@@ -2224,13 +2223,13 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb or @p classPath handle is
+         invalid.
      @li `CMPI_RC_ERR_INVALID_NAMESPACE` - The namespace specified in
          @p classPath is invalid or does not exist.
      @li `CMPI_RC_ERR_NOT_FOUND` - The class specified in @p classPath is
          invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p className format is invalid.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb or @p classPath handle is
-         invalid.
 
      @see CMClassPathIsA()
     */
@@ -2303,9 +2302,9 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p type format is invalid.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb or @p object handle is
          invalid.
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p type format is invalid.
 
      @see CDIsOfType()
     */
@@ -2399,9 +2398,9 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
      @li `CMPI_RC_ERR_TYPE_MISMATCH` - Invalid insert pair.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p count value range violation.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
      @captranslation This function is part of the Message Translation
          capability.
 
@@ -2559,10 +2558,10 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the parameters is invalid.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
          (**Deprecated**)
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the parameters is invalid.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @caperrors This function is part of the Extended Errors capability.
 
@@ -2645,11 +2644,11 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
      @li `CMPI_RC_ERR_NOT_FOUND` - The MB supports the
          @ref cap-translation "Message Translation" capability and the message
          file was not found, or the MB does not support the
          @ref cap-translation "Message Translation" capability.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
      @captranslation This function is part of the Message Translation
          capability.
 
@@ -2750,11 +2749,11 @@ typedef struct _CMPIBrokerEncFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_TYPE_MISMATCH` - Invalid insert pair.
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` - Count value range violation.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb or @p msgFileHandle handle
          is invalid.@n
          Note that NULL is a valid value for the @p msgFileHandle handle.
+     @li `CMPI_RC_ERR_TYPE_MISMATCH` - Invalid insert pair.
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - Count value range violation.
      @captranslation This function is part of the Message Translation
          capability.
 
@@ -4194,8 +4193,8 @@ typedef struct _CMPIContextFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Entry not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
+     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Entry not found.
 
      @see CMGetContextEntry()
     */
@@ -4237,8 +4236,8 @@ typedef struct _CMPIContextFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Entry not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
+     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Entry not found.
 
      @see CMGetContextEntryAt()
     */
@@ -4265,8 +4264,8 @@ typedef struct _CMPIContextFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Entry not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
+     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Entry not found.
 
      @see CMGetContextEntryCount()
     */
@@ -4301,9 +4300,9 @@ typedef struct _CMPIContextFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
      @li `CMPI_RC_ERR_INVALID_DATA_TYPE` - Type not supported for this call, or
          type is not recognized.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
 
      @see CMAddContextEntry()
     */
@@ -4429,12 +4428,12 @@ typedef struct _CMPIResultFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_DATA_TYPE` - An attempt to return a data type
-         that is not allowed for this MI function invocation or @p type is not
-         recognized.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid,
          or the MB has aborted the request operation for which this data is
          being returned.
+     @li `CMPI_RC_ERR_INVALID_DATA_TYPE` - An attempt to return a data type
+         that is not allowed for this MI function invocation or @p type is not
+         recognized.
 
      @see CMReturnData()
     */
@@ -4909,8 +4908,8 @@ typedef struct _CMPIArrayFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - @p index value out of range.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
+     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - @p index value out of range.
 
      @see CMGetArrayElementAt()
      @bug In the CMPI Standard document, add the phrase "by index" to the
@@ -4959,10 +4958,10 @@ typedef struct _CMPIArrayFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - @p index value out of range.
      @li `CMPI_RC_ERR_TYPE_MISMATCH` - @p type does not correspond to the
          simple base type of @p ar.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
 
      @see CMSetArrayElementAt()
      @deprecated The use of @ref CMPI_null for @p type is deprecated since
@@ -5099,8 +5098,8 @@ typedef struct _CMPIEnumerationFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_NO_MORE_ELEMENTS` - No more elements in @p en.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p en handle is invalid.
+     @li `CMPI_RC_NO_MORE_ELEMENTS` - No more elements in @p en.
 
      @see CMGetNext()
      @added210 In CMPI 2.1.0, added return code CMPI_RC_NO_MORE_ELEMENTS (which
@@ -5293,8 +5292,8 @@ typedef struct _CMPIInstanceFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Property not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst handle is invalid.
+     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Property not found.
 
      @see CMGetProperty()
      @bug In the CMPI Standard document, add "by name" to the long description.
@@ -5331,8 +5330,8 @@ typedef struct _CMPIInstanceFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Property not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst handle is invalid.
+     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Property not found.
 
      @see CMGetPropertyAt()
      @bug In the CMPI Standard document, add "by index" to the long
@@ -5405,11 +5404,11 @@ typedef struct _CMPIInstanceFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
      @li `CMPI_RC_ERR_TYPE_MISMATCH` - @p type does not correspond to the
          class-defined type.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p name is not a valid property
          name.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
 
      @see CMSetProperty()
      @added210 In CMPI 2.1.0, added return code CMPI_RC_ERR_INVALID_PARAMETER.
@@ -5487,9 +5486,9 @@ typedef struct _CMPIInstanceFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p keyList is missing.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst handle is invalid.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p keyList is missing.
      @capfiltering This function is part of the Property Filtering
          capability.
 
@@ -5585,9 +5584,9 @@ typedef struct _CMPIInstanceFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
+     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst handle is invalid.
      @li `CMPI_RC_ERR_TYPE_MISMATCH` - @p type does not correspond to
          class-defined type.
-     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst handle is invalid.
 
      @see CMSetPropertyWithOrigin()
      @added200 Added in CMPI 2.0.0.
@@ -5937,8 +5936,8 @@ typedef struct _CMPIObjectPathFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Key not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
+     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Key not found.
 
      @see CMGetKey()
     */
@@ -5992,8 +5991,8 @@ typedef struct _CMPIObjectPathFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Key not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
+     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Key not found.
 
      @see CMGetKeyAt()
     */
@@ -6425,8 +6424,8 @@ typedef struct _CMPIArgsFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_DATA_TYPE` - Data type not valid.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
+     @li `CMPI_RC_ERR_INVALID_DATA_TYPE` - Data type not valid.
 
      @see CMAddArg()
     */
@@ -6454,8 +6453,8 @@ typedef struct _CMPIArgsFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Method parameter not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
+     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Method parameter not found.
 
      @see CMGetArg()
     */
@@ -6495,8 +6494,8 @@ typedef struct _CMPIArgsFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Method parameter not found.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
+     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Method parameter not found.
 
      @see CMGetArgAt()
     */
@@ -7183,8 +7182,8 @@ typedef struct _CMPISelectCondFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
          (**Deprecated**)
-     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - @p index value out of bounds.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p sc handle is invalid.
+     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - @p index value out of bounds.
 
      @see CMGetSubCondAt()
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
@@ -7370,8 +7369,8 @@ typedef struct _CMPISubCondFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
          (**Deprecated**)
-     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - @p index value out of bounds.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p sc handle is invalid.
+     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - @p index value out of bounds.
 
      @see CMGetPredicateAt()
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
@@ -7415,8 +7414,8 @@ typedef struct _CMPISubCondFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
          (**Deprecated**)
-     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - @p index value out of bounds.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p sc handle is invalid.
+     @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - @p index value out of bounds.
 
      @see CMGetPredicate()
      @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
@@ -7628,11 +7627,6 @@ typedef struct _CMPIPredicateFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p pr handle is invalid.
 
      @see CMEvaluatePredicateUsingAccessor()
-     @deprecated The `CMPI_RC_ERR_NOT_SUPPORTED` return code of this function
-         is deprecated since CMPI 2.1. If the
-         @ref CMPI_MB_QueryNormalization "Query Normalization" capability
-         is not available, this function cannot be called by the MI because no
-         instance of its encapsulated data type can exist.
     */
     CMPIBoolean (*evaluateUsingAccessor) (const CMPIPredicate* pr,
         CMPIAccessor* accessorFnc, void* parm, CMPIStatus* rc);
@@ -7716,9 +7710,9 @@ typedef struct _CMPIErrorFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p er is invalid.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by the MB.
          (**Deprecated**)
+     @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p er is invalid.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      @see CMRelease()
@@ -9113,12 +9107,11 @@ typedef struct _CMPIEnumerationFilterFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ef handle is invalid.
-     @li `CMPI_RC_ERR_INVALID_QUERY` - The filterQuery is not a
+     @li `CMPI_RC_ERR_INVALID_QUERY` - The @p filterQuery is not a
          valid query in the specified filter query language
      @li `CMPI_RC_ERR_QUERY_FEATURE_NOT_SUPPORTED` - A feature of
          the query language is not supported.
-     @li `CMPI_RC_ERR_FAILED` - Error not defined by one of the above
-         codes occurred.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      @todo KS: Create macro for this
      @bug In the CMPI Standard document, add the definition of when a filter
@@ -9236,11 +9229,11 @@ typedef struct _CMPIInstanceMIFT {
      The following @ref CMPIrc codes shall be used by the MI in the
      function return status:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_DO_NOT_UNLOAD` - Function successful, do not unload now;
          the MB may retry an unload later.
      @li `CMPI_RC_NEVER_UNLOAD` - Function successful, never unload;
          the MB will not retry an unload later unless it shuts down.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      @see CMInstanceMIStub()
      @bug In the CMPI Standard document, add the sentence about the number of
@@ -9287,9 +9280,9 @@ typedef struct _CMPIInstanceMIFT {
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD>`CMPI_RC_OK`</TD><TD>N/A</TD>
-         <TD>Function Successful</TD></TR>
+         <TD>Function Successful.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>WIPG0228</TD>
-         <TD>Function is not supported by the MB</TD></TR>
+         <TD>Function is not supported by the MB.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>N/A</TD>
@@ -9301,8 +9294,8 @@ typedef struct _CMPIInstanceMIFT {
          <TD>Limits exceeded.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
          <TD>Timeout occurred.</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0227 + implementation
-         specific message</TD>
+     <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0227 + implementation-specific
+         message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
      @see CMInstanceMIStub()
@@ -9357,9 +9350,9 @@ typedef struct _CMPIInstanceMIFT {
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD>`CMPI_RC_OK`</TD><TD>N/A</TD>
-         <TD>Function Successful</TD></TR>
+         <TD>Function Successful.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>WIPG0228</TD>
-         <TD>Function is not supported by the MB</TD></TR>
+         <TD>Function is not supported by the MB.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>N/A</TD>
@@ -9371,8 +9364,8 @@ typedef struct _CMPIInstanceMIFT {
          <TD>Limits exceeded.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
          <TD>Timeout occurred.</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_FAILED`</TD>
-         <TD>WIPG0227 + implementation-specific message</TD>
+     <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0227 + implementation-specific
+         message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
      @see CMInstanceMIStub()
@@ -9425,7 +9418,7 @@ typedef struct _CMPIInstanceMIFT {
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD>`CMPI_RC_OK`</TD><TD>N/A</TD>
-         <TD>Function Successful</TD></TR>
+         <TD>Function Successful.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>WIPG0228</TD>
          <TD>Function is not supported by this MI</TD></TR>
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
@@ -9436,8 +9429,8 @@ typedef struct _CMPIInstanceMIFT {
          <TD>Limits exceeded.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
          <TD>Timeout occurred.</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_FAILED`</TD>
-         <TD>WIPG0227 + implementation-specific message</TD>
+     <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0227 + implementation-specific
+         message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
      @see CMInstanceMIStub()
@@ -9486,21 +9479,21 @@ typedef struct _CMPIInstanceMIFT {
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD>`CMPI_RC_OK`</TD><TD>N/A</TD>
-         <TD>Function Successful</TD></TR>
+         <TD>Function Successful.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>WIPG0228</TD>
-         <TD>Function is not supported by the MB</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_INVALID_PARAMETER`</TD><TD>WIPG0249</TD>
-         <TD>Invalid filter parameters.</TD></TR>
+         <TD>Function is not supported by the MB.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0228</TD>
          <TD>Not authorized.</TD></TR>
+     <TR><TD>`CMPI_RC_ERR_INVALID_PARAMETER`</TD><TD>WIPG0249</TD>
+         <TD>Invalid filter parameters.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_ALREADY_EXISTS`</TD><TD>WIPG0213</TD>
          <TD>Instance already exists.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED`</TD><TD>WIPG0240</TD>
          <TD>Limits exceeded.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
          <TD>Timeout occurred.</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_FAILED`</TD>
-         <TD>WIPG0227 + implementation-specific message</TD>
+     <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0227 + implementation-specific
+         message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
      @see CMInstanceMIStub()
@@ -9559,21 +9552,21 @@ typedef struct _CMPIInstanceMIFT {
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD>`CMPI_RC_OK`</TD><TD>N/A</TD>
-         <TD>Function Successful</TD></TR>
+         <TD>Function Successful.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>WIPG0228</TD>
-         <TD>Function is not supported by the MB</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_INVALID_PARAMETER`</TD><TD>WIPG0249</TD>
-         <TD>Invalid filter parameters.</TD></TR>
+         <TD>Function is not supported by the MB.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0228</TD>
          <TD>Not authorized.</TD></TR>
+     <TR><TD>`CMPI_RC_ERR_INVALID_PARAMETER`</TD><TD>WIPG0249</TD>
+         <TD>Invalid filter parameters.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>WIPG0213</TD>
          <TD>Instance not found.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NO_SUCH_PROPERTY`</TD><TD>WIPG0220</TD>
          <TD>No such property.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
          <TD>Timeout occurred.</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_FAILED`</TD>
-         <TD>WIPG0227 + implementation-specific message</TD>
+     <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0227 + implementation-specific
+         message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
      @see CMInstanceMIStub()
@@ -9618,17 +9611,17 @@ typedef struct _CMPIInstanceMIFT {
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD>`CMPI_RC_OK`</TD><TD>N/A</TD>
-         <TD>Function Successful</TD></TR>
+         <TD>Function Successful.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>WIPG0228</TD>
-         <TD>Function is not supported by the MB</TD></TR>
+         <TD>Function is not supported by the MB.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0228</TD>
          <TD>Not authorized.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>WIPG0213</TD>
          <TD>Instance not found.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
          <TD>Timeout occurred.</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_FAILED`</TD>
-         <TD>WIPG0227 + implementation-specific message</TD>
+     <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0227 + implementation-specific
+         message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
      @see CMInstanceMIStub()
@@ -9674,9 +9667,9 @@ typedef struct _CMPIInstanceMIFT {
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD>`CMPI_RC_OK`</TD><TD>N/A</TD>
-         <TD>Function Successful</TD></TR>
+         <TD>Function Successful.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>WIPG0228</TD>
-         <TD>Function is not supported by the MB</TD></TR>
+         <TD>Function is not supported by the MB.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_QUERY_LANGUAGE_NOT_SUPPORTED`</TD>
@@ -9697,8 +9690,8 @@ typedef struct _CMPIInstanceMIFT {
          <TD>Limits exceeded.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
          <TD>Timeout occurred.</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_FAILED`</TD>
-         <TD>WIPG0227 + implementation-specific message</TD>
+     <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0227 + implementation-specific
+         message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
      @see CMInstanceMIStub()
@@ -9767,18 +9760,13 @@ typedef struct _CMPIInstanceMIFT {
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD>`CMPI_RC_OK`</TD><TD>N/A</TD>
-         <TD>Function Successful</TD></TR>
+         <TD>Function Successful.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>WIPG0228</TD>
-         <TD>Function is not supported by the MB</TD></TR>
+         <TD>Function is not supported by the MB.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED`</TD><TD>WIPG0240</TD>
          <TD>Limits exceeded.</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
-         <TD>Timeout occurred.</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_FAILED`</TD>
-         <TD>WIPG0227 + implementation-specific message</TD>
-         <TD>Other error occurred.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_QUERY_LANGUAGE_NOT_SUPPORTED`</TD>
          <TD>WIPG0221</TD><TD>Query language not supported.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_QUERY_FEATURE_NOT_SUPPORTED`</TD>
@@ -9786,6 +9774,11 @@ typedef struct _CMPIInstanceMIFT {
          <TD>A feature of the query language is not supported.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_INVALID_QUERY`</TD>
          <TD>WIPG0223</TD><TD>Invalid query.</TD></TR>
+     <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
+         <TD>Timeout occurred.</TD></TR>
+     <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0227 + implementation-specific
+         message</TD>
+         <TD>Other error occurred.</TD></TR>
      </TABLE>
      @see CMInstanceMIStub()
      @added210 Added in CMPI 2.1.0.
@@ -9909,11 +9902,11 @@ typedef struct _CMPIAssociationMIFT {
      The following @ref CMPIrc codes shall be used by the MI in the
      function return status:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_DO_NOT_UNLOAD` - Function successful, do not unload now;
          the MB may retry an unload later.
      @li `CMPI_RC_NEVER_UNLOAD` - Function successful, never unload;
          the MB will not retry an unload later unless it shuts down.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
     */
     CMPIStatus (*cleanup) (CMPIAssociationMI* mi, const CMPIContext* ctx,
         CMPIBoolean terminating);
@@ -9996,13 +9989,13 @@ typedef struct _CMPIAssociationMIFT {
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD>`CMPI_RC_OK`</TD><TD>N/A</TD>
-         <TD>Function Successful</TD></TR>
+         <TD>Function Successful.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>WIPG0228</TD>
-         <TD>Function is not supported by the MB</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_INVALID_PARAMETER`</TD><TD>WIPG0249</TD>
-         <TD>Invalid filter parameters.</TD></TR>
+         <TD>Function is not supported by the MB.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
+     <TR><TD>`CMPI_RC_ERR_INVALID_PARAMETER`</TD><TD>WIPG0249</TD>
+         <TD>Invalid filter parameters.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>WIPG0213</TD>
          <TD>Source instance not found. Instead of using this return code if
          the source instance does not exist, the MI should return success with
@@ -10012,8 +10005,8 @@ typedef struct _CMPIAssociationMIFT {
          <TD>Limits exceeded.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
          <TD>Timeout occurred.</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_FAILED`</TD>
-         <TD>WIPG0227 + implementation-specific message</TD>
+     <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0227 + implementation-specific
+         message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
      @bug In the CMPI Standard document, the explanation of the deprecated use
@@ -10095,13 +10088,13 @@ typedef struct _CMPIAssociationMIFT {
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD>`CMPI_RC_OK`</TD><TD>N/A</TD>
-         <TD>Function Successful</TD></TR>
+         <TD>Function Successful.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>WIPG0228</TD>
-         <TD>Function is not supported by the MB</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_INVALID_PARAMETER`</TD><TD>WIPG0249</TD>
-         <TD>Invalid filter parameters.</TD></TR>
+         <TD>Function is not supported by the MB.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
+     <TR><TD>`CMPI_RC_ERR_INVALID_PARAMETER`</TD><TD>WIPG0249</TD>
+         <TD>Invalid filter parameters.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>WIPG0213</TD>
          <TD>Source instance not found. Instead of using this return code if
          the source instance does not exist, the MI should return success with
@@ -10111,8 +10104,8 @@ typedef struct _CMPIAssociationMIFT {
          <TD>Limits exceeded.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
          <TD>Timeout occurred.</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_FAILED`</TD>
-         <TD>WIPG0227 + implementation-specific message</TD>
+     <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0227 + implementation-specific
+         message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
      @bug In the CMPI Standard document, the explanation of the deprecated use
@@ -10191,13 +10184,13 @@ typedef struct _CMPIAssociationMIFT {
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD>`CMPI_RC_OK`</TD><TD>N/A</TD>
-         <TD>Function Successful</TD></TR>
+         <TD>Function Successful.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>WIPG0228</TD>
-         <TD>Function is not supported by the MB</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_INVALID_PARAMETER`</TD><TD>WIPG0249</TD>
-         <TD>Invalid filter parameters.</TD></TR>
+         <TD>Function is not supported by the MB.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
+     <TR><TD>`CMPI_RC_ERR_INVALID_PARAMETER`</TD><TD>WIPG0249</TD>
+         <TD>Invalid filter parameters.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>WIPG0213</TD>
          <TD>Source instance not found. Instead of using this return code if
          the source instance does not exist, the MI should return success with
@@ -10207,8 +10200,8 @@ typedef struct _CMPIAssociationMIFT {
          <TD>Limits exceeded.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
          <TD>Timeout occurred.</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_FAILED`</TD>
-         <TD>WIPG0227 + implementation-specific message</TD>
+     <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0227 + implementation-specific
+         message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
      @bug In the CMPI Standard document, the explanation of the deprecated use
@@ -10280,13 +10273,13 @@ typedef struct _CMPIAssociationMIFT {
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD>`CMPI_RC_OK`</TD><TD>N/A</TD>
-         <TD>Function Successful</TD></TR>
+         <TD>Function Successful.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>WIPG0228</TD>
-         <TD>Function is not supported by the MB</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_INVALID_PARAMETER`</TD><TD>WIPG0249</TD>
-         <TD>Invalid filter parameters.</TD></TR>
+         <TD>Function is not supported by the MB.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
+     <TR><TD>`CMPI_RC_ERR_INVALID_PARAMETER`</TD><TD>WIPG0249</TD>
+         <TD>Invalid filter parameters.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>WIPG0213</TD>
          <TD>Source instance not found. Instead of using this return code if
          the source instance does not exist, the MI should return success with
@@ -10296,8 +10289,8 @@ typedef struct _CMPIAssociationMIFT {
          <TD>Limits exceeded.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
          <TD>Timeout occurred.</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_FAILED`</TD>
-         <TD>WIPG0227 + implementation-specific message</TD>
+     <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0227 + implementation-specific
+         message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
      @bug In the CMPI Standard document, the explanation of the deprecated use
@@ -10408,19 +10401,19 @@ typedef struct _CMPIAssociationMIFT {
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD>`CMPI_RC_OK`</TD><TD>N/A</TD>
-         <TD>Function Successful</TD></TR>
+         <TD>Function Successful.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>WIPG0228</TD>
-         <TD>Function is not supported by the MB</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_INVALID_PARAMETER`</TD><TD>WIPG0249</TD>
-         <TD>Invalid filter parameters.</TD></TR>
+         <TD>Function is not supported by the MB.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
+     <TR><TD>`CMPI_RC_ERR_INVALID_PARAMETER`</TD><TD>WIPG0249</TD>
+         <TD>Invalid filter parameters.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED`</TD><TD>WIPG0240</TD>
          <TD>Limits exceeded.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
          <TD>Timeout occurred.</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_FAILED`</TD>
-         <TD>WIPG0227 + implementation-specific message</TD>
+     <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0227 + implementation-specific
+         message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
      @added210 Added in CMPI 2.1.0.
@@ -10527,19 +10520,19 @@ typedef struct _CMPIAssociationMIFT {
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD>`CMPI_RC_OK`</TD><TD>N/A</TD>
-         <TD>Function Successful</TD></TR>
+         <TD>Function Successful.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>WIPG0228</TD>
-         <TD>Function is not supported by the MB</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_INVALID_PARAMETER`</TD><TD>WIPG0249</TD>
-         <TD>Invalid filter parameters.</TD></TR>
+         <TD>Function is not supported by the MB.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
+     <TR><TD>`CMPI_RC_ERR_INVALID_PARAMETER`</TD><TD>WIPG0249</TD>
+         <TD>Invalid filter parameters.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED`</TD><TD>WIPG0240</TD>
          <TD>Limits exceeded.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
          <TD>Timeout occurred.</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_FAILED`</TD>
-         <TD>WIPG0227 + implementation-specific message</TD>
+     <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0227 + implementation-specific
+         message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
      @added210 Added in CMPI 2.1.0.
@@ -10669,11 +10662,11 @@ typedef struct _CMPIMethodMIFT {
      The following @ref CMPIrc codes shall be used by the MI in the
      function return status:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_DO_NOT_UNLOAD` - Function successful, do not unload now;
          the MB may retry an unload later.
      @li `CMPI_RC_NEVER_UNLOAD` - Function successful, never unload;
          the MB will not retry an unload later unless it shuts down.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      @bug In the CMPI Standard document, add the sentence about the number of
          invocations relative to the number of namespaces serviced.
@@ -10740,15 +10733,15 @@ typedef struct _CMPIMethodMIFT {
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD>`CMPI_RC_OK`</TD><TD>N/A</TD>
-         <TD>Function Successful</TD></TR>
+         <TD>Function Successful.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>N/A</TD>
          <TD>Function is not supported by this MI. Use
          CMPI_RC_ERR_METHOD_NOT_AVAILABLE instead.
          (**Deprecated**)</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_METHOD_NOT_AVAILABLE`</TD><TD>WIPG0219</TD>
-         <TD>Function is not suppored by this MI.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
          <TD>Not authorized.</TD></TR>
+     <TR><TD>`CMPI_RC_ERR_METHOD_NOT_AVAILABLE`</TD><TD>WIPG0219</TD>
+         <TD>Function is not suppored by this MI.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_INVALID_PARAMETER`</TD><TD>WIPG0249</TD>
          <TD>The parameter is invalid. This condition is already verified by the
          MB. (**Deprecated**)</TD></TR>
@@ -10758,8 +10751,8 @@ typedef struct _CMPIMethodMIFT {
          <TD>Limits Exceeded.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
          <TD>Timeout occurred.</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_FAILED`</TD>
-         <TD>WIPG0227 + implementation-specific message</TD>
+     <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0227 + implementation-specific
+         message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
     */
@@ -10878,11 +10871,11 @@ typedef struct _CMPIPropertyMIFT {
      The following @ref CMPIrc codes shall be used by the MI in the
      function return status:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_DO_NOT_UNLOAD` - Function successful, do not unload now;
          the MB may retry an unload later.
      @li `CMPI_RC_NEVER_UNLOAD` - Function successful, never unload;
          the MB will not retry an unload later unless it shuts down.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      @deprecated This function is deprecated since CMPI 2.1, in accord with the
          deprecation of property client operations in DMTF specifications.
@@ -10932,7 +10925,11 @@ typedef struct _CMPIPropertyMIFT {
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD>`CMPI_RC_OK`</TD><TD>N/A</TD>
-         <TD>Function Successful</TD></TR>
+         <TD>Function Successful.</TD></TR>
+     <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>WIPG0228</TD>
+         <TD>Function is not supported by the MB.</TD></TR>
+     <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
+         <TD>Not authorized.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_INVALID_NAMESPACE`</TD><TD>N/A</TD>
          <TD>The namespace specified in @p instPath is invalid or does not
          exist. This condition is already verified by the MB.
@@ -10944,18 +10941,14 @@ typedef struct _CMPIPropertyMIFT {
          <TD>The class specified in @p instPath is invalid or does not
          exist. This condition is already verified by the MB.
          (**Deprecated**)</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>WIPG0228</TD>
-         <TD>Function is not supported by the MB</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
-         <TD>Not authorized.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>WIPG0213</TD>
          <TD>Instance not found.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NO_SUCH_PROPERTY`</TD><TD>WIPG0220</TD>
          <TD>No such property.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
          <TD>Timeout occurred.</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_FAILED`</TD>
-         <TD>WIPG0227 + implementation-specific message</TD>
+     <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0227 + implementation-specific
+         message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
      @deprecated This function is deprecated since CMPI 2.1, in accord with the
@@ -11004,7 +10997,11 @@ typedef struct _CMPIPropertyMIFT {
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD>`CMPI_RC_OK`</TD><TD>N/A</TD>
-         <TD>Function Successful</TD></TR>
+         <TD>Function Successful.</TD></TR>
+     <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>WIPG0228</TD>
+         <TD>Function is not supported by the MB.</TD></TR>
+     <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
+         <TD>Not authorized.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_INVALID_NAMESPACE`</TD><TD>N/A</TD>
          <TD>The namespace specified in @p instPath is invalid or does not
          exist. This condition is already verified by the MB.
@@ -11016,18 +11013,14 @@ typedef struct _CMPIPropertyMIFT {
          <TD>The class specified in @p instPath is invalid or does not
          exist. This condition is already verified by the MB.
          (**Deprecated**)</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>WIPG0228</TD>
-         <TD>Function is not supported by the MB</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
-         <TD>Not authorized.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>WIPG0213</TD>
          <TD>Instance not found.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NO_SUCH_PROPERTY`</TD><TD>WIPG0220</TD>
          <TD>No such property.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
          <TD>Timeout occurred.</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_FAILED`</TD>
-         <TD>WIPG0227 + implementation-specific message</TD>
+     <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0227 + implementation-specific
+         message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
      @deprecated This function is deprecated since CMPI 2.1, in accord with the
@@ -11082,7 +11075,11 @@ typedef struct _CMPIPropertyMIFT {
      <TABLE>
      <TR><TH>CMPIRCCode</TH><TH>CMPIErrorMsg</TH><TH>Description</TH></TR>
      <TR><TD>`CMPI_RC_OK`</TD><TD>N/A</TD>
-         <TD>Function Successful</TD></TR>
+         <TD>Function Successful.</TD></TR>
+     <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>WIPG0228</TD>
+         <TD>Function is not supported by the MB.</TD></TR>
+     <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
+         <TD>Not authorized.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_INVALID_NAMESPACE`</TD><TD>N/A</TD>
          <TD>The namespace specified in @p instPath is invalid or does not
          exist. This condition is already verified by the MB.
@@ -11094,18 +11091,14 @@ typedef struct _CMPIPropertyMIFT {
          <TD>The class specified in @p instPath is invalid or does not
          exist. This condition is already verified by the MB.
          (**Deprecated**)</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_NOT_SUPPORTED`</TD><TD>WIPG0228</TD>
-         <TD>Function is not supported by the MB</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_ACCESS_DENIED`</TD><TD>WIPG0201</TD>
-         <TD>Not authorized.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NOT_FOUND`</TD><TD>WIPG0213</TD>
          <TD>Instance not found.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_NO_SUCH_PROPERTY`</TD><TD>WIPG0220</TD>
          <TD>No such property.</TD></TR>
      <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0243</TD>
          <TD>Timeout occurred.</TD></TR>
-     <TR><TD>`CMPI_RC_ERR_FAILED`</TD>
-         <TD>WIPG0227 + implementation-specific message</TD>
+     <TR><TD>`CMPI_RC_ERR_FAILED`</TD><TD>WIPG0227 + implementation-specific
+         message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
      @added200 Added in CMPI 2.0.0.
@@ -11226,11 +11219,11 @@ typedef struct _CMPIIndicationMIFT {
      The following @ref CMPIrc codes shall be used by the MI in the
      function return status:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_DO_NOT_UNLOAD` - Function successful, do not unload now;
          the MB may retry an unload later.
      @li `CMPI_RC_NEVER_UNLOAD` - Function successful, never unload;
          the MB will not retry an unload later unless it shuts down.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      @bug In the CMPI Standard document, add the sentence about the number of
          invocations relative to the number of namespaces serviced.
@@ -11282,13 +11275,13 @@ typedef struct _CMPIIndicationMIFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful, filter is supported.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI, or
          filter is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized. Note: This return code
          indicates general authorization related issues and does not
          specifically indicate that the filter itself would not be authorized.
      @li `CMPI_RC_ERR_INVALID_QUERY` - Filter query is invalid or too complex.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      @deprecated @p owner is deprecated since CMPI 2.1. MBs may pass an empty
          string in @p owner. For compatibility reasons, MBs shall not pass a
@@ -11348,10 +11341,10 @@ typedef struct _CMPIIndicationMIFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
      @li `CMPI_RC_ERR_INVALID_QUERY` - Invalid query or too complex.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      @deprecated This function is deprecated since CMPI 2.1,
          because the concept of indication polling has been deprecated in
@@ -11426,13 +11419,13 @@ typedef struct _CMPIIndicationMIFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI, or
          filter is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized. Note: This return code
          indicates general authorization related issues and does not
          specifically indicate that the filter itself would not be authorized.
      @li `CMPI_RC_ERR_INVALID_QUERY` - Filter query is invalid or too complex.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      @bug In the CMPI Standard document, use the list form from the header file
         for the description of the call triggers in the first paragraph.
@@ -11498,11 +11491,11 @@ typedef struct _CMPIIndicationMIFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI, or
          filter is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized.
      @li `CMPI_RC_ERR_INVALID_QUERY` - Filter query is invalid or too complex.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      @bug In the CMPI Standard document, fix the incorrect name of the
          lastDeActivation argument (is lastActivation in the document).
@@ -11541,8 +11534,8 @@ typedef struct _CMPIIndicationMIFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
     */
     CMPIStatus (*enableIndications) (CMPIIndicationMI* mi,
         const CMPIContext* ctx);
@@ -11573,8 +11566,8 @@ typedef struct _CMPIIndicationMIFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
     */
     CMPIStatus (*disableIndications) (CMPIIndicationMI* mi,
         const CMPIContext* ctx);
@@ -11613,7 +11606,6 @@ typedef struct _CMPIIndicationMIFT {
      codes:
      @li `CMPI_RC_OK` - Function successful, filter collection is supported
          by the MI.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI, or
          filter collection is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized. Note: This return code
@@ -11622,6 +11614,7 @@ typedef struct _CMPIIndicationMIFT {
          authorized.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Invalid indication filter
          collection.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      @added210 Added in CMPI 2.1.0.
 
@@ -11694,7 +11687,6 @@ typedef struct _CMPIIndicationMIFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI, or
          filter collection is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized. Note: This return code
@@ -11702,6 +11694,7 @@ typedef struct _CMPIIndicationMIFT {
          specifically indicate that the filter collection itself would not be
          authorized.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Invalid indication filter collection.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      @added210 Added in CMPI 2.1.0.
     */
@@ -11773,7 +11766,6 @@ typedef struct _CMPIIndicationMIFT {
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
-     @li `CMPI_CMPIBrokerMemFT.markRC_ERR_FAILED` - Other error occurred.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI, or
          filter collection is not supported by this MI.
      @li `CMPI_RC_ERR_ACCESS_DENIED` - Not authorized. Note: This return code
@@ -11781,6 +11773,7 @@ typedef struct _CMPIIndicationMIFT {
          specifically indicate that the filter collection itself would not be
          authorized.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Invalid indication filter collection.
+     @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
      @added210 Added in CMPI 2.1.0.
 
