@@ -1,4 +1,14 @@
-
+9 July - Karl
+* Worked on getting the new header files to compile in OpenPegasus. Not
+  compiling yet but down to specific errors now, some of which are actually
+  issue that OpenPegasus had when they modified the release files.
+* Noted issue where OpenPegasus was dependent on the include cmpimacs.h
+  being in cmpift.h
+* Tested issues with the typedef that was failing.
+* I did not commit anything back yet.
+* For latest proposed by Andy found an issue in that cmpidt.h must include
+  cmpios.h to correctly compile. The defines required for the typedef are in
+  cmpios.h. Committed this change.
 9 July - Andy
 -------------
 
