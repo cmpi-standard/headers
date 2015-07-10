@@ -1,4 +1,10 @@
 
+10 July - Andy
+--------------
+
+* Resolved issue that modules.h showed up in Files tab, by renaming it to
+  modules.dox.
+
 9 July - Karl
 -------------
 
