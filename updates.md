@@ -4,6 +4,8 @@
 
 * Resolved issue that modules.h showed up in Files tab, by renaming it to
   modules.dox.
+* Documented the formal incompatibility of adding the 'rslt' argument to
+  CMPIIndicationMIFT.mustPoll().
 
 9 July - Karl
 -------------

@@ -11571,13 +11571,12 @@ typedef struct _CMPIIndicationMIFT {
      @deprecated This function is deprecated since CMPI 2.1,
          because the concept of indication polling has been deprecated in
          CMPI 2.1.
-     @todo TBD AM: In the 2.0 headers (both CMPI standard and OpenPegasus
-         2.13), the rslt argument was missing from the prototype. The 2.0
-         pubished standard document has the rslt argument. Given that the rslt
-         argument contains the logical result of the function, having it is
-         correct. I have added it in the header.
-         We should double check this.
-         TODO: Add "incompatibility" command for this one.
+     @incompatible210 In CMPI 2.1, the @p rslt argument was added to the
+         declaration of this function in the header file, in order to get the
+         header files consistent with the CMPI Standard document, which always
+         had this argument documented. It is believed that this function could
+         not have been used without that argument, and that users of the
+         function would have added the argument already.
     */
     CMPIStatus (*mustPoll) (CMPIIndicationMI* mi, const CMPIContext* ctx,
         const CMPIResult* rslt, const CMPISelectExp* filter,
