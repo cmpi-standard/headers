@@ -83,179 +83,196 @@
  *          Convenience Functions" in modules.h?
  */
 
+#ifndef _CMPIMACS_H_
+#  define _CMPIMACS_H_
+
+#ifdef DOC_ONLY
+#  define _CMPI_INLINE_MOD
+#  define CMPI_INLINE
+#  undef CMPI_NO_INLINE
+#else
+#  define _CMPI_INLINE_MOD static inline
+#  if !defined(CMPI_INLINE) && !defined(CMPI_NO_INLINE)
+#    define CMPI_INLINE // if none is defined, set the default
+#  endif
+#  if defined(CMPI_INLINE) && defined(CMPI_NO_INLINE)
+#    error "Only one of CMPI_INLINE and CMPI_NO_INLINE may be defined."
+#  endif
+#endif
+
+#include <cmpift.h>
+
 /**
  * @addtogroup convience-func-supplements
  * @{
  */
-#ifndef _CMPIMACS_H_
-#   define _CMPIMACS_H_
 
-#   ifndef DOC_ONLY
-#      include "cmpidt.h"
-#      include "cmpift.h"
-#   endif
+/**
+    @brief Return the calling function with CMPIStatus specifying a return code
+        and no message.
 
-#   ifdef DOC_ONLY
-#      define CMPI_INLINE
-#   endif
+    The CMReturn() macro builds a CMPIStatus object specifying a return code
+    and no message and exits the function in which it was executed, causing it
+    to return that CMPIStatus object. CMReturn() can only be used in functions
+    that return CMPIStatus.
 
-#   ifdef DOC_ONLY
-/** @brief Build CMPIStatus and exit calling function.
+    @param rc A @ref CMPIrc value specifying the function return status.
+    @return This macro never returns; it contains a `return` statement and
+        therefore exits the function from which it was called.
 
-    CMReturn convience function builds a CMPIStatus object with @p rc as return
-    code and a NULL message and exits the function in which it was executed.
-    @param[out] rc Function return CMPIStatus
-    @return This macro. contains a return statement and
-              therefore exits the function from which it was called.
-    @todo do we really mean MB. Should be calling function
-    @todo used with functions that return CMPIStatus.
     @par Examples
-      Example of Instance Provider ...EnumInstanceNames function that returns
-      CMPI_RC_OK to the MB.
-      @code(.c)
-        CMPIStatus testProvEnumInstanceNames
-          (CMPIInstanceMI * cThis, const CMPIContext * ctx,
-           const CMPIResult * rslt, const CMPIObjectPath * ref)
+    Example of enumerateInstanceNames() MI function that returns CMPI_RC_OK to
+    the MB.
+    @code (.c)
+        CMPIStatus testEnumInstanceNames (CMPIInstanceMI* mi,
+            const CMPIContext* ctx, const CMPIResult* rslt,
+            const CMPIObjectPath* classPath)
         {
-          ....  Code to return instance names
-          CMReturn (CMPI_RC_OK);
-        }
-      @endcode
-   */
-noReturn CMReturn (CMPIrc rc);
-#   else
-#      define CMReturn(rc_) \
-     do \
-     { \
-         CMPIStatus stat; \
-         stat.rc=rc_; \
-         stat.msg=NULL; \
-         return stat; \
-     } while (0)
-#   endif
-
-#   ifdef DOC_ONLY
-/** @brief Build CMPIStatus and exit calling function.
-
-    CMReturnWithString convience function builds a CMPIStatus
-    object with @p rc as return code and @p str as the message
-    and exits the calling function
-    @p str as message and returns to the Broker.
-    @param[out] rc the CMPI return code
-    @param str the message as String object
-    @return This macro contains a return statement so it exits
-            the function in which it was called.
-    @par Example
-    Returns to calling function with CMPIStatus set with error
-    code and CMPIString form of message text.
-    @code(.c)
-          if (brokerCapabilities & CMPI_MB_Supports_Extended_Error)
-          {
-             ...
-          }
-          else
-          {
-              CMReturnWithString(CMPI_RC_ERR_NOT_SUPPORTED,
-                  CMNewString(_broker,
-                  "Extended error support not avilable", NULL));
-          }
-    @endcode
-   */
-noReturn CMReturnWithString (CMPIrc rc, CMPIString * str);
-#   else
-#      define CMReturnWithString(rc_,str_) \
-     do \
-     { \
-         CMPIStatus stat; \
-         stat.rc=rc_; \
-         stat.msg=str_; \
-         return stat; \
-     } while (0)
-#   endif
-
-#   ifdef DOC_ONLY
-/** @brief Build a CMPIStatus object and execute return statement.
-
-    CMReturnWithChars convience function builds a CMPIStatus
-    object with @p rc as return code and @p msg as message and returns to the
-    CMPIBroker and executes a return statement.
-
-    This macro does not correspond to one single CMPI function.
-    @param mb Points to CMPIBroker
-    @param[out] rc the CMPIrc return code to be inserted into the
-          created CMPIStatus.
-    @param msg C character string defining the message to be
-        inserted into the created CMPIStatus.
-    @return This convience function contains a return statement
-            and exits the function in which it was called.
-    @par Example
-    This example returns to MB with CMPI_RC_ERR_NOT_SUPPORTED error and text
-    for instance provider modify instance function.
-    @code(.c)
-        static const CMPIBroker * _broker;
-        ...
-        CMPIStatus cmpiPerf_TestClassAProviderModifyInstance(...)
-        {
-            CMReturnWithChars(_broker, CMPI_RC_ERR_NOT_SUPPORTED,
-                "Modify Instance not supported");
+            // .... code to return instance names
+            CMReturn(CMPI_RC_OK);
         }
     @endcode
+    @hideinitializer
 */
-noReturn CMReturnWithChars (const CMPIBroker * mb, CMPIrc rc, char *msg);
-#   else
-#      define CMReturnWithChars(mb_,rc_,chars_) \
-      do \
-      { \
-          CMPIStatus stat; \
-          stat.rc=rc_; \
-          if (mb_) \
-              stat.msg=(mb_)->eft->newString((mb_),(chars_),NULL); \
-          else \
-              stat.msg=NULL; \
-          return stat; \
-      } while (0)
-#   endif
+#define CMReturn(rc) \
+    do \
+    { \
+        CMPIStatus stat; \
+        stat.rc = (rc); \
+        stat.msg = NULL; \
+        return stat; \
+    } while (0)
 
+/**
+    @brief Return the calling function with CMPIStatus specifying a return code
+        and a CMPIString message.
 
-#   ifdef CMPI_INLINE
-/** @brief Initializes CMPIStatus object @p st with @p rcp and NULL message.
+    The CMReturnWithString() macro builds a CMPIStatus object specifying a
+    return code and a CMPIString message and exits the function in which it was
+    executed, causing it to return that CMPIStatus object. CMReturnWithString()
+    can only be used in functions that return CMPIStatus.
 
-    CMSetStatus convience function initializes the provided
-    CMPIStatus struct @p st with @p rcp a @ref CMPIrc error
-    code and sets the message component CMPIStatus.message NULL.
+    @param rc A @ref CMPIrc value specifying the function return status.
+    @param str A pointer to a CMPIString object specifying the message.
+    @return This macro never returns; it contains a `return` statement and
+        therefore exits the function from which it was called.
 
-    @param st Points to CMPIStatus object in which @p rcp is to be inserted.
-    @param rcp CMPIrc return code to be inserted into @p st.
-    @return This macro contains a return statement and exits
-            the function in which it was called.
-    @todo KS Pegasus has no test for this macro
-    @see CMPIStatus
-    @par Example
-    @code(.c)
-          CMPIStatus rc = { CMPI_RC_OK, NULL };
-          CMSetStatus(&rc, CMPI_RC_ERR_NOT_SUPPORTED);
-    @todo no test in OpenPegasus
+    @par Examples
+    Example of code in an MI function that checks for an optional MB capability
+    and returns with an error to the MB if the capability is not available.
+    @code (.c)
+    static const CMPIBroker* _broker;
+    // ...
+    if (_broker->brokerCapabilities & CMPI_MB_PropertyFiltering)
+    {
+        // ...
+    }
+    else
+    {
+        CMReturnWithString(CMPI_RC_ERR_NOT_SUPPORTED,
+            CMNewString(_broker, "Property Filtering capability not available",
+                NULL));
+    }
     @endcode
-  */
-_CMPI_INLINE_MOD void CMSetStatus (CMPIStatus * st, CMPIrc rcp)
+    @hideinitializer
+*/
+#define CMReturnWithString(rc, str) \
+    do \
+    { \
+        CMPIStatus stat; \
+        stat.rc = (rc); \
+        stat.msg = (str); \
+        return stat; \
+    } while (0)
+
+/**
+    @brief Return the calling function with CMPIStatus specifying a return code
+        and a C string message.
+
+    The CMReturnWithChars() macro builds a CMPIStatus object specifying a
+    return code and a C string message and exits the function in which it was
+    executed, causing it to return that CMPIStatus object. CMReturnWithChars()
+    can only be used in functions that return CMPIStatus.
+
+    @param mb Points to a CMPIBroker structure.
+    @param rc A @ref CMPIrc value specifying the function return status.
+    @param chars A pointer to a C string (`char*`) specifying the message.
+    @return This macro never returns; it contains a `return` statement and
+        therefore exits the function from which it was called.
+
+    @par Examples
+    Example of code in a modifyInstance() MI function that is not implemented
+    and returns to the MB with CMPI_RC_ERR_NOT_SUPPORTED and an according error
+    message.
+    @code (.c)
+    static const CMPIBroker* _broker;
+    // ...
+    CMPIStatus testModifyInstance (...)
+    {
+        CMReturnWithChars(_broker, CMPI_RC_ERR_NOT_SUPPORTED,
+            "ModifyInstance is not supported");
+    }
+    @endcode
+    @hideinitializer
+*/
+#define CMReturnWithChars(mb, rc, chars) \
+    do \
+    { \
+        CMPIStatus stat; \
+        stat.rc = (rc); \
+        if (mb) \
+            stat.msg = (mb)->eft->newString((mb), (chars), NULL); \
+        else \
+            stat.msg = NULL; \
+        return stat; \
+    } while (0)
+
+/**
+    @brief Initialize a CMPIStatus structure with a return code and no message.
+
+    CMSetStatus() initializes a CMPIStatus structure with a return code and no
+    message.
+
+    @param st If not NULL, points to the CMPIStatus structure that is being
+        intialized.
+    @param rc A @ref CMPIrc value specifying the return code.
+    @return Nothing.
+    @see CMPIStatus
+    @par Examples
+    @code (.c)
+        CMPIStatus st = { CMPI_RC_OK, NULL };
+        if (....) // something bad happened
+        {
+            CMSetStatus(&st, CMPI_RC_ERR_NOT_SUPPORTED);
+            return st;
+        }
+    @endcode
+
+    @todo KS Pegasus has no test for this macro
+*/
+#ifdef CMPI_INLINE
+_CMPI_INLINE_MOD void CMSetStatus (CMPIStatus* st, CMPIrc rc)
 {
     if (st)
     {
-        (st)->rc = (rcp);
-        (st)->msg = NULL;
+        st->rc = rc;
+        st->msg = NULL;
     }
 }
-#   else
-#      define CMSetStatus(st_,rcp_) \
-      do \
-      { \
-          if (st_) \
-          { \
-              (st_)->rc=(rcp_); \
-              (st_)->msg=NULL; \
-          } \
-      } while (0)
-#   endif
+#else
+#define CMSetStatus(st, rc) \
+    do \
+    { \
+        if (st) \
+        { \
+            (st)->rc = (rc); \
+            (st)->msg = NULL; \
+        } \
+    } while (0)
+#endif
+
+
+// TODO: From here on down, adjust to the format proposed above.
 
 
 #   ifdef CMPI_INLINE
@@ -3149,12 +3166,6 @@ _CMPI_INLINE_MOD const char CBBrokerName (const CMPIBroker * mb)
 #   else
 #      define CBBrokerName(b)                          ((b)->bft->brokerName)
 #   endif
-
-#ifdef DOC_ONLY
-#define _CMPI_INLINE_MOD
-#else
-#define _CMPI_INLINE_MOD _CMPI_INLINE_MOD
-#endif
 
 #   ifdef CMPI_INLINE
  /** @brief Prepare the MB to accept a new thread that will be using MB
