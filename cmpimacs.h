@@ -81,6 +81,11 @@
  *          functions to cover macro vs inline versions.
  *    @todo AM: Should we move this description to the defgroup "CMPI
  *          Convenience Functions" in modules.h?
+ *    @todo KS: We need to create a CMPI_NO_INLINE symbol and
+ *          make it user?? available. The default is inline.
+ *          both set is error.  DOC_ONLY is only for doc
+ *          preperation.  Remove DOC_ONLY. Why the includes for
+ *          DOC_ONLY
  */
 
 /**
@@ -3788,19 +3793,18 @@ CMPIInstanceMI *CMInstanceMIStub(
    return &mi;  \
   }
 
+#    endif
+
+#   ifdef DOC_ONLY
+
 // KS_TODO this allowed only in 210
+// need an ifdef for 210 only
 CMPIInstanceMI *CMInstanceMIStubWithFiltered(
     chars pfx,
     chars pn,
     CMPIBroker * broker,
     statement hook);
 #   else
-
-#      ifdef CMPI_VER_100
-#         define CMInstanceMIStubChange(pfx) pfx##ModifyInstance
-#      else
-#         define CMInstanceMIStubChange(pfx) pfx##SetInstance
-#      endif /* CMPI_VER_100 */
 
 #      define CMInstanceMIStub(pfx,pn,broker,hook) \
   static CMPIInstanceMIFT instMIFT__={ \
@@ -3812,7 +3816,7 @@ CMPIInstanceMI *CMInstanceMIStubWithFiltered(
    pfx##EnumInstances, \
    pfx##GetInstance, \
    pfx##CreateInstance, \
-   CMInstanceMIStubChange(pfx), \
+   pfx##SetInstance(pfx), \
    pfx##DeleteInstance, \
    pfx##ExecQuery, \
    pfx##EnumerateInstancesFiltered, \
@@ -3831,8 +3835,6 @@ CMPIInstanceMI *CMInstanceMIStubWithFiltered(
    return &mi;  \
   }
 #    endif
-
-#   endif
 
 #   endif
 
