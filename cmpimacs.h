@@ -3776,7 +3776,7 @@ CMPIInstanceMI *CMInstanceMIStub(
    pfx##DeleteInstance, \
    pfx##ExecQuery, \
 #        ifdef CMPI_VER_210
-             NULL, \
+             pfx##EnumInstancesFiltered, \
 #        endif
   }; \
   CMPI_EXTERN_C \
@@ -3794,49 +3794,6 @@ CMPIInstanceMI *CMInstanceMIStub(
   }
 
 #    endif
-
-#   ifdef DOC_ONLY
-
-// KS_TODO this allowed only in 210
-// need an ifdef for 210 only
-CMPIInstanceMI *CMInstanceMIStubWithFiltered(
-    chars pfx,
-    chars pn,
-    CMPIBroker * broker,
-    statement hook);
-#   else
-
-#      define CMInstanceMIStub(pfx,pn,broker,hook) \
-  static CMPIInstanceMIFT instMIFT__={ \
-   CMPICurrentVersion, \
-   CMPICurrentVersion, \
-   "instance" #pn, \
-   pfx##Cleanup, \
-   pfx##EnumInstanceNames, \
-   pfx##EnumInstances, \
-   pfx##GetInstance, \
-   pfx##CreateInstance, \
-   pfx##SetInstance(pfx), \
-   pfx##DeleteInstance, \
-   pfx##ExecQuery, \
-   pfx##EnumerateInstancesFiltered, \
-  }; \
-  CMPI_EXTERN_C \
-  CMPIInstanceMI* pn##_Create_InstanceMI( \
-      const CMPIBroker* brkr, \
-      const CMPIContext *ctx, \
-      CMPIStatus *rc) { \
-   static CMPIInstanceMI mi={ \
-      NULL, \
-      &instMIFT__, \
-   }; \
-   broker=brkr; \
-   hook; \
-   return &mi;  \
-  }
-#    endif
-
-#   endif
 
 #   ifdef DOC_ONLY
 /** @brief generate function table and stub for association provider.
@@ -3886,6 +3843,10 @@ CMPIAssociationMI *CMAssociationMIStub(
    pfx##AssociatorNames, \
    pfx##References, \
    pfx##ReferenceNames, \
+#        ifdef CMPI_VER_210
+             pfx##AssociatorsFiltered, \
+             pfx##ReferencesFiltered, \
+#        endif
   }; \
   CMPI_EXTERN_C \
   CMPIAssociationMI* pn##_Create_AssociationMI( \
