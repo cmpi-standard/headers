@@ -77,10 +77,14 @@
  *    reference to those macros.  Also, the macros have a
  *    reference back to the corresponding cmpift.d functions.
  *    @todo discuss inline vs macros.
- *    @todo macros is bad word.  Maybe we call them convience
- *          functions to cover macro vs inline versions.
+ *    @todo KS macros is bad word.  Maybe we call them convience
+            functions to cover macro vs inline versions.
+            Actually macros is good word.  Question is what do
+            we call those things that can be either inline or
+            macro. Convience function stinks.
  *    @todo AM: Should we move this description to the defgroup "CMPI
- *          Convenience Functions" in modules.h?
+            Convenience Functions" in modules.h KS, Yes. I put
+            it here to tune it before I move it?
  */
 
 #ifndef _CMPIMACS_H_
@@ -248,7 +252,7 @@
     @endcode
     @hideinitializer
 
-    @todo KS Pegasus has no test for this macro
+    @todo openpegasus No test for this macro
 */
 #ifdef CMPI_NO_INLINE
 #define CMSetStatus(st, rc) \
@@ -272,42 +276,42 @@ _CMPI_INLINE_MOD void CMSetStatus (CMPIStatus* st, CMPIrc rc)
 #endif
 
 
-// TODO: From here on down, adjust to the format proposed above.
 
-
-#   ifdef CMPI_INLINE
-/** @brief Initializes  provided CMPIStatus object @p st with @p
-           rcp CMPIStatus and @p string message.
+/** @brief Initializes a CMPIStatus object with CMPIStatus and message.
+    
+    CMSetStatusWithString() initialized the CMPIStatus object @p st with
+    CMPIStatus @p rc and message text defined by @p msg
 
     @param st Points to target CMPIStatus object.
-    @param rcp CMPIrc return code to be inserted int @p st.
-    @param string CMPIString containing Message text to be
+    @param rc CMPIrc return code to be inserted int @p st.
+    @param msg CMPIString containing message text to be
                   inserted into @p st.
   */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD void CMSetStatusWithString(
     CMPIStatus * st,
     CMPIrc rcp,
-    const CMPIString * string)
+    const CMPIString * msg)
 {
     if (st)
     {
-        (st)->rc = (rcp);
-        (st)->msg = (string);
+        (st)->rc = (rc);
+        (st)->msg = (msg);
     }
 }
 #   else
-#      define CMSetStatusWithString(st_,rcp_,string_) \
+#      define CMSetStatusWithString(st_,rc_,msg_) \
       do \
       { \
           if (st_) \
           { \
-              (st_)->rc=(rcp_); \
-              (st_)->msg=(string_); \
+              (st_)->rc = (rc_); \
+              (st_)->msg = (msg_); \
           } \
       } while (0)
 #   endif
 
-#   ifdef CMPI_INLINE
+
 /** @brief Initializes CMPIStatus struct with return code and
            message text message.
 
@@ -331,15 +335,16 @@ _CMPI_INLINE_MOD void CMSetStatusWithString(
         CMPI_RC_ERR_NOT_SUPPORTED, "CIM_ERR_NOT_SUPPORTED");
     @endcode
   */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD void CMSetStatusWithChars(
     const CMPIBroker * mb,
     CMPIStatus * st,
-    CMPIrc rcp,
+    CMPIrc rc,
     const char *msg)
 {
     if (st)
     {
-        (st)->rc = (rcp);
+        (st)->rc = (rc);
         if (mb)
         {
             (st)->msg = (mb)->eft->newString ((mb), (msg), NULL);
@@ -351,12 +356,12 @@ _CMPI_INLINE_MOD void CMSetStatusWithChars(
     }
 }
 #   else
-#      define CMSetStatusWithChars(mb_,st_,rcp_,msg_) \
+#      define CMSetStatusWithChars(mb_,st_,rc_,msg_) \
       do \
       { \
           if (st_) \
           { \
-              (st_)->rc=(rcp_); \
+              (st_)->rc=(rc_); \
               if (mb_) \
                   (st_)->msg=(mb_)->eft->newString((mb_),(msg_),NULL); \
               else \
@@ -366,13 +371,12 @@ _CMPI_INLINE_MOD void CMSetStatusWithChars(
 #   endif
 
 
-#   ifdef CMPI_INLINE
 /** @brief Tests any CMPI object or function return to determine if it is
      a NULL object.
 
     CMIsNullObject() tests any CMPI object @p object or function
     return to determine if it is NULL. The function call is
-    defined as void* to encompass any CMPI strut type.
+    defined as void* to encompass any CMPI encapsulated type.
     @param obj points to any CMPI object.
     @retval true The object is NULL.
     @retval false The object is NOT NULL.
@@ -393,6 +397,7 @@ _CMPI_INLINE_MOD void CMSetStatusWithChars(
     @todo test this to be sure it is correct, in particular
           function repsonse
   */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIBoolean CMIsNullObject (const void *obj)
 {
     return ((obj) == NULL || *((void **) (obj)) == NULL);
@@ -401,7 +406,6 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsNullObject (const void *obj)
 #      define CMIsNullObject(o) ((o)==NULL || *((void**)(o))==NULL)
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Tests a CMPIData object for null Value data item.
 
     CMIsNullValue() tests the state of a CMPIData object @p val
@@ -437,6 +441,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsNullObject (const void *obj)
             . . .
     @endcode
   */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIBoolean CMIsNullValue (const CMPIData val)
 {
   return ((val.state) & CMPI_nullValue);
@@ -445,7 +450,6 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsNullValue (const CMPIData val)
 #      define CMIsNullValue(v)      ((v.state) & CMPI_nullValue)
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Tests CMPIData object for keyValue data item.
 
     CMIsKeyValue() tests @p val a CMPIValue to determine if it
@@ -458,6 +462,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsNullValue (const CMPIData val)
     @todo this is value call, not pointer.  Shouldn't this be
           pointer call?
   */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIBoolean CMIsKeyValue (CMPIData val)
 {
   return ((val.state) & CMPI_keyValue);
@@ -466,7 +471,6 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsKeyValue (CMPIData val)
 #      define CMIsKeyValue(v)      ((v.state) & CMPI_keyValue)
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Tests CMPIData object for array data item type.
 
     CMIsArray() tests @p val a CMPIValue to determine if it is
@@ -478,6 +482,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsKeyValue (CMPIData val)
     @todo not tested in OpenPegasus
     @todo this is defined as
   */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
 {
   return ((val.type) & CMPI_ARRAY);
@@ -486,6 +491,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
 #      define CMIsArray(v)      ((v.type) & CMPI_ARRAY)
 #   endif
 
+// TODO: From here on down, adjust to the format proposed above.
 /**
  * @}
  * @addtogroup convience-func-direct-calls
