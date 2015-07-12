@@ -1999,7 +1999,7 @@ INCLUDE_FILE_PATTERNS  =
 # This tag requires that the tag ENABLE_PREPROCESSING is set to YES.
 
 # Explanation of the CMPI-specific macros:
-# - DOC_ONLY: Must always be set, allows the CMPI headers to figure out that
+# - DOC_ONLY: Must always be defined, allows the CMPI headers to figure out that
 #       Doxygen runs (vs. a compiler).
 # - CMPI_INLINE / CMPI_NO_INLINE: Controls whether the convenience functions
 #       are generated as inline functions (CMPI_INLINE) or as macros
@@ -2011,19 +2011,26 @@ INCLUDE_FILE_PATTERNS  =
 #       C. You can change this here, but keep the corresponding statement in
 #       modules.dox in sync.
 # - CMPI_NO_SYNONYM_SUPPORT: If defined, suppresses the generation of
-#       documentation for some synonyms of CMPIType values (e.g. CMPI_Byte) that
-#       are defined in the header files but are not part of the CMPI Standard.
-# - CMPI_DEFINE_CMPISelectCondType. If undefined, suppresses the generation of
+#       documentation for some synonyms of CMPIType values (e.g. CMPI_Byte) and
+#       MB capability test masks (e.g. CMPI_MB_Class_0) that are defined in the
+#       header files but are not part of the CMPI Standard.
+# - CMPI_DEFINE_CMPISelectCondType: If undefined, suppresses the generation of
 #       documentation for the CMPISelectCondType enumeration type that
 #       is defined in the header files but is not used and is not part of the
 #       CMPI Standard.
+# - CMPI_PRE_STANDARD_CAPABILITY_SUPPORT: If undefined, suppresses the
+#       generation of documentation for some MB capability test masks that
+#       pre-date the first CMPI Standard and that are defined in the header
+#       files but are not part of the CMPI Standard.
 PREDEFINED             = DOC_ONLY \
                          CMPI_INLINE \
                          CMPI_PLATFORM_LINUX_GENERIC_GNU \
                          __cplusplus \
                          CMPI_NO_SYNONYM_SUPPORT \
 
-# undefined:             CMPI_DEFINE_CMPISelectCondType
+# Undefined:
+#                        CMPI_DEFINE_CMPISelectCondType \
+#                        CMPI_PRE_STANDARD_CAPABILITY_SUPPORT \
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then this
 # tag can be used to specify a list of macro names that should be expanded. The
