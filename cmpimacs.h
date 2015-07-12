@@ -87,17 +87,16 @@
 #  define _CMPIMACS_H_
 
 #ifdef DOC_ONLY
-#  define _CMPI_INLINE_MOD
-#  define CMPI_INLINE
-#  undef CMPI_NO_INLINE
+#  define _CMPI_INLINE_MOD // Doxygen does not handle these modifiers at all.
 #else
 #  define _CMPI_INLINE_MOD static inline
-#  if !defined(CMPI_INLINE) && !defined(CMPI_NO_INLINE)
-#    define CMPI_INLINE // if none is defined, set the default
-#  endif
-#  if defined(CMPI_INLINE) && defined(CMPI_NO_INLINE)
-#    error "Only one of CMPI_INLINE and CMPI_NO_INLINE may be defined."
-#  endif
+#endif
+
+#if !defined(CMPI_INLINE) && !defined(CMPI_NO_INLINE)
+#  define CMPI_INLINE // if none is defined, set the default
+#endif
+#if defined(CMPI_INLINE) && defined(CMPI_NO_INLINE)
+#  error "Only one of CMPI_INLINE and CMPI_NO_INLINE may be defined."
 #endif
 
 #include <cmpift.h>
@@ -247,19 +246,11 @@
             return st;
         }
     @endcode
+    @hideinitializer
 
     @todo KS Pegasus has no test for this macro
 */
-#ifdef CMPI_INLINE
-_CMPI_INLINE_MOD void CMSetStatus (CMPIStatus* st, CMPIrc rc)
-{
-    if (st)
-    {
-        st->rc = rc;
-        st->msg = NULL;
-    }
-}
-#else
+#ifdef CMPI_NO_INLINE
 #define CMSetStatus(st, rc) \
     do \
     { \
@@ -269,6 +260,15 @@ _CMPI_INLINE_MOD void CMSetStatus (CMPIStatus* st, CMPIrc rc)
             (st)->msg = NULL; \
         } \
     } while (0)
+#else
+_CMPI_INLINE_MOD void CMSetStatus (CMPIStatus* st, CMPIrc rc)
+{
+    if (st)
+    {
+        st->rc = rc;
+        st->msg = NULL;
+    }
+}
 #endif
 
 

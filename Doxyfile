@@ -1999,7 +1999,7 @@ INCLUDE_FILE_PATTERNS  =
 # This tag requires that the tag ENABLE_PREPROCESSING is set to YES.
 
 PREDEFINED             = DOC_ONLY \
-                         CMPI_INLINE \
+                         CMPI_NO_INLINE \
                          CMPI_NO_SYNONYM_SUPPORT \
                          CMPI_PLATFORM_LINUX_GENERIC_GNU \
                          __cplusplus \
