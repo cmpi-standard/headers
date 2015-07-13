@@ -106,7 +106,7 @@
 #include <cmpift.h>
 
 /**
- * @addtogroup convience-func-supplements
+ * @addtogroup convience-func-general
  * @{
  */
 
@@ -187,6 +187,7 @@
         stat.msg = (str); \
         return stat; \
     } while (0)
+
 
 /**
     @brief Return the calling function with CMPIStatus specifying a return code
@@ -290,7 +291,7 @@ _CMPI_INLINE_MOD void CMSetStatus (CMPIStatus* st, CMPIrc rc)
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD void CMSetStatusWithString(
     CMPIStatus * st,
-    CMPIrc rcp,
+    CMPIrc rc,
     const CMPIString * msg)
 {
     if (st)
@@ -321,7 +322,7 @@ _CMPI_INLINE_MOD void CMSetStatusWithString(
 
     @param mb Points to CMPIBroker. Required to create CMPIString.
     @param st Points to CMPIStatus object.
-    @param rcp CMPIrc return code to be inserted into into CMPIStatus @p st.
+    @param rc CMPIrc return code to be inserted into into CMPIStatus @p st.
     @param msg C string character string containing the message
                text or NULL if no text is to be added to the
                CMPIStatus @p st.
@@ -494,7 +495,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
 // TODO: From here on down, adjust to the format proposed above.
 /**
  * @}
- * @addtogroup convience-func-direct-calls
+ * @addtogroup convience-func-EncapDataTypes
  * @{
  */
 
@@ -594,6 +595,12 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
 #   define CMRelease(obj)        ((o)->ft->release((obj)))
 
     // CMPIBroker factory macros
+
+/**
+ * @}
+ * @addtogroup convience-func-broker
+ * @{
+ */
 
 #   ifdef CMPI_INLINE
 /** @brief Create a new CMPIInstance object initialized to a given instance
@@ -981,9 +988,8 @@ _CMPI_INLINE_MOD CMPIString *CDGetType(
      @param severity integer severity code.
      @param id message ID or any other identifying string.
      @param text If not NULL, const char * with the message text to be logged.
-     @param string If not NULL, CMPIString with message text to be logged.
-       @ps tring will be ignored when @p text is not NULL.
-     @param[out] rc Function return status
+     @param string If not NULL, CMPIString with message text to be logged;
+       @p string will be ignored when @p text is not NULL.
      @return CMPIStatus containing function return status
      @par Example
      @code(.c)
@@ -995,17 +1001,17 @@ _CMPI_INLINE_MOD CMPIString *CDGetType(
 */
 
 _CMPI_INLINE_MOD CMPIStatus CMLogMessage(
-    const CMPIBroker * b,
+    const CMPIBroker * mb,
     int severity,
     const char *id,
     const char *text,
     const CMPIString * string)
 {
-  return ((b)->eft->logMessage ((b), (severity), (id), (text), (string)));
+  return ((mb)->eft->logMessage ((mb), (severity), (id), (text), (string)));
 }
 #   else
-#      define CMLogMessage(b,severity,id, text, string)  \
-          ((b)->eft->logMessage((b),(severity),(id),(text),(string)))
+#      define CMLogMessage(mb,severity,id, text, string)  \
+          ((b)->eft->logMessage((mb),(severity),(id),(text),(string)))
 #   endif /* CMPI_INLINE */
 #   endif /* CMPI_VER_100 */
 
@@ -1022,7 +1028,6 @@ _CMPI_INLINE_MOD CMPIStatus CMLogMessage(
      @param string NULL, or CMPIString with message
        text to be logged. @p string will be ignored when text is not
        NULL.
-     @param[out] rc Function return status
      @see CMPIBrokerEncFT.trace()
      @par Example
      @code(.c)
@@ -1034,17 +1039,17 @@ _CMPI_INLINE_MOD CMPIStatus CMLogMessage(
      @todo OpenPegasus uses CMPILevel as type, not int.
 */
 _CMPI_INLINE_MOD CMPIStatus CMTraceMessage(
-    const CMPIBroker * b,
+    const CMPIBroker * mb,
     int level,
     const char *component,
     const char *text,
     const CMPIString * string)
 {
-  return ((b)->eft->trace ((b), (level), (component), (text), (string)));
+  return ((mb)->eft->trace ((mb), (level), (component), (text), (string)));
 }
 #   else
-#      define CMTraceMessage(b,level,component, text, string)  \
-           ((b)->eft->trace((b),(level),(component),(text),(string)))
+#      define CMTraceMessage(mb,level,component, text, string)  \
+           ((mb)->eft->trace((mb),(level),(component),(text),(string)))
 #   endif
 #   endif /* CMPI_VER_100 */
 
@@ -1151,14 +1156,14 @@ _CMPI_INLINE_MOD CMPIStatus CMOpenMessageFile(
     @todo OpenPegasus tested in cmpiTestBrokerEncProvider.c
 */
 _CMPI_INLINE_MOD CMPIStatus CMCloseMessageFile(
-    const CMPIBroker* b,
-    const CMPIMsgFileHandle msgFilehandle)
+    const CMPIBroker* mb,
+    const CMPIMsgFileHandle msgFileHandle)
 {
-  return ((b)->eft->closeMessageFile ((b), (msgFileHandle)));
+  return ((mb)->eft->closeMessageFile ((mb), (msgFileHandle)));
 }
 #   else
-#      define CMCloseMessageFile(b,mfh)  \
-           ((b)->eft->closeMessageFile((b),(mfh)))
+#      define CMCloseMessageFile(mb,mfh)  \
+           ((mb)->eft->closeMessageFile((mb),(mfh)))
 #   endif /* CMPI_INLINE */
 #   endif /* CMPI_VER_200 */
 
@@ -1200,17 +1205,19 @@ _CMPI_INLINE_MOD CMPIStatus CMCloseMessageFile(
     @todo OpenPegasus tested in cmpiTestBrokerEncProvider.c
     @todo KS Pls review since it asks to do something if macro but it is
     only a macro. No inline version.
+    @version Inline code modified; unsigned int last parameter
+          to type CMPICount in 2.1
 */
 _CMPI_INLINE_MOD CMPIString* CMGetMessage2(
     const CMPIBroker* mb,
     const char *msgId,
-    const CMPIMsgFileHandle msgFilehandle,
+    const CMPIMsgFileHandle msgFileHandle,
     const char *defMsg,
     CMPIStatus* rc,
-    unsigned int, ...);
+    CMPICount count, ...);
 #   else
-#      define CMGetMessage2(b,id,mfh,def,rc,parms)  \
-           ((b)->eft->getMessage2((b),(id),(mfh),(def),(rc),parms))
+#      define CMGetMessage2(mb,id,mfh,def,rc,parms)  \
+           ((mb)->eft->getMessage2((mb),(id),(mfh),(def),(rc),parms))
 #   endif /* CMPI_INLINE */
 #   endif /* CMPI_VER_200 */
 
@@ -1347,8 +1354,7 @@ _CMPI_INLINE_MOD CMPIObjectPath *CMGetObjectPath(
      @p obj.
      @param inst Points to the CMPIInstance structure.
      @param op Points to the new CMPIObjectPath.
-     @param[out] rc Function return CMPIStatus (suppressed when NULL).
-     @return the generated CMPIObjectPath or NULL.
+     @return CMPIStatus structure containing the function return status.
      @see CMPIInstanceFT.setObjectPath()
      @todo Used in OpenPegasus
       */
@@ -2409,8 +2415,8 @@ _CMPI_INLINE_MOD CMPIStatus CMSetOtherErrorType(
 #   ifdef CMPI_INLINE
 /** Sets the description of the probable cause.
     @param er Points to the CMPIError object.
-    @param pc The probable cause string
-    @return Output: Service return status
+    @param pcd The probable cause string
+    @return CMPIStatus structure containing the function return status.
     @see CMPIErrorFT.setProbableCauseDescription()
     @note Inline form corrected in CMPI 2.1
  */
@@ -2428,7 +2434,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetProbableCauseDescription(
 #   ifdef CMPI_INLINE
 /** Sets the recomended actions array.
     @param er Points to the CMPIError object.
-    @param ar An array of strings describing actions that shoudl
+    @param ra An array of strings describing actions that shoudl
               be taken t deal with this error
     @return Output: Service return status
     @see CMPIErrorFT.setRecommendedActions()
@@ -2447,20 +2453,22 @@ _CMPI_INLINE_MOD CMPIStatus CMSetRecommendedActions(
 
 #   ifdef CMPI_INLINE
 /** Specifies a string which specifes The identifying information of the entity
-    (i.e., the instance) generating the error..
+    (i.e., the instance) generating the error.
     @param er Points to the CMPIError object.
-    @param es the string which describes the source
+    @param es String which describes the source.
     @return Output: Service return status
     @see CMPIErrorFT.setErrorSource()
     @note Inline form corrected in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIStatus CMSetErrorSource(CMPIError* er, const char* es);
+_CMPI_INLINE_MOD CMPIStatus CMSetErrorSource(
+    const CMPIError* er,
+    const char* es);
 {
   return ((er)->ft->setErrorSource ((er), (es)));
 }
 #   else
-#      define CMSetErrorSource(e,es) \
-              ((e)->ft->setErrorSource((e),(es)))
+#      define CMSetErrorSource(er,es) \
+              ((er)->ft->setErrorSource((er),(es)))
 #   endif
 
 #   ifdef CMPI_INLINE
@@ -2483,22 +2491,23 @@ _CMPI_INLINE_MOD CMPIStatus CMSetErrorSourceFormat(
 #   endif
 
 #   ifdef CMPI_INLINE
-/** specifies A string defining "Other" values for ErrorSourceFormat
+/** Specifies A string defining "Other" values for ErrorSourceFormat.
+
     @param er Points to the CMPIError object.
-    @param oef the string which describes the other source format
+    @param oef String which describes the other source format.
     @return Output: Service return status
     @see CMPIErrorFT.setOtherErrorSourceFormat()
     @note Inline form corrected in CMPI 2.1
  */
 _CMPI_INLINE_MOD CMPIStatus CMSetOtherErrorSourceFormat(
     CMPIError* er,
-    const char* oesf)
+    const char* oef)
 {
-  return ((er)->ft->setOtherErrorSourceFormat ((er), (oesf)));
+  return ((er)->ft->setOtherErrorSourceFormat ((er), (oef)));
 }
 #   else
-#      define CMSetOtherErrorSourceFormat(e,oesf) \
-              ((e)->ft->setOtherErrorSourceFormat((e),(oesf)))
+#      define CMSetOtherErrorSourceFormat(e,oef) \
+              ((e)->ft->setOtherErrorSourceFormat((e),(oef)))
 #   endif
 
 #   ifdef CMPI_INLINE
@@ -2511,13 +2520,13 @@ _CMPI_INLINE_MOD CMPIStatus CMSetOtherErrorSourceFormat(
  */
 _CMPI_INLINE_MOD CMPIStatus CMSetCIMStatusCodeDescription(
     CMPIError* er,
-    const char* cd);
+    const char* scd);
 {
-  return ((er)->ft->setCIMStatusCodeDescription ((er), (cd)));
+  return ((er)->ft->setCIMStatusCodeDescription ((er), (scd)));
 }
 #   else
-#      define CMSetCIMStatusCodeDescription(e,cd) \
-              ((e)->ft->setCIMStatusCodeDescription((e),(cd)))
+#      define CMSetCIMStatusCodeDescription(e,scd) \
+              ((e)->ft->setCIMStatusCodeDescription((e),(scd)))
 #   endif
 #   ifdef CMPI_INLINE
 /** Sets an array of strings for the dynamic content of the message
@@ -2528,13 +2537,14 @@ _CMPI_INLINE_MOD CMPIStatus CMSetCIMStatusCodeDescription(
     @see CMPIErrorFT.setCIMMessageArguments()
     @note Inline form corrected in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIStatus CMSetMessageArguments(CMPIError* er, CMPIArray* ma)
+_CMPI_INLINE_MOD CMPIStatus CMSetMessageArguments(CMPIError* er,
+                                                  CMPIArray* values)
 {
-  return ((er)->ft->setMessageArguments ((er), (ma)));
+  return ((er)->ft->setMessageArguments ((er), (values)));
 }
 #   else
-#      define CMSetMessageArguments(e,ma) \
-              ((e)->ft->setMessageArguments((e),(ma)))
+#      define CMSetMessageArguments(er,values) \
+              ((e)->ft->setMessageArguments((er),(values)))
 #   endif
 
 #   endif /* CMPI_VER_200 */
@@ -3078,13 +3088,15 @@ _CMPI_INLINE_MOD   int CMEvaluatePredicate(
          function match the predicate in a CMPIPredicate object.
     CMEvaluatePredicateUsingAccessor() executes
         CMPIPredicateFT.evaluateUsingAccessor().
-    @param accessor Data accessor routine to be used.
+    @param pr Points to the CMPIPredicate.
+    @param accessorFnc Data accessor routine to be used.
     @param parm Data accessor parameter.
-    @param[out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Function return CMPIStatus (suppressed when NULL).
     @return Evaluation result.
     @see CMPIPredicateFT.evaluateUsingAccessor()
+    @note Return type modified from int to CMPIBoolean in CMPI 2.1
       */
-_CMPI_INLINE_MOD int CMEvaluatePredicateUsingAccessor(
+_CMPI_INLINE_MOD CMPIBoolean CMEvaluatePredicateUsingAccessor(
     const CMPIPredicate * pr,
     CMPIAccessor * accessorFnc,
     void *parm,
@@ -3101,8 +3113,11 @@ _CMPI_INLINE_MOD int CMEvaluatePredicateUsingAccessor(
 
 
     // CMPIBroker Macros
-
-
+/**
+ * @}
+ * @addtogroup convience-func-broker
+ * @{
+ */
 
 #   ifdef CMPI_INLINE
 /** @brief get the CMPIBroker brokerCapabilities variable
