@@ -54,7 +54,7 @@
           bypassing the added step of getting from the broker
           object argument to the function table and the
           function. Thus, for example:
-         @code(.c)
+          @code(.c)
                  inst->ft->getProperty(inst, name, rc);
              is simplified by a convenience function to:
                  CMGetProperty(inst, name, rc);
@@ -76,14 +76,15 @@
  *    However, all functions that have macros have a See Also
  *    reference to those macros.  Also, the macros have a
  *    reference back to the corresponding cmpift.d functions.
- *    @todo discuss inline vs macros.
+ *    @todo discuss inline vs macros. DONE KS
  *    @todo KS macros is bad word.  Maybe we call them convenience
             functions to cover macro vs inline versions.
             Actually macros is good word.  Question is what do
             we call those things that can be either inline or
             macro. Convience function stinks.
  *    @todo AM: Should we move this description to the defgroup "CMPI
- *          Convenience Functions" in modules.h? Yes (KS)
+            Convenience Functions" in modules.h? Yes (KS) DONE
+            KS
  *    @todo KS: We need to create a CMPI_NO_INLINE symbol and
  *          make it user?? available. The default is inline.
  *          both set is error.  DOC_ONLY is only for doc
@@ -515,8 +516,8 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
    @def CMClone(obj,rc)
 
    CMClone() macro calls clone() function for any the objects of any CMPI
-   function table since all function tables are required to have the clone()
-   function.
+   encapsulated data function table since all function tables are required
+   to have the clone() function.
 
 
    @param obj cmpi object to be cloned.
@@ -611,7 +612,6 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
     // CMPIInstance macros
 
 
-#   ifdef CMPI_INLINE
 /** @brief Get a property in a CMPIInstance object by name.
 
      CMGetProperty() executes CMPIInstanceFT.getProperty() to get a property
@@ -621,7 +621,6 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
      @param[out] rc Function return CMPIStatus (suppressed when NULL).
      @return CMPIData with Property value. If not successful CMPIData.state
      will have the @ref CMPI_badValue.
-     @see CMPIInstanceFT.getProperty()
      @todo used  and tested extensively in OpenPegasus
      @par Example
      @code(.c)
@@ -633,6 +632,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
      assert(rtnData.state != CMPI_badValue);
      @endcode
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIData CMGetProperty(
     const CMPIInstance * inst,
     const char *name,
@@ -645,7 +645,6 @@ _CMPI_INLINE_MOD CMPIData CMGetProperty(
            ((inst)->ft->getProperty((inst),(n),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get a property in a CMPIInstance object by index.
 
      CMGetPropertyAt() executes CMPIInstanceFT.getPropertyAt().
@@ -658,6 +657,7 @@ _CMPI_INLINE_MOD CMPIData CMGetProperty(
      @see CMPIInstanceFT.getPropertyAt()
      @todo used in OpenPegasus
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIData CMGetPropertyAt(
     const CMPIInstance * inst,
     CMPICount index,
@@ -671,7 +671,6 @@ _CMPI_INLINE_MOD CMPIData CMGetPropertyAt(
            ((inst)->ft->getPropertyAt((inst),(num),(s),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Set a property value in a CMPIInstance object by name.
      CMSetProperty() executes CMPIInstanceFT.setProperty().
      @param inst Points to CMPIInstance.
@@ -679,9 +678,9 @@ _CMPI_INLINE_MOD CMPIData CMGetPropertyAt(
      @param value Address of value structure.
      @param type Value type.
      @return Service return status.
-     @see CMPIInstanceFT.setProperty()
      @todo Used and tested extensively in OpenPegasus
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMSetProperty(
     const CMPIInstance * inst,
     const char *name,
@@ -695,7 +694,6 @@ _CMPI_INLINE_MOD CMPIStatus CMSetProperty(
            ((inst)->ft->setProperty((inst),(n),(CMPIValue*)(v),(t)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get the number of properties in a CMPIInstance  object.
      CMGetPropertyCount() executes CMPIInstanceFT.getPropertyCount().
      @param inst Instance this pointer.
@@ -703,6 +701,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetProperty(
      @return Number of properties; 0 if not successful.
      @see CMPIInstanceFT.getPropertyCount()
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPICount CMGetPropertyCount(
     const CMPIInstance * inst,
     CMPIStatus * rc)
@@ -714,16 +713,15 @@ _CMPI_INLINE_MOD CMPICount CMGetPropertyCount(
            ((inst)->ft->getPropertyCount((inst),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get a CMPIObjectPath object from a CMPIInstance object.
     CMGetObjectPath() executes CMPIInstanceFT.getObjectPath() to
     get the CMPIObject path from @p inst.
     @param inst Points to CMPIInstance.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return The generated CMPIObjectPath or NULL.
-    @see CMPIInstanceFT.getObjectPath()
     @todo tested extensively in OpenPegasus cmpiTestMethodProvider.c
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIObjectPath *CMGetObjectPath(
     const CMPIInstance * inst,
     CMPIStatus * rc)
@@ -736,7 +734,6 @@ _CMPI_INLINE_MOD CMPIObjectPath *CMGetObjectPath(
 #   endif
 
 #   ifdef CMPI_VER_100
-#   ifdef CMPI_INLINE
 /** @brief Set the instance path component of a CMPIInstance object.
 
      CMSetObjectPath() executes CMPIInstanceFT.setObjectPath() to set
@@ -744,9 +741,9 @@ _CMPI_INLINE_MOD CMPIObjectPath *CMGetObjectPath(
      @param inst Points to the CMPIInstance structure.
      @param op Points to the new CMPIObjectPath.
      @return CMPIStatus structure containing the function return status.
-     @see CMPIInstanceFT.setObjectPath()
      @todo Used in OpenPegasus
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMSetObjectPath(
     CMPIInstance * inst,
     const CMPIObjectPath * op)
@@ -759,7 +756,6 @@ _CMPI_INLINE_MOD CMPIStatus CMSetObjectPath(
 #   endif
 #   endif /* CMPI_VER_100 */
 
-#   ifdef CMPI_INLINE
 /** @brief Attach a property filter to a CMPIInstance object.
      CMSetPropertyFilter() executes CMPIInstanceFT.setPropertyFilter() to
      attach @p propertyList to CMPIInstance @p inst.
@@ -768,9 +764,9 @@ _CMPI_INLINE_MOD CMPIStatus CMSetObjectPath(
          or more Property names to be accepted by setProperty operations.
      @param keys Deprecated, ignored by MB, maintained here for compatibility.
      @return Function return status.
-     @see CMPIInstanceFT.setPropertyFilter()
      @todo No use in OpenPegasus
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMSetPropertyFilter(
     CMPIInstance * inst,
     const char **propertyList,
@@ -784,7 +780,6 @@ _CMPI_INLINE_MOD CMPIStatus CMSetPropertyFilter(
 #   endif
 
 #   ifdef CMPI_VER_200
-#   ifdef CMPI_INLINE
 /** @brief Add or replace a property value in a CMPIInstance object by name.
     @param inst Points to the CMPIInstance structure.
     @param name is a string containing the Property name.
@@ -796,6 +791,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetPropertyFilter(
     @return Function return CMPIStatus.
     @see CMPIInstanceFT.setPropertyWithOrigin()
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMSetPropertyWithOrigin(
     const CMPIInstance * inst,
     const char *name,
@@ -816,16 +812,15 @@ _CMPI_INLINE_MOD CMPIStatus CMSetPropertyWithOrigin(
    // CMPIObjectPath macros
 
 
-#   ifdef CMPI_INLINE
 /** @brief Set the host name component in a CMPIObjectPath object.
 
     CMSetHostName() executes CMPIObjectPathFT.setHostname().
      @param op Pointer to target CMPIObjectPath.
      @param hn The hostname string
      @return Function return CMPIStatus.
-     @see CMPIObjectPathFT.setHostname()
      @todo OpenPegasus used.
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus
 CMSetHostname (CMPIObjectPath * op, const char *hn)
 {
@@ -836,7 +831,6 @@ CMSetHostname (CMPIObjectPath * op, const char *hn)
            ((op)->ft->setHostname((op),(n)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get the host name component in a CMPIObjectPath object.
 
     CMGetHostName() executes CMPIObjectPathFT.getHostname() to
@@ -844,6 +838,7 @@ CMSetHostname (CMPIObjectPath * op, const char *hn)
     @see CMPIObjectPathFT.getHostname()
     @todo OpenPegasus used.
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString *CMGetHostname(
     const CMPIObjectPath * op,
     CMPIStatus * rc)
@@ -855,16 +850,15 @@ _CMPI_INLINE_MOD CMPIString *CMGetHostname(
            ((op)->ft->getHostname((op),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Set the host name component in a CMPIObjectPath object.
      CMSetNameSpace() executes CMPIObjectPathFT.setNameSpace()
      to set @p ns into @p op.
      @param op ObjectPath this pointer.
      @param ns The namespace string
      @return Service return status.
-     @see CMPIObjectPathFT.setNameSpace()
      @todo OpenPegasus used and tested
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus
 CMSetNameSpace (CMPIObjectPath * op, const char *ns)
 {
@@ -875,7 +869,6 @@ CMSetNameSpace (CMPIObjectPath * op, const char *ns)
            ((op)->ft->setNameSpace((op),(n)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get the namespace component from a CMPIObjectPath object.
      CMGetNameSpace() executes CMPIObjectPathFT.getNameSpace().
      @param op Points to CMPIObject.
@@ -884,6 +877,7 @@ CMSetNameSpace (CMPIObjectPath * op, const char *ns)
      @see CMPIObjectPathFT.getNameSpace()
      @todo OpenPegasus used and tested
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString *CMGetNameSpace(
     const CMPIObjectPath * op,
     CMPIStatus * rc)
@@ -895,7 +889,6 @@ _CMPI_INLINE_MOD CMPIString *CMGetNameSpace(
            ((op)->ft->getNameSpace((op),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Set class name component in a CMPIObjectPath object.
     CMSetClassName() executes CMPIObjectPathFT.getNameSpace().
     @param op Points to CMPIObject.
@@ -903,6 +896,7 @@ _CMPI_INLINE_MOD CMPIString *CMGetNameSpace(
     @return Function return status.
     @see CMPIObjectPathFT.getNameSpace()
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMSetClassName(
     CMPIObjectPath * op,
     const char *cn)
@@ -913,8 +907,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetClassName(
 #      define CMSetClassName(op,n) \
            ((op)->ft->setClassName((op),(n)))
 #   endif
-#   ifdef CMPI_INLINE
-/** Get the classname component from CMPIObjectPath.
+/** @brief Get the classname component from CMPIObjectPath.
     CMGetClassName() executes CMPIObjectPathFT.getClassName().
     @param op ObjectPath this pointer.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
@@ -922,6 +915,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetClassName(
     @see CMPIObjectPathFT.getClassName()
     @todo OpenPegasus used and tested.
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString *CMGetClassName(
     const CMPIObjectPath * op,
     CMPIStatus * rc)
@@ -933,7 +927,6 @@ _CMPI_INLINE_MOD CMPIString *CMGetClassName(
            ((op)->ft->getClassName((op),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Add or replace a key binding in a CMPIObjectPath object.
     CMAddKey() executes CMPIObjectPathFT.addKey()
     @param op Points to CMPIObjectPath.
@@ -944,6 +937,7 @@ _CMPI_INLINE_MOD CMPIString *CMGetClassName(
     @see CMPIObjectPathFT.addKey()
     @todo OpenPegasus tested and used
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMAddKey(
     CMPIObjectPath * op,
     const char *name,
@@ -957,7 +951,6 @@ _CMPI_INLINE_MOD CMPIStatus CMAddKey(
            ((op)->ft->addKey((op),(n),(CMPIValue*)(v),(t)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get a key binding in a CMPIObjectPath object by name.
     CMGetKey() executes CMPIObjectPathFT.getKey() to get a
     key binding by name.
@@ -968,6 +961,7 @@ _CMPI_INLINE_MOD CMPIStatus CMAddKey(
     @see CMPIObjectPathFT.getKey()
     @todo OpenPegasus tested and used
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIData CMGetKey(
     const CMPIObjectPath * op,
     const char *name,
@@ -980,7 +974,6 @@ _CMPI_INLINE_MOD CMPIData CMGetKey(
            ((op)->ft->getKey((op),(n),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get a key binding in a CMPIObjectPath object by index.
     CMGetKeyAt() executes CMPIObjectPathFT.getKeyAt() to get a key
     binding defined by @p index.
@@ -989,9 +982,9 @@ _CMPI_INLINE_MOD CMPIData CMGetKey(
     @param[out] name Returned property name (suppressed when NULL).
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return Data value.
-    @see CMPIObjectPathFT.getKeyAt()
     @todo OpenPegasus used and tested
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIData CMGetKeyAt(
     const CMPIObjectPath * op,
     CMPICount index,
@@ -1006,7 +999,6 @@ _CMPI_INLINE_MOD CMPIData CMGetKeyAt(
 #   endif
 
 
-#   ifdef CMPI_INLINE
 /** @brief Get the number of key bindings in a CMPIObjectPath object.
     CMGetKeyCount() executes CMPIObjectPathFT.getKeyCount() to get the
     number of key bindings in a @p op a CMPIObjectPath object.
@@ -1015,6 +1007,7 @@ _CMPI_INLINE_MOD CMPIData CMGetKeyAt(
     @return Number of properties.
     @see CMPIObjectPathFT.getKeyCount()
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPICount CMGetKeyCount(
     const CMPIObjectPath * op,
     CMPIStatus * rc)
@@ -1026,7 +1019,6 @@ _CMPI_INLINE_MOD CMPICount CMGetKeyCount(
            ((op)->ft->getKeyCount((op),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Set/replace the namespace and class name components in a
     CMPIObjectPath object from another CMPIObjectPath object.
     CMSetNameSpaceFromObjectPath() executes
@@ -1034,8 +1026,8 @@ _CMPI_INLINE_MOD CMPICount CMGetKeyCount(
     @param op Points to CMPIObjectPath.
     @param src Source input.
     @return Function return status.
-    @see CMPIObjectPathFT.setNameSpaceFromObjectPath()
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMSetNameSpaceFromObjectPath(
     CMPIObjectPath * op,
     const CMPIObjectPath * src)
@@ -1047,7 +1039,6 @@ _CMPI_INLINE_MOD CMPIStatus CMSetNameSpaceFromObjectPath(
            ((op)->ft->setNameSpaceFromObjectPath((op),(s)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Set host name, namespace, and class name components
      in a CMPIObjectPath object from another CMPIObjectPath
      object.
@@ -1058,6 +1049,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetNameSpaceFromObjectPath(
     @return Function return status.
     @see CMSetHostAndNameSpaceFromObjectPath
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMSetHostAndNameSpaceFromObjectPath(
     CMPIObjectPath * op,
     const CMPIObjectPath * src)
@@ -1069,16 +1061,15 @@ _CMPI_INLINE_MOD CMPIStatus CMSetHostAndNameSpaceFromObjectPath(
            ((op)->ft->setHostAndNameSpaceFromObjectPath((op),(s)))
 #   endif
 
-#ifdef CMPI_INLINE
 /** @brief Get a class qualifier.
     CMGetClassQualifier() executes CMPIObjectPathFT.getClassQualifier().
     @param op Points to CMPIObjectPath.
     @param qName Qualifier name.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return Qualifier value.
-    @see CMPIObjectPathFT.getClassQualifier()
     @todo OpenPegasus Not implemented
 */
+#ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIData CMGetClassQualifier(
     const CMPIObjectPath* op,
     const char *qName,
@@ -1091,7 +1082,6 @@ _CMPI_INLINE_MOD CMPIData CMGetClassQualifier(
         ((op)->ft->getClassQualifier((op),(qName),(rc)))
 #endif
 
-#ifdef CMPI_INLINE
 /** @brief Get a property qualifier.
     CMGetPropertyQualifier() executes CMPIObjectPathFT.getPropertyQualifier()
     @param op Points to CMPIObjectPath.
@@ -1102,6 +1092,7 @@ _CMPI_INLINE_MOD CMPIData CMGetClassQualifier(
     @see CMPIObjectPathFT.getPropertyQualifier()
     @todo OpenPegasus Not implemented
 */
+#ifdef CMPI_INLINE
 _CMPI_INLINE_MOD  CMPIData CMGetPropertyQualifier(
     const CMPIObjectPath* op,
     const char *pName,
@@ -1115,7 +1106,6 @@ _CMPI_INLINE_MOD  CMPIData CMGetPropertyQualifier(
         ((op)->ft->getPropertyQualifier((op),(pName),(qName),(rc)))
 #endif
 
-#ifdef CMPI_INLINE
 /** @brief Get a method qualifier.
     @param op Points to CMPIObjectPath.
     @param methodName Method name.
@@ -1125,6 +1115,7 @@ _CMPI_INLINE_MOD  CMPIData CMGetPropertyQualifier(
     @see CMPIObjectPathFT.getMethodQualifier()
     @todo OpenPegasus Not implemented
 */
+#ifdef CMPI_INLINE
 _CMPI_INLINE_MOD  CMPIData CMGetMethodQualifier(
     const CMPIObjectPath* op,
     const char *methodName,
@@ -1138,7 +1129,6 @@ _CMPI_INLINE_MOD  CMPIData CMGetMethodQualifier(
         ((op)->ft->getMethodQualifier((op),(methodName),(qName),(rc)))
 #endif
 
-#ifdef CMPI_INLINE
 /** @brief Get a parameter qualifier.
     CMGetParameterQualifier() executes CMPIObjectPathFT.getParameterQualifier().
     @param op Points to CMPIObjectPath.
@@ -1147,9 +1137,9 @@ _CMPI_INLINE_MOD  CMPIData CMGetMethodQualifier(
     @param qName Qualifier name.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return Qualifier value.
-    @see CMPIObjectPathFT.getParameterQualifier()
     @todo OpenPegasus Not implemented
 */
+#ifdef CMPI_INLINE
 _CMPI_INLINE_MOD  CMPIData CMGetParameterQualifier(
     const CMPIObjectPath* op,
     const char *mName,
@@ -1168,16 +1158,15 @@ _CMPI_INLINE_MOD  CMPIData CMGetParameterQualifier(
     // CMPIArray macros
 
 
-#   ifdef CMPI_INLINE
 /** @brief Get the number of array elements in a CMPIArray object.
     CMGetArrayCount() executes CMPIArrayFT.getSize().
     Function name is different but not arugments or return.
     @param ar Points to CMPIArray.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return Number of elements.
-    @see CMPIArrayFT.getSize()
     @todo OpenPegasus used and tested
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPICount CMGetArrayCount(
     const CMPIArray * ar,
     CMPIStatus * rc)
@@ -1189,7 +1178,6 @@ _CMPI_INLINE_MOD CMPICount CMGetArrayCount(
            ((ar)->ft->getSize((ar),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get the type of the array elements in a CMPIArray object.
     CMGetArrayType() executes CMPIArrayFT.getSimpleType(). Function names
     are different but arguments and return are the same.
@@ -1199,6 +1187,7 @@ _CMPI_INLINE_MOD CMPICount CMGetArrayCount(
     @see CMPIArrayFT.getSimpleType()
     @todo OpenPegasus used and tested
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIType CMGetArrayType(
     const CMPIArray * ar,
     CMPIStatus * rc)
@@ -1210,16 +1199,15 @@ _CMPI_INLINE_MOD CMPIType CMGetArrayType(
            ((ar)->ft->getSimpleType((ar),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get the value of an array element in a CMPIArray object by index.
     CMGetArrayElementAt() executes CMPIArrayFT.getElementAt().
     @param ar Points to CMPIArray.
     @param index Position in the internal data array.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return CMPIData Element value.
-    @see CMPIArrayFT.getElementAt()
     @todo OpenPegasus used and tested
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIData CMGetArrayElementAt(
     const CMPIArray * ar,
     CMPICount index,
@@ -1232,7 +1220,6 @@ _CMPI_INLINE_MOD CMPIData CMGetArrayElementAt(
            ((ar)->ft->getElementAt((ar),(n),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Set the value of an existing array element in a CMPIArray object
          by index.
     CMSetArrayElementAt() executes CMPIArrayFT.setElementAt().
@@ -1244,6 +1231,7 @@ _CMPI_INLINE_MOD CMPIData CMGetArrayElementAt(
     @see CMPIArrayFT.setElementAt()
     @todo OpenPegasus tested and used
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMSetArrayElementAt(
     CMPIArray * ar,
     CMPICount index,
@@ -1261,7 +1249,6 @@ _CMPI_INLINE_MOD CMPIStatus CMSetArrayElementAt(
     // CMPIArgs macros
 
 
-#   ifdef CMPI_INLINE
 /** @brief Set a method parameter in a CMPIArgs object.
     CMAddArg() executes CMPIArgsFT.addArg() to add or replace a method
     parameter named @p name with the CMPIValue @p value and type @p type
@@ -1271,9 +1258,9 @@ _CMPI_INLINE_MOD CMPIStatus CMSetArrayElementAt(
     @param value Address of value structure.
     @param type Value type.
     @return Service return status.
-    @see CMPIArgsFT.addArg()
     @todo OpenPegasus used and tested
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMAddArg(
     CMPIArgs * as,
     char *name,
@@ -1287,7 +1274,6 @@ _CMPI_INLINE_MOD CMPIStatus CMAddArg(
            ((as)->ft->addArg((as),(n),(CMPIValue*)(v),(t)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get a method parameter in a CMPIArgs object by name.
 
     CMGetArg() executes CMPIArgsFT.getArg() to get a method
@@ -1296,9 +1282,9 @@ _CMPI_INLINE_MOD CMPIStatus CMAddArg(
     @param name Argument name.
     @param rc Output: Service return status (suppressed when NULL).
     @return Argument value.
-    @see  CMPIArgsFT.getArg()
     @todo OpenPegasus used
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIData CMGetArg(
     const CMPIArgs * as,
     const char *name,
@@ -1311,7 +1297,6 @@ _CMPI_INLINE_MOD CMPIData CMGetArg(
            ((as)->ft->getArg((as),(n),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get a method parameter in a CMPIArgs object by index.
     CMGetArgAt() executes CMPIArgsFT.getArgAt() to get an
     argument value from a CMPIArgs object by its index.
@@ -1324,6 +1309,7 @@ _CMPI_INLINE_MOD CMPIData CMGetArg(
     @todo OpenPegasus used
     @todo removed all params and returns
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIData CMGetArgAt(
     const CMPIArgs * as,
     CMPICount index,
@@ -1337,7 +1323,6 @@ _CMPI_INLINE_MOD CMPIData CMGetArgAt(
            ((as)->ft->getArgAt((as),(p),(n),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get number of arguments in a CMPIArgs array.
 
     CMGetArgCount() executes CMPIArgsFT.getArgCount() to get the
@@ -1345,9 +1330,9 @@ _CMPI_INLINE_MOD CMPIData CMGetArgAt(
     @param as Points to CMPIArgs.
     @param rc Output: Service return status (suppressed when NULL).
     @return Number of properties.
-    @see  CMPIArgsFT.getArgCount()
     @todo OpenPegasus used
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPICount CMGetArgCount (const CMPIArgs * as, CMPIStatus * rc)
 {
     return ((as)->ft->getArgCount ((as), (rc)));
@@ -1377,7 +1362,6 @@ _CMPI_INLINE_MOD CMPICount CMGetArgCount (const CMPIArgs * as, CMPIStatus * rc)
 #   define CMGetCharPtr(st) \
         ((char*)(st)->hdl)
 
-#   ifdef CMPI_INLINE
 /** @brief Get a pointer to a C-language string representation of a
          CMPIString object.
     CMGetCharsPtr() executes CMPIStringFT.getCharPtr() to get a pointer
@@ -1386,7 +1370,6 @@ _CMPI_INLINE_MOD CMPICount CMGetArgCount (const CMPIArgs * as, CMPIStatus * rc)
     @param st Points to CMPIString.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return Pointer to char* representation.
-    @see CMPIStringFT.getCharPtr()
     @par Example
     @code(.c)
       CMPIObjectPath *op = NULL;
@@ -1397,6 +1380,7 @@ _CMPI_INLINE_MOD CMPICount CMGetArgCount (const CMPIArgs * as, CMPIStatus * rc)
           &rc);
     @endcode
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD char * CMGetCharsPtr(
     const CMPIString * st,
     CMPIStatus * rc)
@@ -1412,15 +1396,14 @@ _CMPI_INLINE_MOD char * CMGetCharsPtr(
     // CMPIDateTime macros
 
 
-#   ifdef CMPI_INLINE
 /** @brief Get the value of a CMPIDateTime object in the string
          format defined for the CIM datetime type.
     CMGetStringFormat() executes CMPIDateTimeFT.getStringFormat().
     @param dt Points to the CMPIDateTime object.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return DateTime as UTC string.
-    @see CMPIDateTimeFT.getStringFormat()
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString *CMGetStringFormat(
     const CMPIDateTime * dt,
     CMPIStatus * rc)
@@ -1432,7 +1415,6 @@ _CMPI_INLINE_MOD CMPIString *CMGetStringFormat(
            ((dt)->ft->getStringFormat((dt),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get the value of a CMPIDateTime object in binary format.
     CMGetBinaryFormat() executes CMPIDateTimeFT.getBinaryFormat().
     @param dt Points to the CMPIDateTime object.
@@ -1441,6 +1423,7 @@ _CMPI_INLINE_MOD CMPIString *CMGetStringFormat(
     @see CMPIDateTimeFT.getBinaryFormat()
     @todo OpenPegasus used and tested
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIUint64 CMGetBinaryFormat(
     const CMPIDateTime * dt,
     CMPIStatus * rc)
@@ -1452,14 +1435,13 @@ _CMPI_INLINE_MOD CMPIUint64 CMGetBinaryFormat(
            ((dt)->ft->getBinaryFormat((dt),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Test whether a CMPIDateTime object contains an interval value.
     CMIsInterval() executes CMPIDateTimeFT.isInterval().
     @param dt Points to the CMPIDateTime object.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return True if interval value.
-    @see CMPIDateTimeFT.isInterval()
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIBoolean CMIsInterval(
     const CMPIDateTime * dt,
     CMPIStatus * rc)
@@ -1477,15 +1459,15 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsInterval(
 
 #   ifdef CMPI_VER_200
 
-#   ifdef CMPI_INLINE
 /** @brief Get the `ErrorType` attribute of a CMPIError object.
+    CMGetErrorType() executes CMPIErrorFT.getErrorType().
     @param er Points to the CMPIError object.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return CMPIErrorType
-    @see CMPIErrorFT.getErrorType()
     @note Inline code fixed in CMPI 2.1
     @todo OpenPegasus used and tested
  */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIErrorType CMGetErrorType(
     const CMPIError* er,
     CMPIStatus* rc)
@@ -1497,16 +1479,15 @@ _CMPI_INLINE_MOD CMPIErrorType CMGetErrorType(
            ((er)->ft->getErrorType((er),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get the `OtherErrorType` attribute of a CMPIError object.
     CMGetOtherErrorType() executes CMPIErrorFT.getOtherErrorType().
     @param er Points to the CMPIError object.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return A string, which can be NULL
-    @see CMPIErrorFT.getOtherErrorType()
     @note Inline code fixed in CMPI 2.1
     @todo OpenPegasus used and tested macro
  */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString* CMGetOtherErrorType(
     const CMPIError* er,
     CMPIStatus* rc)
@@ -1518,7 +1499,6 @@ _CMPI_INLINE_MOD CMPIString* CMGetOtherErrorType(
            ((er)->ft->getOtherErrorType((er),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get the `OwningEntity` attribute of a CMPIError object.
     CMGetOwningEntity() executes CMPIErrorFT.getOwningEntity().
     @param er Points to the CMPIError object.
@@ -1528,6 +1508,7 @@ _CMPI_INLINE_MOD CMPIString* CMGetOtherErrorType(
     @note Inline code fixed in CMPI 2.1
     @todo OpenPegasus tested
  */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString* CMGetOwningEntity(
     const CMPIError* er, CMPIStatus* rc)
 {
@@ -1538,7 +1519,6 @@ _CMPI_INLINE_MOD CMPIString* CMGetOwningEntity(
            ((er)->ft->getOwningEntity((er),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get the `MessageID` attribute of a CMPIError object.
     @param er Points to the CMPIError object.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
@@ -1547,6 +1527,7 @@ _CMPI_INLINE_MOD CMPIString* CMGetOwningEntity(
     @note Inline code fixed in CMPI 2.1
     @todo OpenPegasus tested.
  */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString* CMGetMessageID(
     const CMPIError* er,
     CMPIStatus* rc)
@@ -1558,16 +1539,15 @@ _CMPI_INLINE_MOD CMPIString* CMGetMessageID(
            ((er)->ft->getMessageID((er),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get the `Message` attribute of a CMPIError object.
     CMGetErrorMessage() executes CMPIErrorFT.getMessage().
     @param er Points to the CMPIError object.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return A string, which can be NULL
-    @see CMPIErrorFT.getMessage()
     @note Inline form corrected in CMPI 2.1
     @todo OpenPegasus tested
     */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString* CMGetErrorMessage(
     const CMPIError* er, CMPIStatus* rc)
 {
@@ -1578,16 +1558,15 @@ _CMPI_INLINE_MOD CMPIString* CMGetErrorMessage(
            ((er)->ft->getMessage((er),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get the `PerceivedSeverity` attribute of a CMPIError object.
     CMGetPerceivedSeverity() executes CMPIErrorFT.getPerceivedSeverity().
     @param er Points to the CMPIError object.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return the perceived severity
-    @see CMPIErrorFT.getPerceivedSeverity()
     @note Inline form corrected in CMPI 2.1
     @todo OpenPegasus tested
  */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIErrorSeverity CMGetPerceivedSeverity(
     const CMPIError* er,
     CMPIStatus* rc)
@@ -1599,16 +1578,15 @@ _CMPI_INLINE_MOD CMPIErrorSeverity CMGetPerceivedSeverity(
            ((er)->ft->getPerceivedSeverity((er),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get the `ProbableCause` attribute of a CMPIError object.
     CMGetProbableCause() executes CMPIErrorFT.getProbableCause().
     @param er Points to the CMPIError object.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return A probable cause value
-    @see CMPIErrorFT.getProbableCause()
     @note Inline form corrected in CMPI 2.1
     @todo OpenPegasus tested
  */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIErrorProbableCause CMGetProbableCause(
     const CMPIError* er,
     CMPIStatus* rc)
@@ -1620,7 +1598,6 @@ _CMPI_INLINE_MOD CMPIErrorProbableCause CMGetProbableCause(
            ((er)->ft->getProbableCause((er),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get the `ProbableCauseDescription` attribute of a CMPIError object.
     getProbableCauseDescription() executes
     CMPIErrorFT.getProbableCauseDescription().
@@ -1631,6 +1608,7 @@ _CMPI_INLINE_MOD CMPIErrorProbableCause CMGetProbableCause(
     @note Inline form corrected in CMPI 2.1
     @todo OpenPegasus tested
  */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString* CMGetProbableCauseDescription(
     const CMPIError* er,
     CMPIStatus* rc)
@@ -1642,16 +1620,15 @@ _CMPI_INLINE_MOD CMPIString* CMGetProbableCauseDescription(
            ((er)->ft->getProbableCauseDescription((er),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get the `RecommendedActions` array attribute of a CMPIError object.
     CMGetRecommendedActions() executes CMPIErrorFT.getRecommendedActions().
     @param er Points to the CMPIError object.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return A array of strings, which can be NULL
-    @see CMPIErrorFT.getRecommendedActions()
     @note Inline form corrected in CMPI 2.1
     @todo OpenPegasus tested
  */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIArray* CMGetRecommendedActions(
     const CMPIError* er,
     CMPIStatus* rc)
@@ -1663,16 +1640,15 @@ _CMPI_INLINE_MOD CMPIArray* CMGetRecommendedActions(
            ((er)->ft->getRecommendedActions((er),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get the `ErrorSource` attribute of a CMPIError object.
     CMGetErrorSource executes CMPIErrorFT.getErrorSource().
     @param er Points to the CMPIError object.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return A string, which can be NULL
-    @see CMPIErrorFT.getErrorSource()
     @note Inline form corrected in CMPI 2.1
     @todo OpenPegasus tested
  */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString* CMGetErrorSource(
     const CMPIError* er, CMPIStatus* rc)
 {
@@ -1683,7 +1659,6 @@ _CMPI_INLINE_MOD CMPIString* CMGetErrorSource(
            ((er)->ft->CMGetErrorSourcegetErrorSource((er),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get the `ErrorSourceFormat` attribute of a CMPIError object.
     CMGetErrorSourceFormat() executes CMPIErrorFT.getErrorSourceFormat().
     @param er Points to the CMPIError object.
@@ -1693,6 +1668,7 @@ _CMPI_INLINE_MOD CMPIString* CMGetErrorSource(
     @note Inline form corrected in CMPI 2.1
     @todo OpenPegasus tested
  */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIErrorSrcFormat CMGetErrorSourceFormat(
     const CMPIError* er,
     CMPIStatus* rc)
@@ -1704,17 +1680,16 @@ _CMPI_INLINE_MOD CMPIErrorSrcFormat CMGetErrorSourceFormat(
            ((er)->ft->getErrorSourceFormat((er),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get the `OtherErrorSourceFormat` attribute of a CMPIError object.
     CMGetOtherErrorSourceFormat() executes
     CMPIErrorFT.getOtherErrorSourceFormat().
     @param er Points to the CMPIError object.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return A string, which can be NULL
-    @see CMPIErrorFT.getOtherErrorSourceFormat()
     @note Inline form corrected in CMPI 2.1
     @todo OpenPegasus tested
  */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString* CMGetOtherErrorSourceFormat(
     const CMPIError* er,
     CMPIStatus* rc)
@@ -1726,7 +1701,6 @@ _CMPI_INLINE_MOD CMPIString* CMGetOtherErrorSourceFormat(
            ((er)->ft->getOtherErrorSourceFormat((er),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get the `CIMStatusCode` attribute of a CMPIError object.
     CMGetCIMStatusCode() executes CMPIErrorFT.getCIMStatusCode().
     @param er Points to the CMPIError object.
@@ -1736,6 +1710,7 @@ _CMPI_INLINE_MOD CMPIString* CMGetOtherErrorSourceFormat(
     @note Inline form corrected in CMPI 2.1
     @todo OpenPegasus tested
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIrc CMGetCIMStatusCode(const CMPIError* er, CMPIStatus* rc)
 {
     return ((er)->ft->getCIMStatusCode ((er), (rc)));
@@ -1745,16 +1720,15 @@ _CMPI_INLINE_MOD CMPIrc CMGetCIMStatusCode(const CMPIError* er, CMPIStatus* rc)
            ((er)->ft->getCIMStatusCode((er),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get `CIMStatusCodeDescription` attribute of a CMPIError object.
     CMGetCIMStatusCodeDescription() executes
         CMPIErrorFT.getCIMStatusCodeDescription().
     @param er Points to the CMPIError object.
     @param rc Output: Service return status (suppressed when NULL).
     @return A string, which can be NULL
-    @see CMPIErrorFT.getCIMStatusCodeDescription()
     @note Inline form corrected in CMPI 2.1
  */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString* CMGetCIMStatusCodeDescription(
     const CMPIError* er,
     CMPIStatus* rc)
@@ -1766,8 +1740,6 @@ _CMPI_INLINE_MOD CMPIString* CMGetCIMStatusCodeDescription(
            ((er)->ft->getCIMStatusCodeDescription((er),(rc)))
 #   endif
 
-// KS_TODO Furtherest point updated
-#   ifdef CMPI_INLINE
 /** @brief Get the `MessageArguments` array attribute of a CMPIError object.
     @param er Points to the CMPIError object.
     @param rc Output: Serbice return status (surpressed when NULL)
@@ -1775,6 +1747,7 @@ _CMPI_INLINE_MOD CMPIString* CMGetCIMStatusCodeDescription(
     @see CMPIErrorFT.getMessageArguments()
     @note Inline form corrected in CMPI 2.1
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIArray* CMGetMessageArguments(
     const CMPIError* er,
     CMPIStatus* rc)
@@ -1787,7 +1760,9 @@ _CMPI_INLINE_MOD CMPIArray* CMGetMessageArguments(
 #   endif
 
 #   ifdef CMPI_INLINE
-/** Sets the error type of this error object.
+/** @brief Sets the error type of this error object.
+    CMSetErrorType() executesCMPIErrorFT.setErrorType() with corresponding
+    arguments.
     @param er Points to the CMPIError object.
     @param et The error type
     @return Output: Service return status
@@ -1805,7 +1780,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetErrorType(
            ((er)->ft->setErrorType((er),(et)))
 #   endif
 
-#   ifdef CMPI_INLINE
+// KS_TODO Furthest point updated
 /** Sets the 'other' error type of this error object.
     @param er Points to the CMPIError object.
     @param oet A string which describes the error type, it is only valis when
@@ -1814,6 +1789,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetErrorType(
     @see CMPIErrorFT.setOtherErrorType()
     @note Inline form corrected in CMPI 2.1
  */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMSetOtherErrorType(
     CMPIError* er,
     const char * oet)
@@ -1825,7 +1801,6 @@ _CMPI_INLINE_MOD CMPIStatus CMSetOtherErrorType(
            ((er)->ft->setOtherErrorType((er),(oet)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** Sets the description of the probable cause.
     @param er Points to the CMPIError object.
     @param pcd The probable cause string
@@ -1833,6 +1808,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetOtherErrorType(
     @see CMPIErrorFT.setProbableCauseDescription()
     @note Inline form corrected in CMPI 2.1
  */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMSetProbableCauseDescription(
     CMPIError* er,
     const char * pcd)
@@ -1844,7 +1820,6 @@ _CMPI_INLINE_MOD CMPIStatus CMSetProbableCauseDescription(
            ((er)->ft->setProbableCauseDescription((er),(pcd)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** Sets the recomended actions array.
     @param er Points to the CMPIError object.
     @param ra An array of strings describing actions that shoudl
@@ -1853,6 +1828,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetProbableCauseDescription(
     @see CMPIErrorFT.setRecommendedActions()
     @note Inline form corrected in CMPI 2.1
  */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMSetRecommendedActions(
     CMPIError* er,
     const CMPIArray* ra)
@@ -1864,7 +1840,6 @@ _CMPI_INLINE_MOD CMPIStatus CMSetRecommendedActions(
            ((er)->ft->setRecommendedActions((er),(ra)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** Specifies a string which specifes The identifying information of the entity
     (i.e., the instance) generating the error.
     @param er Points to the CMPIError object.
@@ -1873,6 +1848,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetRecommendedActions(
     @see CMPIErrorFT.setErrorSource()
     @note Inline form corrected in CMPI 2.1
  */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMSetErrorSource(
     const CMPIError* er,
     const char* es);
@@ -1884,7 +1860,6 @@ _CMPI_INLINE_MOD CMPIStatus CMSetErrorSource(
            ((er)->ft->setErrorSource((er),(es)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** Sets the source format of the error object
     @param er Points to the CMPIError object.
     @param esf the string which describes the source format
@@ -1892,6 +1867,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetErrorSource(
     @see CMPIErrorFT.setErrorSourceFormat()
     @note Inline form corrected in CMPI 2.1
  */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMSetErrorSourceFormat(
     CMPIError* er,
     const CMPIErrorSrcFormat esf);
@@ -1903,7 +1879,6 @@ _CMPI_INLINE_MOD CMPIStatus CMSetErrorSourceFormat(
            ((er)->ft->setErrorSourceFormat((er),(esf)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** Specifies A string defining "Other" values for ErrorSourceFormat.
 
     @param er Points to the CMPIError object.
@@ -1912,6 +1887,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetErrorSourceFormat(
     @see CMPIErrorFT.setOtherErrorSourceFormat()
     @note Inline form corrected in CMPI 2.1
  */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMSetOtherErrorSourceFormat(
     CMPIError* er,
     const char* oef)
@@ -1923,7 +1899,6 @@ _CMPI_INLINE_MOD CMPIStatus CMSetOtherErrorSourceFormat(
            ((er)->ft->setOtherErrorSourceFormat((er),(oef)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** Sets the description of the status code.
     @param er Points to the CMPIError object.
     @param scd A string whcih describes the status code.
@@ -1931,6 +1906,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetOtherErrorSourceFormat(
     @see CMPIErrorFT.setCIMStatusCodeDescription()
     @note Inline form corrected in CMPI 2.1
  */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMSetCIMStatusCodeDescription(
     CMPIError* er,
     const char* scd);
@@ -1942,7 +1918,6 @@ _CMPI_INLINE_MOD CMPIStatus CMSetCIMStatusCodeDescription(
            ((er)->ft->setCIMStatusCodeDescription((er),(scd)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** Sets an array of strings for the dynamic content of the message
     @param er Points to the CMPIError object.
     @param values Specifies an array of CMPIStrings containing the dynamic
@@ -1951,6 +1926,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetCIMStatusCodeDescription(
     @see CMPIErrorFT.setCIMMessageArguments()
     @note Inline form corrected in CMPI 2.1
  */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMSetMessageArguments(CMPIError* er,
                                                   CMPIArray* values)
 {
@@ -1967,13 +1943,13 @@ _CMPI_INLINE_MOD CMPIStatus CMSetMessageArguments(CMPIError* er,
     // CMPIEnumeration Macros
 
 
-#   ifdef CMPI_INLINE
 /** Get the next element of this Enumeration.
     @param en Points to the CMPIEnumeration object.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return Element value.
     @see CMPIEnumerationFT.getNext()
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIData CMGetNext(
     const CMPIEnumeration * en,
     CMPIStatus * rc)
@@ -1985,16 +1961,16 @@ _CMPI_INLINE_MOD CMPIData CMGetNext(
            ((en)->ft->getNext((en),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Test for any elements left in this Enumeration.
 
     CMHasNext() executes CMPIEnumerationFt.hasNext() that
     tests for any elements left in @p en the CMPIEnumeration object.
     @param en Points to the CMPIEnumeration object.
-    @param rc Output: Service return status (suppressed when NULL).
+    @param[out] rc Service return status (suppressed
+          when NULL).
     @return True or false.
-    @see CMPIEnumerationFT.hasNext()
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIBoolean CMHasNext(
    const CMPIEnumeration * en,
    CMPIStatus * rc)
@@ -2006,7 +1982,6 @@ _CMPI_INLINE_MOD CMPIBoolean CMHasNext(
            ((en)->ft->hasNext((en),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Convert a CMPIEnumeration object to a CMPIArray object.
 
     CMToArray() executes CMPIEnumerationFT.toArray() converts the
@@ -2016,6 +1991,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMHasNext(
      @return The Array.
     @see CMPIEnumerationFT.toArray()
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIArray *CMToArray(
    const CMPIEnumeration * en,
    CMPIStatus * rc)
@@ -2031,7 +2007,6 @@ _CMPI_INLINE_MOD CMPIArray *CMToArray(
    // CMPIResult Macros
 
 
-#   ifdef CMPI_INLINE
 /** Return a value/type pair.
     @param rslt Points to CMPIResult.
     @param value Address of a Value object.
@@ -2039,6 +2014,7 @@ _CMPI_INLINE_MOD CMPIArray *CMToArray(
     @return Service return status.
     @see CMPIResultFT.returnData()
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMReturnData(
     const CMPIResult * rslt,
     const CMPIValue * value,
@@ -2051,13 +2027,13 @@ _CMPI_INLINE_MOD CMPIStatus CMReturnData(
            ((rslt)->ft->returnData((rslt),(CMPIValue*)(v),(t)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** Return a Instance object.
     @param rslt Points to CMPIResult.
     @param inst Instance to be returned.
     @return Service return status.
     @see CMPIResultFT.returnInstance()
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMReturnInstance(
     const CMPIResult * rslt,
     const CMPIInstance * inst)
@@ -2069,13 +2045,13 @@ _CMPI_INLINE_MOD CMPIStatus CMReturnInstance(
            ((rslt)->ft->returnInstance((rslt),(i)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** Return a ObjectPath object..
     @param rslt Points to CMPIResult.
     @param ref ObjectPath to be returned.
     @return Service return status.
     @see CMPIResultFT.returnObjectPath()
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMReturnObjectPath(
     const CMPIResult * rslt,
     const CMPIObjectPath * ref)
@@ -2087,12 +2063,12 @@ _CMPI_INLINE_MOD CMPIStatus CMReturnObjectPath(
            ((rslt)->ft->returnObjectPath((rslt),(o)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** Indicates no further data to be returned.
     @param rslt Points to CMPIResult.
     @return Service return status.
     @see CMPIResultFT.returnDone()
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMReturnDone(const CMPIResult * rslt)
 {
   return ((rslt)->ft->returnDone ((rslt)));
@@ -2103,13 +2079,13 @@ _CMPI_INLINE_MOD CMPIStatus CMReturnDone(const CMPIResult * rslt)
 #   endif
 
 #   ifdef CMPI_VER_200
-#   ifdef CMPI_INLINE
 /** Return a CMPIError object instance
     @param rslt Points to CMPIResult.
     @param er Error to be returned.
     @return Service return status.
     @see CMPIResultFT.returnError()
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMReturnError(
     const CMPIResult* rslt,
     const CMPIError* er)
@@ -2126,7 +2102,6 @@ _CMPI_INLINE_MOD CMPIStatus CMReturnError(
     // CMPIContext Macros
 
 
-#   ifdef CMPI_INLINE
 /** Gets a named Context entry value.
      @param ctx Points to CMPIContext.
      @param name Context entry name.
@@ -2134,6 +2109,7 @@ _CMPI_INLINE_MOD CMPIStatus CMReturnError(
      @return Entry value.
      @see CMPIContextFT.getEntry()
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIData CMGetContextEntry(
     const CMPIContext * ctx,
     const char *name,
@@ -2146,7 +2122,6 @@ _CMPI_INLINE_MOD CMPIData CMGetContextEntry(
            ((ctx)->ft->getEntry((ctx),(n),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** Gets a Context entry value defined by its index.
     @param ctx Points to CMPIContext.
     @param index Position in the internal Data array.
@@ -2155,6 +2130,7 @@ _CMPI_INLINE_MOD CMPIData CMGetContextEntry(
     @return Entry value.
     @see CMPIContextFT.getEntryAt()
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIData CMGetContextEntryAt(
     const CMPIContext * ctx,
     CMPICount index,
@@ -2168,7 +2144,6 @@ _CMPI_INLINE_MOD CMPIData CMGetContextEntryAt(
            ((ctx)->ft->getEntryAt((ctx),(p),(n),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** Gets the number of entries contained in this Context.
      @param ctx Points to CMPIContext.
      @param[out] rc Function return CMPIStatus (suppressed when NULL).
@@ -2176,6 +2151,7 @@ _CMPI_INLINE_MOD CMPIData CMGetContextEntryAt(
     @return Entry value.
     @see CMPIContextFT.getEntryCount()
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPICount CMGetContextEntryCount(
     const CMPIContext * ctx,
     CMPIStatus * rc)
@@ -2187,7 +2163,6 @@ _CMPI_INLINE_MOD CMPICount CMGetContextEntryCount(
            ((ctx)->ft->getEntryCount((ctx),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Add or replace a context entry in a CMPIContext object.
      CMAddContextEntry() executes CMPIContextFT.addEntry().
      @param ctx Points to CMPIContext.
@@ -2195,9 +2170,9 @@ _CMPI_INLINE_MOD CMPICount CMGetContextEntryCount(
      @param value Address of value structure.
      @param type Value type.
      @return Service return status.
-    @see CMPIContextFT.addEntry()
     @todo OpenPegasus used
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMAddContextEntry(
     const CMPIContext * ctx,
     const char *name,
@@ -2215,15 +2190,14 @@ _CMPI_INLINE_MOD CMPIStatus CMAddContextEntry(
     // CMPISelectExp macros
 
 
-#   ifdef CMPI_INLINE
 /** @brief Add or replace a context entry in a CMPIContext object.
      CMGetSelExpString() executes CMPISelectExpFT.getString().
      @param se SelectExp this pointer.
      @param[out] rc Function return CMPIStatus (suppressed when NULL).
      @return The select expression.
-     @see CMPISelectExpFT.getString()
      @todo OpenPegasus tested
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString *CMGetSelExpString(
     const CMPISelectExp * se,
     CMPIStatus * rc)
@@ -2235,7 +2209,6 @@ _CMPI_INLINE_MOD CMPIString *CMGetSelExpString(
            ((se)->ft->getString((se),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Test whether an instance matches the select expression in a
          CMPISelectExp object.
     CMEvaluateSelExp() executes CMPISelectExpFT.evaluate().
@@ -2246,6 +2219,7 @@ _CMPI_INLINE_MOD CMPIString *CMGetSelExpString(
     @see CMPISelectExpFT.evaluate()
     @todo OpenPegasus used
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIBoolean CMEvaluateSelExp(
     const CMPISelectExp * se,
     const CMPIInstance * inst,
@@ -2259,19 +2233,18 @@ _CMPI_INLINE_MOD CMPIBoolean CMEvaluateSelExp(
 #   endif
 
 #   ifdef CMPI_VER_87
-#   ifdef CMPI_INLINE
 /** @brief Test whether the properties returned by an accessor
         function match the select expression in a CMPISelectExp object.
     CMEvaluateSelExpUsingAccessor executes
-        CMPISelectExpFT.evaluateUsingAccessor()
+        CMPISelectExpFT.evaluateUsingAccessor().
     @param se SelectExp this pointer.
     @param accessor Data accessor routine to be used.
     @param parm Data accessor parameter.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return True or false incicator.
-    @see CMPISelectExpFT.evaluateUsingAccessor()
     @todo OpenPegasus used
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIBoolean CMEvaluateSelExpUsingAccessor(
     const CMPISelectExp * se,
     CMPIAccessor * accessor,
@@ -2286,16 +2259,15 @@ _CMPI_INLINE_MOD CMPIBoolean CMEvaluateSelExpUsingAccessor(
 #   endif
 #   endif /* CMPI_VER_87 */
 
-#   ifdef CMPI_INLINE
 /** @brief Get the select expression in a CMPISelectExp object
          as a disjunction of conjunctions.
     CMGetDoc() executes CMPISelectExpFT.getDoc().
      @param se SelectExp this pointer.
      @param[out] rc Function return CMPIStatus (suppressed when NULL).
      @return The disjunction.
-     @see CMPISelectExpFT.getDoc()
      @todo OpenPegasus used
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPISelectCond *CMGetDoc(
     const CMPISelectExp * se,
     CMPIStatus * rc)
@@ -2307,7 +2279,6 @@ _CMPI_INLINE_MOD CMPISelectCond *CMGetDoc(
            ((se)->ft->getDOC((se),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get the select expression in a CMPISelectExp object as
          a conjunction of disjunctions.
      CMGetCod executes CMPISelectExpFT.getCOD().
@@ -2317,6 +2288,7 @@ _CMPI_INLINE_MOD CMPISelectCond *CMGetDoc(
      @see CMPISelectExpFT.getCOD()
      @see OpenPegasus used
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPISelectCond *CMGetCod(
     const CMPISelectExp * se,
     CMPIStatus * rc)
@@ -2332,7 +2304,6 @@ _CMPI_INLINE_MOD CMPISelectCond *CMGetCod(
     // CMPISelectCond macros
 
 
-#   ifdef CMPI_INLINE
 /** @brief Get the number and type of subconditions in a CMPISelectCond object.
     Optionally, the CMPISelectCond type (COD or DOC) will be returned.
     CMGetSubCondCountAndType
@@ -2343,6 +2314,7 @@ _CMPI_INLINE_MOD CMPISelectCond *CMGetCod(
     @see CMPISelectCondFT.getCountAndType()
     @todo OpenPegasus tested
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPICount CMGetSubCondCountAndType(
     const CMPISelectCond * sc,
     int * type,
@@ -2355,16 +2327,15 @@ _CMPI_INLINE_MOD CMPICount CMGetSubCondCountAndType(
            ((sc)->ft->getCountAndType((sc),(t),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get a subcondition in a CMPISelectCond object by index.
     CMGetSubCondAt() executes CMPISelectCondFT.getSubCondAt().
     @param sc SelectCond this pointer.
     @param index Position in the internal SubCoind array.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return The indexed SubCond element.
-    @see CMPISelectCondFT.getSubCondAt()
     @todo OpenPegasus tested
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPISubCond *CMGetSubCondAt(
     const CMPISelectCond * sc,
     CMPICount index,
@@ -2381,7 +2352,6 @@ _CMPI_INLINE_MOD CMPISubCond *CMGetSubCondAt(
     // CMPISubCond macros
 
 
-#   ifdef CMPI_INLINE
 /** @brief Get the number of predicates in a CMPISubCond object.
     CMGetPredicateCount() executes CMPISubCondFT.getCount().
     @param sc SubCond this pointer.
@@ -2390,6 +2360,7 @@ _CMPI_INLINE_MOD CMPISubCond *CMGetSubCondAt(
     @see CMPISubCondFT.getCount()
     @todo OpenPegasus tested
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPICount CMGetPredicateCount(
     const CMPISubCond * sc,
     CMPIStatus * rc)
@@ -2401,16 +2372,15 @@ _CMPI_INLINE_MOD CMPICount CMGetPredicateCount(
            ((sc)->ft->getCount((sc),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get a predicate in a CMPISubCond object by index.
     CMGetPredicateAt() executes CMPISubCondFT.getPredicateAt().
     @param sc SubCond this pointer.
     @param index Position in the internal Predicate array.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return The indexed Predicate element.
-    @see CMPISubCondFT.getPredicateAt()
     @todo OpenPegasus tested
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIPredicate *CMGetPredicateAt(
     const CMPISubCond * sc,
     CMPICount index,
@@ -2423,7 +2393,6 @@ _CMPI_INLINE_MOD CMPIPredicate *CMGetPredicateAt(
            ((sc)->ft->getPredicateAt((sc),(p),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get a predicate in a CMPISubCond object by name.
     CMGetPredicate() executes CMPISubCondFT.getPredicate().
     @param sc SubCond this pointer.
@@ -2433,6 +2402,7 @@ _CMPI_INLINE_MOD CMPIPredicate *CMGetPredicateAt(
     @see CMPISubCondFT.getPredicate()
     @todo OpenPegasus tested
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIPredicate *CMGetPredicate(
     const CMPISubCond * sc,
     const char *name,
@@ -2449,7 +2419,6 @@ _CMPI_INLINE_MOD CMPIPredicate *CMGetPredicate(
     // CMPIPredicate macros
 
 
-#   ifdef CMPI_INLINE
 /** @brief Get the predicate components of a CMPIPredicate object.
     CMGetPredicateData() executes CMPIPredicateFT.getData().
     @param pr Predicate this pointer.
@@ -2458,9 +2427,9 @@ _CMPI_INLINE_MOD CMPIPredicate *CMGetPredicate(
     @param[out] lhs Left hand side of predicate.
     @param[out] rhs Right hand side of predicate.
     @return Service return status.
-    @see CMPIPredicateFT.getData()
     @todo OpenPegasus tested
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMGetPredicateData(
     const CMPIPredicate * pr,
     CMPIType * type,
@@ -2476,7 +2445,6 @@ _CMPI_INLINE_MOD CMPIStatus CMGetPredicateData(
 #   endif
 
 #   if defined(CMPI_VER_87) && !defined(CMPI_VER_100)
-#   ifdef CMPI_INLINE
 /** @brief KS_TODO
     @CMEvaluatePredicateparam pr Predicate this pointer.
     @param type Property type.
@@ -2488,6 +2456,7 @@ _CMPI_INLINE_MOD CMPIStatus CMGetPredicateData(
     go since there is a macro. see
     TestProviders/CMPI/TestUtilLib/cmpiUtilLib.c
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD   int CMEvaluatePredicate(
     CMPIPredicate* pr,
     void* value,
@@ -2503,7 +2472,6 @@ _CMPI_INLINE_MOD   int CMEvaluatePredicate(
 #   endif /* CMPI_VER_87 && !CMPI_VER_100 */
 
 #   ifdef CMPI_VER_100
-#   ifdef CMPI_INLINE
 /** @brief Test whether the properties returned by an accessor
          function match the predicate in a CMPIPredicate object.
     CMEvaluatePredicateUsingAccessor() executes
@@ -2513,9 +2481,9 @@ _CMPI_INLINE_MOD   int CMEvaluatePredicate(
     @param parm Data accessor parameter.
     @param [out] rc Function return CMPIStatus (suppressed when NULL).
     @return Evaluation result.
-    @see CMPIPredicateFT.evaluateUsingAccessor()
     @note Return type modified from int to CMPIBoolean in CMPI 2.1
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIBoolean CMEvaluatePredicateUsingAccessor(
     const CMPIPredicate * pr,
     CMPIAccessor * accessorFnc,
@@ -2537,17 +2505,16 @@ _CMPI_INLINE_MOD CMPIBoolean CMEvaluatePredicateUsingAccessor(
  * @{
  */
 
-#   ifdef CMPI_INLINE
 /** @brief Create a new CMPIInstance object initialized to a given instance
          path.
 
-    CBNewInstance() convenience function executes CMPIBrokerEncFT.newInstance()
+    CBNewInstance() executes CMPIBrokerEncFT.newInstance()
     with same arguments
     @param mb Points to CMPIBroker.
     @param instPath CMPIObjectPath containing namespace and classname.
-    @param rc Output: Function return status (suppressed when NULL).
+    @param[out] rc Function return status (suppressed when
+          NULL).
     @return Newly created Instance.
-    @see CMPIBrokerEncFT.newInstance()
     @par Example
     @code(.c)
     CMPIStatus testProvEnumInstances
@@ -2577,6 +2544,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMEvaluatePredicateUsingAccessor(
     }
     @endcode
  */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIInstance * CMNewInstance (
     const CMPIBroker * mb,
     const CMPIObjectPath * instPath,
@@ -2589,14 +2557,16 @@ _CMPI_INLINE_MOD CMPIInstance * CMNewInstance (
            ((b)->eft->newInstance((mb),(instPath),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Create a new CMPIObjectPath initialized to a given namespace and
          class name
 
-    CMNewObjectPath() convenience function executes
+    CMNewObjectPath() executes
     CMPIBrokerEncFt.newObjectPath() to create a new CMPIObjectPath.
 
-    @see CMPIBrokerEncFT.newObjectPath()
+    @param mb Points to CMPIBroker.
+    @param ns namespace
+    @param cn class name
+    @param[out] rc Function return status (suppressed when NULL).
     @par Example
     @code(.c)
       const char* class = "myClass";
@@ -2606,8 +2576,8 @@ _CMPI_INLINE_MOD CMPIInstance * CMNewInstance (
       assert ( rc.rc == CMPI_RC_OK);
       CMAddKey (objPath, "ElementName", (CMPIValue *) class, CMPI_chars);
     @endcode
-
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIObjectPath * CMNewObjectPath (
     const CMPIBroker * mb,
     const char *ns,
@@ -2621,15 +2591,14 @@ _CMPI_INLINE_MOD CMPIObjectPath * CMNewObjectPath (
            ((mb)->eft->newObjectPath((mb),(n),(c),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Create a new CMPIString object initialized from a C string.
 
     CMNewString() convenience function executes CMPIBrokerEncFt.newString()
     to create a new CMPIString object that is initialized from  @p data a
     C-language string.
 
-    @see CMPIBrokerEncFT.newString()
     @par Example
+    @todo add params
     @code(.c)
 
         CMPIString1 *cmpiStr;
@@ -2640,6 +2609,7 @@ _CMPI_INLINE_MOD CMPIObjectPath * CMNewObjectPath (
         // test rc for OK
     @endcode
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString * CMNewString (
     const CMPIBroker * mb,
     const char *data,
@@ -2652,7 +2622,6 @@ _CMPI_INLINE_MOD CMPIString * CMNewString (
            ((mb)->eft->newString((mb),(s),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Create a new CMPIArgs object initialized to have no method
          parameters.
     CMNewArgs() executes CMPIBrokerEncFT.newArgs() to create a new
@@ -2660,7 +2629,6 @@ _CMPI_INLINE_MOD CMPIString * CMNewString (
     @param mb Points to CMPIBroker.
     @param[out] rc Function return status (suppressed when NULL).
     @return Newly created CMPIArgs object or NULL.
-    @see CMPIBrokerEncFT.newArgs()
     @par Example
     @code(.c)
         CMPIArgs* args_ptr = NULL;
@@ -2668,6 +2636,7 @@ _CMPI_INLINE_MOD CMPIString * CMNewString (
         args_ptr = CMNewArgs(_broker, &rc);
     @endcode
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIArgs * CMNewArgs (const CMPIBroker * mb, CMPIStatus * rc)
 {
   return ((mb)->eft->newArgs ((mb), (rc)));
@@ -2677,7 +2646,6 @@ _CMPI_INLINE_MOD CMPIArgs * CMNewArgs (const CMPIBroker * mb, CMPIStatus * rc)
            ((mb)->eft->newArgs((mb),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** Create a new CMPIArray object of a given fixed array size for a
          given type of elements.
     CMNewArray() executes CMPIBrokerEncFT.newArray() to create a new
@@ -2687,10 +2655,10 @@ _CMPI_INLINE_MOD CMPIArgs * CMNewArgs (const CMPIBroker * mb, CMPIStatus * rc)
     @param type Element type
     @param[out] rc Function return status (suppressed when NULL).
     @return Newly created Array or NULL.
-    @see CMPIBrokerEncFT.newArray()
     @todo KS confirm what size means
     @todo OpenPegasus OK. tested in cmpiTestMethodProvider.c
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIArray * CMNewArray (
     const CMPIBroker * mb,
     CMPICount size,
@@ -2704,7 +2672,6 @@ _CMPI_INLINE_MOD CMPIArray * CMNewArray (
            ((mb)->eft->newArray((mb),(c),(t),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Create a new CMPIDataTime object with current date and time.
 
     CBNewDateTime() executes CMPIBrokerEncFT.newDateTime() to create a
@@ -2712,8 +2679,8 @@ _CMPI_INLINE_MOD CMPIArray * CMNewArray (
     @param mb Pointer to CMPIBroker
     @param[out] rc Function return status (suppressed when NULL).
     @return The newly created DateTime or NULL.
-    @see CMPIBrokerEncFT.newDateTime()
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIDateTime * CMNewDateTime (
     const CMPIBroker * mb,
     CMPIStatus * rc)
@@ -2725,7 +2692,6 @@ _CMPI_INLINE_MOD CMPIDateTime * CMNewDateTime (
            ((mb)->eft->newDateTime((mb),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Create a new CMPIDateTime object initialized to a specific value.
 
     CMNewDateTimeFromBinary() executes CMPIBrokerEncFT.newDateTimeFromBinary()
@@ -2740,6 +2706,7 @@ _CMPI_INLINE_MOD CMPIDateTime * CMNewDateTime (
      @return The newly created DateTime or NULL.
      @see CMPIBrokerEncFT.newDateTimeFromBinary()
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIDateTime *CMNewDateTimeFromBinary(
     const CMPIBroker * mb,
     CMPIUint64 binTime,
@@ -2754,7 +2721,6 @@ _CMPI_INLINE_MOD CMPIDateTime *CMNewDateTimeFromBinary(
                       ((mb)->eft->newDateTimeFromBinary((mb),(d),(i),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Create a new CMPIDateTime object initialized from input.
     @param mb Points to CMPIBroker.
     @param datetime Date/Time definition in UTC format
@@ -2762,6 +2728,7 @@ _CMPI_INLINE_MOD CMPIDateTime *CMNewDateTimeFromBinary(
     @return The newly created DateTime or NULL.
     @see CMPIBrokerEncFT.newDateTimeFromChars()
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIDateTime *CMNewDateTimeFromChars(
     const CMPIBroker * mb,
     const char *datetime,
@@ -2774,7 +2741,6 @@ _CMPI_INLINE_MOD CMPIDateTime *CMNewDateTimeFromChars(
            ((mb)->eft->newDateTimeFromChars((mb),(d),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Create a new CMPISelectExp object initialized from a select
          expression.
 
@@ -2786,8 +2752,8 @@ _CMPI_INLINE_MOD CMPIDateTime *CMNewDateTimeFromChars(
      @param[out] projection Projection specification (suppressed when NULL).
      @param[out] rc Function return CMPIStatus (suppressed when NULL).
      @return The newly created SelectExp or NULL.
-     @see CMPIBrokerEncFT.newSelectExp()
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPISelectExp *CMNewSelectExp(
     const CMPIBroker * mb,
     const char *query,
@@ -2803,7 +2769,6 @@ _CMPI_INLINE_MOD CMPISelectExp *CMNewSelectExp(
            ((mb)->eft->newSelectExp((mb),(q),(l),(p),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Test whether a class path is of a specified class or any of its
         subclasses.
 
@@ -2816,11 +2781,11 @@ _CMPI_INLINE_MOD CMPISelectExp *CMNewSelectExp(
      @return
          @li True if test successful.
          @li False otherwise.
-     @see CMPIBrokerEncFT.classPathIsA()
      @version. The className argument was named type and documented incorrectly
      prior to version 2.1.  The code did execute correctly
      @todo no test for this in OpenPegasus
      */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIBoolean CMClassPathIsA(
     const CMPIBroker * mb,
     const CMPIObjectPath * classPath,
@@ -2838,7 +2803,6 @@ _CMPI_INLINE_MOD CMPIBoolean CMClassPathIsA(
     // Debugging macros
 
 
-#   ifdef CMPI_INLINE
 /** @brief Convert CMPI encapsulated data type object into a string
          representation.
 
@@ -2850,8 +2814,8 @@ _CMPI_INLINE_MOD CMPIBoolean CMClassPathIsA(
      @param object A valid CMPI encapsulated data type object.
      @param[out] rc Function return CMPIStatus (suppressed when NULL).
      @return String from representation of @p object or NULL.
-     @see CMPIBrokerEncFT.toString()
      */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString *CDToString(
     const CMPIBroker * mb,
     const void *object,
@@ -2864,7 +2828,6 @@ _CMPI_INLINE_MOD CMPIString *CDToString(
            ((mb)->eft->toString((mb),(void*)(o),(rc)))
 #   endif
 
-#    ifdef CMPI_INLINE
 /** @brief Tests whether a CMPI encapsulated data type object is of a
          specified CMPI type.
     CDIsOfType() executes CMPIBrokerEncFT.isOfType() to verifies whether
@@ -2887,6 +2850,7 @@ _CMPI_INLINE_MOD CMPIString *CDToString(
       assert(isOfType);
     @endcode
 */
+#    ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIBoolean CDIsOfType(
     const CMPIBroker * mb,
     const void *object,
@@ -2900,7 +2864,6 @@ _CMPI_INLINE_MOD CMPIBoolean CDIsOfType(
            (mb)->eft->isOfType((mb),(void*)(o),(t),(rc))
 #   endif
 
-#    ifdef CMPI_INLINE
 /** @brief Get the type name of a CMPI ensapsulated data type object.
     CDGetType() executes CMPIBrokerEncFT.getType() to get the CMPI type.
     Intended for debugging purposes only.
@@ -2908,8 +2871,8 @@ _CMPI_INLINE_MOD CMPIBoolean CDIsOfType(
     @param object A valid CMPI object.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return CMPI object type or NULL.
-    @see CMPIBrokerEncFT.getType()
 */
+#    ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString *CDGetType(
     const CMPIBroker * mb,
     const void *object,
@@ -2923,7 +2886,6 @@ _CMPI_INLINE_MOD CMPIString *CDGetType(
 #   endif
 
 #   ifdef CMPI_VER_100
-#   ifdef CMPI_INLINE
 /** @brief Log a diagnostic message.
 
      CMLogMessage() executes CMPIBrokerEncFT.logMessage().
@@ -2942,7 +2904,7 @@ _CMPI_INLINE_MOD CMPIString *CDGetType(
     @see CMPIBrokerEncFT.logMessage()
     @todo tested in OpenPegasus cmpiTestMethodProvider.c
 */
-
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMLogMessage(
     const CMPIBroker * mb,
     int severity,
@@ -2959,7 +2921,6 @@ _CMPI_INLINE_MOD CMPIStatus CMLogMessage(
 #   endif /* CMPI_VER_100 */
 
 #   ifdef CMPI_VER_100
-#   ifdef CMPI_INLINE
 /** @brief Trace a diagnostic message with a specific trace level and
          component definition.
      CMTraceMessage() exeuctes CMPIBrokerEncFT.trace() to send a diagnostic
@@ -2981,6 +2942,7 @@ _CMPI_INLINE_MOD CMPIStatus CMLogMessage(
      @todo tested in OpenPegasus  cmpiTestMethodProvider.c
      @todo OpenPegasus uses CMPILevel as type, not int.
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMTraceMessage(
     const CMPIBroker * mb,
     int level,
@@ -2997,7 +2959,6 @@ _CMPI_INLINE_MOD CMPIStatus CMTraceMessage(
 #   endif /* CMPI_VER_100 */
 
 #   ifdef CMPI_VER_200
-#   ifdef CMPI_INLINE
 /** @brief Create a new CMPIError object initialized with attributes defined
          by the input parameters.
 
@@ -3012,7 +2973,6 @@ _CMPI_INLINE_MOD CMPIStatus CMTraceMessage(
     @param cimStatusCode Status Code.
     @param[out] rc Function return status or NULL
     @return Pointer to a newly allocated CMPIError object or NULL.
-    @see CMPIBrokerEncFT.newCMPIError()
     @par Example
     @code(.c)lt
       cmpiError = CMNewCMPIError(_broker, inOwningEntity, inMsgID, inMsg,
@@ -3020,6 +2980,7 @@ _CMPI_INLINE_MOD CMPIStatus CMTraceMessage(
     @endcode
     @todo OpenPegasus tested in TestCMPIErrorProvider.c
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIError* CMNewCMPIError(
     const CMPIBroker* mb,
     const char *owner,
@@ -3041,7 +3002,6 @@ _CMPI_INLINE_MOD CMPIError* CMNewCMPIError(
 #   endif /* CMPI_VER_200 */
 
 #   ifdef CMPI_VER_200
-#   ifdef CMPI_INLINE
 /** @brief Open a message file and return a handle to the file.
     CMOpenMessageFile() executes CMPIBrokerEncFT.openMessageFile() to
     open a new message file if the MB supports message files.
@@ -3049,13 +3009,13 @@ _CMPI_INLINE_MOD CMPIError* CMNewCMPIError(
     @param msgFile The message file identifier.
     @param[out] msgFileHandle The handle representing the open msg file or NULL.
     @return Service return status
-    @see CMPIBrokerEncFT.openMessageFile()
     @par Example
     @code(.c)
         CMOpenMessageFile(_broker,"/path/msgFile",&msgFileHandle);
     @endcode
     @todo OpenPegasus used.
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMOpenMessageFile(
     const CMPIBroker* mb,
     const char *msgFile,
@@ -3070,7 +3030,6 @@ _CMPI_INLINE_MOD CMPIStatus CMOpenMessageFile(
 #   endif /* CMPI_VER_200 */
 
 #   ifdef CMPI_VER_200
-#   ifdef CMPI_INLINE
 /** @brief Close a message file.
     CMCloseMessageFile() exeuctes CMPIBrokerEncFT.closeMessageFile() to
     close a message file.
@@ -3098,6 +3057,7 @@ _CMPI_INLINE_MOD CMPIStatus CMOpenMessageFile(
     @endcode
     @todo OpenPegasus tested in cmpiTestBrokerEncProvider.c
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMCloseMessageFile(
     const CMPIBroker* mb,
     const CMPIMsgFileHandle msgFileHandle)
@@ -3111,7 +3071,6 @@ _CMPI_INLINE_MOD CMPIStatus CMCloseMessageFile(
 #   endif /* CMPI_VER_200 */
 
 #   ifdef CMPI_VER_200
-#   ifdef CMPI_INLINE
 /** @brief Get a translated message text from an open message file by
          message ID.
     CMGetMessage2() macro executes CMPIBrokerEncFT.getMessage2().
@@ -3139,7 +3098,6 @@ _CMPI_INLINE_MOD CMPIStatus CMCloseMessageFile(
            CMFmtChars(v)   char string
            CMFmtString(v)  CMPIString
     @return the translated message.
-    @see CMPIBrokerEncFT.getMessage2()
     Example usage:
     @code(.c)
        CMGetMessage2(_broker,"msgid",msgFileHandle,"Test $0 $1",
@@ -3151,6 +3109,7 @@ _CMPI_INLINE_MOD CMPIStatus CMCloseMessageFile(
     @version Inline code modified; unsigned int last parameter
           to type CMPICount in 2.1
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString* CMGetMessage2(
     const CMPIBroker* mb,
     const char *msgId,
@@ -3165,7 +3124,6 @@ _CMPI_INLINE_MOD CMPIString* CMGetMessage2(
 #   endif /* CMPI_VER_200 */
 
 
-#   ifdef CMPI_INLINE
 /** @brief get the CMPIBroker brokerCapabilities variable
 
     CBGetCapabilities() convenience function directly access the
@@ -3181,6 +3139,7 @@ _CMPI_INLINE_MOD CMPIString* CMGetMessage2(
      @see @ref mb-capabilities CMPIBrokerFT
 
  */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD unsigned long CBGetCapabilities (const CMPIBroker * mb)
 {
   return ((mb)->bft->brokerCapabilities);
@@ -3190,7 +3149,6 @@ _CMPI_INLINE_MOD unsigned long CBGetCapabilities (const CMPIBroker * mb)
            ((mb)->bft->brokerCapabilities)
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get CMPIBroker version
 
     CBBrokerVersion gets the CMPIVersion definition from the CMPIBroker
@@ -3206,6 +3164,7 @@ _CMPI_INLINE_MOD unsigned long CBGetCapabilities (const CMPIBroker * mb)
     @see CMPIBrokerFT
     @note not used by  OpenPegasus
      */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD int CBBrokerVersion (const CMPIBroker * mb)
 {
   return ((mb)->bft->brokerVersion);
@@ -3215,7 +3174,6 @@ _CMPI_INLINE_MOD int CBBrokerVersion (const CMPIBroker * mb)
            ((mb)->bft->brokerVersion)
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Get CMPIBroker Name
 
     CBBrokerName() convenience function gets the CMPIBroker name
@@ -3228,6 +3186,7 @@ _CMPI_INLINE_MOD int CBBrokerVersion (const CMPIBroker * mb)
     It has no direct corresponding function. It directly access the
     CMPIBroker.brokerVersion variable.
      */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD const char CBBrokerName (const CMPIBroker * mb)
 {
   return ((mb)->bft->brokerName);
@@ -3237,7 +3196,6 @@ _CMPI_INLINE_MOD const char CBBrokerName (const CMPIBroker * mb)
            ((bm)->bft->brokerName)
 #   endif
 
-#   ifdef CMPI_INLINE
  /** @brief Prepare the MB to accept a new thread that will be using MB
          functions.
      CBPrepareAttachThread() convenience function executes
@@ -3247,9 +3205,8 @@ _CMPI_INLINE_MOD const char CBBrokerName (const CMPIBroker * mb)
     @param mb Points to CMPIBroker..
      @param ctx Old Context object
      @return New Context object to be used by thread to be attached.
-
-     @see CMPIBrokerFT.prepareAttachThread()
      */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIContext *CBPrepareAttachThread(
     const CMPIBroker * mb,
     const CMPIContext * ctx)
@@ -3261,7 +3218,6 @@ _CMPI_INLINE_MOD CMPIContext *CBPrepareAttachThread(
            ((mb)->bft->prepareAttachThread((mb),(c)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** This function informs the CMPI run time system that the current
     thread with Context will begin using CMPI services.
     @param mb Points to CMPIBroker..
@@ -3270,6 +3226,7 @@ _CMPI_INLINE_MOD CMPIContext *CBPrepareAttachThread(
     @see CMPIBrokerFT.attachThread()
     @todo (KS)clean up doc
      */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CBAttachThread(
     const CMPIBroker * mb,
     const CMPIContext * ctx)
@@ -3281,7 +3238,6 @@ _CMPI_INLINE_MOD CMPIStatus CBAttachThread(
            ((mb)->bft->attachThread((mb),(c)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** This function informs the CMPI run time system that the current thread
     will not be using CMPI services anymore. The Context object will be
     freed during this operation.
@@ -3291,6 +3247,7 @@ _CMPI_INLINE_MOD CMPIStatus CBAttachThread(
     @see CMPIBrokerFT.detachThread()
     @todo (KS)clean up doc
      */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CBDetachThread(
     const CMPIBroker * mb,
     const CMPIContext * ctx)
@@ -3303,7 +3260,6 @@ _CMPI_INLINE_MOD CMPIStatus CBDetachThread(
 #   endif
 
 
-#   ifdef CMPI_INLINE
 /** This function requests delivery of an Indication. The CIMOM will
     locate pertinent subscribers and notify them about the event.
     @param mb Points to CMPIBroker..
@@ -3314,6 +3270,7 @@ _CMPI_INLINE_MOD CMPIStatus CBDetachThread(
     @see CMPIBrokerFT.deliverIndication()
     @todo (KS)clean up doc
      */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CBDeliverIndication(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
@@ -3327,7 +3284,6 @@ _CMPI_INLINE_MOD CMPIStatus CBDeliverIndication(
            ((mb)->bft->deliverIndication((mb),(c),(n),(i)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** Enumerate Instance Names of the class (and subclasses)
     defined by @p op.
     @param mb Points to CMPIBroker.
@@ -3338,6 +3294,7 @@ _CMPI_INLINE_MOD CMPIStatus CBDeliverIndication(
     @see CMPIBrokerFT.enumerateInstanceNames()
     @todo (KS)clean up doc
      */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIEnumeration *CBEnumInstanceNames(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
@@ -3351,7 +3308,6 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBEnumInstanceNames(
            ((mb)->bft->enumerateInstanceNames((mb),(c),(p),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** Enumerate Instances of the class (and subclasses) defined by @p op.
      Instance structure and inheritance scope can be controled using the
      CMPIInvocationFlags entry in @p ctx.
@@ -3369,6 +3325,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBEnumInstanceNames(
     @todo (KS)clean up doc
     @todo not used in Pegasus. i.e. no test
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIEnumeration *CBEnumInstances(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
@@ -3385,7 +3342,6 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBEnumInstances(
            (rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** Get Instance using @p op as reference. Instance structure can be
     controled using the CMPIInvocationFlags entry in @p ctx.
     @param mb Points to CMPIBroker.
@@ -3400,6 +3356,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBEnumInstances(
     @see CMPIBrokerFT.getInstance()
     @todo (KS)clean up doc
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIInstance *CBGetInstance(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
@@ -3414,7 +3371,6 @@ _CMPI_INLINE_MOD CMPIInstance *CBGetInstance(
            ((mb)->bft->getInstance((mb),(c),(p),(pr),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Create an instance of a given class.
 
     CBCreateInstance() convenience function executes
@@ -3426,8 +3382,8 @@ _CMPI_INLINE_MOD CMPIInstance *CBGetInstance(
     @param inst Complete instance.
     @param rc Output: Service return status (suppressed when NULL).
     @return The assigned instance reference.
-    @see CMPIBrokerFT.createInstance()
      */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIObjectPath *CBCreateInstance(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
@@ -3442,14 +3398,12 @@ _CMPI_INLINE_MOD CMPIObjectPath *CBCreateInstance(
            ((mb)->bft->createInstance((mb),(c),(p),(i),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Modify property values of an existing instance.
 
     CBModifyInstance convenience function executes CMPIBrokerFT.modifyInstance()
     to modify the property values of an existing instance.
-
-     @see CMPIBrokerFT.modifyInstance()
 */
+#   ifdef CMPI_INLINE
 #      ifdef CMPI_VER_100
 _CMPI_INLINE_MOD CMPIStatus CBModifyInstance(
     const CMPIBroker* mb,
@@ -3484,10 +3438,11 @@ _CMPI_INLINE_MOD CMPIStatus CBSetInstance(
 #   endif
 
 #   ifdef CMPI_INLINE
-/** Delete an existing Instance using @p op as reference.
-
-     @see CMPIBrokerFT.deleteInstance()
-     */
+/** Delete an existing CMPIInstance using @p op as reference.
+     CBDeleteInstance() executes CMPIBrokerFT.deleteInstance() with
+     corresponding arguments to delete an existing CMPIInstance.
+    @todo KS add params back
+*/
 _CMPI_INLINE_MOD CMPIStatus CBDeleteInstance(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
@@ -3500,12 +3455,12 @@ _CMPI_INLINE_MOD CMPIStatus CBDeleteInstance(
            ((mb)->bft->deleteInstance((mb),(c),(p)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** Query the enumeration of instances of the class (and subclasses) defined
     by @p op using @p query expression.
 
     @see CMPIBrokerFT.execQuery()
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIEnumeration *CBExecQuery(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
@@ -3522,11 +3477,11 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBExecQuery(
 #   endif
 
 
-#   ifdef CMPI_INLINE
 /** Enumerate instances associated with the Instance defined by the @p op.
 
     @see CMPIBrokerFT.associators()
      */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIEnumeration *CBAssociators(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
@@ -3571,15 +3526,13 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBAssociatorNames(
            ((mb)->bft->associatorNames((mb),(c),(p),(acl),(rcl),(r),(rr),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Enumerate the association instances referencing a given source
          instance.
 
     CBReferenceNames convenience function executes CMPIBrokerFT.references()
     enumerating the association instances referencing a given source instance.
-
-    @see CMPIBrokerFT.references()
      */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIEnumeration *CBReferences(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
@@ -3597,7 +3550,6 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBReferences(
            ((mb)->bft->references((mb),(c),(p),(acl),(r),(pr),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** Enumerates the association ObjectPaths referencing a given
     instance.
 
@@ -3608,6 +3560,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBReferences(
 
     @see CMPIBrokerFT.referenceNames()
     */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIEnumeration *CBReferenceNames(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
@@ -3625,18 +3578,16 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBReferenceNames(
 #   endif
 
 
-#   ifdef CMPI_INLINE
 /** @brief Invoke a method on a given instance
 
-    CBInvokeMethod executes CMPIFT.invokeMethod() to execute named, extrinsic
-    method on a target object. Instance methods (i.e., non-static methods) can\
-    be invoked only on instances. Class methods (i.e., static methods) can be
+    CBInvokeMethod() executes CMPBrokerIFT.invokeMethod() to
+    execute named, extrinsic method on a target object. Instance
+    methods (i.e., non-static methods) can\ be invoked only on
+    instances. Class methods (i.e., static methods) can be
     invoked on instances and classes.
-
-    Parameters are exactly as defined in CMPIBrokerFT.invokeMethod().
-    @see CMPIBrokerFT.invokeMethod()
+    Arguments are as defined in CMPIBrokerFT.invokeMethod().
     @par Example
-    Example executes CBInvokeMethod "TestCMPIError" on
+    The example executes CBInvokeMethod "TestCMPIError" on
     CMPIObjectPath and tests response for success and correct
     return data type.
     @code(.c)
@@ -3661,6 +3612,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBReferenceNames(
         rc = CMRelease(objPath);
     @endcode
 */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIData CBInvokeMethod(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
@@ -3678,18 +3630,17 @@ _CMPI_INLINE_MOD CMPIData CBInvokeMethod(
            ((mb)->bft->invokeMethod((mb),(c),(p),(m),(ai),(ao),(rc)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** Set the named property value of an existing Instance. (**Deprecated**)
 
     CBSetProperty() executes the CMPIBrokderFt.setProperty()
     function to set a CMPIValue @ value into property of an
     existing instance.
 
-    @see CMPIBrokerFT.setProperty()
     @deprecated because the function setProperty has been
                 deprecated
     @note No example because this function is deprecated
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CBSetProperty(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
@@ -3706,15 +3657,14 @@ _CMPI_INLINE_MOD CMPIStatus CBSetProperty(
            ((mb)->bft->setProperty((mb),(c),(p),(n),(CMPIValue*)(v),(t)))
 #   endif
 
-#   ifdef CMPI_INLINE
 /** Get the named property value of an Instance (**Deprecated**)
 
-    CBGetProperty() convenience function executes CMPIBrokerFt.getProperty() to
+    CBGetProperty() executes CMPIBrokerFt.getProperty() to
     get the property named by @p name defined by @p op.
-    @see CMPIBrokerFT.getProperty()
     @deprecated Because corresponding CMPIBrokerFT.getProperty() is deprecated.
     @note No example because deprecated.
       */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIData CBGetProperty(
     const CMPIBroker * mb,
     const CMPIContext * ctx,
