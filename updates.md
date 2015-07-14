@@ -5,6 +5,8 @@
 * Fixed mispelled "convience-" tags to "convenience-" tags.
 * Improved the headings and descriptions for the various types of convenience
   functions, and reordered them. Consider this a proposal.
+* Renamed first argument of each macro in cmpimacs.h to match inline function.
+* Reordered functions in cmpimacs.h to fit into their respective groups.
 
 13 July - Karl (by Andy)
 ------------------------
