@@ -75,7 +75,7 @@ The CMPI header files are:
     structures and function tables. All
     MIs and MBs should include this header; it is included by `cmpimacs.h`.
   * `cmpimacs.h` - CMPI convenience functions to ease the use of the various
-    function tables. MIs should include this header if they want to use these
+    function tables. MIs must include this header if they want to use these
     functions.
   * `cmpidt.h` - Defines CMPI data types; it is included by `cmpift.h` and
     `cmpimacs.h`.
