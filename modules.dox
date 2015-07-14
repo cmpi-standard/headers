@@ -526,6 +526,13 @@
 @}
 @defgroup convenience-func CMPI Convenience Functions
 @{
+  @brief A set of macro and inline functions to ease the use of the various
+  CMPI function tables.
+
+  The convience functions in cmpimacs.h are provided to help of
+  the CMPI developer and are NOT required to implement CMPI providers.  They
+  do, however, make cleaner more readable code.
+  
   In CMPI 1.0, the CMPI convenience functions were defined as C preprocessor
   macros, which coined the term "CMPI macros". Since CMPI 2.0, they are
   defined as C inline functions wherever possible. Only a small number of them
@@ -533,9 +540,48 @@
 
   Those convenience functions that are defined as C inline functions can also
   be generated as C preprocessor macros, if the CMPI user defines the symbol
-  `CMPI_NO_INLINE`
+  `CMPI_NO_INLINE`.
 
-  The CMPI convenience functions are not a part of the CMPI Standard.
+  The convenience functions are NOT documented in the CMPI standard, just
+  the existence of this header file. However this documentation includes
+  hyperlinks between the convience functions and corresponding cmpift.h
+  functions or other components of CMPI used by the functions. Further, it
+  is the CMPI standard developers goal to minimize the changes to the
+  convience functions maintain compatibility between CMPI versions.
+  
+  The convience functions and macros can be broken down into the following
+  groups.
+
+  @li One-one mapping to corresponding CMPI functions. These macros simplify the
+  syntax of calls while keeping exactly the same set of arguments as the
+  function calls in cmpift.h. These macros do not repeat the
+  documentation of arguments but depend on the definiton in the defining
+  function. The documentation for each convenience function points to the
+  corresponding function. Each convenience function in this file
+  corresponds to a single function call in cmpift.d. These convenience
+  functions simplify the code largely by bypassing the added step of getting 
+  from the broker object argument to the function table and the
+  function.  These convience functions each include a link to the cmpift.h
+  function that they execute. Thus, for example:
+  <pre>
+       inst->ft->getProperty(inst, name, rc);
+  is simplified by a convenience function to:
+       CMGetProperty(inst, name, rc);
+  </pre>
+
+ @li Macros/convience functions that consolidate a group of cmpift.d calls into
+ a single macro. The primary examples are `CMClone()` and `CMRelease()` which
+ call the `clone()` and `release()` functions for the function table of the
+ object provided by the input arguments.
+
+ @li Convience functions that aid the access to selected variables or otherwise 
+ provide functionality not directly available through a function. Examples of
+ this are `CMReturn()` and `CMIsNullObject()`.
+
+ @li Macros that aid in the definition of providers, primarily in the
+  definition of the function tables.  The macro `CMInstanceMIStub()` is an
+  example of a macro that implements  a function table.
+
 
   @defgroup convenience-func-mi-factory-stubs MI Factory Stubs
   @{

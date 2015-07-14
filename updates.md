@@ -1,3 +1,11 @@
+14 July - Karl
+
+* Moved all of the INLINE defs from top of comment to bottom
+* Cleaned up several more convience functions.
+* Add documentation on the macros to modules.dox
+* Remove @see for documentation that uses word executes to define
+a one-one mapping macro.  Note that we have not added phrase "
+corresponding arguments yet"
 13 July - Karl
 --------------
 
