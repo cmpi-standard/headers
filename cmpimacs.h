@@ -77,10 +77,13 @@
  *    reference to those macros.  Also, the macros have a
  *    reference back to the corresponding cmpift.d functions.
  *    @todo discuss inline vs macros.
- *    @todo macros is bad word.  Maybe we call them convience
- *          functions to cover macro vs inline versions.
+ *    @todo KS macros is bad word.  Maybe we call them convience
+            functions to cover macro vs inline versions.
+            Actually macros is good word.  Question is what do
+            we call those things that can be either inline or
+            macro. Convience function stinks.
  *    @todo AM: Should we move this description to the defgroup "CMPI
- *          Convenience Functions" in modules.h?
+ *          Convenience Functions" in modules.h? Yes (KS)
  *    @todo KS: We need to create a CMPI_NO_INLINE symbol and
  *          make it user?? available. The default is inline.
  *          both set is error.  DOC_ONLY is only for doc
@@ -88,214 +91,232 @@
  *          DOC_ONLY
  */
 
+#ifndef _CMPIMACS_H_
+#  define _CMPIMACS_H_
+
+#ifdef DOC_ONLY
+#  define _CMPI_INLINE_MOD // Doxygen does not handle these modifiers at all.
+#else
+#  define _CMPI_INLINE_MOD static inline
+#endif
+
+#if !defined(CMPI_INLINE) && !defined(CMPI_NO_INLINE)
+#  define CMPI_INLINE // if none is defined, set the default
+#endif
+#if defined(CMPI_INLINE) && defined(CMPI_NO_INLINE)
+#  error "Only one of CMPI_INLINE and CMPI_NO_INLINE may be defined."
+#endif
+
+#include <cmpift.h>
+
 /**
- * @addtogroup convience-func-supplements
+ * @addtogroup convience-func-general
  * @{
  */
-#ifndef _CMPIMACS_H_
-#   define _CMPIMACS_H_
 
-#   ifndef DOC_ONLY
-#      include "cmpidt.h"
-#      include "cmpift.h"
-#   endif
+/**
+    @brief Return the calling function with CMPIStatus specifying a return code
+        and no message.
 
-#   ifdef DOC_ONLY
-#      define CMPI_INLINE
-#   endif
+    The CMReturn() macro builds a CMPIStatus object specifying a return code
+    and no message and exits the function in which it was executed, causing it
+    to return that CMPIStatus object. CMReturn() can only be used in functions
+    that return CMPIStatus.
 
-#   ifdef DOC_ONLY
-/** @brief Build CMPIStatus and exit calling function.
+    @param rc A @ref CMPIrc value specifying the function return status.
+    @return This macro never returns; it contains a `return` statement and
+        therefore exits the function from which it was called.
 
-    CMReturn convience function builds a CMPIStatus object with @p rc as return
-    code and a NULL message and exits the function in which it was executed.
-    @param[out] rc Function return CMPIStatus
-    @return This macro. contains a return statement and
-              therefore exits the function from which it was called.
-    @todo do we really mean MB. Should be calling function
-    @todo used with functions that return CMPIStatus.
     @par Examples
-      Example of Instance Provider ...EnumInstanceNames function that returns
-      CMPI_RC_OK to the MB.
-      @code(.c)
-        CMPIStatus testProvEnumInstanceNames
-          (CMPIInstanceMI * cThis, const CMPIContext * ctx,
-           const CMPIResult * rslt, const CMPIObjectPath * ref)
+    Example of enumerateInstanceNames() MI function that returns CMPI_RC_OK to
+    the MB.
+    @code (.c)
+        CMPIStatus testEnumInstanceNames (CMPIInstanceMI* mi,
+            const CMPIContext* ctx, const CMPIResult* rslt,
+            const CMPIObjectPath* classPath)
         {
-          ....  Code to return instance names
-          CMReturn (CMPI_RC_OK);
-        }
-      @endcode
-   */
-noReturn CMReturn (CMPIrc rc);
-#   else
-#      define CMReturn(rc_) \
-     do \
-     { \
-         CMPIStatus stat; \
-         stat.rc=rc_; \
-         stat.msg=NULL; \
-         return stat; \
-     } while (0)
-#   endif
-
-#   ifdef DOC_ONLY
-/** @brief Build CMPIStatus and exit calling function.
-
-    CMReturnWithString convience function builds a CMPIStatus
-    object with @p rc as return code and @p str as the message
-    and exits the calling function
-    @p str as message and returns to the Broker.
-    @param[out] rc the CMPI return code
-    @param str the message as String object
-    @return This macro contains a return statement so it exits
-            the function in which it was called.
-    @par Example
-    Returns to calling function with CMPIStatus set with error
-    code and CMPIString form of message text.
-    @code(.c)
-          if (brokerCapabilities & CMPI_MB_Supports_Extended_Error)
-          {
-             ...
-          }
-          else
-          {
-              CMReturnWithString(CMPI_RC_ERR_NOT_SUPPORTED,
-                  CMNewString(_broker,
-                  "Extended error support not avilable", NULL));
-          }
-    @endcode
-   */
-noReturn CMReturnWithString (CMPIrc rc, CMPIString * str);
-#   else
-#      define CMReturnWithString(rc_,str_) \
-     do \
-     { \
-         CMPIStatus stat; \
-         stat.rc=rc_; \
-         stat.msg=str_; \
-         return stat; \
-     } while (0)
-#   endif
-
-#   ifdef DOC_ONLY
-/** @brief Build a CMPIStatus object and execute return statement.
-
-    CMReturnWithChars convience function builds a CMPIStatus
-    object with @p rc as return code and @p msg as message and returns to the
-    CMPIBroker and executes a return statement.
-
-    This macro does not correspond to one single CMPI function.
-    @param mb Points to CMPIBroker
-    @param[out] rc the CMPIrc return code to be inserted into the
-          created CMPIStatus.
-    @param msg C character string defining the message to be
-        inserted into the created CMPIStatus.
-    @return This convience function contains a return statement
-            and exits the function in which it was called.
-    @par Example
-    This example returns to MB with CMPI_RC_ERR_NOT_SUPPORTED error and text
-    for instance provider modify instance function.
-    @code(.c)
-        static const CMPIBroker * _broker;
-        ...
-        CMPIStatus cmpiPerf_TestClassAProviderModifyInstance(...)
-        {
-            CMReturnWithChars(_broker, CMPI_RC_ERR_NOT_SUPPORTED,
-                "Modify Instance not supported");
+            // .... code to return instance names
+            CMReturn(CMPI_RC_OK);
         }
     @endcode
+    @hideinitializer
 */
-noReturn CMReturnWithChars (const CMPIBroker * mb, CMPIrc rc, char *msg);
-#   else
-#      define CMReturnWithChars(mb_,rc_,chars_) \
-      do \
-      { \
-          CMPIStatus stat; \
-          stat.rc=rc_; \
-          if (mb_) \
-              stat.msg=(mb_)->eft->newString((mb_),(chars_),NULL); \
-          else \
-              stat.msg=NULL; \
-          return stat; \
-      } while (0)
-#   endif
+#define CMReturn(rc) \
+    do \
+    { \
+        CMPIStatus stat; \
+        stat.rc = (rc); \
+        stat.msg = NULL; \
+        return stat; \
+    } while (0)
 
+/**
+    @brief Return the calling function with CMPIStatus specifying a return code
+        and a CMPIString message.
 
-#   ifdef CMPI_INLINE
-/** @brief Initializes CMPIStatus object @p st with @p rcp and NULL message.
+    The CMReturnWithString() macro builds a CMPIStatus object specifying a
+    return code and a CMPIString message and exits the function in which it was
+    executed, causing it to return that CMPIStatus object. CMReturnWithString()
+    can only be used in functions that return CMPIStatus.
 
-    CMSetStatus convience function initializes the provided
-    CMPIStatus struct @p st with @p rcp a @ref CMPIrc error
-    code and sets the message component CMPIStatus.message NULL.
+    @param rc A @ref CMPIrc value specifying the function return status.
+    @param str A pointer to a CMPIString object specifying the message.
+    @return This macro never returns; it contains a `return` statement and
+        therefore exits the function from which it was called.
 
-    @param st Points to CMPIStatus object in which @p rcp is to be inserted.
-    @param rcp CMPIrc return code to be inserted into @p st.
-    @return This macro contains a return statement and exits
-            the function in which it was called.
-    @todo KS Pegasus has no test for this macro
-    @see CMPIStatus
-    @par Example
-    @code(.c)
-          CMPIStatus rc = { CMPI_RC_OK, NULL };
-          CMSetStatus(&rc, CMPI_RC_ERR_NOT_SUPPORTED);
-    @todo no test in OpenPegasus
+    @par Examples
+    Example of code in an MI function that checks for an optional MB capability
+    and returns with an error to the MB if the capability is not available.
+    @code (.c)
+    static const CMPIBroker* _broker;
+    // ...
+    if (_broker->brokerCapabilities & CMPI_MB_PropertyFiltering)
+    {
+        // ...
+    }
+    else
+    {
+        CMReturnWithString(CMPI_RC_ERR_NOT_SUPPORTED,
+            CMNewString(_broker, "Property Filtering capability not available",
+                NULL));
+    }
     @endcode
-  */
-_CMPI_INLINE_MOD void CMSetStatus (CMPIStatus * st, CMPIrc rcp)
+    @hideinitializer
+*/
+#define CMReturnWithString(rc, str) \
+    do \
+    { \
+        CMPIStatus stat; \
+        stat.rc = (rc); \
+        stat.msg = (str); \
+        return stat; \
+    } while (0)
+
+
+/**
+    @brief Return the calling function with CMPIStatus specifying a return code
+        and a C string message.
+
+    The CMReturnWithChars() macro builds a CMPIStatus object specifying a
+    return code and a C string message and exits the function in which it was
+    executed, causing it to return that CMPIStatus object. CMReturnWithChars()
+    can only be used in functions that return CMPIStatus.
+
+    @param mb Points to a CMPIBroker structure.
+    @param rc A @ref CMPIrc value specifying the function return status.
+    @param chars A pointer to a C string (`char*`) specifying the message.
+    @return This macro never returns; it contains a `return` statement and
+        therefore exits the function from which it was called.
+
+    @par Examples
+    Example of code in a modifyInstance() MI function that is not implemented
+    and returns to the MB with CMPI_RC_ERR_NOT_SUPPORTED and an according error
+    message.
+    @code (.c)
+    static const CMPIBroker* _broker;
+    // ...
+    CMPIStatus testModifyInstance (...)
+    {
+        CMReturnWithChars(_broker, CMPI_RC_ERR_NOT_SUPPORTED,
+            "ModifyInstance is not supported");
+    }
+    @endcode
+    @hideinitializer
+*/
+#define CMReturnWithChars(mb, rc, chars) \
+    do \
+    { \
+        CMPIStatus stat; \
+        stat.rc = (rc); \
+        if (mb) \
+            stat.msg = (mb)->eft->newString((mb), (chars), NULL); \
+        else \
+            stat.msg = NULL; \
+        return stat; \
+    } while (0)
+
+/**
+    @brief Initialize a CMPIStatus structure with a return code and no message.
+
+    CMSetStatus() initializes a CMPIStatus structure with a return code and no
+    message.
+
+    @param st If not NULL, points to the CMPIStatus structure that is being
+        intialized.
+    @param rc A @ref CMPIrc value specifying the return code.
+    @return Nothing.
+    @see CMPIStatus
+    @par Examples
+    @code (.c)
+        CMPIStatus st = { CMPI_RC_OK, NULL };
+        if (....) // something bad happened
+        {
+            CMSetStatus(&st, CMPI_RC_ERR_NOT_SUPPORTED);
+            return st;
+        }
+    @endcode
+    @hideinitializer
+
+    @todo openpegasus No test for this macro
+*/
+#ifdef CMPI_NO_INLINE
+#define CMSetStatus(st, rc) \
+    do \
+    { \
+        if (st) \
+        { \
+            (st)->rc = (rc); \
+            (st)->msg = NULL; \
+        } \
+    } while (0)
+#else
+_CMPI_INLINE_MOD void CMSetStatus (CMPIStatus* st, CMPIrc rc)
 {
     if (st)
     {
-        (st)->rc = (rcp);
-        (st)->msg = NULL;
+        st->rc = rc;
+        st->msg = NULL;
     }
 }
-#   else
-#      define CMSetStatus(st_,rcp_) \
-      do \
-      { \
-          if (st_) \
-          { \
-              (st_)->rc=(rcp_); \
-              (st_)->msg=NULL; \
-          } \
-      } while (0)
-#   endif
+#endif
 
 
-#   ifdef CMPI_INLINE
-/** @brief Initializes  provided CMPIStatus object @p st with @p
-           rcp CMPIStatus and @p string message.
+
+/** @brief Initializes a CMPIStatus object with CMPIStatus and message.
+    
+    CMSetStatusWithString() initialized the CMPIStatus object @p st with
+    CMPIStatus @p rc and message text defined by @p msg
 
     @param st Points to target CMPIStatus object.
-    @param rcp CMPIrc return code to be inserted int @p st.
-    @param string CMPIString containing Message text to be
+    @param rc CMPIrc return code to be inserted int @p st.
+    @param msg CMPIString containing message text to be
                   inserted into @p st.
   */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD void CMSetStatusWithString(
     CMPIStatus * st,
-    CMPIrc rcp,
-    const CMPIString * string)
+    CMPIrc rc,
+    const CMPIString * msg)
 {
     if (st)
     {
-        (st)->rc = (rcp);
-        (st)->msg = (string);
+        (st)->rc = (rc);
+        (st)->msg = (msg);
     }
 }
 #   else
-#      define CMSetStatusWithString(st_,rcp_,string_) \
+#      define CMSetStatusWithString(st_,rc_,msg_) \
       do \
       { \
           if (st_) \
           { \
-              (st_)->rc=(rcp_); \
-              (st_)->msg=(string_); \
+              (st_)->rc = (rc_); \
+              (st_)->msg = (msg_); \
           } \
       } while (0)
 #   endif
 
-#   ifdef CMPI_INLINE
+
 /** @brief Initializes CMPIStatus struct with return code and
            message text message.
 
@@ -305,7 +326,7 @@ _CMPI_INLINE_MOD void CMSetStatusWithString(
 
     @param mb Points to CMPIBroker. Required to create CMPIString.
     @param st Points to CMPIStatus object.
-    @param rcp CMPIrc return code to be inserted into into CMPIStatus @p st.
+    @param rc CMPIrc return code to be inserted into into CMPIStatus @p st.
     @param msg C string character string containing the message
                text or NULL if no text is to be added to the
                CMPIStatus @p st.
@@ -319,15 +340,16 @@ _CMPI_INLINE_MOD void CMSetStatusWithString(
         CMPI_RC_ERR_NOT_SUPPORTED, "CIM_ERR_NOT_SUPPORTED");
     @endcode
   */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD void CMSetStatusWithChars(
     const CMPIBroker * mb,
     CMPIStatus * st,
-    CMPIrc rcp,
+    CMPIrc rc,
     const char *msg)
 {
     if (st)
     {
-        (st)->rc = (rcp);
+        (st)->rc = (rc);
         if (mb)
         {
             (st)->msg = (mb)->eft->newString ((mb), (msg), NULL);
@@ -339,12 +361,12 @@ _CMPI_INLINE_MOD void CMSetStatusWithChars(
     }
 }
 #   else
-#      define CMSetStatusWithChars(mb_,st_,rcp_,msg_) \
+#      define CMSetStatusWithChars(mb_,st_,rc_,msg_) \
       do \
       { \
           if (st_) \
           { \
-              (st_)->rc=(rcp_); \
+              (st_)->rc=(rc_); \
               if (mb_) \
                   (st_)->msg=(mb_)->eft->newString((mb_),(msg_),NULL); \
               else \
@@ -354,13 +376,12 @@ _CMPI_INLINE_MOD void CMSetStatusWithChars(
 #   endif
 
 
-#   ifdef CMPI_INLINE
 /** @brief Tests any CMPI object or function return to determine if it is
      a NULL object.
 
     CMIsNullObject() tests any CMPI object @p object or function
     return to determine if it is NULL. The function call is
-    defined as void* to encompass any CMPI strut type.
+    defined as void* to encompass any CMPI encapsulated type.
     @param obj points to any CMPI object.
     @retval true The object is NULL.
     @retval false The object is NOT NULL.
@@ -381,6 +402,7 @@ _CMPI_INLINE_MOD void CMSetStatusWithChars(
     @todo test this to be sure it is correct, in particular
           function repsonse
   */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIBoolean CMIsNullObject (const void *obj)
 {
     return ((obj) == NULL || *((void **) (obj)) == NULL);
@@ -389,7 +411,6 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsNullObject (const void *obj)
 #      define CMIsNullObject(o) ((o)==NULL || *((void**)(o))==NULL)
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Tests a CMPIData object for null Value data item.
 
     CMIsNullValue() tests the state of a CMPIData object @p val
@@ -425,6 +446,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsNullObject (const void *obj)
             . . .
     @endcode
   */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIBoolean CMIsNullValue (const CMPIData val)
 {
   return ((val.state) & CMPI_nullValue);
@@ -433,7 +455,6 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsNullValue (const CMPIData val)
 #      define CMIsNullValue(v)      ((v.state) & CMPI_nullValue)
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Tests CMPIData object for keyValue data item.
 
     CMIsKeyValue() tests @p val a CMPIValue to determine if it
@@ -446,6 +467,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsNullValue (const CMPIData val)
     @todo this is value call, not pointer.  Shouldn't this be
           pointer call?
   */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIBoolean CMIsKeyValue (CMPIData val)
 {
   return ((val.state) & CMPI_keyValue);
@@ -454,7 +476,6 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsKeyValue (CMPIData val)
 #      define CMIsKeyValue(v)      ((v.state) & CMPI_keyValue)
 #   endif
 
-#   ifdef CMPI_INLINE
 /** @brief Tests CMPIData object for array data item type.
 
     CMIsArray() tests @p val a CMPIValue to determine if it is
@@ -466,6 +487,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsKeyValue (CMPIData val)
     @todo not tested in OpenPegasus
     @todo this is defined as
   */
+#   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
 {
   return ((val.type) & CMPI_ARRAY);
@@ -474,9 +496,10 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
 #      define CMIsArray(v)      ((v.type) & CMPI_ARRAY)
 #   endif
 
+// TODO: From here on down, adjust to the format proposed above.
 /**
  * @}
- * @addtogroup convience-func-direct-calls
+ * @addtogroup convience-func-EncapDataTypes
  * @{
  */
 
@@ -576,6 +599,12 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
 #   define CMRelease(obj)        ((o)->ft->release((obj)))
 
     // CMPIBroker factory macros
+
+/**
+ * @}
+ * @addtogroup convience-func-broker
+ * @{
+ */
 
 #   ifdef CMPI_INLINE
 /** @brief Create a new CMPIInstance object initialized to a given instance
@@ -963,9 +992,8 @@ _CMPI_INLINE_MOD CMPIString *CDGetType(
      @param severity integer severity code.
      @param id message ID or any other identifying string.
      @param text If not NULL, const char * with the message text to be logged.
-     @param string If not NULL, CMPIString with message text to be logged.
-       @ps tring will be ignored when @p text is not NULL.
-     @param[out] rc Function return status
+     @param string If not NULL, CMPIString with message text to be logged;
+       @p string will be ignored when @p text is not NULL.
      @return CMPIStatus containing function return status
      @par Example
      @code(.c)
@@ -977,17 +1005,17 @@ _CMPI_INLINE_MOD CMPIString *CDGetType(
 */
 
 _CMPI_INLINE_MOD CMPIStatus CMLogMessage(
-    const CMPIBroker * b,
+    const CMPIBroker * mb,
     int severity,
     const char *id,
     const char *text,
     const CMPIString * string)
 {
-  return ((b)->eft->logMessage ((b), (severity), (id), (text), (string)));
+  return ((mb)->eft->logMessage ((mb), (severity), (id), (text), (string)));
 }
 #   else
-#      define CMLogMessage(b,severity,id, text, string)  \
-          ((b)->eft->logMessage((b),(severity),(id),(text),(string)))
+#      define CMLogMessage(mb,severity,id, text, string)  \
+          ((b)->eft->logMessage((mb),(severity),(id),(text),(string)))
 #   endif /* CMPI_INLINE */
 #   endif /* CMPI_VER_100 */
 
@@ -1004,7 +1032,6 @@ _CMPI_INLINE_MOD CMPIStatus CMLogMessage(
      @param string NULL, or CMPIString with message
        text to be logged. @p string will be ignored when text is not
        NULL.
-     @param[out] rc Function return status
      @see CMPIBrokerEncFT.trace()
      @par Example
      @code(.c)
@@ -1016,17 +1043,17 @@ _CMPI_INLINE_MOD CMPIStatus CMLogMessage(
      @todo OpenPegasus uses CMPILevel as type, not int.
 */
 _CMPI_INLINE_MOD CMPIStatus CMTraceMessage(
-    const CMPIBroker * b,
+    const CMPIBroker * mb,
     int level,
     const char *component,
     const char *text,
     const CMPIString * string)
 {
-  return ((b)->eft->trace ((b), (level), (component), (text), (string)));
+  return ((mb)->eft->trace ((mb), (level), (component), (text), (string)));
 }
 #   else
-#      define CMTraceMessage(b,level,component, text, string)  \
-           ((b)->eft->trace((b),(level),(component),(text),(string)))
+#      define CMTraceMessage(mb,level,component, text, string)  \
+           ((mb)->eft->trace((mb),(level),(component),(text),(string)))
 #   endif
 #   endif /* CMPI_VER_100 */
 
@@ -1133,14 +1160,14 @@ _CMPI_INLINE_MOD CMPIStatus CMOpenMessageFile(
     @todo OpenPegasus tested in cmpiTestBrokerEncProvider.c
 */
 _CMPI_INLINE_MOD CMPIStatus CMCloseMessageFile(
-    const CMPIBroker* b,
-    const CMPIMsgFileHandle msgFilehandle)
+    const CMPIBroker* mb,
+    const CMPIMsgFileHandle msgFileHandle)
 {
-  return ((b)->eft->closeMessageFile ((b), (msgFileHandle)));
+  return ((mb)->eft->closeMessageFile ((mb), (msgFileHandle)));
 }
 #   else
-#      define CMCloseMessageFile(b,mfh)  \
-           ((b)->eft->closeMessageFile((b),(mfh)))
+#      define CMCloseMessageFile(mb,mfh)  \
+           ((mb)->eft->closeMessageFile((mb),(mfh)))
 #   endif /* CMPI_INLINE */
 #   endif /* CMPI_VER_200 */
 
@@ -1182,17 +1209,19 @@ _CMPI_INLINE_MOD CMPIStatus CMCloseMessageFile(
     @todo OpenPegasus tested in cmpiTestBrokerEncProvider.c
     @todo KS Pls review since it asks to do something if macro but it is
     only a macro. No inline version.
+    @version Inline code modified; unsigned int last parameter
+          to type CMPICount in 2.1
 */
 _CMPI_INLINE_MOD CMPIString* CMGetMessage2(
     const CMPIBroker* mb,
     const char *msgId,
-    const CMPIMsgFileHandle msgFilehandle,
+    const CMPIMsgFileHandle msgFileHandle,
     const char *defMsg,
     CMPIStatus* rc,
-    unsigned int, ...);
+    CMPICount count, ...);
 #   else
-#      define CMGetMessage2(b,id,mfh,def,rc,parms)  \
-           ((b)->eft->getMessage2((b),(id),(mfh),(def),(rc),parms))
+#      define CMGetMessage2(mb,id,mfh,def,rc,parms)  \
+           ((mb)->eft->getMessage2((mb),(id),(mfh),(def),(rc),parms))
 #   endif /* CMPI_INLINE */
 #   endif /* CMPI_VER_200 */
 
@@ -1329,8 +1358,7 @@ _CMPI_INLINE_MOD CMPIObjectPath *CMGetObjectPath(
      @p obj.
      @param inst Points to the CMPIInstance structure.
      @param op Points to the new CMPIObjectPath.
-     @param[out] rc Function return CMPIStatus (suppressed when NULL).
-     @return the generated CMPIObjectPath or NULL.
+     @return CMPIStatus structure containing the function return status.
      @see CMPIInstanceFT.setObjectPath()
      @todo Used in OpenPegasus
       */
@@ -2391,8 +2419,8 @@ _CMPI_INLINE_MOD CMPIStatus CMSetOtherErrorType(
 #   ifdef CMPI_INLINE
 /** Sets the description of the probable cause.
     @param er Points to the CMPIError object.
-    @param pc The probable cause string
-    @return Output: Service return status
+    @param pcd The probable cause string
+    @return CMPIStatus structure containing the function return status.
     @see CMPIErrorFT.setProbableCauseDescription()
     @note Inline form corrected in CMPI 2.1
  */
@@ -2410,7 +2438,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetProbableCauseDescription(
 #   ifdef CMPI_INLINE
 /** Sets the recomended actions array.
     @param er Points to the CMPIError object.
-    @param ar An array of strings describing actions that shoudl
+    @param ra An array of strings describing actions that shoudl
               be taken t deal with this error
     @return Output: Service return status
     @see CMPIErrorFT.setRecommendedActions()
@@ -2429,20 +2457,22 @@ _CMPI_INLINE_MOD CMPIStatus CMSetRecommendedActions(
 
 #   ifdef CMPI_INLINE
 /** Specifies a string which specifes The identifying information of the entity
-    (i.e., the instance) generating the error..
+    (i.e., the instance) generating the error.
     @param er Points to the CMPIError object.
-    @param es the string which describes the source
+    @param es String which describes the source.
     @return Output: Service return status
     @see CMPIErrorFT.setErrorSource()
     @note Inline form corrected in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIStatus CMSetErrorSource(CMPIError* er, const char* es);
+_CMPI_INLINE_MOD CMPIStatus CMSetErrorSource(
+    const CMPIError* er,
+    const char* es);
 {
   return ((er)->ft->setErrorSource ((er), (es)));
 }
 #   else
-#      define CMSetErrorSource(e,es) \
-              ((e)->ft->setErrorSource((e),(es)))
+#      define CMSetErrorSource(er,es) \
+              ((er)->ft->setErrorSource((er),(es)))
 #   endif
 
 #   ifdef CMPI_INLINE
@@ -2465,22 +2495,23 @@ _CMPI_INLINE_MOD CMPIStatus CMSetErrorSourceFormat(
 #   endif
 
 #   ifdef CMPI_INLINE
-/** specifies A string defining "Other" values for ErrorSourceFormat
+/** Specifies A string defining "Other" values for ErrorSourceFormat.
+
     @param er Points to the CMPIError object.
-    @param oef the string which describes the other source format
+    @param oef String which describes the other source format.
     @return Output: Service return status
     @see CMPIErrorFT.setOtherErrorSourceFormat()
     @note Inline form corrected in CMPI 2.1
  */
 _CMPI_INLINE_MOD CMPIStatus CMSetOtherErrorSourceFormat(
     CMPIError* er,
-    const char* oesf)
+    const char* oef)
 {
-  return ((er)->ft->setOtherErrorSourceFormat ((er), (oesf)));
+  return ((er)->ft->setOtherErrorSourceFormat ((er), (oef)));
 }
 #   else
-#      define CMSetOtherErrorSourceFormat(e,oesf) \
-              ((e)->ft->setOtherErrorSourceFormat((e),(oesf)))
+#      define CMSetOtherErrorSourceFormat(e,oef) \
+              ((e)->ft->setOtherErrorSourceFormat((e),(oef)))
 #   endif
 
 #   ifdef CMPI_INLINE
@@ -2493,13 +2524,13 @@ _CMPI_INLINE_MOD CMPIStatus CMSetOtherErrorSourceFormat(
  */
 _CMPI_INLINE_MOD CMPIStatus CMSetCIMStatusCodeDescription(
     CMPIError* er,
-    const char* cd);
+    const char* scd);
 {
-  return ((er)->ft->setCIMStatusCodeDescription ((er), (cd)));
+  return ((er)->ft->setCIMStatusCodeDescription ((er), (scd)));
 }
 #   else
-#      define CMSetCIMStatusCodeDescription(e,cd) \
-              ((e)->ft->setCIMStatusCodeDescription((e),(cd)))
+#      define CMSetCIMStatusCodeDescription(e,scd) \
+              ((e)->ft->setCIMStatusCodeDescription((e),(scd)))
 #   endif
 #   ifdef CMPI_INLINE
 /** Sets an array of strings for the dynamic content of the message
@@ -2510,13 +2541,14 @@ _CMPI_INLINE_MOD CMPIStatus CMSetCIMStatusCodeDescription(
     @see CMPIErrorFT.setCIMMessageArguments()
     @note Inline form corrected in CMPI 2.1
  */
-_CMPI_INLINE_MOD CMPIStatus CMSetMessageArguments(CMPIError* er, CMPIArray* ma)
+_CMPI_INLINE_MOD CMPIStatus CMSetMessageArguments(CMPIError* er,
+                                                  CMPIArray* values)
 {
-  return ((er)->ft->setMessageArguments ((er), (ma)));
+  return ((er)->ft->setMessageArguments ((er), (values)));
 }
 #   else
-#      define CMSetMessageArguments(e,ma) \
-              ((e)->ft->setMessageArguments((e),(ma)))
+#      define CMSetMessageArguments(er,values) \
+              ((e)->ft->setMessageArguments((er),(values)))
 #   endif
 
 #   endif /* CMPI_VER_200 */
@@ -3060,13 +3092,15 @@ _CMPI_INLINE_MOD   int CMEvaluatePredicate(
          function match the predicate in a CMPIPredicate object.
     CMEvaluatePredicateUsingAccessor() executes
         CMPIPredicateFT.evaluateUsingAccessor().
-    @param accessor Data accessor routine to be used.
+    @param pr Points to the CMPIPredicate.
+    @param accessorFnc Data accessor routine to be used.
     @param parm Data accessor parameter.
-    @param[out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Function return CMPIStatus (suppressed when NULL).
     @return Evaluation result.
     @see CMPIPredicateFT.evaluateUsingAccessor()
+    @note Return type modified from int to CMPIBoolean in CMPI 2.1
       */
-_CMPI_INLINE_MOD int CMEvaluatePredicateUsingAccessor(
+_CMPI_INLINE_MOD CMPIBoolean CMEvaluatePredicateUsingAccessor(
     const CMPIPredicate * pr,
     CMPIAccessor * accessorFnc,
     void *parm,
@@ -3083,8 +3117,11 @@ _CMPI_INLINE_MOD int CMEvaluatePredicateUsingAccessor(
 
 
     // CMPIBroker Macros
-
-
+/**
+ * @}
+ * @addtogroup convience-func-broker
+ * @{
+ */
 
 #   ifdef CMPI_INLINE
 /** @brief get the CMPIBroker brokerCapabilities variable
@@ -3154,12 +3191,6 @@ _CMPI_INLINE_MOD const char CBBrokerName (const CMPIBroker * mb)
 #   else
 #      define CBBrokerName(b)                          ((b)->bft->brokerName)
 #   endif
-
-#ifdef DOC_ONLY
-#define _CMPI_INLINE_MOD
-#else
-#define _CMPI_INLINE_MOD _CMPI_INLINE_MOD
-#endif
 
 #   ifdef CMPI_INLINE
  /** @brief Prepare the MB to accept a new thread that will be using MB
