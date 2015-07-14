@@ -536,7 +536,7 @@
 
   The CMPI convenience functions are not a part of the CMPI Standard.
 
-  @defgroup convience-func-supplements Supplements to CMPI Standard functions
+  @defgroup convience-func-general Functions independent of encapsulated datat types or broker 
   @{
     @brief Convenience functions that supplement functions defined in the CMPI
         Standard.
@@ -549,15 +549,26 @@
     example is CMReturn() which creates a function result status and returns
     from the current MI function in a single call.
   @}
-  @defgroup convience-func-direct-calls Direct calls to CMPI Standard functions
+  @defgroup convience-func-EncapDataTypes Calls to CMPI Encapsulated Data Type functions
   @{
-    @brief Convenience functions that directly call functions defined in the
-        CMPI Standard.
+    @brief Convenience functions that implement implement calls to CMPI Encapsulated
+        Data Type functions.
 
     The convenience functions in this group directly call functions defined in
     the @ref ref-cmpi-standard "CMPI Standard".
 
     They simplify the code by eliminating the references to function tables.
+  @}
+  @defgroup convience-func-broker Interfaces convience functions for broker functions
+  @{
+    @brief Convenience functions that help creating the basic implementation of
+        CMPI Broker Function Tables  interfaces
+
+    The convenience functions in this group help creating the basic
+    implementation of the @ref mi-factory "MI factory functions".
+
+    Their use is necessary because they provide some anchor variables that are
+    used by the other convenience functions.
   @}
   @defgroup convience-func-mi-factory-stubs MI Factory Stubs
   @{
