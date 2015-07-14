@@ -7,6 +7,21 @@ doxygen warnings.  Note that there is one warning left now.
 * modified the grouping for cmpimacs but still not happy.  Will do more in
   the morning.
 
+14 July - Andy
+---------------
+
+* Fixed mispelled "convience-" tags to "convenience-" tags.
+* Improved the headings and descriptions for the various types of convenience
+  functions, and reordered them. Consider this a proposal.
+* Renamed first argument of each macro in cmpimacs.h to match inline function.
+* Reordered functions in cmpimacs.h to fit into their respective groups.
+
+13 July - Karl (by Andy)
+------------------------
+
+* Merge of Andy's proposal for cmpimacs from macro_proposal branch into master.
+* Updates in cmpimacs.
+
 10 July - Andy
 --------------
 
