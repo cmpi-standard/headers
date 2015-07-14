@@ -1,3 +1,11 @@
+13 July - Karl
+--------------
+
+* Merged macro_proposal branch back to head.  Resolved one conflict.
+* Clean up some errors in macro_proposal, etc. that were causing
+doxygen warnings.  Note that there is one warning left now.
+* modified the grouping for cmpimacs but still not happy.  Will do more in
+  the morning.
 
 10 July - Andy
 --------------
