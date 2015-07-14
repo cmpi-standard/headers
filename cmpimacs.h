@@ -36,7 +36,7 @@
  * (incorporating any subsequent Technical Corrigenda), the Technical Standard
  * shall be definitive.
  *
-   The convience functions are NOT documented in the
+   The convenience functions are NOT documented in the
    CMPI specification, just the existence of this header file.
  *
  * This file provides macros (and  in some cases alternatively
@@ -47,16 +47,16 @@
  *        calls in cmpift.h. These macros do not repeat the
  *        documentation of arguments but depend on the definiton
  *        in the defining function. The documentation for each
- *        convience function points to the corresponding
- *        function. Each convience function in this file
+ *        convenience function points to the corresponding
+ *        function. Each convenience function in this file
  *        corresponds to a single function call in cmpift.d.
- *        These convience functions simplify the code largely by
+ *        These convenience functions simplify the code largely by
           bypassing the added step of getting from the broker
           object argument to the function table and the
           function. Thus, for example:
          @code(.c)
                  inst->ft->getProperty(inst, name, rc);
-             is simplified by a convience function to:
+             is simplified by a convenience function to:
                  CMGetProperty(inst, name, rc);
           @endcode
  *    @li macros that consolidate a group of cmpift.d calls into
@@ -77,7 +77,7 @@
  *    reference to those macros.  Also, the macros have a
  *    reference back to the corresponding cmpift.d functions.
  *    @todo discuss inline vs macros.
- *    @todo KS macros is bad word.  Maybe we call them convience
+ *    @todo KS macros is bad word.  Maybe we call them convenience
             functions to cover macro vs inline versions.
             Actually macros is good word.  Question is what do
             we call those things that can be either inline or
@@ -110,7 +110,7 @@
 #include <cmpift.h>
 
 /**
- * @addtogroup convience-func-general
+ * @addtogroup convenience-func-helper
  * @{
  */
 
@@ -283,7 +283,7 @@ _CMPI_INLINE_MOD void CMSetStatus (CMPIStatus* st, CMPIrc rc)
 
 
 /** @brief Initializes a CMPIStatus object with CMPIStatus and message.
-    
+
     CMSetStatusWithString() initialized the CMPIStatus object @p st with
     CMPIStatus @p rc and message text defined by @p msg
 
@@ -320,7 +320,7 @@ _CMPI_INLINE_MOD void CMSetStatusWithString(
 /** @brief Initializes CMPIStatus struct with return code and
            message text message.
 
-    CMSetStatusWithChars convience function initializes a
+    CMSetStatusWithChars convenience function initializes a
     CMPIStatus struct with @p rcp and either a null msg or  a
     new CMPIString created from @p msg if @p msg is not NULL.
 
@@ -499,7 +499,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
 // TODO: From here on down, adjust to the format proposed above.
 /**
  * @}
- * @addtogroup convience-func-EncapDataTypes
+ * @addtogroup convenience-func-edt
  * @{
  */
 
@@ -602,7 +602,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
 
 /**
  * @}
- * @addtogroup convience-func-broker
+ * @addtogroup convenience-func-broker
  * @{
  */
 
@@ -610,7 +610,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
 /** @brief Create a new CMPIInstance object initialized to a given instance
          path.
 
-    CBNewInstance() convience function executes CMPIBrokerEncFT.newInstance()
+    CBNewInstance() convenience function executes CMPIBrokerEncFT.newInstance()
     with same arguments
     @param mb Points to CMPIBroker.
     @param instPath CMPIObjectPath containing namespace and classname.
@@ -662,7 +662,7 @@ _CMPI_INLINE_MOD CMPIInstance * CMNewInstance (
 /** @brief Create a new CMPIObjectPath initialized to a given namespace and
          class name
 
-    CMNewObjectPath() convience function executes
+    CMNewObjectPath() convenience function executes
     CMPIBrokerEncFt.newObjectPath() to create a new CMPIObjectPath.
 
     @see CMPIBrokerEncFT.newObjectPath()
@@ -693,7 +693,7 @@ _CMPI_INLINE_MOD CMPIObjectPath * CMNewObjectPath (
 #   ifdef CMPI_INLINE
 /** @brief Create a new CMPIString object initialized from a C string.
 
-    CMNewString() convience function executes CMPIBrokerEncFt.newString()
+    CMNewString() convenience function executes CMPIBrokerEncFt.newString()
     to create a new CMPIString object that is initialized from  @p data a
     C-language string.
 
@@ -1176,7 +1176,7 @@ _CMPI_INLINE_MOD CMPIStatus CMCloseMessageFile(
 /** @brief Get a translated message text from an open message file by
          message ID.
     CMGetMessage2() macro executes CMPIBrokerEncFT.getMessage2().
-    There is no inline form of this convience function.
+    There is no inline form of this convenience function.
 
     When using as macro, use CMFmtArgsX and CMFmtX macros (defined
     above) to generate the variable parameter list and ommit
@@ -3119,21 +3119,21 @@ _CMPI_INLINE_MOD CMPIBoolean CMEvaluatePredicateUsingAccessor(
     // CMPIBroker Macros
 /**
  * @}
- * @addtogroup convience-func-broker
+ * @addtogroup convenience-func-broker
  * @{
  */
 
 #   ifdef CMPI_INLINE
 /** @brief get the CMPIBroker brokerCapabilities variable
 
-    CBGetCapabilities() convience function directly access the
+    CBGetCapabilities() convenience function directly access the
     CMPIBrokerFT.brokerCapabilities variable, an unsigned  32
     bit variable describing CMPI features supported by this MB.
     MB capabilities are defined by  @ref mb-capabilities flags.
     @param mb pointer to CMPIBroker struct
     @return unsigned int containing the capabilities flags.
     @since CMPI version 2.1. Previous versions included an
-        incorrect convience function CBGetClassification()
+        incorrect convenience function CBGetClassification()
         which has been removed as not working.
 
      @see @ref mb-capabilities CMPIBrokerFT
@@ -3174,7 +3174,7 @@ _CMPI_INLINE_MOD int CBBrokerVersion (const CMPIBroker * mb)
 #   ifdef CMPI_INLINE
 /** @brief Get CMPIBroker Name
 
-    CBBrokerName() convience function gets the CMPIBroker name
+    CBBrokerName() convenience function gets the CMPIBroker name
     from CMPIBroker.brokerVersion
 
     @param mb Pointer to CMPIBroker struct
@@ -3195,7 +3195,7 @@ _CMPI_INLINE_MOD const char CBBrokerName (const CMPIBroker * mb)
 #   ifdef CMPI_INLINE
  /** @brief Prepare the MB to accept a new thread that will be using MB
          functions.
-     CBPrepareAttachThread() convience function executes
+     CBPrepareAttachThread() convenience function executes
      CMPIBrokerFT.prepareAttachThread()  to prepare the MB to
      accept a new thread that will be using MB functions. This
      function is expected to be called in the existing thread.
@@ -3371,7 +3371,7 @@ _CMPI_INLINE_MOD CMPIInstance *CBGetInstance(
 #   ifdef CMPI_INLINE
 /** @brief Create an instance of a given class.
 
-    CBCreateInstance() convience function executes
+    CBCreateInstance() convenience function executes
     CMPIBrokerFT.createInstance() to create an instance of a given class.
     @param mb Points to CMPIBroker.
     @param ctx Context object
@@ -3399,7 +3399,7 @@ _CMPI_INLINE_MOD CMPIObjectPath *CBCreateInstance(
 #   ifdef CMPI_INLINE
 /** @brief Modify property values of an existing instance.
 
-    CBModifyInstance convience function executes CMPIBrokerFT.modifyInstance()
+    CBModifyInstance convenience function executes CMPIBrokerFT.modifyInstance()
     to modify the property values of an existing instance.
 
      @see CMPIBrokerFT.modifyInstance()
@@ -3528,7 +3528,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBAssociatorNames(
 /** @brief Enumerate the association instances referencing a given source
          instance.
 
-    CBReferenceNames convience function executes CMPIBrokerFT.references()
+    CBReferenceNames convenience function executes CMPIBrokerFT.references()
     enumerating the association instances referencing a given source instance.
 
     @see CMPIBrokerFT.references()
@@ -3554,7 +3554,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBReferences(
 /** Enumerates the association ObjectPaths referencing a given
     instance.
 
-    CBReferenceNames convience function executes the function
+    CBReferenceNames convenience function executes the function
      CMPIBrokerFT.referenceNames() to enumerate the instance
      paths of the association instances referencing a given
      source instance @p op.
@@ -3662,7 +3662,7 @@ _CMPI_INLINE_MOD CMPIStatus CBSetProperty(
 #   ifdef CMPI_INLINE
 /** Get the named property value of an Instance (**Deprecated**)
 
-    CBGetProperty() convience function executes CMPIBrokerFt.getProperty() to
+    CBGetProperty() convenience function executes CMPIBrokerFt.getProperty() to
     get the property named by @p name defined by @p op.
     @see CMPIBrokerFT.getProperty()
     @deprecated Because corresponding CMPIBrokerFT.getProperty() is deprecated.
@@ -3687,7 +3687,7 @@ _CMPI_INLINE_MOD CMPIData CBGetProperty(
 */
 /**
  * @}
- * @addtogroup convience-func-mi-factory-stubs
+ * @addtogroup convenience-func-mi-factory-stubs
  * @{
  */
 #   ifndef DOC_ONLY

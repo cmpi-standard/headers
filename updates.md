@@ -1,4 +1,17 @@
 
+14 July - Andy
+---------------
+
+* Fixed mispelled "convience-" tags to "convenience-" tags.
+* Improved the headings and descriptions for the various types of convenience
+  functions, and reordered them. Consider this a proposal.
+
+13 July - Karl (by Andy)
+------------------------
+
+* Merge of Andy's proposal for cmpimacs from macro_proposal branch into master.
+* Updates in cmpimacs.
+
 10 July - Andy
 --------------
 

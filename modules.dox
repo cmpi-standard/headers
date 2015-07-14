@@ -524,53 +524,20 @@
     @}
   @}
 @}
-@defgroup convience-func CMPI Convenience Functions
+@defgroup convenience-func CMPI Convenience Functions
 @{
   In CMPI 1.0, the CMPI convenience functions were defined as C preprocessor
   macros, which coined the term "CMPI macros". Since CMPI 2.0, they are
   defined as C inline functions wherever possible. Only a small number of them
   is still defined as C preprocessor macros.
 
-  @todo TBD AM: Should we describe that the user can switch between macro and
-        inline?
+  Those convenience functions that are defined as C inline functions can also
+  be generated as C preprocessor macros, if the CMPI user defines the symbol
+  `CMPI_NO_INLINE`
 
   The CMPI convenience functions are not a part of the CMPI Standard.
 
-  @defgroup convience-func-general Functions independent of encapsulated datat types or broker 
-  @{
-    @brief Convenience functions that supplement functions defined in the CMPI
-        Standard.
-
-    The convenience functions in this group supplement functions defined in the
-    @ref ref-cmpi-standard "CMPI Standard".
-
-    They aid the access to selected CMPI variables or otherwise provide
-    functionality not directly available through a CMPI Standard function. An
-    example is CMReturn() which creates a function result status and returns
-    from the current MI function in a single call.
-  @}
-  @defgroup convience-func-EncapDataTypes Calls to CMPI Encapsulated Data Type functions
-  @{
-    @brief Convenience functions that implement implement calls to CMPI Encapsulated
-        Data Type functions.
-
-    The convenience functions in this group directly call functions defined in
-    the @ref ref-cmpi-standard "CMPI Standard".
-
-    They simplify the code by eliminating the references to function tables.
-  @}
-  @defgroup convience-func-broker Interfaces convience functions for broker functions
-  @{
-    @brief Convenience functions that help creating the basic implementation of
-        CMPI Broker Function Tables  interfaces
-
-    The convenience functions in this group help creating the basic
-    implementation of the @ref mi-factory "MI factory functions".
-
-    Their use is necessary because they provide some anchor variables that are
-    used by the other convenience functions.
-  @}
-  @defgroup convience-func-mi-factory-stubs MI Factory Stubs
+  @defgroup convenience-func-mi-factory-stubs MI Factory Stubs
   @{
     @brief Convenience functions that help creating the basic implementation of
         MI factory functions.
@@ -580,6 +547,40 @@
 
     Their use is necessary because they provide some anchor variables that are
     used by the other convenience functions.
+  @}
+  @defgroup convenience-func-edt Encapsulated Data Type MB Functions
+  @{
+    @brief Convenience functions that call encapsulated data type MB functions.
+
+    The convenience functions in this group call functions on encapsulated data
+    type objects.
+
+    The factory functions creating encapsulated data type objects are covered
+    in @ref convenience-func-broker "Other MB functions".
+
+    They simplify the code by eliminating the references to function tables.
+  @}
+  @defgroup convenience-func-broker Other MB Functions
+  @{
+    @brief Convenience functions that call other MB functions.
+
+    The convenience functions in this group call MB functions provided by the
+    MB function tables.
+
+    They simplify the code by eliminating the references to function tables.
+  @}
+  @defgroup convenience-func-helper Helper Functions
+  @{
+    @brief Convenience functions that are helper functions.
+
+    The convenience functions in this group do not directly call MB functions
+    defined in the @ref ref-cmpi-standard "CMPI Standard".
+
+    Instead, they help accessing selected CMPI variables or otherwise provide
+    functionality that is not directly available through an MB function.
+
+    An example is CMReturn() which creates a function result status and returns
+    from the current MI function in a single call.
   @}
 @}
 */
