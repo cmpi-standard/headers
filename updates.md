@@ -5,6 +5,12 @@
 * Removed erroneous semicolon after header of some inline functions.
 * Changed all @todo entries for OpenPegasus to use @testopenpegasus.
 * Made formatting in cmpimacs.h more consistent.
+* Removed duplicated intro to convenience function from file level docs of
+  cmpimacs.h.
+* Moved the documentation content from modules.dox to cmpimacs.h, only keeping
+  the @defgroup statements there.
+* Added documentation for CMPI_INLINE and CMPI_NO_INLINE.
+* Reordered subgroups of group user-definable symbols.
 
 14 July - Karl
 --------------

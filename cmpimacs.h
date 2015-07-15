@@ -36,73 +36,116 @@
  * discrepancy between the header file and the Technical Standard
  * (incorporating any subsequent Technical Corrigenda), the Technical Standard
  * shall be definitive.
- *
- * The convenience functions are NOT documented in the CMPI specification, just
- * the existence of this header file.
- *
- * This file provides macros (and  in some cases alternatively
- * defined inline functions) as follows:
- *    @li one-one mapping to corresponding CMPI functions. These
- *        macros simplify the syntax of calls while keeping
- *        exactly the same set of arguments as the function
- *        calls in cmpift.h. These macros do not repeat the
- *        documentation of arguments but depend on the definiton
- *        in the defining function. The documentation for each
- *        convenience function points to the corresponding
- *        function. Each convenience function in this file
- *        corresponds to a single function call in cmpift.d.
- *        These convenience functions simplify the code largely by
- *        bypassing the added step of getting from the broker
- *        object argument to the function table and the
- *        function. Thus, for example:
- *        @code(.c)
- *        inst->ft->getProperty(inst, name, rc);
- *        @endcode
- *        is simplified by a convenience function to:
- *        @code(.c)
- *        CMGetProperty(inst, name, rc);
- *        @endcode
- *    @li macros that consolidate a group of cmpift.d calls into
- *        a single macro. The primary examples are CMPClone()
- *        and CMRelease() which call the clone() and release()
- *        functions for the function table of the object
- *        provided by the input arguments.
- *    @li Convience functions that aid the access to
- *        selected variables or otherwise provide functionality
- *        not directly available through a function. Examples of
- *        this are CMReturn() andCMIsNull()
- *    @li Macros that aid in the definition of providers,
- *        primarily in the definition of the function tables.
- *        The macro CMInstanceMIStub() is an example.
- *
- *    Not all cmpift.h functions have corresponding macros.
- *    However, all functions that have macros have a See Also
- *    reference to those macros.  Also, the macros have a
- *    reference back to the corresponding cmpift.d functions.
- *    @todo discuss inline vs macros. DONE KS
- *    @todo KS macros is bad word.  Maybe we call them convenience
- *          functions to cover macro vs inline versions.
- *          Actually macros is good word.  Question is what do
- *          we call those things that can be either inline or
- *          macro. Convience function stinks.
- *    @todo AM: Should we move this description to the defgroup "CMPI
- *          Convenience Functions" in modules.h? Yes (KS) DONE
- *          KS
- *    @todo KS: We need to create a CMPI_NO_INLINE symbol and
- *          make it user?? available. The default is inline.
- *          both set is error.  DOC_ONLY is only for doc
- *          preperation.  Remove DOC_ONLY. Why the includes for
- *          DOC_ONLY
-*/
+ */
 
 #ifndef _CMPIMACS_H_
 #  define _CMPIMACS_H_
+
+#include <cmpift.h>
 
 #ifdef DOC_ONLY
 #  define _CMPI_INLINE_MOD // Doxygen does not handle these modifiers at all.
 #else
 #  define _CMPI_INLINE_MOD static inline
 #endif
+
+/**
+  @addtogroup convenience-func
+  @{
+    @brief A set of macro and inline functions to ease the use of the various
+    CMPI function tables.
+
+    @todo KS: 'macros' is bad word.  Maybe we call them convenience
+          functions to cover macro vs inline versions.
+          Actually 'macros' is good word.  Question is what do
+          we call those things that can be either inline or
+          macro. 'Convience function' stinks.
+
+    The convience functions in `cmpimacs.h` are provided to help of the CMPI
+    developer and are NOT required to implement CMPI providers.  They do,
+    however, make cleaner more readable code.
+
+    In CMPI 1.0, the CMPI convenience functions were defined as C preprocessor
+    macros, which coined the term "CMPI macros". Since CMPI 2.0, they are defined
+    as C inline functions wherever possible. Only a small number of them is still
+    defined as C preprocessor macros.
+
+    Those convenience functions that are defined as C inline functions can also
+    be generated as C preprocessor macros, if the CMPI user defines the symbol
+    @ref sym-inline "CMPI_NO_INLINE".
+
+    The convenience functions are NOT documented in the CMPI standard, just the
+    existence of the `cmpimacs.h` header file. However this documentation
+    includes hyperlinks between the convience functions and corresponding
+    `cmpift.h` functions or other components of CMPI used by the functions.
+    Further, it is the CMPI standard developers goal to minimize the changes to
+    the convience functions maintain compatibility between CMPI versions.
+
+    The convience functions and macros can be broken down into the following
+    groups:
+
+    @li @parblock
+      One-one mapping to corresponding CMPI functions.
+
+      These macros simplify the syntax of calls while keeping exactly the same
+      set of arguments as the function calls in `cmpift.h`. These macros do not
+      repeat the documentation of arguments but depend on the definiton in the
+      defining function. The documentation for each convenience function points
+      to the corresponding function. Each convenience function in this file
+      corresponds to a single function call in `cmpift.h`. These convenience
+      functions simplify the code largely by bypassing the added step of getting
+      from the broker object argument to the function table and the function.
+      These convience functions each include a link to the `cmpift.h` function
+      that they execute.
+
+      Thus, for example:
+      @code(.c)
+      inst->ft->getProperty(inst, name, rc);
+      @endcode
+      is simplified by a convenience function to:
+      @code(.c)
+      CMGetProperty(inst, name, rc);
+      @endcode
+    @endparblock
+    @li @parblock
+      Macros/convience functions that consolidate a group of `cmpift.h` calls
+      into a single macro.
+
+      The primary examples are CMClone() and CMRelease() which call the clone()
+      and release() functions for the function table of the object provided by
+      the input arguments.
+    @endparblock
+    @li @parblock
+      Convience functions that aid the access to selected variables or otherwise
+      provide functionality not directly available through a function.
+
+      Examples of this are CMReturn() and CMIsNullObject().
+    @endparblock
+    @li @parblock
+      Macros that aid in the definition of providers, primarily in the
+      definition of the function tables.
+
+      The macro CMInstanceMIStub() is an example of a macro that implements  a
+      function table.
+    @endparblock
+  @}
+*/
+
+
+/**
+  @addtogroup sym-inline
+  @{
+    @brief Symbols controlling the definition of convenience functions.
+
+    These symbols control whether the convenience functions are defined as
+    static inline functions (when CMPI_INLINE is defined) or as preprocessor
+    macros (when CMPI_NO_INLINE is defined).
+
+    A user of the CMPI header files may define either CMPI_INLINE or
+    CMPI_NO_INLINE. The default assumed by the CMPI header files is
+    CMPI_INLINE.
+  @}
+*/
 
 #if !defined(CMPI_INLINE) && !defined(CMPI_NO_INLINE)
 #  define CMPI_INLINE // if none is defined, set the default
@@ -111,12 +154,21 @@
 #  error "Only one of CMPI_INLINE and CMPI_NO_INLINE may be defined."
 #endif
 
-#include <cmpift.h>
-
 /**
- * @addtogroup convenience-func-helper
- * @{
- */
+  @addtogroup convenience-func-helper
+  @{
+    @brief Convenience functions that are helper functions.
+
+    The convenience functions in this group do not directly call MB functions
+    defined in the @ref ref-cmpi-standard "CMPI Standard".
+
+    Instead, they help accessing selected CMPI variables or otherwise provide
+    functionality that is not directly available through an MB function.
+
+    An example is CMReturn() which creates a function result status and returns
+    from the current MI function in a single call.
+  @}
+*/
 
 /**
     @brief Return the calling function with CMPIStatus specifying a return code
@@ -135,13 +187,13 @@
     Example of enumerateInstanceNames() MI function that returns CMPI_RC_OK to
     the MB.
     @code (.c)
-        CMPIStatus testEnumInstanceNames (CMPIInstanceMI *mi,
-            const CMPIContext *ctx, const CMPIResult *rslt,
-            const CMPIObjectPath *classPath)
-        {
-            // .... code to return instance names
-            CMReturn(CMPI_RC_OK);
-        }
+    CMPIStatus testEnumInstanceNames (CMPIInstanceMI *mi,
+        const CMPIContext *ctx, const CMPIResult *rslt,
+        const CMPIObjectPath *classPath)
+    {
+        // .... code to return instance names
+        CMReturn(CMPI_RC_OK);
+    }
     @endcode
     @hideinitializer
 */
@@ -505,10 +557,20 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
 
 // TODO: From here on down, adjust to the format proposed above.
 /**
- * @}
- * @addtogroup convenience-func-edt
- * @{
- */
+  @}
+  @addtogroup convenience-func-edt
+  @{
+    @brief Convenience functions that call encapsulated data type MB functions.
+
+    The convenience functions in this group call functions on encapsulated data
+    type objects.
+
+    The factory functions creating encapsulated data type objects are covered
+    in @ref convenience-func-broker "Other MB functions".
+
+    They simplify the code by eliminating the references to function tables.
+  @}
+*/
 
 
 // Life-cycle functions on EDTs
@@ -2564,10 +2626,17 @@ _CMPI_INLINE_MOD CMPIBoolean CMEvaluatePredicateUsingAccessor(
 
 
 /**
- * @}
- * @addtogroup convenience-func-broker
- * @{
- */
+  @}
+  @addtogroup convenience-func-broker
+  @{
+    @brief Convenience functions that call other MB functions.
+
+    The convenience functions in this group call MB functions provided by the
+    MB function tables.
+
+    They simplify the code by eliminating the references to function tables.
+  @}
+*/
 
 /** @brief Create a new CMPIInstance object initialized to a given instance
         path.
@@ -3747,10 +3816,19 @@ _CMPI_INLINE_MOD CMPIData CBGetProperty(
 #   endif
 
 /**
- * @}
- * @addtogroup convenience-func-mi-factory-stubs
- * @{
- */
+  @}
+  @addtogroup convenience-func-mi-factory-stubs
+  @{
+   @brief Convenience functions that help creating the basic implementation of
+       MI factory functions.
+
+   The convenience functions in this group help creating the basic
+   implementation of the @ref mi-factory "MI factory functions".
+
+   Their use is necessary because they provide some anchor variables that are
+   used by the other convenience functions.
+  @}
+*/
 
 #   ifndef DOC_ONLY
        // Used when the MI factory function is not going to call

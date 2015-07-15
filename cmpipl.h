@@ -40,14 +40,10 @@
 #ifndef _CMPIPL_H_
 #define _CMPIPL_H_
 
-// We need to define the defgroup here, even in the same Doxygen comment as
-// the actual content, because this group does not define any C/C++ entity.
 /**
- * @addtogroup symbols-user
+ * @addtogroup sym-platform
  * @{
- * @defgroup sym-platform CMPI_PLATFORM_{xxx}
- * @{
- * @brief Compile platform for CMPI
+ * @brief Compile platform for CMPI.
  *
  * The symbols for the compile platform have names of the format:<br/>
  *
@@ -79,7 +75,6 @@
  *
  * The `cmpipl.h` header file verifies that exactly one of these symbols has
  * been defined.
- * @}
  * @}
  */
 
