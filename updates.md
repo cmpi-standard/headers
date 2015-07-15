@@ -11,6 +11,8 @@
   the @defgroup statements there.
 * Added documentation for CMPI_INLINE and CMPI_NO_INLINE.
 * Reordered subgroups of group user-definable symbols.
+* Switched macro and inline function into the right order for the first few
+  functions in cmpimacs.h.
 
 14 July - Karl
 --------------
