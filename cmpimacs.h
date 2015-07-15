@@ -257,8 +257,7 @@
         }
     @endcode
     @hideinitializer
-
-    @todo openpegasus No test for this macro
+    @testopenpegasus Not tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMSetStatus(st, rc) \
@@ -466,7 +465,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsNullValue (const CMPIData val)
     @retval true CMPIData object is keyValue
     @retval false CMPIData object is NOT keyValue
     @see CMPIValueState CMPIData
-    @todo No test for this in OpenPegasus
+    @testopenpegasus Not tested
     @todo this is value call, not pointer.  Shouldn't this be
           pointer call?
   */
@@ -487,8 +486,8 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsKeyValue (CMPIData val)
     @param val Points to Value object
     @retval true CMPIData object is array type.
     @retval false CMPIData object is NOT array type
+    @testopenpegasus Not tested
     @todo KS this needs example.
-    @todo not tested in OpenPegasus
     @todo this is defined as
   */
 #   ifdef CMPI_INLINE
@@ -557,7 +556,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
      CMPISelectExpFT.clone(), CMPISelectCondFT.clone(),
      CMPISubCondFT.clone(), CMPIPredicateFT.clone(),
      CMPIArgsFT.clone(), CMPIStringFT.clone(),
-     CMPIIEnumerationFT.clone(), CMPIDateTimeFT.clone(),
+     CMPIEnumerationFT.clone(), CMPIDateTimeFT.clone(),
      CMPIPropertyListFT.clone(), CMPIEnumerationFilterFT.clone(),
   @todo KS test if we need brief in this and release doc
 */
@@ -592,7 +591,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
      CMPISelectExpFT.release(), CMPISelectCondFT.release(),
      CMPISubCondFT.release(), CMPIPredicateFT.release(),
      CMPIArgsFT.release(), CMPIStringFT.release(),
-     CMPIIEnumerationFT.release(), CMPIDateTimeFT.release(),
+     CMPIEnumerationFT.release(), CMPIDateTimeFT.release(),
      CMPIPropertyListFT.release(),
      CMPIEnumerationFilterFT.release(),
      @par Example
@@ -621,7 +620,6 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
      @param[out] rc Function return CMPIStatus (suppressed when NULL).
      @return CMPIData with Property value. If not successful CMPIData.state
      will have the @ref CMPI_badValue.
-     @todo used  and tested extensively in OpenPegasus
      @par Example
      @code(.c)
      CMPIInstance* inst = NULL;
@@ -631,6 +629,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
      rtnData = CMGetProperty(inst, name1, &rc);
      assert(rtnData.state != CMPI_badValue);
      @endcode
+     @testopenpegasus Used and tested extensively
       */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIData CMGetProperty(
@@ -655,8 +654,8 @@ _CMPI_INLINE_MOD CMPIData CMGetProperty(
      @return CMPIData with property value. If not successful CMPIData.state
      will have the @ref CMPI_badValue.
      @see CMPIInstanceFT.getPropertyAt()
-     @todo used in OpenPegasus
-      */
+     @testopenpegasus Used
+*/
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIData CMGetPropertyAt(
     const CMPIInstance * inst,
@@ -678,7 +677,7 @@ _CMPI_INLINE_MOD CMPIData CMGetPropertyAt(
      @param value Address of value structure.
      @param type Value type.
      @return Service return status.
-     @todo Used and tested extensively in OpenPegasus
+     @testopenpegasus Used and tested extensively
       */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMSetProperty(
@@ -719,8 +718,8 @@ _CMPI_INLINE_MOD CMPICount CMGetPropertyCount(
     @param inst Points to CMPIInstance.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return The generated CMPIObjectPath or NULL.
-    @todo tested extensively in OpenPegasus cmpiTestMethodProvider.c
-      */
+    @testopenpegasus Used and tested extensively in cmpiTestMethodProvider.c
+*/
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIObjectPath *CMGetObjectPath(
     const CMPIInstance * inst,
@@ -741,7 +740,7 @@ _CMPI_INLINE_MOD CMPIObjectPath *CMGetObjectPath(
      @param inst Points to the CMPIInstance structure.
      @param op Points to the new CMPIObjectPath.
      @return CMPIStatus structure containing the function return status.
-     @todo Used in OpenPegasus
+     @testopenpegasus Used
       */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMSetObjectPath(
@@ -764,7 +763,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetObjectPath(
          or more Property names to be accepted by setProperty operations.
      @param keys Deprecated, ignored by MB, maintained here for compatibility.
      @return Function return status.
-     @todo No use in OpenPegasus
+     @testopenpegasus Not used
       */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMSetPropertyFilter(
@@ -818,7 +817,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetPropertyWithOrigin(
      @param op Pointer to target CMPIObjectPath.
      @param hn The hostname string
      @return Function return CMPIStatus.
-     @todo OpenPegasus used.
+     @testopenpegasus Used
       */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus
@@ -836,7 +835,7 @@ CMSetHostname (CMPIObjectPath * op, const char *hn)
     CMGetHostName() executes CMPIObjectPathFT.getHostname() to
     get the host name component from @p op a CMPIObjectPath
     @see CMPIObjectPathFT.getHostname()
-    @todo OpenPegasus used.
+    @testopenpegasus Used
       */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString *CMGetHostname(
@@ -856,7 +855,7 @@ _CMPI_INLINE_MOD CMPIString *CMGetHostname(
      @param op ObjectPath this pointer.
      @param ns The namespace string
      @return Service return status.
-     @todo OpenPegasus used and tested
+     @testopenpegasus Used and tested
 */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus
@@ -875,7 +874,7 @@ CMSetNameSpace (CMPIObjectPath * op, const char *ns)
      @param[out] rc Function return CMPIStatus (suppressed when NULL).
      @return The namespace component.
      @see CMPIObjectPathFT.getNameSpace()
-     @todo OpenPegasus used and tested
+     @testopenpegasus Used and tested
 */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString *CMGetNameSpace(
@@ -913,7 +912,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetClassName(
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return The classname component or NULL.
     @see CMPIObjectPathFT.getClassName()
-    @todo OpenPegasus used and tested.
+    @testopenpegasus Used and tested
       */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString *CMGetClassName(
@@ -935,7 +934,7 @@ _CMPI_INLINE_MOD CMPIString *CMGetClassName(
     @param type CMPIType Value type.
     @return function CMPIStatus return status.
     @see CMPIObjectPathFT.addKey()
-    @todo OpenPegasus tested and used
+    @testopenpegasus Used and tested
 */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMAddKey(
@@ -959,7 +958,7 @@ _CMPI_INLINE_MOD CMPIStatus CMAddKey(
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return CMPIData.
     @see CMPIObjectPathFT.getKey()
-    @todo OpenPegasus tested and used
+    @testopenpegasus Used and tested
       */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIData CMGetKey(
@@ -982,7 +981,7 @@ _CMPI_INLINE_MOD CMPIData CMGetKey(
     @param[out] name Returned property name (suppressed when NULL).
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return Data value.
-    @todo OpenPegasus used and tested
+    @testopenpegasus Used and tested
       */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIData CMGetKeyAt(
@@ -1067,7 +1066,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetHostAndNameSpaceFromObjectPath(
     @param qName Qualifier name.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return Qualifier value.
-    @todo OpenPegasus Not implemented
+    @testopenpegasus Not implemented
 */
 #ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIData CMGetClassQualifier(
@@ -1090,7 +1089,7 @@ _CMPI_INLINE_MOD CMPIData CMGetClassQualifier(
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return Qualifier value.
     @see CMPIObjectPathFT.getPropertyQualifier()
-    @todo OpenPegasus Not implemented
+    @testopenpegasus Not implemented
 */
 #ifdef CMPI_INLINE
 _CMPI_INLINE_MOD  CMPIData CMGetPropertyQualifier(
@@ -1113,7 +1112,7 @@ _CMPI_INLINE_MOD  CMPIData CMGetPropertyQualifier(
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return Qualifier value.
     @see CMPIObjectPathFT.getMethodQualifier()
-    @todo OpenPegasus Not implemented
+    @testopenpegasus Not implemented
 */
 #ifdef CMPI_INLINE
 _CMPI_INLINE_MOD  CMPIData CMGetMethodQualifier(
@@ -1137,7 +1136,7 @@ _CMPI_INLINE_MOD  CMPIData CMGetMethodQualifier(
     @param qName Qualifier name.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return Qualifier value.
-    @todo OpenPegasus Not implemented
+    @testopenpegasus Not implemented
 */
 #ifdef CMPI_INLINE
 _CMPI_INLINE_MOD  CMPIData CMGetParameterQualifier(
@@ -1164,7 +1163,7 @@ _CMPI_INLINE_MOD  CMPIData CMGetParameterQualifier(
     @param ar Points to CMPIArray.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return Number of elements.
-    @todo OpenPegasus used and tested
+    @testopenpegasus Used and tested
 */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPICount CMGetArrayCount(
@@ -1185,7 +1184,7 @@ _CMPI_INLINE_MOD CMPICount CMGetArrayCount(
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return Number of elements.
     @see CMPIArrayFT.getSimpleType()
-    @todo OpenPegasus used and tested
+    @testopenpegasus Used and tested
 */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIType CMGetArrayType(
@@ -1205,7 +1204,7 @@ _CMPI_INLINE_MOD CMPIType CMGetArrayType(
     @param index Position in the internal data array.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return CMPIData Element value.
-    @todo OpenPegasus used and tested
+    @testopenpegasus Used and tested
 */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIData CMGetArrayElementAt(
@@ -1229,7 +1228,7 @@ _CMPI_INLINE_MOD CMPIData CMGetArrayElementAt(
     @param type Value type.
     @return Service return status.
     @see CMPIArrayFT.setElementAt()
-    @todo OpenPegasus tested and used
+    @testopenpegasus Used and tested
 */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMSetArrayElementAt(
@@ -1258,7 +1257,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetArrayElementAt(
     @param value Address of value structure.
     @param type Value type.
     @return Service return status.
-    @todo OpenPegasus used and tested
+    @testopenpegasus Used and tested
 */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMAddArg(
@@ -1282,7 +1281,7 @@ _CMPI_INLINE_MOD CMPIStatus CMAddArg(
     @param name Argument name.
     @param rc Output: Service return status (suppressed when NULL).
     @return Argument value.
-    @todo OpenPegasus used
+    @testopenpegasus Used
 */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIData CMGetArg(
@@ -1306,7 +1305,7 @@ _CMPI_INLINE_MOD CMPIData CMGetArg(
     @param rc Output: Service return status (suppressed when NULL).
     @return Argument value.
     @see  CMPIArgsFT.getArgAt()
-    @todo OpenPegasus used
+    @testopenpegasus Used
     @todo removed all params and returns
 */
 #   ifdef CMPI_INLINE
@@ -1330,7 +1329,7 @@ _CMPI_INLINE_MOD CMPIData CMGetArgAt(
     @param as Points to CMPIArgs.
     @param rc Output: Service return status (suppressed when NULL).
     @return Number of properties.
-    @todo OpenPegasus used
+    @testopenpegasus Used
 */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPICount CMGetArgCount (const CMPIArgs * as, CMPIStatus * rc)
@@ -1421,7 +1420,7 @@ _CMPI_INLINE_MOD CMPIString *CMGetStringFormat(
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return DateTime in binary.
     @see CMPIDateTimeFT.getBinaryFormat()
-    @todo OpenPegasus used and tested
+    @testopenpegasus Used and tested
       */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIUint64 CMGetBinaryFormat(
@@ -1465,7 +1464,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsInterval(
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return CMPIErrorType
     @note Inline code fixed in CMPI 2.1
-    @todo OpenPegasus used and tested
+    @testopenpegasus Used and tested
  */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIErrorType CMGetErrorType(
@@ -1485,7 +1484,7 @@ _CMPI_INLINE_MOD CMPIErrorType CMGetErrorType(
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return A string, which can be NULL
     @note Inline code fixed in CMPI 2.1
-    @todo OpenPegasus used and tested macro
+    @testopenpegasus Used and tested
  */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString* CMGetOtherErrorType(
@@ -1506,7 +1505,7 @@ _CMPI_INLINE_MOD CMPIString* CMGetOtherErrorType(
     @return A string, which can be NULL
     @see CMPIErrorFT.getOwningEntity()
     @note Inline code fixed in CMPI 2.1
-    @todo OpenPegasus tested
+    @testopenpegasus Tested
  */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString* CMGetOwningEntity(
@@ -1525,7 +1524,7 @@ _CMPI_INLINE_MOD CMPIString* CMGetOwningEntity(
     @return A string, which can be NULL
     @see CMPIErrorFT.getMessageID()
     @note Inline code fixed in CMPI 2.1
-    @todo OpenPegasus tested.
+    @testopenpegasus Tested
  */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString* CMGetMessageID(
@@ -1545,7 +1544,7 @@ _CMPI_INLINE_MOD CMPIString* CMGetMessageID(
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return A string, which can be NULL
     @note Inline form corrected in CMPI 2.1
-    @todo OpenPegasus tested
+    @testopenpegasus Tested
     */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString* CMGetErrorMessage(
@@ -1564,7 +1563,7 @@ _CMPI_INLINE_MOD CMPIString* CMGetErrorMessage(
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return the perceived severity
     @note Inline form corrected in CMPI 2.1
-    @todo OpenPegasus tested
+    @testopenpegasus Tested
  */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIErrorSeverity CMGetPerceivedSeverity(
@@ -1584,7 +1583,7 @@ _CMPI_INLINE_MOD CMPIErrorSeverity CMGetPerceivedSeverity(
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return A probable cause value
     @note Inline form corrected in CMPI 2.1
-    @todo OpenPegasus tested
+    @testopenpegasus Tested
  */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIErrorProbableCause CMGetProbableCause(
@@ -1606,7 +1605,7 @@ _CMPI_INLINE_MOD CMPIErrorProbableCause CMGetProbableCause(
     @return A string, which can be NULL
     @see CMPIErrorFT.getProbableCauseDescription()
     @note Inline form corrected in CMPI 2.1
-    @todo OpenPegasus tested
+    @testopenpegasus Tested
  */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString* CMGetProbableCauseDescription(
@@ -1626,7 +1625,7 @@ _CMPI_INLINE_MOD CMPIString* CMGetProbableCauseDescription(
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return A array of strings, which can be NULL
     @note Inline form corrected in CMPI 2.1
-    @todo OpenPegasus tested
+    @testopenpegasus Tested
  */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIArray* CMGetRecommendedActions(
@@ -1646,7 +1645,7 @@ _CMPI_INLINE_MOD CMPIArray* CMGetRecommendedActions(
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return A string, which can be NULL
     @note Inline form corrected in CMPI 2.1
-    @todo OpenPegasus tested
+    @testopenpegasus Tested
  */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString* CMGetErrorSource(
@@ -1666,7 +1665,7 @@ _CMPI_INLINE_MOD CMPIString* CMGetErrorSource(
     @return A error source format  code
     @see CMPIErrorFT.getErrorSourceFormat()
     @note Inline form corrected in CMPI 2.1
-    @todo OpenPegasus tested
+    @testopenpegasus Tested
  */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIErrorSrcFormat CMGetErrorSourceFormat(
@@ -1687,7 +1686,7 @@ _CMPI_INLINE_MOD CMPIErrorSrcFormat CMGetErrorSourceFormat(
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return A string, which can be NULL
     @note Inline form corrected in CMPI 2.1
-    @todo OpenPegasus tested
+    @testopenpegasus Tested
  */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString* CMGetOtherErrorSourceFormat(
@@ -1708,7 +1707,7 @@ _CMPI_INLINE_MOD CMPIString* CMGetOtherErrorSourceFormat(
     @return A CMPI Status code
     @see CMPIErrorFT.getCIMStatusCode()
     @note Inline form corrected in CMPI 2.1
-    @todo OpenPegasus tested
+    @testopenpegasus Tested
 */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIrc CMGetCIMStatusCode(const CMPIError* er, CMPIStatus* rc)
@@ -1851,7 +1850,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetRecommendedActions(
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMSetErrorSource(
     const CMPIError* er,
-    const char* es);
+    const char* es)
 {
   return ((er)->ft->setErrorSource ((er), (es)));
 }
@@ -1870,7 +1869,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetErrorSource(
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMSetErrorSourceFormat(
     CMPIError* er,
-    const CMPIErrorSrcFormat esf);
+    const CMPIErrorSrcFormat esf)
 {
   return ((er)->ft->setErrorSourceFormat ((er), (esf)));
 }
@@ -1909,7 +1908,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetOtherErrorSourceFormat(
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMSetCIMStatusCodeDescription(
     CMPIError* er,
-    const char* scd);
+    const char* scd)
 {
   return ((er)->ft->setCIMStatusCodeDescription ((er), (scd)));
 }
@@ -2170,7 +2169,7 @@ _CMPI_INLINE_MOD CMPICount CMGetContextEntryCount(
      @param value Address of value structure.
      @param type Value type.
      @return Service return status.
-    @todo OpenPegasus used
+    @testopenpegasus Used
 */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMAddContextEntry(
@@ -2195,7 +2194,7 @@ _CMPI_INLINE_MOD CMPIStatus CMAddContextEntry(
      @param se SelectExp this pointer.
      @param[out] rc Function return CMPIStatus (suppressed when NULL).
      @return The select expression.
-     @todo OpenPegasus tested
+     @testopenpegasus Tested
 */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString *CMGetSelExpString(
@@ -2217,7 +2216,7 @@ _CMPI_INLINE_MOD CMPIString *CMGetSelExpString(
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return True or false incicator.
     @see CMPISelectExpFT.evaluate()
-    @todo OpenPegasus used
+    @testopenpegasus Used
       */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIBoolean CMEvaluateSelExp(
@@ -2242,7 +2241,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMEvaluateSelExp(
     @param parm Data accessor parameter.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return True or false incicator.
-    @todo OpenPegasus used
+    @testopenpegasus Used
       */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIBoolean CMEvaluateSelExpUsingAccessor(
@@ -2265,7 +2264,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMEvaluateSelExpUsingAccessor(
      @param se SelectExp this pointer.
      @param[out] rc Function return CMPIStatus (suppressed when NULL).
      @return The disjunction.
-     @todo OpenPegasus used
+     @testopenpegasus Used
 */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPISelectCond *CMGetDoc(
@@ -2312,7 +2311,7 @@ _CMPI_INLINE_MOD CMPISelectCond *CMGetCod(
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return Number of SubCond elements.
     @see CMPISelectCondFT.getCountAndType()
-    @todo OpenPegasus tested
+    @testopenpegasus Tested
       */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPICount CMGetSubCondCountAndType(
@@ -2333,7 +2332,7 @@ _CMPI_INLINE_MOD CMPICount CMGetSubCondCountAndType(
     @param index Position in the internal SubCoind array.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return The indexed SubCond element.
-    @todo OpenPegasus tested
+    @testopenpegasus Tested
       */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPISubCond *CMGetSubCondAt(
@@ -2358,7 +2357,7 @@ _CMPI_INLINE_MOD CMPISubCond *CMGetSubCondAt(
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return Number of Predicate elements.
     @see CMPISubCondFT.getCount()
-    @todo OpenPegasus tested
+    @testopenpegasus Tested
       */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPICount CMGetPredicateCount(
@@ -2378,7 +2377,7 @@ _CMPI_INLINE_MOD CMPICount CMGetPredicateCount(
     @param index Position in the internal Predicate array.
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return The indexed Predicate element.
-    @todo OpenPegasus tested
+    @testopenpegasus Tested
       */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIPredicate *CMGetPredicateAt(
@@ -2400,7 +2399,7 @@ _CMPI_INLINE_MOD CMPIPredicate *CMGetPredicateAt(
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return The named Predicate element.
     @see CMPISubCondFT.getPredicate()
-    @todo OpenPegasus tested
+    @testopenpegasus Tested
       */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIPredicate *CMGetPredicate(
@@ -2427,7 +2426,7 @@ _CMPI_INLINE_MOD CMPIPredicate *CMGetPredicate(
     @param[out] lhs Left hand side of predicate.
     @param[out] rhs Right hand side of predicate.
     @return Service return status.
-    @todo OpenPegasus tested
+    @testopenpegasus Tested
 */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMGetPredicateData(
@@ -2656,7 +2655,7 @@ _CMPI_INLINE_MOD CMPIArgs * CMNewArgs (const CMPIBroker * mb, CMPIStatus * rc)
     @param[out] rc Function return status (suppressed when NULL).
     @return Newly created Array or NULL.
     @todo KS confirm what size means
-    @todo OpenPegasus OK. tested in cmpiTestMethodProvider.c
+    @testopenpegasus Tested in cmpiTestMethodProvider.c
 */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIArray * CMNewArray (
@@ -2783,7 +2782,7 @@ _CMPI_INLINE_MOD CMPISelectExp *CMNewSelectExp(
          @li False otherwise.
      @version. The className argument was named type and documented incorrectly
      prior to version 2.1.  The code did execute correctly
-     @todo no test for this in OpenPegasus
+     @testopenpegasus Not tested
      */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIBoolean CMClassPathIsA(
@@ -2840,7 +2839,6 @@ _CMPI_INLINE_MOD CMPIString *CDToString(
     @param[out] rc Function return CMPIStatus (suppressed when NULL).
     @return True if test successful.
     @see CMPIBrokerEncFT.isOfType()
-    @todo OpenPegasus test OK
     @par Example
     @code(.c)
       CMPIStatus rc = { CMPI_RC_OK, NULL };
@@ -2849,6 +2847,7 @@ _CMPI_INLINE_MOD CMPIString *CDToString(
       isOfType = CDIsOfType (_broker, inst, "CMPIInstance", &rc);
       assert(isOfType);
     @endcode
+    @testopenpegasus Tested
 */
 #    ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIBoolean CDIsOfType(
@@ -2902,7 +2901,7 @@ _CMPI_INLINE_MOD CMPIString *CDGetType(
              "Entering EnumerateInstance", NULL);
      @endcode
     @see CMPIBrokerEncFT.logMessage()
-    @todo tested in OpenPegasus cmpiTestMethodProvider.c
+    @testopenpegasus Tested in cmpiTestMethodProvider.c
 */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMLogMessage(
@@ -2939,8 +2938,8 @@ _CMPI_INLINE_MOD CMPIStatus CMLogMessage(
         CMPIString *str = CMNewString (_broker, "CMTraceMessage", &rc);
         rc = CMTraceMessage (_broker, 4, "Authorization", NULL, str);
      @endcode
-     @todo tested in OpenPegasus  cmpiTestMethodProvider.c
-     @todo OpenPegasus uses CMPILevel as type, not int.
+     @testopenpegasus Tested in cmpiTestMethodProvider.c. Uses CMPILevel as
+         type, not int.
 */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMTraceMessage(
@@ -2978,7 +2977,7 @@ _CMPI_INLINE_MOD CMPIStatus CMTraceMessage(
       cmpiError = CMNewCMPIError(_broker, inOwningEntity, inMsgID, inMsg,
            inSev, inPc, inCIMStatusCode, &rc);
     @endcode
-    @todo OpenPegasus tested in TestCMPIErrorProvider.c
+    @testopenpegasus Tested in TestCMPIErrorProvider.c
 */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIError* CMNewCMPIError(
@@ -3013,7 +3012,7 @@ _CMPI_INLINE_MOD CMPIError* CMNewCMPIError(
     @code(.c)
         CMOpenMessageFile(_broker,"/path/msgFile",&msgFileHandle);
     @endcode
-    @todo OpenPegasus used.
+    @testopenpegasus Used
 */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMOpenMessageFile(
@@ -3055,7 +3054,7 @@ _CMPI_INLINE_MOD CMPIStatus CMOpenMessageFile(
     // . . . do something with msg
     rc = CMCloseMessageFile(_broker, msgFileHandle);
     @endcode
-    @todo OpenPegasus tested in cmpiTestBrokerEncProvider.c
+    @testopenpegasus Tested in cmpiTestBrokerEncProvider.c
 */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIStatus CMCloseMessageFile(
@@ -3103,11 +3102,11 @@ _CMPI_INLINE_MOD CMPIStatus CMCloseMessageFile(
        CMGetMessage2(_broker,"msgid",msgFileHandle,"Test $0 $1",
        NULL,CMFmtArgs2(CMFmtChars("message"),CMFmtSint(1));
     @endcode
-    @todo OpenPegasus tested in cmpiTestBrokerEncProvider.c
-    @todo KS Pls review since it asks to do something if macro but it is
-    only a macro. No inline version.
     @version Inline code modified; unsigned int last parameter
           to type CMPICount in 2.1
+    @testopenpegasus Tested in cmpiTestBrokerEncProvider.c
+    @todo KS Pls review since it asks to do something if macro but it is
+    only a macro. No inline version.
 */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIString* CMGetMessage2(
@@ -3321,9 +3320,8 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBEnumInstanceNames(
      @param[out] rc Function return CMPIStatus (suppressed when NULL).
      @return CMPIEnumeration of Instances.
      @see CMPIBrokerFT.enumerateInstances()
-
-    @todo (KS)clean up doc
-    @todo not used in Pegasus. i.e. no test
+     @testopenpegasus Not used, not tested
+     @todo (KS)clean up doc
 */
 #   ifdef CMPI_INLINE
 _CMPI_INLINE_MOD CMPIEnumeration *CBEnumInstances(

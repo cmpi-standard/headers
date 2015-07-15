@@ -1,17 +1,26 @@
+15 July - Andy
+--------------
+
+* Fixed typo CMPIEnumerationFT in cmpimacs.h.
+* Removed erroneous semicolon after header of some inline functions.
+* Changed all @todo entries for OpenPegasus to use @testopenpegasus.
+
 14 July - Karl
+--------------
 
 * Moved all of the INLINE defs from top of comment to bottom
 * Cleaned up several more convience functions.
 * Add documentation on the macros to modules.dox
 * Remove @see for documentation that uses word executes to define
-a one-one mapping macro.  Note that we have not added phrase "
-corresponding arguments yet"
+  a one-one mapping macro.  Note that we have not added phrase "
+  corresponding arguments yet"
+
 13 July - Karl
 --------------
 
 * Merged macro_proposal branch back to head.  Resolved one conflict.
 * Clean up some errors in macro_proposal, etc. that were causing
-doxygen warnings.  Note that there is one warning left now.
+  doxygen warnings.  Note that there is one warning left now.
 * modified the grouping for cmpimacs but still not happy.  Will do more in
   the morning.
 
