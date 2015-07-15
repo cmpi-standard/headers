@@ -167,7 +167,6 @@
 
     An example is CMReturn() which creates a function result status and returns
     from the current MI function in a single call.
-  @}
 */
 
 /**
@@ -569,12 +568,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray (const CMPIData val)
     in @ref convenience-func-broker "Other MB functions".
 
     They simplify the code by eliminating the references to function tables.
-  @}
 */
-
-
-// Life-cycle functions on EDTs
-
 
 /**
     @def CMClone(obj,rc)
@@ -2624,7 +2618,6 @@ _CMPI_INLINE_MOD CMPIBoolean CMEvaluatePredicateUsingAccessor(
 #   endif
 #   endif /* CMPI_VER_100 */
 
-
 /**
   @}
   @addtogroup convenience-func-broker
@@ -2635,7 +2628,6 @@ _CMPI_INLINE_MOD CMPIBoolean CMEvaluatePredicateUsingAccessor(
     MB function tables.
 
     They simplify the code by eliminating the references to function tables.
-  @}
 */
 
 /** @brief Create a new CMPIInstance object initialized to a given instance
@@ -3827,7 +3819,6 @@ _CMPI_INLINE_MOD CMPIData CBGetProperty(
 
    Their use is necessary because they provide some anchor variables that are
    used by the other convenience functions.
-  @}
 */
 
 #   ifndef DOC_ONLY
@@ -4534,7 +4525,7 @@ CMPI_EXTERN_C CMPIIndicationMI *pn##_Create_IndicationMI( \
     CmpiProviderBase base##pn;
 
 /**
- * @}
- */
+ @}
+*/
 
 #endif // _CMPIMACS_H_
