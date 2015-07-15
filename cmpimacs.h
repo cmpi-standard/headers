@@ -36,6 +36,8 @@
  * discrepancy between the header file and the Technical Standard
  * (incorporating any subsequent Technical Corrigenda), the Technical Standard
  * shall be definitive.
+ *
+ * @todo AM: Find a way so that _CMPI_INLINE_MOD does not show up inthe docs.
  */
 
 #ifndef _CMPIMACS_H_
