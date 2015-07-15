@@ -13,6 +13,7 @@
 * Reordered subgroups of group user-definable symbols.
 * Switched macro and inline function into the right order for the first few
   functions in cmpimacs.h.
+* In newArray(), documented a bug for the spec related to the array size.
 
 14 July - Karl
 --------------

@@ -2120,6 +2120,8 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_INVALID_DATA_TYPE` - Data type not valid.
 
      @see CMNewArray()
+     @bug In the CMPI Standards document, update the description of the function
+         and of the @p size argument to match the header file.
     */
     CMPIArray* (*newArray) (const CMPIBroker* mb, CMPICount size,
         CMPIType type, CMPIStatus* rc);
