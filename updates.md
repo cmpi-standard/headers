@@ -4,6 +4,7 @@
 * Fixed typo CMPIEnumerationFT in cmpimacs.h.
 * Removed erroneous semicolon after header of some inline functions.
 * Changed all @todo entries for OpenPegasus to use @testopenpegasus.
+* Made formatting in cmpimacs.h more consistent.
 
 14 July - Karl
 --------------
