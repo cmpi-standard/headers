@@ -26,6 +26,7 @@
     cmpimacs.h.
 * Fixed inconsistent nesting of #if/endif in cmpimacs.h.
 * Updated some forgotten argument names.
+* Removed remaining historical (pre 1.0) stuff from cmpimacs.h.
 
 15 July - Karl
 --------------

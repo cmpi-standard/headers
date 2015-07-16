@@ -1985,9 +1985,6 @@ _CMPI_INLINE_MOD CMPISelectCond *CMGetCod(
     @return True or false incicator.
     @hideinitializer
     @testopenpegasus Used
-
-    @todo AM: This is defined only for the historical version CMPI_VER_87.
-          Should we remove it?
 */
 #ifdef CMPI_NO_INLINE
 #define CMEvaluateSelExpUsingAccessor(se, accessor, parm, rc) \
@@ -3029,25 +3026,11 @@ _CMPI_INLINE_MOD CMPIObjectPath *CBCreateInstance(
 
     CBModifyInstance convenience function executes CMPIBrokerFT.modifyInstance()
     to modify the property values of an existing instance.
-
-    @todo TBD AM: The comparison for CMPI_VER_100 intends to support a change
-        from setInstance() to modifyInstance() that was probably done in CMPI
-        1.0. However, as currently coded, the comparison generates the old
-        (pre-1.0) name for CMPI > 1.0. The comparison should have special cased
-        the historical CMPI version, instead. Along with our strategy for
-        removing historical stuff from the headers, the version comparison and
-        its setInstance() path should be removed. Agreed?
 */
 #ifdef CMPI_NO_INLINE
-#  ifdef CMPI_VER_100
-#  define CBModifyInstance(mb,c,p,i,pr) \
-      ((mb)->bft->modifyInstance((mb),(c),(p),(i),(pr)))
-#  else
-#  define CBSetInstance(mb,c,p,i,pr) \
-      ((mb)->bft->setInstance((mb),(c),(p),(i),(pr)))
-#  endif /* CMPI_VER_100 */
+#define CBModifyInstance(mb,c,p,i,pr) \
+    ((mb)->bft->modifyInstance((mb),(c),(p),(i),(pr)))
 #else
-#  ifdef CMPI_VER_100
 _CMPI_INLINE_MOD CMPIStatus CBModifyInstance(
     const CMPIBroker *mb,
     const CMPIContext *ctx,
@@ -3057,17 +3040,6 @@ _CMPI_INLINE_MOD CMPIStatus CBModifyInstance(
 {
     return mb->bft->modifyInstance(mb, ctx, op, inst, properties);
 }
-#  else
-_CMPI_INLINE_MOD CMPIStatus CBSetInstance(
-    const CMPIBroker *mb,
-    const CMPIContext *ctx,
-    const CMPIObjectPath *op,
-    const CMPIInstance *inst,
-    const char** properties)
-{
-    return mb->bft->setInstance(mb, ctx, op, inst, properties);
-}
-#  endif /* CMPI_VER_100 */
 #endif
 
 /** Delete an existing CMPIInstance using @p op as reference.
@@ -4569,14 +4541,6 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
  }
 //// KS same comment about provider->initialize(ctx)
 
-#ifdef CMPI_VER_86
-#  define CMIndicationMIFactoryExtensions \
-               CmpiIndicationMI::driveEnableIndications, \
-                CmpiIndicationMI::driveDisableIndications,
-#else
-#  define CMIndicationMIFactoryExtensions
-#endif /* CMPI_VER_86 */
-
 /** This macro generates the function table and initialization stub
     for an indication provider. The initialization routine
     &lt;pn&gt;Create_IndicationMI is called when this
@@ -4591,8 +4555,7 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
     @return The function table of this association provider.
     @hideinitializer
 
-    @todo AM: This contains code conditional to the historical version
-          CMPI_VER_86. Should we remove the conditionals for that version?
+    @todo AM_TODO: Add filter collection functions, conditional on CMPI 2.1.
 */
 #define CMIndicationMIFactory(cn,pn) \
 CMPI_EXTERN_C CMPIIndicationMI *pn##_Create_IndicationMI( \
@@ -4612,7 +4575,8 @@ CMPI_EXTERN_C CMPIIndicationMI *pn##_Create_IndicationMI( \
         CmpiIndicationMI::driveMustPoll, \
         CmpiIndicationMI::driveActivateFilter, \
         CmpiIndicationMI::driveDeActivateFilter, \
-        CMIndicationMIFactoryExtensions \
+        CmpiIndicationMI::driveEnableIndications, \
+        CmpiIndicationMI::driveDisableIndications, \
     }; \
     static CMPIIndicationMI mi; \
     CmpiContext ctx((CMPIContext *)ctxp); \
@@ -4630,11 +4594,13 @@ CMPI_EXTERN_C CMPIIndicationMI *pn##_Create_IndicationMI( \
     base##pn.incUseCount(); \
     return &mi; \
 }
-
 //// KS Same comment about provider->intialize
+
 /** KS_TODO
     @param pn KS_TODO
-    @todo document this
+    @todo KS: document this
+    @todo AM: This macro is not used in this file. Its CmpiProviderBase symbol
+        is not defined. What the purpose of this macro?
 */
 #define CMProviderBase(pn) \
     CmpiProviderBase base##pn;
