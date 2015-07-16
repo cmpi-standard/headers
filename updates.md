@@ -1,3 +1,33 @@
+
+16 July - Andy
+--------------
+
+* Added missing `const` to @p accessor/accessorFnc argument of
+  CMPISelectExpFT/CMPIPredicateFT.evaluateUsingAccessor() in cmpift.h.
+* Added spec bug that CMPIInstanceFT.setPropertyWithOrigin() misses "Added in
+  CMPI 2.0" in its change history.
+* Added spec bug that newSelectExp() declares its projection argument
+  mistakenly as `const CMPIArray** projection`, the `const` is incorrect for
+  this output argument.
+* Added `const` to inline convenience functions in cmpimacs.h where missing;
+  they are now in sync with function table functions in cmpift.h.
+* Made argument names of macros and inline functions incmpimacs.h consistent
+  with functions in cmpift.h, down to and including the EDTs.
+* Finished switching order of inline functions and macros around in cmpimacs.h,
+  in order to properly document the macros in Doxygen output for CMPI_NO_INLINE.
+* Added @hideinitializer for all remaining macro definitions.
+* Removed macro-style parenthesis from arguments of all inline function
+  implementations in cmpimacs.h.
+* Reordered the EDT convenience functions in cmpimacs.h to be in sync with
+  cmpift.h.
+* Fixed a few typos in function table type names, in the descriptions in
+  cmpimacs.h.
+
+15 July - Karl
+--------------
+
+* Committed by Andy: Recorded notes from CMPI WG call.
+
 15 July - Andy
 --------------
 

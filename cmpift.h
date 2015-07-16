@@ -2282,6 +2282,9 @@ typedef struct _CMPIBrokerEncFT {
      @changed210 In CMPI 2.1, added the return code `CMPI_RC_ERR_NOT_SUPPORTED`,
          because this function depends on support for the @ref
          CMPI_MB_QueryNormalization "Query Normalization" capability in the MB.
+     @bug In the CMPI Standard document, the @p projection argument is
+         mistakenly declared as `const CMPIArray** projection`. Fix that by
+         removing the `const`.
     */
     CMPISelectExp* (*newSelectExp) (const CMPIBroker* mb, const char* query,
         const char* lang, CMPIArray** projection, CMPIStatus* rc);
@@ -5720,6 +5723,8 @@ typedef struct _CMPIInstanceFT {
      @added200 Added in CMPI 2.0.
      @bug In the CMPI Standard document, add "and class origin" in the short
          and long descriptions.
+     @bug In the CMPI Standard document, add to the change history that the
+         function was added in CMPI 2.0.
     */
     CMPIStatus (*setPropertyWithOrigin) (const CMPIInstance* inst,
         const char* name, const CMPIValue* value, const CMPIType type,
@@ -6074,7 +6079,7 @@ typedef struct _CMPIObjectPathFT {
 
      @see CMGetKey()
     */
-    CMPIData (*getKey) (const CMPIObjectPath* op, const char* name,
+    CMPIData (*getKey) (const CMPIObjectPath* op, const char* key,
         CMPIStatus* rc);
 
     /**
@@ -6593,8 +6598,7 @@ typedef struct _CMPIArgsFT {
      @see CMAddArg()
     */
     CMPIStatus (*addArg) (const CMPIArgs* args, const char* name,
-            const CMPIValue* value,
-            const CMPIType type);
+            const CMPIValue* value, const CMPIType type);
 
     /**
      @brief Get a method parameter in a CMPIArgs object by name.
@@ -7177,7 +7181,7 @@ typedef struct _CMPISelectExpFT {
      @see CMEvaluateSelExpUsingAccessor()
     */
     CMPIBoolean (*evaluateUsingAccessor) (const CMPISelectExp* se,
-        CMPIAccessor* accessor, void* parm, CMPIStatus* rc);
+        const CMPIAccessor* accessor, void* parm, CMPIStatus* rc);
 
 } CMPISelectExpFT;
 
@@ -7808,7 +7812,7 @@ typedef struct _CMPIPredicateFT {
      @changed210 In CMPI 2.1, added the return code `CMPI_RC_ERR_INVALID_PARAMETER`.
     */
     CMPIBoolean (*evaluateUsingAccessor) (const CMPIPredicate* pr,
-        CMPIAccessor* accessorFnc, void* parm, CMPIStatus* rc);
+        const CMPIAccessor* accessorFnc, void* parm, CMPIStatus* rc);
 
 } CMPIPredicateFT;
 
