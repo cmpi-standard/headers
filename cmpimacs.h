@@ -48,6 +48,10 @@
 
 #include <cmpift.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifdef DOC_ONLY
 #  define _CMPI_INLINE_MOD // Doxygen does not handle these modifiers at all.
 #else
@@ -175,6 +179,146 @@
 */
 
 /**
+    @brief Initialize a CMPIStatus structure with a return code and no message.
+
+    CMSetStatus() initializes a CMPIStatus structure with a return code and no
+    message.
+
+    @param st If not NULL, points to the CMPIStatus structure that is being
+        intialized.
+    @param rc A @ref CMPIrc value specifying the return code.
+    @return Nothing.
+    @see CMPIStatus
+    @par Examples
+    @code (.c)
+        CMPIStatus st = { CMPI_RC_OK, NULL };
+        if (....) // something bad happened
+        {
+            CMSetStatus(&st, CMPI_RC_ERR_NOT_SUPPORTED);
+            return st;
+        }
+    @endcode
+    @hideinitializer
+    @testopenpegasus Not tested
+*/
+#ifdef CMPI_NO_INLINE
+#define CMSetStatus(st, rc_) \
+do \
+{ \
+    if (st) \
+    { \
+        (st)->rc = (rc_); \
+        (st)->msg = NULL; \
+    } \
+} while (0)
+#else
+_CMPI_INLINE_MOD void CMSetStatus(
+    CMPIStatus *st,
+    CMPIrc rc)
+{
+    if (st)
+    {
+        st->rc = rc;
+        st->msg = NULL;
+    }
+}
+#endif
+
+/** @brief Initializes a CMPIStatus object with CMPIStatus and message.
+
+    CMSetStatusWithString() initialized the CMPIStatus object @p st with
+    CMPIStatus @p rc and message text defined by @p msg
+
+    @param st Points to target CMPIStatus object.
+    @param rc CMPIrc return code to be inserted int @p st.
+    @param msg CMPIString containing message text to be
+                  inserted into @p st.
+    @hideinitializer
+*/
+#ifdef CMPI_NO_INLINE
+#define CMSetStatusWithString(st, rc_, msg_) \
+do \
+{ \
+    if (st) \
+    { \
+        (st)->rc = (rc_); \
+        (st)->msg = (msg_); \
+    } \
+} while (0)
+#else
+_CMPI_INLINE_MOD void CMSetStatusWithString(
+    CMPIStatus *st,
+    CMPIrc rc,
+    CMPIString *msg)
+{
+    if (st)
+    {
+        st->rc = rc;
+        st->msg = msg;
+    }
+}
+#endif
+
+/** @brief Initializes CMPIStatus struct with return code and message text
+        message.
+
+    CMSetStatusWithChars convenience function initializes a CMPIStatus struct
+    with @p rcp and either a null msg or  a new CMPIString created from @p msg
+    if @p msg is not NULL.
+
+    @param mb Points to CMPIBroker. Required to create CMPIString.
+    @param st Points to CMPIStatus object.
+    @param rc CMPIrc return code to be inserted into into CMPIStatus @p st.
+    @param msg C string character string containing the message
+               text or NULL if no text is to be added to the
+               CMPIStatus @p st.
+    @see CMPIStatus
+    @par Example
+    @code(.c)
+    static CMPIBroker *_broker; // Cany be populated with stub macro
+    . . .
+    CMPIStatus rc = { CMPI_RC_OK, NULL };
+    CMSetStatusWithChars (_broker, &rc,
+        CMPI_RC_ERR_NOT_SUPPORTED, "CIM_ERR_NOT_SUPPORTED");
+    @endcode
+    @hideinitializer
+*/
+#ifdef CMPI_NO_INLINE
+#define CMSetStatusWithChars(mb, st, rc_, msg_) \
+do \
+{ \
+    if (st) \
+    { \
+        (st)->rc = (rc_); \
+        if (mb) \
+            (st)->msg = (mb)->eft->newString((mb), (msg_), NULL); \
+        else \
+            (st)->msg = NULL; \
+    } \
+} while (0)
+#else
+_CMPI_INLINE_MOD void CMSetStatusWithChars(
+    const CMPIBroker *mb,
+    CMPIStatus *st,
+    CMPIrc rc,
+    const char *msg)
+{
+    if (st)
+    {
+        st->rc = rc;
+        if (mb)
+        {
+            st->msg = mb->eft->newString(mb, msg, NULL);
+        }
+        else
+        {
+            st->msg = NULL;
+        }
+    }
+}
+#endif
+
+/**
     @brief Return the calling function with CMPIStatus specifying a return code
         and no message.
 
@@ -205,8 +349,7 @@
 do \
 { \
     CMPIStatus stat; \
-    stat.rc = (rc); \
-    stat.msg = NULL; \
+    CMSetStatus(&stat, rc); \
     return stat; \
 } while (0)
 
@@ -247,8 +390,7 @@ do \
 do \
 { \
     CMPIStatus stat; \
-    stat.rc = (rc); \
-    stat.msg = (str); \
+    CMSetStatusWithString(&stat, rc, str); \
     return stat; \
 } while (0)
 
@@ -286,151 +428,9 @@ do \
 do \
 { \
     CMPIStatus stat; \
-    stat.rc = (rc); \
-    if (mb) \
-        stat.msg = (mb)->eft->newString((mb), (chars), NULL); \
-    else \
-        stat.msg = NULL; \
+    CMSetStatusWithChars(mb, &stat, rc, chars); \
     return stat; \
 } while (0)
-
-/**
-    @brief Initialize a CMPIStatus structure with a return code and no message.
-
-    CMSetStatus() initializes a CMPIStatus structure with a return code and no
-    message.
-
-    @param st If not NULL, points to the CMPIStatus structure that is being
-        intialized.
-    @param rc A @ref CMPIrc value specifying the return code.
-    @return Nothing.
-    @see CMPIStatus
-    @par Examples
-    @code (.c)
-        CMPIStatus st = { CMPI_RC_OK, NULL };
-        if (....) // something bad happened
-        {
-            CMSetStatus(&st, CMPI_RC_ERR_NOT_SUPPORTED);
-            return st;
-        }
-    @endcode
-    @hideinitializer
-    @testopenpegasus Not tested
-*/
-#ifdef CMPI_NO_INLINE
-#define CMSetStatus(st, rc) \
-do \
-{ \
-    if (st) \
-    { \
-        (st)->rc = (rc); \
-        (st)->msg = NULL; \
-    } \
-} while (0)
-#else
-_CMPI_INLINE_MOD void CMSetStatus (CMPIStatus *st, CMPIrc rc)
-{
-    if (st)
-    {
-        st->rc = rc;
-        st->msg = NULL;
-    }
-}
-#endif
-
-/** @brief Initializes a CMPIStatus object with CMPIStatus and message.
-
-    CMSetStatusWithString() initialized the CMPIStatus object @p st with
-    CMPIStatus @p rc and message text defined by @p msg
-
-    @param st Points to target CMPIStatus object.
-    @param rc CMPIrc return code to be inserted int @p st.
-    @param msg CMPIString containing message text to be
-                  inserted into @p st.
-    @hideinitializer
-*/
-#ifdef CMPI_NO_INLINE
-#define CMSetStatusWithString(st, rc, msg) \
-do \
-{ \
-    if (st) \
-    { \
-        (st)->rc = (rc); \
-        (st)->msg = (msg); \
-    } \
-} while (0)
-#else
-_CMPI_INLINE_MOD void CMSetStatusWithString(
-    const CMPIStatus *st,
-    CMPIrc rc,
-    const CMPIString *msg)
-{
-    if (st)
-    {
-        st->rc = rc;
-        st->msg = msg;
-    }
-}
-#endif
-
-/** @brief Initializes CMPIStatus struct with return code and message text
-        message.
-
-    CMSetStatusWithChars convenience function initializes a CMPIStatus struct
-    with @p rcp and either a null msg or  a new CMPIString created from @p msg
-    if @p msg is not NULL.
-
-    @param mb Points to CMPIBroker. Required to create CMPIString.
-    @param st Points to CMPIStatus object.
-    @param rc CMPIrc return code to be inserted into into CMPIStatus @p st.
-    @param msg C string character string containing the message
-               text or NULL if no text is to be added to the
-               CMPIStatus @p st.
-    @see CMPIStatus
-    @par Example
-    @code(.c)
-    static CMPIBroker *_broker; // Cany be populated with stub macro
-    . . .
-    CMPIStatus rc = { CMPI_RC_OK, NULL };
-    CMSetStatusWithChars (_broker, &rc,
-        CMPI_RC_ERR_NOT_SUPPORTED, "CIM_ERR_NOT_SUPPORTED");
-    @endcode
-    @hideinitializer
-*/
-#ifdef CMPI_NO_INLINE
-#define CMSetStatusWithChars(mb, st, rc, msg) \
-do \
-{ \
-    if (st) \
-    { \
-        (st)->rc = (rc); \
-        if (mb) \
-            (st)->msg = (mb)->eft->newString((mb), (msg), NULL); \
-        else \
-            (st)->msg = NULL; \
-    } \
-} while (0)
-#else
-_CMPI_INLINE_MOD void CMSetStatusWithChars(
-    const CMPIBroker *mb,
-    CMPIStatus *st,
-    CMPIrc rc,
-    const char *msg)
-{
-    if (st)
-    {
-        st->rc = rc;
-        if (mb)
-        {
-            st->msg = mb->eft->newString(mb, msg, NULL);
-        }
-        else
-        {
-            st->msg = NULL;
-        }
-    }
-}
-#endif
 
 /** @brief Tests any CMPI object or function return to determine if it is a
         NULL object.
@@ -469,19 +469,20 @@ _CMPI_INLINE_MOD void CMSetStatusWithChars(
 #define CMIsNullObject(obj) \
     ((obj) == NULL || *((void**)(obj)) == NULL)
 #else
-_CMPI_INLINE_MOD CMPIBoolean CMIsNullObject (const void *obj)
+_CMPI_INLINE_MOD CMPIBoolean CMIsNullObject(
+    const void *obj)
 {
     return obj == NULL || *((void **)obj) == NULL;
 }
 #endif
 
-/** @brief Tests a CMPIData object for null Value data item.
+/** @brief Tests a CMPIData object for null value data item.
 
-    CMIsNullValue() tests the state of a CMPIData object @p val
-    for the CMPI_nullValue state.
-    @param val CMPIValue object
-    @retval true NULL value CMPIData.val value.
-    @retval false Not NULL CMPIData.val value.
+    CMIsNullValue() tests the state of a CMPIData object @p data
+    for the @ref CMPI_nullValue state.
+    @param data The CMPIData object.
+    @retval true CMPIData object is NULL.
+    @retval false CMPIData object is not NULL.
     @see CMPIData
     @par Example
     Process  received method call that includes a CIMObject path @p ref for
@@ -514,65 +515,74 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsNullObject (const void *obj)
             . . .
     @endcode
     @hideinitializer
+
+    @todo TBD AM: The expression in the return statement causes a GCC warning
+        "overflow in implicit constant conversion". Need to fix somehow.
 */
 #ifdef CMPI_NO_INLINE
-#define CMIsNullValue(val) \
-    ((val).state & CMPI_nullValue)
+#define CMIsNullValue(data) \
+    ((data).state & CMPI_nullValue)
 #else
 _CMPI_INLINE_MOD CMPIBoolean CMIsNullValue(
-    const CMPIData val)
+    CMPIData data)
 {
-    return val.state & CMPI_nullValue;
+    return data.state & CMPI_nullValue;
 }
 #endif
 
 /** @brief Tests CMPIData object for keyValue data item.
 
-    CMIsKeyValue() tests @p val a CMPIValue to determine if it
+    CMIsKeyValue() tests @p data a CMPIData to determine if it
     is a keyValue data item.
-    @param val Points to CMPIValue object to be tested.
+    @param data The CMPIData object.
     @retval true CMPIData object is keyValue
     @retval false CMPIData object is NOT keyValue
-    @see CMPIValueState CMPIData
+    @see CMPIValueState, CMPIData
     @hideinitializer
     @testopenpegasus Not tested
 
     @todo KS: This is value call, not pointer.  Shouldn't this be
           pointer call?@n
-          AM: It works with a CMPIValue.
+          AM: It works with a CMPIData value, and I dont't think we can change
+          it to a pointer, for compatibility. I fixed the description.
+    @todo TBD AM: The expression in the return statement causes a GCC warning
+        "overflow in implicit constant conversion". Need to fix somehow.
 */
 #ifdef CMPI_NO_INLINE
-#define CMIsKeyValue(val) \
-    ((val).state & CMPI_keyValue)
+#define CMIsKeyValue(data) \
+    ((data).state & CMPI_keyValue)
 #else
 _CMPI_INLINE_MOD CMPIBoolean CMIsKeyValue(
-    CMPIData val)
+    CMPIData data)
 {
-    return val.state & CMPI_keyValue;
+    return data.state & CMPI_keyValue;
 }
 #endif
 
 /** @brief Tests CMPIData object for array data item type.
 
-    CMIsArray() tests @p val a CMPIValue to determine if it is
+    CMIsArray() tests @p data a CMPIData to determine if it is
     an array.
-    @param val Points to Value object
+    @param data The CMPIData object.
     @retval true CMPIData object is array type.
     @retval false CMPIData object is NOT array type
     @hideinitializer
     @testopenpegasus Not tested
 
     @todo KS this needs example.
-    @todo this is defined as
+    @todo KS: this is defined as...@n
+          AM: ...a pointer? Same comment and fix as for CMIsKeyValue().
+    @todo TBD AM: The expression in the return statement causes a GCC warning
+        "overflow in implicit constant conversion". Need to fix somehow.
 */
 #ifdef CMPI_NO_INLINE
-#define CMIsArray(val) \
-    ((val).type & CMPI_ARRAY)
+#define CMIsArray(data) \
+    ((data).type & CMPI_ARRAY)
 #else
 _CMPI_INLINE_MOD CMPIBoolean CMIsArray(
-    const CMPIData val)
+    CMPIData data)
 {
-    return val.type & CMPI_ARRAY;
+    return data.type & CMPI_ARRAY;
 }
 #endif
 
@@ -939,7 +949,7 @@ _CMPI_INLINE_MOD CMPIStatus CMReturnError(
 #define CMGetCharsPtr(str, rc) \
     ((str)->ft->getCharPtr((str), (rc)))
 #else
-_CMPI_INLINE_MOD char * CMGetCharsPtr(
+_CMPI_INLINE_MOD const char * CMGetCharsPtr(
     const CMPIString *str,
     CMPIStatus *rc)
 {
@@ -1268,7 +1278,7 @@ _CMPI_INLINE_MOD CMPIObjectPath *CMGetObjectPath(
 _CMPI_INLINE_MOD CMPIStatus CMSetPropertyFilter(
     const CMPIInstance *inst,
     const char **properties,
-    char **keyList)
+    const char **keyList)
 {
     return inst->ft->setPropertyFilter(inst, properties, keyList);
 }
@@ -2752,9 +2762,10 @@ _CMPI_INLINE_MOD CMPIStatus CMSetMessageArguments(
 #define CBGetClassification(mb) \
     ((mb)->bft->brokerCapabilities)
 #else
-_CMPI_INLINE_MOD unsigned long CBGetCapabilities (const CMPIBroker *mb)
+_CMPI_INLINE_MOD unsigned int CBGetCapabilities(
+    const CMPIBroker *mb)
 {
-    return mb->bft->brokerCapabilities);
+    return mb->bft->brokerCapabilities;
 }
 #endif
 
@@ -2778,9 +2789,10 @@ _CMPI_INLINE_MOD unsigned long CBGetCapabilities (const CMPIBroker *mb)
 #define CBBrokerVersion(mb) \
     ((mb)->bft->brokerVersion)
 #else
-_CMPI_INLINE_MOD int CBBrokerVersion (const CMPIBroker *mb)
+_CMPI_INLINE_MOD CMPIVersion CBBrokerVersion(
+    const CMPIBroker *mb)
 {
-    return mb->bft->brokerVersion);
+    return mb->bft->brokerVersion;
 }
 #endif
 
@@ -2801,9 +2813,10 @@ _CMPI_INLINE_MOD int CBBrokerVersion (const CMPIBroker *mb)
 #define CBBrokerName(mb) \
     ((bm)->bft->brokerName)
 #else
-_CMPI_INLINE_MOD const char CBBrokerName (const CMPIBroker *mb)
+_CMPI_INLINE_MOD const char * CBBrokerName(
+    const CMPIBroker *mb)
 {
-    return mb->bft->brokerName);
+    return mb->bft->brokerName;
 }
 #endif
 
@@ -3436,7 +3449,7 @@ _CMPI_INLINE_MOD CMPIArgs *CMNewArgs (const CMPIBroker *mb, CMPIStatus *rc)
     CMNewArray() executes CMPIBrokerEncFT.newArray() to create a new
     CMPIArray object
     @param mb Points to CMPIBroker.
-    @param size Maximum number of elements
+    @param size Number of elements
     @param type Element type
     @param [out] rc Function return status (suppressed when NULL).
     @return Newly created Array or NULL.
@@ -3455,7 +3468,7 @@ _CMPI_INLINE_MOD CMPIArray *CMNewArray (
     CMPIType type,
     CMPIStatus *rc)
 {
-    return mb->eft->newArray(mb, max, type, rc);
+    return mb->eft->newArray(mb, size, type, rc);
 }
 #endif
 
@@ -3937,118 +3950,202 @@ _CMPI_INLINE_MOD CMPIString * CMGetMessage2(
    used by the other convenience functions.
 */
 
-// KS_TODO Update MI Factory Stub macros from here on down
-/**
-    @brief Symbol for specifying that there is no code hook for an MI factory
-        stub macro.
+/** @brief Generate function table and factory function for an instance MI
+        written in plain C.
 
-    CMNoHook is used for the @p hook argument of MI factory stub macros for
-    specifying that the macro is not going to execute any additional code
-    during initialization.
+    The CMInstanceMIStub() macro generates the function table and factory
+    function for an instance MI (also known as *instance provider*)
 
-    @see CMInstanceMIStub(), CMAssociationMIStub(), CMMethodMIStub(),
-        CMPropertyMIStub(), CMIndicationMIStub()
-*/
-#define CMNoHook
+    This macro is for CMPI MIs written in plain C. The code can be compiled with
+    C or C++.
 
-#ifdef CMPI_VER_210
-#  define _CMInstanceMI_EnumInstancesFiltered(pfx) \
-       pfx##EnumInstancesFiltered,
-#else
-#  define _CMInstanceMI_EnumInstancesFiltered(pfx)
-#endif
+    The generated factory function is an @ref mi-factory-specific
+    "MI-specific factory function" named `{miname}_Create_InstanceMI()`.
+    It is exported by the MI load library and is called when the libary is
+    loaded by the MB.
 
-/** The CMInstanceMIStub macro generates the function table and initialization
-    stub for an instance provider. The initialization routine
-    &lt;pnCreate_InstanceMI is called when this provider module is loaded by
-    the broker. This macro is for CMPI providers written in plain C.
-    @param pfx The prefix for all mandatory enumeration provider functions.
-            This is a character string without quotes.
-            Mandatory functions are:
-            &lt;pfx&gt;Cleanup,&lt;pfx&gt;EnumInstanceNames,
-            &lt;pfx&gt;EnumInstances, &lt;pfx&gt;GetInstance,
-            &lt;pfx&gt;CreateInstance, &lt;pfx&gt;SetInstance,
-            &lt;pfx&gt;DeleteInstance &lt;pfx&gt;ExecQuery.
-            &lt;pfx&gt;DeleteInstance and
-            &lt;pfx&gt;enumerateInstancesFiltered.
-    @param pn The provider name under which this provider is registered.
-            This is a character string without quotes.
-    @param broker The name of the broker variable used by this macro to store
-                   the CMPIBroker pointer
-    @param hook A statement that is executed within
-                 &lt;pn&gt;Create_InstanceMI routine. This
-                 enables you to perform additional
-                 initialization functions and is normally a
-                 function call like furtherInit(broker) or
-                 CMNoHook. Use CMNoHook if no further
-                 intialization is required.
-    @return The function table of this instance provider.
-    @todo what about optional functions.  ex. ExecQuery
-    @todo we have first cut at example.  Is this the way to go
-           or would we be better with complete provider in an
-           examples section?
+    The generated MI function table contains pointers to all functions for
+    instance MIs as defined in the CMPI version that is implemented (see
+    @ref CMPI_VERSION). The user of this macro needs to provide all of these
+    functions. Those functions that are not going to be implemented, still need
+    to be provided and implemented by returning CMPI_ERR_NOT_SUPPORTED.
+    
+    The function names are fixed, and are generated with a prefix specified
+    using the @p pfx argument of the macro:
+    <TABLE>
+    <TR><TH>Function name</TH>
+        <TH>Description</TH><TH>CMPI version</TH></TR>
+    <TR><TD>{pfx}Cleanup()</TD>
+        <TD>CMPIInstanceMIFT.cleanup()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}EnumInstanceNames()</TD>
+        <TD>CMPIInstanceMIFT.enumerateInstanceNames()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}EnumInstances()</TD>
+        <TD>CMPIInstanceMIFT.enumerateInstances()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}GetInstance()</TD>
+        <TD>CMPIInstanceMIFT.getInstance()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}CreateInstance()</TD>
+        <TD>CMPIInstanceMIFT.createInstance()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}ModifyInstance()</TD>
+        <TD>CMPIInstanceMIFT.modifyInstance()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}DeleteInstance()</TD>
+        <TD>CMPIInstanceMIFT.deleteInstance()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}ExecQuery()</TD>
+        <TD>CMPIInstanceMIFT.execQuery()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}EnumInstancesFiltered()</TD>
+        <TD>CMPIInstanceMIFT.enumerateInstancesFiltered()</TD><TD>2.1</TD></TR>
+    </TABLE>
+    @param pfx The prefix for all functions in the MI function table.
+        This is a character string without quotes.
+    @param miname The MI name for this MI.
+        This is a character string without quotes.
+    @param mbvar The name of a variable that upon return of the macro will have
+        been updated with the CMPIBroker pointer passed by the MB to the
+        factory function.
+        This is a character string without quotes.
+    @param hook
+    @parblock
+        A single C statement that is executed in the generated factory
+        function, after the CMPIInstanceMI structure has been created.
+
+        That C statement can access function arguments and local variables of
+        the generated factory function. The names of these arguments and local
+        variables in the generated function will not change in future CMPI
+        versions, and are:
+        @li @p mb, @p ctx, @p rc - see the like-named arguments of the @ref
+            mi-factory-specific "factory function".
+        @li @p mi - local variable which is the initialized CMPIInstanceMI
+            object.
+    
+        This enables you to perform additional initialization functions and is
+        normally a function call like `furtherInit(broker)`, or
+        `furtherInit(&mi)` or @ref CMNoHook if no further intialization is
+        required.
+    @endparblock
+    @return A pointer to the function table of this MI.
+
     @par Example
-    This example documents the general structure of an instance
-    provider using the CMInstanceMIStub macro. Note that only a
-    couple of required functions are actually defined.
+    This example uses the CMInstanceMIStub() macro for a rudimentary instance
+    MI written in plain C.
     @code(.c)
     static const CMPIBroker *_broker;
-    static void initialize()
+
+    #define CMInitHook(pfx) \
+    do { \
+        CMPIStatus st = pfx##Initialize(&mi, ctx); \
+        if (st.rc != CMPI_RC_OK) \
+        { \
+            if (rc) { \
+                *rc = st; \
+            } \
+            return NULL; \
+        } \
+    } while (0)
+    
+    static CMPIStatus MyProvInitialize(
+        CMPIInstanceMI *mi,
+        const CMPIContext *ctx)
     {
-    ...
+        . . . // Initialization code when loading the MI load library
+        mi->hdl = . . . // You can store data in the CMPIInstanceMI object
+        if (...error...)
+            CMReturn(CMPI_RC_ERR_FAILED);
+        CMReturn(CMPI_RC_OK);
     }
 
-    // Developer implements the following functions
-
-    CMPIStatus InstProvCleanup (
+    static CMPIStatus MyProvCleanup (
         CMPIInstanceMI *mi,
         const CMPIContext *ctx,
-        CMPIBoolean  term)
+        CMPIBoolean terminating)
     {
-        CMRelease(clone_arr_ptr);
-        CMReturn (CMPI_RC_OK);
+        . . . // Clean up code when unloading the MI load library
+        CMReturn(CMPI_RC_OK);
     }
 
-    CMPIStatus InstProvEnumInstanceNames (
+    static CMPIStatus MyProvEnumInstanceNames (
         CMPIInstanceMI *mi,
         const CMPIContext *ctx,
         const CMPIResult *rslt,
+        const CMPIObjectPath *classPath)
+    {
+        . . . // for an example, see TBD
+        CMReturn(CMPI_RC_OK);
+    }
 
-    // OtherRequired  but not shown Functions for
-    //    InstProvEnumInstances InstProvGetInstance
-    //    InstProvCreateInstance
-    //    InstProvModifyInstance
-    //    InstProvDeleteInstance
-    // Optional Functions.
-    //    InstProvExecQuery InstProvEnumerateInstancesFiltered
+    // Example of a function that is not going to be implemented.
+    static CMPIStatus MyProvExecQuery (
+        CMPIInstanceMI *mi,
+        const CMPIContext *ctx,
+        const CMPIResult *rslt,
+        const CMPIObjectPath *classPath,
+        const char *query,
+        const char *lang)
+    {
+        CMReturn(CMPI_RC_ERR_NOT_SUPPORTED);
+    }
 
-    CMInstanceMIStub(
-        InstProv,
-        CMPIInstanceProvider,
-        _broker,
-        initialize())
+    // Other functions not shown are:
+    //    MyProvEnumInstances
+    //    MyProvGetInstance
+    //    MyProvCreateInstance
+    //    MyProvModifyInstance
+    //    MyProvDeleteInstance
+    //    MyProvEnumerateInstancesFiltered
+
+    CMInstanceMIStub(MyProv, MyProv, _broker, CMInitHook(MyProv));
     @endcode
-    @see CMPIInstanceMIFT, CMPIInstanceMIFT.cleanup(),
-        CMPIInstanceMIFT.enumerateInstanceNames(),
-        CMPIInstanceMIFT.enumerateInstances(),
-        CMPIInstanceMIFT.getInstance(),
-        CMPIInstanceMIFT.createInstance(),
-        CMPIInstanceMIFT.deleteInstance(),
-        CMPIInstanceMIFT.execQuery(),
-        CMPIInstanceMIFT.enumerateInstancesFiltered()
+    @see CMPIInstanceMI, CMPIInstanceMIFT,
+        @ref mi-factory-specific "MI-specific factory function"
     @hideinitializer
 
-    @todo confirm that this @see works
-    @todo Despite the documentation, this apparently requires
-          implementations of all of the corresponding
-          functions. How to we handle the two that may well be
-          optional. (ExecQuery, EnumerateInstancesFiltered)
+    @todo DONE KS: Confirm that this 'see' statement works@n
+        AM: It worked, but I have minimized it because the functions are now
+        in a table.
+    @todo TBD KS: we have first cut at example.  Is this the way to go or would
+        we be better with complete provider in an examples section?@n AM: I
+        think the example is good enough for the factory function. What would
+        be good to have are the actual provider functions, somewhere. That is
+        too much for this particular macro.
+    @todo TBD KS: Despite the documentation, this apparently requires
+        implementations of all of the corresponding functions. How to we handle
+        the two that may well be optional. (ExecQuery,
+        EnumerateInstancesFiltered)?@n
+        AM: The spec requires that the MIFT table always has all functions.
+        Those that are not implemented, still exist and return 'not
+        implemented'. I have updated the example to show ExecQuery() that way.
+    @todo TBD AM: Why is the MIFT file static and the MI local static?
+    @todo TBD AM: We document the CMPI_VERSION is the version that is
+        implemented. If we are serious about this, we should use CMPI_VERSION
+        instead of CMPICurrentVersion, for the first version in the MIFT.
+    @todo TBD AM: The second version in the MIFT is the MI development version,
+        and has nothing to do with the CMPI version. Ideally, it would be
+        passed as an argument to the macro. For now, I have set it also to
+        CMPI_VERSION, for compatibility.
+    @todo TBD AM: We should make sure that the code works for both C and C++
+        compilation. I have added ifdef __cplusplus around the C stubs, and
+        around any inline functions. While this causes differently named linker
+        symbols to be created for the inline convenience functions, they are
+        MI-local and thus binary compatibility to the MB is not affected. It is
+        still source code compatible for recompiles of the MI.
+    @todo TBD AM: While we document that the returned pointer indicates success
+        or error to the MB, it is still also required to set CMPIStatus.rc upon
+        return. The current macro does not set that at all. Do we expect the
+        init hook to set that, or was that just oversight? I have added code
+        to the generated factory function that sets rc OK before the init
+        hook is called, so that the hook code can still overwrite that to a
+        bad rc. However, for that to happen, the init hook needs to expand to
+        some more code than just a function call. I have added a
+        CMInitHook(pfx) macro to the example code that does that and calls a
+        properly defined initialize function. We could add the
+        CMInitHook() macro to the cmpimacs.h header file, if you like it.
+        it also encapsulates the knowledge about the local variable and argument
+        names in the generated factory function, so we could again "undocument"
+        them.
 */
-#define CMInstanceMIStub(pfx,pn,broker,hook) \
+#define CMInstanceMIStub(pfx, miname, mbvar, hook) \
 static CMPIInstanceMIFT instMIFT__ = { \
-    CMPICurrentVersion, \
-    CMPICurrentVersion, \
-    "instance" #pn, \
+    CMPI_VERSION, \
+    CMPI_VERSION, \
+    "instance" #miname, \
     pfx##Cleanup, \
     pfx##EnumInstanceNames, \
     pfx##EnumInstances, \
@@ -4057,34 +4154,29 @@ static CMPIInstanceMIFT instMIFT__ = { \
     pfx##ModifyInstance, \
     pfx##DeleteInstance, \
     pfx##ExecQuery, \
-    _CMInstanceMI_EnumInstancesFiltered(pfx) \
-  }; \
-  CMPI_EXTERN_C \
-  CMPIInstanceMI *pn##_Create_InstanceMI( \
-      const CMPIBroker *brkr, \
-      const CMPIContext *ctx, \
-      CMPIStatus *rc) \
-  { \
+    _CMInstanceMIStub_EnumInstancesFiltered(pfx) \
+}; \
+CMPI_EXTERN_C CMPIInstanceMI * miname##_Create_InstanceMI( \
+    const CMPIBroker *mb, \
+    const CMPIContext *ctx, \
+    CMPIStatus *rc) \
+{ \
     static CMPIInstanceMI mi = { \
-      NULL, \
-      &instMIFT__, \
+        NULL, \
+        &instMIFT__, \
     }; \
-    broker = brkr; \
+    (mbvar) = mb; \
+    if (rc) \
+    { \
+        rc->rc = CMPI_RC_OK; \
+        rc->msg = NULL; \
+    } \
     hook; \
     return &mi;  \
-  }
+}
 
-#ifdef CMPI_VER_210
-#  define _CMAssociationMI_AssociatorsFiltered(pfx) \
-       pfx##AssociatorsFiltered,
-#  define _CMAssociationMI_ReferencesFiltered(pfx) \
-       pfx##ReferencesFiltered,
-#else
-#  define _CMAssociationMI_AssociatorsFiltered(pfx)
-#  define _CMAssociationMI_ReferencesFiltered(pfx)
-#endif
-
-/** @brief generate function table and stub for association provider.
+/** @brief Generate function table and factory function for an association MI
+        written in plain C.
 
     CMAssociationMIStub() macro generates the function table and initialization
     stub for an association provider. The initialization routine
@@ -4117,6 +4209,7 @@ static CMPIInstanceMIFT instMIFT__ = { \
            others but with cap
     @todo Need reference back to cmpift
     @todo expand for cmpi 2.1
+    @todo AM: Apply updates from CMInstanceMIStub().
 */
 #define CMAssociationMIStub(pfx,pn,broker,hook) \
     static CMPIAssociationMIFT assocMIFT__ = { \
@@ -4128,8 +4221,8 @@ static CMPIInstanceMIFT instMIFT__ = { \
     pfx##AssociatorNames, \
     pfx##References, \
     pfx##ReferenceNames, \
-    _CMAssociationMI_AssociatorsFiltered(pfx) \
-    _CMAssociationMI_ReferencesFiltered(pfx) \
+    _CMAssociationMIStub_AssociatorsFiltered(pfx) \
+    _CMAssociationMIStub_ReferencesFiltered(pfx) \
   }; \
   CMPI_EXTERN_C \
   CMPIAssociationMI *pn##_Create_AssociationMI( \
@@ -4146,8 +4239,8 @@ static CMPIInstanceMIFT instMIFT__ = { \
       return &mi;  \
   }
 
-/** @brief Generate the function table and initialization stub for a method
-        provider.
+/** @brief Generate function table and factory function for a method MI
+        written in plain C.
 
     This macro generates the function table and initialization stub for a
     method provider. The initialization routine &lt;pn&gt;Create_MethodMI is
@@ -4171,6 +4264,7 @@ static CMPIInstanceMIFT instMIFT__ = { \
     @hideinitializer
 
     @todo Need  see reference back to cmpift. Do example
+    @todo AM: Apply updates from CMInstanceMIStub().
 */
 #define CMMethodMIStub(pfx,pn,broker,hook) \
   static CMPIMethodMIFT methMIFT__ = { \
@@ -4195,8 +4289,9 @@ static CMPIInstanceMIFT instMIFT__ = { \
     return &mi; \
   }
 
-/** Generates the function table and initialization stub
-    for a property provider (**Deprecated**).
+/** @brief Generate function table and factory function for a property MI
+        written in plain C (**Deprecated**).
+
     This macro generates the function table and initialization stub
     for a property provider. The initialization
        routine &lt;pn&gt;Create_PropertyMI is called when
@@ -4228,6 +4323,7 @@ static CMPIInstanceMIFT instMIFT__ = { \
 
     @todo Need reference back to cmpift. No example because
            deprecated.
+    @todo AM: Apply updates from CMInstanceMIStub().
 */
 #define CMPropertyMIStub(pfx,pn,broker,hook) \
   static CMPIPropertyMIFT propMIFT__ = { \
@@ -4253,21 +4349,8 @@ static CMPIInstanceMIFT instMIFT__ = { \
     return &mi; \
   }
 
-#ifdef CMPI_VER_210
-#define _CMIndicationMI_AuthorizeFilterCollection(pfx) \
-    pfx##AuthorizeFilterCollection, \
-#define _CMIndicationMI_ActivateFilterCollection(pfx) \
-    pfx##ActivateFilterCollection, \
-#define _CMIndicationMI_DeActivateFilterCollection(pfx) \
-    pfx##DeActivateFilterCollection,
-#else
-#define _CMIndicationMI_AuthorizeFilterCollection(pfx)
-#define _CMIndicationMI_ActivateFilterCollection(pfx)
-#define _CMIndicationMI_DeActivateFilterCollection(pfx)
-#endif
-
-/** @brief generate the function table and initialization stub for an
-        indication provider.
+/** @brief Generate function table and factory function for an indication MI
+        written in plain C.
 
     This macro generates the function table and initialization stub for an
     indication provider. The initialization routine
@@ -4294,6 +4377,7 @@ static CMPIInstanceMIFT instMIFT__ = { \
     @hideinitializer
 
     @todo Need reference back to cmpift and example
+    @todo AM: Apply updates from CMInstanceMIStub().
 */
 #define CMIndicationMIStub(pfx,pn,broker,hook) \
 static CMPIIndicationMIFT indMIFT__ = { \
@@ -4307,9 +4391,9 @@ static CMPIIndicationMIFT indMIFT__ = { \
     pfx##DeActivateFilter, \
     pfx##EnableIndications, \
     pfx##DisableIndications, \
-    _CMIndicationMI_AuthorizeFilterCollection(pfx) \
-    _CMIndicationMI_ActivateFilterCollection(pfx) \
-    _CMIndicationMI_DeActivateFilterCollection(pfx) \
+    _CMIndicationMIStub_AuthorizeFilterCollection(pfx) \
+    _CMIndicationMIStub_ActivateFilterCollection(pfx) \
+    _CMIndicationMIStub_DeActivateFilterCollection(pfx) \
 }; \
 CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
     const CMPIBroker *brkr, \
@@ -4325,8 +4409,52 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
     return &mi; \
 }
 
-/** This macro generates the function table and initialization stub
-    for an instance provider. The initialization
+/**
+    @brief Symbol for specifying that there is no further intialization needed
+        in an MI factory function.
+
+    @ref CMNoHook is used as a value for the @p hook argument of MI factory
+    stub macros for plain C, for specifying that the macro is not going to
+    execute any additional initialization code in the generated factory
+    function.
+
+    @see CMInstanceMIStub(), CMAssociationMIStub(), CMMethodMIStub(),
+        CMPropertyMIStub(), CMIndicationMIStub()
+*/
+#define CMNoHook
+
+#ifdef CMPI_VER_210
+#define _CMInstanceMIStub_EnumInstancesFiltered(pfx) \
+    pfx##EnumInstancesFiltered,
+#define _CMAssociationMIStub_AssociatorsFiltered(pfx) \
+    pfx##AssociatorsFiltered,
+#define _CMAssociationMIStub_ReferencesFiltered(pfx) \
+    pfx##ReferencesFiltered,
+#define _CMIndicationMIStub_AuthorizeFilterCollection(pfx) \
+    pfx##AuthorizeFilterCollection,
+#define _CMIndicationMIStub_ActivateFilterCollection(pfx) \
+    pfx##ActivateFilterCollection,
+#define _CMIndicationMIStub_DeActivateFilterCollection(pfx) \
+    pfx##DeActivateFilterCollection,
+#else
+#define _CMInstanceMIStub_EnumInstancesFiltered(pfx)
+#define _CMAssociationMIStub_AssociatorsFiltered(pfx)
+#define _CMAssociationMIStub_ReferencesFiltered(pfx)
+#define _CMIndicationMIStub_AuthorizeFilterCollection(pfx)
+#define _CMIndicationMIStub_ActivateFilterCollection(pfx)
+#define _CMIndicationMIStub_DeActivateFilterCollection(pfx)
+#endif
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
+
+#ifdef __cplusplus
+
+/** @brief Generate function table and factory function for an instance MI
+        written in C++.
+
+    The initialization
     routine &lt;pn&gt;Create_IndicationMI is called when
     this provider module is loaded by the broker. This
     macro is for CMPI providers written in C++ using the
@@ -4340,6 +4468,11 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
     @hideinitializer
 
     @todo Need reference back to cmpift
+    @todo TBD AM: Where are the C++ classes documented that are used by this
+        macro?
+    @todo TBD AM: I have added ifdef __cplusplus around the C++ stubs, because
+        they do not make sense when compiling for C. They would probably not
+        hurt, but I think it is cleaner that way.
 */
 #define CMInstanceMIFactory(cn,pn) \
  CMPI_EXTERN_C \
@@ -4382,8 +4515,10 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
 //// ks - The above implemented differently.  Not sure yet why the
 //// difference but there is try block in place of provider->initialize(ctx)
 
-/** This macro generates the function table and initialization stub
-    for an association provider. The initialization routine
+/** @brief Generate function table and factory function for an association MI
+        written in C++.
+
+    The initialization routine
     &lt;pn&gt;Create_AssociationMI
     is called when this provider module is loaded by the broker.
     This macro is for CMPI providers written in C++ using
@@ -4436,8 +4571,10 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
 //// KS Above implemented differently in OpenPegasus. Try block in place
 //// of provider->initialize(ctx)
 
-/** This macro generates the function table and initialization stub
-    for an method provider. The initialization routine
+/** @brief Generate function table and factory function for a method MI
+        written in C++.
+
+    The initialization routine
     &lt;pn&gt;Create_MethodMI is called when this
     provider module is loaded by the broker.
     This macro is for CMPI providers written in C++ using
@@ -4487,8 +4624,10 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
  }
 //// KS see comments above about provider->initialize(ctx)
 
-/** This macro generates the function table and initialization stub
-    for a property provider. The initialization routine
+/** @brief Generate function table and factory function for a property MI
+        written in C++ (**Deprecated**).
+
+    The initialization routine
     &lt;pn&gt;Create_PropertyMI is called when this
     provider module is loaded by the broker. This macro
     is for CMPI providers written in C++ using the Cmpi*
@@ -4541,8 +4680,10 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
  }
 //// KS same comment about provider->initialize(ctx)
 
-/** This macro generates the function table and initialization stub
-    for an indication provider. The initialization routine
+/** @brief Generate function table and factory function for an indication MI
+        written in C++.
+
+    The initialization routine
     &lt;pn&gt;Create_IndicationMI is called when this
     provider module is loaded by the broker. This macro
     is for CMPI providers written in C++ using the Cmpi*
@@ -4598,12 +4739,16 @@ CMPI_EXTERN_C CMPIIndicationMI *pn##_Create_IndicationMI( \
 
 /** KS_TODO
     @param pn KS_TODO
+    @hideinitializer
+
     @todo KS: document this
     @todo AM: This macro is not used in this file. Its CmpiProviderBase symbol
         is not defined. What the purpose of this macro?
 */
 #define CMProviderBase(pn) \
     CmpiProviderBase base##pn;
+
+#endif /* __cplusplus */
 
 /**
  @}

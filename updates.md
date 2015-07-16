@@ -27,7 +27,26 @@
 * Fixed inconsistent nesting of #if/endif in cmpimacs.h.
 * Updated some forgotten argument names.
 * Removed remaining historical (pre 1.0) stuff from cmpimacs.h.
-
+* Several changes and fixes in cmpimacs.h:
+  - Added extern C for inline convenience functions and for plain C factory
+    stubs, when compiling for C++.
+  - Added conditionals to generate the C++ factory stubs only when compiling for
+    C++.
+  - Wrote description for CMPIInstanceMIStub() macro for review, and as master
+    for updating the others (just the stubs for plain C MIs).
+  - Renamed macro arguments that clashed with other uses of the name in the
+    macro definition (undoing a previous 'fix').
+  - As part of that, changed CMReturn*() macros to use CMStatus*() macros
+    instead of repeating their code.
+  - Changed the misleading name 'val' of the CMPIData argument to 'data', for
+    macros CMIsKeyValue(), CMIsNullValue(), CMIsArray().
+  - Changed CMGetCharsPtr() to return `const char*` instead of `char*`.
+  - Changed keyList argument of CMSetPropertyFilter() top be `const char**`
+    instead of `char**`.
+  - Fixed a few erroneous closing parenthesis that were errors introduced by
+    earlier commits.
+  - Fixed incorrect argument name in CMNewArray().
+  
 15 July - Karl
 --------------
 
