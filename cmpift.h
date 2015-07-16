@@ -66,7 +66,7 @@ extern "C" {
  MI-specific factory function for an MI and is responsible for intializing the
  MI of type \<mi-type\> with the predefined name \<mi-name\>.
 
- \<mi-type>\ can be one of:
+ \<mi-type\> can be one of:
  @li Instance
  @li Association
  @li Property (**Deprecated**)
@@ -135,7 +135,7 @@ extern "C" {
  function for an MI and is responsible for intializing the MI of type
  \<mi-type>\ with the name passed in @p miName.
 
- \<mi-type>\ can be one of:
+ \<mi-type\> can be one of:
  @li Instance
  @li Association
  @li Property (**Deprecated**)
