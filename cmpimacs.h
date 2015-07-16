@@ -52,7 +52,7 @@
 #  define _CMPI_INLINE_MOD // Doxygen does not handle these modifiers at all.
 #else
 #  define _CMPI_INLINE_MOD static inline
-#endif
+#endif // DOC_ONLY
 
 /**
   @addtogroup convenience-func
@@ -1739,7 +1739,7 @@ _CMPI_INLINE_MOD CMPIStatus CMAddArg(
 
     CMGetArg() executes CMPIArgsFT.getArg() to get a method
     parameter from a CMPIArgs object by its name.
-    @param as Args this pointer.
+    @param args Args this pointer.
     @param name Argument name.
     @param rc Output: Service return status (suppressed when NULL).
     @return Argument value.
@@ -1763,7 +1763,7 @@ _CMPI_INLINE_MOD CMPIData CMGetArg(
 
     CMGetArgAt() executes CMPIArgsFT.getArgAt() to get an argument value from a
     CMPIArgs object by its index.
-    @param as Points to CMPIArgs.
+    @param args Points to CMPIArgs.
     @param index Position in the internal Data array.
     @param name Output: Returned argument name (suppressed when NULL).
     @param rc Output: Service return status (suppressed when NULL).
@@ -1792,7 +1792,7 @@ _CMPI_INLINE_MOD CMPIData CMGetArgAt(
 
     CMGetArgCount() executes CMPIArgsFT.getArgCount() to get the number of
     arguments in the CMPIArgs array.
-    @param as Points to CMPIArgs.
+    @param args Points to CMPIArgs.
     @param rc Output: Service return status (suppressed when NULL).
     @return Number of properties.
     @hideinitializer
@@ -2002,8 +2002,6 @@ _CMPI_INLINE_MOD CMPIBoolean CMEvaluateSelExpUsingAccessor(
     return se->ft->evaluateUsingAccessor(se, accessor, parm, rc);
 }
 #endif
-
-#endif /* CMPI_VER_87 */
 
 
 // CMPISelectCond macros
@@ -3705,8 +3703,6 @@ _CMPI_INLINE_MOD CMPIString *CDGetType(
 }
 #endif
 
-#ifdef CMPI_VER_100
-
 /** @brief Log a diagnostic message.
 
     CMLogMessage() executes CMPIBrokerEncFT.logMessage().
@@ -3739,11 +3735,7 @@ _CMPI_INLINE_MOD CMPIStatus CMLogMessage(
 {
     return mb->eft->logMessage(mb, severity, id, text, string);
 }
-#endif /* CMPI_INLINE */
-
-#endif /* CMPI_VER_100 */
-
-#ifdef CMPI_VER_100
+#endif
 
 /** @brief Trace a diagnostic message with a specific trace level and
         component definition.
@@ -3782,8 +3774,6 @@ _CMPI_INLINE_MOD CMPIStatus CMTraceMessage(
     return mb->eft->trace(mb, level, component, text, string);
 }
 #endif
-
-#endif /* CMPI_VER_100 */
 
 #ifdef CMPI_VER_200
 /** @brief Create a new CMPIError object initialized with attributes defined
@@ -3825,12 +3815,10 @@ _CMPI_INLINE_MOD CMPIError * CMNewCMPIError(
 {
     return mb->eft->newCMPIError(mb, owner, msgID, msg, sev, pc, cimStatusCode, rc);
 }
-#endif /* CMPI_INLINE */
-
+#endif
 #endif /* CMPI_VER_200 */
 
 #ifdef CMPI_VER_200
-
 /** @brief Open a message file and return a handle to the file.
 
     CMOpenMessageFile() executes CMPIBrokerEncFT.openMessageFile() to open a
@@ -3857,12 +3845,10 @@ _CMPI_INLINE_MOD CMPIStatus CMOpenMessageFile(
 {
     return mb->eft->openMessageFile(mb, msgFile, msgFileHandle);
 }
-#endif /* CMPI_INLINE */
-
+#endif
 #endif /* CMPI_VER_200 */
 
 #ifdef CMPI_VER_200
-
 /** @brief Close a message file.
 
     CMCloseMessageFile() exeuctes CMPIBrokerEncFT.closeMessageFile() to close a
@@ -3902,12 +3888,10 @@ _CMPI_INLINE_MOD CMPIStatus CMCloseMessageFile(
 {
     return mb->eft->closeMessageFile(mb, msgFileHandle);
 }
-#endif /* CMPI_INLINE */
-
+#endif
 #endif /* CMPI_VER_200 */
 
 #ifdef CMPI_VER_200
-
 /** @brief Get a translated message text from an open message file by
         message ID.
 
@@ -3960,7 +3944,7 @@ _CMPI_INLINE_MOD CMPIString * CMGetMessage2(
     const char *defMsg,
     CMPIStatus *rc,
     CMPICount count, ...);
-#endif /* CMPI_INLINE */
+#endif
 #endif /* CMPI_VER_200 */
 
 
@@ -3994,6 +3978,13 @@ _CMPI_INLINE_MOD CMPIString * CMGetMessage2(
         CMPropertyMIStub(), CMIndicationMIStub()
 */
 #define CMNoHook
+
+#ifdef CMPI_VER_210
+#  define _CMInstanceMI_EnumInstancesFiltered(pfx) \
+       pfx##EnumInstancesFiltered,
+#else
+#  define _CMInstanceMI_EnumInstancesFiltered(pfx)
+#endif
 
 /** The CMInstanceMIStub macro generates the function table and initialization
     stub for an instance provider. The initialization routine
@@ -4091,12 +4082,10 @@ static CMPIInstanceMIFT instMIFT__ = { \
     pfx##EnumInstances, \
     pfx##GetInstance, \
     pfx##CreateInstance, \
-    CMInstanceMIStubChange(pfx), \
+    pfx##ModifyInstance, \
     pfx##DeleteInstance, \
     pfx##ExecQuery, \
-#ifdef CMPI_VER_210
-    pfx##EnumInstancesFiltered, \
-#endif
+    _CMInstanceMI_EnumInstancesFiltered(pfx) \
   }; \
   CMPI_EXTERN_C \
   CMPIInstanceMI *pn##_Create_InstanceMI( \
@@ -4113,9 +4102,16 @@ static CMPIInstanceMIFT instMIFT__ = { \
     return &mi;  \
   }
 
-#    endif
+#ifdef CMPI_VER_210
+#  define _CMAssociationMI_AssociatorsFiltered(pfx) \
+       pfx##AssociatorsFiltered,
+#  define _CMAssociationMI_ReferencesFiltered(pfx) \
+       pfx##ReferencesFiltered,
+#else
+#  define _CMAssociationMI_AssociatorsFiltered(pfx)
+#  define _CMAssociationMI_ReferencesFiltered(pfx)
+#endif
 
-#   ifdef DOC_ONLY
 /** @brief generate function table and stub for association provider.
 
     CMAssociationMIStub() macro generates the function table and initialization
@@ -4150,12 +4146,6 @@ static CMPIInstanceMIFT instMIFT__ = { \
     @todo Need reference back to cmpift
     @todo expand for cmpi 2.1
 */
-CMPIAssociationMI *CMAssociationMIStub(
-    chars pfx,
-    chars pn,
-    CMPIBroker *broker,
-    statement hook);
-#else
 #define CMAssociationMIStub(pfx,pn,broker,hook) \
     static CMPIAssociationMIFT assocMIFT__ = { \
     CMPICurrentVersion, \
@@ -4166,10 +4156,8 @@ CMPIAssociationMI *CMAssociationMIStub(
     pfx##AssociatorNames, \
     pfx##References, \
     pfx##ReferenceNames, \
-#        ifdef CMPI_VER_210
-             pfx##AssociatorsFiltered, \
-             pfx##ReferencesFiltered, \
-#        endif
+    _CMAssociationMI_AssociatorsFiltered(pfx) \
+    _CMAssociationMI_ReferencesFiltered(pfx) \
   }; \
   CMPI_EXTERN_C \
   CMPIAssociationMI *pn##_Create_AssociationMI( \
@@ -4185,9 +4173,7 @@ CMPIAssociationMI *CMAssociationMIStub(
       hook; \
       return &mi;  \
   }
-#endif
 
-#   ifdef DOC_ONLY
 /** @brief Generate the function table and initialization stub for a method
         provider.
 
@@ -4214,12 +4200,6 @@ CMPIAssociationMI *CMAssociationMIStub(
 
     @todo Need  see reference back to cmpift. Do example
 */
-CMPIMethodMI *CMMethodMIStub(
-    chars pfx,
-    chars pn,
-    CMPIBroker *broker,
-    statement hook);
-#else
 #define CMMethodMIStub(pfx,pn,broker,hook) \
   static CMPIMethodMIFT methMIFT__ = { \
     CMPICurrentVersion, \
@@ -4242,9 +4222,7 @@ CMPIMethodMI *CMMethodMIStub(
     hook; \
     return &mi; \
   }
-#endif
 
-#   ifdef DOC_ONLY
 /** Generates the function table and initialization stub
     for a property provider (**Deprecated**).
     This macro generates the function table and initialization stub
@@ -4279,12 +4257,6 @@ CMPIMethodMI *CMMethodMIStub(
     @todo Need reference back to cmpift. No example because
            deprecated.
 */
-CMPIPropertyMI *CMPropertyMIStub(
-    chars pfx,
-    chars pn,
-    CMPIBroker *broker,
-    statement hook);
-#else
 #define CMPropertyMIStub(pfx,pn,broker,hook) \
   static CMPIPropertyMIFT propMIFT__ = { \
     CMPICurrentVersion, \
@@ -4308,15 +4280,18 @@ CMPIPropertyMI *CMPropertyMIStub(
     hook; \
     return &mi; \
   }
-#endif
 
 #ifdef CMPI_VER_210
-#define _CMIndicationMIStub_FilterCollectionFunctions(pfx) \
+#define _CMIndicationMI_AuthorizeFilterCollection(pfx) \
     pfx##AuthorizeFilterCollection, \
+#define _CMIndicationMI_ActivateFilterCollection(pfx) \
     pfx##ActivateFilterCollection, \
+#define _CMIndicationMI_DeActivateFilterCollection(pfx) \
     pfx##DeActivateFilterCollection,
 #else
-#define _CMIndicationMIStub_FilterCollectionFunctions(pfx)
+#define _CMIndicationMI_AuthorizeFilterCollection(pfx)
+#define _CMIndicationMI_ActivateFilterCollection(pfx)
+#define _CMIndicationMI_DeActivateFilterCollection(pfx)
 #endif
 
 /** @brief generate the function table and initialization stub for an
@@ -4360,7 +4335,9 @@ static CMPIIndicationMIFT indMIFT__ = { \
     pfx##DeActivateFilter, \
     pfx##EnableIndications, \
     pfx##DisableIndications, \
-    _CMIndicationMIStub_FilterCollectionFunctions(pfx) \
+    _CMIndicationMI_AuthorizeFilterCollection(pfx) \
+    _CMIndicationMI_ActivateFilterCollection(pfx) \
+    _CMIndicationMI_DeActivateFilterCollection(pfx) \
 }; \
 CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
     const CMPIBroker *brkr, \
@@ -4376,11 +4353,6 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
     return &mi; \
 }
 
-/*
-    -----------------  C++ provider factories ---------------------
-*/
-
-#   ifdef DOC_ONLY
 /** This macro generates the function table and initialization stub
     for an instance provider. The initialization
     routine &lt;pn&gt;Create_IndicationMI is called when
@@ -4397,8 +4369,6 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
 
     @todo Need reference back to cmpift
 */
-CMPIInstanceMI *CMInstanceMIFactory (chars cn, chars pn);
-#else
 #define CMInstanceMIFactory(cn,pn) \
  CMPI_EXTERN_C \
   CMPIInstanceMI *pn##_Create_InstanceMI( \
@@ -4437,11 +4407,9 @@ CMPIInstanceMI *CMInstanceMIFactory (chars cn, chars pn);
     base##pn.incUseCount(); \
     return &mi; \
  }
-#endif
-
 //// ks - The above implemented differently.  Not sure yet why the
 //// difference but there is try block in place of provider->initialize(ctx)
-#   ifdef DOC_ONLY
+
 /** This macro generates the function table and initialization stub
     for an association provider. The initialization routine
     &lt;pn&gt;Create_AssociationMI
@@ -4458,8 +4426,6 @@ CMPIInstanceMI *CMInstanceMIFactory (chars cn, chars pn);
 
     @todo Need reference back to cmpift
 */
-CMPIAssociationMI *CMAssociationMIFactory (chars cn, chars pn);
-#else
 #define CMAssociationMIFactory(cn,pn) \
  CMPI_EXTERN_C \
   CMPIAssociationMI *pn##_Create_AssociationMI( \
@@ -4495,10 +4461,9 @@ CMPIAssociationMI *CMAssociationMIFactory (chars cn, chars pn);
     base##pn.incUseCount(); \
     return &mi; \
  }
-#endif
 //// KS Above implemented differently in OpenPegasus. Try block in place
 //// of provider->initialize(ctx)
-#   ifdef DOC_ONLY
+
 /** This macro generates the function table and initialization stub
     for an method provider. The initialization routine
     &lt;pn&gt;Create_MethodMI is called when this
@@ -4516,8 +4481,6 @@ CMPIAssociationMI *CMAssociationMIFactory (chars cn, chars pn);
     @todo Need reference back to cmpift
     @todo KS Add macro for filtered operations.
 */
-CMPIMethodMI *CMMethodMIFactory (chars cn, chars pn);
-#else
 #define CMMethodMIFactory(cn,pn) \
  CMPI_EXTERN_C \
  CMPIMethodMI *pn##_Create_MethodMI( \
@@ -4550,9 +4513,8 @@ CMPIMethodMI *CMMethodMIFactory (chars cn, chars pn);
     base##pn.incUseCount(); \
     return &mi; \
  }
-#endif
 //// KS see comments above about provider->initialize(ctx)
-#   ifdef DOC_ONLY
+
 /** This macro generates the function table and initialization stub
     for a property provider. The initialization routine
     &lt;pn&gt;Create_PropertyMI is called when this
@@ -4572,8 +4534,6 @@ CMPIMethodMI *CMMethodMIFactory (chars cn, chars pn);
     @todo Need reference back to cmpift
     @todo document as deprecated
 */
-CMPIPropertyMI *CMPropertyMIFactory(chars cn, chars pn);
-#else
 #define CMPropertyMIFactory(cn,pn) \
  CMPI_EXTERN_C \
   CMPIPropertyMI *pn##_Create_PropertyMI( \
@@ -4607,10 +4567,16 @@ CMPIPropertyMI *CMPropertyMIFactory(chars cn, chars pn);
     base##pn.incUseCount(); \
     return &mi; \
  }
-#endif
 //// KS same comment about provider->initialize(ctx)
 
-#   ifdef DOC_ONLY
+#ifdef CMPI_VER_86
+#  define CMIndicationMIFactoryExtensions \
+               CmpiIndicationMI::driveEnableIndications, \
+                CmpiIndicationMI::driveDisableIndications,
+#else
+#  define CMIndicationMIFactoryExtensions
+#endif /* CMPI_VER_86 */
+
 /** This macro generates the function table and initialization stub
     for an indication provider. The initialization routine
     &lt;pn&gt;Create_IndicationMI is called when this
@@ -4628,18 +4594,7 @@ CMPIPropertyMI *CMPropertyMIFactory(chars cn, chars pn);
     @todo AM: This contains code conditional to the historical version
           CMPI_VER_86. Should we remove the conditionals for that version?
 */
-CMPIIndicationMI *CMIndicationMIFactory (chars cn, chars pn);
-#   else
-
-#      ifdef CMPI_VER_86
-#          define CMIndicationMIFactoryExtensions \
-               CmpiIndicationMI::driveEnableIndications, \
-                CmpiIndicationMI::driveDisableIndications,
-#      else
-#         define CMIndicationMIFactoryExtensions
-#      endif /* CMPI_VER_86 */
-
-#       define CMIndicationMIFactory(cn,pn) \
+#define CMIndicationMIFactory(cn,pn) \
 CMPI_EXTERN_C CMPIIndicationMI *pn##_Create_IndicationMI( \
     const CMPIBroker *broker, \
     const CMPIContext *ctxp, \
@@ -4675,7 +4630,6 @@ CMPI_EXTERN_C CMPIIndicationMI *pn##_Create_IndicationMI( \
     base##pn.incUseCount(); \
     return &mi; \
 }
-#endif
 
 //// KS Same comment about provider->intialize
 /** KS_TODO
