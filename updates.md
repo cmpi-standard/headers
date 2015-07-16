@@ -46,7 +46,10 @@
   - Fixed a few erroneous closing parenthesis that were errors introduced by
     earlier commits.
   - Fixed incorrect argument name in CMNewArray().
-  
+* Changed _CMPI_INLINE_MOD to _CMPI_INLINE_STATIC and documented it.
+* Deprecated CMGetCharPtr() and fixed its implementation by calling the
+  corresponding function.
+
 15 July - Karl
 --------------
 

@@ -36,11 +36,6 @@
  * discrepancy between the header file and the Technical Standard
  * (incorporating any subsequent Technical Corrigenda), the Technical Standard
  * shall be definitive.
- *
- * @todo AM: Find a way so that _CMPI_INLINE_MOD does not show up in the
- *     docs.@n
- *     WG: AM_TODO: Change name to _CMPI_INLINE_STATIC and doc why exists.@n
- *     AM_TODO: look for correct solution.
  */
 
 #ifndef _CMPIMACS_H_
@@ -51,12 +46,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#ifdef DOC_ONLY
-#  define _CMPI_INLINE_MOD // Doxygen does not handle these modifiers at all.
-#else
-#  define _CMPI_INLINE_MOD static inline
-#endif // DOC_ONLY
 
 /**
   @addtogroup convenience-func
@@ -140,6 +129,24 @@ extern "C" {
   @}
 */
 
+/**
+  @addtogroup convenience-func
+  @{
+    @def _CMPI_INLINE_STATIC
+
+    An internal symbol that handles the fact that Doxygen does not handle
+    the modifier `inline static` that is used for inline functions.
+
+    It expands to `inline static` when the header files are compiled, and to
+    nothing when the header files are processed by Doxygen to generate
+    documentation.
+  @}
+*/
+#ifdef DOC_ONLY
+#  define _CMPI_INLINE_STATIC
+#else
+#  define _CMPI_INLINE_STATIC static inline
+#endif // DOC_ONLY
 
 /**
   @addtogroup sym-inline
@@ -212,7 +219,7 @@ do \
     } \
 } while (0)
 #else
-_CMPI_INLINE_MOD void CMSetStatus(
+_CMPI_INLINE_STATIC void CMSetStatus(
     CMPIStatus *st,
     CMPIrc rc)
 {
@@ -246,7 +253,7 @@ do \
     } \
 } while (0)
 #else
-_CMPI_INLINE_MOD void CMSetStatusWithString(
+_CMPI_INLINE_STATIC void CMSetStatusWithString(
     CMPIStatus *st,
     CMPIrc rc,
     CMPIString *msg)
@@ -297,7 +304,7 @@ do \
     } \
 } while (0)
 #else
-_CMPI_INLINE_MOD void CMSetStatusWithChars(
+_CMPI_INLINE_STATIC void CMSetStatusWithChars(
     const CMPIBroker *mb,
     CMPIStatus *st,
     CMPIrc rc,
@@ -469,7 +476,7 @@ do \
 #define CMIsNullObject(obj) \
     ((obj) == NULL || *((void**)(obj)) == NULL)
 #else
-_CMPI_INLINE_MOD CMPIBoolean CMIsNullObject(
+_CMPI_INLINE_STATIC CMPIBoolean CMIsNullObject(
     const void *obj)
 {
     return obj == NULL || *((void **)obj) == NULL;
@@ -523,7 +530,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsNullObject(
 #define CMIsNullValue(data) \
     ((data).state & CMPI_nullValue)
 #else
-_CMPI_INLINE_MOD CMPIBoolean CMIsNullValue(
+_CMPI_INLINE_STATIC CMPIBoolean CMIsNullValue(
     CMPIData data)
 {
     return data.state & CMPI_nullValue;
@@ -552,7 +559,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsNullValue(
 #define CMIsKeyValue(data) \
     ((data).state & CMPI_keyValue)
 #else
-_CMPI_INLINE_MOD CMPIBoolean CMIsKeyValue(
+_CMPI_INLINE_STATIC CMPIBoolean CMIsKeyValue(
     CMPIData data)
 {
     return data.state & CMPI_keyValue;
@@ -579,7 +586,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsKeyValue(
 #define CMIsArray(data) \
     ((data).type & CMPI_ARRAY)
 #else
-_CMPI_INLINE_MOD CMPIBoolean CMIsArray(
+_CMPI_INLINE_STATIC CMPIBoolean CMIsArray(
     CMPIData data)
 {
     return data.type & CMPI_ARRAY;
@@ -715,7 +722,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsArray(
 #define CMGetContextEntry(ctx, name, rc)  \
     ((ctx)->ft->getEntry((ctx), (name), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIData CMGetContextEntry(
+_CMPI_INLINE_STATIC CMPIData CMGetContextEntry(
     const CMPIContext *ctx,
     const char *name,
     CMPIStatus *rc)
@@ -737,7 +744,7 @@ _CMPI_INLINE_MOD CMPIData CMGetContextEntry(
 #define CMGetContextEntryAt(ctx, index, name, rc) \
     ((ctx)->ft->getEntryAt((ctx), (index), (name), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIData CMGetContextEntryAt(
+_CMPI_INLINE_STATIC CMPIData CMGetContextEntryAt(
     const CMPIContext *ctx,
     CMPICount index,
     CMPIString **name,
@@ -759,7 +766,7 @@ _CMPI_INLINE_MOD CMPIData CMGetContextEntryAt(
 #define CMGetContextEntryCount(ctx, rc) \
     ((ctx)->ft->getEntryCount((ctx), (rc)))
 #else
-_CMPI_INLINE_MOD CMPICount CMGetContextEntryCount(
+_CMPI_INLINE_STATIC CMPICount CMGetContextEntryCount(
     const CMPIContext *ctx,
     CMPIStatus *rc)
 {
@@ -782,7 +789,7 @@ _CMPI_INLINE_MOD CMPICount CMGetContextEntryCount(
 #define CMAddContextEntry(ctx, name, value, type) \
     ((ctx)->ft->addEntry((ctx), (name), (CMPIValue *)(value), (type)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMAddContextEntry(
+_CMPI_INLINE_STATIC CMPIStatus CMAddContextEntry(
     const CMPIContext *ctx,
     const char *name,
     const CMPIValue *value,
@@ -809,7 +816,7 @@ _CMPI_INLINE_MOD CMPIStatus CMAddContextEntry(
 #define CMReturnData(rslt, value, type) \
     ((rslt)->ft->returnData((rslt), (CMPIValue *)(value), (type)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMReturnData(
+_CMPI_INLINE_STATIC CMPIStatus CMReturnData(
     const CMPIResult *rslt,
     const CMPIValue *value,
     const CMPIType type)
@@ -829,7 +836,7 @@ _CMPI_INLINE_MOD CMPIStatus CMReturnData(
 #define CMReturnInstance(rslt, inst) \
     ((rslt)->ft->returnInstance((rslt), (inst)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMReturnInstance(
+_CMPI_INLINE_STATIC CMPIStatus CMReturnInstance(
     const CMPIResult *rslt,
     const CMPIInstance *inst)
 {
@@ -848,7 +855,7 @@ _CMPI_INLINE_MOD CMPIStatus CMReturnInstance(
 #define CMReturnObjectPath(rslt, op) \
     ((rslt)->ft->returnObjectPath((rslt), (op)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMReturnObjectPath(
+_CMPI_INLINE_STATIC CMPIStatus CMReturnObjectPath(
     const CMPIResult *rslt,
     const CMPIObjectPath *op)
 {
@@ -866,7 +873,7 @@ _CMPI_INLINE_MOD CMPIStatus CMReturnObjectPath(
 #define CMReturnDone(rslt) \
     ((rslt)->ft->returnDone((rslt)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMReturnDone(
+_CMPI_INLINE_STATIC CMPIStatus CMReturnDone(
     const CMPIResult *rslt)
 {
     return rslt->ft->returnDone(rslt);
@@ -885,7 +892,7 @@ _CMPI_INLINE_MOD CMPIStatus CMReturnDone(
 #define CMReturnError(rslt, er) \
     ((rslt)->ft->returnError((rslt), (er)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMReturnError(
+_CMPI_INLINE_STATIC CMPIStatus CMReturnError(
     const CMPIResult *rslt,
     const CMPIError *er)
 {
@@ -899,7 +906,7 @@ _CMPI_INLINE_MOD CMPIStatus CMReturnError(
 
 
 /** @brief Macro to get the pointer to the C-language representation of a
-        CMPIString.
+        CMPIString (**Deprecated**).
 
     This macro provides NO argument checking or return code.
     @def CMGetCharPtr(st)
@@ -917,13 +924,15 @@ _CMPI_INLINE_MOD CMPIStatus CMReturnError(
     @hideinitializer
 
     @todo TBD KS: Confirm this since the doc was just a guess right now
-    @todo AM_TODO: Should this not invoke the respective function? Why is the
+    @todo DONE AM: Should this not invoke the respective function? Why is the
         hdl the string?@n
         WG: We need to modify the implementation of this one so that it is not
-        implementation dependent but just calls CMGetCharsPtr.  Also deprecate.
+        implementation dependent but just calls CMGetCharsPtr. Also deprecate.@n
+        AM: It is now deprecated and the implementation calls the function
+        but without rc (Passing NULL is allowed).
 */
-#define CMGetCharPtr(st) \
-    ((char*)(st)->hdl)
+#define CMGetCharPtr(str) \
+    ((str)->ft->getCharPtr((str), NULL))
 
 /** @brief Get a pointer to a C-language string representation of a
         CMPIString object.
@@ -949,7 +958,7 @@ _CMPI_INLINE_MOD CMPIStatus CMReturnError(
 #define CMGetCharsPtr(str, rc) \
     ((str)->ft->getCharPtr((str), (rc)))
 #else
-_CMPI_INLINE_MOD const char * CMGetCharsPtr(
+_CMPI_INLINE_STATIC const char * CMGetCharsPtr(
     const CMPIString *str,
     CMPIStatus *rc)
 {
@@ -975,7 +984,7 @@ _CMPI_INLINE_MOD const char * CMGetCharsPtr(
 #define CMGetArrayCount(ar, rc) \
     ((ar)->ft->getSize((ar), (rc)))
 #else
-_CMPI_INLINE_MOD CMPICount CMGetArrayCount(
+_CMPI_INLINE_STATIC CMPICount CMGetArrayCount(
     const CMPIArray *ar,
     CMPIStatus *rc)
 {
@@ -998,7 +1007,7 @@ _CMPI_INLINE_MOD CMPICount CMGetArrayCount(
 #define CMGetArrayType(ar, rc) \
     ((ar)->ft->getSimpleType((ar), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIType CMGetArrayType(
+_CMPI_INLINE_STATIC CMPIType CMGetArrayType(
     const CMPIArray *ar,
     CMPIStatus *rc)
 {
@@ -1020,7 +1029,7 @@ _CMPI_INLINE_MOD CMPIType CMGetArrayType(
 #define CMGetArrayElementAt(ar, index, rc) \
     ((ar)->ft->getElementAt((ar), (index), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIData CMGetArrayElementAt(
+_CMPI_INLINE_STATIC CMPIData CMGetArrayElementAt(
     const CMPIArray *ar,
     CMPICount index,
     CMPIStatus *rc)
@@ -1046,7 +1055,7 @@ _CMPI_INLINE_MOD CMPIData CMGetArrayElementAt(
 #define CMSetArrayElementAt(ar, index, value, type) \
     ((ar)->ft->setElementAt((ar), (index), (CMPIValue *)(value), (type)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMSetArrayElementAt(
+_CMPI_INLINE_STATIC CMPIStatus CMSetArrayElementAt(
     const CMPIArray *ar,
     CMPICount index,
     const CMPIValue *value,
@@ -1072,7 +1081,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetArrayElementAt(
 #define CMGetNext(en, rc) \
     ((en)->ft->getNext((en), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIData CMGetNext(
+_CMPI_INLINE_STATIC CMPIData CMGetNext(
     const CMPIEnumeration *en,
     CMPIStatus *rc)
 {
@@ -1094,7 +1103,7 @@ _CMPI_INLINE_MOD CMPIData CMGetNext(
 #define CMHasNext(en, rc) \
     ((en)->ft->hasNext((en), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIBoolean CMHasNext(
+_CMPI_INLINE_STATIC CMPIBoolean CMHasNext(
     const CMPIEnumeration *en,
     CMPIStatus *rc)
 {
@@ -1116,7 +1125,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMHasNext(
 #define CMToArray(en, rc) \
     ((en)->ft->toArray((en), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIArray *CMToArray(
+_CMPI_INLINE_STATIC CMPIArray *CMToArray(
     const CMPIEnumeration *en,
     CMPIStatus *rc)
 {
@@ -1153,7 +1162,7 @@ _CMPI_INLINE_MOD CMPIArray *CMToArray(
 #define CMGetProperty(inst, name, rc) \
     ((inst)->ft->getProperty((inst), (name), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIData CMGetProperty(
+_CMPI_INLINE_STATIC CMPIData CMGetProperty(
     const CMPIInstance *inst,
     const char *name,
     CMPIStatus *rc)
@@ -1179,7 +1188,7 @@ _CMPI_INLINE_MOD CMPIData CMGetProperty(
 #define CMGetPropertyAt(inst, index, name, rc) \
     ((inst)->ft->getPropertyAt((inst), (index), (name), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIData CMGetPropertyAt(
+_CMPI_INLINE_STATIC CMPIData CMGetPropertyAt(
     const CMPIInstance *inst,
     CMPICount index,
     CMPIString **name,
@@ -1202,7 +1211,7 @@ _CMPI_INLINE_MOD CMPIData CMGetPropertyAt(
 #define CMGetPropertyCount(inst, rc) \
     ((inst)->ft->getPropertyCount((inst), (rc)))
 #else
-_CMPI_INLINE_MOD CMPICount CMGetPropertyCount(
+_CMPI_INLINE_STATIC CMPICount CMGetPropertyCount(
     const CMPIInstance *inst,
     CMPIStatus *rc)
 {
@@ -1227,7 +1236,7 @@ _CMPI_INLINE_MOD CMPICount CMGetPropertyCount(
 #define CMSetProperty(inst, name, value, type) \
     ((inst)->ft->setProperty((inst), (name), (CMPIValue *)(value), (type)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMSetProperty(
+_CMPI_INLINE_STATIC CMPIStatus CMSetProperty(
     const CMPIInstance *inst,
     const char *name,
     const CMPIValue *value,
@@ -1251,7 +1260,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetProperty(
 #define CMGetObjectPath(inst, rc) \
     ((inst)->ft->getObjectPath((inst), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIObjectPath *CMGetObjectPath(
+_CMPI_INLINE_STATIC CMPIObjectPath *CMGetObjectPath(
     const CMPIInstance *inst,
     CMPIStatus *rc)
 {
@@ -1275,7 +1284,7 @@ _CMPI_INLINE_MOD CMPIObjectPath *CMGetObjectPath(
 #define CMSetPropertyFilter(inst, properties, keyList) \
     ((inst)->ft->setPropertyFilter((inst), (properties), (keyList)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMSetPropertyFilter(
+_CMPI_INLINE_STATIC CMPIStatus CMSetPropertyFilter(
     const CMPIInstance *inst,
     const char **properties,
     const char **keyList)
@@ -1298,7 +1307,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetPropertyFilter(
 #define CMSetObjectPath(inst, op) \
     ((inst)->ft->setObjectPath((inst), (op)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMSetObjectPath(
+_CMPI_INLINE_STATIC CMPIStatus CMSetObjectPath(
     const CMPIInstance *inst,
     const CMPIObjectPath *op)
 {
@@ -1325,7 +1334,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetObjectPath(
     ((inst)->ft->setPropertyWithOrigin((inst), (name), (CMPIValue *)(value), \
                                        (type), (origin)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMSetPropertyWithOrigin(
+_CMPI_INLINE_STATIC CMPIStatus CMSetPropertyWithOrigin(
     const CMPIInstance *inst,
     const char *name,
     const CMPIValue *value,
@@ -1355,7 +1364,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetPropertyWithOrigin(
 #define CMSetNameSpace(op, ns) \
     ((op)->ft->setNameSpace((op), (ns)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMSetNameSpace(
+_CMPI_INLINE_STATIC CMPIStatus CMSetNameSpace(
     const CMPIObjectPath *op,
     const char *ns)
 {
@@ -1377,7 +1386,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetNameSpace(
 #define CMGetNameSpace(op, rc) \
     ((op)->ft->getNameSpace((op), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIString *CMGetNameSpace(
+_CMPI_INLINE_STATIC CMPIString *CMGetNameSpace(
     const CMPIObjectPath *op,
     CMPIStatus *rc)
 {
@@ -1398,7 +1407,7 @@ _CMPI_INLINE_MOD CMPIString *CMGetNameSpace(
 #define CMSetHostname(op, hn) \
     ((op)->ft->setHostname((op), (hn)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMSetHostname (
+_CMPI_INLINE_STATIC CMPIStatus CMSetHostname (
     const CMPIObjectPath *op,
     const char *hn)
 {
@@ -1418,7 +1427,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetHostname (
 #define CMGetHostname(op, rc) \
     ((op)->ft->getHostname((op), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIString *CMGetHostname(
+_CMPI_INLINE_STATIC CMPIString *CMGetHostname(
     const CMPIObjectPath *op,
     CMPIStatus *rc)
 {
@@ -1439,7 +1448,7 @@ _CMPI_INLINE_MOD CMPIString *CMGetHostname(
 #define CMSetClassName(op, cn) \
     ((op)->ft->setClassName((op), (cn)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMSetClassName(
+_CMPI_INLINE_STATIC CMPIStatus CMSetClassName(
     const CMPIObjectPath *op,
     const char *cn)
 {
@@ -1461,7 +1470,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetClassName(
 #define CMGetClassName(op, rc) \
     ((op)->ft->getClassName((op), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIString *CMGetClassName(
+_CMPI_INLINE_STATIC CMPIString *CMGetClassName(
     const CMPIObjectPath *op,
     CMPIStatus *rc)
 {
@@ -1485,7 +1494,7 @@ _CMPI_INLINE_MOD CMPIString *CMGetClassName(
 #define CMAddKey(op,key,value,type) \
     ((op)->ft->addKey((op), (key), (CMPIValue *)(value), (type)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMAddKey(
+_CMPI_INLINE_STATIC CMPIStatus CMAddKey(
     const CMPIObjectPath *op,
     const char *key,
     const CMPIValue *value,
@@ -1510,7 +1519,7 @@ _CMPI_INLINE_MOD CMPIStatus CMAddKey(
 #define CMGetKey(op, key, rc) \
     ((op)->ft->getKey((op),(key),(rc)))
 #else
-_CMPI_INLINE_MOD CMPIData CMGetKey(
+_CMPI_INLINE_STATIC CMPIData CMGetKey(
     const CMPIObjectPath *op,
     const char *key,
     CMPIStatus *rc)
@@ -1535,7 +1544,7 @@ _CMPI_INLINE_MOD CMPIData CMGetKey(
 #define CMGetKeyAt(op, index, name, rc) \
     ((op)->ft->getKeyAt((op), (index), (name), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIData CMGetKeyAt(
+_CMPI_INLINE_STATIC CMPIData CMGetKeyAt(
     const CMPIObjectPath *op,
     CMPICount index,
     CMPIString **name,
@@ -1560,7 +1569,7 @@ _CMPI_INLINE_MOD CMPIData CMGetKeyAt(
 #define CMGetKeyCount(op, rc) \
     ((op)->ft->getKeyCount((op), (rc)))
 #else
-_CMPI_INLINE_MOD CMPICount CMGetKeyCount(
+_CMPI_INLINE_STATIC CMPICount CMGetKeyCount(
     const CMPIObjectPath *op,
     CMPIStatus *rc)
 {
@@ -1582,7 +1591,7 @@ _CMPI_INLINE_MOD CMPICount CMGetKeyCount(
 #define CMSetNameSpaceFromObjectPath(op, src) \
     ((op)->ft->setNameSpaceFromObjectPath((op), (src)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMSetNameSpaceFromObjectPath(
+_CMPI_INLINE_STATIC CMPIStatus CMSetNameSpaceFromObjectPath(
     const CMPIObjectPath *op,
     const CMPIObjectPath *src)
 {
@@ -1605,7 +1614,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetNameSpaceFromObjectPath(
 #define CMSetHostAndNameSpaceFromObjectPath(op, src) \
     ((op)->ft->setHostAndNameSpaceFromObjectPath((op), (src)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMSetHostAndNameSpaceFromObjectPath(
+_CMPI_INLINE_STATIC CMPIStatus CMSetHostAndNameSpaceFromObjectPath(
     const CMPIObjectPath *op,
     const CMPIObjectPath *src)
 {
@@ -1627,7 +1636,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetHostAndNameSpaceFromObjectPath(
 #define CMGetClassQualifier(op, qName, rc) \
     ((op)->ft->getClassQualifier((op), (qName), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIData CMGetClassQualifier(
+_CMPI_INLINE_STATIC CMPIData CMGetClassQualifier(
     const CMPIObjectPath *op,
     const char *qName,
     CMPIStatus *rc)
@@ -1652,7 +1661,7 @@ _CMPI_INLINE_MOD CMPIData CMGetClassQualifier(
 #define CMGetPropertyQualifier(op, pName, qName, rc) \
     ((op)->ft->getPropertyQualifier((op), (pName), (qName), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIData CMGetPropertyQualifier(
+_CMPI_INLINE_STATIC CMPIData CMGetPropertyQualifier(
     const CMPIObjectPath *op,
     const char *pName,
     const char *qName,
@@ -1677,7 +1686,7 @@ _CMPI_INLINE_MOD CMPIData CMGetPropertyQualifier(
 #define CMGetMethodQualifier(op, mName, qName, rc) \
     ((op)->ft->getMethodQualifier((op), (mName), (qName), (rc)))
 #else
-_CMPI_INLINE_MOD  CMPIData CMGetMethodQualifier(
+_CMPI_INLINE_STATIC  CMPIData CMGetMethodQualifier(
     const CMPIObjectPath *op,
     const char *mName,
     const char *qName,
@@ -1703,7 +1712,7 @@ _CMPI_INLINE_MOD  CMPIData CMGetMethodQualifier(
 #define CMGetParameterQualifier(op, mName, pName, qName,rc) \
     ((op)->ft->getParameterQualifier((op), (mName), (pName), (qName), (rc)))
 #else
-_CMPI_INLINE_MOD  CMPIData CMGetParameterQualifier(
+_CMPI_INLINE_STATIC  CMPIData CMGetParameterQualifier(
     const CMPIObjectPath *op,
     const char *mName,
     const char *pName,
@@ -1735,7 +1744,7 @@ _CMPI_INLINE_MOD  CMPIData CMGetParameterQualifier(
 #define CMAddArg(args, name, value, type) \
     ((args)->ft->addArg((args), (name), (CMPIValue *)(value), (type)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMAddArg(
+_CMPI_INLINE_STATIC CMPIStatus CMAddArg(
     const CMPIArgs *args,
     const char *name,
     const CMPIValue *value,
@@ -1760,7 +1769,7 @@ _CMPI_INLINE_MOD CMPIStatus CMAddArg(
 #define CMGetArg(args, name, rc) \
     ((args)->ft->getArg((args), (name), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIData CMGetArg(
+_CMPI_INLINE_STATIC CMPIData CMGetArg(
     const CMPIArgs *args,
     const char *name,
     CMPIStatus *rc)
@@ -1788,7 +1797,7 @@ _CMPI_INLINE_MOD CMPIData CMGetArg(
 #define CMGetArgAt(args, index, name, rc) \
     ((args)->ft->getArgAt((args), (index), (name), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIData CMGetArgAt(
+_CMPI_INLINE_STATIC CMPIData CMGetArgAt(
     const CMPIArgs *args,
     CMPICount index,
     CMPIString **name,
@@ -1812,7 +1821,7 @@ _CMPI_INLINE_MOD CMPIData CMGetArgAt(
 #define CMGetArgCount(args, rc) \
     ((args)->ft->getArgCount((args), (rc)))
 #else
-_CMPI_INLINE_MOD CMPICount CMGetArgCount(
+_CMPI_INLINE_STATIC CMPICount CMGetArgCount(
     const CMPIArgs *args,
     CMPIStatus *rc)
 {
@@ -1838,7 +1847,7 @@ _CMPI_INLINE_MOD CMPICount CMGetArgCount(
 #define CMGetBinaryFormat(dt, rc) \
     ((dt)->ft->getBinaryFormat((dt), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIUint64 CMGetBinaryFormat(
+_CMPI_INLINE_STATIC CMPIUint64 CMGetBinaryFormat(
     const CMPIDateTime *dt,
     CMPIStatus *rc)
 {
@@ -1859,7 +1868,7 @@ _CMPI_INLINE_MOD CMPIUint64 CMGetBinaryFormat(
 #define CMGetStringFormat(dt, rc) \
     ((dt)->ft->getStringFormat((dt), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIString *CMGetStringFormat(
+_CMPI_INLINE_STATIC CMPIString *CMGetStringFormat(
     const CMPIDateTime *dt,
     CMPIStatus *rc)
 {
@@ -1879,7 +1888,7 @@ _CMPI_INLINE_MOD CMPIString *CMGetStringFormat(
 #define CMIsInterval(dt, rc) \
     ((dt)->ft->isInterval((dt), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIBoolean CMIsInterval(
+_CMPI_INLINE_STATIC CMPIBoolean CMIsInterval(
     const CMPIDateTime *dt,
     CMPIStatus *rc)
 {
@@ -1908,7 +1917,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMIsInterval(
 #define CMEvaluateSelExp(se, inst, rc) \
     ((se)->ft->evaluate((se), (inst), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIBoolean CMEvaluateSelExp(
+_CMPI_INLINE_STATIC CMPIBoolean CMEvaluateSelExp(
     const CMPISelectExp *se,
     const CMPIInstance *inst,
     CMPIStatus *rc)
@@ -1930,7 +1939,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMEvaluateSelExp(
 #define CMGetSelExpString(se, rc) \
     ((se)->ft->getString((se), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIString *CMGetSelExpString(
+_CMPI_INLINE_STATIC CMPIString *CMGetSelExpString(
     const CMPISelectExp *se,
     CMPIStatus *rc)
 {
@@ -1952,7 +1961,7 @@ _CMPI_INLINE_MOD CMPIString *CMGetSelExpString(
 #define CMGetDoc(se, rc) \
     ((se)->ft->getDOC((se), (rc)))
 #else
-_CMPI_INLINE_MOD CMPISelectCond *CMGetDoc(
+_CMPI_INLINE_STATIC CMPISelectCond *CMGetDoc(
     const CMPISelectExp *se,
     CMPIStatus *rc)
 {
@@ -1975,7 +1984,7 @@ _CMPI_INLINE_MOD CMPISelectCond *CMGetDoc(
 #define CMGetCod(se, rc) \
     ((se)->ft->getCOD((se), (rc)))
 #else
-_CMPI_INLINE_MOD CMPISelectCond *CMGetCod(
+_CMPI_INLINE_STATIC CMPISelectCond *CMGetCod(
     const CMPISelectExp *se,
     CMPIStatus *rc)
 {
@@ -2000,7 +2009,7 @@ _CMPI_INLINE_MOD CMPISelectCond *CMGetCod(
 #define CMEvaluateSelExpUsingAccessor(se, accessor, parm, rc) \
     ((se)->ft->evaluateUsingAccessor((se), (accessor), (parm), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIBoolean CMEvaluateSelExpUsingAccessor(
+_CMPI_INLINE_STATIC CMPIBoolean CMEvaluateSelExpUsingAccessor(
     const CMPISelectExp *se,
     const CMPIAccessor *accessor,
     void *parm,
@@ -2031,7 +2040,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMEvaluateSelExpUsingAccessor(
 #define CMGetSubCondCountAndType(sc, type, rc) \
     ((sc)->ft->getCountAndType((sc), (type), (rc)))
 #else
-_CMPI_INLINE_MOD CMPICount CMGetSubCondCountAndType(
+_CMPI_INLINE_STATIC CMPICount CMGetSubCondCountAndType(
     const CMPISelectCond *sc,
     int *type,
     CMPIStatus *rc)
@@ -2054,7 +2063,7 @@ _CMPI_INLINE_MOD CMPICount CMGetSubCondCountAndType(
 #define CMGetSubCondAt(sc, index, rc) \
     ((sc)->ft->getSubCondAt((sc), (index), (rc)))
 #else
-_CMPI_INLINE_MOD CMPISubCond *CMGetSubCondAt(
+_CMPI_INLINE_STATIC CMPISubCond *CMGetSubCondAt(
     const CMPISelectCond *sc,
     CMPICount index,
     CMPIStatus *rc)
@@ -2082,7 +2091,7 @@ _CMPI_INLINE_MOD CMPISubCond *CMGetSubCondAt(
 #define CMGetPredicateCount(sc, rc) \
     ((sc)->ft->getCount((sc), (rc)))
 #else
-_CMPI_INLINE_MOD CMPICount CMGetPredicateCount(
+_CMPI_INLINE_STATIC CMPICount CMGetPredicateCount(
     const CMPISubCond *sc,
     CMPIStatus *rc)
 {
@@ -2104,7 +2113,7 @@ _CMPI_INLINE_MOD CMPICount CMGetPredicateCount(
 #define CMGetPredicateAt(sc, index, rc) \
     ((sc)->ft->getPredicateAt((sc), (index), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIPredicate *CMGetPredicateAt(
+_CMPI_INLINE_STATIC CMPIPredicate *CMGetPredicateAt(
     const CMPISubCond *sc,
     CMPICount index,
     CMPIStatus *rc)
@@ -2128,7 +2137,7 @@ _CMPI_INLINE_MOD CMPIPredicate *CMGetPredicateAt(
 #define CMGetPredicate(sc, name, rc) \
     ((sc)->ft->getPredicate((sc), (name), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIPredicate *CMGetPredicate(
+_CMPI_INLINE_STATIC CMPIPredicate *CMGetPredicate(
     const CMPISubCond *sc,
     const char *name,
     CMPIStatus *rc)
@@ -2158,7 +2167,7 @@ _CMPI_INLINE_MOD CMPIPredicate *CMGetPredicate(
 #define CMGetPredicateData(pr, type, prop, lhs, rhs) \
     ((pr)->ft->getData((pr), (type), (prop), (lhs), (rhs)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMGetPredicateData(
+_CMPI_INLINE_STATIC CMPIStatus CMGetPredicateData(
     const CMPIPredicate *pr,
     CMPIType *type,
     CMPIPredOp *prop,
@@ -2186,7 +2195,7 @@ _CMPI_INLINE_MOD CMPIStatus CMGetPredicateData(
 #define CMEvaluatePredicateUsingAccessor(pr, accessorFnc, parm, rc) \
     ((pr)->ft->evaluateUsingAccessor((pr), (accessorFnc), (parm), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIBoolean CMEvaluatePredicateUsingAccessor(
+_CMPI_INLINE_STATIC CMPIBoolean CMEvaluatePredicateUsingAccessor(
     const CMPIPredicate *pr,
     const CMPIAccessor *accessorFnc,
     void *parm,
@@ -2215,7 +2224,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMEvaluatePredicateUsingAccessor(
 #define CMGetErrorType(er, rc) \
     ((er)->ft->getErrorType((er), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIErrorType CMGetErrorType(
+_CMPI_INLINE_STATIC CMPIErrorType CMGetErrorType(
     const CMPIError *er,
     CMPIStatus *rc)
 {
@@ -2237,7 +2246,7 @@ _CMPI_INLINE_MOD CMPIErrorType CMGetErrorType(
 #define CMGetOtherErrorType(er, rc) \
     ((er)->ft->getOtherErrorType((er), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIString *CMGetOtherErrorType(
+_CMPI_INLINE_STATIC CMPIString *CMGetOtherErrorType(
     const CMPIError *er,
     CMPIStatus *rc)
 {
@@ -2260,7 +2269,7 @@ _CMPI_INLINE_MOD CMPIString *CMGetOtherErrorType(
 #define CMGetOwningEntity(er, rc) \
     ((er)->ft->getOwningEntity((er), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIString *CMGetOwningEntity(
+_CMPI_INLINE_STATIC CMPIString *CMGetOwningEntity(
     const CMPIError *er,
     CMPIStatus *rc)
 {
@@ -2282,7 +2291,7 @@ _CMPI_INLINE_MOD CMPIString *CMGetOwningEntity(
 #define CMGetMessageID(er, rc) \
     ((er)->ft->getMessageID((er), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIString *CMGetMessageID(
+_CMPI_INLINE_STATIC CMPIString *CMGetMessageID(
     const CMPIError *er,
     CMPIStatus *rc)
 {
@@ -2304,7 +2313,7 @@ _CMPI_INLINE_MOD CMPIString *CMGetMessageID(
 #define CMGetErrorMessage(er, rc) \
     ((er)->ft->getMessage((er), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIString *CMGetErrorMessage(
+_CMPI_INLINE_STATIC CMPIString *CMGetErrorMessage(
     const CMPIError *er,
     CMPIStatus *rc)
 {
@@ -2326,7 +2335,7 @@ _CMPI_INLINE_MOD CMPIString *CMGetErrorMessage(
 #define CMGetPerceivedSeverity(er, rc) \
     ((er)->ft->getPerceivedSeverity((er), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIErrorSeverity CMGetPerceivedSeverity(
+_CMPI_INLINE_STATIC CMPIErrorSeverity CMGetPerceivedSeverity(
     const CMPIError *er,
     CMPIStatus *rc)
 {
@@ -2348,7 +2357,7 @@ _CMPI_INLINE_MOD CMPIErrorSeverity CMGetPerceivedSeverity(
 #define CMGetProbableCause(er, rc) \
     ((er)->ft->getProbableCause((er), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIErrorProbableCause CMGetProbableCause(
+_CMPI_INLINE_STATIC CMPIErrorProbableCause CMGetProbableCause(
     const CMPIError *er,
     CMPIStatus *rc)
 {
@@ -2372,7 +2381,7 @@ _CMPI_INLINE_MOD CMPIErrorProbableCause CMGetProbableCause(
 #define CMGetProbableCauseDescription(er, rc) \
     ((er)->ft->getProbableCauseDescription((er), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIString * CMGetProbableCauseDescription(
+_CMPI_INLINE_STATIC CMPIString * CMGetProbableCauseDescription(
     const CMPIError *er,
     CMPIStatus *rc)
 {
@@ -2394,7 +2403,7 @@ _CMPI_INLINE_MOD CMPIString * CMGetProbableCauseDescription(
 #define CMGetRecommendedActions(er, rc) \
     ((er)->ft->getRecommendedActions((er), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIArray * CMGetRecommendedActions(
+_CMPI_INLINE_STATIC CMPIArray * CMGetRecommendedActions(
     const CMPIError *er,
     CMPIStatus *rc)
 {
@@ -2416,7 +2425,7 @@ _CMPI_INLINE_MOD CMPIArray * CMGetRecommendedActions(
 #define CMGetErrorSource(er, rc) \
     ((er)->ft->CMGetErrorSourcegetErrorSource((er), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIString * CMGetErrorSource(
+_CMPI_INLINE_STATIC CMPIString * CMGetErrorSource(
     const CMPIError *er,
     CMPIStatus *rc)
 {
@@ -2439,7 +2448,7 @@ _CMPI_INLINE_MOD CMPIString * CMGetErrorSource(
 #define CMGetErrorSourceFormat(er, rc) \
     ((er)->ft->getErrorSourceFormat((er), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIErrorSrcFormat CMGetErrorSourceFormat(
+_CMPI_INLINE_STATIC CMPIErrorSrcFormat CMGetErrorSourceFormat(
     const CMPIError *er,
     CMPIStatus *rc)
 {
@@ -2462,7 +2471,7 @@ _CMPI_INLINE_MOD CMPIErrorSrcFormat CMGetErrorSourceFormat(
 #define CMGetOtherErrorSourceFormat(er, rc) \
     ((er)->ft->getOtherErrorSourceFormat((er), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIString * CMGetOtherErrorSourceFormat(
+_CMPI_INLINE_STATIC CMPIString * CMGetOtherErrorSourceFormat(
     const CMPIError *er,
     CMPIStatus *rc)
 {
@@ -2485,7 +2494,7 @@ _CMPI_INLINE_MOD CMPIString * CMGetOtherErrorSourceFormat(
 #define CMGetCIMStatusCode(er, rc) \
     ((er)->ft->getCIMStatusCode((er), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIrc CMGetCIMStatusCode(
+_CMPI_INLINE_STATIC CMPIrc CMGetCIMStatusCode(
     const CMPIError *er,
     CMPIStatus *rc)
 {
@@ -2507,7 +2516,7 @@ _CMPI_INLINE_MOD CMPIrc CMGetCIMStatusCode(
 #define CMGetCIMStatusCodeDescription(er, rc) \
     ((er)->ft->getCIMStatusCodeDescription((er), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIString * CMGetCIMStatusCodeDescription(
+_CMPI_INLINE_STATIC CMPIString * CMGetCIMStatusCodeDescription(
     const CMPIError *er,
     CMPIStatus *rc)
 {
@@ -2528,7 +2537,7 @@ _CMPI_INLINE_MOD CMPIString * CMGetCIMStatusCodeDescription(
 #define CMGetMessageArguments(er, rc) \
     ((er)->ft->getMessageArguments((er), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIArray * CMGetMessageArguments(
+_CMPI_INLINE_STATIC CMPIArray * CMGetMessageArguments(
     const CMPIError *er,
     CMPIStatus *rc)
 {
@@ -2551,7 +2560,7 @@ _CMPI_INLINE_MOD CMPIArray * CMGetMessageArguments(
 #define CMSetErrorType(er, et) \
     ((er)->ft->setErrorType((er), (et)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMSetErrorType(
+_CMPI_INLINE_STATIC CMPIStatus CMSetErrorType(
     const CMPIError *er,
     const CMPIErrorType et)
 {
@@ -2573,7 +2582,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetErrorType(
 #define CMSetOtherErrorType(er, ot) \
     ((er)->ft->setOtherErrorType((er), (ot)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMSetOtherErrorType(
+_CMPI_INLINE_STATIC CMPIStatus CMSetOtherErrorType(
     const CMPIError *er,
     const char *ot)
 {
@@ -2593,7 +2602,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetOtherErrorType(
 #define CMSetProbableCauseDescription(er, pcd) \
     ((er)->ft->setProbableCauseDescription((er), (pcd)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMSetProbableCauseDescription(
+_CMPI_INLINE_STATIC CMPIStatus CMSetProbableCauseDescription(
     const CMPIError *er,
     const char *pcd)
 {
@@ -2614,7 +2623,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetProbableCauseDescription(
 #define CMSetRecommendedActions(er, ra)                            \
     ((er)->ft->setRecommendedActions((er), (ra)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMSetRecommendedActions(
+_CMPI_INLINE_STATIC CMPIStatus CMSetRecommendedActions(
     const CMPIError *er,
     const CMPIArray *ra)
 {
@@ -2635,7 +2644,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetRecommendedActions(
 #define CMSetErrorSource(er, es) \
     ((er)->ft->setErrorSource((er), (es)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMSetErrorSource(
+_CMPI_INLINE_STATIC CMPIStatus CMSetErrorSource(
     const CMPIError *er,
     const char* es)
 {
@@ -2655,7 +2664,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetErrorSource(
 #define CMSetErrorSourceFormat(er, esf) \
     ((er)->ft->setErrorSourceFormat((er), (esf)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMSetErrorSourceFormat(
+_CMPI_INLINE_STATIC CMPIStatus CMSetErrorSourceFormat(
     const CMPIError *er,
     const CMPIErrorSrcFormat esf)
 {
@@ -2675,7 +2684,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetErrorSourceFormat(
 #define CMSetOtherErrorSourceFormat(er, oef) \
     ((er)->ft->setOtherErrorSourceFormat((er), (oef)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMSetOtherErrorSourceFormat(
+_CMPI_INLINE_STATIC CMPIStatus CMSetOtherErrorSourceFormat(
     const CMPIError *er,
     const char* oef)
 {
@@ -2695,7 +2704,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetOtherErrorSourceFormat(
 #define CMSetCIMStatusCodeDescription(er, scd) \
     ((er)->ft->setCIMStatusCodeDescription((er), (scd)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMSetCIMStatusCodeDescription(
+_CMPI_INLINE_STATIC CMPIStatus CMSetCIMStatusCodeDescription(
     const CMPIError *er,
     const char* scd)
 {
@@ -2716,7 +2725,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetCIMStatusCodeDescription(
 #define CMSetMessageArguments(er, values) \
     ((er)->ft->setMessageArguments((er), (values)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMSetMessageArguments(
+_CMPI_INLINE_STATIC CMPIStatus CMSetMessageArguments(
     const CMPIError *er,
     const CMPIArray *values)
 {
@@ -2762,7 +2771,7 @@ _CMPI_INLINE_MOD CMPIStatus CMSetMessageArguments(
 #define CBGetClassification(mb) \
     ((mb)->bft->brokerCapabilities)
 #else
-_CMPI_INLINE_MOD unsigned int CBGetCapabilities(
+_CMPI_INLINE_STATIC unsigned int CBGetCapabilities(
     const CMPIBroker *mb)
 {
     return mb->bft->brokerCapabilities;
@@ -2789,7 +2798,7 @@ _CMPI_INLINE_MOD unsigned int CBGetCapabilities(
 #define CBBrokerVersion(mb) \
     ((mb)->bft->brokerVersion)
 #else
-_CMPI_INLINE_MOD CMPIVersion CBBrokerVersion(
+_CMPI_INLINE_STATIC CMPIVersion CBBrokerVersion(
     const CMPIBroker *mb)
 {
     return mb->bft->brokerVersion;
@@ -2813,7 +2822,7 @@ _CMPI_INLINE_MOD CMPIVersion CBBrokerVersion(
 #define CBBrokerName(mb) \
     ((bm)->bft->brokerName)
 #else
-_CMPI_INLINE_MOD const char * CBBrokerName(
+_CMPI_INLINE_STATIC const char * CBBrokerName(
     const CMPIBroker *mb)
 {
     return mb->bft->brokerName;
@@ -2836,7 +2845,7 @@ _CMPI_INLINE_MOD const char * CBBrokerName(
 #define CBPrepareAttachThread(mb,c) \
     ((mb)->bft->prepareAttachThread((mb),(c)))
 #else
-_CMPI_INLINE_MOD CMPIContext *CBPrepareAttachThread(
+_CMPI_INLINE_STATIC CMPIContext *CBPrepareAttachThread(
     const CMPIBroker *mb,
     const CMPIContext *ctx)
 {
@@ -2858,7 +2867,7 @@ _CMPI_INLINE_MOD CMPIContext *CBPrepareAttachThread(
 #define CBAttachThread(mb,c) \
     ((mb)->bft->attachThread((mb),(c)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CBAttachThread(
+_CMPI_INLINE_STATIC CMPIStatus CBAttachThread(
     const CMPIBroker *mb,
     const CMPIContext *ctx)
 {
@@ -2881,7 +2890,7 @@ _CMPI_INLINE_MOD CMPIStatus CBAttachThread(
 #define CBDetachThread(mb,c) \
     ((mb)->bft->detachThread((mb),(c)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CBDetachThread(
+_CMPI_INLINE_STATIC CMPIStatus CBDetachThread(
     const CMPIBroker *mb,
     const CMPIContext *ctx)
 {
@@ -2906,7 +2915,7 @@ _CMPI_INLINE_MOD CMPIStatus CBDetachThread(
 #define CBDeliverIndication(mb,c,n,i) \
     ((mb)->bft->deliverIndication((mb),(c),(n),(i)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CBDeliverIndication(
+_CMPI_INLINE_STATIC CMPIStatus CBDeliverIndication(
     const CMPIBroker *mb,
     const CMPIContext *ctx,
     const char *ns,
@@ -2932,7 +2941,7 @@ _CMPI_INLINE_MOD CMPIStatus CBDeliverIndication(
 #define CBEnumInstanceNames(mb,c,p,rc) \
     ((mb)->bft->enumerateInstanceNames((mb),(c),(p),(rc)))
 #else
-_CMPI_INLINE_MOD CMPIEnumeration *CBEnumInstanceNames(
+_CMPI_INLINE_STATIC CMPIEnumeration *CBEnumInstanceNames(
     const CMPIBroker *mb,
     const CMPIContext *ctx,
     const CMPIObjectPath *op,
@@ -2965,7 +2974,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBEnumInstanceNames(
            (mb)->bft->enumerateInstances((mb),(ctx),(classPath),(properties), \
            (rc)))
 #else
-_CMPI_INLINE_MOD CMPIEnumeration *CBEnumInstances(
+_CMPI_INLINE_STATIC CMPIEnumeration *CBEnumInstances(
     const CMPIBroker *mb,
     const CMPIContext *ctx,
     const CMPIObjectPath *classPath,
@@ -2996,7 +3005,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBEnumInstances(
 #define CBGetInstance(mb,c,p,pr,rc) \
     ((mb)->bft->getInstance((mb),(c),(p),(pr),(rc)))
 #else
-_CMPI_INLINE_MOD CMPIInstance *CBGetInstance(
+_CMPI_INLINE_STATIC CMPIInstance *CBGetInstance(
     const CMPIBroker *mb,
     const CMPIContext *ctx,
     const CMPIObjectPath *op,
@@ -3024,7 +3033,7 @@ _CMPI_INLINE_MOD CMPIInstance *CBGetInstance(
 #define CBCreateInstance(mb,c,p,i,rc) \
     ((mb)->bft->createInstance((mb),(c),(p),(i),(rc)))
 #else
-_CMPI_INLINE_MOD CMPIObjectPath *CBCreateInstance(
+_CMPI_INLINE_STATIC CMPIObjectPath *CBCreateInstance(
     const CMPIBroker *mb,
     const CMPIContext *ctx,
     const CMPIObjectPath *op,
@@ -3044,7 +3053,7 @@ _CMPI_INLINE_MOD CMPIObjectPath *CBCreateInstance(
 #define CBModifyInstance(mb,c,p,i,pr) \
     ((mb)->bft->modifyInstance((mb),(c),(p),(i),(pr)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CBModifyInstance(
+_CMPI_INLINE_STATIC CMPIStatus CBModifyInstance(
     const CMPIBroker *mb,
     const CMPIContext *ctx,
     const CMPIObjectPath *op,
@@ -3066,7 +3075,7 @@ _CMPI_INLINE_MOD CMPIStatus CBModifyInstance(
 #define CBDeleteInstance(mb,c,p) \
     ((mb)->bft->deleteInstance((mb),(c),(p)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CBDeleteInstance(
+_CMPI_INLINE_STATIC CMPIStatus CBDeleteInstance(
     const CMPIBroker *mb,
     const CMPIContext *ctx,
     const CMPIObjectPath *op)
@@ -3085,7 +3094,7 @@ _CMPI_INLINE_MOD CMPIStatus CBDeleteInstance(
 #define CBExecQuery(mb,c,p,l,q,rc) \
     ((mb)->bft->execQuery((mb),(c),(p),(l),(q),(rc)))
 #else
-_CMPI_INLINE_MOD CMPIEnumeration *CBExecQuery(
+_CMPI_INLINE_STATIC CMPIEnumeration *CBExecQuery(
     const CMPIBroker *mb,
     const CMPIContext *ctx,
     const CMPIObjectPath *op,
@@ -3106,7 +3115,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBExecQuery(
 #define CBAssociators(mb,c,p,acl,rcl,r,rr,pr,rc) \
     ((mb)->bft->associators((mb),(c),(p),(acl),(rcl),(r),(rr),(pr),(rc)))
 #else
-_CMPI_INLINE_MOD CMPIEnumeration *CBAssociators(
+_CMPI_INLINE_STATIC CMPIEnumeration *CBAssociators(
     const CMPIBroker *mb,
     const CMPIContext *ctx,
     const CMPIObjectPath *op,
@@ -3131,7 +3140,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBAssociators(
 #define CBAssociatorNames(mb,c,p,acl,rcl,r,rr,rc) \
     ((mb)->bft->associatorNames((mb),(c),(p),(acl),(rcl),(r),(rr),(rc)))
 #else
-_CMPI_INLINE_MOD CMPIEnumeration *CBAssociatorNames(
+_CMPI_INLINE_STATIC CMPIEnumeration *CBAssociatorNames(
     const CMPIBroker *mb,
     const CMPIContext *ctx,
     const CMPIObjectPath *op,
@@ -3156,7 +3165,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBAssociatorNames(
 #define CBReferences(mb,c,p,acl,r,pr,rc) \
     ((mb)->bft->references((mb),(c),(p),(acl),(r),(pr),(rc)))
 #else
-_CMPI_INLINE_MOD CMPIEnumeration *CBReferences(
+_CMPI_INLINE_STATIC CMPIEnumeration *CBReferences(
     const CMPIBroker *mb,
     const CMPIContext *ctx,
     const CMPIObjectPath *op,
@@ -3184,7 +3193,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBReferences(
 #define CBReferenceNames(mb,c,p,acl,r,rc) \
     ((mb)->bft->referenceNames((mb),(c),(p),(acl),(r),(rc)))
 #else
-_CMPI_INLINE_MOD CMPIEnumeration *CBReferenceNames(
+_CMPI_INLINE_STATIC CMPIEnumeration *CBReferenceNames(
     const CMPIBroker *mb,
     const CMPIContext *ctx,
     const CMPIObjectPath *op,
@@ -3236,7 +3245,7 @@ _CMPI_INLINE_MOD CMPIEnumeration *CBReferenceNames(
 #define CBInvokeMethod(mb,c,p,m,ai,ao,rc) \
     ((mb)->bft->invokeMethod((mb),(c),(p),(m),(ai),(ao),(rc)))
 #else
-_CMPI_INLINE_MOD CMPIData CBInvokeMethod(
+_CMPI_INLINE_STATIC CMPIData CBInvokeMethod(
     const CMPIBroker *mb,
     const CMPIContext *ctx,
     const CMPIObjectPath *op,
@@ -3265,7 +3274,7 @@ _CMPI_INLINE_MOD CMPIData CBInvokeMethod(
 #define CBSetProperty(mb,c,p,n,v,t) \
     ((mb)->bft->setProperty((mb),(c),(p),(n),(CMPIValue *)(v),(t)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CBSetProperty(
+_CMPI_INLINE_STATIC CMPIStatus CBSetProperty(
     const CMPIBroker *mb,
     const CMPIContext *ctx,
     const CMPIObjectPath *op,
@@ -3290,7 +3299,7 @@ _CMPI_INLINE_MOD CMPIStatus CBSetProperty(
 #define CBGetProperty(mb,c,p,n,rc) \
     (mb)->bft->getProperty((mb),(c),(p),(n),(rc))
 #else
-_CMPI_INLINE_MOD CMPIData CBGetProperty(
+_CMPI_INLINE_STATIC CMPIData CBGetProperty(
     const CMPIBroker *mb,
     const CMPIContext *ctx,
     const CMPIObjectPath *op,
@@ -3343,7 +3352,7 @@ _CMPI_INLINE_MOD CMPIData CBGetProperty(
 #define CMNewInstance(mb, instPath, rc) \
     ((mb)->eft->newInstance((mb), (instPath), (rc)))
 #else
-_CMPI_INLINE_MOD CMPIInstance *CMNewInstance (
+_CMPI_INLINE_STATIC CMPIInstance *CMNewInstance (
     const CMPIBroker *mb,
     const CMPIObjectPath *instPath,
     CMPIStatus *rc)
@@ -3376,7 +3385,7 @@ _CMPI_INLINE_MOD CMPIInstance *CMNewInstance (
 #define CMNewObjectPath(mb,n,c,rc) \
     ((mb)->eft->newObjectPath((mb),(n),(c),(rc)))
 #else
-_CMPI_INLINE_MOD CMPIObjectPath *CMNewObjectPath (
+_CMPI_INLINE_STATIC CMPIObjectPath *CMNewObjectPath (
     const CMPIBroker *mb,
     const char *ns,
     const char *cn,
@@ -3408,7 +3417,7 @@ _CMPI_INLINE_MOD CMPIObjectPath *CMNewObjectPath (
 #define CMNewString(mb,s,rc) \
     ((mb)->eft->newString((mb),(s),(rc)))
 #else
-_CMPI_INLINE_MOD CMPIString *CMNewString (
+_CMPI_INLINE_STATIC CMPIString *CMNewString (
     const CMPIBroker *mb,
     const char *data,
     CMPIStatus *rc)
@@ -3437,7 +3446,7 @@ _CMPI_INLINE_MOD CMPIString *CMNewString (
 #define CMNewArgs(mb,rc) \
     ((mb)->eft->newArgs((mb),(rc)))
 #else
-_CMPI_INLINE_MOD CMPIArgs *CMNewArgs (const CMPIBroker *mb, CMPIStatus *rc)
+_CMPI_INLINE_STATIC CMPIArgs *CMNewArgs (const CMPIBroker *mb, CMPIStatus *rc)
 {
     return mb->eft->newArgs(mb, rc);
 }
@@ -3462,7 +3471,7 @@ _CMPI_INLINE_MOD CMPIArgs *CMNewArgs (const CMPIBroker *mb, CMPIStatus *rc)
 #define CMNewArray(mb,c,t,rc) \
     ((mb)->eft->newArray((mb),(c),(t),(rc)))
 #else
-_CMPI_INLINE_MOD CMPIArray *CMNewArray (
+_CMPI_INLINE_STATIC CMPIArray *CMNewArray (
     const CMPIBroker *mb,
     CMPICount size,
     CMPIType type,
@@ -3485,7 +3494,7 @@ _CMPI_INLINE_MOD CMPIArray *CMNewArray (
 #define CMNewDateTime(mb,rc) \
     ((mb)->eft->newDateTime((mb),(rc)))
 #else
-_CMPI_INLINE_MOD CMPIDateTime *CMNewDateTime (
+_CMPI_INLINE_STATIC CMPIDateTime *CMNewDateTime (
     const CMPIBroker *mb,
     CMPIStatus *rc)
 {
@@ -3512,7 +3521,7 @@ _CMPI_INLINE_MOD CMPIDateTime *CMNewDateTime (
 #define CMNewDateTimeFromBinary(mb,d,i,rc) \
     ((mb)->eft->newDateTimeFromBinary((mb),(d),(i),(rc)))
 #else
-_CMPI_INLINE_MOD CMPIDateTime *CMNewDateTimeFromBinary(
+_CMPI_INLINE_STATIC CMPIDateTime *CMNewDateTimeFromBinary(
     const CMPIBroker *mb,
     CMPIUint64 binTime,
     CMPIBoolean interval,
@@ -3535,7 +3544,7 @@ _CMPI_INLINE_MOD CMPIDateTime *CMNewDateTimeFromBinary(
 #define CMNewDateTimeFromChars(mb,d,rc) \
     ((mb)->eft->newDateTimeFromChars((mb),(d),(rc)))
 #else
-_CMPI_INLINE_MOD CMPIDateTime *CMNewDateTimeFromChars(
+_CMPI_INLINE_STATIC CMPIDateTime *CMNewDateTimeFromChars(
     const CMPIBroker *mb,
     const char *datetime,
     CMPIStatus *rc)
@@ -3561,7 +3570,7 @@ _CMPI_INLINE_MOD CMPIDateTime *CMNewDateTimeFromChars(
 #define CMNewSelectExp(mb,q,l,p,rc) \
     ((mb)->eft->newSelectExp((mb),(q),(l),(p),(rc)))
 #else
-_CMPI_INLINE_MOD CMPISelectExp *CMNewSelectExp(
+_CMPI_INLINE_STATIC CMPISelectExp *CMNewSelectExp(
     const CMPIBroker *mb,
     const char *query,
     const char *lang,
@@ -3593,7 +3602,7 @@ _CMPI_INLINE_MOD CMPISelectExp *CMNewSelectExp(
 #define CMClassPathIsA(mb,cp,cn,rc) \
     ((mb)->eft->classPathIsA((mb),(cp),(cn),(rc)))
 #else
-_CMPI_INLINE_MOD CMPIBoolean CMClassPathIsA(
+_CMPI_INLINE_STATIC CMPIBoolean CMClassPathIsA(
     const CMPIBroker *mb,
     const CMPIObjectPath *classPath,
     const char *className,
@@ -3619,7 +3628,7 @@ _CMPI_INLINE_MOD CMPIBoolean CMClassPathIsA(
 #define CDToString(mb,o,rc) \
     ((mb)->eft->toString((mb),(void*)(o),(rc)))
 #else
-_CMPI_INLINE_MOD CMPIString *CDToString(
+_CMPI_INLINE_STATIC CMPIString *CDToString(
     const CMPIBroker *mb,
     const void *object,
     CMPIStatus *rc)
@@ -3655,7 +3664,7 @@ _CMPI_INLINE_MOD CMPIString *CDToString(
 #define CDIsOfType(mb,o,t,rc) \
            (mb)->eft->isOfType((mb),(void*)(o),(t),(rc))
 #else
-_CMPI_INLINE_MOD CMPIBoolean CDIsOfType(
+_CMPI_INLINE_STATIC CMPIBoolean CDIsOfType(
     const CMPIBroker *mb,
     const void *object,
     const char *type,
@@ -3679,7 +3688,7 @@ _CMPI_INLINE_MOD CMPIBoolean CDIsOfType(
 #define CDGetType(mb,o,rc) \
     ((mb)->eft->getType((mb),(void*)(o),(rc)))
 #else
-_CMPI_INLINE_MOD CMPIString *CDGetType(
+_CMPI_INLINE_STATIC CMPIString *CDGetType(
     const CMPIBroker *mb,
     const void *object,
     CMPIStatus *rc)
@@ -3711,7 +3720,7 @@ _CMPI_INLINE_MOD CMPIString *CDGetType(
 #define CMLogMessage(mb,severity,id, text, string)  \
     ((mb)->eft->logMessage((mb),(severity),(id),(text),(string)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMLogMessage(
+_CMPI_INLINE_STATIC CMPIStatus CMLogMessage(
     const CMPIBroker *mb,
     int severity,
     const char *id,
@@ -3749,7 +3758,7 @@ _CMPI_INLINE_MOD CMPIStatus CMLogMessage(
 #define CMTraceMessage(mb,level,component, text, string)  \
     ((mb)->eft->trace((mb),(level),(component),(text),(string)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMTraceMessage(
+_CMPI_INLINE_STATIC CMPIStatus CMTraceMessage(
     const CMPIBroker *mb,
     int level,
     const char *component,
@@ -3788,7 +3797,7 @@ _CMPI_INLINE_MOD CMPIStatus CMTraceMessage(
     ((mb)->eft->newCMPIError((mb),(owner),(msgID),(msg),(sev), \
                              (pc),(cimStatusCode),(rc)))
 #else
-_CMPI_INLINE_MOD CMPIError * CMNewCMPIError(
+_CMPI_INLINE_STATIC CMPIError * CMNewCMPIError(
     const CMPIBroker *mb,
     const char *owner,
     const char* msgID,
@@ -3823,7 +3832,7 @@ _CMPI_INLINE_MOD CMPIError * CMNewCMPIError(
 #define CMOpenMessageFile(mb,mf,mfh) \
     ((mb)->eft->openMessageFile((mb),(mf),(mfh)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMOpenMessageFile(
+_CMPI_INLINE_STATIC CMPIStatus CMOpenMessageFile(
     const CMPIBroker *mb,
     const char *msgFile,
     CMPIMsgFileHandle *msgFileHandle)
@@ -3867,7 +3876,7 @@ _CMPI_INLINE_MOD CMPIStatus CMOpenMessageFile(
 #define CMCloseMessageFile(mb,mfh)  \
     ((mb)->eft->closeMessageFile((mb),(mfh)))
 #else
-_CMPI_INLINE_MOD CMPIStatus CMCloseMessageFile(
+_CMPI_INLINE_STATIC CMPIStatus CMCloseMessageFile(
     const CMPIBroker *mb,
     const CMPIMsgFileHandle msgFileHandle)
 {
@@ -3922,7 +3931,7 @@ _CMPI_INLINE_MOD CMPIStatus CMCloseMessageFile(
 #define CMGetMessage2(mb,id,mfh,def,rc,parms) \
     ((mb)->eft->getMessage2((mb),(id),(mfh),(def),(rc),parms))
 #else
-_CMPI_INLINE_MOD CMPIString * CMGetMessage2(
+_CMPI_INLINE_STATIC CMPIString * CMGetMessage2(
     const CMPIBroker *mb,
     const char *msgId,
     const CMPIMsgFileHandle msgFileHandle,
