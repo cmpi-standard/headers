@@ -905,12 +905,13 @@ _CMPI_INLINE_STATIC CMPIStatus CMReturnError(
 // CMPIString macros
 
 
-/** @brief Macro to get the pointer to the C-language representation of a
-        CMPIString (**Deprecated**).
+/** @brief Get a pointer to the C-language representation of a CMPIString
+        object (**Deprecated**).
 
-    This macro provides NO argument checking or return code.
-    @def CMGetCharPtr(st)
-    @param st
+    This macro provides NO argument checking or return code and is therefore
+    deprecated. Use CMGetCharsPtr(), instead.
+    @param str Points to a CMPIString object.
+    @return Pointer to char* representation.
     @par Example
     @code(.c)
     myObjPath = CMNewObjectPath(
@@ -920,10 +921,12 @@ _CMPI_INLINE_STATIC CMPIStatus CMReturnError(
         0);
     @endcode
     @see CMGetCharsPtr()
-    @deprecated KS_TODO
+    @deprecated This macro is deprecated since CMPI 2.1. Use CMGetCharsPtr(),
+        instead.
     @hideinitializer
 
-    @todo TBD KS: Confirm this since the doc was just a guess right now
+    @todo DONE KS: Confirm this since the doc was just a guess right now.@n
+        AM: Reviewed and fixed.
     @todo DONE AM: Should this not invoke the respective function? Why is the
         hdl the string?@n
         WG: We need to modify the implementation of this one so that it is not
@@ -931,16 +934,24 @@ _CMPI_INLINE_STATIC CMPIStatus CMReturnError(
         AM: It is now deprecated and the implementation calls the function
         but without rc (Passing NULL is allowed).
 */
+#ifdef CMPI_NO_INLINE
 #define CMGetCharPtr(str) \
     ((str)->ft->getCharPtr((str), NULL))
+#else
+_CMPI_INLINE_STATIC const char * CMGetCharPtr(
+    const CMPIString *str)
+{
+    return str->ft->getCharPtr(str, NULL);
+}
+#endif
 
-/** @brief Get a pointer to a C-language string representation of a
-        CMPIString object.
+/** @brief Get a pointer to a C-language string representation of a CMPIString
+        object.
 
     CMGetCharsPtr() executes CMPIStringFT.getCharPtr() to get a pointer to the
-    C-language string representation of @p st. it differs from CMGetCharPtr()
+    C-language string representation of @p str. It differs from CMGetCharPtr()
     in that it includes a CMPIStatus return code.
-    @param str Points to CMPIString.
+    @param str Points to a CMPIString object.
     @param [out] rc Function return CMPIStatus (suppressed when NULL).
     @return Pointer to char* representation.
     @par Example
@@ -3977,7 +3988,7 @@ _CMPI_INLINE_STATIC CMPIString * CMGetMessage2(
     instance MIs as defined in the CMPI version that is implemented (see
     @ref CMPI_VERSION). The user of this macro needs to provide all of these
     functions. Those functions that are not going to be implemented, still need
-    to be provided and implemented by returning CMPI_ERR_NOT_SUPPORTED.
+    to be provided and implemented by returning @ref CMPI_RC_ERR_NOT_SUPPORTED.
     
     The function names are fixed, and are generated with a prefix specified
     using the @p pfx argument of the macro:
