@@ -37,7 +37,9 @@
  * (incorporating any subsequent Technical Corrigenda), the Technical Standard
  * shall be definitive.
  *
- * @todo AM: Find a way so that _CMPI_INLINE_MOD does not show up inthe docs.
+ * @todo AM: Find a way so that _CMPI_INLINE_MOD does not show up inthe docs. 
+ * KS: change name to _CMPI_INLINE_STATIC and doc why exists.
+ * AM: look for correct solution
  */
 
 #ifndef _CMPIMACS_H_
@@ -1429,7 +1431,7 @@ _CMPI_INLINE_MOD CMPICount CMGetArgCount(
 #endif
 
 /** @brief Macro to get the pointer to the C-language representation of a
-        CMPIString.
+        CMPIString. 
 
     This macro provides NO argument checking or return code.
     @def CMGetCharPtr(st)
@@ -1443,9 +1445,12 @@ _CMPI_INLINE_MOD CMPICount CMGetArgCount(
         0);
     @endcode
     @see CMGetCharsPtr()
+    @deprecated KS_TODO
     @todo - KS confirm this since the doc was just a guess right now
     @todo AM: Should this not invoke the respective function? Why is the hdl
-        the string?
+        the string? We need to modify the implementation of this
+        one so that it is not implementation dependent but just
+        calls CMGetCharsPtr.  Also deprecate.
 */
 #define CMGetCharPtr(st) \
         ((char*)(st)->hdl)
