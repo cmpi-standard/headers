@@ -1,4 +1,11 @@
 
+17 July - Andy
+--------------
+
+* Solved static inline issue by setting EXTRACT_STATIC=YES in Doxyfile. This
+  allowed to get rid of the _CMPI_INLINE_STATIC symbol and its conditional
+  definition.
+
 16 July - Andy
 --------------
 
