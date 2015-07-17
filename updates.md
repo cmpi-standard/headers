@@ -5,6 +5,8 @@
 * Solved static inline issue by setting EXTRACT_STATIC=YES in Doxyfile. This
   allowed to get rid of the _CMPI_INLINE_STATIC symbol and its conditional
   definition.
+* Solved issue that undocumented internal symbols showed up in the
+  documentation, by setting HIDE_UNDOC_MEMBERS=YES in the Doxyfile.
 
 16 July - Andy
 --------------
