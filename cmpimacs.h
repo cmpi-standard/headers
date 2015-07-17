@@ -187,7 +187,7 @@ extern "C" {
         }
     @endcode
     @hideinitializer
-    @testopenpegasus Not tested
+    @statusopenpegasus Not tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMSetStatus(st, rc_) \
@@ -527,7 +527,7 @@ static inline CMPIBoolean CMIsNullValue(
     @retval false CMPIData object is NOT keyValue
     @see CMPIValueState, CMPIData
     @hideinitializer
-    @testopenpegasus Not tested
+    @statusopenpegasus Not tested
 
     @todo KS: This is value call, not pointer.  Shouldn't this be
           pointer call?@n
@@ -555,7 +555,7 @@ static inline CMPIBoolean CMIsKeyValue(
     @retval true CMPIData object is array type.
     @retval false CMPIData object is NOT array type
     @hideinitializer
-    @testopenpegasus Not tested
+    @statusopenpegasus Not tested
 
     @todo KS this needs example.
     @todo KS: this is defined as...@n
@@ -764,7 +764,7 @@ static inline CMPICount CMGetContextEntryCount(
     @param type Value type.
     @return Service return status.
     @hideinitializer
-    @testopenpegasus Used
+    @statusopenpegasus Used
 */
 #ifdef CMPI_NO_INLINE
 #define CMAddContextEntry(ctx, name, value, type) \
@@ -970,7 +970,7 @@ static inline const char * CMGetCharsPtr(
     @param [out] rc Function return CMPIStatus (suppressed when NULL).
     @return Number of elements.
     @hideinitializer
-    @testopenpegasus Used and tested
+    @statusopenpegasus Used and tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetArrayCount(ar, rc) \
@@ -993,7 +993,7 @@ static inline CMPICount CMGetArrayCount(
     @return Number of elements.
     @see CMPIArrayFT.getSimpleType()
     @hideinitializer
-    @testopenpegasus Used and tested
+    @statusopenpegasus Used and tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetArrayType(ar, rc) \
@@ -1015,7 +1015,7 @@ static inline CMPIType CMGetArrayType(
     @param [out] rc Function return CMPIStatus (suppressed when NULL).
     @return CMPIData Element value.
     @hideinitializer
-    @testopenpegasus Used and tested
+    @statusopenpegasus Used and tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetArrayElementAt(ar, index, rc) \
@@ -1041,7 +1041,7 @@ static inline CMPIData CMGetArrayElementAt(
     @return Service return status.
     @see CMPIArrayFT.setElementAt()
     @hideinitializer
-    @testopenpegasus Used and tested
+    @statusopenpegasus Used and tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMSetArrayElementAt(ar, index, value, type) \
@@ -1148,7 +1148,7 @@ static inline CMPIArray *CMToArray(
     assert(rtnData.state != CMPI_badValue);
     @endcode
     @hideinitializer
-    @testopenpegasus Used and tested extensively
+    @statusopenpegasus Used and tested extensively
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetProperty(inst, name, rc) \
@@ -1174,7 +1174,7 @@ static inline CMPIData CMGetProperty(
         will have the @ref CMPI_badValue.
     @see CMPIInstanceFT.getPropertyAt()
     @hideinitializer
-    @testopenpegasus Used
+    @statusopenpegasus Used
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetPropertyAt(inst, index, name, rc) \
@@ -1220,7 +1220,7 @@ static inline CMPICount CMGetPropertyCount(
     @param type Value type.
     @return Service return status.
     @hideinitializer
-    @testopenpegasus Used and tested extensively
+    @statusopenpegasus Used and tested extensively
 
     @todo TBD AM: Why do we have the `(CMPIValue *)` cast in the macro version?
 */
@@ -1246,7 +1246,7 @@ static inline CMPIStatus CMSetProperty(
     @param [out] rc Function return CMPIStatus (suppressed when NULL).
     @return The generated CMPIObjectPath or NULL.
     @hideinitializer
-    @testopenpegasus Used and tested extensively in cmpiTestMethodProvider.c
+    @statusopenpegasus Used and tested extensively in cmpiTestMethodProvider.c
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetObjectPath(inst, rc) \
@@ -1270,7 +1270,7 @@ static inline CMPIObjectPath *CMGetObjectPath(
     @param keyList Deprecated, ignored by MB, maintained here for compatibility.
     @return Function return status.
     @hideinitializer
-    @testopenpegasus Not used
+    @statusopenpegasus Not used
 */
 #ifdef CMPI_NO_INLINE
 #define CMSetPropertyFilter(inst, properties, keyList) \
@@ -1293,7 +1293,7 @@ static inline CMPIStatus CMSetPropertyFilter(
     @param op Points to the new CMPIObjectPath.
     @return CMPIStatus structure containing the function return status.
     @hideinitializer
-    @testopenpegasus Used
+    @statusopenpegasus Used
 */
 #ifdef CMPI_NO_INLINE
 #define CMSetObjectPath(inst, op) \
@@ -1350,7 +1350,7 @@ static inline CMPIStatus CMSetPropertyWithOrigin(
     @param ns The namespace string
     @return Service return status.
     @hideinitializer
-    @testopenpegasus Used and tested
+    @statusopenpegasus Used and tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMSetNameSpace(op, ns) \
@@ -1372,7 +1372,7 @@ static inline CMPIStatus CMSetNameSpace(
     @return The namespace component.
     @see CMPIObjectPathFT.getNameSpace()
     @hideinitializer
-    @testopenpegasus Used and tested
+    @statusopenpegasus Used and tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetNameSpace(op, rc) \
@@ -1393,7 +1393,7 @@ static inline CMPIString *CMGetNameSpace(
     @param hn The hostname string
     @return Function return CMPIStatus.
     @hideinitializer
-    @testopenpegasus Used
+    @statusopenpegasus Used
 */
 #ifdef CMPI_NO_INLINE
 #define CMSetHostname(op, hn) \
@@ -1413,7 +1413,7 @@ static inline CMPIStatus CMSetHostname (
     get the host name component from @p op a CMPIObjectPath
     @see CMPIObjectPathFT.getHostname()
     @hideinitializer
-    @testopenpegasus Used
+    @statusopenpegasus Used
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetHostname(op, rc) \
@@ -1456,7 +1456,7 @@ static inline CMPIStatus CMSetClassName(
     @return The classname component or NULL.
     @see CMPIObjectPathFT.getClassName()
     @hideinitializer
-    @testopenpegasus Used and tested
+    @statusopenpegasus Used and tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetClassName(op, rc) \
@@ -1480,7 +1480,7 @@ static inline CMPIString *CMGetClassName(
     @return function CMPIStatus return status.
     @see CMPIObjectPathFT.addKey()
     @hideinitializer
-    @testopenpegasus Used and tested
+    @statusopenpegasus Used and tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMAddKey(op,key,value,type) \
@@ -1505,7 +1505,7 @@ static inline CMPIStatus CMAddKey(
     @return CMPIData.
     @see CMPIObjectPathFT.getKey()
     @hideinitializer
-    @testopenpegasus Used and tested
+    @statusopenpegasus Used and tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetKey(op, key, rc) \
@@ -1530,7 +1530,7 @@ static inline CMPIData CMGetKey(
     @param [out] rc Function return CMPIStatus (suppressed when NULL).
     @return Data value.
     @hideinitializer
-    @testopenpegasus Used and tested
+    @statusopenpegasus Used and tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetKeyAt(op, index, name, rc) \
@@ -1622,7 +1622,7 @@ static inline CMPIStatus CMSetHostAndNameSpaceFromObjectPath(
     @param [out] rc Function return CMPIStatus (suppressed when NULL).
     @return Qualifier value.
     @hideinitializer
-    @testopenpegasus Not implemented
+    @statusopenpegasus Not implemented
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetClassQualifier(op, qName, rc) \
@@ -1647,7 +1647,7 @@ static inline CMPIData CMGetClassQualifier(
     @return Qualifier value.
     @see CMPIObjectPathFT.getPropertyQualifier()
     @hideinitializer
-    @testopenpegasus Not implemented
+    @statusopenpegasus Not implemented
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetPropertyQualifier(op, pName, qName, rc) \
@@ -1672,7 +1672,7 @@ static inline CMPIData CMGetPropertyQualifier(
     @return Qualifier value.
     @see CMPIObjectPathFT.getMethodQualifier()
     @hideinitializer
-    @testopenpegasus Not implemented
+    @statusopenpegasus Not implemented
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetMethodQualifier(op, mName, qName, rc) \
@@ -1698,7 +1698,7 @@ static inline  CMPIData CMGetMethodQualifier(
     @param [out] rc Function return CMPIStatus (suppressed when NULL).
     @return Qualifier value.
     @hideinitializer
-    @testopenpegasus Not implemented
+    @statusopenpegasus Not implemented
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetParameterQualifier(op, mName, pName, qName,rc) \
@@ -1730,7 +1730,7 @@ static inline  CMPIData CMGetParameterQualifier(
     @param type Value type.
     @return Service return status.
     @hideinitializer
-    @testopenpegasus Used and tested
+    @statusopenpegasus Used and tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMAddArg(args, name, value, type) \
@@ -1755,7 +1755,7 @@ static inline CMPIStatus CMAddArg(
     @param rc Output: Service return status (suppressed when NULL).
     @return Argument value.
     @hideinitializer
-    @testopenpegasus Used
+    @statusopenpegasus Used
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetArg(args, name, rc) \
@@ -1781,7 +1781,7 @@ static inline CMPIData CMGetArg(
     @return Argument value.
     @see  CMPIArgsFT.getArgAt()
     @hideinitializer
-    @testopenpegasus Used
+    @statusopenpegasus Used
 
     @todo removed all params and returns
 */
@@ -1807,7 +1807,7 @@ static inline CMPIData CMGetArgAt(
     @param rc Output: Service return status (suppressed when NULL).
     @return Number of properties.
     @hideinitializer
-    @testopenpegasus Used
+    @statusopenpegasus Used
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetArgCount(args, rc) \
@@ -1833,7 +1833,7 @@ static inline CMPICount CMGetArgCount(
     @return DateTime in binary.
     @see CMPIDateTimeFT.getBinaryFormat()
     @hideinitializer
-    @testopenpegasus Used and tested
+    @statusopenpegasus Used and tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetBinaryFormat(dt, rc) \
@@ -1903,7 +1903,7 @@ static inline CMPIBoolean CMIsInterval(
     @return True or false incicator.
     @see CMPISelectExpFT.evaluate()
     @hideinitializer
-    @testopenpegasus Used
+    @statusopenpegasus Used
 */
 #ifdef CMPI_NO_INLINE
 #define CMEvaluateSelExp(se, inst, rc) \
@@ -1925,7 +1925,7 @@ static inline CMPIBoolean CMEvaluateSelExp(
     @param [out] rc Function return CMPIStatus (suppressed when NULL).
     @return The select expression.
     @hideinitializer
-    @testopenpegasus Tested
+    @statusopenpegasus Tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetSelExpString(se, rc) \
@@ -1947,7 +1947,7 @@ static inline CMPIString *CMGetSelExpString(
     @param [out] rc Function return CMPIStatus (suppressed when NULL).
     @return The disjunction.
     @hideinitializer
-    @testopenpegasus Used
+    @statusopenpegasus Used
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetDoc(se, rc) \
@@ -1969,7 +1969,7 @@ static inline CMPISelectCond *CMGetDoc(
     @param [out] rc Function return CMPIStatus (suppressed when NULL).
     @return The conjunction.
     @see CMPISelectExpFT.getCOD()
-    @testopenpegasus Used
+    @statusopenpegasus Used
     @hideinitializer
 */
 #ifdef CMPI_NO_INLINE
@@ -1995,7 +1995,7 @@ static inline CMPISelectCond *CMGetCod(
     @param [out] rc Function return CMPIStatus (suppressed when NULL).
     @return True or false incicator.
     @hideinitializer
-    @testopenpegasus Used
+    @statusopenpegasus Used
 */
 #ifdef CMPI_NO_INLINE
 #define CMEvaluateSelExpUsingAccessor(se, accessor, parm, rc) \
@@ -2026,7 +2026,7 @@ static inline CMPIBoolean CMEvaluateSelExpUsingAccessor(
     @return Number of SubCond elements.
     @see CMPISelectCondFT.getCountAndType()
     @hideinitializer
-    @testopenpegasus Tested
+    @statusopenpegasus Tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetSubCondCountAndType(sc, type, rc) \
@@ -2049,7 +2049,7 @@ static inline CMPICount CMGetSubCondCountAndType(
     @param [out] rc Function return CMPIStatus (suppressed when NULL).
     @return The indexed SubCond element.
     @hideinitializer
-    @testopenpegasus Tested
+    @statusopenpegasus Tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetSubCondAt(sc, index, rc) \
@@ -2077,7 +2077,7 @@ static inline CMPISubCond *CMGetSubCondAt(
     @return Number of Predicate elements.
     @see CMPISubCondFT.getCount()
     @hideinitializer
-    @testopenpegasus Tested
+    @statusopenpegasus Tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetPredicateCount(sc, rc) \
@@ -2099,7 +2099,7 @@ static inline CMPICount CMGetPredicateCount(
     @param [out] rc Function return CMPIStatus (suppressed when NULL).
     @return The indexed Predicate element.
     @hideinitializer
-    @testopenpegasus Tested
+    @statusopenpegasus Tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetPredicateAt(sc, index, rc) \
@@ -2123,7 +2123,7 @@ static inline CMPIPredicate *CMGetPredicateAt(
     @return The named Predicate element.
     @see CMPISubCondFT.getPredicate()
     @hideinitializer
-    @testopenpegasus Tested
+    @statusopenpegasus Tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetPredicate(sc, name, rc) \
@@ -2153,7 +2153,7 @@ static inline CMPIPredicate *CMGetPredicate(
     @param [out] rhs Right hand side of predicate.
     @return Service return status.
     @hideinitializer
-    @testopenpegasus Tested
+    @statusopenpegasus Tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetPredicateData(pr, type, prop, lhs, rhs) \
@@ -2210,7 +2210,7 @@ static inline CMPIBoolean CMEvaluatePredicateUsingAccessor(
     @return CMPIErrorType
     @note Inline code fixed in CMPI 2.1
     @hideinitializer
-    @testopenpegasus Used and tested
+    @statusopenpegasus Used and tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetErrorType(er, rc) \
@@ -2232,7 +2232,7 @@ static inline CMPIErrorType CMGetErrorType(
     @return A string, which can be NULL
     @note Inline code fixed in CMPI 2.1
     @hideinitializer
-    @testopenpegasus Used and tested
+    @statusopenpegasus Used and tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetOtherErrorType(er, rc) \
@@ -2255,7 +2255,7 @@ static inline CMPIString *CMGetOtherErrorType(
     @see CMPIErrorFT.getOwningEntity()
     @note Inline code fixed in CMPI 2.1
     @hideinitializer
-    @testopenpegasus Tested
+    @statusopenpegasus Tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetOwningEntity(er, rc) \
@@ -2277,7 +2277,7 @@ static inline CMPIString *CMGetOwningEntity(
     @see CMPIErrorFT.getMessageID()
     @note Inline code fixed in CMPI 2.1
     @hideinitializer
-    @testopenpegasus Tested
+    @statusopenpegasus Tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetMessageID(er, rc) \
@@ -2299,7 +2299,7 @@ static inline CMPIString *CMGetMessageID(
     @return A string, which can be NULL
     @note Inline form corrected in CMPI 2.1
     @hideinitializer
-    @testopenpegasus Tested
+    @statusopenpegasus Tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetErrorMessage(er, rc) \
@@ -2321,7 +2321,7 @@ static inline CMPIString *CMGetErrorMessage(
     @return the perceived severity
     @note Inline form corrected in CMPI 2.1
     @hideinitializer
-    @testopenpegasus Tested
+    @statusopenpegasus Tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetPerceivedSeverity(er, rc) \
@@ -2343,7 +2343,7 @@ static inline CMPIErrorSeverity CMGetPerceivedSeverity(
     @return A probable cause value
     @note Inline form corrected in CMPI 2.1
     @hideinitializer
-    @testopenpegasus Tested
+    @statusopenpegasus Tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetProbableCause(er, rc) \
@@ -2367,7 +2367,7 @@ static inline CMPIErrorProbableCause CMGetProbableCause(
     @see CMPIErrorFT.getProbableCauseDescription()
     @note Inline form corrected in CMPI 2.1
     @hideinitializer
-    @testopenpegasus Tested
+    @statusopenpegasus Tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetProbableCauseDescription(er, rc) \
@@ -2389,7 +2389,7 @@ static inline CMPIString * CMGetProbableCauseDescription(
     @return A array of strings, which can be NULL
     @note Inline form corrected in CMPI 2.1
     @hideinitializer
-    @testopenpegasus Tested
+    @statusopenpegasus Tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetRecommendedActions(er, rc) \
@@ -2411,7 +2411,7 @@ static inline CMPIArray * CMGetRecommendedActions(
     @return A string, which can be NULL
     @note Inline form corrected in CMPI 2.1
     @hideinitializer
-    @testopenpegasus Tested
+    @statusopenpegasus Tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetErrorSource(er, rc) \
@@ -2434,7 +2434,7 @@ static inline CMPIString * CMGetErrorSource(
     @see CMPIErrorFT.getErrorSourceFormat()
     @note Inline form corrected in CMPI 2.1
     @hideinitializer
-    @testopenpegasus Tested
+    @statusopenpegasus Tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetErrorSourceFormat(er, rc) \
@@ -2457,7 +2457,7 @@ static inline CMPIErrorSrcFormat CMGetErrorSourceFormat(
     @return A string, which can be NULL
     @note Inline form corrected in CMPI 2.1
     @hideinitializer
-    @testopenpegasus Tested
+    @statusopenpegasus Tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetOtherErrorSourceFormat(er, rc) \
@@ -2480,7 +2480,7 @@ static inline CMPIString * CMGetOtherErrorSourceFormat(
     @see CMPIErrorFT.getCIMStatusCode()
     @note Inline form corrected in CMPI 2.1
     @hideinitializer
-    @testopenpegasus Tested
+    @statusopenpegasus Tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetCIMStatusCode(er, rc) \
@@ -2957,7 +2957,7 @@ static inline CMPIEnumeration *CBEnumInstanceNames(
     @return CMPIEnumeration of Instances.
     @see CMPIBrokerFT.enumerateInstances()
     @hideinitializer
-    @testopenpegasus Not used, not tested
+    @statusopenpegasus Not used, not tested
 
     @todo (KS)clean up doc
 */
@@ -3455,7 +3455,7 @@ static inline CMPIArgs *CMNewArgs (const CMPIBroker *mb, CMPIStatus *rc)
     @param [out] rc Function return status (suppressed when NULL).
     @return Newly created Array or NULL.
     @hideinitializer
-    @testopenpegasus Tested in cmpiTestMethodProvider.c
+    @statusopenpegasus Tested in cmpiTestMethodProvider.c
 
     @todo KS confirm what size means
 */
@@ -3588,7 +3588,7 @@ static inline CMPISelectExp *CMNewSelectExp(
     @version The className argument was named type and documented incorrectly
     prior to version 2.1.  The code did execute correctly
     @hideinitializer
-    @testopenpegasus Not tested
+    @statusopenpegasus Not tested
 */
 #ifdef CMPI_NO_INLINE
 #define CMClassPathIsA(mb,cp,cn,rc) \
@@ -3650,7 +3650,7 @@ static inline CMPIString *CDToString(
     assert(isOfType);
     @endcode
     @hideinitializer
-    @testopenpegasus Tested
+    @statusopenpegasus Tested
 */
 #ifdef CMPI_NO_INLINE
 #define CDIsOfType(mb,o,t,rc) \
@@ -3706,7 +3706,7 @@ static inline CMPIString *CDGetType(
     @endcode
     @see CMPIBrokerEncFT.logMessage()
     @hideinitializer
-    @testopenpegasus Tested in cmpiTestMethodProvider.c
+    @statusopenpegasus Tested in cmpiTestMethodProvider.c
 */
 #ifdef CMPI_NO_INLINE
 #define CMLogMessage(mb,severity,id, text, string)  \
@@ -3743,7 +3743,7 @@ static inline CMPIStatus CMLogMessage(
     rc = CMTraceMessage (_broker, 4, "Authorization", NULL, str);
     @endcode
     @hideinitializer
-    @testopenpegasus Tested in cmpiTestMethodProvider.c. Uses CMPILevel as
+    @statusopenpegasus Tested in cmpiTestMethodProvider.c. Uses CMPILevel as
          type, not int.
 */
 #ifdef CMPI_NO_INLINE
@@ -3782,7 +3782,7 @@ static inline CMPIStatus CMTraceMessage(
                     inSev, inPc, inCIMStatusCode, &rc);
     @endcode
     @hideinitializer
-    @testopenpegasus Tested in TestCMPIErrorProvider.c
+    @statusopenpegasus Tested in TestCMPIErrorProvider.c
 */
 #ifdef CMPI_NO_INLINE
 #define CMNewCMPIError(mb,owner,msgID,msg,sev,pc,cimStatusCode,rc)  \
@@ -3818,7 +3818,7 @@ static inline CMPIError * CMNewCMPIError(
     CMOpenMessageFile(_broker,"/path/msgFile",&msgFileHandle);
     @endcode
     @hideinitializer
-    @testopenpegasus Used
+    @statusopenpegasus Used
 */
 #ifdef CMPI_NO_INLINE
 #define CMOpenMessageFile(mb,mf,mfh) \
@@ -3862,7 +3862,7 @@ static inline CMPIStatus CMOpenMessageFile(
     rc = CMCloseMessageFile(_broker, msgFileHandle);
     @endcode
     @hideinitializer
-    @testopenpegasus Tested in cmpiTestBrokerEncProvider.c
+    @statusopenpegasus Tested in cmpiTestBrokerEncProvider.c
 */
 #ifdef CMPI_NO_INLINE
 #define CMCloseMessageFile(mb,mfh)  \
@@ -3914,7 +3914,7 @@ static inline CMPIStatus CMCloseMessageFile(
     @version Inline code modified; unsigned int last parameter
           to type CMPICount in 2.1
     @hideinitializer
-    @testopenpegasus Tested in cmpiTestBrokerEncProvider.c
+    @statusopenpegasus Tested in cmpiTestBrokerEncProvider.c
 
     @todo KS Pls review since it asks to do something if macro but it is
     only a macro. No inline version.

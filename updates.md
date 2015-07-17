@@ -7,6 +7,10 @@
   definition.
 * Solved issue that undocumented internal symbols showed up in the
   documentation, by setting HIDE_UNDOC_MEMBERS=YES in the Doxyfile.
+* Renamed special command @testopenpegasus to @statusopenpegasus and updated
+  its page introduction text accordingly;
+  Added comments to Doxyfile and modules.dox hinting to keep the respective
+  sections in sync when new MBs are added.
 
 16 July - Andy
 --------------

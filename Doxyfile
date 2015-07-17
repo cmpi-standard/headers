@@ -275,10 +275,13 @@ ALIASES += "capcodepage=@xrefitem capcodepage \"Capabilities\" \"Codepage Conver
 ALIASES += "captranslation=@xrefitem captranslation \"Capabilities\" \"Message Translation MB Capability\""
 ALIASES += "capcontext=@xrefitem capcontext \"Capabilities\" \"Context Data MB Capability\""
 
-# The following alias defines @testNNN special commands that are used to show
-# the test status for a particular MB. Their list will be linked from the
-# "Related Pages" tab:
-ALIASES += "testopenpegasus=@xrefitem testopenpegasus \"Test Status OpenPegasus\" \"Test Status OpenPegasus\""
+# The following alias defines @status{xxx} special commands that are used to
+# show the test and/or implementation status of each function or macro for a
+# particular MB. Their list will be linked from the "Related Pages" tab.
+#
+# Important: If you add aliases for further MBs here, you also need to add the
+# corresponding page sections in modules.dox (search for status{xxx}).
+ALIASES += "statusopenpegasus=@xrefitem statusopenpegasus \"Status for OpenPegasus\" \"Status for OpenPegasus\""
 
 # This tag can be used to specify a number of word-keyword mappings (TCL only).
 # A mapping has the form "name=value". For example adding "class=itcl::class"

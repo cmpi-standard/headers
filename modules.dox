@@ -233,6 +233,18 @@
  */
 
 /**
+ * @page statusopenpegasus Status for OpenPegasus
+ * @brief Implementation and/or test status for OpenPegasus
+ *
+ * This page lists the implementation and/or test status of convenience
+ * functions and MB functions for the OpenPegasus MB, to the extent their
+ * descriptions have been annotated accordingly.
+ */
+
+// Important: If you add page sections for further MBs here, you also need to
+// add the corresponding alias definitions in Doxyfile (search for status{xxx}).
+
+/**
 @defgroup data-types Data Types (Subclause 5)
 @{
   @defgroup type-codepage-id Codepage Conversion (Subclause 5.2.2)
