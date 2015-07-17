@@ -11,6 +11,8 @@
   its page introduction text accordingly;
   Added comments to Doxyfile and modules.dox hinting to keep the respective
   sections in sync when new MBs are added.
+* Added any missing @see commands to convenience functions, referencing
+  the corresponding MB functions.
 
 16 July - Andy
 --------------
