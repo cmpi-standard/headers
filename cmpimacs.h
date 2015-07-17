@@ -2854,7 +2854,7 @@ static inline unsigned int CBGetCapabilities(
 
     @see CMPIBrokerFT.brokerVersion
 
-    @note not used by  OpenPegasus
+    @statusopenpegasus Not used
     @hideinitializer
 
     @todo TBD AM: Should this function be moved to "Helper Functions"?
