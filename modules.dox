@@ -546,16 +546,16 @@
 @}
 @defgroup convenience-func CMPI Convenience Functions
 @{
+  @defgroup convenience-func-broker MB Functions in Broker Function Tables
+  @{
+  @}
+  @defgroup convenience-func-edt MB Functions of Encapsulated Data Types
+  @{
+  @}
+  @defgroup convenience-func-helper Helper Functions and Macros
+  @{
+  @}
   @defgroup convenience-func-mi-factory-stubs MI Factory Stubs
-  @{
-  @}
-  @defgroup convenience-func-edt Encapsulated Data Type MB Functions
-  @{
-  @}
-  @defgroup convenience-func-broker Other MB Functions
-  @{
-  @}
-  @defgroup convenience-func-helper Helper Functions
   @{
   @}
 @}

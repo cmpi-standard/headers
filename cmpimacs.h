@@ -50,18 +50,15 @@ extern "C" {
 /**
   @addtogroup convenience-func
   @{
-    @brief A set of macro and inline functions to ease the use of the various
-    CMPI function tables.
+    @todo TBD KS: 'macros' is bad word.  Maybe we call them convenience
+        functions to cover macro vs inline versions.@n
+        KS: Actually 'macros' is good word.  Question is what do we call those
+        things that can be either inline or macro. 'Convience function' stinks.
 
-    @todo KS: 'macros' is bad word.  Maybe we call them convenience
-          functions to cover macro vs inline versions.
-          Actually 'macros' is good word.  Question is what do
-          we call those things that can be either inline or
-          macro. 'Convience function' stinks.
-
-    The convience functions in `cmpimacs.h` are provided to help of the CMPI
-    developer and are NOT required to implement CMPI providers.  They do,
-    however, make cleaner more readable code.
+    The convience functions in `cmpimacs.h` are a set of macros and inline
+    functions that ease the use of the various CMPI function tables. They are
+    provided to help the CMPI developer and are NOT required to implement CMPI
+    providers.  They do, however, make cleaner and more readable code.
 
     In CMPI 1.0, the CMPI convenience functions were defined as C preprocessor
     macros, which coined the term "CMPI macros". Since CMPI 2.0, they are defined
@@ -83,48 +80,67 @@ extern "C" {
     groups:
 
     @li @parblock
-      One-one mapping to corresponding CMPI functions.
+      Convenience functions with a one-to-one mapping to corresponding MB
+      functions.
 
-      These macros simplify the syntax of calls while keeping exactly the same
-      set of arguments as the function calls in `cmpift.h`. These macros do not
-      repeat the documentation of arguments but depend on the definiton in the
-      defining function. The documentation for each convenience function points
-      to the corresponding function. Each convenience function in this file
-      corresponds to a single function call in `cmpift.h`. These convenience
-      functions simplify the code largely by bypassing the added step of getting
-      from the broker object argument to the function table and the function.
-      These convience functions each include a link to the `cmpift.h` function
-      that they execute.
+      The use of these convenience functions simplifies the code, largely by
+      bypassing the added step of getting from the broker object or
+      encapsulated data type object to the function table and to the
+      corresponding MB function.
 
-      Thus, for example:
-      @code(.c)
+      These convenience functions have the same set of arguments as the
+      corresponding MB functions. They have a simplified description of their
+      functionality and arguments. For a full description, the description of
+      the corresponding MB functions and arguments may need to be consulted. The
+      description of each convenience function has a link to the description of
+      the corresponding MB function.
+
+      For example, the following MB function call:
+      @code
       inst->ft->getProperty(inst, name, rc);
       @endcode
-      is simplified by a convenience function to:
-      @code(.c)
+      is simplified when using a convenience function to:
+      @code
       CMGetProperty(inst, name, rc);
       @endcode
+
+      For details, see @ref convenience-func-broker
+      "MB Functions in Broker Function Tables" and @ref convenience-func-edt
+      "MB Functions of Encapsulated Data Types".
     @endparblock
     @li @parblock
-      Macros/convience functions that consolidate a group of `cmpift.h` calls
-      into a single macro.
+      Macros that consolidate a group of MB functions into a single macro.
 
-      The primary examples are CMClone() and CMRelease() which call the clone()
+      The only examples are CMClone() and CMRelease() which call the clone()
       and release() functions for the function table of the object provided by
       the input arguments.
+
+      @todo TBD AM: This definition boils down to having only these two macros
+          in this group. It seems to me that splitting the MB functions into
+          the two categories we have in the two MB function related sub-modules
+          of @ref convenience-func "CMPI Convenience Functions" (i.e. EDT vs.
+          Broker Tables) may be a better way. Definitely, we should use the
+          same way of splitting them in this bullet list here, as we use in the
+          sub-modules.
     @endparblock
     @li @parblock
-      Convience functions that aid the access to selected variables or otherwise
-      provide functionality not directly available through a function.
+      Helper Functions and Macros
 
+      The helper functions and macros encapsulate the access to selected
+      structure members or otherwise provide functionality that is not directly
+      available through an MB function.
       Examples of this are CMReturn() and CMIsNullObject().
+      For details, see @ref convenience-func-helper
+      "Helper Functions and Macros".
     @endparblock
     @li @parblock
-      Macros that aid in the definition of providers, primarily in the
-      definition of the function tables.
+      MI Factory Stubs
 
-      The macro CMInstanceMIStub() is an example of a macro that implements  a
-      function table.
+      The MI factory stubs are macros that generate the MI factory functions
+      and function tables.
+      Examples of this are CMInstanceMIStub() and CMInstanceMIFactory().
+      For details, see @ref convenience-func-mi-factory-stubs
+      "MI Factory Stubs".
     @endparblock
   @}
 */
@@ -154,16 +170,11 @@ extern "C" {
 /**
   @addtogroup convenience-func-helper
   @{
-    @brief Convenience functions that are helper functions.
-
-    The convenience functions in this group do not directly call MB functions
-    defined in the @ref ref-cmpi-standard "CMPI Standard".
-
-    Instead, they help accessing selected CMPI variables or otherwise provide
-    functionality that is not directly available through an MB function.
-
-    An example is CMReturn() which creates a function result status and returns
-    from the current MI function in a single call.
+    Helper Functions and Macros.
+  
+    The helper functions and macros encapsulate the access to selected
+    structure members or otherwise provide functionality that is not directly
+    available through an MB function.
 */
 
 /**
@@ -578,13 +589,13 @@ static inline CMPIBoolean CMIsArray(
   @}
   @addtogroup convenience-func-edt
   @{
-    @brief Convenience functions that call encapsulated data type MB functions.
+    MB Functions of Encapsulated Data Types.
 
     The convenience functions in this group call functions on encapsulated data
     type objects.
 
     The factory functions creating encapsulated data type objects are covered
-    in @ref convenience-func-broker "Other MB functions".
+    in @ref convenience-func-broker "MB Functions in Broker Function Tables".
 
     They simplify the code by eliminating the references to function tables.
 */
@@ -2735,12 +2746,15 @@ static inline CMPIStatus CMSetMessageArguments(
   @}
   @addtogroup convenience-func-broker
   @{
-    @brief Convenience functions that call other MB functions.
-
+    MB Functions in Broker Function Tables.
+  
     The convenience functions in this group call MB functions provided by the
-    MB function tables.
+    broker function tables (that is, the function tables pointed to by
+    CMPIBroker members).
 
-    They simplify the code by eliminating the references to function tables.
+    They simplify the code by eliminating the references to function tables,
+    and by eliminating the need to know which of the function tables has the
+    desired function.
 */
 
 // AM_TODO Bring argument names in sync with ft functions from here on down
@@ -3941,14 +3955,10 @@ static inline CMPIString * CMGetMessage2(
   @}
   @addtogroup convenience-func-mi-factory-stubs
   @{
-   @brief Convenience functions that help creating the basic implementation of
-       MI factory functions.
-
-   The convenience functions in this group help creating the basic
-   implementation of the @ref mi-factory "MI factory functions".
-
-   Their use is necessary because they provide some anchor variables that are
-   used by the other convenience functions.
+    MI Factory Stubs.
+  
+    The MI factory stubs are macros that generate the the @ref mi-factory
+    "MI factory functions" and function tables.
 */
 
 /** @brief Generate function table and factory function for an instance MI
