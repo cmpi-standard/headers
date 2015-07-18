@@ -10220,7 +10220,7 @@ typedef struct _CMPIAssociationMIFT {
     */
     CMPIStatus (*associators) (CMPIAssociationMI* mi, const CMPIContext* ctx,
         const CMPIResult* rslt, const CMPIObjectPath* op,
-        const char* asscClass, const char* resultClass, const char* role,
+        const char* assocClass, const char* resultClass, const char* role,
         const char* resultRole, const char** properties);
 
     /**

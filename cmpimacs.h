@@ -53,30 +53,33 @@ extern "C" {
     @todo TBD KS: 'macros' is bad word.  Maybe we call them convenience
         functions to cover macro vs inline versions.@n
         KS: Actually 'macros' is good word.  Question is what do we call those
-        things that can be either inline or macro. 'Convience function' stinks.
+        things that can be either inline or macro. 'Convenience function'
+        stinks.
 
-    The convience functions in `cmpimacs.h` are a set of macros and inline
+    The convenience functions in `cmpimacs.h` are a set of macros and inline
     functions that ease the use of the various CMPI function tables. They are
-    provided to help the CMPI developer and are NOT required to implement CMPI
-    providers.  They do, however, make cleaner and more readable code.
+    provided to help the CMPI developer and are NOT required to be used. They
+    do, however, make cleaner and more readable code.
 
     In CMPI 1.0, the CMPI convenience functions were defined as C preprocessor
-    macros, which coined the term "CMPI macros". Since CMPI 2.0, they are defined
-    as C inline functions wherever possible. Only a small number of them is still
-    defined as C preprocessor macros.
+    macros, which coined the term "CMPI macros".
 
-    Those convenience functions that are defined as C inline functions can also
-    be generated as C preprocessor macros, if the CMPI user defines the symbol
-    @ref sym-inline "CMPI_NO_INLINE".
+    Since CMPI 2.0, they are defined as C inline functions wherever possible.
+    Only a small number of them is still defined as C preprocessor macros.
+
+    Since CMPI 2.1, those convenience functions that are defined as C inline
+    functions can also be generated as C preprocessor macros, if the CMPI user
+    defines the symbol @ref sym-inline "CMPI_NO_INLINE".
 
     The convenience functions are NOT documented in the CMPI standard, just the
-    existence of the `cmpimacs.h` header file. However this documentation
-    includes hyperlinks between the convience functions and corresponding
-    `cmpift.h` functions or other components of CMPI used by the functions.
-    Further, it is the CMPI standard developers goal to minimize the changes to
-    the convience functions maintain compatibility between CMPI versions.
+    existence of the `cmpimacs.h` header file. However, this online
+    documentation includes hyperlinks between the convenience functions and the
+    underlying MB functions or other components of CMPI used by the convenience
+    functions. Further, it is the CMPI standard developers' goal to minimize
+    the changes to the convenience functions in order to maintain compatibility
+    between CMPI versions.
 
-    The convience functions and macros can be broken down into the following
+    The convenience functions and macros can be broken down into the following
     groups:
 
     @li @parblock
@@ -4138,9 +4141,9 @@ static inline CMPIString * CMGetMessage2(
     @code (.c)
     static const CMPIBroker *_broker;
 
-    #define CMInitHook(pfx) \
+    #define CMInitHook(pfx, mitype) \
     do { \
-        CMPIStatus st = pfx##Initialize(&mi, ctx); \
+        CMPIStatus st = pfx##mitype##Initialize(&mi, ctx); \
         if (st.rc != CMPI_RC_OK) \
         { \
             if (rc) { \
@@ -4200,7 +4203,7 @@ static inline CMPIString * CMGetMessage2(
     //    MyProvDeleteInstance
     //    MyProvEnumerateInstancesFiltered
 
-    CMInstanceMIStub(MyProv, MyProv, _broker, CMInitHook(MyProv));
+    CMInstanceMIStub(MyProv, MyProv, _broker, CMInitHook(MyProv,Instance));
     @endcode
     @see CMPIInstanceMI, CMPIInstanceMIFT,
         @ref mi-factory-specific "MI-specific factory function"
@@ -4221,7 +4224,11 @@ static inline CMPIString * CMGetMessage2(
         AM: The spec requires that the MIFT table always has all functions.
         Those that are not implemented, still exist and return 'not
         implemented'. I have updated the example to show ExecQuery() that way.
-    @todo TBD AM: Why is the MIFT file static and the MI local static?
+    @todo TBD AM: Why is the MIFT file static and the MI local static? The
+        variable name used for the file static table is the same for all
+        providers, making it impossible to have more than one provider per
+        source file. This seems like an unnecessary limitation. Suggestion:
+        Make both tables local static.
     @todo TBD AM: We document the CMPI_VERSION is the version that is
         implemented. If we are serious about this, we should use CMPI_VERSION
         instead of CMPICurrentVersion, for the first version in the MIFT.
@@ -4287,44 +4294,152 @@ CMPI_EXTERN_C CMPIInstanceMI * miname##_Create_InstanceMI( \
 /** @brief Generate function table and factory function for an association MI
         written in plain C.
 
-    CMAssociationMIStub() macro generates the function table and initialization
-    stub for an association provider. The initialization routine
-    &lt;pn&gt;Create_AssociationMI is called when this provider module is
-    loaded by the broker.
+    The CMAssociationMIStub() macro generates the function table and factory
+    function for an association MI (also known as *association provider*)
 
-    This macro is for CMPI providers written in plain C.
-    @param pfx The prefix for all mandatory instance provider functions.
+    This macro is for CMPI MIs written in plain C. The code can be compiled with
+    C or C++.
+
+    The generated factory function is an @ref mi-factory-specific
+    "MI-specific factory function" named `{miname}_Create_AssociationMI()`.
+    It is exported by the MI load library and is called when the libary is
+    loaded by the MB.
+
+    The generated MI function table contains pointers to all functions for
+    association MIs as defined in the CMPI version that is implemented (see
+    @ref CMPI_VERSION). The user of this macro needs to provide all of these
+    functions. Those functions that are not going to be implemented, still need
+    to be provided and implemented by returning @ref CMPI_RC_ERR_NOT_SUPPORTED.
+
+    The function names are fixed, and are generated with a prefix specified
+    using the @p pfx argument of the macro:
+    <TABLE>
+    <TR><TH>Function name</TH>
+        <TH>Description</TH><TH>CMPI version</TH></TR>
+    <TR><TD>{pfx}AssociationCleanup()</TD>
+        <TD>CMPIAssociationMIFT.cleanup()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}Associators()</TD>
+        <TD>CMPIAssociationMIFT.associators()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}AssociatorNames()</TD>
+        <TD>CMPIAssociationMIFT.associatorNames()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}References()</TD>
+        <TD>CMPIAssociationMIFT.references()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}ReferenceNames()</TD>
+        <TD>CMPIAssociationMIFT.referenceNames()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}AssociatorsFiltered()</TD>
+        <TD>CMPIAssociationMIFT.associatorsFiltered()</TD><TD>2.1</TD></TR>
+    <TR><TD>{pfx}ReferencesFiltered()</TD>
+        <TD>CMPIAssociationMIFT.referencesFiltered()</TD><TD>2.1</TD></TR>
+    </TABLE>
+    @param pfx The prefix for all functions in the MI function table.
         This is a character string without quotes.
-        Mandatory functions are: &lt;pfx&gt;AssociationCleanup,
-        &lt;pfx&gt;Associators,
-        &lt;pfx&gt;AssociatorNames,&lt;pfx&gt;References and
-        &lt;pfx&gt;ReferenceNames.
-    @param pn The provider name under which this provider is registered.
+    @param miname The MI name for this MI.
         This is a character string without quotes.
-    @param broker The name of the broker variable used by this macro to store
-               the CMPIBroker pointer
-    @param hook A statement that is executed
-         within &lt;pn&gt;Create_AssociationMI routine. This
-         enables you to perform additional initialization
-         functions and is normally a function call like
-         furtherInit(broker) or CMNoHook. Use CMNoHook if no
-         further intialization is required.
-    @return The function table of this association provider.
+    @param mbvar The name of a variable that upon return of the macro will have
+        been updated with the CMPIBroker pointer passed by the MB to the
+        factory function.
+        This is a character string without quotes.
+    @param hook
+    @parblock
+        A single C statement that is executed in the generated factory
+        function, after the CMPIAssociationMI structure has been created.
+
+        That C statement can access function arguments and local variables of
+        the generated factory function. The names of these arguments and local
+        variables in the generated function will not change in future CMPI
+        versions, and are:
+        @li @p mb, @p ctx, @p rc - see the like-named arguments of the @ref
+            mi-factory-specific "factory function".
+        @li @p mi - local variable which is the initialized CMPIAssociationMI
+            object.
+
+        This enables you to perform additional initialization functions and is
+        normally a function call like `furtherInit(broker)`, or
+        `furtherInit(&mi)` or @ref CMNoHook if no further intialization is
+        required.
+    @endparblock
+    @return A pointer to the function table of this MI.
+
+    @par Examples
+    This example uses the CMAssociationMIStub() macro for a rudimentary
+    association MI written in plain C.
+    @code (.c)
+    static const CMPIBroker *_broker;
+
+    #define CMInitHook(pfx, mitype) \
+    do { \
+        CMPIStatus st = pfx##mitype##Initialize(&mi, ctx); \
+        if (st.rc != CMPI_RC_OK) \
+        { \
+            if (rc) { \
+                *rc = st; \
+            } \
+            return NULL; \
+        } \
+    } while (0)
+
+    static CMPIStatus MyProvAssociationInitialize(
+        CMPIAssociationMI *mi,
+        const CMPIContext *ctx)
+    {
+        . . . // Initialization code when loading the MI load library
+        mi->hdl = . . . // You can store data in the CMPIAssociationMI object
+        if (...error...)
+            CMReturn(CMPI_RC_ERR_FAILED);
+        CMReturn(CMPI_RC_OK);
+    }
+
+    static CMPIStatus MyProvAssociationCleanup (
+        CMPIAssociationMI *mi,
+        const CMPIContext *ctx,
+        CMPIBoolean terminating)
+    {
+        . . . // Clean up code when unloading the MI load library
+        CMReturn(CMPI_RC_OK);
+    }
+
+    static CMPIStatus MyProvAssociators (
+        CMPIAssociationMI *mi,
+        const CMPIContext *ctx,
+        const CMPIResult *rslt,
+        const CMPIObjectPath *op,
+        const char* assocClass,
+        const char* resultClass,
+        const char* role,
+        const char* resultRole,
+        const char** properties)
+    {
+        . . . // for an example, see TBD
+        CMReturn(CMPI_RC_OK);
+    }
+
+    // Other functions not shown are:
+    //    MyProvAssociatorNames
+    //    MyProvReferences
+    //    MyProvReferenceNames
+    //    MyProvAssociatorsFiltered
+    //    MyProvReferencesFiltered
+
+    CMAssociationMIStub(MyProv, MyProv, _broker, CMInitHook(MyProv,
+                                                            Association));
+    @endcode
+    @see CMPIAssociationMI, CMPIAssociationMIFT,
+        @ref mi-factory-specific "MI-specific factory function"
     @hideinitializer
 
-    @todo create example
-    @todo what about optional functions
+    @todo DONE. create example
+    @todo DONE, SEE INSTANCE STUB. what about optional functions
     @todo need note about creating function that parallel
            others but with cap
-    @todo Need reference back to cmpift
-    @todo expand for cmpi 2.1
-    @todo AM: Apply updates from CMInstanceMIStub().
+    @todo DONE? Need reference back to cmpift
+    @todo DONE. expand for cmpi 2.1
+    @todo DONE. AM: Apply updates from CMInstanceMIStub().
 */
-#define CMAssociationMIStub(pfx,pn,broker,hook) \
-    static CMPIAssociationMIFT assocMIFT__ = { \
-    CMPICurrentVersion, \
-    CMPICurrentVersion, \
-    "association" #pn, \
+#define CMAssociationMIStub(pfx, miname, mbvar, hook) \
+static CMPIAssociationMIFT assocMIFT__ = { \
+    CMPI_VERSION, \
+    CMPI_VERSION, \
+    "association" #miname, \
     pfx##AssociationCleanup, \
     pfx##Associators, \
     pfx##AssociatorNames, \
@@ -4332,167 +4447,421 @@ CMPI_EXTERN_C CMPIInstanceMI * miname##_Create_InstanceMI( \
     pfx##ReferenceNames, \
     _CMAssociationMIStub_AssociatorsFiltered(pfx) \
     _CMAssociationMIStub_ReferencesFiltered(pfx) \
-  }; \
-  CMPI_EXTERN_C \
-  CMPIAssociationMI *pn##_Create_AssociationMI( \
-      const CMPIBroker *brkr, \
-      const CMPIContext *ctx, \
-      CMPIStatus *rc) \
-  { \
-      static CMPIAssociationMI mi = { \
-          NULL, \
-          &assocMIFT__, \
-          }; \
-      broker = brkr; \
-      hook; \
-      return &mi;  \
-  }
+}; \
+CMPI_EXTERN_C CMPIAssociationMI * miname##_Create_AssociationMI( \
+    const CMPIBroker *mb, \
+    const CMPIContext *ctx, \
+    CMPIStatus *rc) \
+{ \
+    static CMPIAssociationMI mi = { \
+        NULL, \
+        &assocMIFT__, \
+    }; \
+    (mbvar) = mb; \
+    if (rc) \
+    { \
+        rc->rc = CMPI_RC_OK; \
+        rc->msg = NULL; \
+    } \
+    hook; \
+    return &mi;  \
+}
 
 /** @brief Generate function table and factory function for a method MI
         written in plain C.
 
-    This macro generates the function table and initialization stub for a
-    method provider. The initialization routine &lt;pn&gt;Create_MethodMI is
-    called when this provider module is loaded by the broker. This macro is for
-    CMPI providers written in plain C.
-    @param pfx The prefix for all mandatory method provider functions.
-            This is a character string without quotes.
-            Mandatory functions are: &lt;pfx&gt;MthodCleanup and
-            &lt;pfx&gt;InvokeMethod.
-    @param pn The provider name under which this provider is registered.
-            This is a character string without quotes.
-    @param broker The name of the broker variable used by this macro to store
-                   the CMPIBroker pointer
-    @param hook A statement that is executed
-            within &lt;pn&gt;Create_MethodMI routine. This
-            enables you to perform additional initialization
-            functions and is normally a function call like
-            furtherInit(broker) or CMNoHook. Use CMNoHook
-            if no further intialization is required.
-    @return The function table of this method provider.
+    The CMMethodMIStub() macro generates the function table and factory
+    function for a method MI (also known as *method provider*)
+
+    This macro is for CMPI MIs written in plain C. The code can be compiled with
+    C or C++.
+
+    The generated factory function is an @ref mi-factory-specific
+    "MI-specific factory function" named `{miname}_Create_MethodMI()`.
+    It is exported by the MI load library and is called when the libary is
+    loaded by the MB.
+
+    The generated MI function table contains pointers to all functions for
+    method MIs as defined in the CMPI version that is implemented (see
+    @ref CMPI_VERSION). The user of this macro needs to provide all of these
+    functions. Those functions that are not going to be implemented, still need
+    to be provided and implemented by returning @ref CMPI_RC_ERR_NOT_SUPPORTED.
+
+    The function names are fixed, and are generated with a prefix specified
+    using the @p pfx argument of the macro:
+    <TABLE>
+    <TR><TH>Function name</TH>
+        <TH>Description</TH><TH>CMPI version</TH></TR>
+    <TR><TD>{pfx}MethodCleanup()</TD>
+        <TD>CMPIMethodMIFT.cleanup()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}InvokeMethod()</TD>
+        <TD>CMPIMethodMIFT.invokeMethod()</TD><TD>1.0</TD></TR>
+    </TABLE>
+    @param pfx The prefix for all functions in the MI function table.
+        This is a character string without quotes.
+    @param miname The MI name for this MI.
+        This is a character string without quotes.
+    @param mbvar The name of a variable that upon return of the macro will have
+        been updated with the CMPIBroker pointer passed by the MB to the
+        factory function.
+        This is a character string without quotes.
+    @param hook
+    @parblock
+        A single C statement that is executed in the generated factory
+        function, after the CMPIMethodMI structure has been created.
+
+        That C statement can access function arguments and local variables of
+        the generated factory function. The names of these arguments and local
+        variables in the generated function will not change in future CMPI
+        versions, and are:
+        @li @p mb, @p ctx, @p rc - see the like-named arguments of the @ref
+            mi-factory-specific "factory function".
+        @li @p mi - local variable which is the initialized CMPIMethodMI
+            object.
+
+        This enables you to perform additional initialization functions and is
+        normally a function call like `furtherInit(broker)`, or
+        `furtherInit(&mi)` or @ref CMNoHook if no further intialization is
+        required.
+    @endparblock
+    @return A pointer to the function table of this MI.
+
+    @par Examples
+    This example uses the CMMethodMIStub() macro for a rudimentary
+    method MI written in plain C.
+    @code (.c)
+    static const CMPIBroker *_broker;
+
+    #define CMInitHook(pfx, mitype) \
+    do { \
+        CMPIStatus st = pfx##mitype##Initialize(&mi, ctx); \
+        if (st.rc != CMPI_RC_OK) \
+        { \
+            if (rc) { \
+                *rc = st; \
+            } \
+            return NULL; \
+        } \
+    } while (0)
+
+    static CMPIStatus MyProvMethodInitialize(
+        CMPIMethodMI *mi,
+        const CMPIContext *ctx)
+    {
+        . . . // Initialization code when loading the MI load library
+        mi->hdl = . . . // You can store data in the CMPIMethodMI object
+        if (...error...)
+            CMReturn(CMPI_RC_ERR_FAILED);
+        CMReturn(CMPI_RC_OK);
+    }
+
+    static CMPIStatus MyProvMethodCleanup (
+        CMPIMethodMI *mi,
+        const CMPIContext *ctx,
+        CMPIBoolean terminating)
+    {
+        . . . // Clean up code when unloading the MI load library
+        CMReturn(CMPI_RC_OK);
+    }
+
+    static CMPIStatus MyProvInvokeMethod (
+        CMPIMethodMI *mi,
+        const CMPIContext *ctx,
+        const CMPIResult *rslt,
+        const CMPIObjectPath *objPath,
+        const char* method,
+        const CMPIArgs* in,
+        CMPIArgs* out)
+    {
+        . . . // for an example, see TBD
+        CMReturn(CMPI_RC_OK);
+    }
+
+    CMMethodMIStub(MyProv, MyProv, _broker, CMInitHook(MyProv, Method));
+    @endcode
+    @see CMPIMethodMI, CMPIMethodMIFT,
+        @ref mi-factory-specific "MI-specific factory function"
     @hideinitializer
 
-    @todo Need  see reference back to cmpift. Do example
-    @todo AM: Apply updates from CMInstanceMIStub().
+    @todo DONE. Need see reference back to cmpift. Do example
+    @todo DONE. AM: Apply updates from CMInstanceMIStub().
 */
-#define CMMethodMIStub(pfx,pn,broker,hook) \
-  static CMPIMethodMIFT methMIFT__ = { \
-    CMPICurrentVersion, \
-    CMPICurrentVersion, \
-    "method" #pn, \
+#define CMMethodMIStub(pfx, miname, mbvar, hook) \
+static CMPIMethodMIFT methMIFT__ = { \
+    CMPI_VERSION, \
+    CMPI_VERSION, \
+    "method" #miname, \
     pfx##MethodCleanup, \
     pfx##InvokeMethod, \
-  }; \
-  CMPI_EXTERN_C \
-  CMPIMethodMI *pn##_Create_MethodMI( \
-      const CMPIBroker *brkr, \
-      const CMPIContext *ctx, \
-      CMPIStatus *rc) \
-  { \
+}; \
+CMPI_EXTERN_C CMPIMethodMI * miname##_Create_MethodMI( \
+    const CMPIBroker *mb, \
+    const CMPIContext *ctx, \
+    CMPIStatus *rc) \
+{ \
     static CMPIMethodMI mi = { \
-      NULL, \
-      &methMIFT__, \
+        NULL, \
+        &methMIFT__, \
     }; \
-    broker = brkr; \
+    (mbvar) = mb; \
+    if (rc) \
+    { \
+        rc->rc = CMPI_RC_OK; \
+        rc->msg = NULL; \
+    } \
     hook; \
     return &mi; \
-  }
+}
 
 /** @brief Generate function table and factory function for a property MI
         written in plain C (**Deprecated**).
 
-    This macro generates the function table and initialization stub
-    for a property provider. The initialization
-       routine &lt;pn&gt;Create_PropertyMI is called when
-       this provider module is loaded by the broker. This
-       macro is for CMPI providers written in plain C.
-    @param pfx The prefix for all mandatory property provider functions.
-            This is a character string without quotes.
-            Mandatory functions are:
-            &lt;pfx&gt;PropertyCleanup,
-            &lt;pfx&gt;SetProperty and
-            &lt;pfx&gt;GetProperty.
+    The CMPropertyMIStub() macro generates the function table and factory
+    function for a property MI (also known as *property provider*)
 
-    @param pn The provider name under which this provider is registered.
-            This is a character string without quotes.
-    @param broker The name of the broker variable used by
-                   this macro to store the CMPIBroker
-                   pointer
-    @param hook A statement that is executed within
-                 &lt;pn&gt;Create_PropertyMI routine. This
-                 enables you to perform additional
-                 initialization functions and is normally a
-                 function call like furtherInit(broker) or
-                 CMNoHook. Use CMNoHook if no further
-                 intialization is required.
-    @return The function table of this property provider.
-    @deprecated in CMPI 2.1 because property providers have been deprecated
-    in the WBEM specifications.
+    This macro is for CMPI MIs written in plain C. The code can be compiled with
+    C or C++.
+
+    The generated factory function is an @ref mi-factory-specific
+    "MI-specific factory function" named `{miname}_Create_PropertyMI()`.
+    It is exported by the MI load library and is called when the libary is
+    loaded by the MB.
+
+    The generated MI function table contains pointers to all functions for
+    property MIs as defined in the CMPI version that is implemented (see
+    @ref CMPI_VERSION). The user of this macro needs to provide all of these
+    functions. Those functions that are not going to be implemented, still need
+    to be provided and implemented by returning @ref CMPI_RC_ERR_NOT_SUPPORTED.
+
+    The function names are fixed, and are generated with a prefix specified
+    using the @p pfx argument of the macro:
+    <TABLE>
+    <TR><TH>Function name</TH>
+        <TH>Description</TH><TH>CMPI version</TH></TR>
+    <TR><TD>{pfx}PropertyCleanup()</TD>
+        <TD>CMPIPropertyMIFT.cleanup()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}SetProperty()</TD>
+        <TD>CMPIPropertyMIFT.setProperty()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}GetProperty()</TD>
+        <TD>CMPIPropertyMIFT.getProperty()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}SetPropertyWithOrigin()</TD>
+        <TD>CMPIPropertyMIFT.setPropertyWithOrigin()</TD><TD>2.0</TD></TR>
+    </TABLE>
+    @param pfx The prefix for all functions in the MI function table.
+        This is a character string without quotes.
+    @param miname The MI name for this MI.
+        This is a character string without quotes.
+    @param mbvar The name of a variable that upon return of the macro will have
+        been updated with the CMPIBroker pointer passed by the MB to the
+        factory function.
+        This is a character string without quotes.
+    @param hook
+    @parblock
+        A single C statement that is executed in the generated factory
+        function, after the CMPIPropertyMI structure has been created.
+
+        That C statement can access function arguments and local variables of
+        the generated factory function. The names of these arguments and local
+        variables in the generated function will not change in future CMPI
+        versions, and are:
+        @li @p mb, @p ctx, @p rc - see the like-named arguments of the @ref
+            mi-factory-specific "factory function".
+        @li @p mi - local variable which is the initialized CMPIPropertyMI
+            object.
+
+        This enables you to perform additional initialization functions and is
+        normally a function call like `furtherInit(broker)`, or
+        `furtherInit(&mi)` or @ref CMNoHook if no further intialization is
+        required.
+    @endparblock
+    @return A pointer to the function table of this MI.
+
+    @see CMPIPropertyMI, CMPIPropertyMIFT,
+        @ref mi-factory-specific "MI-specific factory function"
     @hideinitializer
 
-    @todo Need reference back to cmpift. No example because
+    @todo DONE. Need reference back to cmpift. No example because
            deprecated.
-    @todo AM: Apply updates from CMInstanceMIStub().
+    @todo DONE. AM: Apply updates from CMInstanceMIStub().
 */
-#define CMPropertyMIStub(pfx,pn,broker,hook) \
-  static CMPIPropertyMIFT propMIFT__ = { \
-    CMPICurrentVersion, \
-    CMPICurrentVersion, \
-    "property" #pn, \
+#define CMPropertyMIStub(pfx, miname, mbvar, hook) \
+static CMPIPropertyMIFT propMIFT__ = { \
+    CMPI_VERSION, \
+    CMPI_VERSION, \
+    "property" #miname, \
     pfx##PropertyCleanup, \
     pfx##SetProperty, \
     pfx##GetProperty, \
-  }; \
-  CMPI_EXTERN_C \
-  CMPIPropertyMI *pn##_Create_PropertyMI( \
-      const CMPIBroker *brkr, \
-      const CMPIContext *ctx, \
-      CMPIStatus *rc) \
-  { \
+    _CMPropertyMIStub_SetPropertyWithOrigin(pfx) \
+}; \
+CMPI_EXTERN_C CMPIPropertyMI * miname##_Create_PropertyMI( \
+    const CMPIBroker *mb, \
+    const CMPIContext *ctx, \
+    CMPIStatus *rc) \
+{ \
     static CMPIPropertyMI mi = { \
-      NULL, \
-      &propMIFT__, \
+        NULL, \
+        &propMIFT__, \
     }; \
-    broker = brkr; \
+    (mbvar) = mb; \
+    if (rc) \
+    { \
+        rc->rc = CMPI_RC_OK; \
+        rc->msg = NULL; \
+    } \
     hook; \
     return &mi; \
-  }
+}
 
 /** @brief Generate function table and factory function for an indication MI
         written in plain C.
 
-    This macro generates the function table and initialization stub for an
-    indication provider. The initialization routine
-    &lt;pn&gt;Create_IndicationMI is called when this provider module is loaded
-    by the broker. This macro is for CMPI providers written in plain C.
-    @param pfx The prefix for all mandatory indication provider functions.
-            This is a character string without quotes.
-            Mandatory functions are:
-            &lt;pfx&gt;IndicationCleanup,
-            &lt;pfx&gt;AuthorizeFilter, &lt;pfx&gt;MustPoll,
-            &lt;pfx&gt;ActivateFilter and
-            &lt;pfx&gt;DeActivateFilter.
-    @param pn The provider name under which this provider is registered.
-            This is a character string without quotes.
-    @param broker The name of the broker variable used by
-            this macro to store the CMPIBroker pointer
-    @param hook A statement that is executed within
-            &lt;pn&gt;Create_IndicationMI routine. This enables
-            you to perform additional initialization functions
-            and is normally a function call like
-            furtherInit(broker) or CMNoHook. Use CMNoHook if
-            no further intialization is required.
-    @return The function table of this indication provider.
+    The CMIndicationMIStub() macro generates the function table and factory
+    function for an indication MI (also known as *indication provider*)
+
+    This macro is for CMPI MIs written in plain C. The code can be compiled with
+    C or C++.
+
+    The generated factory function is an @ref mi-factory-specific
+    "MI-specific factory function" named `{miname}_Create_IndicationMI()`.
+    It is exported by the MI load library and is called when the libary is
+    loaded by the MB.
+
+    The generated MI function table contains pointers to all functions for
+    indication MIs as defined in the CMPI version that is implemented (see
+    @ref CMPI_VERSION). The user of this macro needs to provide all of these
+    functions. Those functions that are not going to be implemented, still need
+    to be provided and implemented by returning @ref CMPI_RC_ERR_NOT_SUPPORTED.
+
+    The function names are fixed, and are generated with a prefix specified
+    using the @p pfx argument of the macro:
+    <TABLE>
+    <TR><TH>Function name</TH>
+        <TH>Description</TH><TH>CMPI version</TH></TR>
+    <TR><TD>{pfx}IndicationCleanup()</TD>
+        <TD>CMPIIndicationMIFT.cleanup()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}AuthorizeFilter()</TD>
+        <TD>CMPIIndicationMIFT.authorizeFilter()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}MustPoll()</TD>
+        <TD>CMPIIndicationMIFT.mustPoll()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}ActivateFilter()</TD>
+        <TD>CMPIIndicationMIFT.activateFilter()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}DeActivateFilter()</TD>
+        <TD>CMPIIndicationMIFT.deActivateFilter()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}EnableIndications()</TD>
+        <TD>CMPIIndicationMIFT.enableIndications()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}DisableIndications()</TD>
+        <TD>CMPIIndicationMIFT.disableIndications()</TD><TD>1.0</TD></TR>
+    <TR><TD>{pfx}AuthorizeFilterCollection()</TD>
+        <TD>CMPIIndicationMIFT.authorizeFilterCollection()</TD><TD>2.1</TD></TR>
+    <TR><TD>{pfx}ActivateFilterCollection()</TD>
+        <TD>CMPIIndicationMIFT.activateFilterCollection()</TD><TD>2.1</TD></TR>
+    <TR><TD>{pfx}DeActivateFilterCollection()</TD>
+        <TD>CMPIIndicationMIFT.deActivateFilterCollection()</TD><TD>2.1</TD></TR>
+    </TABLE>
+    @param pfx The prefix for all functions in the MI function table.
+        This is a character string without quotes.
+    @param miname The MI name for this MI.
+        This is a character string without quotes.
+    @param mbvar The name of a variable that upon return of the macro will have
+        been updated with the CMPIBroker pointer passed by the MB to the
+        factory function.
+        This is a character string without quotes.
+    @param hook
+    @parblock
+        A single C statement that is executed in the generated factory
+        function, after the CMPIIndicationMI structure has been created.
+
+        That C statement can access function arguments and local variables of
+        the generated factory function. The names of these arguments and local
+        variables in the generated function will not change in future CMPI
+        versions, and are:
+        @li @p mb, @p ctx, @p rc - see the like-named arguments of the @ref
+            mi-factory-specific "factory function".
+        @li @p mi - local variable which is the initialized CMPIIndicationMI
+            object.
+
+        This enables you to perform additional initialization functions and is
+        normally a function call like `furtherInit(broker)`, or
+        `furtherInit(&mi)` or @ref CMNoHook if no further intialization is
+        required.
+    @endparblock
+    @return A pointer to the function table of this MI.
+
+    @par Examples
+    This example uses the CMIndicationMIStub() macro for a rudimentary
+    indication MI written in plain C.
+    @code (.c)
+    static const CMPIBroker *_broker;
+
+    #define CMInitHook(pfx, mitype) \
+    do { \
+        CMPIStatus st = pfx##mitype##Initialize(&mi, ctx); \
+        if (st.rc != CMPI_RC_OK) \
+        { \
+            if (rc) { \
+                *rc = st; \
+            } \
+            return NULL; \
+        } \
+    } while (0)
+
+    static CMPIStatus MyProvIndicationInitialize(
+        CMPIIndicationMI *mi,
+        const CMPIContext *ctx)
+    {
+        . . . // Initialization code when loading the MI load library
+        mi->hdl = . . . // You can store data in the CMPIIndicationMI object
+        if (...error...)
+            CMReturn(CMPI_RC_ERR_FAILED);
+        CMReturn(CMPI_RC_OK);
+    }
+
+    static CMPIStatus MyProvIndicationCleanup (
+        CMPIIndicationMI *mi,
+        const CMPIContext *ctx,
+        CMPIBoolean terminating)
+    {
+        . . . // Clean up code when unloading the MI load library
+        CMReturn(CMPI_RC_OK);
+    }
+
+    static CMPIStatus MyProvAuthorizeFilter (
+        CMPIIndicationMI* mi,
+        const CMPIContext* ctx,
+        const CMPISelectExp* filter,
+        const char* className,
+        const CMPIObjectPath* classPath,
+        const char* owner)
+    {
+        . . . // for an example, see TBD
+        CMReturn(CMPI_RC_OK);
+    }
+
+    // Other functions not shown are:
+    //    MyProvEnableIndications
+    //    MyProvDisableIndications
+    //    MyProvMustPoll
+    //    MyProvActivateFilter
+    //    MyProvDeActivateFilter
+    //    MyProvAuthorizeFilterCollection
+    //    MyProvActivateFilterCollection
+    //    MyProvDeActivateFilterCollection
+
+    CMIndicationMIStub(MyProv, MyProv, _broker, CMInitHook(MyProv, Indication));
+    @endcode
+    @see CMPIIndicationMI, CMPIIndicationMIFT,
+        @ref mi-factory-specific "MI-specific factory function"
     @hideinitializer
 
-    @todo Need reference back to cmpift and example
-    @todo AM: Apply updates from CMInstanceMIStub().
+    @todo DONE. Need reference back to cmpift and example
+    @todo DONE. AM: Apply updates from CMInstanceMIStub().
 */
-#define CMIndicationMIStub(pfx,pn,broker,hook) \
+#define CMIndicationMIStub(pfx, miname, mbvar, hook) \
 static CMPIIndicationMIFT indMIFT__ = { \
-    CMPICurrentVersion, \
-    CMPICurrentVersion, \
-    "Indication" #pn, \
+    CMPI_VERSION, \
+    CMPI_VERSION, \
+    "Indication" #miname, \
     pfx##IndicationCleanup, \
     pfx##AuthorizeFilter, \
     pfx##MustPoll, \
@@ -4504,8 +4873,8 @@ static CMPIIndicationMIFT indMIFT__ = { \
     _CMIndicationMIStub_ActivateFilterCollection(pfx) \
     _CMIndicationMIStub_DeActivateFilterCollection(pfx) \
 }; \
-CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
-    const CMPIBroker *brkr, \
+CMPI_EXTERN_C CMPIIndicationMI * miname##_Create_IndicationMI( \
+    const CMPIBroker *mb, \
     const CMPIContext *ctx, \
     CMPIStatus *rc) \
 { \
@@ -4513,7 +4882,12 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
         NULL, \
         &indMIFT__, \
     }; \
-    broker = brkr; \
+    (mbvar) = mb; \
+    if (rc) \
+    { \
+        rc->rc = CMPI_RC_OK; \
+        rc->msg = NULL; \
+    } \
     hook; \
     return &mi; \
 }
@@ -4531,6 +4905,13 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
         CMPropertyMIStub(), CMIndicationMIStub()
 */
 #define CMNoHook
+
+#ifdef CMPI_VER_200
+#define _CMPropertyMIStub_SetPropertyWithOrigin(pfx) \
+    pfx##SetPropertyWithOrigin,
+#else
+#define _CMPropertyMIStub_SetPropertyWithOrigin(pfx)
+#endif
 
 #ifdef CMPI_VER_210
 #define _CMInstanceMIStub_EnumInstancesFiltered(pfx) \
@@ -4564,14 +4945,14 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
         written in C++.
 
     The initialization
-    routine &lt;pn&gt;Create_IndicationMI is called when
+    routine &lt;miname&gt;Create_IndicationMI is called when
     this provider module is loaded by the broker. This
     macro is for CMPI providers written in C++ using the
     Cmpi* classes.
     @param cn The C++ class name of this instance provider
             (a subclass of CmpiInstanceMI).
             This is a character string without quotes.
-    @param pn The provider name under which this provider is registered.
+    @param miname The provider name under which this provider is registered.
             This is a character string without quotes.
     @return The function table of this instance provider.
     @hideinitializer
@@ -4583,17 +4964,17 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
         they do not make sense when compiling for C. They would probably not
         hurt, but I think it is cleaner that way.
 */
-#define CMInstanceMIFactory(cn,pn) \
+#define CMInstanceMIFactory(cn,miname) \
  CMPI_EXTERN_C \
-  CMPIInstanceMI *pn##_Create_InstanceMI( \
-      const CMPIBroker *broker, \
+  CMPIInstanceMI *miname##_Create_InstanceMI( \
+      const CMPIBroker *mb, \
       const CMPIContext *ctxp, \
       CMPIStatus *rc) \
   { \
     static CMPIInstanceMIFT instMIFT = { \
-    CMPICurrentVersion, \
-    CMPICurrentVersion, \
-    "instance" #pn, \
+    CMPI_VERSION, \
+    CMPI_VERSION, \
+    "instance" #miname, \
        (CMPIStatus(*)( \
             CMPIInstanceMI *, \
             const CMPIContext *, \
@@ -4609,16 +4990,16 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
     static CMPIInstanceMI mi; \
     CmpiContext ctx((CMPIContext *)ctxp); \
     mi.ft = &instMIFT; \
-    CmpiBaseMI *provider = base##pn.getBaseMI(); \
+    CmpiBaseMI *provider = base##miname.getBaseMI(); \
     if (provider == 0) \
     { \
-    provider = new cn(CmpiBroker((CMPIBroker *)broker),ctx); \
-    provider->setProviderBase(&base##pn); \
+    provider = new cn(CmpiBroker((CMPIBroker *)mb),ctx); \
+    provider->setProviderBase(&base##miname); \
        provider->initialize(ctx); \
-    base##pn.setBaseMI(provider); \
+    base##miname.setBaseMI(provider); \
     } \
     mi.hdl = provider; \
-    base##pn.incUseCount(); \
+    base##miname.incUseCount(); \
     return &mi; \
  }
 //// ks - The above implemented differently.  Not sure yet why the
@@ -4628,31 +5009,31 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
         written in C++.
 
     The initialization routine
-    &lt;pn&gt;Create_AssociationMI
+    &lt;miname&gt;Create_AssociationMI
     is called when this provider module is loaded by the broker.
     This macro is for CMPI providers written in C++ using
     the Cmpi* classes.
     @param cn The C++ class name of this instance provider
             (a subclass of CmpiInstanceMI).
             This is a character string without quotes.
-    @param pn The provider name under which this provider is registered.
+    @param miname The provider name under which this provider is registered.
             This is a character string without quotes.
     @return The function table of this instance provider.
     @hideinitializer
 
     @todo Need reference back to cmpift
 */
-#define CMAssociationMIFactory(cn,pn) \
+#define CMAssociationMIFactory(cn,miname) \
  CMPI_EXTERN_C \
-  CMPIAssociationMI *pn##_Create_AssociationMI( \
-      const CMPIBroker *broker, \
+  CMPIAssociationMI *miname##_Create_AssociationMI( \
+      const CMPIBroker *mb, \
       const CMPIContext *ctxp, \
       CMPIStatus *rc) \
   { \
     static CMPIAssociationMIFT assocMIFT = { \
-    CMPICurrentVersion, \
-    CMPICurrentVersion, \
-    "association" #pn, \
+    CMPI_VERSION, \
+    CMPI_VERSION, \
+    "association" #miname, \
     (CMPIStatus(*)( \
          CMPIAssociationMI *, \
          const CMPIContext *, \
@@ -4665,16 +5046,16 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
     static CMPIAssociationMI mi; \
     CmpiContext ctx((CMPIContext *)ctxp); \
     mi.ft = &assocMIFT; \
-    CmpiBaseMI *provider = base##pn.getBaseMI(); \
+    CmpiBaseMI *provider = base##miname.getBaseMI(); \
     if (provider == 0) \
     { \
-    provider = new cn(CmpiBroker((CMPIBroker *)broker),ctx); \
-    provider->setProviderBase(&base##pn); \
+    provider = new cn(CmpiBroker((CMPIBroker *)mb),ctx); \
+    provider->setProviderBase(&base##miname); \
        provider->initialize(ctx); \
-    base##pn.setBaseMI(provider); \
+    base##miname.setBaseMI(provider); \
     } \
     mi.hdl = provider; \
-    base##pn.incUseCount(); \
+    base##miname.incUseCount(); \
     return &mi; \
  }
 //// KS Above implemented differently in OpenPegasus. Try block in place
@@ -4684,14 +5065,14 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
         written in C++.
 
     The initialization routine
-    &lt;pn&gt;Create_MethodMI is called when this
+    &lt;miname&gt;Create_MethodMI is called when this
     provider module is loaded by the broker.
     This macro is for CMPI providers written in C++ using
     the Cmpi* classes.
     @param cn The C++ class name of this method provider
             (a subclass of CmpiMethodMI).
             This is a character string without quotes.
-    @param pn The provider name under which this provider is registered.
+    @param miname The provider name under which this provider is registered.
             This is a character string without quotes.
     @return The function table of this association provider.
     @hideinitializer
@@ -4699,17 +5080,17 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
     @todo Need reference back to cmpift
     @todo KS Add macro for filtered operations.
 */
-#define CMMethodMIFactory(cn,pn) \
+#define CMMethodMIFactory(cn,miname) \
  CMPI_EXTERN_C \
- CMPIMethodMI *pn##_Create_MethodMI( \
-    const CMPIBroker *broker, \
+ CMPIMethodMI *miname##_Create_MethodMI( \
+    const CMPIBroker *mb, \
     const CMPIContext *ctxp, \
     CMPIStatus *rc) \
  { \
     static CMPIMethodMIFT methMIFT = { \
-    CMPICurrentVersion, \
-    CMPICurrentVersion, \
-    "method" #pn, \
+    CMPI_VERSION, \
+    CMPI_VERSION, \
+    "method" #miname, \
     (CMPIStatus(*)( \
          CMPIMethodMI *, \
          const CMPIContext *, \
@@ -4719,16 +5100,16 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
     static CMPIMethodMI mi; \
     CmpiContext ctx((CMPIContext *)ctxp); \
     mi.ft = &methMIFT; \
-    CmpiBaseMI *provider = base##pn.getBaseMI(); \
+    CmpiBaseMI *provider = base##miname.getBaseMI(); \
     if (provider == 0) \
     { \
-    provider = new cn(CmpiBroker((CMPIBroker *)broker),ctx); \
-    provider->setProviderBase(&base##pn); \
+    provider = new cn(CmpiBroker((CMPIBroker *)mb),ctx); \
+    provider->setProviderBase(&base##miname); \
        provider->initialize(ctx); \
-    base##pn.setBaseMI(provider); \
+    base##miname.setBaseMI(provider); \
     } \
     mi.hdl = provider; \
-    base##pn.incUseCount(); \
+    base##miname.incUseCount(); \
     return &mi; \
  }
 //// KS see comments above about provider->initialize(ctx)
@@ -4737,14 +5118,14 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
         written in C++ (**Deprecated**).
 
     The initialization routine
-    &lt;pn&gt;Create_PropertyMI is called when this
+    &lt;miname&gt;Create_PropertyMI is called when this
     provider module is loaded by the broker. This macro
     is for CMPI providers written in C++ using the Cmpi*
     classes.
     @param cn The C++ class name of this method provider
             (a subclass of CmpiMethodMI).
             This is a character string without quotes.
-    @param pn The provider name under which this provider is registered.
+    @param miname The provider name under which this provider is registered.
             This is a character string without quotes.
     @return The function table of this association provider.
     @deprecated The CMPIPropertyMIFT has been deprecated in
@@ -4754,17 +5135,17 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
     @todo Need reference back to cmpift
     @todo document as deprecated
 */
-#define CMPropertyMIFactory(cn,pn) \
+#define CMPropertyMIFactory(cn,miname) \
  CMPI_EXTERN_C \
-  CMPIPropertyMI *pn##_Create_PropertyMI( \
-      const CMPIBroker *broker, \
+  CMPIPropertyMI *miname##_Create_PropertyMI( \
+      const CMPIBroker *mb, \
       const CMPIContext *ctxp, \
       CMPIStatus *rc) \
  { \
     static CMPIPropertyMIFT propMIFT = { \
-    CMPICurrentVersion, \
-    CMPICurrentVersion, \
-    "property" #pn, \
+    CMPI_VERSION, \
+    CMPI_VERSION, \
+    "property" #miname, \
        (CMPIStatus(*)( \
             CMPIPropertyMI *, \
             const CMPIContext *, \
@@ -4775,16 +5156,16 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
     static CMPIPropertyMI mi; \
     CmpiContext ctx((CMPIContext *)ctxp); \
     mi.ft = &propMIFT; \
-    CmpiBaseMI *provider = base##pn.getBaseMI(); \
+    CmpiBaseMI *provider = base##miname.getBaseMI(); \
     if (provider == 0) \
     { \
-    provider = new cn(CmpiBroker((CMPIBroker *)broker),ctx); \
-    provider->setProviderBase(&base##pn); \
+    provider = new cn(CmpiBroker((CMPIBroker *)mb),ctx); \
+    provider->setProviderBase(&base##miname); \
        provider->initialize(ctx); \
-    base##pn.setBaseMI(provider); \
+    base##miname.setBaseMI(provider); \
     } \
     mi.hdl = provider; \
-    base##pn.incUseCount(); \
+    base##miname.incUseCount(); \
     return &mi; \
  }
 //// KS same comment about provider->initialize(ctx)
@@ -4793,30 +5174,30 @@ CMPI_EXTERN_C CMPIIndicationMI * pn##_Create_IndicationMI( \
         written in C++.
 
     The initialization routine
-    &lt;pn&gt;Create_IndicationMI is called when this
+    &lt;miname&gt;Create_IndicationMI is called when this
     provider module is loaded by the broker. This macro
     is for CMPI providers written in C++ using the Cmpi*
     classes.
     @param cn The C++ class name of this indication provider
         (a subclass of CmpiIndicationMI).
         This is a character string without quotes.
-    @param pn The provider name under which this provider is registered.
+    @param miname The provider name under which this provider is registered.
         This is a character string without quotes.
     @return The function table of this association provider.
     @hideinitializer
 
     @todo AM_TODO: Add filter collection functions, conditional on CMPI 2.1.
 */
-#define CMIndicationMIFactory(cn,pn) \
-CMPI_EXTERN_C CMPIIndicationMI *pn##_Create_IndicationMI( \
-    const CMPIBroker *broker, \
+#define CMIndicationMIFactory(cn,miname) \
+CMPI_EXTERN_C CMPIIndicationMI *miname##_Create_IndicationMI( \
+    const CMPIBroker *mb, \
     const CMPIContext *ctxp, \
     CMPIStatus *rc) \
 { \
     static CMPIIndicationMIFT indMIFT = { \
-        CMPICurrentVersion, \
-        CMPICurrentVersion, \
-        "indication" #pn, \
+        CMPI_VERSION, \
+        CMPI_VERSION, \
+        "indication" #miname, \
         (CMPIStatus(*)( \
             CMPIIndicationMI *, \
             const CMPIContext *, \
@@ -4832,30 +5213,30 @@ CMPI_EXTERN_C CMPIIndicationMI *pn##_Create_IndicationMI( \
     CmpiContext ctx((CMPIContext *)ctxp); \
     \
     mi.ft = &indMIFT; \
-    CmpiBaseMI *provider = base##pn.getBaseMI(); \
+    CmpiBaseMI *provider = base##miname.getBaseMI(); \
     if (provider == 0) \
     { \
-        provider = new cn(CmpiBroker((CMPIBroker *)broker),ctx); \
-        provider->setProviderBase(&base##pn); \
+        provider = new cn(CmpiBroker((CMPIBroker *)mb),ctx); \
+        provider->setProviderBase(&base##miname); \
         provider->initialize(ctx); \
-        base##pn.setBaseMI(provider); \
+        base##miname.setBaseMI(provider); \
     } \
     mi.hdl = provider; \
-    base##pn.incUseCount(); \
+    base##miname.incUseCount(); \
     return &mi; \
 }
 //// KS Same comment about provider->intialize
 
 /** KS_TODO
-    @param pn KS_TODO
+    @param miname KS_TODO
     @hideinitializer
 
     @todo KS: document this
     @todo AM: This macro is not used in this file. Its CmpiProviderBase symbol
         is not defined. What the purpose of this macro?
 */
-#define CMProviderBase(pn) \
-    CmpiProviderBase base##pn;
+#define CMProviderBase(miname) \
+    CmpiProviderBase base##miname;
 
 #endif /* __cplusplus */
 

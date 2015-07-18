@@ -1,4 +1,11 @@
 
+18 July - Andy
+--------------
+
+* Applied description and implementation of CMInstanceMIStub() macro to
+  all other plain C MI stub macros.
+* Fixed a argument name typo 'asscClass' in CMPIAssociationMIFT.associators().
+
 17 July - Andy
 --------------
 
