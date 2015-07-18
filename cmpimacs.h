@@ -79,8 +79,7 @@ extern "C" {
     the changes to the convenience functions in order to maintain compatibility
     between CMPI versions.
 
-    The convenience functions and macros can be broken down into the following
-    groups:
+    The convenience functions can be broken down into the following groups:
 
     @li @parblock
       Convenience functions with a one-to-one mapping to corresponding MB
@@ -711,8 +710,11 @@ static inline CMPIBoolean CMIsArray(
     ((obj)->ft->clone((obj), (rc)))
 
 
-// CMPIContext Macros
-
+/**
+  @}
+  @addtogroup convenience-func-edt-context
+  @{
+*/
 
 // KS_TODO Update CMPIContext macros from here on down
 /** Gets a named Context entry value.
@@ -806,8 +808,11 @@ static inline CMPIStatus CMAddContextEntry(
 #endif
 
 
-// CMPIResult Macros
-
+/**
+  @}
+  @addtogroup convenience-func-edt-result
+  @{
+*/
 
 // KS_TODO Update CMPIResult macros from here on down
 /** Return a value/type pair.
@@ -908,8 +913,11 @@ static inline CMPIStatus CMReturnError(
 #endif /* CMPI_VER_200 */
 
 
-// CMPIString macros
-
+/**
+  @}
+  @addtogroup convenience-func-edt-string
+  @{
+*/
 
 /** @brief Get a pointer to the C-language representation of a CMPIString
         object (**Deprecated**).
@@ -987,8 +995,11 @@ static inline const char * CMGetCharsPtr(
 #endif
 
 
-// CMPIArray macros
-
+/**
+  @}
+  @addtogroup convenience-func-edt-array
+  @{
+*/
 
 /** @brief Get the number of array elements in a CMPIArray object.
 
@@ -1088,8 +1099,11 @@ static inline CMPIStatus CMSetArrayElementAt(
 #endif
 
 
-// CMPIEnumeration Macros
-
+/**
+  @}
+  @addtogroup convenience-func-edt-enumeration
+  @{
+*/
 
 // KS_TODO Update CMPIEnumeration macros from here on down
 /** Get the next element of this Enumeration.
@@ -1157,8 +1171,11 @@ static inline CMPIArray *CMToArray(
 #endif
 
 
-// CMPIInstance macros
-
+/**
+  @}
+  @addtogroup convenience-func-edt-instance
+  @{
+*/
 
 /** @brief Get a property in a CMPIInstance object by name.
 
@@ -1376,8 +1393,11 @@ static inline CMPIStatus CMSetPropertyWithOrigin(
 #endif /* CMPI_VER_200 */
 
 
-// CMPIObjectPath macros
-
+/**
+  @}
+  @addtogroup convenience-func-edt-objectpath
+  @{
+*/
 
 /** @brief Set the host name component in a CMPIObjectPath object.
 
@@ -1759,8 +1779,11 @@ static inline  CMPIData CMGetParameterQualifier(
 #endif
 
 
-// CMPIArgs macros
-
+/**
+  @}
+  @addtogroup convenience-func-edt-args
+  @{
+*/
 
 /** @brief Set a method parameter in a CMPIArgs object.
 
@@ -1868,8 +1891,11 @@ static inline CMPICount CMGetArgCount(
 #endif
 
 
-// CMPIDateTime macros
-
+/**
+  @}
+  @addtogroup convenience-func-edt-datetime
+  @{
+*/
 
 /** @brief Get the value of a CMPIDateTime object in binary format.
 
@@ -1937,8 +1963,11 @@ static inline CMPIBoolean CMIsInterval(
 #endif
 
 
-// CMPISelectExp macros
-
+/**
+  @}
+  @addtogroup convenience-func-edt-selectexp
+  @{
+*/
 
 // KS_TODO Update CMPISelectExp macros from here on down
 /** @brief Test whether an instance matches the select expression in a
@@ -2063,8 +2092,11 @@ static inline CMPIBoolean CMEvaluateSelExpUsingAccessor(
 #endif
 
 
-// CMPISelectCond macros
-
+/**
+  @}
+  @addtogroup convenience-func-edt-selectcond
+  @{
+*/
 
 // KS_TODO Update CMPISelectCond macros from here on down
 /** @brief Get the number and type of subconditions in a CMPISelectCond object.
@@ -2117,8 +2149,11 @@ static inline CMPISubCond *CMGetSubCondAt(
 #endif
 
 
-// CMPISubCond macros
-
+/**
+  @}
+  @addtogroup convenience-func-edt-subcond
+  @{
+*/
 
 // KS_TODO Update CMPISubCond macros from here on down
 /** @brief Get the number of predicates in a CMPISubCond object.
@@ -2192,8 +2227,11 @@ static inline CMPIPredicate *CMGetPredicate(
 #endif
 
 
-// CMPIPredicate macros
-
+/**
+  @}
+  @addtogroup convenience-func-edt-predicate
+  @{
+*/
 
 // KS_TODO Update CMPIPredicate macros from here on down
 /** @brief Get the predicate components of a CMPIPredicate object.
@@ -2253,8 +2291,11 @@ static inline CMPIBoolean CMEvaluatePredicateUsingAccessor(
 }
 #endif
 
-// CMPIError macros
-
+/**
+  @}
+  @addtogroup convenience-func-edt-error
+  @{
+*/
 
 #ifdef CMPI_VER_200
 
@@ -2792,9 +2833,6 @@ static inline CMPIStatus CMSetMessageArguments(
 #endif
 
 #endif /* CMPI_VER_200 */
-
-
-// Broker (bft+eft) macros
 
 
 /**
@@ -4047,9 +4085,6 @@ static inline CMPIString * CMGetMessage2(
     CMPICount count, ...);
 #endif
 #endif /* CMPI_VER_200 */
-
-
-// MI Factory Stub macros
 
 
 /**

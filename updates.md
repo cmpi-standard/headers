@@ -5,6 +5,7 @@
 * Applied description and implementation of CMInstanceMIStub() macro to
   all other plain C MI stub macros.
 * Fixed a argument name typo 'asscClass' in CMPIAssociationMIFT.associators().
+* Added sub-modules for each EDT, to the EDT convenience functions.
 
 17 July - Andy
 --------------

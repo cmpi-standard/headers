@@ -546,11 +546,60 @@
 @}
 @defgroup convenience-func CMPI Convenience Functions
 @{
-  @defgroup convenience-func-broker MB Functions in Broker Function Tables
+  @defgroup convenience-func-broker For MB Functions in Broker Function Tables
   @{
   @}
-  @defgroup convenience-func-edt MB Functions of Encapsulated Data Types
+  @defgroup convenience-func-edt For MB Functions of Encapsulated Data Types
   @{
+    @defgroup convenience-func-edt-context CMPIContext Support
+    @{
+    @}
+    @defgroup convenience-func-edt-result CMPIResult Support
+    @{
+    @}
+    @defgroup convenience-func-edt-string CMPIString Support
+    @{
+    @}
+    @defgroup convenience-func-edt-array CMPIArray Support
+    @{
+    @}
+    @defgroup convenience-func-edt-enumeration CMPIEnumeration Support
+    @{
+    @}
+    @defgroup convenience-func-edt-instance CMPIInstance Support
+    @{
+    @}
+    @defgroup convenience-func-edt-objectpath CMPIObjectPath Support
+    @{
+    @}
+    @defgroup convenience-func-edt-args CMPIArgs Support
+    @{
+    @}
+    @defgroup convenience-func-edt-datetime CMPIDateTime Suppor
+    @{
+    @}
+    @defgroup convenience-func-edt-selectexp CMPISelectExp Support
+    @{
+    @}
+    @defgroup convenience-func-edt-selectcond CMPISelectCond Support
+    @{
+    @}
+    @defgroup convenience-func-edt-subcond CMPISubCond Support
+    @{
+    @}
+    @defgroup convenience-func-edt-predicate CMPIPredicate Support
+    @{
+    @}
+    @defgroup convenience-func-edt-error CMPIError Support
+    @{
+    @}
+    @defgroup convenience-func-edt-propertylist CMPIPropertyList Support
+    @{
+    @}
+    @defgroup convenience-func-edt-enumerationfilter CMPIEnumerationFilter \
+    Support
+    @{
+    @}
   @}
   @defgroup convenience-func-helper Helper Functions and Macros
   @{
