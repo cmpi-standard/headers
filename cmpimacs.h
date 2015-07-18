@@ -325,13 +325,13 @@ static inline void CMSetStatusWithChars(
         and no message.
 
     The CMReturn() macro builds a CMPIStatus object specifying a return code
-    and no message and exits the function in which it was executed, causing it
+    and no message and exits the function in which it was called, causing it
     to return that CMPIStatus object. CMReturn() can only be used in functions
     that return CMPIStatus.
 
-    @param rc A @ref CMPIrc value specifying the function return status.
-    @return This macro never returns; it contains a `return` statement and
-        therefore exits the function from which it was called.
+    @param rc A @ref CMPIrc value specifying the return code.
+    @return This macro never returns to its caller; it contains a `return`
+        statement and therefore exits the function from which it was called.
 
     @par Examples
     Example of enumerateInstanceNames() MI function that returns CMPI_RC_OK to
@@ -357,17 +357,17 @@ do \
 
 /**
     @brief Return the calling function with CMPIStatus specifying a return code
-        and a CMPIString message.
+        and a message (from CMPIString object).
 
     The CMReturnWithString() macro builds a CMPIStatus object specifying a
-    return code and a CMPIString message and exits the function in which it was
-    executed, causing it to return that CMPIStatus object. CMReturnWithString()
-    can only be used in functions that return CMPIStatus.
+    return code and a message and exits the function in which it was executed,
+    causing it to return that CMPIStatus object. CMReturnWithString() can only
+    be used in functions that return CMPIStatus.
 
-    @param rc A @ref CMPIrc value specifying the function return status.
-    @param str A pointer to a CMPIString object specifying the message.
-    @return This macro never returns; it contains a `return` statement and
-        therefore exits the function from which it was called.
+    @param rc A @ref CMPIrc value specifying the return code.
+    @param str Points to a CMPIString object specifying the message.
+    @return This macro never returns to its caller; it contains a `return`
+        statement and therefore exits the function from which it was called.
     @see CMPIStatus
 
     @par Examples
@@ -399,18 +399,18 @@ do \
 
 /**
     @brief Return the calling function with CMPIStatus specifying a return code
-        and a C string message.
+        and a message (from C string).
 
     The CMReturnWithChars() macro builds a CMPIStatus object specifying a
-    return code and a C string message and exits the function in which it was
-    executed, causing it to return that CMPIStatus object. CMReturnWithChars()
-    can only be used in functions that return CMPIStatus.
+    return code and a message and exits the function in which it was executed,
+    causing it to return that CMPIStatus object. CMReturnWithChars() can only
+    be used in functions that return CMPIStatus.
 
     @param mb Points to a CMPIBroker structure.
-    @param rc A @ref CMPIrc value specifying the function return status.
-    @param chars A pointer to a C string (`char*`) specifying the message.
-    @return This macro never returns; it contains a `return` statement and
-        therefore exits the function from which it was called.
+    @param rc A @ref CMPIrc value specifying the return code.
+    @param chars A C string (`char*`) specifying the message.
+    @return This macro never returns to its caller; it contains a `return`
+        statement and therefore exits the function from which it was called.
     @see CMPIStatus
 
     @par Examples
@@ -436,21 +436,20 @@ do \
     return stat; \
 } while (0)
 
-/** @brief Tests any CMPI object or function return to determine if it is a
-        NULL object.
+/** @brief Test a CMPI object or function return for NULL.
 
-    CMIsNullObject() tests any CMPI object @p object or function
-    return to determine if it is NULL. The function call is
-    defined as void* to encompass any CMPI encapsulated type.
-    @param obj points to any CMPI object.
+    CMIsNullObject() tests a CMPI object or function return for NULL. This test
+    is suitable for error checking of any factory functions that return NULL in
+    case of error.
+    @param obj Points to the CMPI object to be tested. This argument is defined
+        as `void*` to encompass any CMPI encapsulated data type object.
     @retval true The object is NULL.
     @retval false The object is NOT NULL.
-
     @par Examples
     @code (.c)
-    cop = CMNewObjectPath(_broker,"root/SampleProvider", _ClassName, &rc);
+    cop = CMNewObjectPath(_broker, "root/SampleProvider", _ClassName, &rc);
     CMAddKey(cop2, "Identifier", (CMPIValue *)&value1, CMPI_uint8);
-    // test for NULL before creating insance from cop
+    // test for NULL before creating instance from cop
     if (!CMIsNullObject(cop))
     {
         instance2 = CMNewInstance(_broker, cop2, &rc);
@@ -459,16 +458,19 @@ do \
     @endcode
     @hideinitializer
 
-    @todo object is incorrect word.  Need to define what
+    @todo TBD KS: object is incorrect word.  Need to define what
           encompasses CMPI Object. Do we need list of all
-          possibles?
-    @todo test this to be sure it is correct, in particular
+          possibles?@n
+          AM. What is 'function return'?
+    @todo KS: test this to be sure it is correct, in particular
           function repsonse
-    @todo AM: It seems to me that the second part of the comparison
+    @todo TBD AM: It seems to me that the second part of the comparison
         is implementation-specific. Plus, the casting is dubious. The macro
         version should instead access the hdl member, if that was the
         intention. But again, indicating a NULL object via obj->hdl=NULL to me
         seems to be implementation-specific.
+    @todo TBD AM: The example seems to be somewhat confused. Why is a test of
+        cop meaningful when it is not used at all, and cop2 is used instead?
 */
 #ifdef CMPI_NO_INLINE
 #define CMIsNullObject(obj) \
@@ -481,17 +483,17 @@ static inline CMPIBoolean CMIsNullObject(
 }
 #endif
 
-/** @brief Tests a CMPIData object for null value data item.
+/** @brief Test a CMPIData value for NULL.
 
-    CMIsNullValue() tests the state of a CMPIData object @p data
-    for the @ref CMPI_nullValue state.
-    @param data The CMPIData object.
-    @retval true CMPIData object is NULL.
-    @retval false CMPIData object is not NULL.
+    CMIsNullValue() tests a CMPIData value for NULL.
+    This is done based on the @ref CMPI_nullValue flag in its @p state member.
+    @param data The CMPIData value to be tested.
+    @retval true The CMPIData value is NULL.
+    @retval false The CMPIData value is not NULL.
     @see CMPIData, CMPIValueState
 
     @par Examples
-    Process  received method call that includes a CIMObject path @p ref for
+    Process received method call that includes a CIMObject path @p ref for
     classname, method name, arguments, argument name and value in the argument
     @code (.c)
     CMPIStatus *rc;
@@ -524,6 +526,8 @@ static inline CMPIBoolean CMIsNullObject(
 
     @todo TBD AM: The expression in the return statement causes a GCC warning
         "overflow in implicit constant conversion". Need to fix somehow.
+    @todo TBD AM: The example is way too complex if it just intends to show
+        how to use this function.
 */
 #ifdef CMPI_NO_INLINE
 #define CMIsNullValue(data) \
@@ -536,13 +540,13 @@ static inline CMPIBoolean CMIsNullValue(
 }
 #endif
 
-/** @brief Tests CMPIData object for keyValue data item.
+/** @brief Test a CMPIData value for being a key.
 
-    CMIsKeyValue() tests @p data a CMPIData to determine if it
-    is a keyValue data item.
-    @param data The CMPIData object.
-    @retval true CMPIData object is keyValue
-    @retval false CMPIData object is NOT keyValue
+    CMIsKeyValue() tests a CMPIData value for being a key. 
+    This is done based on the @ref CMPI_keyValue flag in its @p state member.
+    @param data The CMPIData value to be tested.
+    @retval true The CMPIData value is a key.
+    @retval false The CMPIData value is not a key.
     @see CMPIData, CMPIValueState
 
     @hideinitializer
@@ -566,13 +570,13 @@ static inline CMPIBoolean CMIsKeyValue(
 }
 #endif
 
-/** @brief Tests CMPIData object for array data item type.
+/** @brief Test a CMPIData value for having an array type.
 
-    CMIsArray() tests @p data a CMPIData to determine if it is
-    an array.
-    @param data The CMPIData object.
-    @retval true CMPIData object is array type.
-    @retval false CMPIData object is NOT array type
+    CMIsArray() tests a CMPIData value for having an array type.
+    This is done based on the @ref CMPI_ARRAY flag in its @p type member.
+    @param data The CMPIData value to be tested.
+    @retval true The CMPIData value has array type.
+    @retval false The CMPIData value does not have array type.
     @see CMPIData, CMPIType
 
     @hideinitializer
@@ -611,18 +615,17 @@ static inline CMPIBoolean CMIsArray(
 */
 
 /**
-    @def CMRelease(obj)
+    @brief Release an encapsulated data type object.
 
-    Macro to call the function table release release function for an object of
-    any CMPI function table since all function tables are required
-    to have the clone() function.
+    CMRelease() releases an encapsulated data type object, by calling the
+    release() function in the function table of the object.
 
     This indicates to the MB that the object (including any objects it
     contains) will no longer be used by the MI. The MB may free the resources
     associated with the object during the call to this function, or later
     during some garbage collection cycle.
 
-    @param obj Points to the object to be released.
+    @param obj Points to the encapsulated data type object to be released.
     @return CMPIStatus structure indicating the function return status.
 
     @par Errors
@@ -642,13 +645,13 @@ static inline CMPIBoolean CMIsArray(
         CMPIEnumerationFilterFT.release(),
 
     @par Examples
-    Code to clean up after attempting to create an instance @p inst
+    Code to clean up after attempting to create an instance:
     @code (.c)
     CMPIStatus rc = { CMPI_RC_OK, NULL };
     CMPISelectExp *se_def = NULL;
-    clone = CMClone (se_def, &rc);
+    clone = CMClone(se_def, &rc);
     // . . . test @rc for good completion and use clone if
-    CMRelease (clone);
+    CMRelease(clone);
     @endcode
     @hideinitializer
 */
@@ -656,21 +659,19 @@ static inline CMPIBoolean CMIsArray(
     ((obj)->ft->release((obj)))
 
 /**
-    @def CMClone(obj,rc)
+    @brief Clone an encapsulated data type object.
 
-    CMClone() macro calls clone() function for any the objects of any CMPI
-    encapsulated data function table since all function tables are required
-    to have the clone() function.
+    CMClone() clones an encapsulated data type object, by calling the
+    clone() function in the function table of the object.
 
-
-    @param obj cmpi object to be cloned.
+    @param obj Points to the encapsulated data type object to be cloned.
     @param [out] rc  If not NULL, points to a CMPIStatus structure that upon
         return has been updated with the function return status.
     @return @parblock If successful, returns a pointer to the
         copied clone of the object defined by @p obj.
 
-        The returned CMPIEnumerationFilter object shall be explicitly
-        released by the MI using CMPIEnumerationFilterFT.release().
+        The returned object shall be explicitly released by the MI using its
+        release() function, or the CMRelease() macro.
 
         If not successful, returns NULL.
     @endparblock
@@ -689,7 +690,7 @@ static inline CMPIBoolean CMIsArray(
         CMPIPropertyListFT.clone(), CMPIEnumerationFilterFT.clone(),
 
     @par Examples
-    Clone an instance to add to an array
+    Clone an instance to add to an array:
     @code (.c)
     // preexisting instance CMPIInstance *ci)
     {

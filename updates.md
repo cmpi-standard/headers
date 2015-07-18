@@ -6,6 +6,8 @@
   all other plain C MI stub macros.
 * Fixed a argument name typo 'asscClass' in CMPIAssociationMIFT.associators().
 * Added sub-modules for each EDT, to the EDT convenience functions.
+* Improved descriptions of all Helper Functions and Macros, and of CMRelease()
+  and CMClone().
 
 17 July - Andy
 --------------
