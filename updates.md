@@ -1,4 +1,11 @@
 
+19 July - Andy
+--------------
+
+* Fixed overflow issue in CMIsNullValue(), CMIsKeyValue(), CMIsArray().
+* Removed inline function in CMGetMessage2(), it is macro-only because of its
+  variable arguments.
+
 18 July - Andy
 --------------
 

@@ -531,18 +531,18 @@ static inline CMPIBoolean CMIsNullObject(
 */
 #ifdef CMPI_NO_INLINE
 #define CMIsNullValue(data) \
-    ((data).state & CMPI_nullValue)
+    (((data).state & CMPI_nullValue) != 0)
 #else
 static inline CMPIBoolean CMIsNullValue(
     CMPIData data)
 {
-    return data.state & CMPI_nullValue;
+    return (data.state & CMPI_nullValue) != 0;
 }
 #endif
 
 /** @brief Test a CMPIData value for being a key.
 
-    CMIsKeyValue() tests a CMPIData value for being a key. 
+    CMIsKeyValue() tests a CMPIData value for being a key.
     This is done based on the @ref CMPI_keyValue flag in its @p state member.
     @param data The CMPIData value to be tested.
     @retval true The CMPIData value is a key.
@@ -561,12 +561,12 @@ static inline CMPIBoolean CMIsNullValue(
 */
 #ifdef CMPI_NO_INLINE
 #define CMIsKeyValue(data) \
-    ((data).state & CMPI_keyValue)
+    (((data).state & CMPI_keyValue) != 0)
 #else
 static inline CMPIBoolean CMIsKeyValue(
     CMPIData data)
 {
-    return data.state & CMPI_keyValue;
+    return (data.state & CMPI_keyValue) != 0;
 }
 #endif
 
@@ -590,12 +590,12 @@ static inline CMPIBoolean CMIsKeyValue(
 */
 #ifdef CMPI_NO_INLINE
 #define CMIsArray(data) \
-    ((data).type & CMPI_ARRAY)
+    (((data).type & CMPI_ARRAY) != 0)
 #else
 static inline CMPIBoolean CMIsArray(
     CMPIData data)
 {
-    return data.type & CMPI_ARRAY;
+    return (data.type & CMPI_ARRAY) != 0;
 }
 #endif
 
@@ -4070,21 +4070,15 @@ static inline CMPIStatus CMCloseMessageFile(
     @hideinitializer
     @statusopenpegasus Tested in cmpiTestBrokerEncProvider.c
 
-    @todo KS Pls review since it asks to do something if macro but it is
-    only a macro. No inline version.
+    @todo TBD KS: Pls review since it asks to do something if macro but it is
+        only a macro. No inline version.@n
+        AM: I removed the inline function. However, it is not clear to me how
+        this works, because the CMFmtArgsX and CMFmtX macros are not defined
+        anywhere.
 */
-#ifdef CMPI_NO_INLINE
-#define CMGetMessage2(mb,id,mfh,def,rc,parms) \
-    ((mb)->eft->getMessage2((mb),(id),(mfh),(def),(rc),parms))
-#else
-static inline CMPIString * CMGetMessage2(
-    const CMPIBroker *mb,
-    const char *msgId,
-    const CMPIMsgFileHandle msgFileHandle,
-    const char *defMsg,
-    CMPIStatus *rc,
-    CMPICount count, ...);
-#endif
+#define CMGetMessage2(mb, msgId, msgFileHandle, defMsg, rc, parms) \
+    ((mb)->eft->getMessage2((mb), (msgId), (msgFileHandle), (defMsg), (rc), \
+                            (parms)))
 #endif /* CMPI_VER_200 */
 
 
