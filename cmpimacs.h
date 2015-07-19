@@ -4123,8 +4123,11 @@ static inline CMPIStatus CMCloseMessageFile(
     @see CMPIBrokerEncFT.getMessage2()
 
     @par Examples
-    The following example creates a message "Test message 42" where "message" is
-    passed as a C string, and "42" is passed as an integer:
+    Assuming the message identified by the message ID is the same as the
+    default message "Test $0 $1", the following example creates a message "Test
+    message 42" where "message" is passed as a C string for the first message
+    trigger ($0), and "42" is passed as an integer for the second message
+    trigger ($1):
     @code (.c)
     CMGetMessage2(_broker, "msgid", msgFileHandle, "Test $0 $1",
         NULL, CMFmtArgs2(CMFmtChars("message"), CMFmtSint(42)));
