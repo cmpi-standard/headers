@@ -5,6 +5,8 @@
 * Fixed overflow issue in CMIsNullValue(), CMIsKeyValue(), CMIsArray().
 * Removed inline function in CMGetMessage2(), it is macro-only because of its
   variable arguments.
+* Reinstantiated CMFmtArgsX and CMFmtX macros that were deleted by accident
+  when deleting the deprecated CMGetMessage().
 
 18 July - Andy
 --------------

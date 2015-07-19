@@ -4029,11 +4029,52 @@ static inline CMPIStatus CMCloseMessageFile(
 #endif
 #endif /* CMPI_VER_200 */
 
+/** @defgroup cmfmt Helper macros for CMGetMessage2()
+    @{
+      @brief Pass variable arguments to CMGetMessage2().
+
+      These macros are used to pass the variable arguments to CMGetMessage2().
+      See CMGetMessage2() for a description.
+*/
+#define CMFmtSint(v)    CMPI_sint32,((long int)v)                ///< sint32
+#define CMFmtUint(v)    CMPI_uint32,((unsigned long int)v)       ///< uint32
+#define CMFmtSint64(v)  CMPI_sint64,((long long int)v)           ///< sint64
+#define CMFmtUint64(v)  CMPI_uint64,((unsigned long long int)v)  ///< uint64
+#define CMFmtReal(v)    CMPI_real64,((double)v)                  ///< real64
+#define CMFmtBoolean(v) CMPI_boolean,((int)v)                    ///< boolean
+#define CMFmtChars(v)   CMPI_chars,((char*)v)                    ///< chars
+#define CMFmtString(v)  CMPI_String,((CMPI_String*)v)            ///< String
+
+#define CMFmtArgs0() 0                              ///< 0 placeholder pairs
+#define CMFmtArgs1(v1) \
+                 1,v1                               ///< 1 placeholder pair
+#define CMFmtArgs2(v1,v2) \
+                 2,v1,v2                            ///< 2 placeholder pairs
+#define CMFmtArgs3(v1,v2,v3) \
+                 3,v1,v2,v3                         ///< 3 placeholder pairs
+#define CMFmtArgs4(v1,v2,v3,v4) \
+                 4,v1,v2,v3,v4                      ///< 4 placeholder pairs
+#define CMFmtArgs5(v1,v2,v3,v4,v5) \
+                 5,v1,v2,v3,v4,v5                   ///< 5 placeholder pairs
+#define CMFmtArgs6(v1,v2,v3,v4,v5,v6) \
+                 6,v1,v2,v3,v4,v5,v6                ///< 6 placeholder pairs
+#define CMFmtArgs7(v1,v2,v3,v4,v5,v6,v7) \
+                 7,v1,v2,v3,v4,v5,v6,v7             ///< 7 placeholder pairs
+#define CMFmtArgs8(v1,v2,v3,v4,v5,v6,v7,v8) \
+                 8,v1,v2,v3,v4,v5,v6,v7,v8          ///< 8 placeholder pairs
+#define CMFmtArgs9(v1,v2,v3,v4,v5,v6,v7,v8,v9) \
+                 9,v1,v2,v3,v4,v5,v6,v7,v8,v9       ///< 9 placeholder pairs
+#define CMFmtArgs10(v1,v2,v3,v4,v5,v6,v7,v8,v9,v10) \
+                 10,v1,v2,v3,v4,v5,v6,v7,v8,v9,v10  ///< 10 placeholder pairs
+/**
+   @}
+*/
+
 #ifdef CMPI_VER_200
 /** @brief Get a translated message text from an open message file by
         message ID.
 
-    CMGetMessage2() macro executes CMPIBrokerEncFT.getMessage2().
+    The CMGetMessage2() macro executes CMPIBrokerEncFT.getMessage2().
     There is no inline form of this convenience function.
 
     When using as macro, use CMFmtArgsX and CMFmtX macros (defined
