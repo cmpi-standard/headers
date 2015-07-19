@@ -7,6 +7,7 @@
   variable arguments.
 * Reinstantiated CMFmtArgsX and CMFmtX macros that were deleted by accident
   when deleting the deprecated CMGetMessage().
+* Improved documentation of CMFmtArgsX(), CMFmtX() and CMGetMessage2().
 
 18 July - Andy
 --------------

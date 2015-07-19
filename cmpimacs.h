@@ -4029,43 +4029,77 @@ static inline CMPIStatus CMCloseMessageFile(
 #endif
 #endif /* CMPI_VER_200 */
 
-/** @defgroup cmfmt Helper macros for CMGetMessage2()
+/**
+    @defgroup cmfmt-args CMFmtArgs{N}() helper macros for CMGetMessage2()
     @{
-      @brief Pass variable arguments to CMGetMessage2().
+      @brief CMFmtArgs{N}() helper macros for CMGetMessage2().
 
-      These macros are used to pass the variable arguments to CMGetMessage2().
-      See CMGetMessage2() for a description.
+      These macros are used for the @p args argument of CMGetMessage2(). Their argument
+      is a comma-separated list of invocations of the @ref cmfmt-val
+      "CMFmt{type}({v})" macros.
 */
-#define CMFmtSint(v)    CMPI_sint32,((long int)v)                ///< sint32
-#define CMFmtUint(v)    CMPI_uint32,((unsigned long int)v)       ///< uint32
-#define CMFmtSint64(v)  CMPI_sint64,((long long int)v)           ///< sint64
-#define CMFmtUint64(v)  CMPI_uint64,((unsigned long long int)v)  ///< uint64
-#define CMFmtReal(v)    CMPI_real64,((double)v)                  ///< real64
-#define CMFmtBoolean(v) CMPI_boolean,((int)v)                    ///< boolean
-#define CMFmtChars(v)   CMPI_chars,((char*)v)                    ///< chars
-#define CMFmtString(v)  CMPI_String,((CMPI_String*)v)            ///< String
 
-#define CMFmtArgs0() 0                              ///< 0 placeholder pairs
+/// Args value for no message insert pairs
+#define CMFmtArgs0() 0
+/// Args value for 1 message insert pair
 #define CMFmtArgs1(v1) \
-                 1,v1                               ///< 1 placeholder pair
+                 1,v1
+/// Args value for 2 message insert pairs
 #define CMFmtArgs2(v1,v2) \
-                 2,v1,v2                            ///< 2 placeholder pairs
+                 2,v1,v2
+/// Args value for 3 message insert pairs
 #define CMFmtArgs3(v1,v2,v3) \
-                 3,v1,v2,v3                         ///< 3 placeholder pairs
+                 3,v1,v2,v3
+/// Args value for 4 message insert pairs
 #define CMFmtArgs4(v1,v2,v3,v4) \
-                 4,v1,v2,v3,v4                      ///< 4 placeholder pairs
+                 4,v1,v2,v3,v4
+/// Args value for 5 message insert pairs
 #define CMFmtArgs5(v1,v2,v3,v4,v5) \
-                 5,v1,v2,v3,v4,v5                   ///< 5 placeholder pairs
+                 5,v1,v2,v3,v4,v5
+/// Args value for 6 message insert pairs
 #define CMFmtArgs6(v1,v2,v3,v4,v5,v6) \
-                 6,v1,v2,v3,v4,v5,v6                ///< 6 placeholder pairs
+                 6,v1,v2,v3,v4,v5,v6
+/// Args value for 7 message insert pairs
 #define CMFmtArgs7(v1,v2,v3,v4,v5,v6,v7) \
-                 7,v1,v2,v3,v4,v5,v6,v7             ///< 7 placeholder pairs
+                 7,v1,v2,v3,v4,v5,v6,v7
+/// Args value for 8 message insert pairs
 #define CMFmtArgs8(v1,v2,v3,v4,v5,v6,v7,v8) \
-                 8,v1,v2,v3,v4,v5,v6,v7,v8          ///< 8 placeholder pairs
+                 8,v1,v2,v3,v4,v5,v6,v7,v8
+/// Args value for 9 message insert pairs
 #define CMFmtArgs9(v1,v2,v3,v4,v5,v6,v7,v8,v9) \
-                 9,v1,v2,v3,v4,v5,v6,v7,v8,v9       ///< 9 placeholder pairs
+                 9,v1,v2,v3,v4,v5,v6,v7,v8,v9
+/// Args value for 10 message insert pairs
 #define CMFmtArgs10(v1,v2,v3,v4,v5,v6,v7,v8,v9,v10) \
-                 10,v1,v2,v3,v4,v5,v6,v7,v8,v9,v10  ///< 10 placeholder pairs
+                 10,v1,v2,v3,v4,v5,v6,v7,v8,v9,v10
+
+/**
+    @}
+    @defgroup cmfmt-val CMFmt{type}() helper macros for CMGetMessage2()
+    @{
+      @brief CMFmt{type}() helper macros for CMGetMessage2().
+
+      Each of these macros represents a message insert pair consisting of type
+      and value. These macros are used as a comma-separated list of arguments
+      to @ref cmfmt-args "CMFmtArgs{N}()".
+*/
+
+/// Message insert pair for a signed integer value up to 32-bit
+#define CMFmtSint(v)    CMPI_sint32,((long int)v)
+/// Message insert pair for an unsigned integer value up to 32-bit
+#define CMFmtUint(v)    CMPI_uint32,((unsigned long int)v)
+/// Message insert pair for a signed integer value up to 64-bit
+#define CMFmtSint64(v)  CMPI_sint64,((long long int)v)
+/// Message insert pair for an unsigned integer value up to 64-bit
+#define CMFmtUint64(v)  CMPI_uint64,((unsigned long long int)v)
+/// Message insert pair for a CIM real64 value
+#define CMFmtReal(v)    CMPI_real64,((double)v)
+/// Message insert pair for a boolean value
+#define CMFmtBoolean(v) CMPI_boolean,((int)v)
+/// Message insert pair for a C string value
+#define CMFmtChars(v)   CMPI_chars,((char*)v)
+/// Message insert pair for a CMPIString value
+#define CMFmtString(v)  CMPI_String,((CMPI_String*)v)
+
 /**
    @}
 */
@@ -4077,34 +4111,23 @@ static inline CMPIStatus CMCloseMessageFile(
     The CMGetMessage2() macro executes CMPIBrokerEncFT.getMessage2().
     There is no inline form of this convenience function.
 
-    When using as macro, use CMFmtArgsX and CMFmtX macros (defined
-    above) to generate the variable parameter list and ommit
-    the count parameter.
-
     @param mb Points to CMPIBroker.
     @param msgId The message identifier.
     @param msgFileHandle The handle representing the open message file.
     @param defMsg The default message. See the function for details
     @param [out] rc Function return CMPIStatus (suppressed when NULL).
-    @param count The number of message insert values. Omit when using
-         the CMFmtArgsXX macro.
-    @param ... Up to 10 Message insert values.
-        These are specified using the following macros:
-           CMFmtSint(v)    integer value
-           CMFmtUint(v)    unsigned integer value
-           CMFmtSint64(v)  long integer value
-           CMFmtUint64(v)  long unsigned integer vale
-           CMFmtReal(v)    float or double real value
-           CMFmtBoolean(v) CMPIBoolean value
-           CMFmtChars(v)   char string
-           CMFmtString(v)  CMPIString
-    @return the translated message.
+    @param args The message insert values, specified as @ref cmfmt-args
+        "CMFmtArgs{N}({vlist})", where {N} is the number of values, and {vlist}
+        is a comma-separated list of @ref cmfmt-val "CMFmt{type}({v})" macros.
+    @return Points to a CMPIString object representing the translated message.
     @see CMPIBrokerEncFT.getMessage2()
 
     @par Examples
+    The following example creates a message "Test message 42" where "message" is
+    passed as a C string, and "42" is passed as an integer:
     @code (.c)
     CMGetMessage2(_broker, "msgid", msgFileHandle, "Test $0 $1",
-        NULL, CMFmtArgs2(CMFmtChars("message"), CMFmtSint(1));
+        NULL, CMFmtArgs2(CMFmtChars("message"), CMFmtSint(42)));
     @endcode
     @version Inline code modified; unsigned int last parameter
           to type CMPICount in 2.1
@@ -4113,13 +4136,14 @@ static inline CMPIStatus CMCloseMessageFile(
 
     @todo TBD KS: Pls review since it asks to do something if macro but it is
         only a macro. No inline version.@n
-        AM: I removed the inline function. However, it is not clear to me how
-        this works, because the CMFmtArgsX and CMFmtX macros are not defined
-        anywhere.
+        AM: I removed the inline function, added the CMFmtArgsX() and CMFmtX()
+        macros back in, and improved the description. Please review.
+    @todo TBD AM: Not sure I understand the text of the Version section. There
+        was no change for the macro between CMPI 2.0 and 2.1.
 */
-#define CMGetMessage2(mb, msgId, msgFileHandle, defMsg, rc, parms) \
+#define CMGetMessage2(mb, msgId, msgFileHandle, defMsg, rc, args) \
     ((mb)->eft->getMessage2((mb), (msgId), (msgFileHandle), (defMsg), (rc), \
-                            (parms)))
+                            args))
 #endif /* CMPI_VER_200 */
 
 
