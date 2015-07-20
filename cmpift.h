@@ -4295,7 +4295,7 @@ typedef struct _CMPIContextFT {
      @param ctx Points to the CMPIContext object for this function.
      @param name Context entry name.
          See @ref def-context-fieldnames "Names of CMPIContext fields"
-         for defined names
+         for defined names.
      @param [out] rc If not NULL, points to a CMPIStatus structure that upon
          return will have been updated with the function return status.
      @return @parblock

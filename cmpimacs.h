@@ -721,12 +721,23 @@ static inline CMPIBoolean CMIsArray(
 /** @brief Get a context entry in a CMPIContext object by name.
 
     @param ctx Points to the CMPIContext object.
-    @param name Context entry name.
+    @param name Context entry name. See @ref def-context-fieldnames
+        "Names of CMPIContext fields" for defined names.
     @param [out] rc Points to a CMPIStatus structure with the function return
         status (suppressed when NULL).
     @return Entry value.
     @see CMPIContextFT.getEntry()
     @hideinitializer
+    @todo TBD AM: How specific do we want the description of the convenience
+        functions to be, for example:@n
+        - Should we omit the precise type of the arguments from the description
+          text (that is OK when generating the documentation based on the
+          inline functions because the declared types are visible, but that
+          information would be missing when the generated documentation is
+          based on the macros)?@n
+        - Should we describe return codes?@n
+        - Should we assume that the presence of [out] is sufficient so that
+          we don't need to repeat the output-ness in the description?@n
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetContextEntry(ctx, name, rc)  \
