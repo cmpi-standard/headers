@@ -4098,7 +4098,7 @@ static inline CMPIStatus CMCloseMessageFile(
 /// Message insert pair for a C string value
 #define CMFmtChars(v)   CMPI_chars,((char*)v)
 /// Message insert pair for a CMPIString value
-#define CMFmtString(v)  CMPI_String,((CMPI_String*)v)
+#define CMFmtString(v)  CMPIString,((CMPIString*)v)
 
 /**
    @}
