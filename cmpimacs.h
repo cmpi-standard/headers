@@ -231,7 +231,7 @@ static inline void CMSetStatus(
     CMPIStatus @p rc and message text defined by @p msg
 
     @param st Points to target CMPIStatus object.
-    @param rc CMPIrc return code to be inserted int @p st.
+    @param rc A @ref CMPIrc value specifying the return code.
     @param msg CMPIString containing message text to be
                   inserted into @p st.
     @see CMPIStatus
@@ -268,9 +268,9 @@ static inline void CMSetStatusWithString(
     either a null msg or a new CMPIString object created from @p msg if @p msg
     is not NULL.
 
-    @param mb Points to CMPIBroker. Required to create CMPIString.
+    @param mb Points to a CMPIBroker structure.
     @param st Points to CMPIStatus object.
-    @param rc CMPIrc return code to be inserted into into CMPIStatus @p st.
+    @param rc A @ref CMPIrc value specifying the return code.
     @param msg C string character string containing the message
                text or NULL if no text is to be added to the
                CMPIStatus @p st.
@@ -665,8 +665,8 @@ static inline CMPIBoolean CMIsArray(
     clone() function in the function table of the object.
 
     @param obj Points to the encapsulated data type object to be cloned.
-    @param [out] rc  If not NULL, points to a CMPIStatus structure that upon
-        return has been updated with the function return status.
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return @parblock If successful, returns a pointer to the
         copied clone of the object defined by @p obj.
 
@@ -718,10 +718,12 @@ static inline CMPIBoolean CMIsArray(
 */
 
 // KS_TODO Update CMPIContext macros from here on down
-/** Gets a named Context entry value.
-    @param ctx Points to CMPIContext.
+/** @brief Get a context entry in a CMPIContext object by name.
+
+    @param ctx Points to the CMPIContext object.
     @param name Context entry name.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Entry value.
     @see CMPIContextFT.getEntry()
     @hideinitializer
@@ -740,10 +742,11 @@ static inline CMPIData CMGetContextEntry(
 #endif
 
 /** Gets a Context entry value defined by its index.
-    @param ctx Points to CMPIContext.
+    @param ctx Points to the CMPIContext object.
     @param index Position in the internal Data array.
     @param name Output: Returned Context entry name (suppressed when NULL).
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Entry value.
     @see CMPIContextFT.getEntryAt()
     @hideinitializer
@@ -763,8 +766,9 @@ static inline CMPIData CMGetContextEntryAt(
 #endif
 
 /** Gets the number of entries contained in this Context.
-    @param ctx Points to CMPIContext.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param ctx Points to the CMPIContext object.
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Number of entries.
     @return Entry value.
     @see CMPIContextFT.getEntryCount()
@@ -785,7 +789,7 @@ static inline CMPICount CMGetContextEntryCount(
 /** @brief Add or replace a context entry in a CMPIContext object.
 
     CMAddContextEntry() executes CMPIContextFT.addEntry().
-    @param ctx Points to CMPIContext.
+    @param ctx Points to the CMPIContext object.
     @param name Entry name.
     @param value Address of value structure.
     @param type Value type.
@@ -968,7 +972,8 @@ static inline const char * CMGetCharPtr(
     C-language string representation of @p str. It differs from CMGetCharPtr()
     in that it includes a CMPIStatus return code.
     @param str Points to a CMPIString object.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Pointer to char* representation.
     @see CMPIStringFT.getCharPtr()
 
@@ -1007,7 +1012,8 @@ static inline const char * CMGetCharsPtr(
     CMGetArrayCount() executes CMPIArrayFT.getSize().
     Function name is different but not arugments or return.
     @param ar Points to CMPIArray.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Number of elements.
     @see CMPIArrayFT.getSize()
     @hideinitializer
@@ -1030,7 +1036,8 @@ static inline CMPICount CMGetArrayCount(
     CMGetArrayType() executes CMPIArrayFT.getSimpleType(). Function names
     are different but arguments and return are the same.
     @param ar Points to CMPIArray.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Number of elements.
     @see CMPIArrayFT.getSimpleType()
     @hideinitializer
@@ -1053,7 +1060,8 @@ static inline CMPIType CMGetArrayType(
     CMGetArrayElementAt() executes CMPIArrayFT.getElementAt().
     @param ar Points to CMPIArray.
     @param index Position in the internal data array.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return CMPIData Element value.
     @see CMPIArrayFT.getElementAt()
     @hideinitializer
@@ -1109,7 +1117,8 @@ static inline CMPIStatus CMSetArrayElementAt(
 // KS_TODO Update CMPIEnumeration macros from here on down
 /** Get the next element of this Enumeration.
     @param en Points to the CMPIEnumeration object.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Element value.
     @see CMPIEnumerationFT.getNext()
     @hideinitializer
@@ -1131,8 +1140,8 @@ static inline CMPIData CMGetNext(
     CMHasNext() executes CMPIEnumerationFT.hasNext() that
     tests for any elements left in @p en the CMPIEnumeration object.
     @param en Points to the CMPIEnumeration object.
-    @param [out] rc Service return status (suppressed
-          when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return True or false.
     @see CMPIArrayFT.hasNext()
     @hideinitializer
@@ -1154,7 +1163,8 @@ static inline CMPIBoolean CMHasNext(
     CMToArray() executes CMPIEnumerationFT.toArray() converts the
     CMPIEnumeration object represented by the argument @p en into a CMPIArray.
     @param en Points to the CMPIEnumeration object.
-    @param rc Output: Service return status (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return The Array.
     @see CMPIEnumerationFT.toArray()
     @hideinitializer
@@ -1184,7 +1194,8 @@ static inline CMPIArray *CMToArray(
     in @p inst a CMPIInstance by @p name.
     @param inst Instance this pointer.
     @param name Property name.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return CMPIData with Property value. If not successful CMPIData.state
         will have the @ref CMPI_badValue.
     @see CMPIInstanceFT.getProperty()
@@ -1220,7 +1231,8 @@ static inline CMPIData CMGetProperty(
     @param inst Instance this pointer.
     @param index Position in the internal data array.
     @param [out] name Returned property name (suppressed when NULL).
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return CMPIData with property value. If not successful CMPIData.state
         will have the @ref CMPI_badValue.
     @see CMPIInstanceFT.getPropertyAt()
@@ -1245,7 +1257,8 @@ static inline CMPIData CMGetPropertyAt(
 
     CMGetPropertyCount() executes CMPIInstanceFT.getPropertyCount().
     @param inst Instance this pointer.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Number of properties; 0 if not successful.
     @see CMPIInstanceFT.getPropertyCount()
     @hideinitializer
@@ -1295,7 +1308,8 @@ static inline CMPIStatus CMSetProperty(
     CMGetObjectPath() executes CMPIInstanceFT.getObjectPath() to get the
     CMPIObject path from @p inst.
     @param inst Points to CMPIInstance.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return The generated CMPIObjectPath or NULL.
     @see CMPIInstanceFT.getObjectPath()
     @hideinitializer
@@ -1427,7 +1441,8 @@ static inline CMPIStatus CMSetNameSpace(
 
     CMGetNameSpace() executes CMPIObjectPathFT.getNameSpace().
     @param op Points to CMPIObject.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return The namespace component.
     @see CMPIObjectPathFT.getNameSpace()
     @hideinitializer
@@ -1512,7 +1527,8 @@ static inline CMPIStatus CMSetClassName(
 
     CMGetClassName() executes CMPIObjectPathFT.getClassName().
     @param op ObjectPath this pointer.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return The classname component or NULL.
     @see CMPIObjectPathFT.getClassName()
     @hideinitializer
@@ -1561,7 +1577,8 @@ static inline CMPIStatus CMAddKey(
     CMGetKey() executes CMPIObjectPathFT.getKey() to get a key binding by name.
     @param op Points to CMPIObjectPath.
     @param [out] key Returned property name.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return CMPIData.
     @see CMPIObjectPathFT.getKey()
     @hideinitializer
@@ -1587,7 +1604,8 @@ static inline CMPIData CMGetKey(
     @param op Points to CMPIObjectPath.
     @param index Position in the internal Data array.
     @param [out] name Returned property name (suppressed when NULL).
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Data value.
     @see CMPIObjectPathFT.getKeyAt()
     @hideinitializer
@@ -1613,7 +1631,8 @@ static inline CMPIData CMGetKeyAt(
     CMGetKeyCount() executes CMPIObjectPathFT.getKeyCount() to get the number
     of key bindings in a @p op a CMPIObjectPath object.
     @param op Points to CMPIObjectPath.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Number of properties.
     @see CMPIObjectPathFT.getKeyCount()
     @hideinitializer
@@ -1681,7 +1700,8 @@ static inline CMPIStatus CMSetHostAndNameSpaceFromObjectPath(
     CMGetClassQualifier() executes CMPIObjectPathFT.getClassQualifier().
     @param op Points to CMPIObjectPath.
     @param qName Qualifier name.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Qualifier value.
     @see CMPIObjectPathFT.getClassQualifier()
     @hideinitializer
@@ -1706,7 +1726,8 @@ static inline CMPIData CMGetClassQualifier(
     @param op Points to CMPIObjectPath.
     @param pName Property name.
     @param qName Qualifier name.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Qualifier value.
     @see CMPIObjectPathFT.getPropertyQualifier()
     @hideinitializer
@@ -1731,7 +1752,8 @@ static inline CMPIData CMGetPropertyQualifier(
     @param op Points to CMPIObjectPath.
     @param mName Method name.
     @param qName Qualifier name.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Qualifier value.
     @see CMPIObjectPathFT.getMethodQualifier()
     @hideinitializer
@@ -1758,7 +1780,8 @@ static inline  CMPIData CMGetMethodQualifier(
     @param mName Method name.
     @param pName Parameter name.
     @param qName Qualifier name.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Qualifier value.
     @see CMPIObjectPathFT.getParameterQualifier()
     @hideinitializer
@@ -1820,7 +1843,8 @@ static inline CMPIStatus CMAddArg(
     parameter from a CMPIArgs object by its name.
     @param args Args this pointer.
     @param name Argument name.
-    @param rc Output: Service return status (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Argument value.
     @see CMPIArgsFT.getArg()
     @hideinitializer
@@ -1846,7 +1870,8 @@ static inline CMPIData CMGetArg(
     @param args Points to CMPIArgs.
     @param index Position in the internal Data array.
     @param name Output: Returned argument name (suppressed when NULL).
-    @param rc Output: Service return status (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Argument value.
     @see  CMPIArgsFT.getArgAt()
     @hideinitializer
@@ -1873,7 +1898,8 @@ static inline CMPIData CMGetArgAt(
     CMGetArgCount() executes CMPIArgsFT.getArgCount() to get the number of
     arguments in the CMPIArgs array.
     @param args Points to CMPIArgs.
-    @param rc Output: Service return status (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Number of properties.
     @see CMPIArgsFT.getArgCount()
     @hideinitializer
@@ -1902,7 +1928,8 @@ static inline CMPICount CMGetArgCount(
 
     CMGetBinaryFormat() executes CMPIDateTimeFT.getBinaryFormat().
     @param dt Points to the CMPIDateTime object.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return DateTime in binary.
     @see CMPIDateTimeFT.getBinaryFormat()
     @hideinitializer
@@ -1925,7 +1952,8 @@ static inline CMPIUint64 CMGetBinaryFormat(
 
     CMGetStringFormat() executes CMPIDateTimeFT.getStringFormat().
     @param dt Points to the CMPIDateTime object.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return DateTime as UTC string.
     @see CMPIDateTimeFT.getStringFormat()
     @hideinitializer
@@ -1946,7 +1974,8 @@ static inline CMPIString *CMGetStringFormat(
 
     CMIsInterval() executes CMPIDateTimeFT.isInterval().
     @param dt Points to the CMPIDateTime object.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return True if interval value.
     @see CMPIDateTimeFT.isInterval()
     @hideinitializer
@@ -1977,7 +2006,8 @@ static inline CMPIBoolean CMIsInterval(
     CMEvaluateSelExp() executes CMPISelectExpFT.evaluate().
     @param se SelectExp this pointer.
     @param inst Instance to be evaluated.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return True or false incicator.
     @see CMPISelectExpFT.evaluate()
     @hideinitializer
@@ -2000,7 +2030,8 @@ static inline CMPIBoolean CMEvaluateSelExp(
 
     CMGetSelExpString() executes CMPISelectExpFT.getString().
     @param se SelectExp this pointer.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return The select expression.
     @see CMPISelectExpFT.getString()
     @hideinitializer
@@ -2023,7 +2054,8 @@ static inline CMPIString *CMGetSelExpString(
 
     CMGetDoc() executes CMPISelectExpFT.getDoc().
     @param se SelectExp this pointer.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return The disjunction.
     @see CMPISelectExpFT.getDoc()
     @hideinitializer
@@ -2046,7 +2078,8 @@ static inline CMPISelectCond *CMGetDoc(
 
     CMGetCod executes CMPISelectExpFT.getCOD().
     @param se SelectExp this pointer.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return The conjunction.
     @see CMPISelectExpFT.getCOD()
     @statusopenpegasus Used
@@ -2072,7 +2105,8 @@ static inline CMPISelectCond *CMGetCod(
     @param se SelectExp this pointer.
     @param accessor Data accessor routine to be used.
     @param parm Data accessor parameter.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return True or false incicator.
     @see CMPISelectExpFT.evaluateUsingAccessor()
     @hideinitializer
@@ -2106,7 +2140,8 @@ static inline CMPIBoolean CMEvaluateSelExpUsingAccessor(
     CMGetSubCondCountAndType
     @param sc SelectCond this pointer.
     @param [out] type CMPISelectCond type (suppressed when NULL).
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Number of SubCond elements.
     @see CMPISelectCondFT.getCountAndType()
     @hideinitializer
@@ -2130,7 +2165,8 @@ static inline CMPICount CMGetSubCondCountAndType(
     CMGetSubCondAt() executes CMPISelectCondFT.getSubCondAt().
     @param sc SelectCond this pointer.
     @param index Position in the internal SubCoind array.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return The indexed SubCond element.
     @see CMPISelectCondFT.getSubCondAt()
     @hideinitializer
@@ -2161,7 +2197,8 @@ static inline CMPISubCond *CMGetSubCondAt(
 
     CMGetPredicateCount() executes CMPISubCondFT.getCount().
     @param sc SubCond this pointer.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Number of Predicate elements.
     @see CMPISubCondFT.getCount()
     @hideinitializer
@@ -2184,7 +2221,8 @@ static inline CMPICount CMGetPredicateCount(
     CMGetPredicateAt() executes CMPISubCondFT.getPredicateAt().
     @param sc SubCond this pointer.
     @param index Position in the internal Predicate array.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return The indexed Predicate element.
     @see CMPISubCondFT.getPredicateAt()
     @hideinitializer
@@ -2208,7 +2246,8 @@ static inline CMPIPredicate *CMGetPredicateAt(
     CMGetPredicate() executes CMPISubCondFT.getPredicate().
     @param sc SubCond this pointer.
     @param name Predicate name (property name).
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return The named Predicate element.
     @see CMPISubCondFT.getPredicate()
     @hideinitializer
@@ -2271,7 +2310,8 @@ static inline CMPIStatus CMGetPredicateData(
     @param pr Points to the CMPIPredicate.
     @param accessorFnc Data accessor routine to be used.
     @param parm Data accessor parameter.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Evaluation result.
     @see CMPIPredicateFT.evaluateUsingAccessor()
 
@@ -2304,7 +2344,8 @@ static inline CMPIBoolean CMEvaluatePredicateUsingAccessor(
 
     CMGetErrorType() executes CMPIErrorFT.getErrorType().
     @param er Points to the CMPIError object.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return CMPIErrorType
     @see CMPIErrorFT.getErrorType()
 
@@ -2328,7 +2369,8 @@ static inline CMPIErrorType CMGetErrorType(
 
     CMGetOtherErrorType() executes CMPIErrorFT.getOtherErrorType().
     @param er Points to the CMPIError object.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return A string, which can be NULL
     @note Inline code fixed in CMPI 2.1
     @see CMPIErrorFT.getOtherErrorType()
@@ -2351,7 +2393,8 @@ static inline CMPIString *CMGetOtherErrorType(
 
     CMGetOwningEntity() executes CMPIErrorFT.getOwningEntity().
     @param er Points to the CMPIError object.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return A string, which can be NULL
     @see CMPIErrorFT.getOwningEntity()
     @note Inline code fixed in CMPI 2.1
@@ -2373,7 +2416,8 @@ static inline CMPIString *CMGetOwningEntity(
 /** @brief Get the `MessageID` attribute of a CMPIError object.
 
     @param er Points to the CMPIError object.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return A string, which can be NULL
     @see CMPIErrorFT.getMessageID()
     @note Inline code fixed in CMPI 2.1
@@ -2396,7 +2440,8 @@ static inline CMPIString *CMGetMessageID(
 
     CMGetErrorMessage() executes CMPIErrorFT.getMessage().
     @param er Points to the CMPIError object.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return A string, which can be NULL
     @note Inline form corrected in CMPI 2.1
     @see CMPIErrorFT.getMessage()
@@ -2419,7 +2464,8 @@ static inline CMPIString *CMGetErrorMessage(
 
     CMGetPerceivedSeverity() executes CMPIErrorFT.getPerceivedSeverity().
     @param er Points to the CMPIError object.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return the perceived severity
     @see CMPIErrorFT.getPerceivedSeverity()
     @note Inline form corrected in CMPI 2.1
@@ -2442,7 +2488,8 @@ static inline CMPIErrorSeverity CMGetPerceivedSeverity(
 
     CMGetProbableCause() executes CMPIErrorFT.getProbableCause().
     @param er Points to the CMPIError object.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return A probable cause value
     @see CMPIErrorFT.getProbableCause()
     @note Inline form corrected in CMPI 2.1
@@ -2466,7 +2513,8 @@ static inline CMPIErrorProbableCause CMGetProbableCause(
     getProbableCauseDescription() executes
     CMPIErrorFT.getProbableCauseDescription().
     @param er Points to the CMPIError object.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return A string, which can be NULL
     @see CMPIErrorFT.getProbableCauseDescription()
     @note Inline form corrected in CMPI 2.1
@@ -2489,7 +2537,8 @@ static inline CMPIString * CMGetProbableCauseDescription(
 
     CMGetRecommendedActions() executes CMPIErrorFT.getRecommendedActions().
     @param er Points to the CMPIError object.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return A array of strings, which can be NULL
     @see CMPIErrorFT.getRecommendedActions()
     @note Inline form corrected in CMPI 2.1
@@ -2512,7 +2561,8 @@ static inline CMPIArray * CMGetRecommendedActions(
 
     CMGetErrorSource executes CMPIErrorFT.getErrorSource().
     @param er Points to the CMPIError object.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return A string, which can be NULL
     @see CMPIErrorFT.getErrorSource()
     @note Inline form corrected in CMPI 2.1
@@ -2535,7 +2585,8 @@ static inline CMPIString * CMGetErrorSource(
 
     CMGetErrorSourceFormat() executes CMPIErrorFT.getErrorSourceFormat().
     @param er Points to the CMPIError object.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return A error source format  code
     @see CMPIErrorFT.getErrorSourceFormat()
     @note Inline form corrected in CMPI 2.1
@@ -2559,7 +2610,8 @@ static inline CMPIErrorSrcFormat CMGetErrorSourceFormat(
     CMGetOtherErrorSourceFormat() executes
     CMPIErrorFT.getOtherErrorSourceFormat().
     @param er Points to the CMPIError object.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return A string, which can be NULL
     @see CMPIErrorFT.getOtherErrorSourceFormat()
     @note Inline form corrected in CMPI 2.1
@@ -2582,7 +2634,8 @@ static inline CMPIString * CMGetOtherErrorSourceFormat(
 
     CMGetCIMStatusCode() executes CMPIErrorFT.getCIMStatusCode().
     @param er Points to the CMPIError object.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return A CMPI Status code
     @see CMPIErrorFT.getCIMStatusCode()
     @note Inline form corrected in CMPI 2.1
@@ -2606,7 +2659,8 @@ static inline CMPIrc CMGetCIMStatusCode(
     CMGetCIMStatusCodeDescription() executes
     CMPIErrorFT.getCIMStatusCodeDescription().
     @param er Points to the CMPIError object.
-    @param rc Output: Service return status (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return A string, which can be NULL
     @see CMPIErrorFT.getCIMStatusCodeDescription()
     @note Inline form corrected in CMPI 2.1
@@ -2627,7 +2681,8 @@ static inline CMPIString * CMGetCIMStatusCodeDescription(
 /** @brief Get the `MessageArguments` array attribute of a CMPIError object.
 
     @param er Points to the CMPIError object.
-    @param rc Output: Serbice return status (surpressed when NULL)
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return An array of CMPIStrings which represents the dynamic values
     @see CMPIErrorFT.getMessageArguments()
     @note Inline form corrected in CMPI 2.1
@@ -2859,7 +2914,7 @@ static inline CMPIStatus CMSetMessageArguments(
     CMPIBrokerFT.brokerCapabilities variable, an unsigned  32
     bit variable describing CMPI features supported by this MB.
     MB capabilities are defined by  @ref mb-capabilities flags.
-    @param mb pointer to CMPIBroker struct
+    @param mb Points to a CMPIBroker structure.
     @return unsigned int containing the capabilities flags.
     @since CMPI version 2.1. Previous versions included an
         incorrect convenience function CBGetClassification()
@@ -2888,7 +2943,7 @@ static inline unsigned int CBGetCapabilities(
     function table. This can be used to determine which version of the
     CMPI Specification a broker implements.
 
-    @param mb Pointer to CMPIBroker struct
+    @param mb Points to a CMPIBroker structure.
     @return CMPIVersion containing the CMPIBroker version.
 
     It has no direct corresponding function. It directly access the
@@ -2917,7 +2972,7 @@ static inline CMPIVersion CBBrokerVersion(
     CBBrokerName() convenience function gets the MB name
     from CMPIBrokerFT.brokerName
 
-    @param mb Pointer to CMPIBroker struct
+    @param mb Points to a CMPIBroker structure.
     @return C string (const char*) containing the informal name of the
         MB.
 
@@ -2946,8 +3001,8 @@ static inline const char * CBBrokerName(
     CMPIBrokerFT.prepareAttachThread()  to prepare the MB to accept a new
     thread that will be using MB functions. This function is expected to be
     called in the existing thread.
-    @param mb Points to CMPIBroker..
-    @param ctx Old Context object
+    @param mb Points to a CMPIBroker structure.
+    @param ctx Points to the old CMPIContext object.
     @return New Context object to be used by thread to be attached.
     @see CMPIBrokerFT.prepareAttachThread()
     @hideinitializer
@@ -2966,8 +3021,8 @@ static inline CMPIContext *CBPrepareAttachThread(
 
 /** This function informs the CMPI run time system that the current
     thread with Context will begin using CMPI services.
-    @param mb Points to CMPIBroker..
-    @param ctx Context object
+    @param mb Points to a CMPIBroker structure.
+    @param ctx Points to the CMPIContext object.
     @return Service return status.
     @see CMPIBrokerFT.attachThread()
     @hideinitializer
@@ -2989,8 +3044,8 @@ static inline CMPIStatus CBAttachThread(
 /** This function informs the CMPI run time system that the current thread
     will not be using CMPI services anymore. The Context object will be
     freed during this operation.
-    @param mb Points to CMPIBroker..
-    @param ctx Context object
+    @param mb Points to a CMPIBroker structure.
+    @param ctx Points to the CMPIContext object.
     @return Service return status.
     @see CMPIBrokerFT.detachThread()
     @hideinitializer
@@ -3012,8 +3067,8 @@ static inline CMPIStatus CBDetachThread(
 
 /** This function requests delivery of an Indication. The CIMOM will
     locate pertinent subscribers and notify them about the event.
-    @param mb Points to CMPIBroker..
-    @param ctx Context object
+    @param mb Points to a CMPIBroker structure.
+    @param ctx Points to the CMPIContext object.
     @param ns Namespace
     @param ind Indication Instance
     @return Service return status.
@@ -3038,10 +3093,11 @@ static inline CMPIStatus CBDeliverIndication(
 
 /** Enumerate Instance Names of the class (and subclasses)
     defined by @p op.
-    @param mb Points to CMPIBroker.
-    @param ctx Context object
+    @param mb Points to a CMPIBroker structure.
+    @param ctx Points to the CMPIContext object.
     @param op ObjectPath containing namespace and classname components.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Enumeration of ObjectPaths.
     @see CMPIBrokerFT.enumerateInstanceNames()
     @hideinitializer
@@ -3065,14 +3121,15 @@ static inline CMPIEnumeration *CBEnumInstanceNames(
 /** Enumerate Instances of the class (and subclasses) defined by @p op.
     Instance structure and inheritance scope can be controled using the
     CMPIInvocationFlags entry in @p ctx.
-    @param mb Points to CMPIBroker.
-    @param ctx Context object
+    @param mb Points to a CMPIBroker structure.
+    @param ctx Points to the CMPIContext object.
     @param classPath ObjectPath containing namespace and
               classname components.
     @param properties If not NULL, the members of the array define
          one or more Property names. Each returned Object MUST NOT
          include elements for any Properties missing from this list
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return CMPIEnumeration of Instances.
     @see CMPIBrokerFT.enumerateInstances()
     @hideinitializer
@@ -3098,14 +3155,15 @@ static inline CMPIEnumeration *CBEnumInstances(
 
 /** Get Instance using @p op as reference. Instance structure can be
     controled using the CMPIInvocationFlags entry in @p ctx.
-    @param mb Points to CMPIBroker.
-    @param ctx Context object
+    @param mb Points to a CMPIBroker structure.
+    @param ctx Points to the CMPIContext object.
     @param op ObjectPath containing namespace, classname and key components.
     @param properties If not NULL, the members of the array
     define one or more Property names. Each returned
     Object MUST NOT include elements for any Properties
     missing from this list
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return The Instance.
     @see CMPIBrokerFT.getInstance()
     @hideinitializer
@@ -3131,12 +3189,13 @@ static inline CMPIInstance *CBGetInstance(
 
     CBCreateInstance() convenience function executes
     CMPIBrokerFT.createInstance() to create an instance of a given class.
-    @param mb Points to CMPIBroker.
-    @param ctx Context object
+    @param mb Points to a CMPIBroker structure.
+    @param ctx Points to the CMPIContext object.
     @param op ObjectPath containing namespace, classname
        and key components.
     @param inst Complete instance.
-    @param rc Output: Service return status (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return The assigned instance reference.
     @see CMPIBrokerFT.createInstance()
     @hideinitializer
@@ -3438,9 +3497,10 @@ static inline CMPIData CBGetProperty(
         path.
 
     CBNewInstance() executes CMPIBrokerEncFT.newInstance() with same arguments
-    @param mb Points to CMPIBroker.
+    @param mb Points to a CMPIBroker structure.
     @param instPath CMPIObjectPath containing namespace and classname.
-    @param [out] rc Function return status (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Newly created Instance.
     @see CMPIBrokerEncFT.newInstance()
 
@@ -3492,10 +3552,11 @@ static inline CMPIInstance *CMNewInstance (
 
     CMNewObjectPath() executes CMPIBrokerEncFT.newObjectPath() to create a new
     CMPIObjectPath.
-    @param mb Points to CMPIBroker.
+    @param mb Points to a CMPIBroker structure.
     @param ns namespace
     @param cn class name
-    @param [out] rc Function return status (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @see CMPIBrokerEncFT.newObjectPath()
 
     @par Examples
@@ -3560,8 +3621,9 @@ static inline CMPIString *CMNewString (
 
     CMNewArgs() executes CMPIBrokerEncFT.newArgs() to create a new CMPIArgs
     object.
-    @param mb Points to CMPIBroker.
-    @param [out] rc Function return status (suppressed when NULL).
+    @param mb Points to a CMPIBroker structure.
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Newly created CMPIArgs object or NULL.
     @see CMPIBrokerEncFT.newArgs()
 
@@ -3588,10 +3650,11 @@ static inline CMPIArgs *CMNewArgs (const CMPIBroker *mb, CMPIStatus *rc)
 
     CMNewArray() executes CMPIBrokerEncFT.newArray() to create a new
     CMPIArray object
-    @param mb Points to CMPIBroker.
+    @param mb Points to a CMPIBroker structure.
     @param size Number of elements
     @param type Element type
-    @param [out] rc Function return status (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Newly created Array or NULL.
     @see CMPIBrokerEncFT.newArray()
 
@@ -3618,8 +3681,9 @@ static inline CMPIArray *CMNewArray (
 
     CBNewDateTime() executes CMPIBrokerEncFT.newDateTime() to create a
     new CMPIDateTime object().
-    @param mb Pointer to CMPIBroker
-    @param [out] rc Function return status (suppressed when NULL).
+    @param mb Points to a CMPIBroker structure.
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return The newly created DateTime or NULL.
     @see CMPIBrokerEncFT.newDateTime()
 
@@ -3642,12 +3706,13 @@ static inline CMPIDateTime *CMNewDateTime (
     CMNewDateTimeFromBinary() executes CMPIBrokerEncFT.newDateTimeFromBinary()
     to create a new CMPIDateTime object initialized from @p binTime.
 
-    @param mb Points to CMPIBroker.
+    @param mb Points to a CMPIBroker structure.
     @param binTime Date/Time definition in binary format in microsecods
     starting since 00:00:00 GMT, Jan 1,1970.
     @param interval Wenn true, defines Date/Time definition to be an
          interval value
-    @param rc Output: Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return The newly created DateTime or NULL.
     @see CMPIBrokerEncFT.newDateTimeFromBinary()
     @hideinitializer
@@ -3668,9 +3733,10 @@ static inline CMPIDateTime *CMNewDateTimeFromBinary(
 
 /** @brief Create a new CMPIDateTime object initialized from input.
 
-    @param mb Points to CMPIBroker.
+    @param mb Points to a CMPIBroker structure.
     @param datetime Date/Time definition in UTC format
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return The newly created DateTime or NULL.
     @see CMPIBrokerEncFT.newDateTimeFromChars()
     @hideinitializer
@@ -3693,11 +3759,12 @@ static inline CMPIDateTime *CMNewDateTimeFromChars(
 
     CMNewSelectExp() executes CMPIBrokerEncFT.newSelectExp() to create a new
     CMPISelectExp
-    @param mb Points to CMPIBroker.
+    @param mb Points to a CMPIBroker structure.
     @param query The select expression.
     @param lang The query language.
     @param [out] projection Projection specification (suppressed when NULL).
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return The newly created SelectExp or NULL.
     @see CMPIBrokerEncFT.newSelectExp()
     @hideinitializer
@@ -3721,11 +3788,12 @@ static inline CMPISelectExp *CMNewSelectExp(
         subclasses.
 
     CMClassPathIsA() executes CMPIBrokerEncFT.classPathIsA().
-    @param mb Points to CMPIBroker.
+    @param mb Points to a CMPIBroker structure.
     @param classPath The class path (namespace and classname
               components).
     @param className Specifies the class name to be tested for.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return
          @li True if test successful.
          @li False otherwise.
@@ -3755,9 +3823,10 @@ static inline CMPIBoolean CMClassPathIsA(
     CDToString() executes CMPIBrokerEncFT.toString() to  convert any CMPI
     encapsulated data type to a CMPIString with implementation-specific content
     representation.  Intended for debugging purposes only.
-    @param mb Points to CMPIBroker.
+    @param mb Points to a CMPIBroker structure.
     @param object A valid CMPI encapsulated data type object.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return String from representation of @p object or NULL.
     @see CMPIBrokerEncFT.toString()
     @hideinitializer
@@ -3780,11 +3849,12 @@ static inline CMPIString *CDToString(
 
     CDIsOfType() executes CMPIBrokerEncFT.isOfType() to verifies whether @p
     object is of CMPI type @p type. Intended for debugging purposes only.
-    @param mb Points to CMPIBroker.
+    @param mb Points to a CMPIBroker structure.
     @param object A valid CMPI object.
     @param type A string specifying a valid CMPI Object type
         ("CMPIInstance", "CMPIObjectPath", etc).
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return True if test successful.
     @see CMPIBrokerEncFT.isOfType()
     @par Examples
@@ -3816,9 +3886,10 @@ static inline CMPIBoolean CDIsOfType(
 
     CDGetType() executes CMPIBrokerEncFT.getType() to get the CMPI type.
     Intended for debugging purposes only.
-    @param mb Points to CMPIBroker.
+    @param mb Points to a CMPIBroker structure.
     @param object A valid CMPI object.
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return CMPI object type or NULL.
     @see CMPIBrokerEncFT.getType()
     @hideinitializer
@@ -3839,7 +3910,7 @@ static inline CMPIString *CDGetType(
 /** @brief Log a diagnostic message.
 
     CMLogMessage() executes CMPIBrokerEncFT.logMessage().
-    @param mb Points to CMPIBroker.
+    @param mb Points to a CMPIBroker structure.
     @param severity integer severity code.
     @param id message ID or any other identifying string.
     @param text If not NULL, const char * with the message text to be logged.
@@ -3875,7 +3946,7 @@ static inline CMPIStatus CMLogMessage(
 
     CMTraceMessage() exeuctes CMPIBrokerEncFT.trace() to send a diagnostic
     message to a trace output facility.
-    @param mb Points to CMPIBroker.
+    @param mb Points to a CMPIBroker structure.
     @param level The severity
     @param component NULL or implementation specific ID.
     @param text NULL or message text.
@@ -3914,14 +3985,15 @@ static inline CMPIStatus CMTraceMessage(
 
     CMNewCMPIError() executes CMPIBrokerEncFT.newCMPIError() to create a new
     CMPIError object.
-    @param mb Points to CMPIBroker.
+    @param mb Points to a CMPIBroker structure.
     @param owner Identifies the entity that owns the msg format definition.
     @param msgID Identifies the format of the message.
     @param msg Formatted and translated message.
     @param sev Perceived severity of this error.
     @param pc Probable caues of this error.
     @param cimStatusCode Status Code.
-    @param [out] rc Function return status or NULL
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @return Pointer to a newly allocated CMPIError object or NULL.
     @see CMPIBrokerEncFT.newCMPIError()
 
@@ -3958,7 +4030,7 @@ static inline CMPIError * CMNewCMPIError(
 
     CMOpenMessageFile() executes CMPIBrokerEncFT.openMessageFile() to open a
     new message file if the MB supports message files.
-    @param mb Points to CMPIBroker.
+    @param mb Points to a CMPIBroker structure.
     @param msgFile The message file identifier.
     @param [out] msgFileHandle The handle representing the open msg file or NULL.
     @return Service return status
@@ -3990,7 +4062,7 @@ static inline CMPIStatus CMOpenMessageFile(
 
     CMCloseMessageFile() exeuctes CMPIBrokerEncFT.closeMessageFile() to close a
     message file.
-    @param mb Points to CMPIBroker.
+    @param mb Points to a CMPIBroker structure.
     @param msgFileHandle CMPIMsgFileHandle handle representing the open
         message file.
     @return Function return status.
@@ -4111,11 +4183,12 @@ static inline CMPIStatus CMCloseMessageFile(
     The CMGetMessage2() macro executes CMPIBrokerEncFT.getMessage2().
     There is no inline form of this convenience function.
 
-    @param mb Points to CMPIBroker.
+    @param mb Points to a CMPIBroker structure.
     @param msgId The message identifier.
     @param msgFileHandle The handle representing the open message file.
     @param defMsg The default message. See the function for details
-    @param [out] rc Function return CMPIStatus (suppressed when NULL).
+    @param [out] rc Points to a CMPIStatus structure with the function return
+        status (suppressed when NULL).
     @param args The message insert values, specified as @ref cmfmt-args
         "CMFmtArgs{N}({vlist})", where {N} is the number of values, and {vlist}
         is a comma-separated list of @ref cmfmt-val "CMFmt{type}({v})" macros.

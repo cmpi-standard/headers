@@ -1,4 +1,10 @@
 
+20 July - Andy
+--------------
+
+* Made wording consistent for descriptions of mb, ctx and rc arguments in
+  convenience functions.
+
 19 July - Andy
 --------------
 
