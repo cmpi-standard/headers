@@ -807,7 +807,7 @@ static inline CMPICount CMGetContextEntryCount(
 /** @brief Add or replace a context entry in a CMPIContext object.
 
     @param ctx CMPIContext object.
-    @param name Context entry name.
+    @param name Name of the context entry.
         See @ref def-context-fieldnames "Names of CMPIContext fields" for
         defined names.
     @param value CMPIValue structure containing the non-NULL value to be
@@ -1205,9 +1205,9 @@ static inline CMPIArray *CMToArray(
 /** @brief Get a property in a CMPIInstance object by name.
 
     @param inst CMPIInstance object.
-    @param name Property name.
+    @param name Name of the property.
     @param [out] rc Function return status (suppressed when NULL).
-    @return The property.
+    @return Property value and type.
     @see CMPIInstanceFT.getProperty()
 
     @par Examples
@@ -1240,9 +1240,9 @@ static inline CMPIData CMGetProperty(
     @param inst CMPIInstance object.
     @param index Zero-based position of the property in the internal data
          array.
-    @param [out] name Property name (suppressed when NULL).
+    @param [out] name Name of the returned property (suppressed when NULL).
     @param [out] rc Function return status (suppressed when NULL).
-    @return The property.
+    @return Property value and type.
     @see CMPIInstanceFT.getPropertyAt()
     @hideinitializer
     @statusopenpegasus Used
@@ -1284,7 +1284,7 @@ static inline CMPICount CMGetPropertyCount(
 /** @brief Add or replace a property value in a CMPIInstance object by name.
 
     @param inst CMPIInstance object.
-    @param name Property name.
+    @param name Name of the property.
     @param value CMPIValue structure containing the non-NULL value to be
         assigned to the element, or NULL to assign NULL.
     @param type Type of the value.
@@ -1381,7 +1381,7 @@ static inline CMPIStatus CMSetObjectPath(
          object by name.
 
     @param inst CMPIInstance object.
-    @param name Property name.
+    @param name Name of the property.
     @param value CMPIValue structure containing the non-NULL value to be
         assigned to the element, or NULL to assign NULL.
     @param type Type of the value.
@@ -1571,7 +1571,7 @@ static inline CMPIStatus CMAddKey(
     @param op CMPIObjectPath object.
     @param [out] key Name of the key binding.
     @param [out] rc Function return status (suppressed when NULL).
-    @return Key binding.
+    @return Key binding value and type.
     @see CMPIObjectPathFT.getKey()
     @hideinitializer
     @statusopenpegasus Used and tested
@@ -1594,9 +1594,9 @@ static inline CMPIData CMGetKey(
     @param op CMPIObjectPath object.
     @param index Zero-based position of the key binding within the internal
          data array.
-    @param [out] name Name of the key binding (suppressed when NULL).
+    @param [out] name Name of the returned key binding (suppressed when NULL).
     @param [out] rc Function return status (suppressed when NULL).
-    @return Key binding.
+    @return Key binding value and type.
     @see CMPIObjectPathFT.getKeyAt()
     @hideinitializer
     @statusopenpegasus Used and tested
@@ -1683,7 +1683,7 @@ static inline CMPIStatus CMSetHostAndNameSpaceFromObjectPath(
     @param op CMPIObjectPath object containing namespace and class components.
     @param qName Qualifier name.
     @param [out] rc Function return status (suppressed when NULL).
-    @return Qualifier value.
+    @return Qualifier value and type.
     @see CMPIObjectPathFT.getClassQualifier()
     @hideinitializer
     @statusopenpegasus Not implemented
@@ -1707,7 +1707,7 @@ static inline CMPIData CMGetClassQualifier(
     @param pName Property name.
     @param qName Qualifier name.
     @param [out] rc Function return status (suppressed when NULL).
-    @return Qualifier value.
+    @return Qualifier value and type.
     @see CMPIObjectPathFT.getPropertyQualifier()
     @hideinitializer
     @statusopenpegasus Not implemented
@@ -1732,7 +1732,7 @@ static inline CMPIData CMGetPropertyQualifier(
     @param mName Method name.
     @param qName Qualifier name.
     @param [out] rc Function return status (suppressed when NULL).
-    @return Qualifier value.
+    @return Qualifier value and type.
     @see CMPIObjectPathFT.getMethodQualifier()
     @hideinitializer
     @statusopenpegasus Not implemented
@@ -1741,7 +1741,7 @@ static inline CMPIData CMGetPropertyQualifier(
 #define CMGetMethodQualifier(op, mName, qName, rc) \
     ((op)->ft->getMethodQualifier((op), (mName), (qName), (rc)))
 #else
-static inline  CMPIData CMGetMethodQualifier(
+static inline CMPIData CMGetMethodQualifier(
     const CMPIObjectPath *op,
     const char *mName,
     const char *qName,
@@ -1758,7 +1758,7 @@ static inline  CMPIData CMGetMethodQualifier(
     @param pName Parameter name.
     @param qName Qualifier name.
     @param [out] rc Function return status (suppressed when NULL).
-    @return Qualifier value.
+    @return Qualifier value and type.
     @see CMPIObjectPathFT.getParameterQualifier()
     @hideinitializer
     @statusopenpegasus Not implemented
@@ -1767,7 +1767,7 @@ static inline  CMPIData CMGetMethodQualifier(
 #define CMGetParameterQualifier(op, mName, pName, qName,rc) \
     ((op)->ft->getParameterQualifier((op), (mName), (pName), (qName), (rc)))
 #else
-static inline  CMPIData CMGetParameterQualifier(
+static inline CMPIData CMGetParameterQualifier(
     const CMPIObjectPath *op,
     const char *mName,
     const char *pName,
@@ -1816,7 +1816,7 @@ static inline CMPIStatus CMAddArg(
     @param args CMPIArgs object.
     @param name Name of the method parameter.
     @param [out] rc Function return status (suppressed when NULL).
-    @return The method parameter.
+    @return Method parameter value and type.
     @see CMPIArgsFT.getArg()
     @hideinitializer
     @statusopenpegasus Used
@@ -1839,10 +1839,11 @@ static inline CMPIData CMGetArg(
     @param args CMPIArgs object.
     @param index Zero-based position of the method parameter in the internal
          data array.
-    @param [out] name The method parameter name (suppressed when NULL).
+    @param [out] name Name of the returned method parameter (suppressed when
+         NULL).
     @param [out] rc Function return status (suppressed when NULL).
-    @return The method parameter.
-    @see  CMPIArgsFT.getArgAt()
+    @return Method parameter value and type.
+    @see CMPIArgsFT.getArgAt()
     @hideinitializer
     @statusopenpegasus Used
 
