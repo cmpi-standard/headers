@@ -1,4 +1,10 @@
 
+21 July - Andy
+--------------
+
+* Updated inline functions for CMPIContext to better describe the open
+  questions.
+
 20 July - Andy
 --------------
 

@@ -720,14 +720,16 @@ static inline CMPIBoolean CMIsArray(
 // KS_TODO Update CMPIContext macros from here on down
 /** @brief Get a context entry in a CMPIContext object by name.
 
+    CMGetContextEntry() executes CMPIContextFT.getEntry().
     @param ctx Points to the CMPIContext object.
-    @param name Context entry name. See @ref def-context-fieldnames
-        "Names of CMPIContext fields" for defined names.
+    @param name C string specifying the context entry name. See @ref
+        def-context-fieldnames "Names of CMPIContext fields" for defined names.
     @param [out] rc Points to a CMPIStatus structure with the function return
         status (suppressed when NULL).
-    @return Entry value.
+    @return CMPIData structure containing the specified context entry.
     @see CMPIContextFT.getEntry()
     @hideinitializer
+    
     @todo TBD AM: How specific do we want the description of the convenience
         functions to be, for example:@n
         - Should we omit the precise type of the arguments from the description
@@ -738,6 +740,10 @@ static inline CMPIBoolean CMIsArray(
         - Should we describe return codes?@n
         - Should we assume that the presence of [out] is sufficient so that
           we don't need to repeat the output-ness in the description?@n
+        This function is described using the exact data types of its
+        arguments.
+    @todo TBD AM: Should we have text like "CMGetContextEntry() executes
+        CMPIContextFT.getEntry()"?
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetContextEntry(ctx, name, rc)  \
@@ -752,15 +758,20 @@ static inline CMPIData CMGetContextEntry(
 }
 #endif
 
-/** Gets a Context entry value defined by its index.
-    @param ctx Points to the CMPIContext object.
-    @param index Position in the internal Data array.
-    @param name Output: Returned Context entry name (suppressed when NULL).
-    @param [out] rc Points to a CMPIStatus structure with the function return
-        status (suppressed when NULL).
-    @return Entry value.
+/** @brief Get a context entry in a CMPIContext object by index.
+
+    @param ctx CMPIContext object.
+    @param index Zero-based position of the context entry in the
+         internal data array. The order of context entries in the internal data
+         array is implementation-defined.
+    @param [out] name Name of the returned context entry (suppressed when NULL).
+    @param [out] rc Function return status (suppressed when NULL).
+    @return The specified context entry.
     @see CMPIContextFT.getEntryAt()
     @hideinitializer
+
+    @todo TBD AM: This function stays brief in its argument descriptions, not
+        mentioning the exact data type.@n
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetContextEntryAt(ctx, index, name, rc) \
@@ -776,12 +787,11 @@ static inline CMPIData CMGetContextEntryAt(
 }
 #endif
 
-/** Gets the number of entries contained in this Context.
-    @param ctx Points to the CMPIContext object.
-    @param [out] rc Points to a CMPIStatus structure with the function return
-        status (suppressed when NULL).
-    @return Number of entries.
-    @return Entry value.
+/** @brief Get the number of context entries in a CMPIContext object.
+
+    @param ctx CMPIContext object.
+    @param [out] rc Function return status (suppressed when NULL).
+    @return Number of entries in the CMPIContext object.
     @see CMPIContextFT.getEntryCount()
     @hideinitializer
 */
@@ -799,12 +809,15 @@ static inline CMPICount CMGetContextEntryCount(
 
 /** @brief Add or replace a context entry in a CMPIContext object.
 
-    CMAddContextEntry() executes CMPIContextFT.addEntry().
-    @param ctx Points to the CMPIContext object.
-    @param name Entry name.
-    @param value Address of value structure.
+    @param ctx CMPIContext object.
+    @param name Context entry name.
+         See @ref def-context-fieldnames "Names of CMPIContext fields" for
+         defined names.
+    @param value Points to a CMPIValue structure containing the non-NULL value
+         to be assigned to the context entry, or NULL to specify that NULL is
+         to be assigned.
     @param type Value type.
-    @return Service return status.
+    @return Function return status.
     @see CMPIContextFT.addEntry()
     @hideinitializer
     @statusopenpegasus Used
