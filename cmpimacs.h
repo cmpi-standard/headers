@@ -949,11 +949,11 @@ static inline CMPIStatus CMReturnError(
   @{
 */
 
-/** @brief Get a pointer to the C-language string representation of a CMPIString
-        object (**Deprecated**).
+/** @brief Get the C-language string representation of a CMPIString object
+        (**Deprecated**).
 
     @param str CMPIString object.
-    @return Pointer to C-language string.
+    @return C-language string representation of the CMPIString object.
     @see CMGetCharsPtr(), CMPIStringFT.getCharPtr()
 
     @par Examples
@@ -965,7 +965,8 @@ static inline CMPIStatus CMReturnError(
         0);
     @endcode
     @deprecated This macro is deprecated since CMPI 2.1, because it does not
-        provide argument checking or a return code. Use CMGetCharsPtr(), instead.
+        provide argument checking or a return code. Use CMGetCharsPtr(),
+        instead.
     @hideinitializer
 
     @todo DONE KS: Confirm this since the doc was just a guess right now.@n
@@ -988,15 +989,11 @@ static inline const char * CMGetCharPtr(
 }
 #endif
 
-/** @brief Get a pointer to the C-language string representation of a CMPIString
-        object.
+/** @brief Get a C-language string representation of a CMPIString object.
 
-    CMGetCharsPtr() executes CMPIStringFT.getCharPtr() to get a pointer to the
-    C-language string representation of @p str. It differs from CMGetCharPtr()
-    in that it includes a CMPIStatus return code.
     @param str CMPIString object.
     @param [out] rc Function return status (suppressed when NULL).
-    @return Pointer to C-language string.
+    @return C-language string representation of the CMPIString object.
     @see CMPIStringFT.getCharPtr()
 
     @par Examples
@@ -1031,12 +1028,11 @@ static inline const char * CMGetCharsPtr(
 
 /** @brief Get the number of array elements in a CMPIArray object.
 
-    CMGetArrayCount() executes CMPIArrayFT.getSize().
-    Function name is different but not arugments or return.
     @param ar CMPIArray object.
     @param [out] rc Function return status (suppressed when NULL).
     @return Number of aray elements.
-    @see CMPIArrayFT.getSize()
+    @see CMPIArrayFT.getSize() (function name is different, but arguments and
+        return value are the same)
     @hideinitializer
     @statusopenpegasus Used and tested
 */
@@ -1054,12 +1050,11 @@ static inline CMPICount CMGetArrayCount(
 
 /** @brief Get the type of the array elements in a CMPIArray object.
 
-    CMGetArrayType() executes CMPIArrayFT.getSimpleType(). Function names
-    are different but arguments and return are the same.
     @param ar CMPIArray object.
     @param [out] rc Function return status (suppressed when NULL).
     @return Type of the array elements.
-    @see CMPIArrayFT.getSimpleType()
+    @see CMPIArrayFT.getSimpleType() (function name is different, but arguments
+        and return value are the same)
     @hideinitializer
     @statusopenpegasus Used and tested
 */
@@ -1921,8 +1916,8 @@ static inline CMPIUint64 CMGetBinaryFormat(
 
     @param dt CMPIDateTime object.
     @param [out] rc Function return status (suppressed when NULL).
-    @return Value of a CMPIDateTime object as a string in the format defined in
-        @ref ref-dmtf-dsp0004 "DSP0004" for the CIM ``datetime`` type.
+    @return Value of the CMPIDateTime object as a string in the format defined
+        in @ref ref-dmtf-dsp0004 "DSP0004" for the CIM ``datetime`` type.
     @see CMPIDateTimeFT.getStringFormat()
     @hideinitializer
 */
