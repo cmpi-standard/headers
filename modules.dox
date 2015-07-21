@@ -575,7 +575,7 @@
     @defgroup convenience-func-edt-args CMPIArgs Support
     @{
     @}
-    @defgroup convenience-func-edt-datetime CMPIDateTime Suppor
+    @defgroup convenience-func-edt-datetime CMPIDateTime Support
     @{
     @}
     @defgroup convenience-func-edt-selectexp CMPISelectExp Support

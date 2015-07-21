@@ -4604,7 +4604,7 @@ typedef struct _CMPIResultFT {
         const CMPIObjectPath* op);
 
     /**
-     @brief Indicate that no further  items will be added to a CMPIResult object.
+     @brief Indicate that no further items will be added to a CMPIResult object.
 
      CMPIResultFT.returnDone() indicates to the MB that no further items will
      be added to a CMPIResult object; that is, the MI will not return any more
@@ -5541,8 +5541,7 @@ typedef struct _CMPIInstanceFT {
         const CMPIValue* value, CMPIType type);
 
     /**
-     @brief Get a CMPIObjectPath object from the namespace, class name, and key
-         properties of a CMPIInstance object.
+     @brief Get the instance path component of a CMPIInstance object.
 
      CMPIInstanceFT.getObjectPath() generates a CMPIObjectPath object from the
      namespace, class name, and key properties of a CMPIInstance object.

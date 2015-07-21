@@ -4,6 +4,7 @@
 
 * Updated inline functions for CMPIContext to better describe the open
   questions.
+* Improved descriptions of inline functions down to CMPIDateTime.
 
 20 July - Andy
 --------------
