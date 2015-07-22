@@ -24,7 +24,7 @@
 
 /**
  * @file cmpipl.h
- * @brief This header verifies that a valid CMPI_PLATFORM_{xxx}
+ * @brief This header verifies that a valid CMPI_PLATFORM_\<xxx\>
  * symbol has been defined; MIs do not need to include this header because it
  * is included by `cmpift.h`.
  *
@@ -48,12 +48,12 @@
  * The symbols for the compile platform have names of the format:<br/>
  *
  * <div style="margin-left:20px">
- *   <b>CMPI_PLATFORM_{os}_{mach}_{comp}</b><br/>
+ *   <b>CMPI_PLATFORM_\<os\>_\<mach\>_\<comp\></b><br/>
  * </div>
  *
- * where <b>{os}</b> indicates the operating system,
- * <b>{mach}</b> indicates the machine architecture,
- * and <b>{comp}</b> indicates the C/C++ compiler.
+ * where <b>\<os\></b> indicates the operating system,
+ * <b>\<mach\></b> indicates the machine architecture,
+ * and <b>\<comp\></b> indicates the C/C++ compiler.
  *
  * The valid symbols for the CMPI compile platform are:
  *

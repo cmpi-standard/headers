@@ -233,6 +233,22 @@
  */
 
 /**
+ * @page fulldescription Full Descriptions
+ * @brief Full descriptions linked from convenience function descriptions
+ *
+ * This page lists the full descriptions that are linked from the abbridged
+ * descriptions of the convenience functions.
+ */
+
+/**
+ * @page convfunction Convenience Functions
+ * @brief Convenience functions linked from MB functions and other entities
+ *
+ * This page lists the convenience functions that are linked from the
+ * MB functions and other entities.
+ */
+
+/**
  * @page statusopenpegasus Status for OpenPegasus
  * @brief Implementation and/or test status for OpenPegasus
  *
@@ -457,7 +473,7 @@
   @{
     These symbols can be defined by the user of the CMPI header files.
 
-    @defgroup sym-platform CMPI_PLATFORM_{xxx}
+    @defgroup sym-platform CMPI_PLATFORM_\<xxx\>
     @{
       @brief Compile platform for CMPI.
     @}
@@ -472,7 +488,7 @@
   @}
   @defgroup symbols-versioning Symbols related to CMPI versioning
   @{
-    @defgroup sym-version-nnn CMPIVersion{NNN}
+    @defgroup sym-version-nnn CMPIVersion\<NNN\>
     @{
       @brief Numeric CMPI version numbers.
 
@@ -483,7 +499,7 @@
     @{
       @brief Current CMPI version of the header files.
     @}
-    @defgroup sym-ver-nnn CMPI_VER_{NNN}
+    @defgroup sym-ver-nnn CMPI_VER_\<NNN\>
     @{
       @brief Tests for CMPI version dependent features.
 

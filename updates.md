@@ -1,4 +1,23 @@
 
+22 July - Andy
+--------------
+
+* Added support for a new @fulldescription special command that is used to link
+  from the (abbridged) description of a convenience function to the full
+  description in the underlying MB function.
+* Added support for a new @convfunction special command that is used to link
+  from the description of a MB function or other entity to its convenience
+  function.
+* Changed notation for 'template' values in documentation from {xxx} to <xxx>.
+* Adjusted the introduction text for types of convenience functions to the
+  types defined in the module structure.
+* Renamed the macro version of CBGetClassification() to CBGetCapabilities() to
+  make it consistent with the inline function.
+* Improved description of several convenience functions.
+* Added notes to the description of the MI factory stubs for C and C++, as
+  discussed.
+* Turned CMInitHook() into an officially documented macro.
+
 21 July - Andy
 --------------
 

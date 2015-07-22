@@ -82,7 +82,7 @@ The CMPI header files are:
   * `cmpios.h` - OS-specific defines for threading structures, etc.; it is
     included by `cmpift.h`.
   * `cmpipl.h` - Platform checker that verifies that a valid compile platform
-    (@ref sym-platform "CMPI_PLATFORM_{xxx}" symbol) has been defined; it is
+    (@ref sym-platform "CMPI_PLATFORM_\<xxx\>" symbol) has been defined; it is
     included by `cmpidt.h` and `cmpios.h`.
 
 For the benefit of developers, copies of these header files are downloadable

@@ -275,6 +275,17 @@ ALIASES += "capcodepage=@xrefitem capcodepage \"Capabilities\" \"Codepage Conver
 ALIASES += "captranslation=@xrefitem captranslation \"Capabilities\" \"Message Translation MB Capability\""
 ALIASES += "capcontext=@xrefitem capcontext \"Capabilities\" \"Context Data MB Capability\""
 
+# The following alias defines a @fulldescription special command that is used
+# to link from the (abbridged) description of a convenience function to the
+# full description in the underlying MB function. Their list will be linked from
+# the "Related Pages" tab.
+ALIASES += "fulldescription=@xrefitem fulldescription \"Full Description\" \"Full Descriptions\""
+
+# The following alias defines a @convfunction special command that is used
+# to link from the description of a MB function or other entity to its
+# convenience function. Their list will be linked from the "Related Pages" tab.
+ALIASES += "convfunction=@xrefitem convfunction \"Convenience Function\" \"Convenience Functions\""
+
 # The following alias defines @status{xxx} special commands that are used to
 # show the test and/or implementation status of each function or macro for a
 # particular MB. Their list will be linked from the "Related Pages" tab.
@@ -556,7 +567,7 @@ CASE_SENSE_NAMES       = YES
 # scope will be hidden.
 # The default value is: NO.
 
-#### KS_TODO maybe we should use this one
+#### TODO_KS maybe we should set this to YES to get rid of the struct names.
 HIDE_SCOPE_NAMES       = NO
 
 # If the SHOW_INCLUDE_FILES tag is set to YES then doxygen will put a list of

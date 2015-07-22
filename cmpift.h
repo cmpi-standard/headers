@@ -58,15 +58,15 @@ extern "C" {
 /**
  @defgroup mi-factory-specific MI-specific MI factory function.
 
- <b>@ref CMPI_EXTERN_C CMPI\<mi-type\>MI* \<mi-name\>_Create_\<mi-type\>MI(
+ <b>@ref CMPI_EXTERN_C CMPI\<mitype\>MI* \<miname\>_Create_\<mitype\>MI(
  const @ref CMPIBroker* mb, const @ref CMPIContext* ctx,
  @ref CMPIStatus* rc);</b>
 
- @ref mi-factory-specific "\<mi-name\>_Create_\<mi-type\>MI()" is an
+ @ref mi-factory-specific "\<miname\>_Create_\<mitype\>MI()" is an
  MI-specific factory function for an MI and is responsible for intializing the
- MI of type \<mi-type\> with the predefined name \<mi-name\>.
+ MI of type \<mitype\> with the predefined name \<miname\>.
 
- \<mi-type\> can be one of:
+ \<mitype\> can be one of:
  @li Instance
  @li Association
  @li Property (**Deprecated**)
@@ -93,14 +93,14 @@ extern "C" {
  @param [out] rc Points to a CMPIStatus structure that upon return shall
      have been updated with the function return status.
  @return @parblock
-     If successful, a pointer to a valid CMPI\<mi-type\>MI structure
+     If successful, a pointer to a valid CMPI\<mitype\>MI structure
      (CMPIInstanceMI, CMPIAssociationMI, CMPIPropertyMI, CMPIMethodMI,
-     CMPIIndicationMI) for the MI identified by \<mi-type\> and \<mi-name\>
+     CMPIIndicationMI) for the MI identified by \<mitype\> and \<miname\>
      shall be returned, and the MB will consider this MI to be initialized
      (that is, functioning).
 
      If not successful, NULL shall be returned, and the MI identified by
-     \<mi-type\> and \<mi-name\> is considered uninitialized (that is,
+     \<mitype\> and \<miname\> is considered uninitialized (that is,
      malfunctioning) and will not be used by the MB. Specifically, the
      cleanup function for this MI (e.g. CMPIInstanceMIFT.cleanup()) will not be
      invoked by the MB in that case.
@@ -119,7 +119,7 @@ extern "C" {
  CMPI releases shall tolerate other uses of these return codes as well as
  additional return codes.
 
- @deprecated The \<mi-name\>_Create_PropertyMI() function is deprecated since
+ @deprecated The \<miname\>_Create_PropertyMI() function is deprecated since
      CMPI 2.1, in accord with the deprecation of property client operations in
      DMTF specifications.
 */
@@ -127,15 +127,15 @@ extern "C" {
 /**
  @defgroup mi-factory-generic Generic MI factory function.
 
- <b>@ref CMPI_EXTERN_C CMPI\<mi-type\>MI* _Generic_Create_\<mi-type\>MI(
+ <b>@ref CMPI_EXTERN_C CMPI\<mitype\>MI* _Generic_Create_\<mitype\>MI(
  const @ref CMPIBroker* mb, const @ref CMPIContext* ctx, const char* miName,
  @ref CMPIStatus* rc);</b>
 
- @ref mi-factory-generic "_Generic_Create_\<mi-type\>MI()" is a generic factory
+ @ref mi-factory-generic "_Generic_Create_\<mitype\>MI()" is a generic factory
  function for an MI and is responsible for intializing the MI of type
- \<mi-type>\ with the name passed in @p miName.
+ \<mitype>\ with the name passed in @p miName.
 
- \<mi-type\> can be one of:
+ \<mitype\> can be one of:
  @li Instance
  @li Association
  @li Property (**Deprecated**)
@@ -163,14 +163,14 @@ extern "C" {
  @param [out] rc Points to a CMPIStatus structure that upon return shall
      have been updated with the function return status.
  @return @parblock
-     If successful, a pointer to a valid CMPI\<mi-type\>MI structure
+     If successful, a pointer to a valid CMPI\<mitype\>MI structure
      (CMPIInstanceMI, CMPIAssociationMI, CMPIPropertyMI, CMPIMethodMI,
-     CMPIIndicationMI) for the MI identified by \<mi-type\> and @p miName shall
+     CMPIIndicationMI) for the MI identified by \<mitype\> and @p miName shall
      be returned, and the MB will consider this MI to be initialized (that is,
      functioning).
 
      If not successful, NULL shall be returned, and the MI identified by
-     \<mi-type\> and @p miName is considered uninitialized (that is,
+     \<mitype\> and @p miName is considered uninitialized (that is,
      malfunctioning) and will not be used by the MB. Specifically, the
      cleanup function for this MI (e.g. CMPIInstanceMIFT.cleanup()) will not be
      invoked by the MB in that case.
@@ -279,18 +279,18 @@ typedef struct _CMPIBrokerFT {
      * @brief CMPI version supported by the MB for this function table.
      *
      * Any earlier CMPI versions are implicitly also supported.
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      *
      * Note: This is not the version of the MB.
-     * @see CBBrokerVersion()
+     * @convfunction CBBrokerVersion()
      */
     CMPIVersion brokerVersion;
 
     /**
      * @brief Informal MB-specific name for this MB.
      *
-     * @see CBBrokerName()
+     * @convfunction CBBrokerName()
      */
     const char* brokerName;
 
@@ -330,7 +330,7 @@ typedef struct _CMPIBrokerFT {
      @par Errors
      For historical reasons, no additional error information is passed back.
 
-     @see CBPrepareAttachThread()
+     @convfunction CBPrepareAttachThread()
     */
     CMPIContext* (*prepareAttachThread) (const CMPIBroker* mb,
         const CMPIContext* ctx);
@@ -359,7 +359,7 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb or @p ctx handle is invalid.
 
-     @see CBAttachThread()
+     @convfunction CBAttachThread()
     */
     CMPIStatus (*attachThread) (const CMPIBroker* mb, const CMPIContext* ctx);
 
@@ -388,7 +388,7 @@ typedef struct _CMPIBrokerFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb or @p ctx handle is invalid.
 
-     @see CBDetachThread()
+     @convfunction CBDetachThread()
     */
     CMPIStatus (*detachThread) (const CMPIBroker* mb, const CMPIContext* ctx);
 
@@ -451,7 +451,7 @@ typedef struct _CMPIBrokerFT {
          @p ind is invalid.
      @capindications This function is part of the Indications capability.
 
-     @see CBDeliverIndication()
+     @convfunction CBDeliverIndication()
      @changed210 In CMPI 2.1, added the return code
          `CMPI_RC_ERR_INVALID_PARAMETER`.
     */
@@ -520,7 +520,7 @@ typedef struct _CMPIBrokerFT {
      the calling MI.
      @capread This function is part of the Basic Read capability.
 
-     @see CBEnumInstanceNames()
+     @convfunction CBEnumInstanceNames()
      @changed210 In CMPI 2.1, added the return codes
          `CMPI_RC_ERR_INVALID_NAMESPACE` and `CMPI_RC_ERR_INVALID_CLASS`. It is
          believed that MB implementations needed to use these return codes
@@ -600,7 +600,7 @@ typedef struct _CMPIBrokerFT {
      the calling MI.
      @capread This function is part of the Basic Read capability.
 
-     @see CBGetInstance()
+     @convfunction CBGetInstance()
      @changed210 In CMPI 2.1, added the return codes
          `CMPI_RC_ERR_INVALID_NAMESPACE`, `CMPI_RC_ERR_INVALID_CLASS`, and
          `CMPI_RC_ERR_INVALID_PARAMETER`. It is believed that MB
@@ -674,7 +674,7 @@ typedef struct _CMPIBrokerFT {
      @capmanipulation This function is part of the Instance Manipulation
          capability.
 
-     @see CBCreateInstance()
+     @convfunction CBCreateInstance()
      @changed210 In CMPI 2.1, added the return codes
          `CMPI_RC_ERR_INVALID_NAMESPACE`, `CMPI_RC_ERR_INVALID_CLASS`, and
          `CMPI_RC_ERR_INVALID_PARAMETER`. It is believed that MB
@@ -743,7 +743,7 @@ typedef struct _CMPIBrokerFT {
      @capmanipulation This function is part of the Instance Manipulation
          capability.
 
-     @see CBModifyInstance()
+     @convfunction CBModifyInstance()
      @changed210 In CMPI 2.1, added the return codes
          `CMPI_RC_ERR_INVALID_NAMESPACE`, `CMPI_RC_ERR_INVALID_CLASS`, and
          `CMPI_RC_ERR_INVALID_PARAMETER`. It is believed that MB
@@ -797,7 +797,7 @@ typedef struct _CMPIBrokerFT {
      @capmanipulation This function is part of the Instance Manipulation
          capability.
 
-     @see CBDeleteInstance()
+     @convfunction CBDeleteInstance()
      @changed210 In CMPI 2.1, added the return codes
          `CMPI_RC_ERR_INVALID_NAMESPACE` and `CMPI_RC_ERR_INVALID_CLASS`. It is
          believed that MB implementations needed to use these return codes
@@ -867,7 +867,7 @@ typedef struct _CMPIBrokerFT {
      the calling MI.
      @capqueryexec This function is part of the Query Execution capability.
 
-     @see CBExecQuery()
+     @convfunction CBExecQuery()
      @changed210 In CMPI 2.1, added the return codes
          `CMPI_RC_ERR_INVALID_NAMESPACE` and `CMPI_RC_ERR_INVALID_CLASS`. It is
          believed that MB implementations needed to use these return codes
@@ -945,7 +945,7 @@ typedef struct _CMPIBrokerFT {
      the calling MI.
      @capread This function is part of the Basic Read capability.
 
-     @see CBEnumInstances()
+     @convfunction CBEnumInstances()
      @changed210 In CMPI 2.1, added the return codes
          `CMPI_RC_ERR_INVALID_NAMESPACE`, `CMPI_RC_ERR_INVALID_CLASS`, and
          `CMPI_RC_ERR_INVALID_PARAMETER`. It is believed that MB
@@ -1047,7 +1047,7 @@ typedef struct _CMPIBrokerFT {
      @capassociations This function is part of the Association Traversal
          capability.
 
-     @see CBAssociators()
+     @convfunction CBAssociators()
      @changed210 In CMPI 2.1, added the return codes
          `CMPI_RC_ERR_INVALID_NAMESPACE`, `CMPI_RC_ERR_INVALID_CLASS`, and
          `CMPI_RC_ERR_INVALID_PARAMETER`. It is believed that MB
@@ -1144,7 +1144,7 @@ typedef struct _CMPIBrokerFT {
      @capassociations This function is part of the Association Traversal
          capability.
 
-     @see CBAssociatorNames()
+     @convfunction CBAssociatorNames()
      @changed210 In CMPI 2.1, added the return codes
          `CMPI_RC_ERR_INVALID_NAMESPACE`, `CMPI_RC_ERR_INVALID_CLASS`, and
          `CMPI_RC_ERR_INVALID_PARAMETER`. It is believed that MB
@@ -1237,7 +1237,7 @@ typedef struct _CMPIBrokerFT {
      @capassociations This function is part of the Association Traversal
          capability.
 
-     @see CBReferences()
+     @convfunction CBReferences()
      @changed210 In CMPI 2.1, added the return codes
          `CMPI_RC_ERR_INVALID_NAMESPACE`, `CMPI_RC_ERR_INVALID_CLASS`, and
          `CMPI_RC_ERR_INVALID_PARAMETER`. It is believed that MB
@@ -1324,7 +1324,7 @@ typedef struct _CMPIBrokerFT {
      @capassociations This function is part of the Association Traversal
          capability.
 
-     @see CBReferenceNames()
+     @convfunction CBReferenceNames()
      @changed210 In CMPI 2.1, added the return codes
          `CMPI_RC_ERR_INVALID_NAMESPACE`, `CMPI_RC_ERR_INVALID_CLASS`, and
          `CMPI_RC_ERR_INVALID_PARAMETER`. It is believed that MB
@@ -1424,7 +1424,7 @@ typedef struct _CMPIBrokerFT {
      @capmanipulation This function is part of the Instance Manipulation
          capability.
 
-     @see CBInvokeMethod()
+     @convfunction CBInvokeMethod()
      @changed210 In CMPI 2.1, added the return codes
          `CMPI_RC_ERR_INVALID_NAMESPACE`, `CMPI_RC_ERR_INVALID_CLASS`, and
          `CMPI_RC_ERR_INVALID_PARAMETER`. It is believed that MB
@@ -1564,7 +1564,7 @@ typedef struct _CMPIBrokerFT {
      the calling MI.
      @capread This function is part of the Basic Read capability.
 
-     @see CMGetProperty()
+     @convfunction CMGetProperty()
      @changed210 In CMPI 2.1, added the return codes
          `CMPI_RC_ERR_INVALID_NAMESPACE` and `CMPI_RC_ERR_INVALID_CLASS`. It is
          believed that MB implementations needed to use these return codes
@@ -1668,7 +1668,7 @@ typedef struct _CMPIBrokerFT {
      the calling MI.
      @capread This function is part of the Basic Read capability.
 
-     @see CBEnumInstancesFiltered()
+     @convfunction CBEnumInstancesFiltered()
      @added210 Added in CMPI 2.1.
     */
     CMPIEnumeration* (*enumerateInstancesFiltered) (const CMPIBroker* mb,
@@ -1777,7 +1777,7 @@ typedef struct _CMPIBrokerFT {
      @capassociations This function is part of the Association Traversal
          capability.
 
-     @see CBAssociatorsFiltered()
+     @convfunction CBAssociatorsFiltered()
      @added210 Added in CMPI 2.1.
     */
     CMPIEnumeration* (*associatorsFiltered) (const CMPIBroker* mb,
@@ -1878,7 +1878,7 @@ typedef struct _CMPIBrokerFT {
      @capassociations This function is part of the Association Traversal
          capability.
 
-     @see CBAssociatorsFiltered()
+     @convfunction CBAssociatorsFiltered()
      @added210 Added in CMPI 2.1.
     */
     CMPIEnumeration* (*referencesFiltered) (const CMPIBroker* mb,
@@ -1913,7 +1913,7 @@ typedef struct _CMPIBrokerEncFT {
      *
      * Any earlier CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -1972,7 +1972,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_NOT_FOUND` - The class specified in
          @p instPath is not found.
 
-     @see CMNewInstance()
+     @convfunction CMNewInstance()
     */
     CMPIInstance* (*newInstance) (const CMPIBroker* mb,
         const CMPIObjectPath* instPath, CMPIStatus* rc);
@@ -2011,7 +2011,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_NOT_FOUND` - The class specified in @p cn is invalid or
          does not exist.
 
-     @see CMNewObjectPath()
+     @convfunction CMNewObjectPath()
     */
     CMPIObjectPath* (*newObjectPath) (const CMPIBroker* mb, const char* ns,
         const char* cn, CMPIStatus* rc);
@@ -2043,7 +2043,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
-     @see CMNewArgs()
+     @convfunction CMNewArgs()
     */
     CMPIArgs* (*newArgs) (const CMPIBroker* mb, CMPIStatus* rc);
 
@@ -2074,7 +2074,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
-     @see CMNewString()
+     @convfunction CMNewString()
     */
     CMPIString* (*newString) (const CMPIBroker* mb, const char* data,
         CMPIStatus* rc);
@@ -2119,7 +2119,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
      @li `CMPI_RC_ERR_INVALID_DATA_TYPE` - Data type not valid.
 
-     @see CMNewArray()
+     @convfunction CMNewArray()
      @bug In the CMPI Standards document, update the description of the function
          and of the @p size argument to match the header file.
     */
@@ -2154,7 +2154,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
-     @see CMNewDateTime()
+     @convfunction CMNewDateTime()
     */
     CMPIDateTime* (*newDateTime) (const CMPIBroker* mb, CMPIStatus* rc);
 
@@ -2192,7 +2192,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
-     @see CMNewDateTimeFromBinary()
+     @convfunction CMNewDateTimeFromBinary()
     */
     CMPIDateTime* (*newDateTimeFromBinary) (const CMPIBroker* mb,
         CMPIUint64 binTime, CMPIBoolean interval, CMPIStatus* rc);
@@ -2229,7 +2229,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p datetime format is invalid.
 
-     @see CMNewDateTimeFromChars()
+     @convfunction CMNewDateTimeFromChars()
     */
     CMPIDateTime* (*newDateTimeFromChars) (const CMPIBroker* mb,
         const char* datetime, CMPIStatus* rc);
@@ -2278,7 +2278,7 @@ typedef struct _CMPIBrokerEncFT {
      @capquerynorm This function is part of the Query Normalization
                    capability.
 
-     @see CMNewSelectExp()
+     @convfunction CMNewSelectExp()
      @changed210 In CMPI 2.1, added the return code `CMPI_RC_ERR_NOT_SUPPORTED`,
          because this function depends on support for the @ref
          CMPI_MB_QueryNormalization "Query Normalization" capability in the MB.
@@ -2331,7 +2331,7 @@ typedef struct _CMPIBrokerEncFT {
          invalid or does not exist.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p className format is invalid.
 
-     @see CMClassPathIsA()
+     @convfunction CMClassPathIsA()
     */
     CMPIBoolean (*classPathIsA) (const CMPIBroker* mb,
         const CMPIObjectPath* classPath, const char* className,
@@ -2370,7 +2370,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb or @p object handle is
          invalid.
 
-     @see CDToString()
+     @convfunction CDToString()
     */
     CMPIString* (*toString) (const CMPIBroker* mb, const void* object,
         CMPIStatus* rc);
@@ -2406,7 +2406,7 @@ typedef struct _CMPIBrokerEncFT {
          invalid.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - The @p type format is invalid.
 
-     @see CDIsOfType()
+     @convfunction CDIsOfType()
     */
     CMPIBoolean (*isOfType) (const CMPIBroker* mb, const void* object,
         const char* type, CMPIStatus* rc);
@@ -2442,7 +2442,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb or @p object handle is
          invalid.
 
-     @see CDGetType()
+     @convfunction CDGetType()
     */
     CMPIString* (*getType) (const CMPIBroker* mb, const void* object,
         CMPIStatus* rc);
@@ -2504,7 +2504,7 @@ typedef struct _CMPIBrokerEncFT {
      @captranslation This function is part of the Message Translation
          capability.
 
-     @see CMGetErrorMessage()
+     @convfunction CMGetErrorMessage()
      @deprecated This function is deprecated since CMPI 2.1. Use
          CMPIBrokerEncFT.getMessage2() instead.
     */
@@ -2537,7 +2537,7 @@ typedef struct _CMPIBrokerEncFT {
          invalid.
      @caplogging This function is part of the Logging capability.
 
-     @see CMLogMessage()
+     @convfunction CMLogMessage()
      @changed210 In CMPI 2.1, fixed inconsistencies in presence and
          definition of @p severity by changing its type from `int` to @ref
          CMPISeverity. This is a compatible change for MIs.
@@ -2575,7 +2575,7 @@ typedef struct _CMPIBrokerEncFT {
          invalid.
      @captracing This function is part of the Tracing capability.
 
-     @see CMTraceMessage()
+     @convfunction CMTraceMessage()
      @changed210 In CMPI 2.1, fixed inconsistencies in presence and
          definition of @p level by changing its type from `int` to @ref
          CMPILevel. This is a compatible change for MIs.
@@ -2671,7 +2671,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @caperrors This function is part of the Extended Errors capability.
 
-     @see CMNewCMPIError()
+     @convfunction CMNewCMPIError()
      @added200 Added in CMPI 2.0.
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
@@ -2758,7 +2758,7 @@ typedef struct _CMPIBrokerEncFT {
      @captranslation This function is part of the Message Translation
          capability.
 
-     @see CMOpenMessageFile()
+     @convfunction CMOpenMessageFile()
      @added200 Added in CMPI 2.0.
     */
     CMPIStatus (*openMessageFile) (const CMPIBroker* mb, const char* msgFile,
@@ -2787,7 +2787,7 @@ typedef struct _CMPIBrokerEncFT {
      @captranslation This function is part of the Message Translation
          capability.
 
-     @see CMCloseMessageFile()
+     @convfunction CMCloseMessageFile()
      @added200 Added in CMPI 2.0.
     */
     CMPIStatus (*closeMessageFile) (const CMPIBroker* mb,
@@ -2863,7 +2863,7 @@ typedef struct _CMPIBrokerEncFT {
      @captranslation This function is part of the Message Translation
          capability.
 
-     @see CMGetMessage2()
+     @convfunction CMGetMessage2()
      @added200 Added in CMPI 2.0.
     */
     CMPIString* (*getMessage2) (const CMPIBroker* mb, const char* msgId,
@@ -3039,7 +3039,7 @@ typedef struct _CMPIBrokerExtFT {
      *
      * Any earlier CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -3730,7 +3730,7 @@ typedef struct _CMPIBrokerMemFT {
      *
      * Any earlier CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -3810,7 +3810,7 @@ typedef struct _CMPIBrokerMemFT {
      @capmemory This function is part of the Memory Enhancement Services
          capability.
 
-     @see CMRelease()
+     @convfunction CMRelease()
     */
     CMPIStatus (*release) (const CMPIBroker* mb, const CMPIGcStat* gc);
 
@@ -4227,7 +4227,7 @@ typedef struct _CMPIContextFT {
      *
      * Any earlier CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -4253,7 +4253,7 @@ typedef struct _CMPIContextFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
 
-     @see CMRelease()
+     @convfunction CMRelease()
     */
     CMPIStatus (*release) (CMPIContext* ctx);
 
@@ -4282,7 +4282,7 @@ typedef struct _CMPIContextFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
 
-     @see CMClone()
+     @convfunction CMClone()
     */
     CMPIContext* (*clone) (const CMPIContext* ctx, CMPIStatus* rc);
 
@@ -4312,7 +4312,7 @@ typedef struct _CMPIContextFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Entry not found.
 
-     @see CMGetContextEntry()
+     @convfunction CMGetContextEntry()
     */
     CMPIData (*getEntry) (const CMPIContext* ctx, const char* name,
         CMPIStatus* rc);
@@ -4355,7 +4355,7 @@ typedef struct _CMPIContextFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Entry not found.
 
-     @see CMGetContextEntryAt()
+     @convfunction CMGetContextEntryAt()
     */
     CMPIData (*getEntryAt) (const CMPIContext* ctx, CMPICount index,
         CMPIString** name, CMPIStatus* rc);
@@ -4383,7 +4383,7 @@ typedef struct _CMPIContextFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Entry not found.
 
-     @see CMGetContextEntryCount()
+     @convfunction CMGetContextEntryCount()
     */
     CMPICount (*getEntryCount) (const CMPIContext* ctx, CMPIStatus* rc);
 
@@ -4420,7 +4420,7 @@ typedef struct _CMPIContextFT {
      @li `CMPI_RC_ERR_INVALID_DATA_TYPE` - Type not supported for this call, or
          type is not recognized.
 
-     @see CMAddContextEntry()
+     @convfunction CMAddContextEntry()
     */
     CMPIStatus (*addEntry) (const CMPIContext* ctx, const char* name,
         const CMPIValue* value, const CMPIType type);
@@ -4466,7 +4466,7 @@ typedef struct _CMPIResultFT {
      *
      * Any earlier CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -4491,7 +4491,7 @@ typedef struct _CMPIResultFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid.
 
-     @see CMRelease()
+     @convfunction CMRelease()
     */
     CMPIStatus (*release) (CMPIResult* rslt);
 
@@ -4519,7 +4519,7 @@ typedef struct _CMPIResultFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid.
 
-     @see CMClone()
+     @convfunction CMClone()
     */
     CMPIResult* (*clone) (const CMPIResult* rslt, CMPIStatus* rc);
 
@@ -4551,7 +4551,7 @@ typedef struct _CMPIResultFT {
          that is not allowed for this MI function invocation or @p type is not
          recognized.
 
-     @see CMReturnData()
+     @convfunction CMReturnData()
     */
     CMPIStatus (*returnData) (const CMPIResult* rslt, const CMPIValue* value,
         const CMPIType type);
@@ -4574,7 +4574,7 @@ typedef struct _CMPIResultFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid or the MB
          has aborted the request for which this data is returned.
 
-     @see CMReturnInstance()
+     @convfunction CMReturnInstance()
     */
     CMPIStatus (*returnInstance) (const CMPIResult* rslt,
         const CMPIInstance* inst);
@@ -4598,7 +4598,7 @@ typedef struct _CMPIResultFT {
          or the MB has aborted the request for which this data is being
          returned.
 
-     @see CMReturnObjectPath()
+     @convfunction CMReturnObjectPath()
     */
     CMPIStatus (*returnObjectPath) (const CMPIResult* rslt,
         const CMPIObjectPath* op);
@@ -4620,7 +4620,7 @@ typedef struct _CMPIResultFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid,
          or the MB has aborted the request for which this result is defined.
 
-     @see CMReturnDone()
+     @convfunction CMReturnDone()
     */
     CMPIStatus (*returnDone) (const CMPIResult* rslt);
 
@@ -4664,7 +4664,7 @@ typedef struct _CMPIResultFT {
          has aborted the request for which this data is returned.
      @caperrors This function is part of the Extended Errors capability.
 
-     @see CMReturnError()
+     @convfunction CMReturnError()
      @added200 Added in CMPI 2.0.
     */
     CMPIStatus (*returnError) (const CMPIResult* rslt, const CMPIError* er);
@@ -4711,7 +4711,7 @@ typedef struct _CMPIStringFT {
      *
      * Any earlier CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -4736,7 +4736,7 @@ typedef struct _CMPIStringFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p str handle is invalid.
 
-     @see CMRelease()
+     @convfunction CMRelease()
     */
     CMPIStatus (*release) (CMPIString* str);
 
@@ -4764,7 +4764,7 @@ typedef struct _CMPIStringFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p str handle is invalid.
 
-     @see CMClone()
+     @convfunction CMClone()
     */
     CMPIString* (*clone) (const CMPIString* str, CMPIStatus* rc);
 
@@ -4797,7 +4797,7 @@ typedef struct _CMPIStringFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p str handle is invalid.
 
-     @see CMGetCharsPtr()
+     @convfunction CMGetCharsPtr()
     */
     const char* (*getCharPtr) (const CMPIString* str, CMPIStatus* rc);
 
@@ -4890,7 +4890,7 @@ typedef struct _CMPIArrayFT {
      *
      * Any earlier CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -4915,7 +4915,7 @@ typedef struct _CMPIArrayFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
 
-     @see CMRelease()
+     @convfunction CMRelease()
     */
     CMPIStatus (*release) (CMPIArray* ar);
 
@@ -4943,7 +4943,7 @@ typedef struct _CMPIArrayFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
 
-     @see CMClone()
+     @convfunction CMClone()
     */
     CMPIArray* (*clone) (const CMPIArray* ar, CMPIStatus* rc);
 
@@ -4969,7 +4969,7 @@ typedef struct _CMPIArrayFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
 
-     @see CMGetArrayCount()
+     @convfunction CMGetArrayCount()
     */
     CMPICount (*getSize) (const CMPIArray* ar, CMPIStatus* rc);
 
@@ -4998,7 +4998,7 @@ typedef struct _CMPIArrayFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
 
-     @see CMGetArrayType()
+     @convfunction CMGetArrayType()
     */
     CMPIType (*getSimpleType) (const CMPIArray* ar, CMPIStatus* rc);
 
@@ -5027,7 +5027,7 @@ typedef struct _CMPIArrayFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ar handle is invalid.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - @p index value out of range.
 
-     @see CMGetArrayElementAt()
+     @convfunction CMGetArrayElementAt()
      @bug In the CMPI Standard document, add the phrase "by index" to the
          description.
     */
@@ -5080,7 +5080,7 @@ typedef struct _CMPIArrayFT {
          simple base type of @p ar.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p value is invalid.
 
-     @see CMSetArrayElementAt()
+     @convfunction CMSetArrayElementAt()
      @changed210 In CMPI 2.1, added the return code
          `CMPI_RC_ERR_INVALID_PARAMETER`.
      @deprecated The use of @ref CMPI_null for @p type is deprecated since
@@ -5139,7 +5139,7 @@ typedef struct _CMPIEnumerationFT {
      *
      * Any earlier CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -5164,7 +5164,7 @@ typedef struct _CMPIEnumerationFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p en handle is invalid.
 
-     @see CMRelease()
+     @convfunction CMRelease()
     */
     CMPIStatus (*release) (CMPIEnumeration* en);
 
@@ -5193,7 +5193,7 @@ typedef struct _CMPIEnumerationFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p en handle is invalid.
 
-     @see CMClone()
+     @convfunction CMClone()
     */
     CMPIEnumeration* (*clone) (const CMPIEnumeration* en, CMPIStatus* rc);
 
@@ -5220,7 +5220,7 @@ typedef struct _CMPIEnumerationFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p en handle is invalid.
      @li `CMPI_RC_NO_MORE_ELEMENTS` - No more elements in @p en.
 
-     @see CMGetNext()
+     @convfunction CMGetNext()
      @changed210 In CMPI 2.1, added the return code `CMPI_RC_NO_MORE_ELEMENTS`
          (which had been used by this function before).
     */
@@ -5250,7 +5250,7 @@ typedef struct _CMPIEnumerationFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p en handle is invalid.
 
-     @see CMHasNext()
+     @convfunction CMHasNext()
      @required210 In CMPI 2.1, added a requirement for the MB to return False
          if not successful.
     */
@@ -5284,7 +5284,7 @@ typedef struct _CMPIEnumerationFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p en handle is invalid.
 
-     @see CMToArray()
+     @convfunction CMToArray()
     */
     CMPIArray* (*toArray) (const CMPIEnumeration* en, CMPIStatus* rc);
 
@@ -5335,7 +5335,7 @@ typedef struct _CMPIInstanceFT {
      *
      * Any earlier CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -5360,7 +5360,7 @@ typedef struct _CMPIInstanceFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst handle is invalid.
 
-     @see CMRelease()
+     @convfunction CMRelease()
     */
     CMPIStatus (*release) (CMPIInstance* inst);
 
@@ -5388,7 +5388,7 @@ typedef struct _CMPIInstanceFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst handle is invalid.
 
-     @see CMClone()
+     @convfunction CMClone()
     */
     CMPIInstance* (*clone) (const CMPIInstance* inst, CMPIStatus* rc);
 
@@ -5416,7 +5416,7 @@ typedef struct _CMPIInstanceFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst handle is invalid.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Property not found.
 
-     @see CMGetProperty()
+     @convfunction CMGetProperty()
      @bug In the CMPI Standard document, add "by name" to the long description.
     */
     CMPIData (*getProperty) (const CMPIInstance* inst, const char* name,
@@ -5454,7 +5454,7 @@ typedef struct _CMPIInstanceFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst handle is invalid.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Property not found.
 
-     @see CMGetPropertyAt()
+     @convfunction CMGetPropertyAt()
      @bug In the CMPI Standard document, add "by index" to the long
          description, and change "index number" to "position" in the
          description of the index argument.
@@ -5484,7 +5484,7 @@ typedef struct _CMPIInstanceFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst handle is invalid.
 
-     @see CMGetPropertyCount()
+     @convfunction CMGetPropertyCount()
     */
     CMPICount (*getPropertyCount) (const CMPIInstance* inst, CMPIStatus* rc);
 
@@ -5531,7 +5531,7 @@ typedef struct _CMPIInstanceFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p name is not a valid property
          name.
 
-     @see CMSetProperty()
+     @convfunction CMSetProperty()
      @changed210 In CMPI 2.1, added the return code
          `CMPI_RC_ERR_INVALID_PARAMETER`.
 
@@ -5568,7 +5568,7 @@ typedef struct _CMPIInstanceFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p inst handle is invalid.
 
-     @see CMGetObjectPath()
+     @convfunction CMGetObjectPath()
     */
     CMPIObjectPath* (*getObjectPath) (const CMPIInstance* inst,
         CMPIStatus* rc);
@@ -5613,7 +5613,7 @@ typedef struct _CMPIInstanceFT {
      @capfiltering This function is part of the Property Filtering
          capability.
 
-     @see CMSetPropertyFilter()
+     @convfunction CMSetPropertyFilter()
      @bug In the CMPI Standard document, the description of the
          CMPI_RC_ERR_INVALID_PARAMETER return code states "The keyList argument
          is missing", and the change history states that that return code
@@ -5657,7 +5657,7 @@ typedef struct _CMPIInstanceFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Object path components specified in
          @p op are invalid.
 
-     @see CMSetObjectPath()
+     @convfunction CMSetObjectPath()
      @changed210 In CMPI 2.1, added the return code
          `CMPI_RC_ERR_INVALID_PARAMETER`.
      @bug In the CMPI Standard document, change the first sentence of the
@@ -5718,7 +5718,7 @@ typedef struct _CMPIInstanceFT {
      @li `CMPI_RC_ERR_TYPE_MISMATCH` - @p type does not correspond to
          class-defined type.
 
-     @see CMSetPropertyWithOrigin()
+     @convfunction CMSetPropertyWithOrigin()
      @added200 Added in CMPI 2.0.
      @bug In the CMPI Standard document, add "and class origin" in the short
          and long descriptions.
@@ -5774,7 +5774,7 @@ typedef struct _CMPIObjectPathFT {
      *
      * Any earlier CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -5799,7 +5799,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
 
-     @see CMRelease()
+     @convfunction CMRelease()
     */
     CMPIStatus (*release) (CMPIObjectPath* op);
 
@@ -5828,7 +5828,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
 
-     @see CMClone()
+     @convfunction CMClone()
     */
     CMPIObjectPath* (*clone) (const CMPIObjectPath* op, CMPIStatus* rc);
 
@@ -5848,7 +5848,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
 
-     @see CMSetNameSpace()
+     @convfunction CMSetNameSpace()
      @changed210 In CMPI 2.1, added const-ness to @p op.
      @bug In the CMPI Standard document, change "set or replace" to "set", in
          the short and long descriptions.
@@ -5883,7 +5883,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
 
-     @see CMGetNameSpace()
+     @convfunction CMGetNameSpace()
     */
     CMPIString* (*getNameSpace) (const CMPIObjectPath* op, CMPIStatus* rc);
 
@@ -5903,7 +5903,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
 
-     @see CMSetHostname()
+     @convfunction CMSetHostname()
      @changed210 In CMPI 2.1, added const-ness to @p op.
      @bug In the CMPI Standard document, change "set or replace" to "set", in
          the short and long descriptions.
@@ -5938,7 +5938,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
 
-     @see CMGetHostname()
+     @convfunction CMGetHostname()
     */
     CMPIString* (*getHostname) (const CMPIObjectPath* op, CMPIStatus* rc);
 
@@ -5958,7 +5958,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
 
-     @see CMGetClassName()
+     @convfunction CMGetClassName()
      @changed210 In CMPI 2.1, added const-ness to @p op.
      @bug In the CMPI Standard document, change "set or replace" to "set", in
          the short and long descriptions.
@@ -5993,7 +5993,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
 
-     @see CMGetClassName()
+     @convfunction CMGetClassName()
     */
     CMPIString* (*getClassName) (const CMPIObjectPath* op, CMPIStatus* rc);
 
@@ -6027,7 +6027,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p key or @p value is invalid.
 
-     @see CMAddKey()
+     @convfunction CMAddKey()
      @changed210 In CMPI 2.1, added the return code
          `CMPI_RC_ERR_INVALID_PARAMETER`.
      @bug In the CMPI Standard document, add "by name" to the long description.
@@ -6076,7 +6076,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Key not found.
 
-     @see CMGetKey()
+     @convfunction CMGetKey()
     */
     CMPIData (*getKey) (const CMPIObjectPath* op, const char* key,
         CMPIStatus* rc);
@@ -6131,7 +6131,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Key not found.
 
-     @see CMGetKeyAt()
+     @convfunction CMGetKeyAt()
     */
     CMPIData (*getKeyAt) (const CMPIObjectPath* op, CMPICount index,
             CMPIString** name, CMPIStatus* rc);
@@ -6159,7 +6159,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
 
-     @see CMGetKeyCount()
+     @convfunction CMGetKeyCount()
     */
     CMPICount (*getKeyCount) (const CMPIObjectPath* op, CMPIStatus* rc);
 
@@ -6183,7 +6183,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p src is invalid.
 
-     @see CMSetNameSpaceFromObjectPath()
+     @convfunction CMSetNameSpaceFromObjectPath()
      @changed210 In CMPI 2.1, added the return code
          `CMPI_RC_ERR_INVALID_PARAMETER`.
      @bug In the CMPI Standard document, change "set or replace" to "set", in
@@ -6212,7 +6212,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p op handle is invalid.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p src is invalid.
 
-     @see CMSetHostAndNameSpaceFromObjectPath()
+     @convfunction CMSetHostAndNameSpaceFromObjectPath()
      @changed210 In CMPI 2.1, added the return code
          `CMPI_RC_ERR_INVALID_PARAMETER`.
      @bug In the CMPI Standard document, change "set or replace" to "set", in
@@ -6255,7 +6255,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @capqualifiers This function is part of the Basic Qualifier capability.
 
-     @see CMGetClassQualifier()
+     @convfunction CMGetClassQualifier()
      @changed210 In CMPI 2.1, added the return codes
          `CMPI_RC_ERR_INVALID_NAMESPACE`, `CMPI_RC_ERR_INVALID_CLASS`,
          `CMPI_RC_ERR_NOT_FOUND`, and `CMPI_RC_ERR_FAILED`. It is believed that
@@ -6303,7 +6303,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @capqualifiers This function is part of the Basic Qualifier capability.
 
-     @see CMGetPropertyQualifier()
+     @convfunction CMGetPropertyQualifier()
      @changed210 In CMPI 2.1, added the return codes
          `CMPI_RC_ERR_INVALID_NAMESPACE`, `CMPI_RC_ERR_INVALID_CLASS`,
          `CMPI_RC_ERR_INVALID_PARAMETER`, `CMPI_RC_ERR_NOT_FOUND`, and
@@ -6352,7 +6352,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @capqualifiers This function is part of the Basic Qualifier capability.
 
-     @see CMGetMethodQualifier()
+     @convfunction CMGetMethodQualifier()
      @changed210 In CMPI 2.1, added the return codes
          `CMPI_RC_ERR_INVALID_NAMESPACE`, `CMPI_RC_ERR_INVALID_CLASS`,
          `CMPI_RC_ERR_NOT_FOUND`, and `CMPI_RC_ERR_FAILED`. It is believed that
@@ -6403,7 +6403,7 @@ typedef struct _CMPIObjectPathFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @capqualifiers This function is part of the Basic Qualifier capability.
 
-     @see CMGetParameterQualifier()
+     @convfunction CMGetParameterQualifier()
      @changed210 In CMPI 2.1, added the return codes
          `CMPI_RC_ERR_INVALID_NAMESPACE`, `CMPI_RC_ERR_INVALID_CLASS`,
          `CMPI_RC_ERR_INVALID_PARAMETER`, `CMPI_RC_ERR_NOT_FOUND`, and
@@ -6506,7 +6506,7 @@ typedef struct _CMPIArgsFT {
      *
      * Any earlier CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -6531,7 +6531,7 @@ typedef struct _CMPIArgsFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
 
-     @see CMRelease()
+     @convfunction CMRelease()
     */
     CMPIStatus (*release) (CMPIArgs* args);
 
@@ -6559,7 +6559,7 @@ typedef struct _CMPIArgsFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
 
-     @see CMClone()
+     @convfunction CMClone()
     */
     CMPIArgs* (*clone) (const CMPIArgs* args, CMPIStatus* rc);
 
@@ -6594,7 +6594,7 @@ typedef struct _CMPIArgsFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
      @li `CMPI_RC_ERR_INVALID_DATA_TYPE` - Data type not valid.
 
-     @see CMAddArg()
+     @convfunction CMAddArg()
     */
     CMPIStatus (*addArg) (const CMPIArgs* args, const char* name,
             const CMPIValue* value, const CMPIType type);
@@ -6622,7 +6622,7 @@ typedef struct _CMPIArgsFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Method parameter not found.
 
-     @see CMGetArg()
+     @convfunction CMGetArg()
     */
     CMPIData (*getArg) (const CMPIArgs* args, const char* name, CMPIStatus* rc);
 
@@ -6663,7 +6663,7 @@ typedef struct _CMPIArgsFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Method parameter not found.
 
-     @see CMGetArgAt()
+     @convfunction CMGetArgAt()
     */
     CMPIData (*getArgAt) (const CMPIArgs* args, CMPICount index,
         CMPIString** name, CMPIStatus* rc);
@@ -6690,7 +6690,7 @@ typedef struct _CMPIArgsFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p args handle is invalid.
 
-     @see CMGetArgCount()
+     @convfunction CMGetArgCount()
     */
     CMPICount (*getArgCount) (const CMPIArgs* args, CMPIStatus* rc);
 
@@ -6738,7 +6738,7 @@ typedef struct _CMPIDateTimeFT {
      *
      * Any earlier CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -6763,7 +6763,7 @@ typedef struct _CMPIDateTimeFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p dt handle is invalid.
 
-     @see CMRelease()
+     @convfunction CMRelease()
     */
     CMPIStatus (*release) (CMPIDateTime* dt);
 
@@ -6792,7 +6792,7 @@ typedef struct _CMPIDateTimeFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p dt handle is invalid.
 
-     @see CMClone()
+     @convfunction CMClone()
     */
     CMPIDateTime* (*clone) (const CMPIDateTime* dt, CMPIStatus* rc);
 
@@ -6820,7 +6820,7 @@ typedef struct _CMPIDateTimeFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p dt handle is invalid.
 
-     @see CMGetBinaryFormat()
+     @convfunction CMGetBinaryFormat()
     */
     CMPIUint64 (*getBinaryFormat) (const CMPIDateTime* dt,
         CMPIStatus* rc);
@@ -6857,7 +6857,7 @@ typedef struct _CMPIDateTimeFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p dt handle is invalid.
 
-     @see CMGetStringFormat()
+     @convfunction CMGetStringFormat()
     */
     CMPIString* (*getStringFormat) (const CMPIDateTime* dt, CMPIStatus* rc);
 
@@ -6886,7 +6886,7 @@ typedef struct _CMPIDateTimeFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p dt handle is invalid.
 
-     @see CMGetStringFormat()
+     @convfunction CMGetStringFormat()
     */
     CMPIBoolean (*isInterval) (const CMPIDateTime* dt, CMPIStatus* rc);
 
@@ -6928,7 +6928,7 @@ typedef struct _CMPISelectExpFT {
      *
      * Any earlier CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -6953,7 +6953,7 @@ typedef struct _CMPISelectExpFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p se handle is invalid.
 
-     @see CMRelease()
+     @convfunction CMRelease()
     */
     CMPIStatus (*release) (CMPISelectExp* se);
 
@@ -6982,7 +6982,7 @@ typedef struct _CMPISelectExpFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p se handle is invalid.
 
-     @see CMClone()
+     @convfunction CMClone()
     */
     CMPISelectExp* (*clone) (const CMPISelectExp* se, CMPIStatus* rc);
 
@@ -7014,7 +7014,7 @@ typedef struct _CMPISelectExpFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p se handle is invalid.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p inst is invalid.
 
-     @see CMEvaluateSelExp()
+     @convfunction CMEvaluateSelExp()
      @changed210 In CMPI 2.1, added the return code
          `CMPI_RC_ERR_INVALID_PARAMETER`.
     */
@@ -7049,7 +7049,7 @@ typedef struct _CMPISelectExpFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p se handle is invalid.
 
-     @see CMGetSelExpString()
+     @convfunction CMGetSelExpString()
     */
     CMPIString* (*getString) (const CMPISelectExp* se, CMPIStatus* rc);
 
@@ -7087,7 +7087,7 @@ typedef struct _CMPISelectExpFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p se handle is invalid.
 
-     @see CMGetDOC()
+     @convfunction CMGetDOC()
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` is deprecated
          since CMPI 2.1. If the @ref CMPI_MB_QueryNormalization "Query
          Normalization" capability is not available, this function cannot be
@@ -7131,7 +7131,7 @@ typedef struct _CMPISelectExpFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p se handle is invalid.
 
-     @see CMGetCOD()
+     @convfunction CMGetCOD()
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` is deprecated
          since CMPI 2.1. If the @ref CMPI_MB_QueryNormalization "Query
          Normalization" capability is not available, this function cannot be
@@ -7177,7 +7177,7 @@ typedef struct _CMPISelectExpFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p se handle is invalid.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p accessorFnc is invalid.
 
-     @see CMEvaluateSelExpUsingAccessor()
+     @convfunction CMEvaluateSelExpUsingAccessor()
     */
     CMPIBoolean (*evaluateUsingAccessor) (const CMPISelectExp* se,
         const CMPIAccessor* accessor, void* parm, CMPIStatus* rc);
@@ -7220,7 +7220,7 @@ typedef struct _CMPISelectCondFT {
      *
      * Any earlier CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -7247,7 +7247,7 @@ typedef struct _CMPISelectCondFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p sc handle is invalid.
 
-     @see CMRelease()
+     @convfunction CMRelease()
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. If the
          @ref CMPI_MB_QueryNormalization "Query Normalization" capability
@@ -7283,7 +7283,7 @@ typedef struct _CMPISelectCondFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p sc handle is invalid.
 
-     @see CMClone()
+     @convfunction CMClone()
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. If the
          @ref CMPI_MB_QueryNormalization "Query Normalization" capability
@@ -7320,7 +7320,7 @@ typedef struct _CMPISelectCondFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p sc handle is invalid.
 
-     @see CMGetSubCondCountAndType()
+     @convfunction CMGetSubCondCountAndType()
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. If the
          @ref CMPI_MB_QueryNormalization "Query Normalization" capability
@@ -7363,7 +7363,7 @@ typedef struct _CMPISelectCondFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p sc handle is invalid.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - @p index value out of bounds.
 
-     @see CMGetSubCondAt()
+     @convfunction CMGetSubCondAt()
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. If the
          @ref CMPI_MB_QueryNormalization "Query Normalization" capability
@@ -7411,7 +7411,7 @@ typedef struct _CMPISubCondFT {
      *
      * Any earlier CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -7438,7 +7438,7 @@ typedef struct _CMPISubCondFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p sc handle is invalid.
 
-     @see CMRelease()
+     @convfunction CMRelease()
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. If the
          @ref CMPI_MB_QueryNormalization "Query Normalization" capability
@@ -7473,7 +7473,7 @@ typedef struct _CMPISubCondFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p sc handle is invalid.
 
-     @see CMClone()
+     @convfunction CMClone()
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. If the
          @ref CMPI_MB_QueryNormalization "Query Normalization" capability
@@ -7506,7 +7506,7 @@ typedef struct _CMPISubCondFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p sc handle is invalid.
 
-     @see CMGetPredicateCount()
+     @convfunction CMGetPredicateCount()
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. If the
          @ref CMPI_MB_QueryNormalization "Query Normalization" capability
@@ -7550,7 +7550,7 @@ typedef struct _CMPISubCondFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p sc handle is invalid.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - @p index value out of bounds.
 
-     @see CMGetPredicateAt()
+     @convfunction CMGetPredicateAt()
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. If the
          @ref CMPI_MB_QueryNormalization "Query Normalization" capability
@@ -7595,7 +7595,7 @@ typedef struct _CMPISubCondFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p sc handle is invalid.
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - @p index value out of bounds.
 
-     @see CMGetPredicate()
+     @convfunction CMGetPredicate()
      @changed210 In CMPI 2.1, added the return code
          `CMPI_RC_ERR_NO_SUCH_PROPERTY`.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
@@ -7645,7 +7645,7 @@ typedef struct _CMPIPredicateFT {
      *
      * Any earlier CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -7672,7 +7672,7 @@ typedef struct _CMPIPredicateFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p pr handle is invalid.
 
-     @see CMRelease()
+     @convfunction CMRelease()
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. If the
          @ref CMPI_MB_QueryNormalization "Query Normalization" capability
@@ -7708,7 +7708,7 @@ typedef struct _CMPIPredicateFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p pr handle is invalid.
 
-     @see CMClone()
+     @convfunction CMClone()
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. If the
          @ref CMPI_MB_QueryNormalization "Query Normalization" capability
@@ -7757,7 +7757,7 @@ typedef struct _CMPIPredicateFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p pr handle is invalid.
 
-     @see CMGetPredicateData()
+     @convfunction CMGetPredicateData()
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. If the
          @ref CMPI_MB_QueryNormalization "Query Normalization" capability
@@ -7807,7 +7807,7 @@ typedef struct _CMPIPredicateFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p pr handle is invalid.
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p accessorFnc is invalid.
 
-     @see CMEvaluatePredicateUsingAccessor()
+     @convfunction CMEvaluatePredicateUsingAccessor()
      @changed210 In CMPI 2.1, added the return code `CMPI_RC_ERR_INVALID_PARAMETER`.
     */
     CMPIBoolean (*evaluateUsingAccessor) (const CMPIPredicate* pr,
@@ -7868,7 +7868,7 @@ typedef struct _CMPIErrorFT {
      *
      * Any earlier CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -7897,7 +7897,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p er is invalid.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMRelease()
+     @convfunction CMRelease()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -7932,7 +7932,7 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMClone()
+     @convfunction CMClone()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -7970,7 +7970,7 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMGetErrorType()
+     @convfunction CMGetErrorType()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8017,7 +8017,7 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMGetOtherErrorType()
+     @convfunction CMGetOtherErrorType()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8068,7 +8068,7 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMGetOwningEntity()
+     @convfunction CMGetOwningEntity()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8118,7 +8118,7 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMGetMessageID()
+     @convfunction CMGetMessageID()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8168,7 +8168,7 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMGetErrorMessage()
+     @convfunction CMGetErrorMessage()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8209,7 +8209,7 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMGetPerceivedSeverity()
+     @convfunction CMGetPerceivedSeverity()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8251,7 +8251,7 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMGetProbableCause()
+     @convfunction CMGetProbableCause()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8302,7 +8302,7 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMGetProbableCauseDescription()
+     @convfunction CMGetProbableCauseDescription()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8348,7 +8348,7 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMGetRecommendedActions()
+     @convfunction CMGetRecommendedActions()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8397,7 +8397,7 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMGetErrorSource()
+     @convfunction CMGetErrorSource()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8437,7 +8437,7 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMGetErrorSourceFormat()
+     @convfunction CMGetErrorSourceFormat()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8488,7 +8488,7 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMGetOtherErrorSourceFormat()
+     @convfunction CMGetOtherErrorSourceFormat()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8532,7 +8532,7 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMGetCIMStatusCode()
+     @convfunction CMGetCIMStatusCode()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8582,7 +8582,7 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMGetCIMStatusCodeDescription()
+     @convfunction CMGetCIMStatusCodeDescription()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8628,7 +8628,7 @@ typedef struct _CMPIErrorFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMGetMessageArguments()
+     @convfunction CMGetMessageArguments()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8666,7 +8666,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMSetErrorType()
+     @convfunction CMSetErrorType()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8701,7 +8701,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMSetOtherErrorType()
+     @convfunction CMSetOtherErrorType()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8737,7 +8737,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMSetProbableCauseDescription()
+     @convfunction CMSetProbableCauseDescription()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8777,7 +8777,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMSetRecommendedActions()
+     @convfunction CMSetRecommendedActions()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8813,7 +8813,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMSetErrorSource()
+     @convfunction CMSetErrorSource()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8849,7 +8849,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMSetErrorSourceFormat()
+     @convfunction CMSetErrorSourceFormat()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8886,7 +8886,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMSetOtherErrorSourceFormat()
+     @convfunction CMSetOtherErrorSourceFormat()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8923,7 +8923,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMSetCIMStatusCodeDescription()
+     @convfunction CMSetCIMStatusCodeDescription()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8963,7 +8963,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - One of the arguments is invalid.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMSetMessageArguments()
+     @convfunction CMSetMessageArguments()
      @required210 Support for this function is required since CMPI 2.1.
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -9020,7 +9020,7 @@ typedef struct _CMPIPropertyListFT {
      *
      * Any earlier CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -9045,7 +9045,7 @@ typedef struct _CMPIPropertyListFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p plist handle is invalid.
 
-     @see CMRelease()
+     @convfunction CMRelease()
     */
     CMPIStatus (*release) (CMPIPropertyList* plist);
 
@@ -9074,7 +9074,7 @@ typedef struct _CMPIPropertyListFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p plist handle is invalid.
 
-     @see CMClone()
+     @convfunction CMClone()
     */
     CMPIPropertyList* (*clone) (const CMPIPropertyList* plist, CMPIStatus* rc);
 
@@ -9199,7 +9199,7 @@ typedef struct _CMPIEnumerationFilterFT {
      *
      * Any earlier CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -9225,7 +9225,7 @@ typedef struct _CMPIEnumerationFilterFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ef handle is invalid.
 
-     @see CMRelease()
+     @convfunction CMRelease()
     */
     CMPIStatus (*release) (CMPIEnumerationFilter* ef);
 
@@ -9254,7 +9254,7 @@ typedef struct _CMPIEnumerationFilterFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ef handle is invalid.
 
-     @see CMClone()
+     @convfunction CMClone()
     */
     CMPIEnumerationFilter* (*clone) (const CMPIEnumerationFilter* ef,
         CMPIStatus* rc);
@@ -9344,7 +9344,7 @@ typedef struct _CMPIInstanceMIFT {
      *
      * Any later CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -9417,7 +9417,7 @@ typedef struct _CMPIInstanceMIFT {
          the MB will not retry an unload later unless it shuts down.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
-     @see CMInstanceMIStub()
+     @convfunction CMInstanceMIStub()
      @bug In the CMPI Standard document, add the sentence about the number of
          invocations relative to the number of namespaces serviced.
     */
@@ -9477,7 +9477,7 @@ typedef struct _CMPIInstanceMIFT {
          message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
-     @see CMInstanceMIStub()
+     @convfunction CMInstanceMIStub()
      @changed210 In CMPI 2.1, added the return code
          `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED`.
      @deprecated The return code `CMPI_RC_ERR_NOT_FOUND` of this function is
@@ -9551,7 +9551,7 @@ typedef struct _CMPIInstanceMIFT {
          message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
-     @see CMInstanceMIStub()
+     @convfunction CMInstanceMIStub()
      @changed210 In CMPI 2.1, added the return code
          `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED`.
      @deprecated The return code `CMPI_RC_ERR_NOT_FOUND` of this function is
@@ -9623,7 +9623,7 @@ typedef struct _CMPIInstanceMIFT {
          message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
-     @see CMInstanceMIStub()
+     @convfunction CMInstanceMIStub()
     */
     CMPIStatus (*getInstance) (CMPIInstanceMI* mi, const CMPIContext* ctx,
         const CMPIResult* rslt, const CMPIObjectPath* instPath,
@@ -9686,7 +9686,7 @@ typedef struct _CMPIInstanceMIFT {
          message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
-     @see CMInstanceMIStub()
+     @convfunction CMInstanceMIStub()
      @changed210 In CMPI 2.1, added the return code
          `CMPI_RC_ERR_ACCESS_DENIED`.
      @deprecated The use of the key component in @p classPath is
@@ -9761,7 +9761,7 @@ typedef struct _CMPIInstanceMIFT {
          message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
-     @see CMInstanceMIStub()
+     @convfunction CMInstanceMIStub()
      @changed210 In CMPI 2.1, added the return code
          `CMPI_RC_ERR_NO_SUCH_PROPERTY`.
     */
@@ -9818,7 +9818,7 @@ typedef struct _CMPIInstanceMIFT {
          message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
-     @see CMInstanceMIStub()
+     @convfunction CMInstanceMIStub()
     */
     CMPIStatus (*deleteInstance) (CMPIInstanceMI* mi, const CMPIContext* ctx,
         const CMPIResult* rslt, const CMPIObjectPath* op);
@@ -9885,7 +9885,7 @@ typedef struct _CMPIInstanceMIFT {
          message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
-     @see CMInstanceMIStub()
+     @convfunction CMInstanceMIStub()
      @changed210 In CMPI 2.1, added the return codes
          `CMPI_RC_ERR_QUERY_FEATURE_NOT_SUPPORTED` and
          `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED`.
@@ -9979,7 +9979,7 @@ typedef struct _CMPIInstanceMIFT {
          message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
-     @see CMInstanceMIStub()
+     @convfunction CMInstanceMIStub()
      @added210 Added in CMPI 2.1.
 
      @bug In the CMPI Standard document, simplify the description of
@@ -10034,7 +10034,7 @@ typedef struct _CMPIAssociationMIFT {
      *
      * Any later CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -10106,6 +10106,7 @@ typedef struct _CMPIAssociationMIFT {
      @li `CMPI_RC_NEVER_UNLOAD` - Function successful, never unload;
          the MB will not retry an unload later unless it shuts down.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+     @convfunction CMAssociationMIStub()
     */
     CMPIStatus (*cleanup) (CMPIAssociationMI* mi, const CMPIContext* ctx,
         CMPIBoolean terminating);
@@ -10205,6 +10206,7 @@ typedef struct _CMPIAssociationMIFT {
          message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
+     @convfunction CMAssociationMIStub()
      @changed210 In CMPI 2.1, added the return codes
          `CMPI_RC_ERR_INVALID_PARAMETER` and
          `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED`.
@@ -10309,6 +10311,7 @@ typedef struct _CMPIAssociationMIFT {
          message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
+     @convfunction CMAssociationMIStub()
      @changed210 In CMPI 2.1, added the return codes
          `CMPI_RC_ERR_INVALID_PARAMETER` and
          `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED`.
@@ -10410,6 +10413,7 @@ typedef struct _CMPIAssociationMIFT {
          message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
+     @convfunction CMAssociationMIStub()
      @changed210 In CMPI 2.1, added the return codes
          `CMPI_RC_ERR_INVALID_PARAMETER` and
          `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED`.
@@ -10504,6 +10508,7 @@ typedef struct _CMPIAssociationMIFT {
          message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
+     @convfunction CMAssociationMIStub()
      @changed210 In CMPI 2.1, added the return codes
          `CMPI_RC_ERR_INVALID_PARAMETER` and
          `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED`.
@@ -10635,6 +10640,7 @@ typedef struct _CMPIAssociationMIFT {
          message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
+     @convfunction CMAssociationMIStub()
      @added210 Added in CMPI 2.1.
 
      @bug In the CMPI Standard document, fix the incorrect structure name in
@@ -10754,6 +10760,7 @@ typedef struct _CMPIAssociationMIFT {
          message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
+     @convfunction CMAssociationMIStub()
      @added210 Added in CMPI 2.1.
 
      @bug In the CMPI Standard document, fix the incorrect structure name in
@@ -10814,7 +10821,7 @@ typedef struct _CMPIMethodMIFT {
      *
      * Any later CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -10886,6 +10893,7 @@ typedef struct _CMPIMethodMIFT {
      @li `CMPI_RC_NEVER_UNLOAD` - Function successful, never unload;
          the MB will not retry an unload later unless it shuts down.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+     @convfunction CMMethodMIStub()
 
      @bug In the CMPI Standard document, add the sentence about the number of
          invocations relative to the number of namespaces serviced.
@@ -10971,6 +10979,7 @@ typedef struct _CMPIMethodMIFT {
          message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
+     @convfunction CMMethodMIStub()
      @changed210 In CMPI 2.1, added the return codes
          `CMPI_RC_ERR_METHOD_NOT_AVAILABLE`,
          `CMPI_RC_ERR_SERVER_LIMITS_EXCEEDED`, and
@@ -11027,7 +11036,7 @@ typedef struct _CMPIPropertyMIFT {
      *
      * Any later CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -11100,6 +11109,7 @@ typedef struct _CMPIPropertyMIFT {
          the MB will not retry an unload later unless it shuts down.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @convfunction CMPropertyMIStub()
      @added200 Added in CMPI 2.0.
      @deprecated This function is deprecated since CMPI 2.1, in accord with the
          deprecation of property client operations in DMTF specifications.
@@ -11172,6 +11182,7 @@ typedef struct _CMPIPropertyMIFT {
          message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
+     @convfunction CMPropertyMIStub()
      @deprecated The return codes `CMPI_RC_ERR_INVALID_NAMESPACE`,
          `CMPI_RC_ERR_INVALID_PARAMETER`, and `CMPI_RC_ERR_INVALID_CLASS` for
          this function are deprecated since CMPI 2.1, because the corresponding
@@ -11245,6 +11256,7 @@ typedef struct _CMPIPropertyMIFT {
          message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
+     @convfunction CMPropertyMIStub()
      @deprecated The return codes `CMPI_RC_ERR_INVALID_NAMESPACE`,
          `CMPI_RC_ERR_INVALID_PARAMETER`, and `CMPI_RC_ERR_INVALID_CLASS` for
          this function are deprecated since CMPI 2.1, because the corresponding
@@ -11324,6 +11336,7 @@ typedef struct _CMPIPropertyMIFT {
          message</TD>
          <TD>Other error occurred.</TD></TR>
      </TABLE>
+     @convfunction CMPropertyMIStub()
      @added200 Added in CMPI 2.0.
      @deprecated The return codes `CMPI_RC_ERR_INVALID_NAMESPACE`,
          `CMPI_RC_ERR_INVALID_PARAMETER`, and `CMPI_RC_ERR_INVALID_CLASS` for
@@ -11379,7 +11392,7 @@ typedef struct _CMPIIndicationMIFT {
      *
      * Any later CMPI versions are implicitly also supported.
      *
-     * See @ref sym-version-nnn "CMPIVersion{NNN}" for valid CMPI
+     * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI
      * version numbers.
      */
     CMPIVersion ftVersion;
@@ -11452,6 +11465,7 @@ typedef struct _CMPIIndicationMIFT {
          the MB will not retry an unload later unless it shuts down.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @convfunction CMIndicationMIStub()
      @bug In the CMPI Standard document, add the sentence about the number of
          invocations relative to the number of namespaces serviced.
     */
@@ -11510,6 +11524,7 @@ typedef struct _CMPIIndicationMIFT {
      @li `CMPI_RC_ERR_INVALID_QUERY` - Filter query is invalid or too complex.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @convfunction CMIndicationMIStub()
      @deprecated @p owner is deprecated since CMPI 2.1. MBs may pass an empty
          string in @p owner. For compatibility reasons, MBs shall not pass a
          NULL pointer in @p owner.
@@ -11573,6 +11588,7 @@ typedef struct _CMPIIndicationMIFT {
      @li `CMPI_RC_ERR_INVALID_QUERY` - Invalid query or too complex.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @convfunction CMIndicationMIStub()
      @deprecated This function is deprecated since CMPI 2.1,
          because the concept of indication polling has been deprecated in
          CMPI 2.1.
@@ -11653,6 +11669,7 @@ typedef struct _CMPIIndicationMIFT {
      @li `CMPI_RC_ERR_INVALID_QUERY` - Filter query is invalid or too complex.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @convfunction CMIndicationMIStub()
      @bug In the CMPI Standard document, use the list form from the header file
          for the description of the call triggers in the first paragraph.
     */
@@ -11723,6 +11740,7 @@ typedef struct _CMPIIndicationMIFT {
      @li `CMPI_RC_ERR_INVALID_QUERY` - Filter query is invalid or too complex.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @convfunction CMIndicationMIStub()
      @bug In the CMPI Standard document, fix the incorrect name of the
          lastDeActivation argument (is lastActivation in the document).
 
@@ -11762,6 +11780,7 @@ typedef struct _CMPIIndicationMIFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+     @convfunction CMIndicationMIStub()
     */
     CMPIStatus (*enableIndications) (CMPIIndicationMI* mi,
         const CMPIContext* ctx);
@@ -11794,6 +11813,7 @@ typedef struct _CMPIIndicationMIFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_NOT_SUPPORTED` - Function is not supported by this MI.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
+     @convfunction CMIndicationMIStub()
     */
     CMPIStatus (*disableIndications) (CMPIIndicationMI* mi,
         const CMPIContext* ctx);
@@ -11842,6 +11862,7 @@ typedef struct _CMPIIndicationMIFT {
          collection.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @convfunction CMIndicationMIStub()
      @added210 Added in CMPI 2.1.
 
      @bug In the CMPI Standard document, change "Ask an MI to verify" to
@@ -11922,6 +11943,7 @@ typedef struct _CMPIIndicationMIFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Invalid indication filter collection.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @convfunction CMIndicationMIStub()
      @added210 Added in CMPI 2.1.
     */
     CMPIStatus (*activateFilterCollection) (CMPIIndicationMI* mi,
@@ -12001,6 +12023,7 @@ typedef struct _CMPIIndicationMIFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Invalid indication filter collection.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
 
+     @convfunction CMIndicationMIStub()
      @added210 Added in CMPI 2.1.
 
      @bug In the CMPI Standard document, use the list form from the header file
