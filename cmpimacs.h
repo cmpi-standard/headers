@@ -1288,7 +1288,8 @@ static inline CMPICount CMGetPropertyCount(
     @hideinitializer
     @statusopenpegasus Used and tested extensively
 
-    @todo TBD AM: Why do we have the `(CMPIValue *)` cast in the macro version?
+*   @todo TBD AM: Why do we have the `(CMPIValue *)` cast in the macro version?
+*   @todo Test this against all of pegasus providers.
 */
 #ifdef CMPI_NO_INLINE
 #define CMSetProperty(inst, name, value, type) \
@@ -4317,7 +4318,8 @@ static inline CMPIStatus CMCloseMessageFile(
         variable name used for the file static table is the same for all
         providers, making it impossible to have more than one provider per
         source file. This seems like an unnecessary limitation. Suggestion:
-        Make both tables local static.
+        Make both tables local static. KS. Proposal: make
+        comment about this limitation.
     @todo TBD AM: We document the CMPI_VERSION is the version that is
         implemented. If we are serious about this, we should use CMPI_VERSION
         instead of CMPICurrentVersion, for the first version in the MIFT.
