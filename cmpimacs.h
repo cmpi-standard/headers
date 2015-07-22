@@ -50,12 +50,6 @@ extern "C" {
 /**
   @addtogroup convenience-func
   @{
-    @todo TBD KS: 'macros' is bad word.  Maybe we call them convenience
-        functions to cover macro vs inline versions.@n
-        KS: Actually 'macros' is good word.  Question is what do we call those
-        things that can be either inline or macro. 'Convenience function'
-        stinks.
-
     The convenience functions in `cmpimacs.h` are a set of macros and inline
     functions that ease the use of the various CMPI function tables. They are
     provided to help the CMPI developer and are NOT required to be used. They
@@ -117,13 +111,14 @@ extern "C" {
       and release() functions for the function table of the object provided by
       the input arguments.
 
-      @todo TBD AM: This definition boils down to having only these two macros
+      @todo AM: This definition boils down to having only these two macros
           in this group. It seems to me that splitting the MB functions into
           the two categories we have in the two MB function related sub-modules
           of @ref convenience-func "CMPI Convenience Functions" (i.e. EDT vs.
           Broker Tables) may be a better way. Definitely, we should use the
           same way of splitting them in this bullet list here, as we use in the
-          sub-modules.
+          sub-modules.@n
+          TODO AM: Make this definition consistent with module grouping.
     @endparblock
     @li @parblock
       Helper Functions and Macros
@@ -436,13 +431,14 @@ do \
     return stat; \
 } while (0)
 
-/** @brief Test a CMPI object or function return for NULL.
+/** @brief Test an encapsulated data type object pointer for NULL.
 
-    CMIsNullObject() tests a CMPI object or function return for NULL. This test
-    is suitable for error checking of any factory functions that return NULL in
-    case of error.
-    @param obj Points to the CMPI object to be tested. This argument is defined
-        as `void*` to encompass any CMPI encapsulated data type object.
+    This test is suitable for checking any pointers to encapsulated data type
+    objects for NULL, including the pointers returned by their factory
+    functions.
+    @param obj Pointer to the encapsulated data type object to be tested. This
+        argument is defined as `void*` to encompass any encapsulated data type
+        object.
     @retval true The object is NULL.
     @retval false The object is NOT NULL.
     @par Examples
@@ -458,28 +454,36 @@ do \
     @endcode
     @hideinitializer
 
-    @todo TBD KS: object is incorrect word.  Need to define what
+    @todo DONE_REVIEW KS: object is incorrect word.  Need to define what
           encompasses CMPI Object. Do we need list of all
           possibles?@n
-          AM. What is 'function return'?
-    @todo KS: test this to be sure it is correct, in particular
-          function repsonse
-    @todo TBD AM: It seems to me that the second part of the comparison
+          AM: What is 'function return'?@n
+          AM: In the WG call, we concluded that we want to document the use
+          of this function for EDTs. The 'function returns' were probably
+          meant to be the pointers returned from the EDT factory functions.
+    @todo DONE KS: test this to be sure it is correct, in particular
+          function repsonse.@n
+          AM: Reviewed.
+    @todo DONE_REVIEW AM: It seems to me that the second part of the comparison
         is implementation-specific. Plus, the casting is dubious. The macro
         version should instead access the hdl member, if that was the
         intention. But again, indicating a NULL object via obj->hdl=NULL to me
-        seems to be implementation-specific.
-    @todo TBD AM: The example seems to be somewhat confused. Why is a test of
-        cop meaningful when it is not used at all, and cop2 is used instead?
+        seems to be implementation-specific.@n
+        AM: In the WG call, we agreed that the second part of the comparison
+        is implementation-specific and should be removed.
+    @todo TODO_KS AM: The example seems to be somewhat confused. Why is a test
+        of cop meaningful when it is not used at all, and cop2 is used
+        instead?@n
+        Karl to review the example.
 */
 #ifdef CMPI_NO_INLINE
-#define CMIsNullObject(obj) \
-    ((obj) == NULL || *((void**)(obj)) == NULL)
+#define CMIsNullObject(objptr) \
+    ((objptr) == NULL)
 #else
 static inline CMPIBoolean CMIsNullObject(
-    const void *obj)
+    const void *objptr)
 {
-    return obj == NULL || *((void **)obj) == NULL;
+    return objptr == NULL;
 }
 #endif
 
@@ -524,10 +528,11 @@ static inline CMPIBoolean CMIsNullObject(
     @endcode
     @hideinitializer
 
-    @todo TBD AM: The expression in the return statement causes a GCC warning
+    @todo DONE AM: The expression in the return statement causes a GCC warning
         "overflow in implicit constant conversion". Need to fix somehow.
-    @todo TBD AM: The example is way too complex if it just intends to show
-        how to use this function.
+    @todo TODO_KS AM: The example is way too complex if it just intends to show
+        how to use this function.@n
+        Karl to come up with simpler example.
 */
 #ifdef CMPI_NO_INLINE
 #define CMIsNullValue(data) \
@@ -552,11 +557,11 @@ static inline CMPIBoolean CMIsNullValue(
     @hideinitializer
     @statusopenpegasus Not tested
 
-    @todo KS: This is value call, not pointer.  Shouldn't this be
+    @todo DONE KS: This is value call, not pointer.  Shouldn't this be
           pointer call?@n
           AM: It works with a CMPIData value, and I dont't think we can change
           it to a pointer, for compatibility. I fixed the description.
-    @todo TBD AM: The expression in the return statement causes a GCC warning
+    @todo DONE AM: The expression in the return statement causes a GCC warning
         "overflow in implicit constant conversion". Need to fix somehow.
 */
 #ifdef CMPI_NO_INLINE
@@ -583,9 +588,9 @@ static inline CMPIBoolean CMIsKeyValue(
     @statusopenpegasus Not tested
 
     @todo KS this needs example.
-    @todo KS: this is defined as...@n
+    @todo DONE KS: this is defined as...@n
           AM: ...a pointer? Same comment and fix as for CMIsKeyValue().
-    @todo TBD AM: The expression in the return statement causes a GCC warning
+    @todo DONE AM: The expression in the return statement causes a GCC warning
         "overflow in implicit constant conversion". Need to fix somehow.
 */
 #ifdef CMPI_NO_INLINE
@@ -718,16 +723,15 @@ static inline CMPIBoolean CMIsArray(
 
 /** @brief Get a context entry in a CMPIContext object by name.
 
-    CMGetContextEntry() executes CMPIContextFT.getEntry().
-    @param ctx Points to the CMPIContext object.
-    @param name C string specifying the context entry name. See @ref
+    @param ctx CMPIContext object.
+    @param name Name of the context entry. See @ref
         def-context-fieldnames "Names of CMPIContext fields" for defined names.
     @param [out] rc Function return status (suppressed when NULL).
-    @return CMPIData structure containing the value of the context entry.
+    @return Context entry value and type.
     @see CMPIContextFT.getEntry()
     @hideinitializer
     
-    @todo TBD AM: How specific do we want the description of the convenience
+    @todo DONE AM: How specific do we want the description of the convenience
         functions to be, for example:@n
         - Should we omit the precise type of the arguments from the description
           text (that is OK when generating the documentation based on the
@@ -738,9 +742,15 @@ static inline CMPIBoolean CMIsArray(
         - Should we assume that the presence of [out] is sufficient so that
           we don't need to repeat the output-ness in the description?@n
         This function is described using the exact data types of its
-        arguments.
-    @todo TBD AM: Should we have text like "CMGetContextEntry() executes
-        CMPIContextFT.getEntry()"?
+        arguments.@n
+        In the WG call, we agreed that the short descriptions are ok, and
+        that it is acceptable to depend on the type declarations in the inline
+        functions.
+    @todo TODO_AM AM: Should we have text like "CMGetContextEntry() executes
+        CMPIContextFT.getEntry()"?@n
+        In the WG call, we agreed that the most desirable option is to have
+        a section named "Full Description" that just has a link to the FT
+        function. Andy to figure out how that can be done. 
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetContextEntry(ctx, name, rc)  \
@@ -763,12 +773,9 @@ static inline CMPIData CMGetContextEntry(
          array is implementation-defined.
     @param [out] name Name of the returned context entry (suppressed when NULL).
     @param [out] rc Function return status (suppressed when NULL).
-    @return The context entry.
+    @return Context entry value and type.
     @see CMPIContextFT.getEntryAt()
     @hideinitializer
-
-    @todo TBD AM: This function stays brief in its argument descriptions, not
-        mentioning the exact data type.@n
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetContextEntryAt(ctx, index, name, rc) \
@@ -1075,7 +1082,7 @@ static inline CMPIType CMGetArrayType(
     @param ar CMPIArray object.
     @param index Zero-based position of the array element in the CMPIArray.
     @param [out] rc Function return status (suppressed when NULL).
-    @return The array element.
+    @return Array element value and type.
     @see CMPIArrayFT.getElementAt()
     @hideinitializer
     @statusopenpegasus Used and tested
@@ -1132,7 +1139,7 @@ static inline CMPIStatus CMSetArrayElementAt(
 
     @param en CMPIEnumeration object.
     @param [out] rc Function return status (suppressed when NULL).
-    @return The next element.
+    @return Element value and type.
     @see CMPIEnumerationFT.getNext()
     @hideinitializer
 */
@@ -1288,8 +1295,11 @@ static inline CMPICount CMGetPropertyCount(
     @hideinitializer
     @statusopenpegasus Used and tested extensively
 
-*   @todo TBD AM: Why do we have the `(CMPIValue *)` cast in the macro version?
-*   @todo Test this against all of pegasus providers.
+    @todo TODO_KS AM: Why do we have the `(CMPIValue *)` cast in the macro
+        version?@n
+        We agreed that the cast should be removed because it hides type
+        errors and has no apparent value.@n
+        Karl to test this against all of OpenPegasus providers.
 */
 #ifdef CMPI_NO_INLINE
 #define CMSetProperty(inst, name, value, type) \
@@ -1842,9 +1852,6 @@ static inline CMPIData CMGetArg(
     @see CMPIArgsFT.getArgAt()
     @hideinitializer
     @statusopenpegasus Used
-
-    @todo TBD KS: removed all params and returns@n
-        AM: Not sure what the issue is? I think it is ok as it is.
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetArgAt(args, index, name, rc) \
@@ -2859,12 +2866,11 @@ static inline CMPIStatus CMSetMessageArguments(
     @see @ref mb-capabilities "MB Capabilities", CMPIBrokerFT.brokerCapabilities
     @hideinitializer
 
-    @todo TBD AM: The macro version is called CBGetClassification(). Should we
-        rename that to the inline function's name CBGetCapabilities()?
-    @todo TBD AM: Should this function be moved to "Helper Functions"?
+    @todo TODO_AM AM: Should this function be moved to "Helper Functions"?@n
+        Yes.
 */
 #ifdef CMPI_NO_INLINE
-#define CBGetClassification(mb) \
+#define CBGetCapabilities(mb) \
     ((mb)->bft->brokerCapabilities)
 #else
 static inline unsigned int CBGetCapabilities(
@@ -2891,7 +2897,8 @@ static inline unsigned int CBGetCapabilities(
     @statusopenpegasus Not used
     @hideinitializer
 
-    @todo TBD AM: Should this function be moved to "Helper Functions"?
+    @todo TODO_AM AM: Should this function be moved to "Helper Functions"?@n
+        Yes.
 */
 #ifdef CMPI_NO_INLINE
 #define CBBrokerVersion(mb) \
@@ -2918,7 +2925,8 @@ static inline CMPIVersion CBBrokerVersion(
     @see CMPIBrokerFT.brokerName
     @hideinitializer
 
-    @todo TBD AM: Should this function be moved to "Helper Functions"?
+    @todo TODO_AM AM: Should this function be moved to "Helper Functions"?@n
+        Yes.
 */
 #ifdef CMPI_NO_INLINE
 #define CBBrokerName(mb) \
@@ -4124,17 +4132,19 @@ static inline CMPIStatus CMCloseMessageFile(
     CMGetMessage2(_broker, "msgid", msgFileHandle, "Test $0 $1",
         NULL, CMFmtArgs2(CMFmtChars("message"), CMFmtSint(42)));
     @endcode
-    @version Inline code modified; unsigned int last parameter
-          to type CMPICount in 2.1
     @hideinitializer
     @statusopenpegasus Tested in cmpiTestBrokerEncProvider.c
 
-    @todo TBD KS: Pls review since it asks to do something if macro but it is
+    @todo DONE KS: Pls review since it asks to do something if macro but
+        it is
         only a macro. No inline version.@n
         AM: I removed the inline function, added the CMFmtArgsX() and CMFmtX()
-        macros back in, and improved the description. Please review.
-    @todo TBD AM: Not sure I understand the text of the Version section. There
-        was no change for the macro between CMPI 2.0 and 2.1.
+        macros back in, and improved the description. Please review.@n
+        In the WG call, we concluded that is the right approach.
+    @todo DONE AM: Not sure I understand the text of the Version section.
+        There
+        was no change for the macro between CMPI 2.0 and 2.1.@n
+        AM: Removed the version statement.
 */
 #define CMGetMessage2(mb, msgId, msgFileHandle, defMsg, rc, args) \
     ((mb)->eft->getMessage2((mb), (msgId), (msgFileHandle), (defMsg), (rc), \
@@ -4307,33 +4317,39 @@ static inline CMPIStatus CMCloseMessageFile(
         think the example is good enough for the factory function. What would
         be good to have are the actual provider functions, somewhere. That is
         too much for this particular macro.
-    @todo TBD KS: Despite the documentation, this apparently requires
+    @todo DONE KS: Despite the documentation, this apparently requires
         implementations of all of the corresponding functions. How to we handle
         the two that may well be optional. (ExecQuery,
         EnumerateInstancesFiltered)?@n
         AM: The spec requires that the MIFT table always has all functions.
         Those that are not implemented, still exist and return 'not
-        implemented'. I have updated the example to show ExecQuery() that way.
-    @todo TBD AM: Why is the MIFT file static and the MI local static? The
+        implemented'. I have updated the example to show ExecQuery() that way.@n
+        In the WG call, we agreed this is correct.
+    @todo TODO_AM AM: Why is the MIFT file static and the MI local static? The
         variable name used for the file static table is the same for all
         providers, making it impossible to have more than one provider per
         source file. This seems like an unnecessary limitation. Suggestion:
-        Make both tables local static. KS. Proposal: make
-        comment about this limitation.
-    @todo TBD AM: We document the CMPI_VERSION is the version that is
+        Make both tables local static.@n
+        In the WG call, we agreed to keep the two variables as they are,
+        and to add a comment about this limitation.
+        In the WG call, we agreed this is correct.
+    @todo DONE AM: We document the CMPI_VERSION is the version that is
         implemented. If we are serious about this, we should use CMPI_VERSION
         instead of CMPICurrentVersion, for the first version in the MIFT.
-    @todo TBD AM: The second version in the MIFT is the MI development version,
+    @todo DONE AM: The second version in the MIFT is the MI development version,
         and has nothing to do with the CMPI version. Ideally, it would be
         passed as an argument to the macro. For now, I have set it also to
         CMPI_VERSION, for compatibility.
-    @todo TBD AM: We should make sure that the code works for both C and C++
+    @todo DONE AM: We should make sure that the code works for both C and C++
         compilation. I have added ifdef __cplusplus around the C stubs, and
         around any inline functions. While this causes differently named linker
         symbols to be created for the inline convenience functions, they are
         MI-local and thus binary compatibility to the MB is not affected. It is
-        still source code compatible for recompiles of the MI.
-    @todo TBD AM: While we document that the returned pointer indicates success
+        still source code compatible for recompiles of the MI.@n
+        It turns out this comment was moot and applied to an earlier version
+        of the code.
+    @todo TODO_AM AM: While we document that the returned pointer indicates
+        success
         or error to the MB, it is still also required to set CMPIStatus.rc upon
         return. The current macro does not set that at all. Do we expect the
         init hook to set that, or was that just oversight? I have added code
@@ -4346,7 +4362,10 @@ static inline CMPIStatus CMCloseMessageFile(
         CMInitHook() macro to the cmpimacs.h header file, if you like it.
         it also encapsulates the knowledge about the local variable and argument
         names in the generated factory function, so we could again "undocument"
-        them.
+        them.@n
+        In the WG call, we agreed to add CMInitHook() as an official macro, and
+        to make the MIFT pointer available to the new init function it calls
+        (e.g. for updating the MI version field).
 */
 #define CMInstanceMIStub(pfx, miname, mbvar, hook) \
 static CMPIInstanceMIFT instMIFT__ = { \
@@ -5049,11 +5068,15 @@ CMPI_EXTERN_C CMPIIndicationMI * miname##_Create_IndicationMI( \
     @hideinitializer
 
     @todo Need reference back to cmpift
-    @todo TBD AM: Where are the C++ classes documented that are used by this
-        macro?
-    @todo TBD AM: I have added ifdef __cplusplus around the C++ stubs, because
+    @todo TODO_AM AM: Where are the C++ classes documented that are used by this
+        macro?@n
+        In the WG call, we agreed to leave the macros as they are, and to
+        document that C++ classes needed for their use are not defined
+        in the CMPI header files.
+    @todo DONE AM: I have added ifdef __cplusplus around the C++ stubs, because
         they do not make sense when compiling for C. They would probably not
-        hurt, but I think it is cleaner that way.
+        hurt, but I think it is cleaner that way.@n
+        Agreed in WG call.
 */
 #define CMInstanceMIFactory(cn,miname) \
  CMPI_EXTERN_C \
