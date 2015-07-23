@@ -3070,13 +3070,14 @@ typedef struct _CMPIBrokerExtFT {
 
          If not successful, NULL will be returned.
      @endparblock
-     @todo TBD AM: The old text in the description of the return value said:@n
+     @todo TODO_KS AM: The old text in the description of the return value
+         said:@n
          "Space for this string has been obtained using POSIX ``malloc()`` and
          must be released using POSIX ``free()`` by the caller.
          In case no storage could be obtained for the complemented library
          name, returns NULL."@n
-         The spec says we changed that to auto-release by MB.
-         Double check in implementation whether that is really true.
+         The spec says we changed that to auto-release by MB.@n
+         Karl to double check the implementation
     */
     char* (*resolveFileName) (const char* libName);
 
@@ -3114,7 +3115,8 @@ typedef struct _CMPIBrokerExtFT {
      @capopsys This function is part of the OS Encapsulation Services
          capability.
 
-     @todo TBD AM: Done, but please review the new function types:
+     @todo TODO_KS AM: Karl to test the new function types in actual code,
+           particularly with MSVC compiler:
            @ref CMPIThreadFunc,
            @ref CMPIThreadOnceFunc,
            @ref CMPIThreadKeyCleanupFunc.

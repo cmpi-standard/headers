@@ -461,7 +461,8 @@ do \
 
     @todo TODO_KS The example seems to be somewhat confused. Why is a test
         of cop meaningful when it is not used at all, and cop2 is used
-        instead? Karl to review the example.
+        instead?@n
+        Karl to review the example.
 */
 #ifdef CMPI_NO_INLINE
 #define CMIsNullObject(objptr) \
@@ -516,7 +517,8 @@ static inline CMPIBoolean CMIsNullObject(
     @hideinitializer
 
     @todo TODO_KS The example is way too complex if it just intends to show
-        how to use this function. Karl to come up with simpler example.
+        how to use this function.@n
+        Karl to come up with simpler example.
 */
 #ifdef CMPI_NO_INLINE
 #define CMIsNullValue(data) \
@@ -3693,7 +3695,10 @@ static inline CMPIArgs *CMNewArgs (
     @endcode
     @hideinitializer
 
-    @todo TBD AM: Clarify whether NULL is allowed as `data` argument.
+    @todo TODO_KS AM: Clarify whether NULL is allowed as `data` argument.
+        The example in the convenience function specifies NULL, but the 2.1 and
+        2.0 specs are silent about whether NULL is allowed.@n
+        Karl to double check in the implementation.
 */
 #ifdef CMPI_NO_INLINE
 #define CMNewString(mb, data, rc) \
