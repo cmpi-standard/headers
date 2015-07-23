@@ -200,7 +200,7 @@
  * Support for the Context Data capability cannot be discovered by
  * means of CMPIBrokerFT.brokerCapabilities.
  *
- * @required210 Support for this capability is required since CMPI 2.1.
+ * @required210
  */
 
 /**

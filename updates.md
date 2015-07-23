@@ -6,7 +6,11 @@
 * Added the erroneously removed convenience function for getMessage() back in.
 * Changed the @fulldescription and @convfunction special commands to generate
   a paragraph instead of a cross reference item.
-
+* Changed Doxygen special commands to include \n to avoid unintended nesting
+  when specified without empty separator line.
+* Changed Doxygen special commands @addedNNN and @requiredNNN to automatically
+  generate standard text. Changed their usages to accomodate that.
+  
 22 July - Andy
 --------------
 

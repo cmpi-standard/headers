@@ -225,70 +225,77 @@ ALIASES                =
 # The following alias defines a @platformspecific special command that is used to
 # indicate platform-specific definitions. Their list will be linked from the
 # "Related Pages" tab:
-ALIASES += "platformspecific=@xrefitem platformspecific \"Platform-specific Definition\" \"Platform-specific Definitions\""
+ALIASES += "platformspecific=\n@xrefitem platformspecific \"Platform-specific Definition\" \"Platform-specific Definitions\""
 
 # The following alias defines a @cxxspecific special command that is used to
 # indicate whether a definition is specific to whether the headers are compiled
 # for C or for C++. Their list will be linked from the "Related Pages" tab:
-ALIASES += "cxxspecific=@xrefitem cxxspecific \"C/C++-specific Definition\" \"C/C++-specific Definitions\""
+ALIASES += "cxxspecific=\n@xrefitem cxxspecific \"C/C++-specific Definition\" \"C/C++-specific Definitions\""
 
 # The following aliases define @addedNNN special commands that are used to
-# indicate that an entity was added in CMPI N.N.N Their list will be
-# linked from the "Related Pages" tab:
-ALIASES += "added200=@xrefitem added200 \"Addition\" \"Added in CMPI 2.0.0\""
-ALIASES += "added210=@xrefitem added210 \"Addition\" \"Added in CMPI 2.1.0\""
+# indicate that an entity was added in CMPI N.N.N. A standard text is
+# automatically generated, the usage needs to specify only text in addition to
+# the standard text. Their list will be linked from the "Related Pages" tab:
+ALIASES += "added200=\n@xrefitem added200 \"Addition\" \"Added in CMPI 2.0\" Added in CMPI 2.0."
+ALIASES += "added210=\n@xrefitem added210 \"Addition\" \"Added in CMPI 2.1\" Added in CMPI 2.1."
 
 # The following alias defines @requiredNNN special commands that are used to
-# indicate that an entity is required to be supported since CMPI N.N.N Their
-# list will be linked from the "Related Pages" tab:
-ALIASES += "required200=@xrefitem required200 \"Requirement Change\" \"Required since CMPI 2.0.0\""
-ALIASES += "required210=@xrefitem required210 \"Requirement Change\" \"Required since CMPI 2.1.0\""
+# indicate that an entity is required to be supported since CMPI N.N.N. A
+# standard text is automatically generated, the usage needs to specify only
+# text in addition to the standard text.  Their list will be linked from the
+# "Related Pages" tab:
+ALIASES += "required200=\n@xrefitem required200 \"Requirement Change\" \"Required since CMPI 2.0\" Required to be supported since CMPI 2.0"
+ALIASES += "required210=\n@xrefitem required210 \"Requirement Change\" \"Required since CMPI 2.1\" Required to be supported since CMPI 2.1"
 
 # The following alias defines @changedNNN special commands that are used to
 # indicate that an entity was changed in CMPI N.N.N.
 # Their list will be linked from the "Related Pages" tab:
-ALIASES += "changed210=@xrefitem changed210 \"Change\" \"Changed in CMPI 2.1.0\""
+ALIASES += "changed210=\n@xrefitem changed210 \"Change\" \"Changed in CMPI 2.1\""
 
 # The following alias defines @incompatibleNNN special commands that are used to
 # indicate that an entity was changed in an incompatible way in CMPI N.N.N.
 # Their list will be linked from the "Related Pages" tab:
-ALIASES += "incompatible210=@xrefitem incompatible210 \"Incompatibility\" \"Incompatibilities in CMPI 2.1.0\""
+ALIASES += "incompatible210=\n@xrefitem incompatible210 \"Incompatibility\" \"Incompatibilities in CMPI 2.1\""
 
 # The following alias defines @capXXXXXXX special commands that are used to
 # indicate that a definition is part of a particular MB capability.
 # Their list will be linked from the "Related Pages" tab:
-ALIASES += "capread=@xrefitem capread \"Capabilities\" \"Basic Read MB Capability\""
-ALIASES += "capwrite=@xrefitem capwrite \"Capabilities\" \"Basic Write MB Capability\""
-ALIASES += "capmanipulation=@xrefitem capmanipulation \"Capabilities\" \"Instance Manipulation MB Capability\""
-ALIASES += "capassociations=@xrefitem capassociations \"Capabilities\" \"Association Traversal MB Capability\""
-ALIASES += "capqueryexec=@xrefitem capqueryexec \"Capabilities\" \"Query Execution MB Capability\""
-ALIASES += "capquerynorm=@xrefitem capquerynorm \"Capabilities\" \"Query Normalization MB Capability\""
-ALIASES += "capqualifiers=@xrefitem capqualifiers \"Capabilities\" \"Basic Qualifier MB Capability\""
-ALIASES += "capindications=@xrefitem capindications \"Capabilities\" \"Indications MB Capability\""
-ALIASES += "capopsys=@xrefitem capopsys \"Capabilities\" \"OS Encapsulation Services MB Capability\""
-ALIASES += "capmemory=@xrefitem capmemory \"Capabilities\" \"Memory Enhancement Services MB Capability\""
-ALIASES += "caperrors=@xrefitem caperrors \"Capabilities\" \"Extended Errors MB Capability\""
-ALIASES += "caplogging=@xrefitem caplogging \"Capabilities\" \"Logging MB Capability\""
-ALIASES += "captracing=@xrefitem captracing \"Capabilities\" \"Tracing MB Capability\""
-ALIASES += "capfiltering=@xrefitem capfiltering \"Capabilities\" \"Property Filtering MB Capability\""
-ALIASES += "capcodepage=@xrefitem capcodepage \"Capabilities\" \"Codepage Conversion MB Capability\""
-ALIASES += "captranslation=@xrefitem captranslation \"Capabilities\" \"Message Translation MB Capability\""
-ALIASES += "capcontext=@xrefitem capcontext \"Capabilities\" \"Context Data MB Capability\""
+ALIASES += "capread=\n@xrefitem capread \"Capabilities\" \"Basic Read MB Capability\""
+ALIASES += "capwrite=\n@xrefitem capwrite \"Capabilities\" \"Basic Write MB Capability\""
+ALIASES += "capmanipulation=\n@xrefitem capmanipulation \"Capabilities\" \"Instance Manipulation MB Capability\""
+ALIASES += "capassociations=\n@xrefitem capassociations \"Capabilities\" \"Association Traversal MB Capability\""
+ALIASES += "capqueryexec=\n@xrefitem capqueryexec \"Capabilities\" \"Query Execution MB Capability\""
+ALIASES += "capquerynorm=\n@xrefitem capquerynorm \"Capabilities\" \"Query Normalization MB Capability\""
+ALIASES += "capqualifiers=\n@xrefitem capqualifiers \"Capabilities\" \"Basic Qualifier MB Capability\""
+ALIASES += "capindications=\n@xrefitem capindications \"Capabilities\" \"Indications MB Capability\""
+ALIASES += "capopsys=\n@xrefitem capopsys \"Capabilities\" \"OS Encapsulation Services MB Capability\""
+ALIASES += "capmemory=\n@xrefitem capmemory \"Capabilities\" \"Memory Enhancement Services MB Capability\""
+ALIASES += "caperrors=\n@xrefitem caperrors \"Capabilities\" \"Extended Errors MB Capability\""
+ALIASES += "caplogging=\n@xrefitem caplogging \"Capabilities\" \"Logging MB Capability\""
+ALIASES += "captracing=\n@xrefitem captracing \"Capabilities\" \"Tracing MB Capability\""
+ALIASES += "capfiltering=\n@xrefitem capfiltering \"Capabilities\" \"Property Filtering MB Capability\""
+ALIASES += "capcodepage=\n@xrefitem capcodepage \"Capabilities\" \"Codepage Conversion MB Capability\""
+ALIASES += "captranslation=\n@xrefitem captranslation \"Capabilities\" \"Message Translation MB Capability\""
+ALIASES += "capcontext=\n@xrefitem capcontext \"Capabilities\" \"Context Data MB Capability\""
 
 # The following alias defines a @fulldescription special command that is used
 # to link from the (abbridged) description of a convenience function to the
 # full description in the underlying MB function. Their list will be linked from
 # the "Related Pages" tab.
 #TODO: Remove following line once decided to stay with paragraphs.
-#ALIASES += "fulldescription=@xrefitem fulldescription \"Full Description\" \"Full Descriptions\""
-ALIASES += "fulldescription=@par Full Description\n"
+#ALIASES += "fulldescription=\n@xrefitem fulldescription \"Full Description\" \"Full Descriptions\""
+ALIASES += "fulldescription=\n@par Full Description\n"
 
 # The following alias defines a @convfunction special command that is used
 # to link from the description of a MB function or other entity to its
 # convenience function. Their list will be linked from the "Related Pages" tab.
 #TODO: Remove following line once decided to stay with paragraphs.
-#ALIASES += "convfunction=@xrefitem convfunction \"Convenience Function\" \"Convenience Functions\""
-ALIASES += "convfunction=@par Convenience Function\n"
+#ALIASES += "convfunction=\n@xrefitem convfunction \"Convenience Function\" \"Convenience Functions\""
+ALIASES += "convfunction=\n@par Convenience Function\n"
+
+# The following alias defines a @examples special command that is used
+# to introduce an examples section for a function description.
+ALIASES += "examples=\n@par Examples\n"
 
 # The following alias defines @status{xxx} special commands that are used to
 # show the test and/or implementation status of each function or macro for a

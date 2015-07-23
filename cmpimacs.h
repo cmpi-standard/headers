@@ -190,7 +190,7 @@ extern "C" {
     @param rc A @ref CMPIrc value specifying the return code.
     @return Nothing.
     @see CMPIStatus
-    @par Examples
+    @examples
     @code (.c)
     CMPIStatus st = { CMPI_RC_OK, NULL };
     if (....) // something bad happened
@@ -275,7 +275,7 @@ static inline void CMSetStatusWithString(
                text or NULL if no text is to be added to the
                CMPIStatus @p st.
     @see CMPIStatus
-    @par Examples
+    @examples
     @code (.c)
     static CMPIBroker *_broker; // Cany be populated with stub macro
     . . .
@@ -332,8 +332,7 @@ static inline void CMSetStatusWithChars(
     @param rc A @ref CMPIrc value specifying the return code.
     @return This macro never returns to its caller; it contains a `return`
         statement and therefore exits the function from which it was called.
-
-    @par Examples
+    @examples
     Example of enumerateInstanceNames() MI function that returns CMPI_RC_OK to
     the MB.
     @code (.c)
@@ -369,8 +368,7 @@ do \
     @return This macro never returns to its caller; it contains a `return`
         statement and therefore exits the function from which it was called.
     @see CMPIStatus
-
-    @par Examples
+    @examples
     Example of code in an MI function that checks for an optional MB capability
     and returns with an error to the MB if the capability is not available.
     @code (.c)
@@ -412,8 +410,7 @@ do \
     @return This macro never returns to its caller; it contains a `return`
         statement and therefore exits the function from which it was called.
     @see CMPIStatus
-
-    @par Examples
+    @examples
     Example of code in a modifyInstance() MI function that is not implemented
     and returns to the MB with CMPI_RC_ERR_NOT_SUPPORTED and an according error
     message.
@@ -446,7 +443,7 @@ do \
         type object.
     @retval true The object is NULL.
     @retval false The object is NOT NULL.
-    @par Examples
+    @examples
     @code (.c)
     cop = CMNewObjectPath(_broker, "root/SampleProvider", _ClassName, &rc);
     CMAddKey(cop2, "Identifier", (CMPIValue *)&value1, CMPI_uint8);
@@ -483,8 +480,7 @@ static inline CMPIBoolean CMIsNullObject(
     @retval true The CMPIData value is NULL.
     @retval false The CMPIData value is not NULL.
     @see CMPIData, CMPIValueState
-
-    @par Examples
+    @examples
     Process received method call that includes a CIMObject path @p ref for
     classname, method name, arguments, argument name and value in the argument
     @code (.c)
@@ -630,8 +626,7 @@ static inline CMPIBoolean CMIsArray(
         CMPIErrorFT.release(),
         CMPIPropertyListFT.release(),
         CMPIEnumerationFilterFT.release()
-
-    @par Examples
+    @examples
     Code to clean up after attempting to create an instance:
     @code (.c)
     CMPIStatus rc = { CMPI_RC_OK, NULL };
@@ -684,8 +679,7 @@ static inline CMPIBoolean CMIsArray(
         CMPIErrorFT.clone(),
         CMPIPropertyListFT.clone(),
         CMPIEnumerationFilterFT.clone()
-
-    @par Examples
+    @examples
     Clone an instance to add to an array:
     @code (.c)
     // preexisting instance CMPIInstance *ci)
@@ -905,6 +899,7 @@ static inline CMPIStatus CMReturnDone(
     @param er Error to be returned.
     @return Function return status.
     @fulldescription CMPIResultFT.returnError()
+    @added200
     @hideinitializer
 */
 #ifdef CMPI_NO_INLINE
@@ -934,8 +929,7 @@ static inline CMPIStatus CMReturnError(
     @return C-language string representation of the CMPIString object.
     @fulldescription CMPIStringFT.getCharPtr()
     @see CMGetCharsPtr()
-
-    @par Examples
+    @examples
     @code (.c)
     myObjPath = CMNewObjectPath(
         _broker,
@@ -965,8 +959,7 @@ static inline const char * CMGetCharPtr(
     @param [out] rc Function return status (suppressed when NULL).
     @return C-language string representation of the CMPIString object.
     @fulldescription CMPIStringFT.getCharPtr()
-
-    @par Examples
+    @examples
     @code (.c)
     CMPIObjectPath *op = NULL;
     CMPIStatus rc = { CMPI_RC_OK, NULL };
@@ -1174,8 +1167,7 @@ static inline CMPIArray *CMToArray(
     @param [out] rc Function return status (suppressed when NULL).
     @return Property value and type.
     @fulldescription CMPIInstanceFT.getProperty()
-
-    @par Examples
+    @examples
     @code (.c)
     CMPIInstance *inst = NULL;
     // . . . make the inst
@@ -1358,6 +1350,7 @@ static inline CMPIStatus CMSetObjectPath(
         attached to the property.
     @return Function return status.
     @fulldescription CMPIInstanceFT.setPropertyWithOrigin()
+    @added200
     @hideinitializer
 */
 #ifdef CMPI_NO_INLINE
@@ -2264,6 +2257,7 @@ static inline CMPIBoolean CMEvaluatePredicateUsingAccessor(
     @param [out] rc Function return status (suppressed when NULL).
     @return The `ErrorType` attribute.
     @fulldescription CMPIErrorFT.getErrorType()
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @hideinitializer
     @statusopenpegasus Used and tested
@@ -2288,6 +2282,7 @@ static inline CMPIErrorType CMGetErrorType(
     @param er CMPIError object.
     @param [out] rc Function return status (suppressed when NULL).
     @return The `OtherErrorType` attribute.
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @fulldescription CMPIErrorFT.getOtherErrorType()
     @hideinitializer
@@ -2315,6 +2310,7 @@ static inline CMPIString *CMGetOtherErrorType(
     @param [out] rc Function return status (suppressed when NULL).
     @return The `OwningEntity` attribute.
     @fulldescription CMPIErrorFT.getOwningEntity()
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @hideinitializer
     @statusopenpegasus Tested
@@ -2341,6 +2337,7 @@ static inline CMPIString *CMGetOwningEntity(
     @param [out] rc Function return status (suppressed when NULL).
     @return The `MessageID` attribute.
     @fulldescription CMPIErrorFT.getMessageID()
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @hideinitializer
     @statusopenpegasus Tested
@@ -2366,6 +2363,7 @@ static inline CMPIString *CMGetMessageID(
     @param er CMPIError object.
     @param [out] rc Function return status (suppressed when NULL).
     @return The `Message` attribute.
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @fulldescription CMPIErrorFT.getMessage()
     @hideinitializer
@@ -2394,6 +2392,7 @@ static inline CMPIString *CMGetErrorMessage(
     @param [out] rc Function return status (suppressed when NULL).
     @return The `PerceivedSeverity` attribute.
     @fulldescription CMPIErrorFT.getPerceivedSeverity()
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @hideinitializer
     @statusopenpegasus Tested
@@ -2421,6 +2420,7 @@ static inline CMPIErrorSeverity CMGetPerceivedSeverity(
     @param [out] rc Function return status (suppressed when NULL).
     @return The `ProbableCause` attribute.
     @fulldescription CMPIErrorFT.getProbableCause()
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @hideinitializer
     @statusopenpegasus Tested
@@ -2447,6 +2447,7 @@ static inline CMPIErrorProbableCause CMGetProbableCause(
     @param [out] rc Function return status (suppressed when NULL).
     @return The `ProbableCauseDescription` attribute.
     @fulldescription CMPIErrorFT.getProbableCauseDescription()
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @hideinitializer
     @statusopenpegasus Tested
@@ -2473,6 +2474,7 @@ static inline CMPIString * CMGetProbableCauseDescription(
     @param [out] rc Function return status (suppressed when NULL).
     @return The `RecommendedActions` array attribute.
     @fulldescription CMPIErrorFT.getRecommendedActions()
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @hideinitializer
     @statusopenpegasus Tested
@@ -2498,6 +2500,7 @@ static inline CMPIArray * CMGetRecommendedActions(
     @param [out] rc Function return status (suppressed when NULL).
     @return The `ErrorSource` attribute.
     @fulldescription CMPIErrorFT.getErrorSource()
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @hideinitializer
     @statusopenpegasus Tested
@@ -2524,6 +2527,7 @@ static inline CMPIString * CMGetErrorSource(
     @param [out] rc Function return status (suppressed when NULL).
     @return The `ErrorSourceFormat` attribute.
     @fulldescription CMPIErrorFT.getErrorSourceFormat()
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @hideinitializer
     @statusopenpegasus Tested
@@ -2550,6 +2554,7 @@ static inline CMPIErrorSrcFormat CMGetErrorSourceFormat(
     @param [out] rc Function return status (suppressed when NULL).
     @return The `OtherErrorSourceFormat` attribute.
     @fulldescription CMPIErrorFT.getOtherErrorSourceFormat()
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @hideinitializer
     @statusopenpegasus Tested
@@ -2577,6 +2582,7 @@ static inline CMPIString * CMGetOtherErrorSourceFormat(
     @param [out] rc Function return status (suppressed when NULL).
     @return The `CIMStatusCode` attribute.
     @fulldescription CMPIErrorFT.getCIMStatusCode()
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @hideinitializer
     @statusopenpegasus Tested
@@ -2603,6 +2609,7 @@ static inline CMPIrc CMGetCIMStatusCode(
     @param [out] rc Function return status (suppressed when NULL).
     @return The `CIMStatusCodeDescription` attribute.
     @fulldescription CMPIErrorFT.getCIMStatusCodeDescription()
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @hideinitializer
 */
@@ -2628,6 +2635,7 @@ static inline CMPIString * CMGetCIMStatusCodeDescription(
     @param [out] rc Function return status (suppressed when NULL).
     @return The `MessageArguments` array attribute.
     @fulldescription CMPIErrorFT.getMessageArguments()
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @hideinitializer
 */
@@ -2653,6 +2661,7 @@ static inline CMPIArray * CMGetMessageArguments(
     @param et The `ErrorType` attribute.
     @return Function return status.
     @fulldescription CMPIErrorFT.setErrorType()
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @hideinitializer
 */
@@ -2677,6 +2686,7 @@ static inline CMPIStatus CMSetErrorType(
     @param ot The `OtherErrorType` attribute.
     @return Function return status.
     @fulldescription CMPIErrorFT.setOtherErrorType()
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @hideinitializer
 */
@@ -2702,6 +2712,7 @@ static inline CMPIStatus CMSetOtherErrorType(
     @param pcd The `ProbableCauseDescription` attribute.
     @return Function return status.
     @fulldescription CMPIErrorFT.setProbableCauseDescription()
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @hideinitializer
 */
@@ -2727,6 +2738,7 @@ static inline CMPIStatus CMSetProbableCauseDescription(
     @param ra The `RecommendedActions` array attribute.
     @return Function return status.
     @fulldescription CMPIErrorFT.setRecommendedActions()
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @hideinitializer
 */
@@ -2751,6 +2763,7 @@ static inline CMPIStatus CMSetRecommendedActions(
     @param es The `ErrorSource` attribute.
     @return Function return status.
     @fulldescription CMPIErrorFT.setErrorSource()
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @hideinitializer
 */
@@ -2776,6 +2789,7 @@ static inline CMPIStatus CMSetErrorSource(
     @param esf The `ErrorSourceFormat` attribute.
     @return Function return status.
     @fulldescription CMPIErrorFT.setErrorSourceFormat()
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @hideinitializer
 */
@@ -2801,6 +2815,7 @@ static inline CMPIStatus CMSetErrorSourceFormat(
     @param oef The `OtherErrorSourceFormat` attribute.
     @return Function return status.
     @fulldescription CMPIErrorFT.setOtherErrorSourceFormat()
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @hideinitializer
 */
@@ -2826,6 +2841,7 @@ static inline CMPIStatus CMSetOtherErrorSourceFormat(
     @param scd The `CIMStatusCodeDescription` attribute.
     @return Function return status.
     @fulldescription CMPIErrorFT.setCIMStatusCodeDescription()
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @hideinitializer
 */
@@ -2851,6 +2867,7 @@ static inline CMPIStatus CMSetCIMStatusCodeDescription(
     @param values The `MessageArguments` array attribute.
     @return Function return status.
     @fulldescription CMPIErrorFT.setMessageArguments()
+    @added200
     @changed210 The inline function was fixed in CMPI 2.1.
     @hideinitializer
 */
@@ -3439,7 +3456,7 @@ static inline CMPIEnumeration *CBReferenceNames(
         parameters.
     @param [out] rc Function return status (suppressed when NULL).
     @return The method return value and type.
-    @par Examples
+    @examples
     The example invokes static method "TestCMPIError" on class
     "TestCMPI_BrokerInstance" in namespace "test/TestProvider", and tests for
     success and correct data type of the method return value.
@@ -3712,7 +3729,7 @@ static inline CMPIEnumeration *CBReferencesFiltered(
     @param [out] rc Function return status (suppressed when NULL).
     @return The new CMPIInstance object.
     @fulldescription CMPIBrokerEncFT.newInstance()
-    @par Examples
+    @examples
     @code (.c)
     CMPIStatus testProvEnumInstances (CMPIInstanceMI *cThis,
         const CMPIContext *ctx, const CMPIResult *rslt,
@@ -3766,7 +3783,7 @@ static inline CMPIInstance *CMNewInstance (
     @param [out] rc Function return status (suppressed when NULL).
     @return The new CMPIObjectPath object.
     @fulldescription CMPIBrokerEncFT.newObjectPath()
-    @par Examples
+    @examples
     @code (.c)
     const char* class = "myClass";
     CMPIObjectPath *objPath = NULL;
@@ -3798,7 +3815,7 @@ static inline CMPIObjectPath *CMNewObjectPath (
     @param [out] rc Function return status (suppressed when NULL).
     @return The new CMPIArgs object.
     @fulldescription CMPIBrokerEncFT.newArgs()
-    @par Examples
+    @examples
     @code (.c)
     CMPIArgs *args_ptr = NULL;
     CMPIStatus rc = { CMPI_RC_OK, NULL };
@@ -3825,7 +3842,7 @@ static inline CMPIArgs *CMNewArgs (
     @param [out] rc Function return status (suppressed when NULL).
     @return The new CMPIString object.
     @fulldescription CMPIBrokerEncFT.newString()
-    @par Examples
+    @examples
     @code (.c)
     CMPIStatus rc;
     CMPIString *cmpiStr1;
@@ -4030,7 +4047,8 @@ static inline CMPISelectExp *CMNewSelectExp(
     @param [out] rc Function return status (suppressed when NULL).
     @return The new CMPIError object.
     @fulldescription CMPIBrokerEncFT.newCMPIError()
-    @par Examples
+    @added200
+    @examples
     @code (.c)
     cmpiError = CMNewCMPIError(_broker, inOwningEntity, inMsgID, inMsg,
                     inSev, inPc, inCIMStatusCode, &rc);
@@ -4069,6 +4087,7 @@ static inline CMPIError * CMNewCMPIError(
     @param [out] rc Function return status (suppressed when NULL).
     @return The new CMPIPropertyList object.
     @fulldescription CMPIBrokerEncFT.newPropertyList()
+    @added210
     @hideinitializer
 */
 #ifdef CMPI_NO_INLINE
@@ -4099,6 +4118,7 @@ static inline CMPIPropertyList *CMNewCMPIPropertyList(
     @param [out] rc Function return status (suppressed when NULL).
     @return The new CMPIString object.
     @fulldescription CMPIBrokerEncFT.newStringCP()
+    @added210
     @hideinitializer
 */
 #ifdef CMPI_NO_INLINE
@@ -4127,6 +4147,7 @@ static inline CMPIString *CMNewCMPIStringCP(
     @param [out] rc Function return status (suppressed when NULL).
     @return The new CMPIEnumerationFilter object.
     @fulldescription CMPIBrokerEncFT.newEnumerationFilter()
+    @added210
     @hideinitializer
 */
 #ifdef CMPI_NO_INLINE
@@ -4212,7 +4233,7 @@ static inline CMPIString *CDToString(
     @retval true The object is of the specified CMPI type.
     @retval false The object is not of the specified CMPI type.
     @fulldescription CMPIBrokerEncFT.isOfType()
-    @par Examples
+    @examples
     @code (.c)
     CMPIStatus rc = { CMPI_RC_OK, NULL };
     CMPIBoolean isOfType = 0;
@@ -4274,7 +4295,7 @@ static inline CMPIString *CDGetType(
         "CMFmt\<type\>(\<v\>)" macros.
     @return Points to a CMPIString object representing the translated message.
     @fulldescription CMPIBrokerEncFT.getMessage()
-    @par Examples
+    @examples
     Assuming the message identified by the message ID is the same as the
     default message "Test $0 $1", the following example creates a message "Test
     message 42" where "message" is passed as a C string for the first message
@@ -4302,7 +4323,7 @@ static inline CMPIString *CDGetType(
     @param string If not NULL, message text to be logged. @p string will be
         ignored when @p text is not NULL.
     @return Function return status.
-    @par Examples
+    @examples
     @code (.c)
     CMLogMessage(_broker, 1, "TestProvider",
                  "Entering EnumerateInstance", NULL);
@@ -4338,7 +4359,7 @@ static inline CMPIStatus CMLogMessage(
         ignored when @p text is not NULL.
     @return Function return status.
     @fulldescription CMPIBrokerEncFT.trace()
-    @par Examples
+    @examples
     @code (.c)
     CMPIStatus rc = { CMPI_RC_OK, NULL };
     CMPIString *str = CMNewString(_broker, "CMTraceMessage", &rc);
@@ -4375,7 +4396,8 @@ static inline CMPIStatus CMTraceMessage(
     @param [out] msgFileHandle Handle representing the open message file.
     @return Function return status
     @fulldescription CMPIBrokerEncFT.openMessageFile()
-    @par Examples
+    @added200
+    @examples
     @code (.c)
     CMOpenMessageFile(_broker, "/path/msgFile", &msgFileHandle);
     @endcode
@@ -4403,7 +4425,8 @@ static inline CMPIStatus CMOpenMessageFile(
     @param msgFileHandle Handle representing the open message file.
     @return Function return status.
     @fulldescription CMPIBrokerEncFT.closeMessageFile()
-    @par Examples
+    @added200
+    @examples
     @code (.c)
     CMPIString *msg;
     rc = CMOpenMessageFile(_broker, path, &msgFileHandle);
@@ -4451,7 +4474,8 @@ static inline CMPIStatus CMCloseMessageFile(
         "CMFmt\<type\>(\<v\>)" macros.
     @return Points to a CMPIString object representing the translated message.
     @fulldescription CMPIBrokerEncFT.getMessage2()
-    @par Examples
+    @added200
+    @examples
     Assuming the message identified by the message ID is the same as the
     default message "Test $0 $1", the following example creates a message "Test
     message 42" where "message" is passed as a C string for the first message
@@ -4470,13 +4494,15 @@ static inline CMPIStatus CMCloseMessageFile(
 #endif /* CMPI_VER_200 */
 
 /**
-    @defgroup cmfmt-args CMFmtArgs\<N\>() helper macros
+    @defgroup cmfmt-args CMFmtArgs\<N\>()
     @{
+      @brief Helper macros for message translation.
+
       These macros are used for the @p args argument of CMGetMessage() and
       CMGetMessage2().
 
-      The argument of these macros is a comma-separated list of invocations
-      of the @ref cmfmt-val "CMFmt\<type\>(\<v\>)" macros.
+      The argument of each of these macros is a comma-separated list of
+      invocations of the @ref cmfmt-val "CMFmt\<type\>(\<v\>)" macros.
 
       @see CMGetMessage(), CMGetMessage2() for example code
 */
@@ -4516,8 +4542,10 @@ static inline CMPIStatus CMCloseMessageFile(
 
 /**
     @}
-    @defgroup cmfmt-val CMFmt\<type\>() helper macros
+    @defgroup cmfmt-val CMFmt\<type\>()
     @{
+      @brief Helper macros for message translation.
+
       These macros are used in context of CMGetMessage() and CMGetMessage2(), as
       a comma-separated list of arguments to @ref cmfmt-args
       "CMFmtArgs\<N\>()".
@@ -4525,8 +4553,8 @@ static inline CMPIStatus CMCloseMessageFile(
       Each of these macros represents a message insert pair consisting of type
       and value.
 
-      The argument of these macros is a value that is used to expand a message
-      trigger ("$0", etc.) in the message.
+      The argument of each of these macros is a value that is used to expand a
+      message trigger ("$0", etc.) in the message.
 
       @see CMGetMessage(), CMGetMessage2() for example code
 */
@@ -4644,8 +4672,7 @@ static inline CMPIStatus CMCloseMessageFile(
         factory function. Instead, the CMInitHook() macro should be used.
     @endparblock
     @return A pointer to the function table of this MI.
-
-    @par Examples
+    @examples
     This example uses the CMInstanceMIStub() macro for an instance MI written
     in plain C.
     @code (.c)
@@ -4821,8 +4848,7 @@ CMPI_EXTERN_C CMPIInstanceMI * miname##_Create_InstanceMI( \
         factory function. Instead, the CMInitHook() macro should be used.
     @endparblock
     @return A pointer to the function table of this MI.
-
-    @par Examples
+    @examples
     This example uses the CMAssociationMIStub() macro for an association MI
     written in plain C.
     @code (.c)
@@ -4977,8 +5003,7 @@ CMPI_EXTERN_C CMPIAssociationMI * miname##_Create_AssociationMI( \
         factory function. Instead, the CMInitHook() macro should be used.
     @endparblock
     @return A pointer to the function table of this MI.
-
-    @par Examples
+    @examples
     This example uses the CMMethodMIStub() macro for a method MI written in
     plain C.
     @code (.c)
@@ -5231,8 +5256,7 @@ CMPI_EXTERN_C CMPIPropertyMI * miname##_Create_PropertyMI( \
         factory function. Instead, the CMInitHook() macro should be used.
     @endparblock
     @return A pointer to the function table of this MI.
-
-    @par Examples
+    @examples
     This example uses the CMIndicationMIStub() macro for an indication MI
     written in plain C.
     @code (.c)
@@ -5607,6 +5631,7 @@ CMPI_EXTERN_C CMPIMethodMI *miname##_Create_MethodMI( \
             This is a character string without quotes.
     @return The function table of this property provider.
     @deprecated The CMPIPropertyMIFT has been deprecated in CMPI 2.1.
+
     @see CMPIPropertyMI, CMPIPropertyMIFT,
         @ref mi-factory-specific "MI-specific factory function"
     @hideinitializer
