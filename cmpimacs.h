@@ -603,13 +603,11 @@ static inline CMPIBoolean CMIsArray(
 
     @param obj Points to the encapsulated data type object to be released.
     @return CMPIStatus structure indicating the function return status.
-
-    @par Errors
+    @errors
     The function return status will indicate one of the following @ref CMPIrc
     codes:
     @li `CMPI_RC_OK` - Function successful.
     @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p rslt handle is invalid.
-
     @fulldescription CMPIContextFT.release(),
         CMPIResultFT.release(),
         CMPIStringFT.release(),
@@ -657,12 +655,10 @@ static inline CMPIBoolean CMIsArray(
 
         If not successful, returns NULL.
     @endparblock
-
-    @par Errors
+    @errors
     The following @ref CMPIrc codes shall be recognized:
     @li `CMPI_RC_OK` Operation successful.
     @li `CMPI_RC_ERR_INVALID_HANDLE` The @p ef handle is invalid.
-
     @fulldescription CMPIContextFT.clone(),
         CMPIResultFT.clone(),
         CMPIStringFT.clone(),

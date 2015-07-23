@@ -294,8 +294,12 @@ ALIASES += "fulldescription=\n@par Full Description\n"
 ALIASES += "convfunction=\n@par Convenience Function\n"
 
 # The following alias defines a @examples special command that is used
-# to introduce an examples section for a function description.
+# to introduce an Examples section for a function description.
 ALIASES += "examples=\n@par Examples\n"
+
+# The following alias defines a @errors special command that is used
+# to introduce an Errors section for a function description.
+ALIASES += "errors=\n@par Errors\n"
 
 # The following alias defines @status{xxx} special commands that are used to
 # show the test and/or implementation status of each function or macro for a

@@ -10,7 +10,10 @@
   when specified without empty separator line.
 * Changed Doxygen special commands @addedNNN and @requiredNNN to automatically
   generate standard text. Changed their usages to accomodate that.
-  
+* Added Doxygen special commands @errors and @examples to encapsulate the
+  section heading text, and to avoid unintended nesting when specified without
+  empty separator line.
+
 22 July - Andy
 --------------
 

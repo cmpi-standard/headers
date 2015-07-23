@@ -106,7 +106,7 @@ extern "C" {
      invoked by the MB in that case.
  @endparblock
 
- @par Errors
+ @errors
  The following @ref CMPIrc codes shall be used by the MI in the
  function return status:
  @li `CMPI_RC_OK` - Function successful.
@@ -176,7 +176,7 @@ extern "C" {
      invoked by the MB in that case.
  @endparblock
 
- @par Errors
+ @errors
  The following @ref CMPIrc codes shall be used by the MI in the
  function return status:
  @li `CMPI_RC_OK` - Function successful.
@@ -327,7 +327,7 @@ typedef struct _CMPIBrokerFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      For historical reasons, no additional error information is passed back.
 
      @convfunction CBPrepareAttachThread()
@@ -353,7 +353,7 @@ typedef struct _CMPIBrokerFT {
      @endparblock
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -382,7 +382,7 @@ typedef struct _CMPIBrokerFT {
      @endparblock
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -437,7 +437,7 @@ typedef struct _CMPIBrokerFT {
          meaningless for indication instances and will be ignored by the MB.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.@n
@@ -499,7 +499,7 @@ typedef struct _CMPIBrokerFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -577,7 +577,7 @@ typedef struct _CMPIBrokerFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -651,7 +651,7 @@ typedef struct _CMPIBrokerFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -720,7 +720,7 @@ typedef struct _CMPIBrokerFT {
          the list is signaled by a NULL character pointer.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -776,7 +776,7 @@ typedef struct _CMPIBrokerFT {
          will be ignored by the MB.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -844,7 +844,7 @@ typedef struct _CMPIBrokerFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -922,7 +922,7 @@ typedef struct _CMPIBrokerFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -1022,7 +1022,7 @@ typedef struct _CMPIBrokerFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -1120,7 +1120,7 @@ typedef struct _CMPIBrokerFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -1213,7 +1213,7 @@ typedef struct _CMPIBrokerFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -1300,7 +1300,7 @@ typedef struct _CMPIBrokerFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -1394,7 +1394,7 @@ typedef struct _CMPIBrokerFT {
          If not successful, CMPIData.state will be undefined.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -1473,7 +1473,7 @@ typedef struct _CMPIBrokerFT {
      @endparblock
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -1543,7 +1543,7 @@ typedef struct _CMPIBrokerFT {
          If not successful, CMPIData.state will be undefined.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -1640,7 +1640,7 @@ typedef struct _CMPIBrokerFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -1748,7 +1748,7 @@ typedef struct _CMPIBrokerFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -1849,7 +1849,7 @@ typedef struct _CMPIBrokerFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -1961,7 +1961,7 @@ typedef struct _CMPIBrokerEncFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -2001,7 +2001,7 @@ typedef struct _CMPIBrokerEncFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -2037,7 +2037,7 @@ typedef struct _CMPIBrokerEncFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -2068,7 +2068,7 @@ typedef struct _CMPIBrokerEncFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -2112,7 +2112,7 @@ typedef struct _CMPIBrokerEncFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -2148,7 +2148,7 @@ typedef struct _CMPIBrokerEncFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -2186,7 +2186,7 @@ typedef struct _CMPIBrokerEncFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -2222,7 +2222,7 @@ typedef struct _CMPIBrokerEncFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -2266,7 +2266,7 @@ typedef struct _CMPIBrokerEncFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -2319,7 +2319,7 @@ typedef struct _CMPIBrokerEncFT {
 
          If not successful, false will be returned.
      @endparblock
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -2363,7 +2363,7 @@ typedef struct _CMPIBrokerEncFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -2398,7 +2398,7 @@ typedef struct _CMPIBrokerEncFT {
          If not successful, false will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -2435,7 +2435,7 @@ typedef struct _CMPIBrokerEncFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -2494,7 +2494,7 @@ typedef struct _CMPIBrokerEncFT {
          CMPIBrokerMemFT.freeString() on the new object.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -2528,7 +2528,7 @@ typedef struct _CMPIBrokerEncFT {
          not NULL.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -2566,7 +2566,7 @@ typedef struct _CMPIBrokerEncFT {
          not NULL.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -2660,7 +2660,7 @@ typedef struct _CMPIBrokerEncFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -2746,7 +2746,7 @@ typedef struct _CMPIBrokerEncFT {
          handle.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -2777,7 +2777,7 @@ typedef struct _CMPIBrokerEncFT {
          CMPIBrokerEncFT.openMessageFile().
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful (including if the message file
@@ -2851,7 +2851,7 @@ typedef struct _CMPIBrokerEncFT {
          on the new object.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -2905,7 +2905,7 @@ typedef struct _CMPIBrokerEncFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -2945,7 +2945,7 @@ typedef struct _CMPIBrokerEncFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -2987,7 +2987,7 @@ typedef struct _CMPIBrokerEncFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -3112,7 +3112,7 @@ typedef struct _CMPIBrokerExtFT {
 
          If not successful, NULL will be returned.
      @endparblock
-     @par Errors
+     @errors
      For historical reasons, no additional error information is passed back.
      @capopsys This function is part of the OS Encapsulation Services
          capability.
@@ -3142,7 +3142,7 @@ typedef struct _CMPIBrokerExtFT {
 
          If not successful, a non-zero error code will be returned.
      @endparblock
-     @par Errors
+     @errors
      Error codes are defined in `errno.h`, specifically for the
      ``pthread_join()`` function; both are defined in
      @ref ref-ieee-1003-1 "IEEE 1003.1".
@@ -3167,7 +3167,7 @@ typedef struct _CMPIBrokerExtFT {
      @param return_code The return code that should be used for the thread.
      @return The function never returns, regardless of whether it is
          successful or encounters errors.
-     @par Errors
+     @errors
      None; the function never returns.
      @capopsys This function is part of the OS Encapsulation Services
          capability.
@@ -3193,7 +3193,7 @@ typedef struct _CMPIBrokerExtFT {
 
          If not successful, a non-zero error code will be returned.
      @endparblock
-     @par Errors
+     @errors
      @parblock
          Error codes are defined in `errno.h`, specifically for the
          ``pthread_cancel()`` function; both are defined in
@@ -3221,7 +3221,7 @@ typedef struct _CMPIBrokerExtFT {
 
          If not successful, a non-zero error code will be returned.
      @endparblock
-     @par Errors
+     @errors
          Error codes are defined in `errno.h`, defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
      @capopsys This function is part of the OS Encapsulation Services
@@ -3257,7 +3257,7 @@ typedef struct _CMPIBrokerExtFT {
 
          If not successful, a non-zero error code will be returned.
      @endparblock
-     @par Errors
+     @errors
          Error codes are defined in `errno.h`, specifically for the
          ``pthread_once()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
@@ -3283,7 +3283,7 @@ typedef struct _CMPIBrokerExtFT {
 
          If not successful, a non-zero error code will be returned.
      @endparblock
-     @par Errors
+     @errors
          Error codes are defined in `errno.h`, specifically for the
          ``pthread_key_create()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
@@ -3306,7 +3306,7 @@ typedef struct _CMPIBrokerExtFT {
 
          If not successful, a non-zero error code will be returned.
      @endparblock
-     @par Errors
+     @errors
          Error codes are defined in `errno.h`, specifically for the
          ``pthread_key_delete()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
@@ -3328,7 +3328,7 @@ typedef struct _CMPIBrokerExtFT {
 
          If not successful, NULL will be returned.
      @endparblock
-     @par Errors
+     @errors
          For historical reasons, no additional error information is passed back.
      @capopsys This function is part of the OS Encapsulation Services
          capability.
@@ -3349,7 +3349,7 @@ typedef struct _CMPIBrokerExtFT {
 
          If not successful, a non-zero error code will be returned.
      @endparblock
-     @par Errors
+     @errors
          Error codes are defined in `errno.h`, specifically for the
          ``pthread_setspecific()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
@@ -3393,7 +3393,7 @@ typedef struct _CMPIBrokerExtFT {
 
          If not successful, NULL will be returned.
      @endparblock
-     @par Errors
+     @errors
          For historical reasons, no additional error information is passed back.
      @capopsys This function is part of the OS Encapsulation Services
          capability.
@@ -3433,7 +3433,7 @@ typedef struct _CMPIBrokerExtFT {
      @param mutex Handle of the mutex to be locked.
      @return None.
 
-     @par Errors
+     @errors
          For historical reasons, this function does not indicate whether it
          succeeded or failed.
      @capopsys This function is part of the OS Encapsulation Services
@@ -3455,7 +3455,7 @@ typedef struct _CMPIBrokerExtFT {
      @param mutex Handle of the mutex to be unlocked.
      @return None.
 
-     @par Errors
+     @errors
          For historical reasons, this function does not indicate whether it
          succeeded or failed.
      @capopsys This function is part of the OS Encapsulation Services
@@ -3486,7 +3486,7 @@ typedef struct _CMPIBrokerExtFT {
 
          If not successful, NULL will be returned.
      @endparblock
-     @par Errors
+     @errors
          For historical reasons, no additional error information is passed back.
      @capopsys This function is part of the OS Encapsulation Services
          capability.
@@ -3504,7 +3504,7 @@ typedef struct _CMPIBrokerExtFT {
      @param cond Handle of the condition variable to be destroyed.
      @return None.
 
-     @par Errors
+     @errors
          For historical reasons, this function does not indicate whether it
          succeeded or failed.
      @capopsys This function is part of the OS Encapsulation Services
@@ -3532,7 +3532,7 @@ typedef struct _CMPIBrokerExtFT {
 
          If not successful, a non-zero error code will be returned.
      @endparblock
-     @par Errors
+     @errors
          Error codes are defined in `errno.h`, specifically for the
         ``pthread_cond_wait()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
@@ -3561,7 +3561,7 @@ typedef struct _CMPIBrokerExtFT {
 
          If not successful, a non-zero error code will be returned.
      @endparblock
-     @par Errors
+     @errors
          Error codes are defined in `errno.h`, specifically for the
          ``pthread_cond_timedwait()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
@@ -3583,7 +3583,7 @@ typedef struct _CMPIBrokerExtFT {
 
          If not successful, a non-zero error code will be returned.
      @endparblock
-     @par Errors
+     @errors
          Error codes are defined in `errno.h`, specifically for the
          ``pthread_cond_signal()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
@@ -3612,7 +3612,7 @@ typedef struct _CMPIBrokerExtFT {
 
          If not successful, a non-zero error code will be returned.
      @endparblock
-     @par Errors
+     @errors
          Error codes are defined in `errno.h`, specifically for the
          ``pthread_mutex_destroy()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
@@ -3640,7 +3640,7 @@ typedef struct _CMPIBrokerExtFT {
 
          If not successful, a non-zero error code will be returned.
      @endparblock
-     @par Errors
+     @errors
          Error codes are defined in `errno.h`, specifically for the
          ``pthread_mutex_lock()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
@@ -3664,7 +3664,7 @@ typedef struct _CMPIBrokerExtFT {
 
          If not successful, a non-zero error code will be returned.
      @endparblock
-     @par Errors
+     @errors
          Error codes are defined in `errno.h`, specifically for the
          ``pthread_mutex_lock()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
@@ -3692,7 +3692,7 @@ typedef struct _CMPIBrokerExtFT {
 
          If not successful, a non-zero error code will be returned.
      @endparblock
-     @par Errors
+     @errors
          Error codes are defined in `errno.h`, specifically for the
          ``pthread_cond_destroy()`` function; both are defined in
          @ref ref-ieee-1003-1 "IEEE 1003.1".
@@ -3768,7 +3768,7 @@ typedef struct _CMPIBrokerMemFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -3803,7 +3803,7 @@ typedef struct _CMPIBrokerMemFT {
          level.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -3836,7 +3836,7 @@ typedef struct _CMPIBrokerMemFT {
 
          If not successful, NULL will be returned.
      @endparblock
-     @par Errors
+     @errors
          No additional error information is passed back.
      @capmemory This function is part of the Memory Enhancement Services
          capability.
@@ -3867,7 +3867,7 @@ typedef struct _CMPIBrokerMemFT {
 
          If not successful, NULL will be returned.
      @endparblock
-     @par Errors
+     @errors
          No additional error information is passed back.
      @capmemory This function is part of the Memory Enhancement Services
          capability.
@@ -3909,7 +3909,7 @@ typedef struct _CMPIBrokerMemFT {
          If not successful, NULL will be returned returned and the original
          memory block pointed to by @p ptr is not deallocated and is unchanged.
      @endparblock
-     @par Errors
+     @errors
          No additional error information is passed back.
      @capmemory This function is part of the Memory Enhancement Services
          capability.
@@ -3938,7 +3938,7 @@ typedef struct _CMPIBrokerMemFT {
 
          If not successful, NULL will be returned returned.
      @endparblock
-     @par Errors
+     @errors
          No additional error information is passed back.
      @capmemory This function is part of the Memory Enhancement Services
          capability.
@@ -3965,7 +3965,7 @@ typedef struct _CMPIBrokerMemFT {
          been allocated via the cmpiMalloc(), cmpiCalloc(), cmpiRealloc(), or
          cmpiStrDup() functions.
      @return None.
-     @par Errors
+     @errors
          This function does not indicate whether it succeeded or failed.
      @capmemory This function is part of the Memory Enhancement Services
          capability.
@@ -3988,7 +3988,7 @@ typedef struct _CMPIBrokerMemFT {
      @param inst Points to the CMPIInstance object that is to be released.
          That object shall have been created using CMPIBrokerEncFT.newInstance().
      @return None.
-     @par Errors
+     @errors
          This function does not indicate whether it succeeded or failed.
      @capmemory This function is part of the Memory Enhancement Services
          capability.
@@ -4012,7 +4012,7 @@ typedef struct _CMPIBrokerMemFT {
          That object shall have been created using
          CMPIBrokerEncFT.newObjectPath().
      @return None.
-     @par Errors
+     @errors
          This function does not indicate whether it succeeded or failed.
      @capmemory This function is part of the Memory Enhancement Services
          capability.
@@ -4035,7 +4035,7 @@ typedef struct _CMPIBrokerMemFT {
      @param args Points to the CMPIArgs object that is to be released.
          That object shall have been created using CMPIBrokerEncFT.newArgs().
      @return None.
-     @par Errors
+     @errors
          This function does not indicate whether it succeeded or failed.
      @capmemory This function is part of the Memory Enhancement Services
          capability.
@@ -4057,7 +4057,7 @@ typedef struct _CMPIBrokerMemFT {
          object shall have been created using CMPIBrokerEncFT.newString() or
          CMPIBrokerEncFT.newStringCP().
      @return None.
-     @par Errors
+     @errors
          This function does not indicate whether it succeeded or failed.
      @capmemory This function is part of the Memory Enhancement Services
          capability.
@@ -4080,7 +4080,7 @@ typedef struct _CMPIBrokerMemFT {
      @param array Points to the CMPIArray object that is to be released. That
          object shall have been created using CMPIBrokerEncFT.newArray().
      @return None.
-     @par Errors
+     @errors
          This function does not indicate whether it succeeded or failed.
      @capmemory This function is part of the Memory Enhancement Services
          capability.
@@ -4105,7 +4105,7 @@ typedef struct _CMPIBrokerMemFT {
          CMPIBrokerEncFT.newDateTimeFromBinary(), or
          CMPIBrokerEncFT.newDateTimeFromChars().
      @return None.
-     @par Errors
+     @errors
          This function does not indicate whether it succeeded or failed.
      @capmemory This function is part of the Memory Enhancement Services
          capability.
@@ -4131,7 +4131,7 @@ typedef struct _CMPIBrokerMemFT {
      @param se Points to the CMPISelectExp object that is to be released.
          That object shall have been created using CMPIBrokerEncFT.newSelectExp().
      @return None.
-     @par Errors
+     @errors
          This function does not indicate whether it succeeded or failed.
      @capmemory This function is part of the Memory Enhancement Services
          capability but can be implemented only if the
@@ -4249,7 +4249,7 @@ typedef struct _CMPIContextFT {
          That object shall have been created using CMPIContextFT.clone().
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -4278,7 +4278,7 @@ typedef struct _CMPIContextFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -4307,7 +4307,7 @@ typedef struct _CMPIContextFT {
          If not successful, CMPIData.state will be undefined.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -4350,7 +4350,7 @@ typedef struct _CMPIContextFT {
          If not successful, CMPIData.state will be undefined.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -4378,7 +4378,7 @@ typedef struct _CMPIContextFT {
          If not successful, the return value will be undefined.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -4414,7 +4414,7 @@ typedef struct _CMPIContextFT {
      @endparblock
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -4487,7 +4487,7 @@ typedef struct _CMPIResultFT {
          That object shall have been created using CMPIResultFT.clone().
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -4515,7 +4515,7 @@ typedef struct _CMPIResultFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -4542,7 +4542,7 @@ typedef struct _CMPIResultFT {
          memory may be freed by the MI right after this function returns.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -4569,7 +4569,7 @@ typedef struct _CMPIResultFT {
          be returned.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -4592,7 +4592,7 @@ typedef struct _CMPIResultFT {
          to be returned.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -4615,7 +4615,7 @@ typedef struct _CMPIResultFT {
      @param rslt Points to the CMPIResult object for this function.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -4658,7 +4658,7 @@ typedef struct _CMPIResultFT {
      @endparblock
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -4732,7 +4732,7 @@ typedef struct _CMPIStringFT {
          That object shall have been created using CMPIStringFT.clone().
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -4760,7 +4760,7 @@ typedef struct _CMPIStringFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -4793,7 +4793,7 @@ typedef struct _CMPIStringFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -4828,7 +4828,7 @@ typedef struct _CMPIStringFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -4911,7 +4911,7 @@ typedef struct _CMPIArrayFT {
          That object shall have been created using CMPIArrayFT.clone().
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -4939,7 +4939,7 @@ typedef struct _CMPIArrayFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -4965,7 +4965,7 @@ typedef struct _CMPIArrayFT {
          If not successful, 0 will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -4994,7 +4994,7 @@ typedef struct _CMPIArrayFT {
          If not successful, @ref CMPI_null will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5022,7 +5022,7 @@ typedef struct _CMPIArrayFT {
          If not successful, CMPIData.state will be undefined.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5072,7 +5072,7 @@ typedef struct _CMPIArrayFT {
          assume that it is undefined whether the array element's state has
          changed in case of error. (**Deprecated**)
      @endparblock
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5160,7 +5160,7 @@ typedef struct _CMPIEnumerationFT {
         That object shall have been created using CMPIEnumerationFT.clone().
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5189,7 +5189,7 @@ typedef struct _CMPIEnumerationFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5215,7 +5215,7 @@ typedef struct _CMPIEnumerationFT {
          If not successful, CMPIData.state will be undefined.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5246,7 +5246,7 @@ typedef struct _CMPIEnumerationFT {
          If not successful, false will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5280,7 +5280,7 @@ typedef struct _CMPIEnumerationFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5356,7 +5356,7 @@ typedef struct _CMPIInstanceFT {
          That object shall have been created using CMPIInstanceFT.clone().
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5384,7 +5384,7 @@ typedef struct _CMPIInstanceFT {
 
          If not successful, NULL will be returned.
      @endparblock
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5411,7 +5411,7 @@ typedef struct _CMPIInstanceFT {
          If not successful, CMPIData.state will be undefined.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5449,7 +5449,7 @@ typedef struct _CMPIInstanceFT {
          If not successful, CMPIData.state will be undefined.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5480,7 +5480,7 @@ typedef struct _CMPIInstanceFT {
          If not successful, 0 will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5523,7 +5523,7 @@ typedef struct _CMPIInstanceFT {
      @endparblock
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5564,7 +5564,7 @@ typedef struct _CMPIInstanceFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5605,7 +5605,7 @@ typedef struct _CMPIInstanceFT {
          the CMPIInstanceMI.setObjectPath() function.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5651,7 +5651,7 @@ typedef struct _CMPIInstanceFT {
          (this is used for instances returned by cross-host associations).
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5712,7 +5712,7 @@ typedef struct _CMPIInstanceFT {
      @endparblock
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5795,7 +5795,7 @@ typedef struct _CMPIObjectPathFT {
          That object shall have been created using CMPIObjectPathFT.clone().
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5824,7 +5824,7 @@ typedef struct _CMPIObjectPathFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5844,7 +5844,7 @@ typedef struct _CMPIObjectPathFT {
      @param ns New namespace name.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5879,7 +5879,7 @@ typedef struct _CMPIObjectPathFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5899,7 +5899,7 @@ typedef struct _CMPIObjectPathFT {
      @param hn Points to a CMPIString containing the host name.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5934,7 +5934,7 @@ typedef struct _CMPIObjectPathFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5954,7 +5954,7 @@ typedef struct _CMPIObjectPathFT {
      @param cn New class name.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -5989,7 +5989,7 @@ typedef struct _CMPIObjectPathFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6022,7 +6022,7 @@ typedef struct _CMPIObjectPathFT {
      @endparblock
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6071,7 +6071,7 @@ typedef struct _CMPIObjectPathFT {
          If not successful, CMPIData.state will be undefined.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6126,7 +6126,7 @@ typedef struct _CMPIObjectPathFT {
          If not successful, CMPIData.state will be undefined.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6155,7 +6155,7 @@ typedef struct _CMPIObjectPathFT {
          If not successful, 0 will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6178,7 +6178,7 @@ typedef struct _CMPIObjectPathFT {
          new namespace and class name components.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6207,7 +6207,7 @@ typedef struct _CMPIObjectPathFT {
          new host name, namespace, and class name components.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6242,7 +6242,7 @@ typedef struct _CMPIObjectPathFT {
          If not successful, CMPIData.state will be undefined.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6288,7 +6288,7 @@ typedef struct _CMPIObjectPathFT {
          If not successful, CMPIData.state will be undefined.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6337,7 +6337,7 @@ typedef struct _CMPIObjectPathFT {
          If not successful, CMPIData.state will be undefined.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6387,7 +6387,7 @@ typedef struct _CMPIObjectPathFT {
          If not successful, CMPIData.state will be undefined.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6443,7 +6443,7 @@ typedef struct _CMPIObjectPathFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6527,7 +6527,7 @@ typedef struct _CMPIArgsFT {
          That object shall have been created using CMPIArgsFT.clone().
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6555,7 +6555,7 @@ typedef struct _CMPIArgsFT {
          If not successful, NULL will be returned
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6589,7 +6589,7 @@ typedef struct _CMPIArgsFT {
      @endparblock
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6617,7 +6617,7 @@ typedef struct _CMPIArgsFT {
          If not successful, CMPIData.state will be undefined.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6658,7 +6658,7 @@ typedef struct _CMPIArgsFT {
          If not successful, CMPIData.state will be undefined.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6686,7 +6686,7 @@ typedef struct _CMPIArgsFT {
          If not successful, 0 will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6759,7 +6759,7 @@ typedef struct _CMPIDateTimeFT {
          That object shall have been created using CMPIDateTimeFT.clone().
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6788,7 +6788,7 @@ typedef struct _CMPIDateTimeFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6816,7 +6816,7 @@ typedef struct _CMPIDateTimeFT {
          If not successful, 0 will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6853,7 +6853,7 @@ typedef struct _CMPIDateTimeFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6882,7 +6882,7 @@ typedef struct _CMPIDateTimeFT {
          If not successful, false will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6949,7 +6949,7 @@ typedef struct _CMPISelectExpFT {
          That object shall have been created using CMPISelectExpFT.clone().
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -6978,7 +6978,7 @@ typedef struct _CMPISelectExpFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -7009,7 +7009,7 @@ typedef struct _CMPISelectExpFT {
          If not successful, false will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -7045,7 +7045,7 @@ typedef struct _CMPISelectExpFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -7081,7 +7081,7 @@ typedef struct _CMPISelectExpFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -7125,7 +7125,7 @@ typedef struct _CMPISelectExpFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -7172,7 +7172,7 @@ typedef struct _CMPISelectExpFT {
          If not successful, false will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -7241,7 +7241,7 @@ typedef struct _CMPISelectCondFT {
          That object shall have been created using CMPISelectCondFT.clone().
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -7277,7 +7277,7 @@ typedef struct _CMPISelectCondFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -7314,7 +7314,7 @@ typedef struct _CMPISelectCondFT {
          If not successful, 0 will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -7356,7 +7356,7 @@ typedef struct _CMPISelectCondFT {
          If not successful, NULL will be returned.
          @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -7432,7 +7432,7 @@ typedef struct _CMPISubCondFT {
          That object shall have been created using CMPISubCondFT.clone().
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -7467,7 +7467,7 @@ typedef struct _CMPISubCondFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -7500,7 +7500,7 @@ typedef struct _CMPISubCondFT {
          If not successful, 0 will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -7543,7 +7543,7 @@ typedef struct _CMPISubCondFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -7588,7 +7588,7 @@ typedef struct _CMPISubCondFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -7666,7 +7666,7 @@ typedef struct _CMPIPredicateFT {
          That object shall have been created using CMPIPredicateFT.clone().
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -7702,7 +7702,7 @@ typedef struct _CMPIPredicateFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -7751,7 +7751,7 @@ typedef struct _CMPIPredicateFT {
          state of @p type and @p prop is undefined.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -7802,7 +7802,7 @@ typedef struct _CMPIPredicateFT {
          If not successful, false will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -7890,7 +7890,7 @@ typedef struct _CMPIErrorFT {
          That object shall have been created using CMPIErrorFT.clone().
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -7926,7 +7926,7 @@ typedef struct _CMPIErrorFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -7964,7 +7964,7 @@ typedef struct _CMPIErrorFT {
          If not successful, the returned value is undefined.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -8011,7 +8011,7 @@ typedef struct _CMPIErrorFT {
          function failed.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -8062,7 +8062,7 @@ typedef struct _CMPIErrorFT {
          the function failed.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -8112,7 +8112,7 @@ typedef struct _CMPIErrorFT {
          function failed.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -8162,7 +8162,7 @@ typedef struct _CMPIErrorFT {
          the function failed.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -8203,7 +8203,7 @@ typedef struct _CMPIErrorFT {
          If not successful, the returned value is undefined.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -8245,7 +8245,7 @@ typedef struct _CMPIErrorFT {
          If not successful, the returned value is undefined.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -8296,7 +8296,7 @@ typedef struct _CMPIErrorFT {
          the function failed.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -8342,7 +8342,7 @@ typedef struct _CMPIErrorFT {
          the function failed.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -8391,7 +8391,7 @@ typedef struct _CMPIErrorFT {
          the function failed.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -8431,7 +8431,7 @@ typedef struct _CMPIErrorFT {
          If not successful, the returned value is undefined.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -8482,7 +8482,7 @@ typedef struct _CMPIErrorFT {
          the function failed.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -8526,7 +8526,7 @@ typedef struct _CMPIErrorFT {
          If not successful, the returned value is undefined.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -8576,7 +8576,7 @@ typedef struct _CMPIErrorFT {
          whether the function failed.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -8622,7 +8622,7 @@ typedef struct _CMPIErrorFT {
          function failed.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -8659,7 +8659,7 @@ typedef struct _CMPIErrorFT {
          registry.
      @return CMPIStatus structure containing the function return status
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -8694,7 +8694,7 @@ typedef struct _CMPIErrorFT {
          the message in the registry.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -8730,7 +8730,7 @@ typedef struct _CMPIErrorFT {
          registry.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -8770,7 +8770,7 @@ typedef struct _CMPIErrorFT {
          in the order defined there.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -8806,7 +8806,7 @@ typedef struct _CMPIErrorFT {
          message in the registry.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -8842,7 +8842,7 @@ typedef struct _CMPIErrorFT {
          message in the registry.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -8879,7 +8879,7 @@ typedef struct _CMPIErrorFT {
          element defined for the message in the registry.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -8916,7 +8916,7 @@ typedef struct _CMPIErrorFT {
          registry.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -8956,7 +8956,7 @@ typedef struct _CMPIErrorFT {
          the order defined there.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -9041,7 +9041,7 @@ typedef struct _CMPIPropertyListFT {
          That object shall have been created using CMPIPropertyListFT.clone().
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -9070,7 +9070,7 @@ typedef struct _CMPIPropertyListFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -9104,7 +9104,7 @@ typedef struct _CMPIPropertyListFT {
          If not successful, False will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -9147,7 +9147,7 @@ typedef struct _CMPIPropertyListFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -9221,7 +9221,7 @@ typedef struct _CMPIEnumerationFilterFT {
          CMPIEnumerationFilterFT.clone().
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -9250,7 +9250,7 @@ typedef struct _CMPIEnumerationFilterFT {
          If not successful, NULL will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -9286,7 +9286,7 @@ typedef struct _CMPIEnumerationFilterFT {
          If not successful, False will be returned.
      @endparblock
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -9409,7 +9409,7 @@ typedef struct _CMPIInstanceMIFT {
      @endparblock
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The following @ref CMPIrc codes shall be used by the MI in the
      function return status:
      @li `CMPI_RC_OK` - Function successful.
@@ -9455,7 +9455,7 @@ typedef struct _CMPIInstanceMIFT {
          should be ignored.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The following table lists the @ref CMPIrc codes that shall be used by the
      MI in the function return status, as well as the WBEM operation messages
      that should be used in the CMPIError object if the MI supports
@@ -9529,7 +9529,7 @@ typedef struct _CMPIInstanceMIFT {
          be included in each returned object.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The following table lists the @ref CMPIrc codes that shall be used by the
      MI in the function return status, as well as the WBEM operation messages
      that should be used in the CMPIError object if the MI supports
@@ -9601,7 +9601,7 @@ typedef struct _CMPIInstanceMIFT {
          included in the returned instance.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The following table lists the @ref CMPIrc codes that shall be used by the
      MI in the function return status, as well as the WBEM operation messages
      that should be used in the CMPIError object if the MI supports
@@ -9662,7 +9662,7 @@ typedef struct _CMPIInstanceMIFT {
          be used by MIs.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The following table lists the @ref CMPIrc codes that shall be used by the
      MI in the function return status, as well as the WBEM operation messages
      that should be used in the CMPIError object if the MI supports
@@ -9737,7 +9737,7 @@ typedef struct _CMPIInstanceMIFT {
          all properties specified in @p modInst are modified.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The following table lists the @ref CMPIrc codes that shall be used by the
      MI in the function return status, as well as the WBEM operation messages
      that should be used in the CMPIError object if the MI supports
@@ -9798,7 +9798,7 @@ typedef struct _CMPIInstanceMIFT {
          and should be ignored.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The following table lists the @ref CMPIrc codes that shall be used by the
      MI in the function return status, as well as the WBEM operation messages
      that should be used in the CMPIError object if the MI supports
@@ -9854,7 +9854,7 @@ typedef struct _CMPIInstanceMIFT {
      @param lang Query language (case-sensitive).
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The following table lists the @ref CMPIrc codes that shall be used by the
      MI in the function return status, as well as the WBEM operation messages
      that should be used in the CMPIError object if the MI supports
@@ -9952,7 +9952,7 @@ typedef struct _CMPIInstanceMIFT {
          false.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The following table lists the @ref CMPIrc codes that shall be used by the
      MI in the function return status, as well as the WBEM operation messages
      that should be used in the CMPIError object if the MI supports
@@ -10099,7 +10099,7 @@ typedef struct _CMPIAssociationMIFT {
      @endparblock
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The following @ref CMPIrc codes shall be used by the MI in the
      function return status:
      @li `CMPI_RC_OK` - Function successful.
@@ -10182,7 +10182,7 @@ typedef struct _CMPIAssociationMIFT {
          returned instance.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The following table lists the @ref CMPIrc codes that shall be used by the
      MI in the function return status, as well as the WBEM operation messages
      that should be used in the CMPIError object if the MI supports
@@ -10287,7 +10287,7 @@ typedef struct _CMPIAssociationMIFT {
          to the returned object shall match the value of this argument).
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The following table lists the @ref CMPIrc codes that shall be used by the
      MI in the function return status, as well as the WBEM operation messages
      that should be used in the CMPIError object if the MI supports
@@ -10389,7 +10389,7 @@ typedef struct _CMPIAssociationMIFT {
          returned instance.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The following table lists the @ref CMPIrc codes that shall be used by the
      MI in the function return status, as well as the WBEM operation messages
      that should be used in the CMPIError object if the MI supports
@@ -10484,7 +10484,7 @@ typedef struct _CMPIAssociationMIFT {
          shall match the value of this argument).
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The following table lists the @ref CMPIrc codes that shall be used by the
      MI in the function return status, as well as the WBEM operation messages
      that should be used in the CMPIError object if the MI supports
@@ -10618,7 +10618,7 @@ typedef struct _CMPIAssociationMIFT {
          false.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The following table lists the @ref CMPIrc codes that shall be used by the
      MI in the function return status, as well as the WBEM operation messages
      that should be used in the CMPIError object if the MI supports
@@ -10738,7 +10738,7 @@ typedef struct _CMPIAssociationMIFT {
          false.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The following table lists the @ref CMPIrc codes that shall be used by the
      MI in the function return status, as well as the WBEM operation messages
      that should be used in the CMPIError object if the MI supports
@@ -10886,7 +10886,7 @@ typedef struct _CMPIMethodMIFT {
      @endparblock
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The following @ref CMPIrc codes shall be used by the MI in the
      function return status:
      @li `CMPI_RC_OK` - Function successful.
@@ -10953,7 +10953,7 @@ typedef struct _CMPIMethodMIFT {
          parameters.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The following table lists the @ref CMPIrc codes that shall be used by the
      MI in the function return status, as well as the WBEM operation messages
      that should be used in the CMPIError object if the MI supports
@@ -11101,7 +11101,7 @@ typedef struct _CMPIPropertyMIFT {
      @endparblock
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The following @ref CMPIrc codes shall be used by the MI in the
      function return status:
      @li `CMPI_RC_OK` - Function successful.
@@ -11152,7 +11152,7 @@ typedef struct _CMPIPropertyMIFT {
          to the property.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The following table lists the @ref CMPIrc codes that shall be used by the
      MI in the function return status, as well as the WBEM operation messages
      that should be used in the CMPIError object if the MI supports
@@ -11226,7 +11226,7 @@ typedef struct _CMPIPropertyMIFT {
      @param name Property name.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The following table lists the @ref CMPIrc codes that shall be used by the
      MI in the function return status, as well as the WBEM operation messages
      that should be used in the CMPIError object if the MI supports
@@ -11306,7 +11306,7 @@ typedef struct _CMPIPropertyMIFT {
          origin is set for the property.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The following table lists the @ref CMPIrc codes that shall be used by the
      MI in the function return status, as well as the WBEM operation messages
      that should be used in the CMPIError object if the MI supports
@@ -11457,7 +11457,7 @@ typedef struct _CMPIIndicationMIFT {
      @endparblock
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The following @ref CMPIrc codes shall be used by the MI in the
      function return status:
      @li `CMPI_RC_OK` - Function successful.
@@ -11514,7 +11514,7 @@ typedef struct _CMPIIndicationMIFT {
      @param owner Destination owner. (**Deprecated**)
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful, filter is supported.
@@ -11581,7 +11581,7 @@ typedef struct _CMPIIndicationMIFT {
              namespace of the process indications.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -11659,7 +11659,7 @@ typedef struct _CMPIIndicationMIFT {
          otherwise.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -11732,7 +11732,7 @@ typedef struct _CMPIIndicationMIFT {
          otherwise.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -11776,7 +11776,7 @@ typedef struct _CMPIIndicationMIFT {
          present.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -11809,7 +11809,7 @@ typedef struct _CMPIIndicationMIFT {
          present.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -11849,7 +11849,7 @@ typedef struct _CMPIIndicationMIFT {
          instance.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful, filter collection is supported
@@ -11932,7 +11932,7 @@ typedef struct _CMPIIndicationMIFT {
          false otherwise
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
@@ -12012,7 +12012,7 @@ typedef struct _CMPIIndicationMIFT {
          false otherwise.
      @return CMPIStatus structure containing the function return status.
 
-     @par Errors
+     @errors
      The function return status will indicate one of the following @ref CMPIrc
      codes:
      @li `CMPI_RC_OK` - Function successful.
