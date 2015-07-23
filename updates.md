@@ -17,6 +17,8 @@
 * Added notes to the description of the MI factory stubs for C and C++, as
   discussed.
 * Turned CMInitHook() into an officially documented macro.
+* Removed all todo items marked with DONE.
+* Updated examples/instancemi.c to use official CMInitHook().
 
 21 July - Andy
 --------------

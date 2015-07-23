@@ -10,19 +10,7 @@
 
 static const CMPIBroker *_broker;
 
-#define CMInitHook(pfx) \
-do { \
-    CMPIStatus st = pfx##Initialize(&mi, ctx); \
-    if (st.rc != CMPI_RC_OK) \
-    { \
-        if (rc) { \
-            *rc = st; \
-        } \
-        return NULL; \
-    } \
-} while (0)
-
-static CMPIStatus MyProvInitialize(
+static CMPIStatus MyProvInstanceInitialize(
     CMPIInstanceMI *mi,
     const CMPIContext *ctx)
 {
@@ -116,4 +104,4 @@ static CMPIStatus MyProvEnumInstancesFiltered(
     CMReturn(CMPI_RC_ERR_NOT_SUPPORTED);
 }
 
-CMInstanceMIStub(MyProv, MyProv, _broker, CMInitHook(MyProv));
+CMInstanceMIStub(MyProv, MyProv, _broker, CMInitHook(MyProv,Instance));

@@ -459,27 +459,9 @@ do \
     @endcode
     @hideinitializer
 
-    @todo DONE_REVIEW KS: object is incorrect word.  Need to define what
-          encompasses CMPI Object. Do we need list of all
-          possibles?@n
-          AM: What is 'function return'?@n
-          AM: In the WG call, we concluded that we want to document the use
-          of this function for EDTs. The 'function returns' were probably
-          meant to be the pointers returned from the EDT factory functions.
-    @todo DONE KS: test this to be sure it is correct, in particular
-          function repsonse.@n
-          AM: Reviewed.
-    @todo DONE_REVIEW AM: It seems to me that the second part of the comparison
-        is implementation-specific. Plus, the casting is dubious. The macro
-        version should instead access the hdl member, if that was the
-        intention. But again, indicating a NULL object via obj->hdl=NULL to me
-        seems to be implementation-specific.@n
-        AM: In the WG call, we agreed that the second part of the comparison
-        is implementation-specific and should be removed.
-    @todo TODO_KS AM: The example seems to be somewhat confused. Why is a test
+    @todo TODO_KS The example seems to be somewhat confused. Why is a test
         of cop meaningful when it is not used at all, and cop2 is used
-        instead?@n
-        Karl to review the example.
+        instead? Karl to review the example.
 */
 #ifdef CMPI_NO_INLINE
 #define CMIsNullObject(objptr) \
@@ -533,11 +515,8 @@ static inline CMPIBoolean CMIsNullObject(
     @endcode
     @hideinitializer
 
-    @todo DONE AM: The expression in the return statement causes a GCC warning
-        "overflow in implicit constant conversion". Need to fix somehow.
-    @todo TODO_KS AM: The example is way too complex if it just intends to show
-        how to use this function.@n
-        Karl to come up with simpler example.
+    @todo TODO_KS The example is way too complex if it just intends to show
+        how to use this function. Karl to come up with simpler example.
 */
 #ifdef CMPI_NO_INLINE
 #define CMIsNullValue(data) \
@@ -561,13 +540,6 @@ static inline CMPIBoolean CMIsNullValue(
 
     @hideinitializer
     @statusopenpegasus Not tested
-
-    @todo DONE KS: This is value call, not pointer.  Shouldn't this be
-          pointer call?@n
-          AM: It works with a CMPIData value, and I dont't think we can change
-          it to a pointer, for compatibility. I fixed the description.
-    @todo DONE AM: The expression in the return statement causes a GCC warning
-        "overflow in implicit constant conversion". Need to fix somehow.
 */
 #ifdef CMPI_NO_INLINE
 #define CMIsKeyValue(data) \
@@ -592,11 +564,7 @@ static inline CMPIBoolean CMIsKeyValue(
     @hideinitializer
     @statusopenpegasus Not tested
 
-    @todo KS this needs example.
-    @todo DONE KS: this is defined as...@n
-          AM: ...a pointer? Same comment and fix as for CMIsKeyValue().
-    @todo DONE AM: The expression in the return statement causes a GCC warning
-        "overflow in implicit constant conversion". Need to fix somehow.
+    @todo TODO_KS This needs an example.
 */
 #ifdef CMPI_NO_INLINE
 #define CMIsArray(data) \
@@ -671,6 +639,8 @@ static inline CMPIBoolean CMIsArray(
     CMRelease(clone);
     @endcode
     @hideinitializer
+
+    @todo TBD Review fulldescription and convfunction special commands.
 */
 #define CMRelease(obj) \
     ((obj)->ft->release((obj)))
@@ -751,28 +721,6 @@ static inline CMPIBoolean CMIsArray(
     @return Context entry value and type.
     @fulldescription CMPIContextFT.getEntry()
     @hideinitializer
-
-    @todo DONE AM: How specific do we want the description of the convenience
-        functions to be, for example:@n
-        - Should we omit the precise type of the arguments from the description
-          text (that is OK when generating the documentation based on the
-          inline functions because the declared types are visible, but that
-          information would be missing when the generated documentation is
-          based on the macros)?@n
-        - Should we describe return codes?@n
-        - Should we assume that the presence of [out] is sufficient so that
-          we don't need to repeat the output-ness in the description?@n
-        This function is described using the exact data types of its
-        arguments.@n
-        In the WG call, we agreed that the short descriptions are ok, and
-        that it is acceptable to depend on the type declarations in the inline
-        functions.
-    @todo DONE_REVIEW AM: Should we have text like "CMGetContextEntry() executes
-        CMPIContextFT.getEntry()"?@n
-        In the WG call, we agreed that the most desirable option is to have
-        a section named "Full Description" that just has a link to the FT
-        function. Andy to figure out how that can be done.@n
-        AM: Used the new fulldescription statement. Please review.
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetContextEntry(ctx, name, rc)  \
@@ -998,15 +946,6 @@ static inline CMPIStatus CMReturnError(
         provide argument checking or a return code. Use CMGetCharsPtr(),
         instead.
     @hideinitializer
-
-    @todo DONE KS: Confirm this since the doc was just a guess right now.@n
-        AM: Reviewed and fixed.
-    @todo DONE AM: Should this not invoke the respective function? Why is the
-        hdl the string?@n
-        WG: We need to modify the implementation of this one so that it is not
-        implementation dependent but just calls CMGetCharsPtr. Also deprecate.@n
-        AM: It is now deprecated and the implementation calls the function
-        but without rc (Passing NULL is allowed).
 */
 #ifdef CMPI_NO_INLINE
 #define CMGetCharPtr(str) \
@@ -4319,17 +4258,6 @@ static inline CMPIStatus CMCloseMessageFile(
     @endcode
     @hideinitializer
     @statusopenpegasus Tested in cmpiTestBrokerEncProvider.c
-
-    @todo DONE KS: Pls review since it asks to do something if macro but
-        it is
-        only a macro. No inline version.@n
-        AM: I removed the inline function, added the CMFmtArgsX() and CMFmtX()
-        macros back in, and improved the description. Please review.@n
-        In the WG call, we concluded that is the right approach.
-    @todo DONE AM: Not sure I understand the text of the Version section.
-        There
-        was no change for the macro between CMPI 2.0 and 2.1.@n
-        AM: Removed the version statement.
 */
 #define CMGetMessage2(mb, msgId, msgFileHandle, defMsg, rc, args) \
     ((mb)->eft->getMessage2((mb), (msgId), (msgFileHandle), (defMsg), (rc), \
@@ -4490,62 +4418,11 @@ static inline CMPIStatus CMCloseMessageFile(
         @ref mi-factory-specific "MI-specific factory function"
     @hideinitializer
 
-    @todo DONE KS: Confirm that this 'see' statement works@n
-        AM: It worked, but I have minimized it because the functions are now
-        in a table.
     @todo TBD KS: we have first cut at example.  Is this the way to go or would
         we be better with complete provider in an examples section?@n AM: I
         think the example is good enough for the factory function. What would
         be good to have are the actual provider functions, somewhere. That is
         too much for this particular macro.
-    @todo DONE KS: Despite the documentation, this apparently requires
-        implementations of all of the corresponding functions. How to we handle
-        the two that may well be optional. (ExecQuery,
-        EnumerateInstancesFiltered)?@n
-        AM: The spec requires that the MIFT table always has all functions.
-        Those that are not implemented, still exist and return 'not
-        implemented'. I have updated the example to show ExecQuery() that way.@n
-        In the WG call, we agreed this is correct.
-    @todo DONE AM: Why is the MIFT file static and the MI local static? The
-        variable name used for the file static table is the same for all
-        providers, making it impossible to have more than one provider per
-        source file. This seems like an unnecessary limitation. Suggestion:
-        Make both tables local static.@n
-        In the WG call, we agreed to keep the two variables as they are,
-        and to add a comment about this limitation.
-    @todo DONE AM: We document the CMPI_VERSION is the version that is
-        implemented. If we are serious about this, we should use CMPI_VERSION
-        instead of CMPICurrentVersion, for the first version in the MIFT.
-    @todo DONE AM: The second version in the MIFT is the MI development version,
-        and has nothing to do with the CMPI version. Ideally, it would be
-        passed as an argument to the macro. For now, I have set it also to
-        CMPI_VERSION, for compatibility.
-    @todo DONE AM: We should make sure that the code works for both C and C++
-        compilation. I have added ifdef __cplusplus around the C stubs, and
-        around any inline functions. While this causes differently named linker
-        symbols to be created for the inline convenience functions, they are
-        MI-local and thus binary compatibility to the MB is not affected. It is
-        still source code compatible for recompiles of the MI.@n
-        It turns out this comment was moot and applied to an earlier version
-        of the code.
-    @todo DONE AM: While we document that the returned pointer indicates
-        success
-        or error to the MB, it is still also required to set CMPIStatus.rc upon
-        return. The current macro does not set that at all. Do we expect the
-        init hook to set that, or was that just oversight? I have added code
-        to the generated factory function that sets rc OK before the init
-        hook is called, so that the hook code can still overwrite that to a
-        bad rc. However, for that to happen, the init hook needs to expand to
-        some more code than just a function call. I have added a
-        CMInitHook(pfx) macro to the example code that does that and calls a
-        properly defined initialize function. We could add the
-        CMInitHook() macro to the cmpimacs.h header file, if you like it.
-        it also encapsulates the knowledge about the local variable and argument
-        names in the generated factory function, so we could again "undocument"
-        them.@n
-        In the WG call, we agreed to add CMInitHook() as an official macro, and
-        to make the MIFT pointer available to the new init function it calls
-        (e.g. for updating the MI version field).
 */
 #define CMInstanceMIStub(pfx, miname, mbvar, hook) \
 static CMPIInstanceMIFT instMIFT__ = { \
@@ -4661,18 +4538,6 @@ CMPI_EXTERN_C CMPIInstanceMI * miname##_Create_InstanceMI( \
     @code (.c)
     static const CMPIBroker *_broker;
 
-    #define CMInitHook(pfx, mitype) \
-    do { \
-        CMPIStatus st = pfx##mitype##Initialize(&mi, ctx); \
-        if (st.rc != CMPI_RC_OK) \
-        { \
-            if (rc) { \
-                *rc = st; \
-            } \
-            return NULL; \
-        } \
-    } while (0)
-
     static CMPIStatus MyProvAssociationInitialize(
         CMPIAssociationMI *mi,
         const CMPIContext *ctx)
@@ -4722,13 +4587,8 @@ CMPI_EXTERN_C CMPIInstanceMI * miname##_Create_InstanceMI( \
         @ref mi-factory-specific "MI-specific factory function"
     @hideinitializer
 
-    @todo DONE create example
-    @todo DONE SEE INSTANCE STUB. what about optional functions
     @todo TBD KS: Need note about creating function that parallel others but
         with cap
-    @todo DONE Need reference back to cmpift
-    @todo DONE expand for cmpi 2.1
-    @todo DONE AM: Apply updates from CMInstanceMIStub().
 */
 #define CMAssociationMIStub(pfx, miname, mbvar, hook) \
 static CMPIAssociationMIFT assocMIFT__ = { \
@@ -4870,9 +4730,6 @@ CMPI_EXTERN_C CMPIAssociationMI * miname##_Create_AssociationMI( \
     @see CMPIMethodMI, CMPIMethodMIFT,
         @ref mi-factory-specific "MI-specific factory function"
     @hideinitializer
-
-    @todo DONE Need see reference back to cmpift. Do example
-    @todo DONE AM: Apply updates from CMInstanceMIStub().
 */
 #define CMMethodMIStub(pfx, miname, mbvar, hook) \
 static CMPIMethodMIFT methMIFT__ = { \
@@ -4972,10 +4829,6 @@ CMPI_EXTERN_C CMPIMethodMI * miname##_Create_MethodMI( \
     @see CMPIPropertyMI, CMPIPropertyMIFT,
         @ref mi-factory-specific "MI-specific factory function"
     @hideinitializer
-
-    @todo DONE Need reference back to cmpift. No example because
-           deprecated.
-    @todo DONE AM: Apply updates from CMInstanceMIStub().
 */
 #define CMPropertyMIStub(pfx, miname, mbvar, hook) \
 static CMPIPropertyMIFT propMIFT__ = { \
@@ -5139,9 +4992,6 @@ CMPI_EXTERN_C CMPIPropertyMI * miname##_Create_PropertyMI( \
     @see CMPIIndicationMI, CMPIIndicationMIFT,
         @ref mi-factory-specific "MI-specific factory function"
     @hideinitializer
-
-    @todo DONE Need reference back to cmpift and example
-    @todo DONE AM: Apply updates from CMInstanceMIStub().
 */
 #define CMIndicationMIStub(pfx, miname, mbvar, hook) \
 static CMPIIndicationMIFT indMIFT__ = { \
@@ -5291,18 +5141,10 @@ do { \
     @param miname The provider name under which this provider is registered.
             This is a character string without quotes.
     @return The function table of this instance provider.
+    @see CMPIInstanceMI, CMPIInstanceMIFT,
+        @ref mi-factory-specific "MI-specific factory function"
     @hideinitializer
 
-    @todo Need reference back to cmpift
-    @todo DONE AM: Where are the C++ classes documented that are used by this
-        macro?@n
-        In the WG call, we agreed to leave the macros as they are, and to
-        document that C++ classes needed for their use are not defined
-        in the CMPI header files.
-    @todo DONE AM: I have added ifdef __cplusplus around the C++ stubs, because
-        they do not make sense when compiling for C. They would probably not
-        hurt, but I think it is cleaner that way.@n
-        Agreed in WG call.
     @todo TODO_KS This macro is implemented differently in OpenPegasus; there
         is a 'try' block in place of 'provider->initialize(ctx)'. Need to find
         out why the difference and whether to update this header file.
@@ -5328,6 +5170,7 @@ CMPI_EXTERN_C CMPIInstanceMI *miname##_Create_InstanceMI( \
         CmpiInstanceMI::driveSetInstance, \
         CmpiInstanceMI::driveDeleteInstance, \
         CmpiInstanceMI::driveExecQuery, \
+        _CMInstanceMIFactory_EnumInstancesFiltered \
     }; \
     static CMPIInstanceMI mi; \
     CmpiContext ctx((CMPIContext *)ctxp); \
@@ -5361,9 +5204,10 @@ CMPI_EXTERN_C CMPIInstanceMI *miname##_Create_InstanceMI( \
     @param miname The provider name under which this provider is registered.
             This is a character string without quotes.
     @return The function table of this association provider.
+    @see CMPIAssociationMI, CMPIAssociationMIFT,
+        @ref mi-factory-specific "MI-specific factory function"
     @hideinitializer
 
-    @todo DONE Need reference back to cmpift
     @todo TODO_KS This macro is implemented differently in OpenPegasus; there
         is a 'try' block in place of 'provider->initialize(ctx)'. Need to find
         out why the difference and whether to update this header file.
@@ -5386,6 +5230,8 @@ CMPI_EXTERN_C CMPIAssociationMI *miname##_Create_AssociationMI( \
         CmpiAssociationMI::driveAssociatorNames, \
         CmpiAssociationMI::driveReferences, \
         CmpiAssociationMI::driveReferenceNames, \
+        _CMAssociationMIFactory_AssociatorsFiltered \
+        _CMAssociationMIFactory_ReferencesFiltered \
     }; \
     static CMPIAssociationMI mi; \
     CmpiContext ctx((CMPIContext *)ctxp); \
@@ -5419,10 +5265,10 @@ CMPI_EXTERN_C CMPIAssociationMI *miname##_Create_AssociationMI( \
     @param miname The provider name under which this provider is registered.
             This is a character string without quotes.
     @return The function table of this method provider.
+    @see CMPIMethodMI, CMPIMethodMIFT,
+        @ref mi-factory-specific "MI-specific factory function"
     @hideinitializer
 
-    @todo DONE Need reference back to cmpift
-    @todo TODO_KS Add macro for filtered operations.
     @todo TODO_KS This macro is implemented differently in OpenPegasus; there
         is a 'try' block in place of 'provider->initialize(ctx)'. Need to find
         out why the difference and whether to update this header file.
@@ -5476,10 +5322,10 @@ CMPI_EXTERN_C CMPIMethodMI *miname##_Create_MethodMI( \
             This is a character string without quotes.
     @return The function table of this property provider.
     @deprecated The CMPIPropertyMIFT has been deprecated in CMPI 2.1.
+    @see CMPIPropertyMI, CMPIPropertyMIFT,
+        @ref mi-factory-specific "MI-specific factory function"
     @hideinitializer
 
-    @todo DONE Need reference back to cmpift
-    @todo DONE document as deprecated
     @todo TODO_KS This macro is implemented differently in OpenPegasus; there
         is a 'try' block in place of 'provider->initialize(ctx)'. Need to find
         out why the difference and whether to update this header file.
@@ -5494,12 +5340,13 @@ CMPI_EXTERN_C CMPIPropertyMI *miname##_Create_PropertyMI( \
         CMPI_VERSION, \
         CMPI_VERSION, \
         "property" #miname, \
-           (CMPIStatus(*)( \
-                CMPIPropertyMI *, \
-                const CMPIContext *, \
-                CMPIBoolean))CmpiBaseMI::driveBaseCleanup, \
+        (CMPIStatus(*)( \
+            CMPIPropertyMI *, \
+            const CMPIContext *, \
+            CMPIBoolean))CmpiBaseMI::driveBaseCleanup, \
         CmpiPropertyMI::driveSetProperty, \
         CmpiPropertyMI::driveGetProperty, \
+        _CMPropertyMIFactory_SetPropertyWithOrigin \
     }; \
     static CMPIPropertyMI mi; \
     CmpiContext ctx((CMPIContext *)ctxp); \
@@ -5533,9 +5380,10 @@ CMPI_EXTERN_C CMPIPropertyMI *miname##_Create_PropertyMI( \
     @param miname The provider name under which this provider is registered.
         This is a character string without quotes.
     @return The function table of this indication provider.
+    @see CMPIIndicationMI, CMPIIndicationMIFT,
+        @ref mi-factory-specific "MI-specific factory function"
     @hideinitializer
 
-    @todo TODO_KS Add filter collection functions, conditional on CMPI 2.1.
     @todo TODO_KS This macro is implemented differently in OpenPegasus; there
         is a 'try' block in place of 'provider->initialize(ctx)'. Need to find
         out why the difference and whether to update this header file.
@@ -5560,6 +5408,9 @@ CMPI_EXTERN_C CMPIIndicationMI *miname##_Create_IndicationMI( \
         CmpiIndicationMI::driveDeActivateFilter, \
         CmpiIndicationMI::driveEnableIndications, \
         CmpiIndicationMI::driveDisableIndications, \
+        _CMIndicationMIFactory_AuthorizeFilterCollection \
+        _CMIndicationMIFactory_ActivateFilterCollection \
+        _CMIndicationMIFactory_DeActivateFilterCollection \
     }; \
     static CMPIIndicationMI mi; \
     CmpiContext ctx((CMPIContext *)ctxp); \
@@ -5577,6 +5428,35 @@ CMPI_EXTERN_C CMPIIndicationMI *miname##_Create_IndicationMI( \
     base##miname.incUseCount(); \
     return &mi; \
 }
+
+#ifdef CMPI_VER_200
+#define _CMPropertyMIFactory_SetPropertyWithOrigin \
+    CmpiPropertyMI::driveSetPropertyWithOrigin,
+#else
+#define _CMPropertyMIFactory_SetPropertyWithOrigin
+#endif
+
+#ifdef CMPI_VER_210
+#define _CMInstanceMIFactory_EnumInstancesFiltered \
+    CmpiInstanceMI::driveEnumInstancesFiltered,
+#define _CMAssociationMIFactory_AssociatorsFiltered \
+    CmpiAssociationMI::driveAssociatorsFiltered,
+#define _CMAssociationMIFactory_ReferencesFiltered \
+    CmpiAssociationMI::driveReferencesFiltered,
+#define _CMIndicationMIFactory_AuthorizeFilterCollection \
+    CmpiIndicationMI::driveAuthorizeFilterCollection,
+#define _CMIndicationMIFactory_ActivateFilterCollection \
+    CmpiIndicationMI::driveActivateFilterCollection,
+#define _CMIndicationMIFactory_DeActivateFilterCollection \
+    CmpiIndicationMI::driveDeActivateFilterCollection,
+#else
+#define _CMInstanceMIFactory_EnumInstancesFiltered
+#define _CMAssociationMIFactory_AssociatorsFiltered
+#define _CMAssociationMIFactory_ReferencesFiltered
+#define _CMIndicationMIFactory_AuthorizeFilterCollection
+#define _CMIndicationMIFactory_ActivateFilterCollection
+#define _CMIndicationMIFactory_DeActivateFilterCollection
+#endif
 
 /** @brief ???
 
