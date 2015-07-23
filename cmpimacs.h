@@ -645,8 +645,7 @@ static inline CMPIBoolean CMIsArray(
 #define CMRelease(obj) \
     ((obj)->ft->release((obj)))
 
-/**
-    @brief Clone an encapsulated data type object.
+/** @brief Clone an encapsulated data type object.
 
     CMClone() clones an encapsulated data type object, by calling the
     clone() function in the function table of the object.
@@ -3466,6 +3465,7 @@ static inline CMPIEnumeration *CBReferenceNames(
     @endcode
     @fulldescription CMPIBrokerFT.invokeMethod()
     @hideinitializer
+
     @todo TBD AM: I think the CMRelease() is incorrect, because the
         object is not a result of CMClone().
 */
@@ -3486,73 +3486,88 @@ static inline CMPIData CBInvokeMethod(
 }
 #endif
 
-/** Set the named property value of an existing Instance. (**Deprecated**)
+/** @brief Set or modify a property of an existing instance. (**Deprecated**)
 
-    CBSetProperty() executes the CMPIBrokerFT.setProperty()
-    function to set a CMPIValue @ value into property of an
-    existing instance.
-
+    @param mb CMPIBroker structure.
+    @param ctx CMPIContext object.
+    @param instPath Instance path of the instance to be modified.
+    @param name Property name.
+    @param value CMPIValue structure containing the non-NULL value to be
+        assigned to the property, or NULL to specify that NULL is to be
+        assigned.
+    @param type Type of the value to be assigned.
+    @return Function return status.
     @fulldescription CMPIBrokerFT.setProperty()
-
-    @deprecated because the function setProperty has been
-                deprecated
-
-    @note No example because this function is deprecated
+    @deprecated This function is deprecated since CMPI 2.1, in accord with the
+        deprecation of property client operations in DMTF specifications.
+    @note No example because this function is deprecated.
     @hideinitializer
 */
 #ifdef CMPI_NO_INLINE
-#define CBSetProperty(mb,c,p,n,v,t) \
-    ((mb)->bft->setProperty((mb),(c),(p),(n),(CMPIValue *)(v),(t)))
+#define CBSetProperty(mb, ctx, instPath, name, value, type) \
+    ((mb)->bft->setProperty((mb), (ctx), (instPath), (name), \
+                            (CMPIValue *)(value), (type)))
 #else
 static inline CMPIStatus CBSetProperty(
     const CMPIBroker *mb,
     const CMPIContext *ctx,
-    const CMPIObjectPath *op,
+    const CMPIObjectPath *instPath,
     const char *name,
     const CMPIValue *value,
     const CMPIType type)
 {
-    return mb->bft->setProperty(mb, ctx, op, name, (CMPIValue *)value, type);
+    return mb->bft->setProperty(mb, ctx, instPath, name, (CMPIValue *)value,
+                                type);
 }
 #endif
 
-/** Get the named property value of an Instance (**Deprecated**)
+/** @brief Get a property of an existing instance. (**Deprecated**)
 
-    CBGetProperty() executes CMPIBrokerFT.getProperty() to
-    get the property named by @p name defined by @p op.
-    @fulldescription CMPIBrokerFT.getProperty()
-
-    @deprecated Because corresponding CMPIBrokerFT.getProperty() is deprecated.
-
-    @note No example because deprecated.
+    @param mb CMPIBroker structure.
+    @param ctx CMPIContext object.
+    @param instPath Instance path of the instance to be retrieved.
+    @param name Property name.
+    @param [out] rc Function return status (suppressed when NULL).
+    @return Property value and type.
+    @fulldescription CMPIBrokerFT.setProperty()
+    @deprecated This function is deprecated since CMPI 2.1, in accord with the
+        deprecation of property client operations in DMTF specifications.
+    @note No example because this function is deprecated.
     @hideinitializer
-    @todo TODO_AM Make description consistent with MB function.
 */
 #ifdef CMPI_NO_INLINE
-#define CBGetProperty(mb,c,p,n,rc) \
-    (mb)->bft->getProperty((mb),(c),(p),(n),(rc))
+#define CBGetProperty(mb, ctx, instPath, name, rc) \
+    (mb)->bft->getProperty((mb), (ctx), (instPath), (name), (rc))
 #else
 static inline CMPIData CBGetProperty(
     const CMPIBroker *mb,
     const CMPIContext *ctx,
-    const CMPIObjectPath *op,
+    const CMPIObjectPath *instPath,
     const char *name,
     CMPIStatus *rc)
 {
-    return mb->bft->getProperty(mb, ctx, op, name, rc);
+    return mb->bft->getProperty(mb, ctx, instPath, name, rc);
 }
 #endif
+
+/// @todo TODO_AM Add CBEnumInstancesFiltered() based on
+///     CMPIBrokerFT::enumerateInstancesFiltered()
+
+/// @todo TODO_AM Add CBAssociatorsFiltered() based on
+///      CMPIBrokerFT::associatorsFiltered()
+
+/// @todo TODO_AM Add CBReferencesFiltered() based on
+///      CMPIBrokerFT::referencesFiltered()
 
 /** @brief Create a new CMPIInstance object initialized to a given instance
         path.
 
-    CBNewInstance() executes CMPIBrokerEncFT.newInstance() with same arguments
     @param mb CMPIBroker structure.
-    @param instPath CMPIObjectPath containing namespace and classname.
+    @param instPath The class path or instance path for the new CMPIInstance
+        object.
     @param [out] rc Function return status (suppressed when NULL).
-    @return Newly created Instance.
+    @return The new CMPIInstance object.
     @fulldescription CMPIBrokerEncFT.newInstance()
-
     @par Examples
     @code (.c)
     CMPIStatus testProvEnumInstances (CMPIInstanceMI *cThis,
@@ -3582,7 +3597,8 @@ static inline CMPIData CBGetProperty(
     }
     @endcode
     @hideinitializer
-    @todo TODO_AM Make description consistent with MB function.
+
+    @todo TODO_KS AM: Example is too complex for this function. Simplify.
 */
 #ifdef CMPI_NO_INLINE
 #define CMNewInstance(mb, instPath, rc) \
@@ -3600,14 +3616,12 @@ static inline CMPIInstance *CMNewInstance (
 /** @brief Create a new CMPIObjectPath initialized to a given namespace and
         class name.
 
-    CMNewObjectPath() executes CMPIBrokerEncFT.newObjectPath() to create a new
-    CMPIObjectPath.
     @param mb CMPIBroker structure.
-    @param ns namespace
-    @param cn class name
+    @param ns Namespace name.
+    @param cn Class name.
     @param [out] rc Function return status (suppressed when NULL).
+    @return The new CMPIObjectPath object.
     @fulldescription CMPIBrokerEncFT.newObjectPath()
-
     @par Examples
     @code (.c)
     const char* class = "myClass";
@@ -3618,11 +3632,10 @@ static inline CMPIInstance *CMNewInstance (
     CMAddKey (objPath, "ElementName", (CMPIValue *) class, CMPI_chars);
     @endcode
     @hideinitializer
-    @todo TODO_AM Make description consistent with MB function.
 */
 #ifdef CMPI_NO_INLINE
-#define CMNewObjectPath(mb,n,c,rc) \
-    ((mb)->eft->newObjectPath((mb),(n),(c),(rc)))
+#define CMNewObjectPath(mb, ns, cn, rc) \
+    ((mb)->eft->newObjectPath((mb), (ns), (cn), (rc)))
 #else
 static inline CMPIObjectPath *CMNewObjectPath (
     const CMPIBroker *mb,
@@ -3634,28 +3647,57 @@ static inline CMPIObjectPath *CMNewObjectPath (
 }
 #endif
 
-/** @brief Create a new CMPIString object initialized from a C string.
+/** @brief Create a new CMPIArgs object initialized to have no method
+        parameters.
 
-    CMNewString() convenience function executes CMPIBrokerEncFT.newString()
-    to create a new CMPIString object that is initialized from  @p data a
-    C-language string.
-    @fulldescription CMPIBrokerEncFT.newString()
-
+    @param mb CMPIBroker structure.
+    @param [out] rc Function return status (suppressed when NULL).
+    @return The new CMPIArgs object.
+    @fulldescription CMPIBrokerEncFT.newArgs()
     @par Examples
     @code (.c)
-    CMPIString1 *cmpiStr;
-    CMPIString2 *cmpiStr;
+    CMPIArgs *args_ptr = NULL;
+    CMPIStatus rc = { CMPI_RC_OK, NULL };
+    args_ptr = CMNewArgs(_broker, &rc);
+    @endcode
+    @hideinitializer
+*/
+#ifdef CMPI_NO_INLINE
+#define CMNewArgs(mb, rc) \
+    ((mb)->eft->newArgs((mb), (rc)))
+#else
+static inline CMPIArgs *CMNewArgs (
+    const CMPIBroker *mb,
+    CMPIStatus *rc)
+{
+    return mb->eft->newArgs(mb, rc);
+}
+#endif
+
+/** @brief Create a new CMPIString object initialized from a C-language string.
+
+    @param mb CMPIBroker structure.
+    @param data	C-language string.
+    @param [out] rc Function return status (suppressed when NULL).
+    @return The new CMPIString object.
+    @fulldescription CMPIBrokerEncFT.newString()
+    @par Examples
+    @code (.c)
+    CMPIStatus rc;
+    CMPIString *cmpiStr1;
+    CMPIString *cmpiStr2;
     cmpiStr1 = CMNewString(_broker, NULL, &rc);
     // test rc for OK
     cmpiStr2 = CMNewString(_broker, "Tracing for level 5", &rc);
     // test rc for OK
     @endcode
     @hideinitializer
-    @todo TODO_AM Make description consistent with MB function.
+
+    @todo TBD AM: Clarify whether NULL is allowed as `data` argument.
 */
 #ifdef CMPI_NO_INLINE
-#define CMNewString(mb,s,rc) \
-    ((mb)->eft->newString((mb),(s),(rc)))
+#define CMNewString(mb, data, rc) \
+    ((mb)->eft->newString((mb), (data), (rc)))
 #else
 static inline CMPIString *CMNewString (
     const CMPIBroker *mb,
@@ -3666,55 +3708,21 @@ static inline CMPIString *CMNewString (
 }
 #endif
 
-/** @brief Create a new CMPIArgs object initialized to have no method
-        parameters.
+/** @brief Create a new CMPIArray object of a given size and type of elements.
 
-    CMNewArgs() executes CMPIBrokerEncFT.newArgs() to create a new CMPIArgs
-    object.
     @param mb CMPIBroker structure.
+    @param size Size of the array. A value of 0 is valid and specifies an empty
+        array.
+    @param type Type of each array element.
     @param [out] rc Function return status (suppressed when NULL).
-    @return Newly created CMPIArgs object or NULL.
-    @fulldescription CMPIBrokerEncFT.newArgs()
-
-    @par Examples
-    @code (.c)
-    CMPIArgs *args_ptr = NULL;
-    CMPIStatus rc = { CMPI_RC_OK, NULL };
-    args_ptr = CMNewArgs(_broker, &rc);
-    @endcode
-    @hideinitializer
-    @todo TODO_AM Make description consistent with MB function.
-*/
-#ifdef CMPI_NO_INLINE
-#define CMNewArgs(mb,rc) \
-    ((mb)->eft->newArgs((mb),(rc)))
-#else
-static inline CMPIArgs *CMNewArgs (const CMPIBroker *mb, CMPIStatus *rc)
-{
-    return mb->eft->newArgs(mb, rc);
-}
-#endif
-
-/** Create a new CMPIArray object of a given fixed array size for a
-        given type of elements.
-
-    CMNewArray() executes CMPIBrokerEncFT.newArray() to create a new
-    CMPIArray object
-    @param mb CMPIBroker structure.
-    @param size Number of elements
-    @param type Element type
-    @param [out] rc Function return status (suppressed when NULL).
-    @return Newly created Array or NULL.
+    @return The new CMPIArray object.
     @fulldescription CMPIBrokerEncFT.newArray()
-
     @hideinitializer
     @statusopenpegasus Tested in cmpiTestMethodProvider.c
-
-    @todo TODO_AM Make description consistent with MB function.
 */
 #ifdef CMPI_NO_INLINE
-#define CMNewArray(mb,c,t,rc) \
-    ((mb)->eft->newArray((mb),(c),(t),(rc)))
+#define CMNewArray(mb, size, type, rc) \
+    ((mb)->eft->newArray((mb), (size), (type), (rc)))
 #else
 static inline CMPIArray *CMNewArray (
     const CMPIBroker *mb,
@@ -3726,20 +3734,17 @@ static inline CMPIArray *CMNewArray (
 }
 #endif
 
-/** @brief Create a new CMPIDataTime object with current date and time.
+/** @brief Create a new CMPIDataTime object to the current date and time.
 
-    CBNewDateTime() executes CMPIBrokerEncFT.newDateTime() to create a
-    new CMPIDateTime object().
     @param mb CMPIBroker structure.
     @param [out] rc Function return status (suppressed when NULL).
-    @return The newly created DateTime or NULL.
+    @return The new CMPIDateTime object.
     @fulldescription CMPIBrokerEncFT.newDateTime()
     @hideinitializer
-    @todo TODO_AM Make description consistent with MB function.
 */
 #ifdef CMPI_NO_INLINE
-#define CMNewDateTime(mb,rc) \
-    ((mb)->eft->newDateTime((mb),(rc)))
+#define CMNewDateTime(mb, rc) \
+    ((mb)->eft->newDateTime((mb), (rc)))
 #else
 static inline CMPIDateTime *CMNewDateTime (
     const CMPIBroker *mb,
@@ -3755,19 +3760,20 @@ static inline CMPIDateTime *CMNewDateTime (
     to create a new CMPIDateTime object initialized from @p binTime.
 
     @param mb CMPIBroker structure.
-    @param binTime Date/Time definition in binary format in microsecods
-    starting since 00:00:00 GMT, Jan 1,1970.
-    @param interval Wenn true, defines Date/Time definition to be an
-         interval value
+    @param binTime When `interval` is false, a point in time value expressed as
+        a 64-bit unsigned integer in microseconds since 00:00:00 GMT, January
+        1, 1970. Otherwise, a time interval expressed as a 64-bit unsigned
+        integer in microseconds.
+    @param interval If true, indicates that `binTime` is considered to be a
+        time interval.
     @param [out] rc Function return status (suppressed when NULL).
-    @return The newly created DateTime or NULL.
+    @return The new CMPIDateTime object.
     @fulldescription CMPIBrokerEncFT.newDateTimeFromBinary()
     @hideinitializer
-    @todo TODO_AM Make description consistent with MB function.
 */
 #ifdef CMPI_NO_INLINE
-#define CMNewDateTimeFromBinary(mb,d,i,rc) \
-    ((mb)->eft->newDateTimeFromBinary((mb),(d),(i),(rc)))
+#define CMNewDateTimeFromBinary(mb, binTime, interval, rc) \
+    ((mb)->eft->newDateTimeFromBinary((mb), (binTime), (interval), (rc)))
 #else
 static inline CMPIDateTime *CMNewDateTimeFromBinary(
     const CMPIBroker *mb,
@@ -3779,19 +3785,20 @@ static inline CMPIDateTime *CMNewDateTimeFromBinary(
 }
 #endif
 
-/** @brief Create a new CMPIDateTime object initialized from input.
+/** @brief Create a new CMPIDateTime object initialized to a specified value.
 
     @param mb CMPIBroker structure.
-    @param datetime Date/Time definition in UTC format
+    @param datetime Date/time value to be used for the new object in the string
+        format for CIM datetime values defined in @ref ref-dmtf-dsp0004
+        "DSP0004". Both the interval and point in time formats are supported.
     @param [out] rc Function return status (suppressed when NULL).
-    @return The newly created DateTime or NULL.
+    @return The new CMPIDateTime object.
     @fulldescription CMPIBrokerEncFT.newDateTimeFromChars()
     @hideinitializer
-    @todo TODO_AM Make description consistent with MB function.
 */
 #ifdef CMPI_NO_INLINE
-#define CMNewDateTimeFromChars(mb,d,rc) \
-    ((mb)->eft->newDateTimeFromChars((mb),(d),(rc)))
+#define CMNewDateTimeFromChars(mb, datetime, rc) \
+    ((mb)->eft->newDateTimeFromChars((mb), (datetime), (rc)))
 #else
 static inline CMPIDateTime *CMNewDateTimeFromChars(
     const CMPIBroker *mb,
@@ -3803,23 +3810,21 @@ static inline CMPIDateTime *CMNewDateTimeFromChars(
 #endif
 
 /** @brief Create a new CMPISelectExp object initialized from a select
-        expression.
+        expression specified in a query language.
 
-    CMNewSelectExp() executes CMPIBrokerEncFT.newSelectExp() to create a new
-    CMPISelectExp
     @param mb CMPIBroker structure.
-    @param query The select expression.
-    @param lang The query language.
-    @param [out] projection Projection specification (suppressed when NULL).
+    @param query Select expression.
+    @param lang Query language.
+    @param [out] projection A new CMPIArray object of CMPIString entries
+        containing the projection specification.
     @param [out] rc Function return status (suppressed when NULL).
-    @return The newly created SelectExp or NULL.
+    @return The new CMPISelectExp object.
     @fulldescription CMPIBrokerEncFT.newSelectExp()
     @hideinitializer
-    @todo TODO_AM Make description consistent with MB function.
 */
 #ifdef CMPI_NO_INLINE
-#define CMNewSelectExp(mb,q,l,p,rc) \
-    ((mb)->eft->newSelectExp((mb),(q),(l),(p),(rc)))
+#define CMNewSelectExp(mb, query, lang, projection, rc) \
+    ((mb)->eft->newSelectExp((mb), (query), (lang), (projection), (rc)))
 #else
 static inline CMPISelectExp *CMNewSelectExp(
     const CMPIBroker *mb,
@@ -3832,28 +3837,110 @@ static inline CMPISelectExp *CMNewSelectExp(
 }
 #endif
 
+#ifdef CMPI_VER_200
+/** @brief Create a new CMPIError object initialized with certain core
+        attributes.
+
+    @param mb CMPIBroker structure.
+    @param owner Value for the `OwningEntity` attribute of the CMPIError object.
+        For a description of the `OwningEntity` attribute, see the description
+        of the `OwningEntity` property in the `CIM_Error` class in the CIM
+        Schema. If the error message is defined in a DMTF message registry, the
+        string value of owner shall be the content of the OWNING_ENTITY element
+        defined for the registry.
+    @param msgID Value for the `MessageID` attribute of the CMPIError object.
+        For a description of the `MessageID` attribute, see the description of
+        the `MessageID` property in the `CIM_Error` class in the CIM Schema. If
+        the error message is defined in a DMTF message registry, the string
+        value of @p msgID shall be the message ID defined for the message in
+        the registry (the concatenation of the values of the PREFIX and
+        SEQUENCE_NUMBER attributes of the MESSAGE_ID element for the message).
+    @param msg Value for the `Message` attribute of the CMPIError object. For a
+        description of the `Message` attribute, see the description of the
+        `Message` property in the `CIM_Error` class in the CIM Schema. This
+        message is the formatted and translated message, with any dynamic
+        values expanded.
+    @param sev Value for the `PerceivedSeverity` attribute of the CMPIError
+        object. For a description of the `PerceivedSeverity` attribute, see the
+        description of the `PerceivedSeverity` property in the `CIM_Error`
+        class in the CIM Schema. If the error message is defined in a DMTF
+        message registry, the string value of @p sev shall be the content of
+        the PERCEIVED_SEVERITY element defined for the message in the registry.
+    @param pc value for the `ProbableCause` attribute of the CMPIError
+        object. For a description of the `ProbableCause` attribute, see the
+        description of the `ProbableCause` property in the `CIM_Error` class in
+        the CIM Schema. If the error message is defined in a DMTF message
+        registry, note that the string value of @p pc is not defined in the
+        message in the registry.
+    @param cimStatusCode Value for the `CIMStatusCode` attribute of the
+        CMPIError object. For a description of the `CIMStatusCode` attribute,
+        see the description of the `CIMStatusCode` property in the `CIM_Error`
+        class in the CIM Schema. Not all status codes are valid for each
+        operation. The specification for each MI function defines the status
+        codes that may be returned. If the error message is defined in a DMTF
+        message registry, cimStatusCode shall reflect the content of the
+        CIMSTATUSCODE element defined for the message in the registry.
+    @param [out] rc Function return status (suppressed when NULL).
+    @return The new CMPIError object.
+    @fulldescription CMPIBrokerEncFT.newCMPIError()
+    @par Examples
+    @code (.c)
+    cmpiError = CMNewCMPIError(_broker, inOwningEntity, inMsgID, inMsg,
+                    inSev, inPc, inCIMStatusCode, &rc);
+    @endcode
+    @hideinitializer
+    @statusopenpegasus Tested in TestCMPIErrorProvider.c
+*/
+#ifdef CMPI_NO_INLINE
+#define CMNewCMPIError(mb, owner, msgID, msg, sev, pc, cimStatusCode, rc)  \
+    ((mb)->eft->newCMPIError((mb), (owner), (msgID), (msg), (sev), \
+                             (pc), (cimStatusCode), (rc)))
+#else
+static inline CMPIError * CMNewCMPIError(
+    const CMPIBroker *mb,
+    const char *owner,
+    const char* msgID,
+    const char* msg,
+    const CMPIErrorSeverity sev,
+    const CMPIErrorProbableCause pc,
+    const CMPIrc cimStatusCode,
+    CMPIStatus *rc)
+{
+    return mb->eft->newCMPIError(mb, owner, msgID, msg, sev, pc, cimStatusCode,
+                                 rc);
+}
+#endif
+#endif /* CMPI_VER_200 */
+
+/// @todo TODO_AM Add CMNewCMPIPropertyList() based on
+///     CMPIBrokerEncFT.newPropertyList().
+
+/// @todo TODO_AM Add CMNewCMPIStringCP() based on
+///     CMPIBrokerEncFT.newStringCP().
+
+/// @todo TODO_AM Add CMNewCMPIEnumerationFilter() based on
+///      CMPIBrokerEncFT.newEnumerationFilter().
+
 /** @brief Test whether a class path is of a specified class or any of its
         subclasses.
 
-    CMClassPathIsA() executes CMPIBrokerEncFT.classPathIsA().
     @param mb CMPIBroker structure.
-    @param classPath The class path (namespace and classname
-              components).
-    @param className Specifies the class name to be tested for.
+    @param classPath Class path that is being tested.
+    @param className Class name to be tested for.
     @param [out] rc Function return status (suppressed when NULL).
-    @return
-         @li True if test successful.
-         @li False otherwise.
+    @retval true The class path is of the specified class or any of that
+        class's subclasses.
+    @retval false The class path is not of the specified class nor any of that
+        class's subclasses.
     @fulldescription CMPIBrokerEncFT.classPathIsA()
-    @version The className argument was named type and documented incorrectly
-    prior to version 2.1.  The code did execute correctly
+    @changed210 The className argument was named type and documented incorrectly
+        prior to CMPI 2.1. However, the code did execute correctly.
     @hideinitializer
     @statusopenpegasus Not tested
-    @todo TODO_AM Make description consistent with MB function.
 */
 #ifdef CMPI_NO_INLINE
-#define CMClassPathIsA(mb,cp,cn,rc) \
-    ((mb)->eft->classPathIsA((mb),(cp),(cn),(rc)))
+#define CMClassPathIsA(mb, classPath, className, rc) \
+    ((mb)->eft->classPathIsA((mb), (classPath), (className), (rc)))
 #else
 static inline CMPIBoolean CMClassPathIsA(
     const CMPIBroker *mb,
@@ -3865,23 +3952,20 @@ static inline CMPIBoolean CMClassPathIsA(
 }
 #endif
 
-/** @brief Convert CMPI encapsulated data type object into a string
+/** @brief Convert an encapsulated data type object into a string
         representation.
 
-    CDToString() executes CMPIBrokerEncFT.toString() to  convert any CMPI
-    encapsulated data type to a CMPIString with implementation-specific content
-    representation.  Intended for debugging purposes only.
     @param mb CMPIBroker structure.
-    @param object A valid CMPI encapsulated data type object.
+    @param object Encapsulated data type object.
     @param [out] rc Function return status (suppressed when NULL).
-    @return String from representation of @p object or NULL.
+    @return MB implementation-specific string representation of the
+        encapsulated data type object.
     @fulldescription CMPIBrokerEncFT.toString()
     @hideinitializer
-    @todo TODO_AM Make description consistent with MB function.
 */
 #ifdef CMPI_NO_INLINE
-#define CDToString(mb,o,rc) \
-    ((mb)->eft->toString((mb),(void*)(o),(rc)))
+#define CDToString(mb, object, rc) \
+    ((mb)->eft->toString((mb), (void*)(object), (rc)))
 #else
 static inline CMPIString *CDToString(
     const CMPIBroker *mb,
@@ -3892,17 +3976,16 @@ static inline CMPIString *CDToString(
 }
 #endif
 
-/** @brief Tests whether a CMPI encapsulated data type object is of a
-        specified CMPI type.
+/** @brief Test whether an encapsulated data type object is of a specified CMPI
+        type.
 
-    CDIsOfType() executes CMPIBrokerEncFT.isOfType() to verifies whether @p
-    object is of CMPI type @p type. Intended for debugging purposes only.
     @param mb CMPIBroker structure.
-    @param object A valid CMPI object.
-    @param type A string specifying a valid CMPI Object type
-        ("CMPIInstance", "CMPIObjectPath", etc).
+    @param object Encapsulated data type object.
+    @param type Type name of the encapsulated data type to be tested for (e.g.,
+        "CMPIInstance").
     @param [out] rc Function return status (suppressed when NULL).
-    @return True if test successful.
+    @retval true The object is of the specified CMPI type.
+    @retval false The object is not of the specified CMPI type.
     @fulldescription CMPIBrokerEncFT.isOfType()
     @par Examples
     @code (.c)
@@ -3914,11 +3997,10 @@ static inline CMPIString *CDToString(
     @endcode
     @hideinitializer
     @statusopenpegasus Tested
-    @todo TODO_AM Make description consistent with MB function.
 */
 #ifdef CMPI_NO_INLINE
-#define CDIsOfType(mb,o,t,rc) \
-           (mb)->eft->isOfType((mb),(void*)(o),(t),(rc))
+#define CDIsOfType(mb, object, type, rc) \
+    (mb)->eft->isOfType((mb), (void*)(object), (type), (rc))
 #else
 static inline CMPIBoolean CDIsOfType(
     const CMPIBroker *mb,
@@ -3930,21 +4012,18 @@ static inline CMPIBoolean CDIsOfType(
 }
 #endif
 
-/** @brief Get the type name of a CMPI ensapsulated data type object.
+/** @brief Get the type name of an ensapsulated data type object.
 
-    CDGetType() executes CMPIBrokerEncFT.getType() to get the CMPI type.
-    Intended for debugging purposes only.
     @param mb CMPIBroker structure.
-    @param object A valid CMPI object.
+    @param object Encapsulated data type object.
     @param [out] rc Function return status (suppressed when NULL).
-    @return CMPI object type or NULL.
+    @return Type name of the encapsulated data type (e.g., "CMPIInstance").
     @fulldescription CMPIBrokerEncFT.getType()
     @hideinitializer
-    @todo TODO_AM Make description consistent with MB function.
 */
 #ifdef CMPI_NO_INLINE
-#define CDGetType(mb,o,rc) \
-    ((mb)->eft->getType((mb),(void*)(o),(rc)))
+#define CDGetType(mb, object, rc) \
+    ((mb)->eft->getType((mb), (void*)(object), (rc)))
 #else
 static inline CMPIString *CDGetType(
     const CMPIBroker *mb,
@@ -3955,16 +4034,18 @@ static inline CMPIString *CDGetType(
 }
 #endif
 
+/// @todo TODO_AM Add CMGetMessage() based on CMPIBrokerEncFT.getMessage().
+
 /** @brief Log a diagnostic message.
 
-    CMLogMessage() executes CMPIBrokerEncFT.logMessage().
     @param mb CMPIBroker structure.
-    @param severity integer severity code.
-    @param id message ID or any other identifying string.
-    @param text If not NULL, const char * with the message text to be logged.
-    @param string If not NULL, CMPIString with message text to be logged;
-       @p string will be ignored when @p text is not NULL.
-    @return CMPIStatus containing function return status
+    @param severity Severity of the log message. Severity levels are defined in
+        @ref CMPISeverity.
+    @param id If not NULL, message ID or any other identifying string.
+    @param text If not NULL, message text to be logged.
+    @param string If not NULL, message text to be logged. @p string will be
+        ignored when @p text is not NULL.
+    @return Function return status.
     @par Examples
     @code (.c)
     CMLogMessage(_broker, 1, "TestProvider",
@@ -3973,11 +4054,10 @@ static inline CMPIString *CDGetType(
     @fulldescription CMPIBrokerEncFT.logMessage()
     @hideinitializer
     @statusopenpegasus Tested in cmpiTestMethodProvider.c
-    @todo TODO_AM Make description consistent with MB function.
 */
 #ifdef CMPI_NO_INLINE
-#define CMLogMessage(mb,severity,id, text, string)  \
-    ((mb)->eft->logMessage((mb),(severity),(id),(text),(string)))
+#define CMLogMessage(mb, severity, id, text, string)  \
+    ((mb)->eft->logMessage((mb), (severity), (id), (text), (string)))
 #else
 static inline CMPIStatus CMLogMessage(
     const CMPIBroker *mb,
@@ -3991,32 +4071,30 @@ static inline CMPIStatus CMLogMessage(
 #endif
 
 /** @brief Trace a diagnostic message with a specific trace level and
-        component definition.
+        component.
 
-    CMTraceMessage() exeuctes CMPIBrokerEncFT.trace() to send a diagnostic
-    message to a trace output facility.
     @param mb CMPIBroker structure.
-    @param level The severity
-    @param component NULL or implementation specific ID.
-    @param text NULL or message text.
-    @param string NULL, or CMPIString with message
-       text to be logged. @p string will be ignored when text is not
-       NULL.
+    @param level Trace level of the message. Trace levels are defined in @ref
+        CMPILevel.
+    @param component If not NULL, MI implementation-specific component ID.
+    @param text If not NULL, message text to be traced.
+    @param string If not NULL, message text to be logged. @p string will be
+        ignored when @p text is not NULL.
+    @return Function return status.
     @fulldescription CMPIBrokerEncFT.trace()
     @par Examples
     @code (.c)
     CMPIStatus rc = { CMPI_RC_OK, NULL };
-    CMPIString *str = CMNewString (_broker, "CMTraceMessage", &rc);
-    rc = CMTraceMessage (_broker, 4, "Authorization", NULL, str);
+    CMPIString *str = CMNewString(_broker, "CMTraceMessage", &rc);
+    rc = CMTraceMessage(_broker, 4, "Authorization", NULL, str);
     @endcode
     @hideinitializer
     @statusopenpegasus Tested in cmpiTestMethodProvider.c. Uses CMPILevel as
-         type, not int.
-    @todo TODO_AM Make description consistent with MB function.
+        type, not int.
 */
 #ifdef CMPI_NO_INLINE
-#define CMTraceMessage(mb,level,component, text, string)  \
-    ((mb)->eft->trace((mb),(level),(component),(text),(string)))
+#define CMTraceMessage(mb, level, component, text, string)  \
+    ((mb)->eft->trace((mb), (level), (component), (text), (string)))
 #else
 static inline CMPIStatus CMTraceMessage(
     const CMPIBroker *mb,
@@ -4030,73 +4108,27 @@ static inline CMPIStatus CMTraceMessage(
 #endif
 
 #ifdef CMPI_VER_200
-/** @brief Create a new CMPIError object initialized with attributes defined
-        by the input parameters.
-
-    CMNewCMPIError() executes CMPIBrokerEncFT.newCMPIError() to create a new
-    CMPIError object.
-    @param mb CMPIBroker structure.
-    @param owner Identifies the entity that owns the msg format definition.
-    @param msgID Identifies the format of the message.
-    @param msg Formatted and translated message.
-    @param sev Perceived severity of this error.
-    @param pc Probable caues of this error.
-    @param cimStatusCode Status Code.
-    @param [out] rc Function return status (suppressed when NULL).
-    @return Pointer to a newly allocated CMPIError object or NULL.
-    @fulldescription CMPIBrokerEncFT.newCMPIError()
-
-    @par Examples
-    @code (.c)
-    cmpiError = CMNewCMPIError(_broker, inOwningEntity, inMsgID, inMsg,
-                    inSev, inPc, inCIMStatusCode, &rc);
-    @endcode
-    @hideinitializer
-    @statusopenpegasus Tested in TestCMPIErrorProvider.c
-    @todo TODO_AM Make description consistent with MB function.
-*/
-#ifdef CMPI_NO_INLINE
-#define CMNewCMPIError(mb,owner,msgID,msg,sev,pc,cimStatusCode,rc)  \
-    ((mb)->eft->newCMPIError((mb),(owner),(msgID),(msg),(sev), \
-                             (pc),(cimStatusCode),(rc)))
-#else
-static inline CMPIError * CMNewCMPIError(
-    const CMPIBroker *mb,
-    const char *owner,
-    const char* msgID,
-    const char* msg,
-    const CMPIErrorSeverity sev,
-    const CMPIErrorProbableCause pc,
-    const CMPIrc cimStatusCode,
-    CMPIStatus *rc)
-{
-    return mb->eft->newCMPIError(mb, owner, msgID, msg, sev, pc, cimStatusCode, rc);
-}
-#endif
-#endif /* CMPI_VER_200 */
-
-#ifdef CMPI_VER_200
 /** @brief Open a message file and return a handle to the file.
 
-    CMOpenMessageFile() executes CMPIBrokerEncFT.openMessageFile() to open a
-    new message file if the MB supports message files.
-    @param mb CMPIBroker structure.
-    @param msgFile The message file identifier.
-    @param [out] msgFileHandle The handle representing the open msg file or NULL.
-    @return Service return status
-    @fulldescription CMPIBrokerEncFT.openMessageFile()
+    Depends on whether the MB supports the @ref cap-translation "Message
+    Translation" capability.
 
+    @param mb CMPIBroker structure.
+    @param msgFile Implementation-specific file path to the message file, or a
+        part thereof.
+    @param [out] msgFileHandle Handle representing the open message file.
+    @return Function return status
+    @fulldescription CMPIBrokerEncFT.openMessageFile()
     @par Examples
     @code (.c)
-    CMOpenMessageFile(_broker,"/path/msgFile",&msgFileHandle);
+    CMOpenMessageFile(_broker, "/path/msgFile", &msgFileHandle);
     @endcode
     @hideinitializer
     @statusopenpegasus Used
-    @todo TODO_AM Make description consistent with MB function.
 */
 #ifdef CMPI_NO_INLINE
-#define CMOpenMessageFile(mb,mf,mfh) \
-    ((mb)->eft->openMessageFile((mb),(mf),(mfh)))
+#define CMOpenMessageFile(mb, msgFile, msgFileHandle) \
+    ((mb)->eft->openMessageFile((mb), (msgFile), (msgFileHandle)))
 #else
 static inline CMPIStatus CMOpenMessageFile(
     const CMPIBroker *mb,
@@ -4111,14 +4143,10 @@ static inline CMPIStatus CMOpenMessageFile(
 #ifdef CMPI_VER_200
 /** @brief Close a message file.
 
-    CMCloseMessageFile() exeuctes CMPIBrokerEncFT.closeMessageFile() to close a
-    message file.
     @param mb CMPIBroker structure.
-    @param msgFileHandle CMPIMsgFileHandle handle representing the open
-        message file.
+    @param msgFileHandle Handle representing the open message file.
     @return Function return status.
     @fulldescription CMPIBrokerEncFT.closeMessageFile()
-
     @par Examples
     @code (.c)
     CMPIString *msg;
@@ -4138,11 +4166,10 @@ static inline CMPIStatus CMOpenMessageFile(
     @endcode
     @hideinitializer
     @statusopenpegasus Tested in cmpiTestBrokerEncProvider.c
-    @todo TODO_AM Make description consistent with MB function.
 */
 #ifdef CMPI_NO_INLINE
-#define CMCloseMessageFile(mb,mfh)  \
-    ((mb)->eft->closeMessageFile((mb),(mfh)))
+#define CMCloseMessageFile(mb, msgFileHandle) \
+    ((mb)->eft->closeMessageFile((mb), (msgFileHandle)))
 #else
 static inline CMPIStatus CMCloseMessageFile(
     const CMPIBroker *mb,
@@ -4158,8 +4185,8 @@ static inline CMPIStatus CMCloseMessageFile(
     @{
       @brief CMFmtArgs\<N\>() helper macros for CMGetMessage2().
 
-      These macros are used for the @p args argument of CMGetMessage2(). Their argument
-      is a comma-separated list of invocations of the @ref cmfmt-val
+      These macros are used for the @p args argument of CMGetMessage2(). Their
+      argument is a comma-separated list of invocations of the @ref cmfmt-val
       "CMFmt\<type\>(\<v\>)" macros.
 */
 
@@ -4241,8 +4268,9 @@ static inline CMPIStatus CMCloseMessageFile(
     @param defMsg The default message. See the function for details
     @param [out] rc Function return status (suppressed when NULL).
     @param args The message insert values, specified as @ref cmfmt-args
-        "CMFmtArgs\<N\>(\<vlist\>)", where \<N\> is the number of values, and \<vlist\>
-        is a comma-separated list of @ref cmfmt-val "CMFmt\<type\>(\<v\>)" macros.
+        "CMFmtArgs\<N\>(\<vlist\>)", where \<N\> is the number of values, and
+        \<vlist\> is a comma-separated list of @ref cmfmt-val
+        "CMFmt\<type\>(\<v\>)" macros.
     @return Points to a CMPIString object representing the translated message.
     @fulldescription CMPIBrokerEncFT.getMessage2()
 
@@ -4418,7 +4446,7 @@ static inline CMPIStatus CMCloseMessageFile(
         @ref mi-factory-specific "MI-specific factory function"
     @hideinitializer
 
-    @todo TBD KS: we have first cut at example.  Is this the way to go or would
+    @todo TBD KS: We have first cut at example.  Is this the way to go or would
         we be better with complete provider in an examples section?@n AM: I
         think the example is good enough for the factory function. What would
         be good to have are the actual provider functions, somewhere. That is
@@ -4588,7 +4616,8 @@ CMPI_EXTERN_C CMPIInstanceMI * miname##_Create_InstanceMI( \
     @hideinitializer
 
     @todo TBD KS: Need note about creating function that parallel others but
-        with cap
+        with cap@n
+        AM: ??
 */
 #define CMAssociationMIStub(pfx, miname, mbvar, hook) \
 static CMPIAssociationMIFT assocMIFT__ = { \
@@ -5058,7 +5087,7 @@ CMPI_EXTERN_C CMPIIndicationMI * miname##_Create_IndicationMI( \
         (e.g. instMIFT__) are not using the standard MI type strings (e.g.
         Instance), it is not possible to have a generic CMInitHook() macro
         without adjusting the global names. Options are:
-        @li Don't pass the MIFT pointer to the init function.
+        @li Don't pass the MIFT pointer to the init function (current code).
         @li Have one CM<mitype>InitHook() macro per MI type.
         @li Find some magic to translate the regular MI type identifiers into
            the irregular MIFT variable names, and use that in the generic

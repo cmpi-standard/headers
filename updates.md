@@ -19,6 +19,8 @@
 * Turned CMInitHook() into an officially documented macro.
 * Removed all todo items marked with DONE.
 * Updated examples/instancemi.c to use official CMInitHook().
+* Finished syncing the description of all convenience functions with their
+  underlying MB functions.
 
 21 July - Andy
 --------------
