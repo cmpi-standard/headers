@@ -13,6 +13,15 @@
 * Added Doxygen special commands @errors and @examples to encapsulate the
   section heading text, and to avoid unintended nesting when specified without
   empty separator line.
+* Created the remaining missing convenience functions.
+* Ensured that the various Doxygen commands in MB/MI functions and in
+  convenience functions are in a consistent order. Documented that order in
+  guidelines.md. Consider that a proposal.
+* Ensured that the MB/MI functions and the convenience functions are properly
+  linked back and forth.
+* Restructured the MB capabilities documentation such that the generated
+  pages for each capability have all relevant information, and the test mask
+  descriptions (which had that up to now) are reduced to be just that.
 
 22 July - Andy
 --------------

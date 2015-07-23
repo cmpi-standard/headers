@@ -304,6 +304,7 @@ Source Code Example:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_FAILED` - Unspecific error occurred.
      ...
+
 Monospacing names
 -----------------
 
@@ -317,6 +318,71 @@ generate monospaced font. However, Doxygen still seems to generate links for
 those. Do we need a way to
 positively prevent the link generation, even if the symbol can be found?
 One example would be a function or struct name in its own description.
+
+Order of sections
+-----------------
+
+* Within a convenience function or macro description, we use the following order
+  of sections (some of which are optional):
+
+  <pre>
+  @brief
+
+  Full description text (multiple paragraphs separated by empty line)
+  @param (multiple)
+  @return or @retval (multiple)
+  @fulldescription
+  @examples
+  @cap&lt;xxx&gt;
+  @added&lt;NNN&gt;
+  @required&lt;NNN&gt;
+  @changed&lt;NNN&gt;
+  @incompatible&lt;NNN&gt;
+  @deprecated
+
+  @see
+
+  @note
+  @bug
+  @statusopenpegasus
+  @hideinitializer
+  </pre>
+
+* Within a MB or MI function, we use the following order of sections (some of
+  which are optional):
+
+  <pre>
+  @brief
+
+  Full description text (multiple paragraphs separated by empty line)
+  @param (multiple)
+  @return or @retval (multiple)
+  @errors
+  @convfunction (if there could be a corresponding convenience function, 'None'
+                 if there is none)
+  @examples
+  @cap&lt;xxx&gt;
+  @added&lt;NNN&gt;
+  @required&lt;NNN&gt;
+  @changed&lt;NNN&gt;
+  @incompatible&lt;NNN&gt;
+  @deprecated
+
+  @see
+
+  @note
+  @bug
+  @statusopenpegasus
+  </pre>
+
+* The following Doxygen commands have requirements for empty lines:
+
+  - @brief requires an empty line after it, this indicates not to include any
+    more text into the brief description.
+
+  - @see and @note sometimes require an empty line before it, otherwise it may
+    become a nested section under the previous section. Examples for commands
+    that require an empty line before them, are @deprecated, and ???.
 
 Other
 -----

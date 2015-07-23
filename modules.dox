@@ -43,138 +43,248 @@
 
 /**
  * @page capread Basic Read capability
+ * @anchor cap-read
  * @brief Entities that are part of the Basic Read capability
  *
- * These entities shall be supported, if the
- * @ref CMPI_MB_BasicRead "Basic Read" capability
- * is available; otherwise, they shall not be supported.
+ * This capability is optional to be supported.
+ *
+ * Support for this capability can be detected from
+ * CMPIBrokerFT.brokerCapabilities using the @ref CMPI_MB_BasicRead test mask.
+ *
+ * If this capability is supported, the entities in the following list shall be
+ * supported; otherwise, they shall not be supported.
  */
 
 /**
  * @page capwrite Basic Write capability
+ * @anchor cap-write
  * @brief Entities that are part of the Basic Write capability
  *
- * These entities shall be supported, if the
- * @ref CMPI_MB_BasicWrite "Basic Write" capability
- * is available; otherwise, they shall not be supported.
+ * This capability is optional to be supported.
+ * It depends on the @ref cap-read "Basic Read" capability.
+ *
+ * Support for this capability can be detected from
+ * CMPIBrokerFT.brokerCapabilities using the @ref CMPI_MB_BasicWrite test mask.
+ *
+ * If this capability is supported, the entities in the following list shall be
+ * supported; otherwise, they shall not be supported.
  */
 
 /**
  * @page capmanipulation Instance Manipulation capability
+ * @anchor cap-manipulation
  * @brief Entities that are part of the Instance Manipulation capability
  *
- * These entities shall be supported, if the
- * @ref CMPI_MB_InstanceManipulation "Instance Manipulation" capability
- * is available; otherwise, they shall not be supported.
+ * This capability is optional to be supported.
+ * It depends on the @ref cap-write "Basic Write" capability.
+ *
+ * Support for this capability can be detected from
+ * CMPIBrokerFT.brokerCapabilities using the @ref CMPI_MB_InstanceManipulation
+ * test mask.
+ *
+ * If this capability is supported, the entities in the following list shall be
+ * supported; otherwise, they shall not be supported.
  */
 
 /**
  * @page capassociations Association Traversal capability
+ * @anchor cap-associations
  * @brief Entities that are part of the Association Traversal capability
  *
- * These entities shall be supported, if the
- * @ref CMPI_MB_AssociationTraversal "Association Traversal" capability
- * is available; otherwise, they shall not be supported.
+ * This capability is optional to be supported.
+ * It depends on the @ref cap-read "Basic Read" capability.
+ *
+ * Support for this capability can be detected from
+ * CMPIBrokerFT.brokerCapabilities using the @ref CMPI_MB_AssociationTraversal
+ * test mask.
+ *
+ * If this capability is supported, the entities in the following list shall be
+ * supported; otherwise, they shall not be supported.
  */
 
 /**
  * @page capqueryexec Query Execution capability
+ * @anchor cap-queryexec
  * @brief Entities that are part of the Query Execution capability
  *
- * These entities shall be supported, if the
- * @ref CMPI_MB_QueryExecution "Query Execution" capability
- * is available; otherwise, they shall not be supported.
+ * This capability is optional to be supported.
+ * It depends on the @ref cap-read "Basic Read" capability.
+ *
+ * Support for this capability can be detected from
+ * CMPIBrokerFT.brokerCapabilities using the @ref CMPI_MB_QueryExecution test
+ * mask.
+ *
+ * If this capability is supported, the entities in the following list shall be
+ * supported; otherwise, they shall not be supported.
  */
 
 /**
  * @page capquerynorm Query Normalization capability
+ * @anchor cap-querynorm
  * @brief Entities that are part of the Query Normalization capability
  *
- * These entities shall be supported, if the
- * @ref CMPI_MB_QueryNormalization "Query Normalization" capability
- * is available; otherwise, they shall not be supported.
+ * This capability is optional to be supported.
+ * It depends on the @ref cap-queryexec "Query Execution" capability.
+ *
+ * Support for this capability can be detected from
+ * CMPIBrokerFT.brokerCapabilities using the @ref CMPI_MB_QueryNormalization
+ * test mask.
+ *
+ * If this capability is supported, the entities in the following list shall be
+ * supported; otherwise, they shall not be supported.
  */
 
 /**
  * @page capqualifiers Basic Qualifier capability
+ * @anchor cap-qualifiers
  * @brief Entities that are part of the Basic Qualifier capability
  *
- * These entities shall be supported, if the
- * @ref CMPI_MB_BasicQualifierSupport "Basic Qualifier" capability
- * is available; otherwise, they shall not be supported.
+ * This capability is optional to be supported.
+ * It depends on the @ref cap-manipulation "Instance Manipulation" capability.
+ *
+ * Support for this capability can be detected from
+ * CMPIBrokerFT.brokerCapabilities using the @ref CMPI_MB_BasicQualifierSupport
+ * test mask.
+ *
+ * If this capability is supported, the entities in the following list shall be
+ * supported; otherwise, they shall not be supported.
  */
 
 /**
  * @page capindications Indications capability
+ * @anchor cap-indications
  * @brief Entities that are part of the Indications capability
  *
- * These entities shall be supported, if the
- * @ref CMPI_MB_Indications "Indications" capability
- * is available; otherwise, they shall not be supported.
+ * This capability is optional to be supported.
+ * It depends on the @ref cap-read "Basic Read" capability.
+ *
+ * Support for this capability can be detected from
+ * CMPIBrokerFT.brokerCapabilities using the @ref CMPI_MB_Indications test
+ * mask.
+ *
+ * If this capability is supported, the entities in the following list shall be
+ * supported; otherwise, they shall not be supported.
  */
 
 /**
  * @page capopsys OS Encapsulation Services capability
+ * @anchor cap-opsys
  * @brief Entities that are part of the OS Encapsulation Services capability
  *
- * These entities shall be supported, if the
- * @ref CMPI_MB_OSEncapsulationSupport "OS Encapsulation Services" capability
- * is available; otherwise, they shall not be supported.
+ * This capability is required to be supported.
+ *
+ * As a result, detecting its support from CMPIBrokerFT.brokerCapabilities using
+ * the @ref CMPI_MB_OSEncapsulationSupport test mask will always yield
+ * supported.
+ *
+ * The entities in the following list shall be supported.
+ *
+ * @required200
  */
 
 /**
  * @page capmemory Memory Enhancement Services capability
+ * @anchor cap-memory
  * @brief Entities that are part of the Memory Enhancement Services MB
  *     Capability
  *
- * These entities shall be supported, if the
- * @ref CMPI_MB_Supports_MemEnhancements "Memory Enhancement Services" MB
- * capability is available; otherwise, they shall not be supported.
+ * This capability is optional to be supported.
+ *
+ * Support for this capability can be detected from
+ * CMPIBrokerFT.brokerCapabilities using the @ref
+ * CMPI_MB_Supports_MemEnhancements test mask.
+ *
+ * If this capability is supported, the entities in the following list shall be
+ * supported; otherwise, they shall not be supported.
+ *
+ * @added200
  */
 
 /**
  * @page caperrors Extended Errors capability
+ * @anchor cap-errors
  * @brief Entities that are part of the Extended Errors capability
  *
- * These entities shall be supported, if the
- * @ref CMPI_MB_Supports_Extended_Error "Extended Errors" capability
- * is available; otherwise, they shall not be supported.
+ * This capability is required to be supported.
+ *
+ * As a result, detecting its support from CMPIBrokerFT.brokerCapabilities using
+ * the @ref CMPI_MB_Supports_Extended_Error test mask will always yield
+ * supported.
+ *
+ * The entities in the following list shall be supported.
+ *
+ * @added200
+ * @required210
  */
 
 /**
  * @page caplogging Logging capability
+ * @anchor cap-logging
  * @brief Entities that are part of the Logging capability
  *
- * These entities shall be supported, if the
- * @ref CMPI_MB_Logging "Logging" capability
- * is available; otherwise, they shall not be supported.
+ * This capability is optional to be supported.
+ *
+ * Support for this capability can be detected from
+ * CMPIBrokerFT.brokerCapabilities using the @ref CMPI_MB_Logging test mask.
+ *
+ * If this capability is supported, the entities in the following list shall be
+ * supported; otherwise, they shall not be supported.
+ *
+ * @added210 Added the capability test mask; the capability itself existed since
+ *     CMPI 1.0.
  */
 
 /**
  * @page captracing Tracing capability
+ * @anchor cap-tracing
  * @brief Entities that are part of the Tracing capability
  *
- * These entities shall be supported, if the
- * @ref CMPI_MB_Tracing "Tracing" capability
- * is available; otherwise, they shall not be supported.
+ * This capability is optional to be supported.
+ *
+ * Support for this capability can be detected from
+ * CMPIBrokerFT.brokerCapabilities using the @ref CMPI_MB_Tracing test mask.
+ *
+ * If this capability is supported, the entities in the following list shall be
+ * supported; otherwise, they shall not be supported.
+ *
+ * @added210 Added the capability test mask; the capability itself existed since
+ *     CMPI 1.0.
  */
 
 /**
  * @page capfiltering Property Filtering capability
+ * @anchor cap-filtering
  * @brief Entities that are part of the Property Filtering capability
  *
- * These entities shall be supported, if the
- * @ref CMPI_MB_PropertyFiltering "Property Filtering" capability
- * is available; otherwise, they shall not be supported.
+ * This capability is optional to be supported.
+ * It depends on the @ref cap-read "Basic Read" capability.
+ *
+ * Support for this capability can be detected from
+ * CMPIBrokerFT.brokerCapabilities using the @ref CMPI_MB_PropertyFiltering
+ * test mask.
+ *
+ * If this capability is supported, the entities in the following list shall be
+ * supported; otherwise, they shall not be supported.
+ *
+ * @added210 Added the capability test mask; the capability itself existed since
+ *     CMPI 1.0.
  */
 
 /**
  * @page capcodepage Codepage Conversion capability
+ * @anchor cap-codepage
  * @brief Entities that are part of the Codepage Conversion capability
  *
- * These entities shall be supported, if the
- * @ref CMPI_MB_CodepageConversion "Codepage Conversion" capability
- * is available; otherwise, they shall not be supported.
+ * This capability is optional to be supported.
+ *
+ * Support for this capability can be detected from
+ * CMPIBrokerFT.brokerCapabilities using the @ref CMPI_MB_CodepageConversion
+ * test mask.
+ *
+ * If this capability is supported, the entities in the following list shall be
+ * supported; otherwise, they shall not be supported.
+ *
+ * @added210
  */
 
 /**
@@ -182,12 +292,15 @@
  * @anchor cap-translation
  * @brief Entities that are part of the Message Translation capability
  *
- * Optional to be supported.
+ * This capability is optional to be supported.
  *
- * Support for the Message Translation capability cannot be discovered by
- * means of CMPIBrokerFT.brokerCapabilities. The functions that are part of
- * this capability perform a default behavior if the Message Translation MB
- * capability is not supported.
+ * Support for this capability cannot be detected from
+ * CMPIBrokerFT.brokerCapabilities.
+ *
+ * The entities in the following list shall be supported (even when this
+ * capability is not supported). Supporting this capability results in specific
+ * behavior of these functions; these functions have a default behavior if
+ * this capability is not supported.
  */
 
 /**
@@ -195,10 +308,12 @@
  * @anchor cap-context
  * @brief Entities that are part of the Context Data capability
  *
- * Required to be supported.
+ * This capability is required to be supported.
  *
- * Support for the Context Data capability cannot be discovered by
- * means of CMPIBrokerFT.brokerCapabilities.
+ * Support for this capability cannot be detected from
+ * CMPIBrokerFT.brokerCapabilities.
+ *
+ * The entities in the following list shall be supported.
  *
  * @required210
  */

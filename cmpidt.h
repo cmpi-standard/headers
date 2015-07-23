@@ -999,135 +999,118 @@ typedef struct _CMPIStatus {
  *
  * Bits that are unassigned in this version of CMPI are reserved for future
  * extensions and shall not be used for implementation-specific purposes.
+ *
+ * The following is a complete list of all MB capabilities, some of which
+ * have no corresponding bits in CMPIBrokerFT.brokerCapabilities:
+ *
+ * @li @ref cap-read "Basic Read" 
+ * @li @ref cap-write "Basic Write" 
+ * @li @ref cap-manipulation "Instance Manipulation" 
+ * @li @ref cap-associations "Association Traversal" 
+ * @li @ref cap-queryexec "Query Execution" 
+ * @li @ref cap-querynorm "Query Normalization" 
+ * @li @ref cap-qualifiers "Basic Qualifier" 
+ * @li @ref cap-indications "Indications" 
+ * @li @ref cap-opsys "OS Encapsulation Services" 
+ * @li @ref cap-memory "Memory Enhancement Services" 
+ * @li @ref cap-errors "Extended Errors" 
+ * @li @ref cap-logging "Logging" 
+ * @li @ref cap-tracing "Tracing" 
+ * @li @ref cap-filtering "Property Filtering" 
+ * @li @ref cap-codepage "Codepage Conversion" 
+ * @li @ref cap-translation "Message Translation" 
+ * @li @ref cap-context "Context Data" 
  */
 
 /**
- * @brief Basic Read capability.
- *
- * Optional to be supported.
+ * @brief Test mask for @ref cap-read "Basic Read" capability.
  */
 #define CMPI_MB_BasicRead                0x00000001
+
 /**
- * @brief Basic Write capability.
- *
- * Optional to be supported.
- * Requires the @ref CMPI_MB_BasicRead "Basic Read" capability.
+ * @brief Test mask for @ref cap-write "Basic Write" capability.
  */
 #define CMPI_MB_BasicWrite               0x00000003
+
 /**
- * @brief Instance Manipulation capability.
- *
- * Optional to be supported.
- * Requires the @ref CMPI_MB_BasicWrite "Basic Write" capability.
+ * @brief Test mask for @ref cap-manipulation "Instance Manipulation"
+ *     capability.
  */
 #define CMPI_MB_InstanceManipulation     0x00000007
+
 /**
- * @brief Association Traversal capability.
- *
- * Optional to be supported.
- * Requires the @ref CMPI_MB_BasicRead "Basic Read" capability.
+ * @brief Test mask for @ref cap-associations "Association Traversal"
+ *     capability.
  */
 #define CMPI_MB_AssociationTraversal     0x00000009
+
 /**
- * @brief Query Execution capability.
- *
- * Optional to be supported.
- * Requires the @ref CMPI_MB_BasicRead "Basic Read" capability.
+ * @brief Test mask for @ref cap-queryexec "Query Execution" capability.
  */
 #define CMPI_MB_QueryExecution           0x00000011
+
 /**
- * @brief Query Normalization capability.
- *
- * Optional to be supported.
- * Requires the @ref CMPI_MB_QueryExecution "Query Execution" capability.
+ * @brief Test mask for @ref cap-querynorm "Query Normalization" capability.
  */
 #define CMPI_MB_QueryNormalization       0x00000031
+
 /**
- * @brief Basic Qualifier capability.
- *
- * Optional to be supported.
- * Requires the @ref CMPI_MB_InstanceManipulation "Instance Manipulation"
- * capability.
+ * @brief Test mask for @ref cap-qualifiers "Basic Qualifier" capability.
  */
 #define CMPI_MB_BasicQualifierSupport       0x00000047
+
 /**
- * @brief Indications capability.
- *
- * Optional to be supported.
- * Requires the @ref CMPI_MB_BasicRead "Basic Read" capability.
+ * @brief Test mask for @ref cap-indications "Indications" capability.
  */
 #define CMPI_MB_Indications                 0x00000081
+
 /**
- * @brief OS Encapsulation Services capability.
- *
- * Required to be supported.
- *
- * @required200
+ * @brief Test mask for @ref cap-opsys "OS Encapsulation Services" capability.
  */
 #define CMPI_MB_OSEncapsulationSupport      0x00000100
 
 #ifdef CMPI_VER_200
-
 /**
- * @brief Memory Enhancement Services capability.
- *
- * Optional to be supported.
- *
- * @added200
+ * @brief Test mask for @ref cap-memory "Memory Enhancement Services"
+ *     capability.
  */
 #define CMPI_MB_Supports_MemEnhancements    0x00004000
+#endif /* CMPI_VER_200 */
+
+#ifdef CMPI_VER_200
 /**
- * @brief Extended Errors capability.
- *
- * Required to be supported.
- *
- * @added200
- * @required210
+ * @brief Test mask for @ref cap-errors "Extended Errors" capability.
  */
 #define CMPI_MB_Supports_Extended_Error     0x00008000
-
-#endif
+#endif /* CMPI_VER_200 */
 
 #ifdef CMPI_VER_210
-
 /**
- * @brief Logging capability.
- *
- * Optional to be supported.
- *
- * @added210 Added the capability flag; the capability itself existed since
- *     CMPI 1.0.
+ * @brief Test mask for @ref cap-logging "Logging" capability.
  */
 #define CMPI_MB_Logging                     0x00010000
+#endif /* CMPI_VER_210 */
+
+#ifdef CMPI_VER_210
 /**
- * @brief Tracing capability.
- *
- * Optional to be supported.
- *
- * @added210 Added the capability flag; the capability itself existed since
- *     CMPI 1.0.
+ * @brief Test mask for @ref cap-tracing "Tracing" capability.
  */
 #define CMPI_MB_Tracing                     0x00020000
+#endif /* CMPI_VER_210 */
+
+#ifdef CMPI_VER_210
 /**
- * @brief Property Filtering capability.
- *
- * Optional to be supported.
- * Requires the @ref CMPI_MB_BasicRead "Basic Read" capability.
- *
- * @added210 Added the capability flag; the capability itself existed since
- *     CMPI 1.0.
+ * @brief Test mask for @ref cap-filtering "Property Filtering" capability.
  */
 #define CMPI_MB_PropertyFiltering           0x00040001
+#endif /* CMPI_VER_210 */
+
+#ifdef CMPI_VER_210
 /**
- * @brief Codepage Conversion capability.
- *
- * Optional to be supported.
- *
- * @added210
+ * @brief Test mask for @ref cap-codepage "Codepage Conversion" capability.
  */
 #define CMPI_MB_CodepageConversion          0x00080000
-
-#endif
+#endif /* CMPI_VER_210 */
 
 // Deprecated: The following symbols are synonyms for other symbols and are
 // defined only for backward compatibility. They are not part of the CMPI
