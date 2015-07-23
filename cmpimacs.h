@@ -3582,10 +3582,6 @@ static inline CMPIEnumeration *CBReferences(
         returned set of instances by mandating that each returned instance
         shall be associated to the source instance via an association in which
         the source instance plays the specified role.
-    @param properties Property list controlling the properties in the returned
-        instances: Each returned instance will not include properties missing
-        from this list. If @ properties is NULL, all properties will be
-        included in each returned instance.
     @param [out] rc Function return status (suppressed when NULL).
     @return A new CMPIEnumeration object containing CMPIObjectPath objects that
         represent the enumerated instance paths.
@@ -3660,19 +3656,20 @@ static inline CMPIEnumeration *CBReferenceNames(
         object is not a result of CMClone().
 */
 #ifdef CMPI_NO_INLINE
-#define CBInvokeMethod(mb,c,p,m,ai,ao,rc) \
-    ((mb)->bft->invokeMethod((mb),(c),(p),(m),(ai),(ao),(rc)))
+#define CBInvokeMethod(mb, ctx, objPath, method, in, out, rc) \
+    ((mb)->bft->invokeMethod((mb), (ctx), (objPath), (method), (in), (out), \
+        (rc)))
 #else
 static inline CMPIData CBInvokeMethod(
     const CMPIBroker *mb,
     const CMPIContext *ctx,
-    const CMPIObjectPath *op,
+    const CMPIObjectPath *objPath,
     const char *method,
     const CMPIArgs *in,
     CMPIArgs *out,
     CMPIStatus *rc)
 {
-    return mb->bft->invokeMethod(mb, ctx, op, method, in, out, rc);
+    return mb->bft->invokeMethod(mb, ctx, objPath, method, in, out, rc);
 }
 #endif
 
