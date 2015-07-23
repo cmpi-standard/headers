@@ -2633,9 +2633,9 @@ typedef struct _CMPIBrokerEncFT {
          registry, the string value of @p sev shall be the content of the
          PERCEIVED_SEVERITY element defined for the message in the registry.
      @param pc A @ref CMPIErrorProbableCause enumeration value specifying the
-         value for the `PerceivedSeverity` attribute of the CMPIError object.
-         For a description of the `PerceivedSeverity` attribute, see the
-         description of the `PerceivedSeverity` property in the `CIM_Error`
+         value for the `ProbableCause` attribute of the CMPIError object.
+         For a description of the `ProbableCause` attribute, see the
+         description of the `ProbableCause` property in the `CIM_Error`
          class in the CIM Schema. If the error message is defined in a DMTF
          message registry, note that the string value of @p pc is not defined
          in the message in the registry.
