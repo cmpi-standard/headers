@@ -3502,6 +3502,7 @@ static inline CMPIData CBInvokeMethod(
     @fulldescription CMPIBrokerFT.setProperty()
     @deprecated This function is deprecated since CMPI 2.1, in accord with the
         deprecation of property client operations in DMTF specifications.
+
     @note No example because this function is deprecated.
     @hideinitializer
 */
@@ -3534,6 +3535,7 @@ static inline CMPIStatus CBSetProperty(
     @fulldescription CMPIBrokerFT.setProperty()
     @deprecated This function is deprecated since CMPI 2.1, in accord with the
         deprecation of property client operations in DMTF specifications.
+
     @note No example because this function is deprecated.
     @hideinitializer
 */
@@ -3552,14 +3554,154 @@ static inline CMPIData CBGetProperty(
 }
 #endif
 
-/// @todo TODO_AM Add CBEnumInstancesFiltered() based on
-///     CMPIBrokerFT::enumerateInstancesFiltered()
+/** @brief Enumerate the instances of a given class (and its subclasses),
+         returning only those that match the given query filter.
 
-/// @todo TODO_AM Add CBAssociatorsFiltered() based on
-///      CMPIBrokerFT::associatorsFiltered()
+    @param mb CMPIBroker structure.
+    @param ctx CMPIContext object.
+    @param classPath Class path of the given class.
+    @param properties Property list controlling the properties in the returned
+        instances: Each returned instance will not include properties missing
+        from this list. If @ properties is NULL, all properties will be
+        included in each returned instance.
+    @param filterQueryLanguage Query language used by @p filterQuery (no
+        filtering when NULL).
+    @param filterQuery Query for filtering the result (no filtering when NULL).
+    @param [out] rc Function return status (suppressed when NULL).
+    @return A new CMPIEnumeration object containing CMPIInstance objects that
+        represent the enumerated instances.
+    @fulldescription CMPIBrokerFT.enumerateInstancesFiltered()
+    @hideinitializer
+    @statusopenpegasus Not used, not tested
+*/
+#ifdef CMPI_NO_INLINE
+#define CBEnumInstancesFiltered(mb, ctx, classPath, properties, \
+            filterQueryLanguage, filterQuery, rc) \
+    (mb)->bft->enumerateInstancesFiltered((mb), (ctx), (classPath), \
+        (properties), (filterQueryLanguage), (filterQuery), (rc)))
+#else
+static inline CMPIEnumeration *CBEnumInstancesFiltered(
+    const CMPIBroker *mb,
+    const CMPIContext *ctx,
+    const CMPIObjectPath *classPath,
+    const char **properties,
+    const char *filterQueryLanguage,
+    const char *filterQuery,
+    CMPIStatus *rc)
+{
+    return mb->bft->enumerateInstancesFiltered(mb, ctx, classPath, properties,
+         filterQueryLanguage, filterQuery, rc);
+}
+#endif
 
-/// @todo TODO_AM Add CBReferencesFiltered() based on
-///      CMPIBrokerFT::referencesFiltered()
+/** @brief Enumerate the instances associated with a given source instance,
+         returning only those that match the given filters.
+
+    @param mb CMPIBroker structure.
+    @param ctx CMPIContext object.
+    @param instPath Instance path of the given source instance.
+    @param assocClass If not NULL, a valid association class name that acts as
+        a filter on the returned set of instances by mandating that each
+        returned instance shall be associated to the source instance via an
+        instance of this class or one of its subclasses.
+    @param resultClass If not NULL, a valid class name that acts as a filter on
+        the returned set of instances by mandating that each returned instance
+        shall be either an instance of this class or one of its subclasses.
+    @param role If not NULL, a valid property name that acts as a filter on the
+        returned set of instances by mandating that each returned instance
+        shall be associated to the source instance via an association in which
+        the source instance plays the specified role.
+    @param resultRole If not NULL, a valid property name that acts as a filter
+        on the returned set of instances by mandating that each returned
+        instance shall be associated to the source instance via an association
+        in which the returned instance plays the specified role.
+    @param properties Property list controlling the properties in the returned
+        instances: Each returned instance will not include properties missing
+        from this list. If @ properties is NULL, all properties will be
+        included in each returned instance.
+    @param filterQueryLanguage Query language used by @p filterQuery (no
+        filtering when NULL).
+    @param filterQuery Query for filtering the result (no filtering when NULL).
+    @param [out] rc Function return status (suppressed when NULL).
+    @return A new CMPIEnumeration object containing CMPIInstance objects that
+        represent the enumerated instances.
+    @fulldescription CMPIBrokerFT.associatorsFiltered()
+    @hideinitializer
+*/
+#ifdef CMPI_NO_INLINE
+#define CBAssociatorsFiltered(mb, ctx, instPath, assocClass, resultClass, \
+            role, resultRole, properties, filterQueryLanguage, filterQuery, \
+            rc) \
+    ((mb)->bft->associatorsFiltered((mb), (ctx), (instPath), (assocClass), \
+        (resultClass), (role), (resultRole), (properties), \
+        (filterQueryLanguage), (filterQuery), (rc)))
+#else
+static inline CMPIEnumeration *CBAssociatorsFiltered(
+    const CMPIBroker *mb,
+    const CMPIContext *ctx,
+    const CMPIObjectPath *instPath,
+    const char *assocClass,
+    const char *resultClass,
+    const char *role,
+    const char *resultRole,
+    const char **properties,
+    const char *filterQueryLanguage,
+    const char *filterQuery,
+    CMPIStatus *rc)
+{
+    return mb->bft->associatorsFiltered(mb, ctx, instPath, assocClass,
+        resultClass, role, resultRole, properties, filterQueryLanguage,
+        filterQuery, rc);
+}
+#endif
+
+/** @brief Enumerate the instances referencing a given source instance,
+         returning only those that match the given filters.
+
+    @param mb CMPIBroker structure.
+    @param ctx CMPIContext object.
+    @param instPath Instance path of the given source instance.
+    @param resultClass If not NULL, a valid class name that acts as a filter on
+        the returned set of instances by mandating that each returned instance
+        shall be either an instance of this class or one of its subclasses.
+    @param role If not NULL, a valid property name that acts as a filter on the
+        returned set of instances by mandating that each returned instance
+        shall be associated to the source instance via an association in which
+        the source instance plays the specified role.
+    @param properties Property list controlling the properties in the returned
+        instances: Each returned instance will not include properties missing
+        from this list. If @ properties is NULL, all properties will be
+        included in each returned instance.
+    @param filterQueryLanguage Query language used by @p filterQuery (no
+        filtering when NULL).
+    @param filterQuery Query for filtering the result (no filtering when NULL).
+    @param [out] rc Function return status (suppressed when NULL).
+    @return A new CMPIEnumeration object containing CMPIInstance objects that
+        represent the enumerated instances.
+    @fulldescription CMPIBrokerFT.referencesFiltered()
+    @hideinitializer
+*/
+#ifdef CMPI_NO_INLINE
+#define CBReferencesFiltered(mb, ctx, instPath, resultClass, role, properties, \
+            filterQueryLanguage, filterQuery, rc) \
+    ((mb)->bft->referencesFiltered((mb), (ctx), (instPath), (resultClass), \
+        (role), (properties), (filterQueryLanguage), (filterQuery), (rc)))
+#else
+static inline CMPIEnumeration *CBReferencesFiltered(
+    const CMPIBroker *mb,
+    const CMPIContext *ctx,
+    const CMPIObjectPath *instPath,
+    const char *resultClass,
+    const char *role,
+    const char **properties,
+    const char *filterQueryLanguage,
+    const char *filterQuery,
+    CMPIStatus *rc)
+{
+    return mb->bft->referencesFiltered(mb, ctx, instPath, resultClass, role,
+        properties, filterQueryLanguage, filterQuery, rc);
+}
+#endif
 
 /** @brief Create a new CMPIInstance object initialized to a given instance
         path.
@@ -3917,14 +4059,92 @@ static inline CMPIError * CMNewCMPIError(
 #endif
 #endif /* CMPI_VER_200 */
 
-/// @todo TODO_AM Add CMNewCMPIPropertyList() based on
-///     CMPIBrokerEncFT.newPropertyList().
+#ifdef CMPI_VER_210
+/** @brief Create a new CMPIPropertyList object initialized to a list of
+        property names.
 
-/// @todo TODO_AM Add CMNewCMPIStringCP() based on
-///     CMPIBrokerEncFT.newStringCP().
+    @param mb CMPIBroker structure.
+    @param properties The property names in the property list, in any order and
+        in any lexical case.
+    @param [out] rc Function return status (suppressed when NULL).
+    @return The new CMPIPropertyList object.
+    @fulldescription CMPIBrokerEncFT.newPropertyList()
+    @hideinitializer
+*/
+#ifdef CMPI_NO_INLINE
+#define CMNewCMPIPropertyList(mb, properties, rc) \
+    ((mb)->eft->newPropertyList((mb), (properties), (rc)))
+#else
+static inline CMPIPropertyList *CMNewCMPIPropertyList(
+    const CMPIBroker *mb,
+    const char **properties,
+    CMPIStatus *rc)
+{
+    return mb->eft->newPropertyList(mb, properties, rc);
+}
+#endif
+#endif /* CMPI_VER_210 */
 
-/// @todo TODO_AM Add CMNewCMPIEnumerationFilter() based on
-///      CMPIBrokerEncFT.newEnumerationFilter().
+#ifdef CMPI_VER_210
+/** @brief Create a new CMPIString object from a C-language string in a
+         specific codepage.
+
+    @param mb CMPIBroker structure.
+    @param data C-language string represented in the codepage specified in
+        @p cpid. @p data is used to initialize the new CMPIString object after
+        converting it from its codepage to UTF-8.
+    @param cpid CMPI-specific codepage ID for the codepage that is used to
+        interpret the Bytes in the @p data argument. See @ref CMPICodepageID
+        for a list of supported codepages and their codepage ID values.
+    @param [out] rc Function return status (suppressed when NULL).
+    @return The new CMPIString object.
+    @fulldescription CMPIBrokerEncFT.newStringCP()
+    @hideinitializer
+*/
+#ifdef CMPI_NO_INLINE
+#define CMNewCMPIStringCP(mb, data, cpid, rc) \
+    ((mb)->eft->newStringCP((mb), (data), (cpid), (rc)))
+#else
+static inline CMPIString *CMNewCMPIStringCP(
+    const CMPIBroker *mb,
+    const char* data,
+    const CMPICodepageID cpid,
+    CMPIStatus *rc)
+{
+    return mb->eft->newStringCP(mb, data, cpid, rc);
+}
+#endif
+#endif /* CMPI_VER_210 */
+
+#ifdef CMPI_VER_210
+/** @brief Create a new CMPIEnumerationFilter object initialized with a
+        filter query.
+
+    @param mb CMPIBroker structure.
+    @param filterQueryLanguage Query language used by @p filterQuery (no
+        filtering when NULL).
+    @param filterQuery Filter query (no filtering when NULL).
+    @param [out] rc Function return status (suppressed when NULL).
+    @return The new CMPIEnumerationFilter object.
+    @fulldescription CMPIBrokerEncFT.newEnumerationFilter()
+    @hideinitializer
+*/
+#ifdef CMPI_NO_INLINE
+#define CMNewCMPIEnumerationFilter(mb, filterQueryLanguage, filterQuery, rc) \
+    ((mb)->eft->newEnumerationFilter((mb), (filterQueryLanguage), \
+        (filterQuery), (rc)))
+#else
+static inline CMPIEnumerationFilter *CMNewCMPIEnumerationFilter(
+    const CMPIBroker *mb,
+    const char* filterQueryLanguage,
+    const char* filterQuery,
+    CMPIStatus *rc)
+{
+    return mb->eft->newEnumerationFilter(mb, filterQueryLanguage, filterQuery,
+        rc);
+}
+#endif
+#endif /* CMPI_VER_210 */
 
 /** @brief Test whether a class path is of a specified class or any of its
         subclasses.
@@ -4039,7 +4259,38 @@ static inline CMPIString *CDGetType(
 }
 #endif
 
-/// @todo TODO_AM Add CMGetMessage() based on CMPIBrokerEncFT.getMessage().
+/** @brief Get a translated MB implementation-specific message text by message
+         ID. (**Deprecated**)
+
+    @param mb CMPIBroker structure.
+    @param msgId Message ID that is used by the MB to locate a message
+         template. The message ID values and corresponding message templates
+         are MB implementation-specific.
+    @param defMsg The default message. See the full description for details.
+    @param [out] rc Function return status (suppressed when NULL).
+    @param args The message insert values, specified as @ref cmfmt-args
+        "CMFmtArgs\<N\>(\<vlist\>)", where \<N\> is the number of values, and
+        \<vlist\> is a comma-separated list of @ref cmfmt-val
+        "CMFmt\<type\>(\<v\>)" macros.
+    @return Points to a CMPIString object representing the translated message.
+    @fulldescription CMPIBrokerEncFT.getMessage()
+    @par Examples
+    Assuming the message identified by the message ID is the same as the
+    default message "Test $0 $1", the following example creates a message "Test
+    message 42" where "message" is passed as a C string for the first message
+    trigger ($0), and "42" is passed as an integer for the second message
+    trigger ($1):
+    @code (.c)
+    CMGetMessage(_broker, "msgid", "Test $0 $1",
+        NULL, CMFmtArgs2(CMFmtChars("message"), CMFmtSint(42)));
+    @endcode
+    @deprecated This function is deprecated since CMPI 2.1. Use
+        CMGetMessage2() instead.
+    @hideinitializer
+    @statusopenpegasus TBD
+*/
+#define CMGetMessage(mb, msgId, defMsg, rc, args) \
+    ((mb)->eft->getMessage((mb), (msgId), (defMsg), (rc), args))
 
 /** @brief Log a diagnostic message.
 
@@ -4185,14 +4436,49 @@ static inline CMPIStatus CMCloseMessageFile(
 #endif
 #endif /* CMPI_VER_200 */
 
-/**
-    @defgroup cmfmt-args CMFmtArgs\<N\>() helper macros for CMGetMessage2()
-    @{
-      @brief CMFmtArgs\<N\>() helper macros for CMGetMessage2().
+#ifdef CMPI_VER_200
+/** @brief Get a translated message text from an open message file by
+        message ID.
 
-      These macros are used for the @p args argument of CMGetMessage2(). Their
-      argument is a comma-separated list of invocations of the @ref cmfmt-val
-      "CMFmt\<type\>(\<v\>)" macros.
+    @param mb CMPIBroker structure.
+    @param msgId The message identifier.
+    @param msgFileHandle The handle representing the open message file.
+    @param defMsg The default message. See the full description for details.
+    @param [out] rc Function return status (suppressed when NULL).
+    @param args The message insert values, specified as @ref cmfmt-args
+        "CMFmtArgs\<N\>(\<vlist\>)", where \<N\> is the number of values, and
+        \<vlist\> is a comma-separated list of @ref cmfmt-val
+        "CMFmt\<type\>(\<v\>)" macros.
+    @return Points to a CMPIString object representing the translated message.
+    @fulldescription CMPIBrokerEncFT.getMessage2()
+    @par Examples
+    Assuming the message identified by the message ID is the same as the
+    default message "Test $0 $1", the following example creates a message "Test
+    message 42" where "message" is passed as a C string for the first message
+    trigger ($0), and "42" is passed as an integer for the second message
+    trigger ($1):
+    @code (.c)
+    CMGetMessage2(_broker, "msgid", msgFileHandle, "Test $0 $1",
+        NULL, CMFmtArgs2(CMFmtChars("message"), CMFmtSint(42)));
+    @endcode
+    @hideinitializer
+    @statusopenpegasus Tested in cmpiTestBrokerEncProvider.c
+*/
+#define CMGetMessage2(mb, msgId, msgFileHandle, defMsg, rc, args) \
+    ((mb)->eft->getMessage2((mb), (msgId), (msgFileHandle), (defMsg), (rc), \
+                            args))
+#endif /* CMPI_VER_200 */
+
+/**
+    @defgroup cmfmt-args CMFmtArgs\<N\>() helper macros
+    @{
+      These macros are used for the @p args argument of CMGetMessage() and
+      CMGetMessage2().
+
+      The argument of these macros is a comma-separated list of invocations
+      of the @ref cmfmt-val "CMFmt\<type\>(\<v\>)" macros.
+
+      @see CMGetMessage(), CMGetMessage2() for example code
 */
 
 /// Args value for no message insert pairs
@@ -4230,13 +4516,19 @@ static inline CMPIStatus CMCloseMessageFile(
 
 /**
     @}
-    @defgroup cmfmt-val CMFmt\<type\>() helper macros for CMGetMessage2()
+    @defgroup cmfmt-val CMFmt\<type\>() helper macros
     @{
-      @brief CMFmt\<type\>() helper macros for CMGetMessage2().
+      These macros are used in context of CMGetMessage() and CMGetMessage2(), as
+      a comma-separated list of arguments to @ref cmfmt-args
+      "CMFmtArgs\<N\>()".
 
       Each of these macros represents a message insert pair consisting of type
-      and value. These macros are used as a comma-separated list of arguments
-      to @ref cmfmt-args "CMFmtArgs\<N\>()".
+      and value.
+
+      The argument of these macros is a value that is used to expand a message
+      trigger ("$0", etc.) in the message.
+
+      @see CMGetMessage(), CMGetMessage2() for example code
 */
 
 /// Message insert pair for a signed integer value up to 32-bit
@@ -4259,43 +4551,6 @@ static inline CMPIStatus CMCloseMessageFile(
 /**
    @}
 */
-
-#ifdef CMPI_VER_200
-/** @brief Get a translated message text from an open message file by
-        message ID.
-
-    The CMGetMessage2() macro executes CMPIBrokerEncFT.getMessage2().
-    There is no inline form of this convenience function.
-
-    @param mb CMPIBroker structure.
-    @param msgId The message identifier.
-    @param msgFileHandle The handle representing the open message file.
-    @param defMsg The default message. See the function for details
-    @param [out] rc Function return status (suppressed when NULL).
-    @param args The message insert values, specified as @ref cmfmt-args
-        "CMFmtArgs\<N\>(\<vlist\>)", where \<N\> is the number of values, and
-        \<vlist\> is a comma-separated list of @ref cmfmt-val
-        "CMFmt\<type\>(\<v\>)" macros.
-    @return Points to a CMPIString object representing the translated message.
-    @fulldescription CMPIBrokerEncFT.getMessage2()
-
-    @par Examples
-    Assuming the message identified by the message ID is the same as the
-    default message "Test $0 $1", the following example creates a message "Test
-    message 42" where "message" is passed as a C string for the first message
-    trigger ($0), and "42" is passed as an integer for the second message
-    trigger ($1):
-    @code (.c)
-    CMGetMessage2(_broker, "msgid", msgFileHandle, "Test $0 $1",
-        NULL, CMFmtArgs2(CMFmtChars("message"), CMFmtSint(42)));
-    @endcode
-    @hideinitializer
-    @statusopenpegasus Tested in cmpiTestBrokerEncProvider.c
-*/
-#define CMGetMessage2(mb, msgId, msgFileHandle, defMsg, rc, args) \
-    ((mb)->eft->getMessage2((mb), (msgId), (msgFileHandle), (defMsg), (rc), \
-                            args))
-#endif /* CMPI_VER_200 */
 
 
 /**
@@ -4362,9 +4617,10 @@ static inline CMPIStatus CMCloseMessageFile(
     <TR><TD>\<pfx\>EnumInstancesFiltered()</TD>
         <TD>CMPIInstanceMIFT.enumerateInstancesFiltered()</TD><TD>2.1</TD></TR>
     </TABLE>
-    @note The name of the \<pfx\>Cleanup() function is not following the format
-        used for the cleanup functions for the other MI types, for historical
-        reasons.
+
+    @note For historical reasons, the name of the \<pfx\>Cleanup() function is
+        not following the format \<pfx\>\<mitype\>Cleanup() used for the
+        cleanup functions of the other MI types.
     @param pfx The prefix for all functions in the MI function table.
         This is a character string without quotes.
     @param miname The MI name for this MI.
@@ -4401,6 +4657,7 @@ static inline CMPIStatus CMCloseMessageFile(
     {
         . . . // Initialization code when loading the MI load library
         mi->hdl = . . . // You can store data in the CMPIInstanceMI object
+        mi->ft->miVersion = 700; // Override the default MI version
         if (...error...)
             CMReturn(CMPI_RC_ERR_FAILED);
         CMReturn(CMPI_RC_OK);
@@ -4566,8 +4823,8 @@ CMPI_EXTERN_C CMPIInstanceMI * miname##_Create_InstanceMI( \
     @return A pointer to the function table of this MI.
 
     @par Examples
-    This example uses the CMAssociationMIStub() macro for a rudimentary
-    association MI written in plain C.
+    This example uses the CMAssociationMIStub() macro for an association MI
+    written in plain C.
     @code (.c)
     static const CMPIBroker *_broker;
 
@@ -4577,6 +4834,7 @@ CMPI_EXTERN_C CMPIInstanceMI * miname##_Create_InstanceMI( \
     {
         . . . // Initialization code when loading the MI load library
         mi->hdl = . . . // You can store data in the CMPIAssociationMI object
+        mi->ft->miVersion = 700; // Override the default MI version
         if (...error...)
             CMReturn(CMPI_RC_ERR_FAILED);
         CMReturn(CMPI_RC_OK);
@@ -4721,8 +4979,8 @@ CMPI_EXTERN_C CMPIAssociationMI * miname##_Create_AssociationMI( \
     @return A pointer to the function table of this MI.
 
     @par Examples
-    This example uses the CMMethodMIStub() macro for a rudimentary
-    method MI written in plain C.
+    This example uses the CMMethodMIStub() macro for a method MI written in
+    plain C.
     @code (.c)
     static const CMPIBroker *_broker;
 
@@ -4732,6 +4990,7 @@ CMPI_EXTERN_C CMPIAssociationMI * miname##_Create_AssociationMI( \
     {
         . . . // Initialization code when loading the MI load library
         mi->hdl = . . . // You can store data in the CMPIMethodMI object
+        mi->ft->miVersion = 700; // Override the default MI version
         if (...error...)
             CMReturn(CMPI_RC_ERR_FAILED);
         CMReturn(CMPI_RC_OK);
@@ -4974,8 +5233,8 @@ CMPI_EXTERN_C CMPIPropertyMI * miname##_Create_PropertyMI( \
     @return A pointer to the function table of this MI.
 
     @par Examples
-    This example uses the CMIndicationMIStub() macro for a rudimentary
-    indication MI written in plain C.
+    This example uses the CMIndicationMIStub() macro for an indication MI
+    written in plain C.
     @code (.c)
     static const CMPIBroker *_broker;
 
@@ -4985,6 +5244,7 @@ CMPI_EXTERN_C CMPIPropertyMI * miname##_Create_PropertyMI( \
     {
         . . . // Initialization code when loading the MI load library
         mi->hdl = . . . // You can store data in the CMPIIndicationMI object
+        mi->ft->miVersion = 700; // Override the default MI version
         if (...error...)
             CMReturn(CMPI_RC_ERR_FAILED);
         CMReturn(CMPI_RC_OK);
@@ -5088,15 +5348,6 @@ CMPI_EXTERN_C CMPIIndicationMI * miname##_Create_IndicationMI( \
     @see CMInstanceMIStub(), CMAssociationMIStub(), CMMethodMIStub(),
         CMPropertyMIStub(), CMIndicationMIStub()
     @hideinitializer
-    @todo TBD AM: Because the names of the global variables for the MIFT tables
-        (e.g. instMIFT__) are not using the standard MI type strings (e.g.
-        Instance), it is not possible to have a generic CMInitHook() macro
-        without adjusting the global names. Options are:
-        @li Don't pass the MIFT pointer to the init function (current code).
-        @li Have one CM<mitype>InitHook() macro per MI type.
-        @li Find some magic to translate the regular MI type identifiers into
-           the irregular MIFT variable names, and use that in the generic
-           CMInitHook() macro.
 */
 #define CMInitHook(pfx, mitype) \
 do { \
@@ -5492,9 +5743,9 @@ CMPI_EXTERN_C CMPIIndicationMI *miname##_Create_IndicationMI( \
 #define _CMIndicationMIFactory_DeActivateFilterCollection
 #endif
 
-/** @brief ???
+/** @brief CMProviderBase macro
 
-    @param miname ???
+    @param miname MI name
     @hideinitializer
 
     @todo TODO_KS Document this macro.

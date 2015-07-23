@@ -1,4 +1,12 @@
 
+23 July - Andy
+--------------
+
+* Added convenience functions for remaining new MB functions in 2.1.
+* Added the erroneously removed convenience function for getMessage() back in.
+* Changed the @fulldescription and @convfunction special commands to generate
+  a paragraph instead of a cross reference item.
+
 22 July - Andy
 --------------
 

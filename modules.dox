@@ -232,7 +232,7 @@
  * For details, the respective CMPI header file needs to be examined.
  */
 
-/**
+/* TODO: Remove once decided to stay with paragraphs (see Doxyfile).
  * @page fulldescription Full Descriptions
  * @brief Full descriptions linked from convenience function descriptions
  *
@@ -240,7 +240,7 @@
  * descriptions of the convenience functions.
  */
 
-/**
+/* TODO: Remove once decided to stay with paragraphs (see Doxyfile).
  * @page convfunction Convenience Functions
  * @brief Convenience functions linked from MB functions and other entities
  *

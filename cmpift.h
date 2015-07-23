@@ -1878,7 +1878,7 @@ typedef struct _CMPIBrokerFT {
      @capassociations This function is part of the Association Traversal
          capability.
 
-     @convfunction CBAssociatorsFiltered()
+     @convfunction CBReferencesFiltered()
      @added210 Added in CMPI 2.1.
     */
     CMPIEnumeration* (*referencesFiltered) (const CMPIBroker* mb,
@@ -2504,7 +2504,7 @@ typedef struct _CMPIBrokerEncFT {
      @captranslation This function is part of the Message Translation
          capability.
 
-     @convfunction CMGetErrorMessage()
+     @convfunction CMGetMessage()
      @deprecated This function is deprecated since CMPI 2.1. Use
          CMPIBrokerEncFT.getMessage2() instead.
     */
@@ -2912,6 +2912,7 @@ typedef struct _CMPIBrokerEncFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
 
      @added210 Added in CMPI 2.1.
+     @convfunction CMNewCMPIPropertyList()
     */
     CMPIPropertyList* (*newPropertyList) (const CMPIBroker* mb,
         const char** properties, CMPIStatus* rc);
@@ -2952,8 +2953,8 @@ typedef struct _CMPIBrokerEncFT {
      @capcodepage This function is part of the Codepage Conversion
          capability.
 
-     @note No corresponding macro
      @added210 Added in CMPI 2.1.
+     @convfunc CMNewCMPIStringCP()
     */
     CMPIString* (*newStringCP) (const CMPIBroker* mb, const char* data,
         const CMPICodepageID cpid, CMPIStatus* rc);
@@ -2999,6 +3000,7 @@ typedef struct _CMPIBrokerEncFT {
          language is not supported.
 
      @added210 Added in CMPI 2.1.
+     @convfunc CMNewCMPIEnumerationFilter()
     */
     CMPIEnumerationFilter* (*newEnumerationFilter) (const CMPIBroker* mb,
             const char* filterQueryLanguage, const char* filterQuery,
@@ -7089,7 +7091,7 @@ typedef struct _CMPISelectExpFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p se handle is invalid.
 
-     @convfunction CMGetDOC()
+     @convfunction CMGetDoc()
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` is deprecated
          since CMPI 2.1. If the @ref CMPI_MB_QueryNormalization "Query
          Normalization" capability is not available, this function cannot be
@@ -7133,7 +7135,7 @@ typedef struct _CMPISelectExpFT {
          (**Deprecated**)
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p se handle is invalid.
 
-     @convfunction CMGetCOD()
+     @convfunction CMGetCod()
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` is deprecated
          since CMPI 2.1. If the @ref CMPI_MB_QueryNormalization "Query
          Normalization" capability is not available, this function cannot be
