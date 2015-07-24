@@ -224,14 +224,14 @@
  *
  * This capability is optional to be supported.
  *
- * Support for this capability can be detected from
+ * Since CMPI 2.1, support for this capability can be detected from
  * CMPIBrokerFT.brokerCapabilities using the @ref CMPI_MB_Logging test mask.
  *
  * If this capability is supported, the entities in the following list shall be
  * supported; otherwise, they shall not be supported.
  *
- * @added210 Added the capability test mask; the capability itself existed since
- *     CMPI 1.0.
+ * @changed210 Added the @ref CMPI_MB_Logging test mask; the capability itself
+ *     existed since CMPI 1.0.
  */
 
 /**
@@ -247,8 +247,8 @@
  * If this capability is supported, the entities in the following list shall be
  * supported; otherwise, they shall not be supported.
  *
- * @added210 Added the capability test mask; the capability itself existed since
- *     CMPI 1.0.
+ * @changed210 Added the @ref CMPI_MB_Tracing test mask; the capability itself
+ *     existed since CMPI 1.0.
  */
 
 /**
@@ -266,8 +266,8 @@
  * If this capability is supported, the entities in the following list shall be
  * supported; otherwise, they shall not be supported.
  *
- * @added210 Added the capability test mask; the capability itself existed since
- *     CMPI 1.0.
+ * @changed210 Added the @ref CMPI_MB_PropertyFiltering test mask; the
+ *     capability itself existed since CMPI 1.0.
  */
 
 /**

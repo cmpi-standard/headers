@@ -640,8 +640,6 @@ static inline CMPIBoolean CMIsArray(
     @endcode
     @statusopenpegasus TBD
     @hideinitializer
-
-    @todo TBD Review fulldescription and convfunction special commands.
 */
 #define CMRelease(obj) \
     ((obj)->ft->release((obj)))
@@ -698,7 +696,7 @@ static inline CMPIBoolean CMIsArray(
     @statusopenpegasus TBD
     @hideinitializer
 
-    @todo KS test if we need brief in this and release doc
+    @todo TBD KS: test if we need brief in this and release doc
 */
 #define CMClone(obj, rc) \
     ((obj)->ft->clone((obj), (rc)))
@@ -3055,6 +3053,7 @@ static inline CMPIBoolean CMFilterMatch(
     @fulldescription CMPIBrokerFT.brokerCapabilities
     @changed210 In CMPI 2.1, CBGetClassification() was removed as not working,
         and this function was introduced.
+
     @see @ref mb-capabilities "MB Capabilities"
     @statusopenpegasus TBD
     @hideinitializer
@@ -3741,6 +3740,7 @@ static inline CMPIData CBGetProperty(
 }
 #endif
 
+#ifdef CMPI_VER_210
 /** @brief Enumerate the instances of a given class (and its subclasses),
          returning only those that match the given query filter.
 
@@ -3758,6 +3758,7 @@ static inline CMPIData CBGetProperty(
     @return A new CMPIEnumeration object containing CMPIInstance objects that
         represent the enumerated instances.
     @fulldescription CMPIBrokerFT.enumerateInstancesFiltered()
+    @added210
     @statusopenpegasus Not used, not tested
     @hideinitializer
 */
@@ -3780,7 +3781,9 @@ static inline CMPIEnumeration *CBEnumInstancesFiltered(
          filterQueryLanguage, filterQuery, rc);
 }
 #endif
+#endif /* CMPI_VER_210 */
 
+#ifdef CMPI_VER_210
 /** @brief Enumerate the instances associated with a given source instance,
          returning only those that match the given filters.
 
@@ -3813,6 +3816,7 @@ static inline CMPIEnumeration *CBEnumInstancesFiltered(
     @return A new CMPIEnumeration object containing CMPIInstance objects that
         represent the enumerated instances.
     @fulldescription CMPIBrokerFT.associatorsFiltered()
+    @added210
     @statusopenpegasus TBD
     @hideinitializer
 */
@@ -3842,7 +3846,9 @@ static inline CMPIEnumeration *CBAssociatorsFiltered(
         filterQuery, rc);
 }
 #endif
+#endif /* CMPI_VER_210 */
 
+#ifdef CMPI_VER_210
 /** @brief Enumerate the instances referencing a given source instance,
          returning only those that match the given filters.
 
@@ -3867,6 +3873,7 @@ static inline CMPIEnumeration *CBAssociatorsFiltered(
     @return A new CMPIEnumeration object containing CMPIInstance objects that
         represent the enumerated instances.
     @fulldescription CMPIBrokerFT.referencesFiltered()
+    @added210
     @statusopenpegasus TBD
     @hideinitializer
 */
@@ -3891,6 +3898,7 @@ static inline CMPIEnumeration *CBReferencesFiltered(
         properties, filterQueryLanguage, filterQuery, rc);
 }
 #endif
+#endif /* CMPI_VER_210 */
 
 /** @brief Create a new CMPIInstance object initialized to a given instance
         path.

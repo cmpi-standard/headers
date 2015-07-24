@@ -1003,23 +1003,23 @@ typedef struct _CMPIStatus {
  * The following is a complete list of all MB capabilities, some of which
  * have no corresponding bits in CMPIBrokerFT.brokerCapabilities:
  *
- * @li @ref cap-read "Basic Read" 
- * @li @ref cap-write "Basic Write" 
- * @li @ref cap-manipulation "Instance Manipulation" 
- * @li @ref cap-associations "Association Traversal" 
- * @li @ref cap-queryexec "Query Execution" 
- * @li @ref cap-querynorm "Query Normalization" 
- * @li @ref cap-qualifiers "Basic Qualifier" 
- * @li @ref cap-indications "Indications" 
- * @li @ref cap-opsys "OS Encapsulation Services" 
- * @li @ref cap-memory "Memory Enhancement Services" 
- * @li @ref cap-errors "Extended Errors" 
- * @li @ref cap-logging "Logging" 
- * @li @ref cap-tracing "Tracing" 
- * @li @ref cap-filtering "Property Filtering" 
- * @li @ref cap-codepage "Codepage Conversion" 
- * @li @ref cap-translation "Message Translation" 
- * @li @ref cap-context "Context Data" 
+ * @li @ref cap-read "Basic Read"
+ * @li @ref cap-write "Basic Write"
+ * @li @ref cap-manipulation "Instance Manipulation"
+ * @li @ref cap-associations "Association Traversal"
+ * @li @ref cap-queryexec "Query Execution"
+ * @li @ref cap-querynorm "Query Normalization"
+ * @li @ref cap-qualifiers "Basic Qualifier"
+ * @li @ref cap-indications "Indications"
+ * @li @ref cap-opsys "OS Encapsulation Services"
+ * @li @ref cap-memory "Memory Enhancement Services"
+ * @li @ref cap-errors "Extended Errors"
+ * @li @ref cap-logging "Logging"
+ * @li @ref cap-tracing "Tracing"
+ * @li @ref cap-filtering "Property Filtering"
+ * @li @ref cap-codepage "Codepage Conversion"
+ * @li @ref cap-translation "Message Translation"
+ * @li @ref cap-context "Context Data"
  */
 
 /**
@@ -1073,6 +1073,8 @@ typedef struct _CMPIStatus {
 /**
  * @brief Test mask for @ref cap-memory "Memory Enhancement Services"
  *     capability.
+ *
+ * @added200
  */
 #define CMPI_MB_Supports_MemEnhancements    0x00004000
 #endif /* CMPI_VER_200 */
@@ -1080,6 +1082,8 @@ typedef struct _CMPIStatus {
 #ifdef CMPI_VER_200
 /**
  * @brief Test mask for @ref cap-errors "Extended Errors" capability.
+ *
+ * @added200
  */
 #define CMPI_MB_Supports_Extended_Error     0x00008000
 #endif /* CMPI_VER_200 */
@@ -1087,6 +1091,8 @@ typedef struct _CMPIStatus {
 #ifdef CMPI_VER_210
 /**
  * @brief Test mask for @ref cap-logging "Logging" capability.
+ *
+ * @added210
  */
 #define CMPI_MB_Logging                     0x00010000
 #endif /* CMPI_VER_210 */
@@ -1094,6 +1100,8 @@ typedef struct _CMPIStatus {
 #ifdef CMPI_VER_210
 /**
  * @brief Test mask for @ref cap-tracing "Tracing" capability.
+ *
+ * @added210
  */
 #define CMPI_MB_Tracing                     0x00020000
 #endif /* CMPI_VER_210 */
@@ -1101,6 +1109,8 @@ typedef struct _CMPIStatus {
 #ifdef CMPI_VER_210
 /**
  * @brief Test mask for @ref cap-filtering "Property Filtering" capability.
+ *
+ * @added210
  */
 #define CMPI_MB_PropertyFiltering           0x00040001
 #endif /* CMPI_VER_210 */
@@ -1108,6 +1118,8 @@ typedef struct _CMPIStatus {
 #ifdef CMPI_VER_210
 /**
  * @brief Test mask for @ref cap-codepage "Codepage Conversion" capability.
+ *
+ * @added210
  */
 #define CMPI_MB_CodepageConversion          0x00080000
 #endif /* CMPI_VER_210 */

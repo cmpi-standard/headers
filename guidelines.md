@@ -160,7 +160,7 @@ circumstances are known:
 
   That syntax allows splitting the line, if the identifiers are too long for
   the column limit:
-  
+
   <pre>
   @ref _CMPIContextFT::release
   "CMPIContextFT.release()"
@@ -220,9 +220,9 @@ the CMPI standard uses, except for the following adjustments:
   paragraphs, use @parblock and @endparblock
 
   @param param-name
-   @parblock 
+   @parblock
    paragraph1
-  
+
   paragraph 2
   ...
   @endparblock
@@ -237,7 +237,7 @@ the CMPI standard uses, except for the following adjustments:
     * ... the CMPIArrayFT.getSize() function ...
 
   would become in the Doxygen description:
-  
+
   <pre>
   ... `CMPIArrayFT.getSize()` ...
   </pre>
@@ -251,7 +251,7 @@ the CMPI standard uses, except for the following adjustments:
     * ... the instPath argument ...
 
   would become in the Doxygen description:
-  
+
   <pre>
   ... @p instPath ...
   </pre>
@@ -310,7 +310,7 @@ Monospacing names
 
 If a name is not intended to become a link, we use the backquote (\`) for
 generating monospaced text, e.g. \`CMPI_RC_OK\`.
-  
+
 **TBD:** Doxygen tries to create links for those names, but if no target
 is found, the quoted text is shown in monospace font.
 Using a double backquote is documented to prevent the linking and just to

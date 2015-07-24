@@ -9,9 +9,8 @@ LIST OF TODOs for CMPI header file Documentation
   functions do not have macros.  Also lots of @todo add macros in cmpift.h
   as I worked my way through and I have to weed those out.
 
-* Andy: Sync function descriptions in cmpift.h with spec.
-
-  Status: DONE.
+  Status: Any remaining issues are documented in the header files as @todo.
+  This item here can be closed.
 
 * Karl: Make decision about the poor doc in macro files. Remove much of it, make
   same as cmpift, or leave it.
@@ -20,6 +19,8 @@ LIST OF TODOs for CMPI header file Documentation
 
   Telecon 7/1: Direction was to minimize documentation to brief description and
   see to the underlying function, unless that is not possible.
+
+  Status: DONE
 
 * Karl: This stuff cries out for examples.
 

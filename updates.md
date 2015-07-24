@@ -1,4 +1,13 @@
 
+24 July - Andy
+--------------
+
+* Added some missing version specific #ifdef conditionals.
+* Performed consistency check on @addedNNN, @requiredNNN, @changedNNN between
+  MB/MI functions and conv. functions, and between them and their version
+  specific #ifdef conditionals, and corrected any inconsistencies.
+* Documented some recent Doxygen issues.
+
 23 July - Andy
 --------------
 

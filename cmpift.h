@@ -239,9 +239,7 @@ typedef struct _CMPIBroker {
     /**
      * @brief Pointer to the function table for MB memory enhancement services.
      *
-     * If the @ref cap-memory "Memory Enhancement Services" capability is not
-     * available, this pointer is NULL.
-     *
+     * @capmemory If that capability is not available, this pointer is NULL.
      * @added200
      */
     const CMPIBrokerMemFT* mft;
@@ -2924,6 +2922,7 @@ struct timespec;
  * @ref brokerext-condition "POSIX-conformant Conditions".
  *
  * @capopsys
+ * @required200
  *
  * If the OS Encapsulation Services capability is not supported, the
  * function pointers in this function table shall not be NULL, but shall point
@@ -2969,8 +2968,9 @@ typedef struct _CMPIBrokerExtFT {
          If not successful, NULL will be returned.
      @endparblock
      @convfunction None.
+     @required200
 
-     @todo TODO_KS AM: The old text in the description of the return value
+     @todo TODO_KS The old text in the description of the return value
          said:@n
          "Space for this string has been obtained using POSIX ``malloc()`` and
          must be released using POSIX ``free()`` by the caller.
@@ -3014,8 +3014,9 @@ typedef struct _CMPIBrokerExtFT {
      For historical reasons, no additional error information is passed back.
      @convfunction None.
      @capopsys
+     @required200
 
-     @todo TODO_KS AM: Karl to test the new function types in actual code,
+     @todo TODO_KS Karl to test the new function types in actual code,
            particularly with MSVC compiler:
            @ref CMPIThreadFunc,
            @ref CMPIThreadOnceFunc,
@@ -3046,6 +3047,7 @@ typedef struct _CMPIBrokerExtFT {
      @ref ref-ieee-1003-1 "IEEE 1003.1".
      @convfunction None.
      @capopsys
+     @required200
     */
     int (*joinThread) (CMPI_THREAD_TYPE thread, CMPI_THREAD_RETURN* retval);
 
@@ -3067,6 +3069,7 @@ typedef struct _CMPIBrokerExtFT {
      None; the function never returns.
      @convfunction None.
      @capopsys
+     @required200
      @bug In the CMPI Standard document, the change history of this function
          states that the function was added in CMPI 2.0. That needs to be
          corrected to state that a description for the function was added in
@@ -3100,6 +3103,7 @@ typedef struct _CMPIBrokerExtFT {
      @endparblock
      @convfunction None.
      @capopsys
+     @required200
     */
     int (*cancelThread) (CMPI_THREAD_TYPE thread);
 
@@ -3120,6 +3124,7 @@ typedef struct _CMPIBrokerExtFT {
      @ref ref-ieee-1003-1 "IEEE 1003.1".
      @convfunction None.
      @capopsys
+     @required200
     */
     int (*threadSleep) (CMPIUint32 msec);
 
@@ -3157,6 +3162,7 @@ typedef struct _CMPIBrokerExtFT {
      @ref ref-ieee-1003-1 "IEEE 1003.1".
      @convfunction None.
      @capopsys
+     @required200
     */
     int (*threadOnce) (int* once, CMPIThreadOnceFunc function);
 
@@ -3181,6 +3187,7 @@ typedef struct _CMPIBrokerExtFT {
      @ref ref-ieee-1003-1 "IEEE 1003.1".
      @convfunction None.
      @capopsys
+     @required200
     */
     int (*createThreadKey) (CMPI_THREAD_KEY_TYPE* key,
         CMPIThreadKeyCleanupFunc cleanup);
@@ -3204,6 +3211,7 @@ typedef struct _CMPIBrokerExtFT {
      @ref ref-ieee-1003-1 "IEEE 1003.1".
      @convfunction None.
      @capopsys
+     @required200
     */
     int (*destroyThreadKey) (CMPI_THREAD_KEY_TYPE key);
 
@@ -3224,6 +3232,7 @@ typedef struct _CMPIBrokerExtFT {
      For historical reasons, no additional error information is passed back.
      @convfunction None.
      @capopsys
+     @required200
     */
     void* (*getThreadSpecific) (CMPI_THREAD_KEY_TYPE key);
 
@@ -3247,6 +3256,7 @@ typedef struct _CMPIBrokerExtFT {
      @ref ref-ieee-1003-1 "IEEE 1003.1".
      @convfunction None.
      @capopsys
+     @required200
     */
     int (*setThreadSpecific) (CMPI_THREAD_KEY_TYPE key, void* value);
 
@@ -3287,6 +3297,7 @@ typedef struct _CMPIBrokerExtFT {
      For historical reasons, no additional error information is passed back.
      @convfunction None.
      @capopsys
+     @required200
      @changed210 In CMPI 2.1, changed @p opt to be for future use.
      @changed210 In CMPI 2.1, required that the mutex behaves consistent with
          mutex type `PTHREAD_MUTEX_RECURSIVE` defined in @ref ref-ieee-1003-1
@@ -3303,6 +3314,7 @@ typedef struct _CMPIBrokerExtFT {
      @param mutex Handle of the mutex to be destroyed.
      @convfunction None.
      @capopsys
+     @required200
      @deprecated This function is deprecated since CMPI 2.1, because it does
          not indicate whether it succeeded or failed. Use
          CMPIBrokerExtFT.destroyMutex2() instead.
@@ -3327,6 +3339,7 @@ typedef struct _CMPIBrokerExtFT {
      succeeded or failed.
      @convfunction None.
      @capopsys
+     @required200
      @deprecated This function is deprecated since CMPI 2.1, because it does
          not indicate whether it succeeded or failed. Use
          CMPIBrokerExtFT.lockMutex2() instead.
@@ -3348,6 +3361,7 @@ typedef struct _CMPIBrokerExtFT {
      succeeded or failed.
      @convfunction None.
      @capopsys
+     @required200
      @deprecated This function is deprecated since CMPI 2.1, because it does
          not indicate whether it succeeded or failed. Use
          CMPIBrokerExtFT.unlockMutex2() instead.
@@ -3378,6 +3392,7 @@ typedef struct _CMPIBrokerExtFT {
      For historical reasons, no additional error information is passed back.
      @convfunction None.
      @capopsys
+     @required200
      @changed210 In CMPI 2.1, changed @p opt to be for future use.
     */
     CMPI_COND_TYPE (*newCondition) (int opt);
@@ -3396,6 +3411,7 @@ typedef struct _CMPIBrokerExtFT {
      succeeded or failed.
      @convfunction None.
      @capopsys
+     @required200
      @deprecated This function is deprecated since CMPI 2.1,
          because it does not indicate whether it succeeded or failed. Use
          CMPIBrokerExtFT.destroyCondition2() instead.
@@ -3425,6 +3441,7 @@ typedef struct _CMPIBrokerExtFT {
      @ref ref-ieee-1003-1 "IEEE 1003.1".
      @convfunction None.
      @capopsys
+     @required200
     */
     int (*condWait) (CMPI_COND_TYPE cond, CMPI_MUTEX_TYPE mutex);
 
@@ -3454,6 +3471,7 @@ typedef struct _CMPIBrokerExtFT {
      @ref ref-ieee-1003-1 "IEEE 1003.1".
      @convfunction None.
      @capopsys
+     @required200
     */
     int (*timedCondWait) (CMPI_COND_TYPE cond, CMPI_MUTEX_TYPE mutex,
         struct timespec* wait);
@@ -3476,6 +3494,7 @@ typedef struct _CMPIBrokerExtFT {
      @ref ref-ieee-1003-1 "IEEE 1003.1".
      @convfunction None.
      @capopsys
+     @required200
     */
     int (*signalCondition) (CMPI_COND_TYPE cond);
 
@@ -3507,6 +3526,7 @@ typedef struct _CMPIBrokerExtFT {
      @capopsys
      @added210 Supersedes the deprecated CMPIBrokerExtFT.destroyMutex()
          function.
+     @required210
     */
     int (*destroyMutex2) (CMPI_MUTEX_TYPE mutex);
 
@@ -3534,6 +3554,7 @@ typedef struct _CMPIBrokerExtFT {
      @convfunction None.
      @capopsys
      @added210 Supersedes the deprecated CMPIBrokerExtFT.lockMutex() function.
+     @required210
     */
     int (*lockMutex2) (CMPI_MUTEX_TYPE mutex);
 
@@ -3558,6 +3579,7 @@ typedef struct _CMPIBrokerExtFT {
      @convfunction None.
      @capopsys
      @added210 Supersedes the deprecated CMPIBrokerExtFT.unlockMutex() function.
+     @required210
     */
     int (*unlockMutex2) (CMPI_MUTEX_TYPE mutex);
 
@@ -3587,6 +3609,7 @@ typedef struct _CMPIBrokerExtFT {
      @capopsys
      @added210 Supersedes the deprecated CMPIBrokerExtFT.destroyCondition()
          function.
+     @required210
     */
     int (*destroyCondition2) (CMPI_COND_TYPE cond);
 
@@ -3657,10 +3680,13 @@ typedef struct _CMPIBrokerMemFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-     @convfunction None.
+     @convfunction TBD
      @capmemory
+     @added200
      @bug In the CMPI Standard document, add the more specific statement about
          overlapping stacked object lifecycle levels.
+
+     @todo Add convenience function.
     */
     CMPIGcStat* (*mark) (const CMPIBroker* mb, CMPIStatus* rc);
 
@@ -3691,8 +3717,11 @@ typedef struct _CMPIBrokerMemFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-     @convfunction None.
+     @convfunction TBD
      @capmemory
+     @added200
+
+     @todo Add convenience function.
     */
     CMPIStatus (*release) (const CMPIBroker* mb, const CMPIGcStat* gc);
 
@@ -3718,9 +3747,12 @@ typedef struct _CMPIBrokerMemFT {
      @endparblock
      @errors
      No additional error information is passed back.
-     @convfunction None.
+     @convfunction TBD
      @capmemory
+     @added200
      @bug In the CMPI Standard document, add a reference to Subclause 4.1.7.
+
+     @todo Add convenience function.
     */
     void* (*cmpiMalloc) (const CMPIBroker* mb, size_t size);
 
@@ -3747,9 +3779,12 @@ typedef struct _CMPIBrokerMemFT {
      @endparblock
      @errors
      No additional error information is passed back.
-     @convfunction None.
+     @convfunction TBD
      @capmemory
+     @added200
      @bug In the CMPI Standard document, add a reference to Subclause 4.1.7.
+
+     @todo Add convenience function.
     */
     void* (*cmpiCalloc) (const CMPIBroker* mb, size_t nElems, size_t sizeElem);
 
@@ -3787,9 +3822,12 @@ typedef struct _CMPIBrokerMemFT {
      @endparblock
      @errors
      No additional error information is passed back.
-     @convfunction None.
+     @convfunction TBD
      @capmemory
+     @added200
      @bug In the CMPI Standard document, add a reference to Subclause 4.1.7.
+
+     @todo Add convenience function.
     */
     void* (*cmpiRealloc) (const CMPIBroker* mb, void* ptr, size_t size);
 
@@ -3814,9 +3852,12 @@ typedef struct _CMPIBrokerMemFT {
      @endparblock
      @errors
      No additional error information is passed back.
-     @convfunction None.
+     @convfunction TBD
      @capmemory
+     @added200
      @bug In the CMPI Standard document, add a reference to Subclause 4.1.7.
+
+     @todo Add convenience function.
     */
     char* (*cmpiStrDup) (const CMPIBroker* mb, const char* str);
 
@@ -3839,8 +3880,11 @@ typedef struct _CMPIBrokerMemFT {
      @return None.
      @errors
      This function does not indicate whether it succeeded or failed.
-     @convfunction None.
+     @convfunction TBD
      @capmemory
+     @added200
+
+     @todo Add convenience function.
     */
     void (*cmpiFree) (const CMPIBroker* mb, void* ptr);
 
@@ -3860,8 +3904,11 @@ typedef struct _CMPIBrokerMemFT {
      @return None.
      @errors
      This function does not indicate whether it succeeded or failed.
-     @convfunction None.
+     @convfunction TBD
      @capmemory
+     @added200
+
+     @todo Add convenience function.
     */
     void (*freeInstance) (const CMPIBroker* mb, CMPIInstance* inst);
 
@@ -3882,8 +3929,11 @@ typedef struct _CMPIBrokerMemFT {
      @return None.
      @errors
      This function does not indicate whether it succeeded or failed.
-     @convfunction None.
+     @convfunction TBD
      @capmemory
+     @added200
+
+     @todo Add convenience function.
     */
     void (*freeObjectPath) (const CMPIBroker* mb, CMPIObjectPath* obj);
 
@@ -3903,8 +3953,11 @@ typedef struct _CMPIBrokerMemFT {
      @return None.
      @errors
      This function does not indicate whether it succeeded or failed.
-     @convfunction None.
+     @convfunction TBD
      @capmemory
+     @added200
+
+     @todo Add convenience function.
     */
     void (*freeArgs) (const CMPIBroker* mb, CMPIArgs* args);
 
@@ -3925,8 +3978,11 @@ typedef struct _CMPIBrokerMemFT {
      @return None.
      @errors
      This function does not indicate whether it succeeded or failed.
-     @convfunction None.
+     @convfunction TBD
      @capmemory
+     @added200
+
+     @todo Add convenience function.
     */
     void (*freeString) (const CMPIBroker* mb, CMPIString* str);
 
@@ -3946,8 +4002,11 @@ typedef struct _CMPIBrokerMemFT {
      @return None.
      @errors
      This function does not indicate whether it succeeded or failed.
-     @convfunction None.
+     @convfunction TBD
      @capmemory
+     @added200
+
+     @todo Add convenience function.
     */
     void (*freeArray) (const CMPIBroker* mb, CMPIArray* array);
 
@@ -3969,11 +4028,14 @@ typedef struct _CMPIBrokerMemFT {
      @return None.
      @errors
      This function does not indicate whether it succeeded or failed.
-     @convfunction None.
+     @convfunction TBD
      @capmemory
+     @added200
      @bug In the CMPI Standard, add newDateTimeFromBinary() and
          newDateTimeFromChars() as additional functions that may have created
          the object.
+
+     @todo Add convenience function.
     */
     void (*freeDateTime) (const CMPIBroker* mb, CMPIDateTime* dt);
 
@@ -3993,13 +4055,14 @@ typedef struct _CMPIBrokerMemFT {
      @return None.
      @errors
      This function does not indicate whether it succeeded or failed.
-     @convfunction None.
+     @convfunction TBD
      @capmemory This function can be implemented only if the @ref cap-querynorm
          "Query Normalization" capability is supported as well.
+     @added200
 
-     @todo KS: implement macro form of all of the free functions
-     @todo KS: Note that there appears to be no OpenPegasus use of any of
-           these free functions
+     @todo Add convenience function.
+     @todo TBD KS: Note that there appears to be no OpenPegasus use of any of
+           these free functions.
     */
     void (*freeSelectExp) (const CMPIBroker* mb, CMPISelectExp* se);
 
@@ -4019,12 +4082,14 @@ typedef struct _CMPIBrokerMemFT {
          C-language string shall have been created using
          CMPIStringFT.newCharsCP().
      @return None.
-     @convfunction None.
+     @convfunction TBD
      @capmemory This function can be implemented only if the @ref cap-querynorm
          "Query Normalization" capability is supported as well.
      @added210
      @bug In the CMPI Standard document, add the additional dependency on
          supporting the Codepage Conversion capability.
+
+     @todo Add convenience function.
     */
     void (*freeChars) (const CMPIBroker* mb, char* chars);
 
@@ -4056,6 +4121,7 @@ typedef struct _CMPIBrokerMemFT {
  * For more details, see Subclause 8.1 of the
  * @ref ref-cmpi-standard "CMPI Standard".
  *
+ * @required210
  * @capcontext
  */
 typedef struct _CMPIContext {
@@ -4075,6 +4141,7 @@ typedef struct _CMPIContext {
 /**
  * @brief Function table of CMPIContext encapsulated data type object.
  *
+ * @required210
  * @capcontext
  */
 typedef struct _CMPIContextFT {
@@ -4110,6 +4177,7 @@ typedef struct _CMPIContextFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
      @convfunction CMRelease()
      @capcontext
+     @required210
     */
     CMPIStatus (*release) (CMPIContext* ctx);
 
@@ -4138,6 +4206,7 @@ typedef struct _CMPIContextFT {
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p ctx handle is invalid.
      @convfunction CMClone()
      @capcontext
+     @required210
     */
     CMPIContext* (*clone) (const CMPIContext* ctx, CMPIStatus* rc);
 
@@ -4167,6 +4236,7 @@ typedef struct _CMPIContextFT {
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Entry not found.
      @convfunction CMGetContextEntry()
      @capcontext
+     @required210
     */
     CMPIData (*getEntry) (const CMPIContext* ctx, const char* name,
         CMPIStatus* rc);
@@ -4209,6 +4279,7 @@ typedef struct _CMPIContextFT {
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Entry not found.
      @convfunction CMGetContextEntryAt()
      @capcontext
+     @required210
     */
     CMPIData (*getEntryAt) (const CMPIContext* ctx, CMPICount index,
         CMPIString** name, CMPIStatus* rc);
@@ -4236,6 +4307,7 @@ typedef struct _CMPIContextFT {
      @li `CMPI_RC_ERR_NO_SUCH_PROPERTY` - Entry not found.
      @convfunction CMGetContextEntryCount()
      @capcontext
+     @required210
     */
     CMPICount (*getEntryCount) (const CMPIContext* ctx, CMPIStatus* rc);
 
@@ -4272,6 +4344,7 @@ typedef struct _CMPIContextFT {
          type is not recognized.
      @convfunction CMAddContextEntry()
      @capcontext
+     @required210
     */
     CMPIStatus (*addEntry) (const CMPIContext* ctx, const char* name,
         const CMPIValue* value, const CMPIType type);
@@ -7613,6 +7686,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMRelease()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -7647,6 +7721,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMClone()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -7684,6 +7759,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMGetErrorType()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -7730,6 +7806,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMGetOtherErrorType()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -7780,6 +7857,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMGetOwningEntity()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -7829,6 +7907,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMGetMessageID()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -7878,6 +7957,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMGetErrorMessage()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -7918,6 +7998,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMGetPerceivedSeverity()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -7959,6 +8040,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMGetProbableCause()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8009,6 +8091,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMGetProbableCauseDescription()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8054,6 +8137,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMGetRecommendedActions()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8102,6 +8186,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMGetErrorSource()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8141,6 +8226,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMGetErrorSourceFormat()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8191,6 +8277,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMGetOtherErrorSourceFormat()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8234,6 +8321,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMGetCIMStatusCode()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8283,6 +8371,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMGetCIMStatusCodeDescription()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8328,6 +8417,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMGetMessageArguments()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8365,6 +8455,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMSetErrorType()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8399,6 +8490,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMSetOtherErrorType()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8434,6 +8526,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMSetProbableCauseDescription()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8457,6 +8550,7 @@ typedef struct _CMPIErrorFT {
      @param ra Points to a CMPIArray object specifying the new array value for
          the `RecommendedActions` array attribute. The CMPIArray object
          contains CMPIString objects or NULL values as array elements. @p ra
+
          may be NULL, specifying that the `RecommendedActions` array attribute
          will be set to NULL. If the error message is defined in a DMTF message
          registry, @p ra shall reflect the values defined in the
@@ -8473,6 +8567,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMSetRecommendedActions()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8508,6 +8603,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMSetErrorSource()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8543,6 +8639,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMSetErrorSourceFormat()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8579,6 +8676,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMSetOtherErrorSourceFormat()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8615,6 +8713,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMSetCIMStatusCodeDescription()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -8654,6 +8753,7 @@ typedef struct _CMPIErrorFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMSetMessageArguments()
      @caperrors
+     @added200
      @required210
      @deprecated The return code `CMPI_RC_ERR_NOT_SUPPORTED` of this function
          is deprecated since CMPI 2.1. It will not be returned because the
@@ -10658,6 +10758,8 @@ typedef struct _CMPIMethodMIFT {
 
 } CMPIMethodMIFT;
 
+#ifdef CMPI_VER_200
+
 /**
  * @}
  * @addtogroup property-mi
@@ -10671,6 +10773,7 @@ typedef struct _CMPIMethodMIFT {
  * @ref mi-factory "MI factory functions", in order to make its MI functions
  * available to the MB.
  *
+ * @added200
  * @deprecated Property MIs are deprecated since CMPI 2.1,
  *     in accord with the deprecation of property client operations in
  *     DMTF specifications.
@@ -10692,6 +10795,8 @@ typedef struct _CMPIPropertyMI {
 
 /**
  * @brief Function table of CMPIPropertyMI object.
+ *
+ * @added200
  */
 typedef struct _CMPIPropertyMIFT {
 
@@ -10844,6 +10949,7 @@ typedef struct _CMPIPropertyMIFT {
          <TD>Other error occurred.</TD></TR>
      </TABLE>
      @convfunction CMPropertyMIStub()
+     @added200
      @deprecated The return codes `CMPI_RC_ERR_INVALID_NAMESPACE`,
          `CMPI_RC_ERR_INVALID_PARAMETER`, and `CMPI_RC_ERR_INVALID_CLASS` for
          this function are deprecated since CMPI 2.1, because the corresponding
@@ -10917,6 +11023,7 @@ typedef struct _CMPIPropertyMIFT {
          <TD>Other error occurred.</TD></TR>
      </TABLE>
      @convfunction CMPropertyMIStub()
+     @added200
      @deprecated The return codes `CMPI_RC_ERR_INVALID_NAMESPACE`,
          `CMPI_RC_ERR_INVALID_PARAMETER`, and `CMPI_RC_ERR_INVALID_CLASS` for
          this function are deprecated since CMPI 2.1, because the corresponding
@@ -10927,8 +11034,6 @@ typedef struct _CMPIPropertyMIFT {
     CMPIStatus (*getProperty) (CMPIPropertyMI* mi, const CMPIContext* ctx,
         const CMPIResult* rslt, const CMPIObjectPath* instPath,
         const char* name);
-
-#ifdef CMPI_VER_200
 
     /**
      @brief Set the value and origin of a property of an existing instance.
@@ -11009,9 +11114,9 @@ typedef struct _CMPIPropertyMIFT {
         CMPIObjectPath* instPath, const char* name, const CMPIData data,
         const char* origin);
 
-#endif /*CMPI_VER_200*/
-
 } CMPIPropertyMIFT;
+
+#endif /*CMPI_VER_200*/
 
 /**
  * @}
