@@ -735,9 +735,9 @@ static inline CMPIData CMGetContextEntry(
 /** @brief Get a context entry in a CMPIContext object by index.
 
     @param ctx CMPIContext object.
-    @param index Zero-based position of the context entry in the
-         internal data array. The order of context entries in the internal data
-         array is implementation-defined.
+    @param index Zero-based position of the context entry in the internal data
+        array. The order of context entries in the internal data array is
+        implementation-defined.
     @param [out] name Name of the returned context entry (suppressed when NULL).
     @param [out] rc Function return status (suppressed when NULL).
     @return Context entry value and type.
@@ -1109,8 +1109,8 @@ static inline CMPIData CMGetArrayElementAt(
         index.
 
     @param ar CMPIArray object.
-    @param index Zero-based position of the existing element in the
-        CMPIArray object.
+    @param index Zero-based position of the existing element in the CMPIArray
+        object.
     @param value CMPIValue structure containing the non-NULL value to be
         assigned to the element, or NULL to assign NULL.
     @param type Type of the value.
@@ -5831,9 +5831,8 @@ CMPI_EXTERN_C CMPIMethodMI *miname##_Create_MethodMI( \
     @param miname The provider name under which this provider is registered.
             This is a character string without quotes.
     @return The function table of this property provider.
-    @deprecated The CMPropertyMIFactory() macro is deprecated since
-        CMPI 2.1, in accord with the deprecation of property client operations
-        in DMTF specifications.
+    @deprecated This macro is deprecated since CMPI 2.1, in accord with the
+        deprecation of property client operations in DMTF specifications.
 
     @see CMPIPropertyMI, CMPIPropertyMIFT,
         @ref mi-factory-specific "MI-specific factory function"

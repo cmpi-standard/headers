@@ -7,6 +7,10 @@
   MB/MI functions and conv. functions, and between them and their version
   specific #ifdef conditionals, and corrected any inconsistencies.
 * Documented some recent Doxygen issues.
+* Moved minor and editorial bugs from header files into a new file
+  specissues.md, and rephrased the remaining bugs in the header files to
+  be better comprehensible.
+* Deleted ISSUES.md, because it had all issues closed.
 
 23 July - Andy
 --------------

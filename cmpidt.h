@@ -412,6 +412,9 @@ typedef unsigned short CMPIType;
 #define CMPI_real64       ((2+1)<<2)    ///< Indicates a CMPIValue.real64 value
 
 /// Test mask for CIM unsigned integer types
+/// @bug The CMPI_UINT test mask matches not only for unsigned integer types,
+///     but in addition for signed integers. For compatibility reasons, this
+///     cannot be fixed in CMPI 2.x.
 #define CMPI_UINT         ((8)<<4)
 #define CMPI_uint8        ((8+0)<<4)    ///< Indicates a CMPIValue.uint8 value
 #define CMPI_uint16       ((8+1)<<4)    ///< Indicates a CMPIValue.uint16 value
