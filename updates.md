@@ -8,6 +8,8 @@
 * Renamed previously created new convenience macros that are factory functions
   for EDTs, from CMNewCMPI<xxx> to CMNew<xxx>, except for the existing
   CMNewCMPIError().
+* Added examples for CMMemMark(), including CMMemRelease() and for CMMalloc(),
+  including CMCalloc() and CMFree().
 
 24 July - Andy
 --------------

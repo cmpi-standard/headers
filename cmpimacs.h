@@ -4695,9 +4695,56 @@ static inline CMPIStatus CMCloseMessageFile(
     @return @ref CMPIGcStat structure for use with CMPIBrokerMemFT.release().
     @fulldescription CMPIBrokerMemFT.mark()
     @examples
+    The following code fragment shows the general principle, using new…()
+    functions as an example for allocating encapsulated data objects:
     @code (.c)
-    TBD
+    CMPIBroker *_broker;
+    CMPIStatus st;
+    CMPIGcStat gc;
+
+    i1 = CMNewInstance(_broker, . . .);   // creates object i1 at default
+                                          // object lifecycle level
+
+    gc1 = CMMemMark(_broker, &st);        // marks object lifecycle level #1
+
+    i2 = CMNewInstance(_broker, . . .);   // creates object i2 at object
+                                          // lifecycle level #1
+
+    st = CMMemRelease(_broker, gc1);      // releases objects at lifecycle
+                                          // level #1 (i2)
+
+    i3 = CMNewInstance(_broker, . . .);   // creates object i3 at default
+                                          // object lifecycle level
     @endcode
+    The following code fragment demonstrates the stacked use of these
+    functions:
+    @code (.c)
+    CMPIBroker *_broker;
+    CMPIStatus st;
+    CMPIGcStat gc;
+
+    i1 = CMNewInstance(_broker, . . .);   // creates i1 at default level
+
+    gc1 = CMMemMark(_broker, &st);        // marks level #1
+
+    i2 = CMNewInstance(_broker, . . .);   // creates i2 at level #1
+
+    gc2 = CMMemMark(_broker, &st);        // marks level #2
+
+    i3 = CMNewInstance(_broker, . . .);   // creates i3 at level #2
+
+    st = CMMemRelease(_broker, gc2);      // releases level #2 (i3)
+
+    i4 = CMNewInstance(_broker, . . .);   // creates i4 at level #1
+
+    st = CMMemRelease(_broker, gc1);      // releases level #1 (i2,i4)
+
+    i5 = CMNewInstance(_broker, . . .);   // creates i5 at default level
+    @endcode
+    The requirement not to overlap stacked use of these functions implies that
+    in the previous code fragment, the first CMMemRelease() call can pass
+    the @p gc2 pointer as an argument, identifying the current object lifecycle
+    level #2, but cannot pass the @p gc1 pointer.
     @capmemory
     @added210
     @statusopenpegasus Not used
@@ -4756,8 +4803,49 @@ static inline CMPIStatus CMMemRelease(
     @return A pointer to the allocated memory block.
     @fulldescription CMPIBrokerMemFT.cmpiMalloc()
     @examples
+    This example shows an instance MI that in its initialization function
+    allocates a structure for its opaque handle, and a buffer of charthat
+    is remembered in that data structure. The cleanup function releases both.
+    See CMInstanceMIStub() for details on the initialization and cleanup
+    functions.
     @code (.c)
-    TBD
+    // Data structure that is hanging off of the opaque MI handle.
+    struct InstanceMIHdl {
+        char *buffer;           // some character buffer
+    };
+    
+    static const CMPIBroker *_broker;
+
+    static CMPIStatus MyProvInstanceInitialize(
+        CMPIInstanceMI *mi,
+        const CMPIContext *ctx)
+    {
+        struct InstanceMIHdl *hdl = (struct InstanceMIHdl *)
+                                    CMMalloc(_broker, sizeof(InstanceMIHdl));
+        mi->hdl = hdl;
+        if (!hdl) {
+            CMReturn(CMPI_RC_ERR_FAILED);
+        }
+
+        char *buffer = (char*)CMCalloc(_broker, 4096, sizeof(char));
+        hdl->buffer = buffer;
+        if (!buffer) {
+            CMReturn(CMPI_RC_ERR_FAILED);
+        }
+
+        CMReturn(CMPI_RC_OK);
+    }
+
+    static CMPIStatus MyProvCleanup (
+        CMPIInstanceMI *mi,
+        const CMPIContext *ctx,
+        CMPIBoolean terminating)
+    {
+        struct InstanceMIHdl *hdl = (struct InstanceMIHdl*)mi->hdl;
+        CMFree(_broker, hdl->buffer);
+        CMFree(_broker, hdl);
+        CMReturn(CMPI_RC_OK);
+    }
     @endcode
     @capmemory
     @added210
@@ -4788,10 +4876,7 @@ static inline void * CMMalloc(
     @param sizeElem Size of each element to allocate, in Bytes.
     @return A pointer to the allocated and initialized memory block.
     @fulldescription CMPIBrokerMemFT.cmpiCalloc()
-    @examples
-    @code (.c)
-    TBD
-    @endcode
+    @examples See CMMalloc()
     @capmemory
     @added210
     @statusopenpegasus Not used
@@ -4826,10 +4911,6 @@ static inline void * CMCalloc(
         be larger or smaller than (or equal to) the current size.
     @return A pointer to the resized memory block.
     @fulldescription CMPIBrokerMemFT.cmpiRealloc()
-    @examples
-    @code (.c)
-    TBD
-    @endcode
     @capmemory
     @added210
     @statusopenpegasus Not used
@@ -4859,10 +4940,6 @@ static inline void * CMRealloc(
     @return A pointer to the new memory block (that is, to the new C-language
         string).
     @fulldescription CMPIBrokerMemFT.cmpiStrDup()
-    @examples
-    @code (.c)
-    TBD
-    @endcode
     @capmemory
     @added210
     @statusopenpegasus Not used
@@ -4892,10 +4969,7 @@ static inline void * CMStrDup(
          CMStrDup() functions.
     @return None.
     @fulldescription CMPIBrokerMemFT.cmpiFree()
-    @examples
-    @code (.c)
-    TBD
-    @endcode
+    @examples See CMMalloc()
     @capmemory
     @added210
     @statusopenpegasus Not used
