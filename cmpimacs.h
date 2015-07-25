@@ -4280,10 +4280,10 @@ static inline CMPIError * CMNewCMPIError(
     @hideinitializer
 */
 #ifdef CMPI_NO_INLINE
-#define CMNewCMPIPropertyList(mb, properties, rc) \
+#define CMNewPropertyList(mb, properties, rc) \
     ((mb)->eft->newPropertyList((mb), (properties), (rc)))
 #else
-static inline CMPIPropertyList *CMNewCMPIPropertyList(
+static inline CMPIPropertyList *CMNewPropertyList(
     const CMPIBroker *mb,
     const char **properties,
     CMPIStatus *rc)
@@ -4312,10 +4312,10 @@ static inline CMPIPropertyList *CMNewCMPIPropertyList(
     @hideinitializer
 */
 #ifdef CMPI_NO_INLINE
-#define CMNewCMPIStringCP(mb, data, cpid, rc) \
+#define CMNewStringCP(mb, data, cpid, rc) \
     ((mb)->eft->newStringCP((mb), (data), (cpid), (rc)))
 #else
-static inline CMPIString *CMNewCMPIStringCP(
+static inline CMPIString *CMNewStringCP(
     const CMPIBroker *mb,
     const char* data,
     const CMPICodepageID cpid,
@@ -4342,11 +4342,11 @@ static inline CMPIString *CMNewCMPIStringCP(
     @hideinitializer
 */
 #ifdef CMPI_NO_INLINE
-#define CMNewCMPIEnumerationFilter(mb, filterQueryLanguage, filterQuery, rc) \
+#define CMNewEnumerationFilter(mb, filterQueryLanguage, filterQuery, rc) \
     ((mb)->eft->newEnumerationFilter((mb), (filterQueryLanguage), \
         (filterQuery), (rc)))
 #else
-static inline CMPIEnumerationFilter *CMNewCMPIEnumerationFilter(
+static inline CMPIEnumerationFilter *CMNewEnumerationFilter(
     const CMPIBroker *mb,
     const char* filterQueryLanguage,
     const char* filterQuery,
@@ -4685,6 +4685,493 @@ static inline CMPIStatus CMCloseMessageFile(
     ((mb)->eft->getMessage2((mb), (msgId), (msgFileHandle), (defMsg), (rc), \
                             args))
 #endif /* CMPI_VER_200 */
+
+#ifdef CMPI_VER_210
+/** @brief Mark a new object lifecycle level for subsequent newly created
+        CMPI encapsulated data type objects.
+
+    @param mb CMPIBroker structure.
+    @param [out] rc Function return status (suppressed when NULL).
+    @return @ref CMPIGcStat structure for use with CMPIBrokerMemFT.release().
+    @fulldescription CMPIBrokerMemFT.mark()
+    @examples
+    @code (.c)
+    TBD
+    @endcode
+    @capmemory
+    @added210
+    @statusopenpegasus Not used
+    @hideinitializer
+
+    @todo New convenience function - please review.
+*/
+#ifdef CMPI_NO_INLINE
+#define CMMemMark(mb, rc) \
+    ((mb)->mft->mark((mb), (rc)))
+#else
+static inline CMPIGcStat * CMMemMark(
+    const CMPIBroker *mb,
+    CMPIStatus *rc)
+{
+    return mb->mft->mark(mb, rc);
+}
+#endif
+#endif /* CMPI_VER_210 */
+
+#ifdef CMPI_VER_210
+/** @brief Release all CMPI encapsulated data type objects created at the
+        specified object lifecycle level, and remove that level.
+
+    @param mb CMPIBroker structure.
+    @param gc @ref CMPIGcStat structure returned from the CMPIBrokerMemFT.mark()
+        function.
+    @return Function return status.
+    @fulldescription CMPIBrokerMemFT.release()
+    @examples See CMMemMark()
+    @capmemory
+    @added210
+    @statusopenpegasus Not used
+    @hideinitializer
+
+    @todo New convenience function - please review.
+*/
+#ifdef CMPI_NO_INLINE
+#define CMMemRelease(mb, gc) \
+    ((mb)->mft->release((mb), (gc)))
+#else
+static inline CMPIStatus CMMemRelease(
+    const CMPIBroker *mb,
+    const CMPIGcStat* gc)
+{
+    return mb->mft->release(mb, gc);
+}
+#endif
+#endif /* CMPI_VER_210 */
+
+#ifdef CMPI_VER_210
+/** @brief Allocate an uninitalized memory block of the specified size.
+
+    @param mb CMPIBroker structure.
+    @param size Amount of memory to allocate, in Bytes.
+    @return A pointer to the allocated memory block.
+    @fulldescription CMPIBrokerMemFT.cmpiMalloc()
+    @examples
+    @code (.c)
+    TBD
+    @endcode
+    @capmemory
+    @added210
+    @statusopenpegasus Not used
+    @hideinitializer
+
+    @todo New convenience function - please review.
+*/
+#ifdef CMPI_NO_INLINE
+#define CMMalloc(mb, size) \
+    ((mb)->mft->cmpiMalloc((mb), (size)))
+#else
+static inline void * CMMalloc(
+    const CMPIBroker *mb,
+    size_t size)
+{
+    return mb->mft->cmpiMalloc(mb, size);
+}
+#endif
+#endif /* CMPI_VER_210 */
+
+#ifdef CMPI_VER_210
+/** @brief Allocate a memory block of the specified size and initialize it to
+        zero.
+
+    @param mb CMPIBroker structure.
+    @param nElems Number of elements to allocate.
+    @param sizeElem Size of each element to allocate, in Bytes.
+    @return A pointer to the allocated and initialized memory block.
+    @fulldescription CMPIBrokerMemFT.cmpiCalloc()
+    @examples
+    @code (.c)
+    TBD
+    @endcode
+    @capmemory
+    @added210
+    @statusopenpegasus Not used
+    @hideinitializer
+
+    @todo New convenience function - please review.
+*/
+#ifdef CMPI_NO_INLINE
+#define CMCalloc(mb, nElems, sizeElem) \
+    ((mb)->mft->cmpiCalloc((mb), (nElems), (sizeElem)))
+#else
+static inline void * CMCalloc(
+    const CMPIBroker *mb,
+    size_t nElems,
+    size_t sizeElem)
+{
+    return mb->mft->cmpiCalloc(mb, nElems, sizeElem);
+}
+#endif
+#endif /* CMPI_VER_210 */
+
+#ifdef CMPI_VER_210
+/** @brief Change the size of a memory block.
+
+    @param mb CMPIBroker structure.
+    @param ptr If not NULL, points to previosuly allocated memory.  Passing a
+        non-NULL pointer to this function which was not allocated explicitly
+        by CMMalloc() or CMCalloc() is undefined. If @p ptr is NULL, the
+        function behaves like CMMalloc(), assigning a new memory block of
+         @p size Bytes and returning a pointer to its beginning.
+    @param size New size of the memory block, in Bytes. The new size may
+        be larger or smaller than (or equal to) the current size.
+    @return A pointer to the resized memory block.
+    @fulldescription CMPIBrokerMemFT.cmpiRealloc()
+    @examples
+    @code (.c)
+    TBD
+    @endcode
+    @capmemory
+    @added210
+    @statusopenpegasus Not used
+    @hideinitializer
+
+    @todo New convenience function - please review.
+*/
+#ifdef CMPI_NO_INLINE
+#define CMRealloc(mb, ptr, size) \
+    ((mb)->mft->cmpiRealloc((mb), (ptr), (size)))
+#else
+static inline void * CMRealloc(
+    const CMPIBroker *mb,
+    void *ptr,
+    size_t size)
+{
+    return mb->mft->cmpiRealloc(mb, ptr, size);
+}
+#endif
+#endif /* CMPI_VER_210 */
+
+#ifdef CMPI_VER_210
+/** @brief Allocate a memory block and initialize it with a string.
+
+    @param mb CMPIBroker structure.
+    @param str C-language string to be duplicated.
+    @return A pointer to the new memory block (that is, to the new C-language
+        string).
+    @fulldescription CMPIBrokerMemFT.cmpiStrDup()
+    @examples
+    @code (.c)
+    TBD
+    @endcode
+    @capmemory
+    @added210
+    @statusopenpegasus Not used
+    @hideinitializer
+
+    @todo New convenience function - please review.
+*/
+#ifdef CMPI_NO_INLINE
+#define CMStrDup(mb, str) \
+    ((mb)->mft->cmpiStrDup((mb), (str)))
+#else
+static inline void * CMStrDup(
+    const CMPIBroker *mb,
+    const char *str)
+{
+    return mb->mft->cmpiStrDup(mb, str);
+}
+#endif
+#endif /* CMPI_VER_210 */
+
+#ifdef CMPI_VER_210
+/** @brief Release a memory block.
+
+    @param mb CMPIBroker structure.
+    @param ptr Points to the memory block to free. The memory block shall have
+         been allocated via the CMMalloc(), CMCalloc(), CMRealloc(), or
+         CMStrDup() functions.
+    @return None.
+    @fulldescription CMPIBrokerMemFT.cmpiFree()
+    @examples
+    @code (.c)
+    TBD
+    @endcode
+    @capmemory
+    @added210
+    @statusopenpegasus Not used
+    @hideinitializer
+
+    @todo New convenience function - please review.
+*/
+#ifdef CMPI_NO_INLINE
+#define CMFree(mb, ptr) \
+    ((mb)->mft->cmpiFree((mb), (ptr)))
+#else
+static inline void CMFree(
+    const CMPIBroker *mb,
+    void *ptr)
+{
+    return mb->mft->cmpiFree(mb, ptr);
+}
+#endif
+#endif /* CMPI_VER_210 */
+
+#ifdef CMPI_VER_210
+/** @brief Release a CMPIInstance object.
+
+    @param mb CMPIBroker structure.
+    @param inst The CMPIInstance object to be released. That object shall have
+        been created using CMNewInstance().
+    @return None.
+    @fulldescription CMPIBrokerMemFT.freeInstance()
+    @examples
+    @code (.c)
+    TBD
+    @endcode
+    @capmemory
+    @added210
+    @statusopenpegasus Not used
+    @hideinitializer
+
+    @todo New convenience function - please review.
+*/
+#ifdef CMPI_NO_INLINE
+#define CMFreeInstance(mb, inst) \
+    ((mb)->mft->freeInstance((mb), (inst)))
+#else
+static inline void CMFreeInstance(
+    const CMPIBroker *mb,
+    CMPIInstance *inst)
+{
+    return mb->mft->freeInstance(mb, inst);
+}
+#endif
+#endif /* CMPI_VER_210 */
+
+#ifdef CMPI_VER_210
+/** @brief Release a CMPIObjectPath object.
+
+    @param mb CMPIBroker structure.
+    @param obj The CMPIObjectPath object to be released. That object shall have
+        been created using CMNewObjectPath().
+    @return None.
+    @fulldescription CMPIBrokerMemFT.freeObjectPath()
+    @examples
+    @code (.c)
+    TBD
+    @endcode
+    @capmemory
+    @added210
+    @statusopenpegasus Not used
+    @hideinitializer
+
+    @todo New convenience function - please review.
+*/
+#ifdef CMPI_NO_INLINE
+#define CMFreeObjectPath(mb, obj) \
+    ((mb)->mft->freeObjectPath((mb), (obj)))
+#else
+static inline void CMFreeObjectPath(
+    const CMPIBroker *mb,
+    CMPIObjectPath *obj)
+{
+    return mb->mft->freeObjectPath(mb, obj);
+}
+#endif
+#endif /* CMPI_VER_210 */
+
+#ifdef CMPI_VER_210
+/** @brief Release a CMPIArgs object.
+
+    @param mb CMPIBroker structure.
+    @param args The CMPIArgs object to be released. That object shall have been
+        created using CMNewArgs().
+    @return None.
+    @fulldescription CMPIBrokerMemFT.freeArgs()
+    @examples
+    @code (.c)
+    TBD
+    @endcode
+    @capmemory
+    @added210
+    @statusopenpegasus Not used
+    @hideinitializer
+
+    @todo New convenience function - please review.
+*/
+#ifdef CMPI_NO_INLINE
+#define CMFreeArgs(mb, args) \
+    ((mb)->mft->freeArgs((mb), (args)))
+#else
+static inline void CMFreeArgs(
+    const CMPIBroker *mb,
+    CMPIArgs *args)
+{
+    return mb->mft->freeArgs(mb, args);
+}
+#endif
+#endif /* CMPI_VER_210 */
+
+#ifdef CMPI_VER_210
+/** @brief Release a CMPIString object.
+
+    @param mb CMPIBroker structure.
+    @param str The CMPIString object to be released. That object shall have
+        been created using CMNewString() or CMNewStringCP().
+    @return None.
+    @fulldescription CMPIBrokerMemFT.freeString()
+    @examples
+    @code (.c)
+    TBD
+    @endcode
+    @capmemory
+    @added210
+    @statusopenpegasus Not used
+    @hideinitializer
+
+    @todo New convenience function - please review.
+*/
+#ifdef CMPI_NO_INLINE
+#define CMFreeString(mb, str) \
+    ((mb)->mft->freeString((mb), (str)))
+#else
+static inline void CMFreeString(
+    const CMPIBroker *mb,
+    CMPIString *str)
+{
+    return mb->mft->freeString(mb, str);
+}
+#endif
+#endif /* CMPI_VER_210 */
+
+#ifdef CMPI_VER_210
+/** @brief Release a CMPIArray object.
+
+    @param mb CMPIBroker structure.
+    @param array The CMPIArray object to be released. That object shall have
+        been created using CMNewArray().
+    @return None.
+    @fulldescription CMPIBrokerMemFT.freeArray()
+    @examples
+    @code (.c)
+    TBD
+    @endcode
+    @capmemory
+    @added210
+    @statusopenpegasus Not used
+    @hideinitializer
+
+    @todo New convenience function - please review.
+*/
+#ifdef CMPI_NO_INLINE
+#define CMFreeArray(mb, array) \
+    ((mb)->mft->freeArray((mb), (array)))
+#else
+static inline void CMFreeArray(
+    const CMPIBroker *mb,
+    CMPIArray *array)
+{
+    return mb->mft->freeArray(mb, array);
+}
+#endif
+#endif /* CMPI_VER_210 */
+
+#ifdef CMPI_VER_210
+/** @brief Release a CMPIDateTime object.
+
+    @param mb CMPIBroker structure.
+    @param dt The CMPIDateTime object to be released. That object shall have
+        been created using CMNewDateTime(), CMNewDateTimeFromBinary(), or
+        CMNewDateTimeFromChars().
+    @return None.
+    @fulldescription CMPIBrokerMemFT.freeDateTime()
+    @examples
+    @code (.c)
+    TBD
+    @endcode
+    @capmemory
+    @added210
+    @statusopenpegasus Not used
+    @hideinitializer
+
+    @todo New convenience function - please review.
+*/
+#ifdef CMPI_NO_INLINE
+#define CMFreeDateTime(mb, dt) \
+    ((mb)->mft->freeDateTime((mb), (dt)))
+#else
+static inline void CMFreeDateTime(
+    const CMPIBroker *mb,
+    CMPIDateTime *dt)
+{
+    return mb->mft->freeDateTime(mb, dt);
+}
+#endif
+#endif /* CMPI_VER_210 */
+
+#ifdef CMPI_VER_210
+/** @brief Release a CMPISelectExp object.
+
+    @param mb CMPIBroker structure.
+    @param se The CMPISelectExp object to be released. That object shall have
+        been created using CMNewSelectExp().
+    @return None.
+    @fulldescription CMPIBrokerMemFT.freeSelectExp()
+    @examples
+    @code (.c)
+    TBD
+    @endcode
+    @capmemory
+    @added210
+    @statusopenpegasus Not used
+    @hideinitializer
+
+    @todo New convenience function - please review.
+*/
+#ifdef CMPI_NO_INLINE
+#define CMFreeSelectExp(mb, se) \
+    ((mb)->mft->freeSelectExp((mb), (se)))
+#else
+static inline void CMFreeSelectExp(
+    const CMPIBroker *mb,
+    CMPISelectExp *se)
+{
+    return mb->mft->freeSelectExp(mb, se);
+}
+#endif
+#endif /* CMPI_VER_210 */
+
+#ifdef CMPI_VER_210
+/** @brief Free the memory of a C-language string.
+
+    @param mb CMPIBroker structure.
+    @param chars The C-language string to be released. This C-language string
+        shall have been created using CMNewCharsCP().
+    @return None.
+    @fulldescription CMPIBrokerMemFT.freeChars()
+    @examples
+    @code (.c)
+    TBD
+    @endcode
+    @capmemory
+    @added210
+    @statusopenpegasus Not used
+    @hideinitializer
+
+    @todo New convenience function - please review.
+*/
+#ifdef CMPI_NO_INLINE
+#define CMFreeChars(mb, chars) \
+    ((mb)->mft->freeChars((mb), (chars)))
+#else
+static inline void CMFreeChars(
+    const CMPIBroker *mb,
+    char *chars)
+{
+    return mb->mft->freeChars(mb, chars);
+}
+#endif
+#endif /* CMPI_VER_210 */
 
 /**
     @defgroup cmfmt-args CMFmtArgs\<N\>()

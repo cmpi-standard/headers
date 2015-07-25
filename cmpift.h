@@ -2812,7 +2812,7 @@ typedef struct _CMPIBrokerEncFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
-     @convfunction CMNewCMPIPropertyList()
+     @convfunction CMNewPropertyList()
      @added210
     */
     CMPIPropertyList* (*newPropertyList) (const CMPIBroker* mb,
@@ -2850,7 +2850,7 @@ typedef struct _CMPIBrokerEncFT {
      codes:
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid.
-     @convfunction CMNewCMPIStringCP()
+     @convfunction CMNewStringCP()
      @capcodepage
      @added210
     */
@@ -2895,7 +2895,7 @@ typedef struct _CMPIBrokerEncFT {
          the specified filter query language.
      @li `CMPI_RC_ERR_QUERY_FEATURE_NOT_SUPPORTED` - A feature of the query
          language is not supported.
-     @convfunction CMNewCMPIEnumerationFilter()
+     @convfunction CMNewEnumerationFilter()
      @added210
     */
     CMPIEnumerationFilter* (*newEnumerationFilter) (const CMPIBroker* mb,
@@ -3676,15 +3676,13 @@ typedef struct _CMPIBrokerMemFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-     @convfunction TBD
+     @convfunction CMMemMark()
      @capmemory
      @added200
      @bug The CMPI Standard document has an incorrect statement "Stacked object
          lifecycle levels shall not overlap.". That is not correct, because
          nested levels by definition overlap. It should be updated to use the
          more specific statement from the header file.
-
-     @todo Add convenience function.
     */
     CMPIGcStat* (*mark) (const CMPIBroker* mb, CMPIStatus* rc);
 
@@ -3715,11 +3713,9 @@ typedef struct _CMPIBrokerMemFT {
      @li `CMPI_RC_OK` - Function successful.
      @li `CMPI_RC_ERR_INVALID_HANDLE` - The @p mb handle is invalid
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
-     @convfunction TBD
+     @convfunction CMMemRelease()
      @capmemory
      @added200
-
-     @todo Add convenience function.
     */
     CMPIStatus (*release) (const CMPIBroker* mb, const CMPIGcStat* gc);
 
@@ -3745,11 +3741,9 @@ typedef struct _CMPIBrokerMemFT {
      @endparblock
      @errors
      No additional error information is passed back.
-     @convfunction TBD
+     @convfunction CMMalloc()
      @capmemory
      @added200
-
-     @todo Add convenience function.
     */
     void* (*cmpiMalloc) (const CMPIBroker* mb, size_t size);
 
@@ -3776,11 +3770,9 @@ typedef struct _CMPIBrokerMemFT {
      @endparblock
      @errors
      No additional error information is passed back.
-     @convfunction TBD
+     @convfunction CMCalloc()
      @capmemory
      @added200
-
-     @todo Add convenience function.
     */
     void* (*cmpiCalloc) (const CMPIBroker* mb, size_t nElems, size_t sizeElem);
 
@@ -3807,7 +3799,7 @@ typedef struct _CMPIBrokerMemFT {
          non-NULL pointer to this function which was not allocated explicitly
          by cmpiMalloc() or cmpiCalloc() is undefined. If @p ptr is NULL, the
          function behaves like cmpiMalloc(), assigning a new memory block of
-         size Bytes and returning a pointer to its beginning.
+         @p size Bytes and returning a pointer to its beginning.
      @param size New size of the memory block, in Bytes. The new size may
          be larger or smaller than (or equal to) the current size.
      @return @parblock
@@ -3818,11 +3810,9 @@ typedef struct _CMPIBrokerMemFT {
      @endparblock
      @errors
      No additional error information is passed back.
-     @convfunction TBD
+     @convfunction CMRealloc()
      @capmemory
      @added200
-
-     @todo Add convenience function.
     */
     void* (*cmpiRealloc) (const CMPIBroker* mb, void* ptr, size_t size);
 
@@ -3847,11 +3837,9 @@ typedef struct _CMPIBrokerMemFT {
      @endparblock
      @errors
      No additional error information is passed back.
-     @convfunction TBD
+     @convfunction CMStrDup()
      @capmemory
      @added200
-
-     @todo Add convenience function.
     */
     char* (*cmpiStrDup) (const CMPIBroker* mb, const char* str);
 
@@ -3874,11 +3862,9 @@ typedef struct _CMPIBrokerMemFT {
      @return None.
      @errors
      This function does not indicate whether it succeeded or failed.
-     @convfunction TBD
+     @convfunction CMFree()
      @capmemory
      @added200
-
-     @todo Add convenience function.
     */
     void (*cmpiFree) (const CMPIBroker* mb, void* ptr);
 
@@ -3894,15 +3880,14 @@ typedef struct _CMPIBrokerMemFT {
 
      @param mb Points to a CMPIBroker structure.
      @param inst Points to the CMPIInstance object that is to be released.
-         That object shall have been created using CMPIBrokerEncFT.newInstance().
+         That object shall have been created using
+         CMPIBrokerEncFT.newInstance().
      @return None.
      @errors
      This function does not indicate whether it succeeded or failed.
-     @convfunction TBD
+     @convfunction CMFreeInstance()
      @capmemory
      @added200
-
-     @todo Add convenience function.
     */
     void (*freeInstance) (const CMPIBroker* mb, CMPIInstance* inst);
 
@@ -3923,11 +3908,9 @@ typedef struct _CMPIBrokerMemFT {
      @return None.
      @errors
      This function does not indicate whether it succeeded or failed.
-     @convfunction TBD
+     @convfunction CMFreeObjectPath()
      @capmemory
      @added200
-
-     @todo Add convenience function.
     */
     void (*freeObjectPath) (const CMPIBroker* mb, CMPIObjectPath* obj);
 
@@ -3947,11 +3930,9 @@ typedef struct _CMPIBrokerMemFT {
      @return None.
      @errors
      This function does not indicate whether it succeeded or failed.
-     @convfunction TBD
+     @convfunction CMFreeArgs()
      @capmemory
      @added200
-
-     @todo Add convenience function.
     */
     void (*freeArgs) (const CMPIBroker* mb, CMPIArgs* args);
 
@@ -3966,17 +3947,15 @@ typedef struct _CMPIBrokerMemFT {
      @ref ref-cmpi-standard "CMPI Standard").
 
      @param mb Points to a CMPIBroker structure.
-     @param args Points to the CMPIString object that is to be released. That
+     @param str Points to the CMPIString object that is to be released. That
          object shall have been created using CMPIBrokerEncFT.newString() or
          CMPIBrokerEncFT.newStringCP().
      @return None.
      @errors
      This function does not indicate whether it succeeded or failed.
-     @convfunction TBD
+     @convfunction CMFreeString()
      @capmemory
      @added200
-
-     @todo Add convenience function.
     */
     void (*freeString) (const CMPIBroker* mb, CMPIString* str);
 
@@ -3996,11 +3975,9 @@ typedef struct _CMPIBrokerMemFT {
      @return None.
      @errors
      This function does not indicate whether it succeeded or failed.
-     @convfunction TBD
+     @convfunction CMFreeArray()
      @capmemory
      @added200
-
-     @todo Add convenience function.
     */
     void (*freeArray) (const CMPIBroker* mb, CMPIArray* array);
 
@@ -4022,7 +3999,7 @@ typedef struct _CMPIBrokerMemFT {
      @return None.
      @errors
      This function does not indicate whether it succeeded or failed.
-     @convfunction TBD
+     @convfunction CMFreeDateTime()
      @capmemory
      @added200
      @bug The CMPI Standard document only allows CMPIBrokerEncFT.newDateTime()
@@ -4030,8 +4007,6 @@ typedef struct _CMPIBrokerMemFT {
          CMPIBrokerEncFT.newDateTimeFromBinary() and
          CMPIBrokerEncFT.newDateTimeFromChars() are additional functions that
          may have created the object.
-
-     @todo Add convenience function.
     */
     void (*freeDateTime) (const CMPIBroker* mb, CMPIDateTime* dt);
 
@@ -4051,12 +4026,11 @@ typedef struct _CMPIBrokerMemFT {
      @return None.
      @errors
      This function does not indicate whether it succeeded or failed.
-     @convfunction TBD
+     @convfunction CMFreeSelectExp()
      @capmemory This function can be implemented only if the @ref cap-querynorm
          "Query Normalization" capability is supported as well.
      @added200
 
-     @todo Add convenience function.
      @todo TBD KS: Note that there appears to be no OpenPegasus use of any of
            these free functions.
     */
@@ -4078,15 +4052,13 @@ typedef struct _CMPIBrokerMemFT {
          C-language string shall have been created using
          CMPIStringFT.newCharsCP().
      @return None.
-     @convfunction TBD
+     @convfunction CMFreeChars()
      @capmemory This function can be implemented only if the @ref cap-querynorm
          "Query Normalization" capability is supported as well.
      @added210
      @bug The CMPI Standard document misses to document the additional
          precondition of supporting the Codepage Conversion capability,
          for implementing this function. That should be added.
-
-     @todo Add convenience function.
     */
     void (*freeChars) (const CMPIBroker* mb, char* chars);
 

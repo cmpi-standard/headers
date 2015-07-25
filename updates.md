@@ -1,4 +1,14 @@
 
+25 July - Andy
+--------------
+
+* Added remaining convenience macros. Now, the only MB functions that do not
+  have a convenience macros, are the OS encapsulation functions. Those
+  are not called via a function table pointer.
+* Renamed previously created new convenience macros that are factory functions
+  for EDTs, from CMNewCMPI<xxx> to CMNew<xxx>, except for the existing
+  CMNewCMPIError().
+
 24 July - Andy
 --------------
 
