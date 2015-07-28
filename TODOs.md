@@ -1,9 +1,9 @@
 LIST OF TODOs for CMPI header file Documentation
 ================================================
 
-* Karl: Test against a build.
+* TODO Karl: Test against a build.
 
-* Karl: Clean up cmpimacs.
+* DONE? Karl: Clean up cmpimacs.
 
   Status: Most links from macs back in place but not all working.  Many of the
   functions do not have macros.  Also lots of @todo add macros in cmpift.h
@@ -13,8 +13,8 @@ LIST OF TODOs for CMPI header file Documentation
   The Examples question is a separate item in this file here.
   This item here can be closed, IMO.
 
-* Karl: Make decision about the poor doc in macro files. Remove much of it, make
-  same as cmpift, or leave it.
+* DONE Karl: Make decision about the poor doc in macro files. Remove much of it,
+  make same as cmpift, or leave it.
 
   Discuss on telecon.
 
@@ -23,23 +23,28 @@ LIST OF TODOs for CMPI header file Documentation
 
   Status: DONE
 
-* Karl: This stuff cries out for examples.
+* TBD Karl: This stuff cries out for examples.
 
   Discuss next telecon.
 
-* Both: Review order of sections for functions described in guidelines.md.
+* TBD Both: Review order of sections for functions described in guidelines.md.
 
   Discuss next telecon.
 
-* Andy: Move those @bug entries that are editorial or would otherwise not go
-  into an errata release, from being a @bug entry to some file.
+* TBD Both: Review outline of Related Pages, outline of Modules tabs, and main
+  page content.
+
+  Discuss next telecon.
+
+* DONE Andy: Move those @bug entries that are editorial or would otherwise not
+  go into an errata release, from being a @bug entry to some file.
 
   Status: DONE
 
-* NOTE: The close date for this work is actually shortly before the final release
-  of the spec at end of July.
+* NOTE: The close date for this work is actually shortly before the final
+  release of the spec at end of July.
 
-* Both: figure out how we can get this mess of files into a web without
+* TODO Both: figure out how we can get this mess of files into a web without
   uploading the many hundreds of files. Or into the wiki with the same issue.
   The manual upload tools these sites offer are not really logical for this
   large set of files that may change from time to time.
@@ -53,7 +58,7 @@ LIST OF TODOs for CMPI header file Documentation
   was opposed to putting the headers on github so my guess is that they have
   issues with this also. His comment was:
 
-* Response from M.Kirk about using github:
+* NOTE: Response from M.Kirk about using github:
 
     We have justs conducted a small experiment with using Github for development in
     another Forum, and the problem is that it puts it outside of our SSO
