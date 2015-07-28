@@ -27,10 +27,14 @@ LIST OF TODOs for CMPI header file Documentation
 
   Discuss next telecon.
 
+* Both: Review order of sections for functions described in guidelines.md.
+
+  Discuss next telecon.
+
 * Andy: Move those @bug entries that are editorial or would otherwise not go
   into an errata release, from being a @bug entry to some file.
 
-  Discuss next telecon.
+  Status: DONE
 
 * NOTE: The close date for this work is actually shortly before the final release
   of the spec at end of July.
