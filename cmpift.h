@@ -267,15 +267,15 @@ typedef struct _CMPIBroker {
 typedef struct _CMPIBrokerFT {
 
     /**
-     * @brief MB capabilities.
+     * @brief Bitmask representing the MB capabilities supported by this MB.
      *
-     * For a definition of the test masks, see
+     * For a definition of the test masks for this field, see
      * @ref mb-capabilities "MB Capabilities".
      */
     unsigned int brokerCapabilities;
 
     /**
-     * @brief CMPI version supported by the MB for this function table.
+     * @brief CMPI version supported by this MB for this function table.
      *
      * Any earlier CMPI versions are implicitly also supported.
      * See @ref sym-version-nnn "CMPIVersion\<NNN\>" for valid CMPI

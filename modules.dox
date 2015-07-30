@@ -322,10 +322,10 @@
  * @page platformspecific Platform-specific Definitions
  * @brief Definitions that depend on the compile platform
  *
- * Some definitions in the CMPI header files depend on the specified platform
- * (see @ref sym-platform).
+ * Some definitions in the CMPI header files depend on the specified compile
+ * platform (see @ref sym-platform).
  *
- * This online documentation is generated for the platform
+ * This online documentation is generated for the compile platform
  * CMPI_PLATFORM_LINUX_GENERIC_GNU.
  *
  * Platform dependencies are mentioned where applicable, but those descriptions

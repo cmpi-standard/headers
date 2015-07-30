@@ -1022,8 +1022,8 @@ typedef struct _CMPIStatus {
  * @li @ref cap-tracing "Tracing"
  * @li @ref cap-filtering "Property Filtering"
  * @li @ref cap-codepage "Codepage Conversion"
- * @li @ref cap-translation "Message Translation"
- * @li @ref cap-context "Context Data"
+ * @li @ref cap-translation "Message Translation" (no capability bit)
+ * @li @ref cap-context "Context Data" (no capability bit)
  */
 
 /**

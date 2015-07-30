@@ -23,6 +23,7 @@
   the convenience functions, without mentioning it as a change.
 * Added the CMPI version of the change to some uses of the @changed210 command.
 * Editorial changes in standard text for @requiredXXX commands.
+* Editorial changes in the description of capabilities and compile platform.
 
 25 July - Andy
 --------------
