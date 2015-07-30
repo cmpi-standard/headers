@@ -24,18 +24,19 @@
 
 /**
  * @file cmpimacs.h
- * @brief A set of macro functions to ease the use of the various function
- *     tables;
+ * @brief Defines CMPI convenience functions that ease the use of the various
+ *     function tables.
  *
- * MIs that intend to use the macros should include this header.
+ * MIs that intend to use the @ref convenience-func "CMPI convenience functions"
+ * need to include this header file.
  *
- * This header file belongs to the Technical Standard: Systems Management:
- * Common Manageability Programming Interface (CMPI) Issue 2 Version 1.
+ * This header file belongs to the Open Group Technical Standard: Systems
+ * Management: Common Manageability Programming Interface (CMPI Standard),
+ * Issue 2 Version 1.
  *
  * This header file is provided as a convenience only. In the case of any
- * discrepancy between the header file and the Technical Standard
- * (incorporating any subsequent Technical Corrigenda), the Technical Standard
- * shall be definitive.
+ * discrepancy between the header file and the CMPI Standard (incorporating any
+ * subsequent Technical Corrigenda), the CMPI Standard shall be definitive.
  */
 
 #ifndef _CMPIMACS_H_
@@ -53,7 +54,7 @@ extern "C" {
     The convenience functions in `cmpimacs.h` are a set of macros and inline
     functions that ease the use of the various CMPI function tables. They are
     provided to help the CMPI developer and are NOT required to be used. They
-    do, however, make cleaner and more readable code.
+    do, however, make for cleaner and more readable code.
 
     In CMPI 1.0, the CMPI convenience functions were defined as C preprocessor
     macros, which coined the term "CMPI macros".
@@ -65,13 +66,15 @@ extern "C" {
     functions can also be generated as C preprocessor macros, if the CMPI user
     defines the symbol @ref sym-inline "CMPI_NO_INLINE".
 
-    The convenience functions are NOT documented in the CMPI standard, just the
-    existence of the `cmpimacs.h` header file. However, this online
-    documentation includes hyperlinks between the convenience functions and the
-    underlying MB functions or other components of CMPI used by the convenience
-    functions. Further, it is the CMPI standard developers' goal to minimize
-    the changes to the convenience functions in order to maintain compatibility
-    between CMPI versions.
+    The convenience functions are NOT documented in the @ref ref-cmpi-standard
+    "CMPI Standard", just the existence of the `cmpimacs.h` header file.
+    However, this online documentation documents the convenience functions and
+    includes hyperlinks between the convenience functions and the underlying MB
+    functions or other components of CMPI, in both directions.
+
+    The convenience functions follow the same rules for backwards compatibility
+    as the other CMPI functions (see Subclause 1.7 in the @ref
+    ref-cmpi-standard "CMPI Standard").
 
     The convenience functions can be broken down into the following groups:
 
@@ -152,9 +155,10 @@ extern "C" {
   @{
     @brief Symbols controlling the definition of convenience functions.
 
-    These symbols control whether the convenience functions are defined as
-    static inline functions (when CMPI_INLINE is defined) or as preprocessor
-    macros (when CMPI_NO_INLINE is defined).
+    These symbols control whether the @ref convenience-func
+    "CMPI convenience functions" are defined as static inline functions (when
+    CMPI_INLINE is defined) or as preprocessor macros (when CMPI_NO_INLINE is
+    defined).
 
     A user of the CMPI header files may define either CMPI_INLINE or
     CMPI_NO_INLINE. The default assumed by the CMPI header files is
@@ -586,8 +590,8 @@ static inline CMPIBoolean CMIsArray(
   @{
     MB Functions of Encapsulated Data Types.
 
-    The convenience functions in this group call functions on encapsulated data
-    type objects.
+    The @ref convenience-func "convenience functions" in this group call
+    functions on encapsulated data type objects.
 
     The factory functions creating encapsulated data type objects are covered
     in @ref convenience-func-broker "MB Functions in Broker Function Tables".
@@ -3120,9 +3124,9 @@ static inline const char * CBBrokerName(
   @{
     MB Functions in Broker Function Tables.
 
-    The convenience functions in this group call MB functions provided by the
-    broker function tables (that is, the function tables pointed to by
-    CMPIBroker members).
+    The @ref convenience-func "convenience functions" in this group call MB
+    functions provided by the broker function tables (that is, the function
+    tables pointed to by CMPIBroker members).
 
     They simplify the code by eliminating the references to function tables,
     and by eliminating the need to know which of the function tables has the

@@ -1,4 +1,17 @@
 
+30 July - Andy
+--------------
+
+* Changed remaining occurrence of 'integral bitmask' to 'bitmask'.
+* Changed any references to 'CMPI standard document' or 'Technical Standard'
+  to 'CMPI Standard'.
+* Turned certain terms into links, such as CMPI Standard, convenience functions,
+  some occurrences of types that need an explicit @ref.
+* Simplified brief description of the header files.
+* Simplified the description which headers should be included and which not.
+* Reordered definitions ov CMPI_VER_XXX to be from old to new.
+* Fixed incorrect uint description of sint type masks (e.g. CMPI_sint8).
+
 25 July - Andy
 --------------
 

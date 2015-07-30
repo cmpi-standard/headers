@@ -24,16 +24,18 @@
 
 /**
  * @file cmpios.h
- * @brief Defines OS-specific symbols for threading structures, etc.;
- * MIs do not need to include this header because it is included by `cmpift.h`.
+ * @brief Defines OS-specific symbols for threading structures, etc.
  *
- * This header file belongs to the Technical Standard: Systems Management:
- * Common Manageability Programming Interface (CMPI) Issue 2 Version 1.
+ * MIs and MBs do not need to include this header file because it is already
+ * included when including the main header file `cmpift.h`.
+ *
+ * This header file belongs to the Open Group Technical Standard: Systems
+ * Management: Common Manageability Programming Interface (CMPI Standard),
+ * Issue 2 Version 1.
  *
  * This header file is provided as a convenience only. In the case of any
- * discrepancy between the header file and the Technical Standard
- * (incorporating any subsequent Technical Corrigenda), the Technical Standard
- * shall be definitive.
+ * discrepancy between the header file and the CMPI Standard (incorporating any
+ * subsequent Technical Corrigenda), the CMPI Standard shall be definitive.
  */
 
 #ifndef _CMPIOS_H_
@@ -62,14 +64,13 @@
 /**
  * @brief Type for the return value of a thread function.
  *
- * @platformspecific The definition of the
- *     @ref sym-thread-return "CMPI_THREAD_RETURN"
- *     symbol depends on the platform (see @ref sym-platform).
- *     For details, examine the source code of `cmpios.h`.
+ * @platformspecific The definition of the @ref sym-thread-return
+ *     "CMPI_THREAD_RETURN" symbol depends on the compile platform (see @ref
+ *     sym-platform). For details, examine the source code of `cmpios.h`.
  */
 #if defined(CMPI_PLATFORM_WIN32_IX86_MSVC)
 #  define CMPI_THREAD_RETURN      unsigned
-#else // all other platforms
+#else // all other compile platforms
 #  define CMPI_THREAD_RETURN      void*
 #endif
 
@@ -82,10 +83,9 @@
 /**
  * @brief Modifier defining the calling convention for a thread function.
  *
- * @platformspecific The definition of the
- *     @ref sym-thread-cdecl "CMPI_THREAD_CDECL"
- *     symbol depends on the platform (see @ref sym-platform).
- *     For details, examine the source code of `cmpios.h`.
+ * @platformspecific The definition of the @ref sym-thread-cdecl
+ *     "CMPI_THREAD_CDECL" symbol depends on the compile platform (see @ref
+ *     sym-platform). For details, examine the source code of `cmpios.h`.
  */
 #if defined(CMPI_PLATFORM_WIN32_IX86_MSVC)
 #  define CMPI_THREAD_CDECL    __stdcall
@@ -95,7 +95,7 @@
 #  else
 #    define CMPI_THREAD_CDECL
 #  endif
-#else // all other platforms
+#else // all other compile platforms
 #  define CMPI_THREAD_CDECL
 #endif
 
@@ -108,17 +108,16 @@
 /**
  * @brief Type for a thread key of a thread.
  *
- * @platformspecific The definition of the
- *     @ref sym-thread-key-type "CMPI_THREAD_KEY_TYPE"
- *     symbol depends on the platform (see @ref sym-platform).
- *     For details, examine the source code of `cmpios.h`.
+ * @platformspecific The definition of the @ref sym-thread-key-type
+ *     "CMPI_THREAD_KEY_TYPE" symbol depends on the compile platform (see @ref
+ *     sym-platform). For details, examine the source code of `cmpios.h`.
  */
 #if defined(CMPI_PLATFORM_WIN32_IX86_MSVC)
 #  define CMPI_THREAD_KEY_TYPE unsigned int
 #elif defined(CMPI_PLATFORM_ZOS_ZSERIES_IBM)
 #  include <pthread.h>
 #  define CMPI_THREAD_KEY_TYPE pthread_key_t
-#else // all other platforms
+#else // all other compile platforms
 #  define CMPI_THREAD_KEY_TYPE unsigned int
 #endif
 
@@ -174,15 +173,15 @@ struct timespec {
  * using this modifier; however, it can be used for non-CMPI-related
  * purposes.
  *
- * @platformspecific The definition of CMPI_EXPORT depends on the platform
- *     (see @ref sym-platform).
- *     For details, examine the source code of `cmpios.h`.
+ * @platformspecific The definition of CMPI_EXPORT depends on the compile
+ *     platform (see @ref sym-platform). For details, examine the source code
+ *     of `cmpios.h`.
  */
 #if defined(CMPI_PLATFORM_WIN32_IX86_MSVC)
 #  define CMPI_EXPORT __declspec(dllexport)
 #elif defined(CMPI_PLATFORM_LINUX_GENERIC_GNU) && (__GNUC__ >= 4)
 #  define CMPI_EXPORT __attribute__((visibility("default")))
-#else // all other platforms
+#else // all other compile platforms
 #  define CMPI_EXPORT
 #endif
 
@@ -203,15 +202,15 @@ struct timespec {
  * using this modifier; however, it can be used for non-CMPI-related
  * purposes.
  *
- * @platformspecific The definition of CMPI_IMPORT depends on the platform
- *     (see @ref sym-platform).
- *     For details, examine the source code of `cmpios.h`.
+ * @platformspecific The definition of CMPI_IMPORT depends on the compile
+ *     platform (see @ref sym-platform). For details, examine the source code
+ *     of `cmpios.h`.
  */
 #if defined(CMPI_PLATFORM_WIN32_IX86_MSVC)
 #  define CMPI_IMPORT __declspec(dllimport)
 #elif defined(CMPI_PLATFORM_LINUX_GENERIC_GNU) && (__GNUC__ >= 4)
 #  define CMPI_IMPORT __attribute__((visibility("default")))
-#else // all other platforms
+#else // all other compile platforms
 #  define CMPI_IMPORT
 #endif
 
@@ -229,14 +228,13 @@ struct timespec {
  * by MI load libraries.  MB functions and other MI functions do not need to
  * specifiy this modifier.
  *
- * @cxxspecific The definition of CMPI_EXTERN_C depends on whether the
- *     headers are compiled for C or for C++.
- *     For details, examine the source code of `cmpios.h`.
+ * @cxxspecific The definition of CMPI_EXTERN_C depends on whether the headers
+ *     are compiled for C or for C++. For details, examine the source code of
+ *     `cmpios.h`.
  *
- * @platformspecific The definition of CMPI_EXTERN_C depends on
- *     @ref sym-export "CMPI_EXPORT", which in turn depends on the platform
- *     (see @ref sym-platform).
- *     For details, examine the source code of `cmpios.h`.
+ * @platformspecific The definition of CMPI_EXTERN_C depends on @ref sym-export
+ *     "CMPI_EXPORT", which in turn depends on the compile platform (see @ref
+ *     sym-platform). For details, examine the source code of `cmpios.h`.
  */
 #ifdef __cplusplus
 #  define CMPI_EXTERN_C extern "C" CMPI_EXPORT

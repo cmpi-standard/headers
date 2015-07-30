@@ -24,23 +24,24 @@
 
 /**
  * @file cmpidt.h
- * @brief Defines CMPI data types;
- * MIs do not need to include this header because it is included by `cmpift.h`.
+ * @brief Defines CMPI data types.
  *
- * This header file belongs to the Technical Standard: Systems Management:
- * Common Manageability Programming Interface (CMPI) Issue 2 Version 1.
+ * MIs and MBs do not need to include this header file because it is already
+ * included when including the main header file `cmpift.h`.
+ *
+ * This header file belongs to the Open Group Technical Standard: Systems
+ * Management: Common Manageability Programming Interface (CMPI Standard),
+ * Issue 2 Version 1.
  *
  * This header file is provided as a convenience only. In the case of any
- * discrepancy between the header file and the Technical Standard
- * (incorporating any subsequent Technical Corrigenda), the Technical Standard
- * shall be definitive.
+ * discrepancy between the header file and the CMPI Standard (incorporating any
+ * subsequent Technical Corrigenda), the CMPI Standard shall be definitive.
  */
 
 #ifndef _CMPIDT_H_
 #define _CMPIDT_H_
 
 #include "cmpipl.h"
-
 #include "cmpios.h"
 
 #ifdef __cplusplus
@@ -98,15 +99,15 @@ extern "C" {
  * @{
  */
 
-#if (CMPI_VERSION == CMPIVersion210)
-#  define CMPI_VER_210 1  ///< Check for features introduced in CMPI 2.1.0
-#  define CMPI_VER_200 1  ///< Check for features introduced in CMPI 2.0.0
+#if (CMPI_VERSION == CMPIVersion100)
 #  define CMPI_VER_100 1  ///< Check for features introduced in CMPI 1.0.0
 #elif (CMPI_VERSION == CMPIVersion200)
+#  define CMPI_VER_100 1  ///< Check for features introduced in CMPI 1.0.0
 #  define CMPI_VER_200 1  ///< Check for features introduced in CMPI 2.0.0
+#elif (CMPI_VERSION == CMPIVersion210)
 #  define CMPI_VER_100 1  ///< Check for features introduced in CMPI 1.0.0
-#elif (CMPI_VERSION == CMPIVersion100)
-#  define CMPI_VER_100 1  ///< Check for features introduced in CMPI 1.0.0
+#  define CMPI_VER_200 1  ///< Check for features introduced in CMPI 2.0.0
+#  define CMPI_VER_210 1  ///< Check for features introduced in CMPI 2.1.0
 #else
 #  error Unsupported CMPI version defined in CMPI_VERSION symbol
 #endif
@@ -247,9 +248,9 @@ typedef unsigned int CMPIUint32;       ///< CIM data type `uint32`.
 /**
  * @brief CIM data type `uint64`.
  *
- * @platformspecific The underlying data type for the
- *     CMPIUint64 type depends on the platform (see @ref sym-platform).
- *     For details, examine the source code of `cmpidt.h`.
+ * @platformspecific The underlying data type for the @ref CMPIUint64 type
+ *     depends on the compile platform (see @ref sym-platform). For details,
+ *     examine the source code of `cmpidt.h`.
  */
 #ifndef CMPI_PLATFORM_WIN32_IX86_MSVC
 typedef unsigned long long CMPIUint64;
@@ -264,9 +265,9 @@ typedef signed int CMPISint32;         ///< CIM data type `sint32`.
 /**
  * @brief CIM data type `sint64`.
  *
- * @platformspecific The underlying data type for the
- *     CMPISint64 type depends on the platform (see @ref sym-platform).
- *     For details, examine the source code of `cmpidt.h`.
+ * @platformspecific The underlying data type for the @ref CMPISint64 type
+ *     depends on the compile platform (see @ref sym-platform). For details,
+ *     examine the source code of `cmpidt.h`.
  */
 #ifndef CMPI_PLATFORM_WIN32_IX86_MSVC
 typedef long long CMPISint64;
@@ -381,7 +382,7 @@ typedef union _CMPIValue {
  */
 
 /**
- * @brief An integral bitmask type representing a CMPI type.
+ * @brief A bitmask type representing a CMPI type.
  *
  * @ref CMPIType is used mainly in CMPI data items (see CMPIData)
  * and is also used standalone in some cases.
@@ -425,10 +426,10 @@ typedef unsigned short CMPIType;
 ///     in addition for unsigned integers. For compatibility reasons, this
 ///     cannot be fixed in CMPI 2.x.
 #define CMPI_SINT         ((8+4)<<4)
-#define CMPI_sint8        ((8+4)<<4)    ///< Indicates a CMPIValue.uint8 value
-#define CMPI_sint16       ((8+5)<<4)    ///< Indicates a CMPIValue.uint16 value
-#define CMPI_sint32       ((8+6)<<4)    ///< Indicates a CMPIValue.uint32 value
-#define CMPI_sint64       ((8+7)<<4)    ///< Indicates a CMPIValue.uint64 value
+#define CMPI_sint8        ((8+4)<<4)    ///< Indicates a CMPIValue.sint8 value
+#define CMPI_sint16       ((8+5)<<4)    ///< Indicates a CMPIValue.sint16 value
+#define CMPI_sint32       ((8+6)<<4)    ///< Indicates a CMPIValue.sint32 value
+#define CMPI_sint64       ((8+7)<<4)    ///< Indicates a CMPIValue.sint64 value
 /// Test mask for CIM integer types
 #define CMPI_INTEGER      ((CMPI_UINT|CMPI_SINT))
 
@@ -534,8 +535,8 @@ typedef unsigned short CMPIType;
 #define CMPI_nameString      (CMPI_string | ((16+10)<<8))
 
 // Deprecated: The following symbols are synonyms for other symbols and are
-// defined only for backward compatibility. They are not part of the CMPI
-// Technical Standard, and their use is deprecated.
+// defined only for backwards compatibility. They are not part of the CMPI
+// Standard, and their use is deprecated.
 #ifndef CMPI_NO_SYNONYM_SUPPORT
 #  define CMPI_Byte    CMPI_sint8
 #  define CMPI_Short   CMPI_sint16
@@ -1128,8 +1129,8 @@ typedef struct _CMPIStatus {
 #endif /* CMPI_VER_210 */
 
 // Deprecated: The following symbols are synonyms for other symbols and are
-// defined only for backward compatibility. They are not part of the CMPI
-// Technical Standard, and their use is deprecated.
+// defined only for backwards compatibility. They are not part of the CMPI
+// Standard, and their use is deprecated.
 #ifndef CMPI_NO_SYNONYM_SUPPORT
 #  define CMPI_MB_Class_0                   CMPI_MB_BasicRead
 #  define CMPI_MB_Class_1                   CMPI_MB_BasicWrite
@@ -1137,11 +1138,11 @@ typedef struct _CMPIStatus {
 #endif // CMPI_NO_SYNONYM_SUPPORT
 
 // Deprecated: The following symbols probably represent capability flags that
-// pre-date the first CMPI Technical Standard. Note that some of their values
+// pre-date version 1.0 of the CMPI Standard. Note that some of their values
 // are in conflict with values that are officially defined. These symbols are
 // disabled by default and can be enabled by defining the
 // CMPI_PRE_STANDARD_CAPABILITY_SUPPORT symbol. These symbols are not part of
-// the CMPI Technical Standard, and their use is deprecated.
+// the CMPI Standard, and their use is deprecated.
 #ifdef CMPI_PRE_STANDARD_CAPABILITY_SUPPORT
 #  define CMPI_MB_Supports_PropertyMI         0x00000100
 #  define CMPI_MB_Supports_IndicationMI       0x00000200
@@ -1238,9 +1239,9 @@ typedef enum _CMPILevel {
  * It is defined conditionally, when the @ref CMPI_DEFINE_CMPISelectCondType
  * symbol is defined.
  *
- * @deprecated This enumeration has never been part of the CMPI Technical
- *     Standard; it is defined for backward compatibility of the CMPI header
- *     files, and its use is deprecated.
+ * @deprecated This enumeration has never been part of the CMPI Standard; it is
+ *     defined for backwards compatibility of the CMPI header files, and its use
+ *     is deprecated.
  */
 typedef enum _CMPISelectCondType {
     /** Disjuntion Of Conjunctions */

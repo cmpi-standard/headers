@@ -24,17 +24,18 @@
 
 /**
  * @file cmpipl.h
- * @brief This header verifies that a valid CMPI_PLATFORM_\<xxx\>
- * symbol has been defined; MIs do not need to include this header because it
- * is included by `cmpift.h`.
+ * @brief Verifies that a valid compile platform has been defined.
  *
- * This header file belongs to the Technical Standard: Systems Management:
- * Common Manageability Programming Interface (CMPI) Issue 2 Version 1.
+ * MIs and MBs do not need to include this header file because it is already
+ * included when including the main header file `cmpift.h`.
+ *
+ * This header file belongs to the Open Group Technical Standard: Systems
+ * Management: Common Manageability Programming Interface (CMPI Standard),
+ * Issue 2 Version 1.
  *
  * This header file is provided as a convenience only. In the case of any
- * discrepancy between the header file and the Technical Standard
- * (incorporating any subsequent Technical Corrigenda), the Technical Standard
- * shall be definitive.
+ * discrepancy between the header file and the CMPI Standard (incorporating any
+ * subsequent Technical Corrigenda), the CMPI Standard shall be definitive.
  */
 
 #ifndef _CMPIPL_H_

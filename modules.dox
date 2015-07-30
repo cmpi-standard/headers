@@ -367,9 +367,8 @@
  * @page statusopenpegasus Status for OpenPegasus
  * @brief Implementation and/or test status for OpenPegasus
  *
- * This page lists the implementation and/or test status of convenience
- * functions and MB functions for the OpenPegasus MB, to the extent their
- * descriptions have been annotated accordingly.
+ * This page lists the implementation and/or test status of @ref
+ * convenience-func "CMPI convenience functions" for the OpenPegasus MB.
  */
 
 // Important: If you add page sections for further MBs here, you also need to

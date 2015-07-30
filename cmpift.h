@@ -24,16 +24,18 @@
 
 /**
  * @file cmpift.h
- * @brief Defines the various CMPI structures and function tables;
- * all MIs should include this header.
+ * @brief Main header file for CMPI; Defines CMPI function tables and object
+ *     structures.
  *
- * This header file belongs to the Technical Standard: Systems Management:
- * Common Manageability Programming Interface (CMPI) Issue 2 Version 1.
+ * MIs and MBs should include this main header file.
+ *
+ * This header file belongs to the Open Group Technical Standard: Systems
+ * Management: Common Manageability Programming Interface (CMPI Standard),
+ * Issue 2 Version 1.
  *
  * This header file is provided as a convenience only. In the case of any
- * discrepancy between the header file and the Technical Standard
- * (incorporating any subsequent Technical Corrigenda), the Technical Standard
- * shall be definitive.
+ * discrepancy between the header file and the CMPI Standard (incorporating any
+ * subsequent Technical Corrigenda), the CMPI Standard shall be definitive.
  */
 
 #ifndef _CMPIFT_H_
@@ -2207,12 +2209,11 @@ typedef struct _CMPIBrokerEncFT {
      @changed210 In CMPI 2.1, added the return code `CMPI_RC_ERR_NOT_SUPPORTED`,
          because this function depends on support for the @ref cap-querynorm
          "Query Normalization" capability in the MB.
-     @bug The CMPI Standard document declares the @p projection argument of this
-         function with an incorrect `const` in its type:
-         `const CMPIArray** projection`.
-         This prevents the MB to return the data to this output parameter, and
-         the declaration should be changed to the type `CMPIArray**
-         projection`.
+     @bug The @ref ref-cmpi-standard "CMPI Standard" declares the @p projection
+         argument of this function with an incorrect `const` in its type:
+         `const CMPIArray** projection`. This prevents the MB to return the
+         data to this output parameter, and the declaration should be changed
+         to the type `CMPIArray** projection`.
     */
     CMPISelectExp* (*newSelectExp) (const CMPIBroker* mb, const char* query,
         const char* lang, CMPIArray** projection, CMPIStatus* rc);
@@ -3679,10 +3680,10 @@ typedef struct _CMPIBrokerMemFT {
      @convfunction CMMemMark()
      @capmemory
      @added200
-     @bug The CMPI Standard document has an incorrect statement "Stacked object
-         lifecycle levels shall not overlap.". That is not correct, because
-         nested levels by definition overlap. It should be updated to use the
-         more specific statement from the header file.
+     @bug The @ref ref-cmpi-standard "CMPI Standard" has an incorrect statement
+         "Stacked object lifecycle levels shall not overlap.". That is not
+         correct, because nested levels by definition overlap. It should be
+         updated to use the more specific statement from the header file.
     */
     CMPIGcStat* (*mark) (const CMPIBroker* mb, CMPIStatus* rc);
 
@@ -4002,9 +4003,9 @@ typedef struct _CMPIBrokerMemFT {
      @convfunction CMFreeDateTime()
      @capmemory
      @added200
-     @bug The CMPI Standard document only allows CMPIBrokerEncFT.newDateTime()
-         as a creating function. This is incomplete, and
-         CMPIBrokerEncFT.newDateTimeFromBinary() and
+     @bug The @ref ref-cmpi-standard "CMPI Standard" only allows
+         CMPIBrokerEncFT.newDateTime() as a creating function. This is
+         incomplete, and CMPIBrokerEncFT.newDateTimeFromBinary() and
          CMPIBrokerEncFT.newDateTimeFromChars() are additional functions that
          may have created the object.
     */
@@ -4056,9 +4057,10 @@ typedef struct _CMPIBrokerMemFT {
      @capmemory This function can be implemented only if the @ref cap-querynorm
          "Query Normalization" capability is supported as well.
      @added210
-     @bug The CMPI Standard document misses to document the additional
-         precondition of supporting the Codepage Conversion capability,
-         for implementing this function. That should be added.
+     @bug The @ref ref-cmpi-standard "CMPI Standard" misses to document the
+         additional precondition of supporting the @ref cap-codepage
+         "Codepage Conversion" capability, for implementing this function. That
+         should be added.
     */
     void (*freeChars) (const CMPIBroker* mb, char* chars);
 
@@ -5427,13 +5429,13 @@ typedef struct _CMPIInstanceFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - Invalid arguments.
      @convfunction CMSetPropertyFilter()
      @capfiltering
-     @bug The CMPI Standard document states in the description of the
-         CMPI_RC_ERR_INVALID_PARAMETER return code: "The keyList argument is
-         missing", and the change history states that that return code should
-         not be returned by the MB because the keyList argument is now ignored.
-         That is incorrect, because that return code can also be used to
-         indicate issues in the `properties` argument. The description of that
-         return code in the document should to be updated to match the
+     @bug The @ref ref-cmpi-standard "CMPI Standard" states in the description
+         of the CMPI_RC_ERR_INVALID_PARAMETER return code: "The keyList
+         argument is missing", and the change history states that that return
+         code should not be returned by the MB because the keyList argument is
+         now ignored. That is incorrect, because that return code can also be
+         used to indicate issues in the `properties` argument. The description
+         of that return code in the document should to be updated to match the
          description in the header file: "Invalid arguments.".
     */
     CMPIStatus (*setPropertyFilter) (const CMPIInstance* inst,
@@ -8970,8 +8972,9 @@ typedef struct _CMPIEnumerationFilterFT {
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMFilterMatch()
      @added210
-     @bug The CMPI Standard document misses to define when a filter matches.
-         This should be added, by using the definition from the header file.
+     @bug The @ref ref-cmpi-standard "CMPI Standard" misses to define when a
+         filter matches. This should be added, by using the definition from the
+         header file.
     */
     CMPIBoolean (*match) (const CMPIEnumerationFilter* ef,
         const CMPIInstance* inst, CMPIStatus* rc);
@@ -9090,10 +9093,10 @@ typedef struct _CMPIInstanceMIFT {
          the MB will not retry an unload later unless it shuts down.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMInstanceMIStub()
-     @bug The CMPI Standard document is not specific about the number of
-         invocations of this function when an MI services more than one
-         namespace. It should be updated to state that the function is invoked
-         only once, even if the MI services more than one namespace.
+     @bug The @ref ref-cmpi-standard "CMPI Standard" is not specific about the
+         number of invocations of this function when an MI services more than
+         one namespace. It should be updated to state that the function is
+         invoked only once, even if the MI services more than one namespace.
     */
     CMPIStatus (*cleanup) (CMPIInstanceMI* mi, const CMPIContext* ctx,
         CMPIBoolean terminating);
@@ -10286,9 +10289,9 @@ typedef struct _CMPIAssociationMIFT {
      </TABLE>
      @convfunction CMAssociationMIStub()
      @added210
-     @bug The CMPI Standard document misses to describe the scope of the MI, as
-         described in the second and third paragraph of this function
-         description in the header file. That should be added.
+     @bug The @ref ref-cmpi-standard "CMPI Standard" misses to describe the
+         scope of the MI, as described in the second and third paragraph of
+         this function description in the header file. That should be added.
     */
     CMPIStatus (*associatorsFiltered) (CMPIAssociationMI* mi,
         const CMPIContext* ctx, const CMPIResult* rslt,
@@ -10399,9 +10402,9 @@ typedef struct _CMPIAssociationMIFT {
      </TABLE>
      @convfunction CMAssociationMIStub()
      @added210
-     @bug The CMPI Standard document misses to describe the scope of the MI, as
-         described in the second and third paragraph of this function
-         description in the header file. That should be added.
+     @bug The @ref ref-cmpi-standard "CMPI Standard" misses to describe the
+         scope of the MI, as described in the second and third paragraph of
+         this function description in the header file. That should be added.
     */
     CMPIStatus (*referencesFiltered) (CMPIAssociationMI* mi,
         const CMPIContext* ctx, const CMPIResult* rslt,
@@ -10524,10 +10527,10 @@ typedef struct _CMPIMethodMIFT {
          the MB will not retry an unload later unless it shuts down.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMMethodMIStub()
-     @bug The CMPI Standard document is not specific about the number of
-         invocations of this function when an MI services more than one
-         namespace. It should be updated to state that the function is invoked
-         only once, even if the MI services more than one namespace.
+     @bug The @ref ref-cmpi-standard "CMPI Standard" is not specific about the
+         number of invocations of this function when an MI services more than
+         one namespace. It should be updated to state that the function is
+         invoked only once, even if the MI services more than one namespace.
     */
     CMPIStatus (*cleanup) (CMPIMethodMI* mi, const CMPIContext* ctx,
         CMPIBoolean terminating);
@@ -10746,10 +10749,10 @@ typedef struct _CMPIPropertyMIFT {
      @added200
      @deprecated This function is deprecated since CMPI 2.1, in accord with the
          deprecation of property client operations in DMTF specifications.
-     @bug The CMPI Standard document is not specific about the number of
-         invocations of this function when an MI services more than one
-         namespace. It should be updated to state that the function is invoked
-         only once, even if the MI services more than one namespace.
+     @bug The @ref ref-cmpi-standard "CMPI Standard" is not specific about the
+         number of invocations of this function when an MI services more than
+         one namespace. It should be updated to state that the function is
+         invoked only once, even if the MI services more than one namespace.
     */
     CMPIStatus (*cleanup) (CMPIPropertyMI* mi, const CMPIContext* ctx,
             CMPIBoolean terminating); /*Deprecated*/
@@ -11094,10 +11097,10 @@ typedef struct _CMPIIndicationMIFT {
          the MB will not retry an unload later unless it shuts down.
      @li `CMPI_RC_ERR_FAILED` - Other error occurred.
      @convfunction CMIndicationMIStub()
-     @bug The CMPI Standard document is not specific about the number of
-         invocations of this function when an MI services more than one
-         namespace. It should be updated to state that the function is invoked
-         only once, even if the MI services more than one namespace.
+     @bug The @ref ref-cmpi-standard "CMPI Standard" is not specific about the
+         number of invocations of this function when an MI services more than
+         one namespace. It should be updated to state that the function is
+         invoked only once, even if the MI services more than one namespace.
     */
     CMPIStatus (*cleanup) (CMPIIndicationMI* mi, const CMPIContext* ctx,
             CMPIBoolean terminating);
@@ -11214,10 +11217,11 @@ typedef struct _CMPIIndicationMIFT {
      @convfunction CMIndicationMIStub()
      @incompatible210 In CMPI 2.1, the @p rslt argument was added to the
          declaration of this function in the header file, in order to get the
-         header files consistent with the CMPI Standard document, which always
-         had this argument documented. It is believed that this function could
-         not have been used without that argument, and that users of the
-         function would have added the argument already.
+         header files consistent with the @ref ref-cmpi-standard
+         "CMPI Standard", which always had this argument documented. It is
+         believed that this function could not have been used without that
+         argument, and that users of the function would have added the argument
+         already.
      @deprecated This function is deprecated since CMPI 2.1,
          because the concept of indication polling has been deprecated in
          CMPI 2.1.
