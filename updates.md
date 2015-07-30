@@ -18,6 +18,11 @@
 * Added doxygen_cmpi.css as an extra CSS file for Doxygen. The initial version
   fixes the incorrect indentation of the section headings created by
   user-defined @xrefitem commands (e.g. @added200).
+* Removed the @changed210 item from CMClassPathIsA(); it only talked about
+  fixing the description and renaming an argument - we did that many times for
+  the convenience functions, without mentioning it as a change.
+* Added the CMPI version of the change to some uses of the @changed210 command.
+* Editorial changes in standard text for @requiredXXX commands.
 
 25 July - Andy
 --------------

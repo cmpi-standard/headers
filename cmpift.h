@@ -2456,7 +2456,7 @@ typedef struct _CMPIBrokerEncFT {
      @convfunction CMLogMessage()
      @caplogging
      @changed210 In CMPI 2.1, fixed inconsistencies in presence and
-         definition of @p severity by changing its type from `int` to @ref
+         definition of @p severity by changing its type from **int** to @ref
          CMPISeverity. This is a compatible change for MIs.
     */
     CMPIStatus (*logMessage) (const CMPIBroker* mb, int severity,
@@ -2492,7 +2492,7 @@ typedef struct _CMPIBrokerEncFT {
      @convfunction CMTraceMessage()
      @captracing
      @changed210 In CMPI 2.1, fixed inconsistencies in presence and
-         definition of @p level by changing its type from `int` to @ref
+         definition of @p level by changing its type from **int** to @ref
          CMPILevel. This is a compatible change for MIs.
     */
     CMPIStatus (*trace) (const CMPIBroker* mb, CMPILevel level,

@@ -230,8 +230,8 @@
  * If this capability is supported, the entities in the following list shall be
  * supported; otherwise, they shall not be supported.
  *
- * @changed210 Added the @ref CMPI_MB_Logging test mask; the capability itself
- *     existed since CMPI 1.0.
+ * @changed210 In CMPI 2.1, added the @ref CMPI_MB_Logging test mask;
+ *     the capability itself existed since CMPI 1.0.
  */
 
 /**
@@ -247,8 +247,8 @@
  * If this capability is supported, the entities in the following list shall be
  * supported; otherwise, they shall not be supported.
  *
- * @changed210 Added the @ref CMPI_MB_Tracing test mask; the capability itself
- *     existed since CMPI 1.0.
+ * @changed210 In CMPI 2.1, added the @ref CMPI_MB_Tracing test mask;
+ *     the capability itself existed since CMPI 1.0.
  */
 
 /**
@@ -266,8 +266,8 @@
  * If this capability is supported, the entities in the following list shall be
  * supported; otherwise, they shall not be supported.
  *
- * @changed210 Added the @ref CMPI_MB_PropertyFiltering test mask; the
- *     capability itself existed since CMPI 1.0.
+ * @changed210 In CMPI 2.1, added the @ref CMPI_MB_PropertyFiltering test mask;
+ *     the capability itself existed since CMPI 1.0.
  */
 
 /**

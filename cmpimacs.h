@@ -2285,7 +2285,7 @@ static inline CMPIStatus CMGetPredicateData(
     @retval false The properties returned by the accessor function do not match
         the predicate.
     @fulldescription CMPIPredicateFT.evaluateUsingAccessor()
-    @changed210 In CMPI 2.1, the return type of ths function has been changed
+    @changed210 In CMPI 2.1, the return type of this function has been changed
         from **int** to @ref CMPIBoolean.
     @statusopenpegasus TBD
     @hideinitializer
@@ -4376,8 +4376,6 @@ static inline CMPIEnumerationFilter *CMNewEnumerationFilter(
     @retval false The class path is not of the specified class nor any of that
         class's subclasses.
     @fulldescription CMPIBrokerEncFT.classPathIsA()
-    @changed210 The className argument was named type and documented incorrectly
-        prior to CMPI 2.1. However, the code did execute correctly.
     @statusopenpegasus Not tested
     @hideinitializer
 */

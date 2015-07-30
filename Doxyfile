@@ -244,8 +244,8 @@ ALIASES += "added210=\n@xrefitem added210 \"Addition\" \"Added in CMPI 2.1\" Add
 # standard text is automatically generated, the usage needs to specify only
 # text in addition to the standard text.  Their list will be linked from the
 # "Related Pages" tab:
-ALIASES += "required200=\n@xrefitem required200 \"Requirement Change\" \"Required since CMPI 2.0\" Required to be supported since CMPI 2.0"
-ALIASES += "required210=\n@xrefitem required210 \"Requirement Change\" \"Required since CMPI 2.1\" Required to be supported since CMPI 2.1"
+ALIASES += "required200=\n@xrefitem required200 \"Requirement Change\" \"Required since CMPI 2.0\" Required to be supported since CMPI 2.0."
+ALIASES += "required210=\n@xrefitem required210 \"Requirement Change\" \"Required since CMPI 2.1\" Required to be supported since CMPI 2.1."
 
 # The following alias defines @changedNNN special commands that are used to
 # indicate that an entity was changed in CMPI N.N.N.
