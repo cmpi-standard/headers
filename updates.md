@@ -13,6 +13,8 @@
 * Fixed incorrect uint description of sint type masks (e.g. CMPI_sint8).
 * Changed all #include statements to use angle brackets instead of double
   quotes.
+* Finalized decision from WG call to let the @fulldescription and @convfunction
+  commands be a simple section without a cross reference item.
 
 25 July - Andy
 --------------

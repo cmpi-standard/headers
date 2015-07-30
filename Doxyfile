@@ -280,17 +280,12 @@ ALIASES += "capcontext=\n@xrefitem capcontext \"Capabilities\" \"Context Data MB
 
 # The following alias defines a @fulldescription special command that is used
 # to link from the (abbridged) description of a convenience function to the
-# full description in the underlying MB function. Their list will be linked from
-# the "Related Pages" tab.
-#TODO: Remove following line once decided to stay with paragraphs.
-#ALIASES += "fulldescription=\n@xrefitem fulldescription \"Full Description\" \"Full Descriptions\""
+# full description in the underlying MB function.
 ALIASES += "fulldescription=\n@par Full Description\n"
 
 # The following alias defines a @convfunction special command that is used
 # to link from the description of a MB function or other entity to its
-# convenience function. Their list will be linked from the "Related Pages" tab.
-#TODO: Remove following line once decided to stay with paragraphs.
-#ALIASES += "convfunction=\n@xrefitem convfunction \"Convenience Function\" \"Convenience Functions\""
+# convenience function.
 ALIASES += "convfunction=\n@par Convenience Function\n"
 
 # The following alias defines a @examples special command that is used

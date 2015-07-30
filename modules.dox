@@ -347,22 +347,6 @@
  * For details, the respective CMPI header file needs to be examined.
  */
 
-/* TODO: Remove once decided to stay with paragraphs (see Doxyfile).
- * @page fulldescription Full Descriptions
- * @brief Full descriptions linked from convenience function descriptions
- *
- * This page lists the full descriptions that are linked from the abbridged
- * descriptions of the convenience functions.
- */
-
-/* TODO: Remove once decided to stay with paragraphs (see Doxyfile).
- * @page convfunction Convenience Functions
- * @brief Convenience functions linked from MB functions and other entities
- *
- * This page lists the convenience functions that are linked from the
- * MB functions and other entities.
- */
-
 /**
  * @page statusopenpegasus Status for OpenPegasus
  * @brief Implementation and/or test status for OpenPegasus

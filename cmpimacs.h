@@ -4819,7 +4819,7 @@ static inline CMPIStatus CMMemRelease(
     struct InstanceMIHdl {
         char *buffer;           // some character buffer
     };
-    
+
     static const CMPIBroker *_broker;
 
     static CMPIStatus MyProvInstanceInitialize(
