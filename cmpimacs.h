@@ -3651,8 +3651,10 @@ static inline CMPIEnumeration *CBReferenceNames(
     @statusopenpegasus TBD
     @hideinitializer
 
-    @todo TBD AM: I think the CMRelease() is incorrect, because the
-        object is not a result of CMClone().
+    @todo TODO_KS AM: I think the CMRelease() is incorrect, because the
+        object is not a result of CMClone().@n
+        Karl to verify whether the using release() on objects
+        resulting from newXXX() does any harm in the OpenPegasus implementation.
 */
 #ifdef CMPI_NO_INLINE
 #define CBInvokeMethod(mb, ctx, objPath, method, in, out, rc) \
@@ -5490,10 +5492,10 @@ static inline void CMFreeChars(
     @hideinitializer
 
     @todo TBD KS: We have first cut at example.  Is this the way to go or would
-        we be better with complete provider in an examples section?@n AM: I
-        think the example is good enough for the factory function. What would
-        be good to have are the actual provider functions, somewhere. That is
-        too much for this particular macro.
+        we be better with complete provider in an examples section?@n
+        AM: I think the example is good enough for the factory function. What
+        would be good to have are examples for the actual provider functions,
+        somewhere. That is too much for the example of this particular macro.
 */
 #define CMInstanceMIStub(pfx, miname, mbvar, hook) \
 static CMPIInstanceMIFT instMIFT__ = { \
@@ -5549,7 +5551,7 @@ CMPI_EXTERN_C CMPIInstanceMI * miname##_Create_InstanceMI( \
     functions. Those functions that are not going to be implemented, still need
     to be provided and implemented by returning @ref CMPI_RC_ERR_NOT_SUPPORTED.
 
-    While the generated function table is a global variable in the MI file
+    While the gtenerated function table is a global variable in the MI file
     calling this macro, it should not be accessed directly by any MI code or in
     the code specified by the @p hook argument. Instead, the CMInitHook() macro
     should be used.
@@ -5661,7 +5663,7 @@ CMPI_EXTERN_C CMPIInstanceMI * miname##_Create_InstanceMI( \
 
     @todo TBD KS: Need note about creating function that parallel others but
         with cap@n
-        AM: ??
+        Karl to figure out what that comment means.
 */
 #define CMAssociationMIStub(pfx, miname, mbvar, hook) \
 static CMPIAssociationMIFT assocMIFT__ = { \
