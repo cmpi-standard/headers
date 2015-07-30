@@ -3,6 +3,9 @@ LIST OF TODOs for CMPI header file Documentation
 
 * TODO Karl: Test against a build.
 
+* TODO Karl: Verify whether there are any remaining issues with using <> for
+  the #include statements in the CMPI header files.
+
 * DONE? Karl: Clean up cmpimacs.
 
   Status: Most links from macs back in place but not all working.  Many of the
