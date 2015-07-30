@@ -4555,7 +4555,7 @@ static inline CMPIStatus CMLogMessage(
         CMPILevel.
     @param component If not NULL, MI implementation-specific component ID.
     @param text If not NULL, message text to be traced.
-    @param string If not NULL, message text to be logged. @p string will be
+    @param string If not NULL, message text to be traced. @p string will be
         ignored when @p text is not NULL.
     @return Function return status.
     @fulldescription CMPIBrokerEncFT.trace()
