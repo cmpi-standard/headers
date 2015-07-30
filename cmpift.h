@@ -56,7 +56,7 @@ extern "C" {
  */
 
 /**
- @defgroup mi-factory-specific MI-specific MI factory function.
+ @defgroup mi-factory-specific MI-specific MI factory function
 
  <b>@ref CMPI_EXTERN_C CMPI\<mitype\>MI* \<miname\>_Create_\<mitype\>MI(
  const @ref CMPIBroker* mb, const @ref CMPIContext* ctx,
@@ -125,7 +125,7 @@ extern "C" {
 */
 
 /**
- @defgroup mi-factory-generic Generic MI factory function.
+ @defgroup mi-factory-generic Generic MI factory function
 
  <b>@ref CMPI_EXTERN_C CMPI\<mitype\>MI* _Generic_Create_\<mitype\>MI(
  const @ref CMPIBroker* mb, const @ref CMPIContext* ctx, const char* miName,
