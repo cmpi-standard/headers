@@ -4568,7 +4568,7 @@ static inline CMPIStatus CMLogMessage(
     @changed210 In CMPI 2.1, fixed inconsistencies in presence and
         definition of @p level by changing its type from **int** to @ref
         CMPILevel. This is a compatible change for MIs.
-    @statusopenpegasus Tested in cmpiTestMethodProvider.c.
+    @statusopenpegasus Tested in cmpiTestMethodProvider.c
     @hideinitializer
 */
 #ifdef CMPI_NO_INLINE
