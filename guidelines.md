@@ -381,14 +381,20 @@ Order of sections
     more text into the brief description.
 
   - @see and @note sometimes require an empty line before it, otherwise it may
-    become a nested section under the previous section. Examples for commands
-    that require an empty line before them, are @deprecated, and ???.
+    become a nested section under the previous section. This seems to depend on
+    the section command that is used before @see and @note. For example, the
+    use of @deprecated before @see or @note requires an empty line between
+    them.
 
 Other
 -----
 
-* @brief needs a period at the end of a sentence, and an empty line following
-  it.
+* @brief needs an empty line following it, in order to end the brief
+  description. Having a period at the end of the brief description without an
+  empty line following it, is not sufficient to end the brief description.
+
+  We use a period at the end of the brief description, and an empty line
+  following it.
 
 * We use @li for list items, particularly for function status.
 
