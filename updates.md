@@ -15,6 +15,9 @@
   quotes.
 * Finalized decision from WG call to let the @fulldescription and @convfunction
   commands be a simple section without a cross reference item.
+* Added doxygen_cmpi.css as an extra CSS file for Doxygen. The initial version
+  fixes the incorrect indentation of the section headings created by
+  user-defined @xrefitem commands (e.g. @added200).
 
 25 July - Andy
 --------------

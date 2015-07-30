@@ -1,0 +1,41 @@
+/*
+ * A CSS file for the CMPI header files, that adds or overrides statements from
+ * the standard CSS for Doxygen. It is enabled using the HTML_EXTRA_STYLESHEET
+ * parameter in the Doxyfile.
+ */
+
+/*
+ * Corrected padding (0 instead of 10 for padding-left) for DLs created for
+ * special commands that are cross references. This list must be consistent with
+ * the "ALIASES += ...@xrefitem..." definitions in the Doxyfile.
+ */
+dl.platformspecific,
+dl.cxxspecific,
+dl.added200,
+dl.added210,
+dl.required200,
+dl.required210,
+dl.changed210,
+dl.incompatible210,
+dl.capread,
+dl.capwrite,
+dl.capmanipulation,
+dl.capassociations,
+dl.capqueryexec,
+dl.capquerynorm,
+dl.capqualifiers,
+dl.capindications,
+dl.capopsys,
+dl.capmemory,
+dl.caperrors,
+dl.caplogging,
+dl.captracing,
+dl.capfiltering,
+dl.capcodepage,
+dl.captranslation,
+dl.capcontext,
+dl.statusopenpegasus
+{
+    margin-left: 0px;
+    padding-left: 0px;
+}
