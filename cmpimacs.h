@@ -4526,6 +4526,9 @@ static inline CMPIString *CDGetType(
                  "Entering EnumerateInstance", NULL);
     @endcode
     @fulldescription CMPIBrokerEncFT.logMessage()
+    @changed210 In CMPI 2.1, fixed inconsistencies in presence and
+        definition of @p severity by changing its type from **int** to @ref
+        CMPISeverity. This is a compatible change for MIs.
     @statusopenpegasus Tested in cmpiTestMethodProvider.c
     @hideinitializer
 */
@@ -4535,7 +4538,7 @@ static inline CMPIString *CDGetType(
 #else
 static inline CMPIStatus CMLogMessage(
     const CMPIBroker *mb,
-    int severity,
+    CMPISeverity severity,
     const char *id,
     const char *text,
     const CMPIString *string)
@@ -4562,9 +4565,11 @@ static inline CMPIStatus CMLogMessage(
     CMPIString *str = CMNewString(_broker, "CMTraceMessage", &rc);
     rc = CMTraceMessage(_broker, 4, "Authorization", NULL, str);
     @endcode
-    @statusopenpegasus Tested in cmpiTestMethodProvider.c. Uses CMPILevel as
+    @changed210 In CMPI 2.1, fixed inconsistencies in presence and
+        definition of @p level by changing its type from **int** to @ref
+        CMPILevel. This is a compatible change for MIs.
+    @statusopenpegasus Tested in cmpiTestMethodProvider.c.
     @hideinitializer
-        type, not int.
 */
 #ifdef CMPI_NO_INLINE
 #define CMTraceMessage(mb, level, component, text, string)  \
@@ -4572,7 +4577,7 @@ static inline CMPIStatus CMLogMessage(
 #else
 static inline CMPIStatus CMTraceMessage(
     const CMPIBroker *mb,
-    int level,
+    CMPILevel level,
     const char *component,
     const char *text,
     const CMPIString *string)

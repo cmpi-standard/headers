@@ -2459,7 +2459,7 @@ typedef struct _CMPIBrokerEncFT {
          definition of @p severity by changing its type from **int** to @ref
          CMPISeverity. This is a compatible change for MIs.
     */
-    CMPIStatus (*logMessage) (const CMPIBroker* mb, int severity,
+    CMPIStatus (*logMessage) (const CMPIBroker* mb, CMPISeverity severity,
         const char* id, const char* text, const CMPIString* string);
 
     /**

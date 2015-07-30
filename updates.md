@@ -24,6 +24,13 @@
 * Added the CMPI version of the change to some uses of the @changed210 command.
 * Editorial changes in standard text for @requiredXXX commands.
 * Editorial changes in the description of capabilities and compile platform.
+* In CMPIBrokerEncFT.logMessage(), fixed an inconsistency with the spec by
+  changing the type of the severity argument from int to CMPISeverity. A change
+  description already existed.
+* In CMLogMessage(), changed type of severity argument from int to CMPISeverity,
+  to be consistent with the underlying MB function CMPIBrokerEncFT.logMessage().
+* In CMTraceMessage(), changed type of level argument from int to CMPILevel,
+  to be consistent with the underlying MB function CMPIBrokerEncFT.trace().
 
 25 July - Andy
 --------------
