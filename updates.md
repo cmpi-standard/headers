@@ -31,6 +31,8 @@
   to be consistent with the underlying MB function CMPIBrokerEncFT.logMessage().
 * In CMTraceMessage(), changed type of level argument from int to CMPILevel,
   to be consistent with the underlying MB function CMPIBrokerEncFT.trace().
+* Made description of header files on main page consistent with their own
+  description.
 
 25 July - Andy
 --------------

@@ -71,19 +71,20 @@ of C99 are used in the CMPI header files.
 
 The CMPI header files are:
 
-  * `cmpift.h` - The main CMPI include file. It defines the various CMPI
-    structures and function tables. All
-    MIs and MBs should include this header; it is included by `cmpimacs.h`.
-  * `cmpimacs.h` - CMPI convenience functions to ease the use of the various
-    function tables. MIs must include this header if they want to use these
-    functions.
-  * `cmpidt.h` - Defines CMPI data types; it is included by `cmpift.h` and
-    `cmpimacs.h`.
-  * `cmpios.h` - OS-specific defines for threading structures, etc.; it is
-    included by `cmpift.h`.
-  * `cmpipl.h` - Platform checker that verifies that a valid compile platform
-    (@ref sym-platform "CMPI_PLATFORM_\<xxx\>" symbol) has been defined; it is
-    included by `cmpidt.h` and `cmpios.h`.
+  * `cmpift.h` - Main header file for CMPI; Defines CMPI function tables and
+    object structures. MIs and MBs should include this main header file.
+  * `cmpimacs.h` - Defines @ref convenience-func "CMPI convenience functions"
+    that ease the use of the various function tables. MIs that intend to use the
+    convenience functions need to include this header file.
+  * `cmpidt.h` - Defines CMPI data types.
+    MIs and MBs do not need to include this header file because it is already
+    included when including the main header file `cmpift.h`.
+  * `cmpios.h` - Defines OS-specific symbols for threading structures, etc.
+    MIs and MBs do not need to include this header file because it is already
+    included when including the main header file `cmpift.h`.
+  * `cmpipl.h` - Verifies that a valid compile platform has been defined.
+    MIs and MBs do not need to include this header file because it is already
+    included when including the main header file `cmpift.h`.
 
 For the benefit of developers, copies of these header files are downloadable
 from the CMPI website
