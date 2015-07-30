@@ -41,8 +41,8 @@
 #ifndef _CMPIDT_H_
 #define _CMPIDT_H_
 
-#include "cmpipl.h"
-#include "cmpios.h"
+#include <cmpipl.h>
+#include <cmpios.h>
 
 #ifdef __cplusplus
 extern "C" {

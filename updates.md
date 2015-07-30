@@ -11,6 +11,8 @@
 * Simplified the description which headers should be included and which not.
 * Reordered definitions ov CMPI_VER_XXX to be from old to new.
 * Fixed incorrect uint description of sint type masks (e.g. CMPI_sint8).
+* Changed all #include statements to use angle brackets instead of double
+  quotes.
 
 25 July - Andy
 --------------

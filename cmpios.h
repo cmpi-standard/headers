@@ -41,7 +41,7 @@
 #ifndef _CMPIOS_H_
 #define _CMPIOS_H_
 
-#include "cmpipl.h"
+#include <cmpipl.h>
 
 #include <stdlib.h>          // To get size_t
 
