@@ -30,26 +30,3 @@ LIST OF TODOs for CMPI header file Documentation
   seems to be possible to use Doxygen there. They clone the repo and build the
   docs for themselves, as an automated process.
   The repo has to be public.
-
-  KS: For some reason, (I have not received an answer that makes sense)
-  OpenGroup was opposed to putting the headers on github so my guess is that
-  they have issues with this also. His comment was:
-
-  - Response from M.Kirk about using github:
-
-    We have just conducted a small experiment with using Github for development
-    in another Forum, and the problem is that it puts it outside of our SSO
-    environment, and that makes it difficult for meeting our rules on access to
-    all Open Group members.
-
-    I would therefore counsel against this.
-
-    regards,
-
-    Martin
-
-  Therefore I am going elsewhere in OpenGroup to see if we can get better
-  answer.
-
-  Suggestion create the project in github and readthedocs and let OpenGroup
-  actively disagree.
