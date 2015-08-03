@@ -1,6 +1,7 @@
 *.zip
 latex/
 html/
+xml/
 *.log
 trials/
 *.o
