@@ -3,7 +3,6 @@ latex/
 html/
 xml/
 _build/
-sphinx-ext/
 sphinx/
 doxygen/
 *.log
