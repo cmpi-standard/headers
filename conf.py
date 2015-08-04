@@ -126,7 +126,15 @@ language = None
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = [DOXYGEN_OUTDIR, '_build', '_static', '_templates']
+# Note that *.md files are always used, even when source_suffix does not
+# specify them. Therefore, we make sure development documentation stays in
+# a separate subdirectory, and specific github files are excluded as well.
+exclude_patterns = [
+    DOXYGEN_OUTDIR,                       # Doxygen output subtree
+    '_build', '_static', '_templates',    # Sphinx output directories
+    'dev',                                # Documentation for development in WG
+    'README.md', 'LICENSE.md',            # Documentation for github
+]
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
