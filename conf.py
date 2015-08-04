@@ -307,6 +307,8 @@ breathe_default_project = "cmpi-headers"
 
 # -- Running Doxygen ------------------------------------------------------
 
+print("Debug: In conf.py: CWD=%s" % os.getcwd())
+
 read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
 if read_the_docs_build:
     # We run on readthedocs.org.
