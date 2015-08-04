@@ -1,8 +1,8 @@
 CMPI header files
 =================
 
-The [cmpi-headers project on GitHub](https://github.com/cmpi-wg/cmpi-headers)
-maintains the C/C++ header files of the OpenGroup CMPI Standard.
+This Github project maintains the C/C++ header files of the OpenGroup CMPI
+Standard.
 
 CMPI stands for "Common Manageability Programming Interface" and is a C-language
 API between a Management Broker (aka CIMOM) and Management Instrumentation (aka
@@ -37,8 +37,7 @@ Feedback and contributions
 --------------------------
 
 Feedback on the CMPI header files is welcome. Please provide any feedback via
-the issue tracker of the
-[cmpi-headers project on GitHub](https://github.com/cmpi-wg/cmpi-headers).
+the [issue tracker](./issues) of this Github project.
 
 Contributions to the CMPI header files are welcome as well, specifically
 contributions to the examples in the function descriptions of the header files.
