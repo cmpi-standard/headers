@@ -12,7 +12,7 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-from __future__ import print_function
+from __future__ import print_function, absolute_import
 import sys
 import os
 import shlex
@@ -48,7 +48,7 @@ def run(command, folder=None):
         print_err("Error: Command '%s' failed: %s" % (cmd, exc))
     except Exception as exc:
         print_err("Error: subprocess.call for command '%s' raised %s: %s" % \
-                  (cmd, exc.type, exc))
+                  (cmd, exc.__class__.__name__, exc))
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -328,34 +328,50 @@ texinfo_documents = [
 
 # -- Breathe extension ----------------------------------------------------
 
-# Download the Breathe 4.0.0 tarball from PyPi and expand it into ./sphinx-ext/,
-# so that the 'breathe' module is found in the following path:
-sys.path.append("sphinx-ext/breathe-4.0.0")
-
 breathe_projects = {
     "cmpi-headers": "doxygen/xml/"
 }
 breathe_default_project = "cmpi-headers"
 
-
 # -- Running Doxygen ------------------------------------------------------
 
 print_err("Debug: In conf.py: CWD=%s" % os.getcwd())
-print_err("Debug: In conf.py: sys.path=%s" % sys.path)
+print_err("Debug: In conf.py: sys.path=")
+for p in sys.path:
+    print_err("  %s" % p)
 
 read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
 
 if read_the_docs_build:
     # We run on readthedocs.org.
 
+    print_err("Debug: Importing breathe in ReadTheDocs environment")
+    try:
+        import breathe
+    except Exception as exc:
+        print_err("Error: Importing breathe raised %s: %s" % \
+                  (exc.__class__.__name__, exc))
+    else:
+        print_err("Debug: Module breathe was found in: %s" % breathe.__file__)
+
     print_err("Debug: Calling Doxygen in ReadTheDocs environment")
-    # run('ls -l ../doxygen')
-    run('which doxygen')
     run('doxygen')
 
 else:
     # We run locally.
 
+    # Download the Breathe 4.0.0 tarball from PyPi and expand it into ./sphinx-ext/,
+    # so that the 'breathe' module is found in the following path:
+    sys.path.append("sphinx-ext/breathe-4.0.0")
+
+    print_err("Debug: Importing breathe in local environment")
+    try:
+        import breathe
+    except Exception as exc:
+        print_err("Error: Importing breathe raised %s: %s" % \
+                  (exc.__class__.__name__, exc))
+    else:
+        print_err("Debug: Module breathe was found in: %s" % breathe.__file__)
+
     print_err("Debug: Calling Doxygen in local environment")
-    run('which doxygen')
     run('doxygen')
