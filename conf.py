@@ -22,7 +22,7 @@ import subprocess, os
 def print_err(*objs):
     print(*objs, file=sys.stderr)
     sys.stderr.flush()
-  
+
 def run(command, folder=None):
     """Run the command in the designated folder (default: current directory)."""
     if folder is not None:
@@ -32,17 +32,24 @@ def run(command, folder=None):
     print_err("Debug: Invoking command '%s'" % cmd)
     try:
         retcode = subprocess.call(cmd, shell=True)
-        if retcode < 0:
+        if retcode == 0:
+            print_err("Debug: Command '%s' succeeded" % cmd)
+        elif retcode < 0:
+            # old way?
             print_err("Error: Command '%s' terminated by signal %s" % \
                       (cmd, -retcode))
+        elif retcode > 128:
+            # current Python 2.7 way: return 128+N
+            print_err("Error: Command '%s' terminated by signal %s" % \
+                      (cmd, retcode-128))
+        else:
+            print_err("Error: Command '%s' returns rc=%s" % (cmd, retcode))
     except OSError as exc:
         print_err("Error: Command '%s' failed: %s" % (cmd, exc))
     except Exception as exc:
-        print_err("Error: Command '%s' failed with exception %s" % \
-                  (cmd, exc.type))
-    else:
-        print_err("Debug: Command '%s' succeeded" % cmd)
-        
+        print_err("Error: subprocess.call for command '%s' raised %s: %s" % \
+                  (cmd, exc.type, exc))
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -334,6 +341,7 @@ breathe_default_project = "cmpi-headers"
 # -- Running Doxygen ------------------------------------------------------
 
 print_err("Debug: In conf.py: CWD=%s" % os.getcwd())
+print_err("Debug: In conf.py: sys.path=%s" % sys.path)
 
 read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
 
@@ -341,10 +349,10 @@ if read_the_docs_build:
     # We run on readthedocs.org.
 
     print_err("Debug: Calling Doxygen in ReadTheDocs environment")
-    run('ls -l ../doxygen')
+    # run('ls -l ../doxygen')
     run('which doxygen')
-    run('doxygen', '../doxygen')
-      
+    run('doxygen')
+
 else:
     # We run locally.
 
