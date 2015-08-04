@@ -312,12 +312,16 @@ print("Debug: In conf.py: CWD=%s" % os.getcwd())
 read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
 if read_the_docs_build:
     # We run on readthedocs.org.
-    print("Debug: ls -l ../doxygen:" % os.getcwd())
+    print("Debug: ls -l ../doxygen:")
+    sys.stdout.flush()
     subprocess.call('ls -l ../doxygen', shell=True)
     print("Debug: Calling Doxygen in ReadTheDocs environment")
+    sys.stdout.flush()
     subprocess.call('cd ../doxygen; doxygen', shell=True)
 else:
     # We run locally.
     print("Debug: Calling Doxygen in local environment")
+    sys.stdout.flush()
     subprocess.call('doxygen', shell=True)
 print("Debug: Doxygen done")
+sys.stdout.flush()
