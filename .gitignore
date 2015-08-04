@@ -8,3 +8,4 @@ doxygen/
 *.log
 trials/
 *.o
+*.pyc
