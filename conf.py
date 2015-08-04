@@ -362,7 +362,7 @@ else:
 
     # Download the Breathe 4.0.0 tarball from PyPi and expand it into ./sphinx-ext/,
     # so that the 'breathe' module is found in the following path:
-    sys.path.append("sphinx-ext/breathe-4.0.0")
+    # sys.path.append("sphinx-ext/breathe-4.0.0")
 
     print_err("Debug: Importing breathe in local environment")
     try:
