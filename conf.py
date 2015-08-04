@@ -18,10 +18,15 @@ import os
 import shlex
 import subprocess, os
 
+DEBUG = True           # Controls the printing of debug messages 
 
 def print_err(*objs):
     print(*objs, file=sys.stderr)
     sys.stderr.flush()
+
+def print_out(*objs):
+    print(*objs, file=sys.stdout)
+    sys.stdout.flush()
 
 def run(command, folder=None):
     """Run the command in the designated folder (default: current directory)."""
@@ -29,11 +34,13 @@ def run(command, folder=None):
         cmd = "cd %s; %s" % (folder, command)
     else:
         cmd = command
-    print_err("Debug: Invoking command '%s'" % cmd)
+    if DEBUG:
+        print_out("Debug: Invoking command '%s'" % cmd)
     try:
         retcode = subprocess.call(cmd, shell=True)
         if retcode == 0:
-            print_err("Debug: Command '%s' succeeded" % cmd)
+            if DEBUG:
+                print_out("Debug: Command '%s' succeeded" % cmd)
         elif retcode < 0:
             # old way?
             print_err("Error: Command '%s' terminated by signal %s" % \
@@ -335,26 +342,20 @@ breathe_default_project = "cmpi-headers"
 
 # -- Running Doxygen ------------------------------------------------------
 
-print_err("Debug: In conf.py: CWD=%s" % os.getcwd())
-print_err("Debug: In conf.py: sys.path=")
-for p in sys.path:
-    print_err("  %s" % p)
+if DEBUG:
+    print_out("Debug: In conf.py: CWD=%s" % os.getcwd())
+    print_out("Debug: In conf.py: sys.path=")
+    for p in sys.path:
+        print_out("  %s" % p)
 
 read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
 
 if read_the_docs_build:
     # We run on readthedocs.org.
 
-    print_err("Debug: Importing breathe in ReadTheDocs environment")
-    try:
-        import breathe
-    except Exception as exc:
-        print_err("Error: Importing breathe raised %s: %s" % \
-                  (exc.__class__.__name__, exc))
-    else:
-        print_err("Debug: Module breathe was found in: %s" % breathe.__file__)
-
-    print_err("Debug: Calling Doxygen in ReadTheDocs environment")
+    print_out("Calling Doxygen in ReadTheDocs environment")
+    if not os.path.isdir("doxygen"):
+        run('mkdir doxygen')
     run('doxygen')
 
 else:
@@ -364,14 +365,7 @@ else:
     # so that the 'breathe' module is found in the following path:
     # sys.path.append("sphinx-ext/breathe-4.0.0")
 
-    print_err("Debug: Importing breathe in local environment")
-    try:
-        import breathe
-    except Exception as exc:
-        print_err("Error: Importing breathe raised %s: %s" % \
-                  (exc.__class__.__name__, exc))
-    else:
-        print_err("Debug: Module breathe was found in: %s" % breathe.__file__)
-
-    print_err("Debug: Calling Doxygen in local environment")
+    print_out("Calling Doxygen in local environment")
+    if not os.path.isdir("doxygen"):
+        run('mkdir doxygen')
     run('doxygen')

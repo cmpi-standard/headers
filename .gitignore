@@ -1,11 +1,9 @@
-*.zip
-latex/
-html/
-xml/
 _build/
-sphinx/
+_static/
+_templates/
 doxygen/
-*.log
 trials/
+*.zip
+*.log
 *.o
 *.pyc
