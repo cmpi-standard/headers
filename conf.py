@@ -12,11 +12,37 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
+from __future__ import print_function
 import sys
 import os
 import shlex
 import subprocess, os
 
+
+def print_err(*objs):
+    print(*objs, file=sys.stderr)
+    sys.stderr.flush()
+  
+def run(command, folder=None):
+    """Run the command in the designated folder (default: current directory)."""
+    if folder is not None:
+        cmd = "cd %s; %s" % (folder, command)
+    else:
+        cmd = command
+    print_err("Debug: Invoking command '%s'" % cmd)
+    try:
+        retcode = subprocess.call(cmd, shell=True)
+        if retcode < 0:
+            print_err("Error: Command '%s' terminated by signal %s" % \
+                      (cmd, -retcode))
+    except OSError as exc:
+        print_err("Error: Command '%s' failed: %s" % (cmd, exc))
+    except Exception as exc:
+        print_err("Error: Command '%s' failed with exception %s" % \
+                  (cmd, exc.type))
+    else:
+        print_err("Debug: Command '%s' succeeded" % cmd)
+        
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -307,21 +333,21 @@ breathe_default_project = "cmpi-headers"
 
 # -- Running Doxygen ------------------------------------------------------
 
-print("Debug: In conf.py: CWD=%s" % os.getcwd())
+print_err("Debug: In conf.py: CWD=%s" % os.getcwd())
 
 read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
+
 if read_the_docs_build:
     # We run on readthedocs.org.
-    print("Debug: ls -l ../doxygen:")
-    sys.stdout.flush()
-    subprocess.call('ls -l ../doxygen', shell=True)
-    print("Debug: Calling Doxygen in ReadTheDocs environment")
-    sys.stdout.flush()
-    subprocess.call('cd ../doxygen; doxygen', shell=True)
+
+    print_err("Debug: Calling Doxygen in ReadTheDocs environment")
+    run('ls -l ../doxygen')
+    run('which doxygen')
+    run('doxygen', '../doxygen')
+      
 else:
     # We run locally.
-    print("Debug: Calling Doxygen in local environment")
-    sys.stdout.flush()
-    subprocess.call('doxygen', shell=True)
-print("Debug: Doxygen done")
-sys.stdout.flush()
+
+    print_err("Debug: Calling Doxygen in local environment")
+    run('which doxygen')
+    run('doxygen')
