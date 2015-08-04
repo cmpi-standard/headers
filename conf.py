@@ -18,44 +18,47 @@ import os
 import shlex
 import subprocess, os
 
-DEBUG = True           # Controls the printing of debug messages 
+# Controls the printing of debug messages 
+DEBUG = False
 
-def print_err(*objs):
+# Doxygen output directory (under which it generates html, xml, ...)
+# It is relative to the github project root directory.
+DOXYGEN_OUTDIR = 'doxygen'
+
+def _print_err(*objs):
+    """Print a message to stderr and flush it."""
     print(*objs, file=sys.stderr)
     sys.stderr.flush()
 
-def print_out(*objs):
+def _print_out(*objs):
+    """Print a message to stdout and flush it."""
     print(*objs, file=sys.stdout)
     sys.stdout.flush()
 
-def run(command, folder=None):
+def _run(command, folder=None):
     """Run the command in the designated folder (default: current directory)."""
     if folder is not None:
         cmd = "cd %s; %s" % (folder, command)
     else:
         cmd = command
     if DEBUG:
-        print_out("Debug: Invoking command '%s'" % cmd)
+        _print_out("Debug: Invoking command '%s'" % cmd)
     try:
         retcode = subprocess.call(cmd, shell=True)
         if retcode == 0:
             if DEBUG:
-                print_out("Debug: Command '%s' succeeded" % cmd)
-        elif retcode < 0:
-            # old way?
-            print_err("Error: Command '%s' terminated by signal %s" % \
-                      (cmd, -retcode))
-        elif retcode > 128:
-            # current Python 2.7 way: return 128+N
-            print_err("Error: Command '%s' terminated by signal %s" % \
-                      (cmd, retcode-128))
+                _print_out("Debug: Command '%s' succeeded" % cmd)
         else:
-            print_err("Error: Command '%s' returns rc=%s" % (cmd, retcode))
-    except OSError as exc:
-        print_err("Error: Command '%s' failed: %s" % (cmd, exc))
+            _print_err("Error: Command '%s' (in shell) returns rc=%s" % \
+                       (cmd, retcode))
+        return retcode
     except Exception as exc:
-        print_err("Error: subprocess.call for command '%s' raised %s: %s" % \
-                  (cmd, exc.__class__.__name__, exc))
+        # This is not quite the error recovery it should be, but at least
+        # we know what happened.
+        _print_err("Error: Python subprocess.call() for command '%s' "
+                   "(in shell) raised %s: %s" % \
+                   (cmd, exc.__class__.__name__, exc))
+        return -1
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -123,7 +126,7 @@ language = None
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['doxygen', '_build', 'sphinx-ext']
+exclude_patterns = [DOXYGEN_OUTDIR, '_build', '_static', '_templates']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
@@ -336,36 +339,34 @@ texinfo_documents = [
 # -- Breathe extension ----------------------------------------------------
 
 breathe_projects = {
-    "cmpi-headers": "doxygen/xml/"
+    "cmpi-headers": DOXYGEN_OUTDIR+"/xml/"
 }
 breathe_default_project = "cmpi-headers"
 
 # -- Running Doxygen ------------------------------------------------------
 
 if DEBUG:
-    print_out("Debug: In conf.py: CWD=%s" % os.getcwd())
-    print_out("Debug: In conf.py: sys.path=")
+    _print_out("Debug: cwd=%s" % os.getcwd())
+    _print_out("Debug: sys.path=")
     for p in sys.path:
-        print_out("  %s" % p)
+        _print_out("  %s" % p)
 
-read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
-if read_the_docs_build:
+if on_rtd:
     # We run on readthedocs.org.
 
-    print_out("Calling Doxygen in ReadTheDocs environment")
-    if not os.path.isdir("doxygen"):
-        run('mkdir doxygen')
-    run('doxygen')
+    _print_out("Calling Doxygen in ReadTheDocs environment")
+    if not os.path.isdir(DOXYGEN_OUTDIR):
+        _run('mkdir %s' % DOXYGEN_OUTDIR)
+    _run('doxygen')
+    _print_out("Doxygen finished")
 
 else:
     # We run locally.
 
-    # Download the Breathe 4.0.0 tarball from PyPi and expand it into ./sphinx-ext/,
-    # so that the 'breathe' module is found in the following path:
-    # sys.path.append("sphinx-ext/breathe-4.0.0")
-
-    print_out("Calling Doxygen in local environment")
-    if not os.path.isdir("doxygen"):
-        run('mkdir doxygen')
-    run('doxygen')
+    _print_out("Calling Doxygen in local environment")
+    if not os.path.isdir(DOXYGEN_OUTDIR):
+        _run('mkdir %s' % DOXYGEN_OUTDIR)
+    _run('doxygen')
+    _print_out("Doxygen finished")
