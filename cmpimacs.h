@@ -5337,7 +5337,7 @@ static inline void CMFreeChars(
 /// Message insert pair for a C string value
 #define CMFmtChars(v)   CMPI_chars,((char*)v)
 /// Message insert pair for a CMPIString value
-#define CMFmtString(v)  CMPIString,((CMPIString*)v)
+#define CMFmtString(v)  CMPI_string,((CMPIString*)v)
 
 /**
    @}
