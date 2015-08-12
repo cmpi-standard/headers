@@ -6901,9 +6901,14 @@ typedef struct _CMPISelectExpFT {
      @li `CMPI_RC_ERR_INVALID_PARAMETER` - @p accessorFnc is invalid.
      @convfunction CMEvaluateSelExpUsingAccessor()
      @capquerynorm
+     @bug The @ref ref-cmpi-standard "CMPI Standard" declares the @p accessor
+         argument of this function with a `const` in its type: `const
+         CMPIAccessor* accessor`. The `const` is redundant and is being warned
+         about by some compiler. The `const` has been removed in the header
+         files and should be removed in the specification as well.
     */
     CMPIBoolean (*evaluateUsingAccessor) (const CMPISelectExp* se,
-        const CMPIAccessor* accessor, void* parm, CMPIStatus* rc);
+        CMPIAccessor* accessor, void* parm, CMPIStatus* rc);
 
 } CMPISelectExpFT;
 
@@ -7519,9 +7524,14 @@ typedef struct _CMPIPredicateFT {
      @capquerynorm
      @changed210 In CMPI 2.1, added the return code
          `CMPI_RC_ERR_INVALID_PARAMETER`.
+     @bug The @ref ref-cmpi-standard "CMPI Standard" declares the @p accessor
+         argument of this function with a `const` in its type: `const
+         CMPIAccessor* accessor`. The `const` is redundant and is being warned
+         about by some compiler. The `const` has been removed in the header
+         files and should be removed in the specification as well.
     */
     CMPIBoolean (*evaluateUsingAccessor) (const CMPIPredicate* pr,
-        const CMPIAccessor* accessorFnc, void* parm, CMPIStatus* rc);
+        CMPIAccessor* accessorFnc, void* parm, CMPIStatus* rc);
 
 } CMPIPredicateFT;
 
