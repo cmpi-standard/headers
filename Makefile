@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Makefile for GitHub project cmpi-wg/cmpi-headers.git
+# Makefile for GitHub project cmpi-wg/cmpi-headers
 #
 # Supported platforms for this makefile:
 #   Linux
@@ -10,9 +10,13 @@
 #   doxygen 1.8.2 or higher
 #   sh, echo, cd, test, rm, mkdir
 #   zip, unzip
+#
+# It is assumed that the GitHub project cmpi-wg/cmpi-wg.github.io has its work
+# directory in the location specified by the github_pages_work_dir variable.
 # ------------------------------------------------------------------------------
 
-# CMPI version in m.n.u format
+# CMPI version in m.n.u format.
+# Keep in sync with the CMPI header files
 cmpi_version := 2.1.0
 
 # Work directory of corresponding GitHub pages project
@@ -72,10 +76,13 @@ help:
 	@echo '  build   - (default) Build the Doxygen HTML zip file: $(doxygen_html_zip_file)'
 	@echo '  publish - Publish the Doxygen HTML files to: $(github_pages_unpack_dir)'
 	@echo '  clean   - Remove any temporary files.'
-	@echo '  clobber - Remove any temporary and generated files.'
+	@echo '  clobber - Remove any temporary files and build products.'
 	@echo '  all     - build, publish, clean'
 
-# Documentation for package (generates more .html files than just this target)
+# Doxygen HTML zip file.
+# Because it is hard to capture all generated HTML files, they are considered
+# an intermediate product (= temporary files) and the zip file picking them up
+# is considered the build product.
 $(doxygen_html_zip_file): Doxyfile cmpi*.h resources/*.png $(doxygen_css_file) \
 		$(doxygen_mainpage_file) modules.dox
 	mkdir -p $(doxygen_html_out_dir)
