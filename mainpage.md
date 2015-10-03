@@ -1,7 +1,7 @@
 Common Manageability Programming Interface (CMPI) - Header Files
 ================================================================
 
-![The Open Group Logo](../resources/tog_logo.png)
+![The Open Group Logo](../../resources/tog_logo.png)
 
 @anchor ref-cmpi-standard
 This online documentation has been generated from the header files of the
