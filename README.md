@@ -58,8 +58,9 @@ In order to publish the CMPI API documentation on
 
       git add --all .
       git commit -m "Updated CMPI 2.1.0 API files from cmpi-headers."
+      git push
 
-  or whatever the current CMPI version is.
+  Adjust the commit comment to whatever the current CMPI version is.
 
   This will add any new files and remove any files that are no longer generated.
 
