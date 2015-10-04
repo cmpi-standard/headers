@@ -2,8 +2,6 @@ _build/
 _static/
 _templates/
 doxygen/
-trials/
-*.zip
 *.log
 *.o
 *.pyc

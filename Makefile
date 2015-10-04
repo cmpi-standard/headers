@@ -42,10 +42,10 @@ doxygen_mainpage_file := mainpage.md
 doxygen_cmd := doxygen
 
 # Generated CMPI API ZIP file with Doxygen HTML output
-cmpi_api_html_zip_file := cmpi_$(cmpi_version)_api_html.zip
+cmpi_api_html_zip_file := files/cmpi_$(cmpi_version)_api_html.zip
 
 # Generated CMPI headers ZIP file
-cmpi_headers_zip_file := cmpi_$(cmpi_version)_headers.zip
+cmpi_headers_zip_file := files/cmpi_$(cmpi_version)_headers.zip
 
 # CMPI header files
 cmpi_headers := cmpift.h cmpidt.h cmpios.h cmpipl.h cmpimacs.h
@@ -102,4 +102,4 @@ $(cmpi_api_html_zip_file): $(cmpi_headers) Doxyfile resources/*.png $(doxygen_cs
 
 # CMPI headers ZIP file.
 $(cmpi_headers_zip_file): $(cmpi_headers)
-	zip -qu $(cmpi_headers_zip_file) $(cmpi_headers)
+	zip -quo $(cmpi_headers_zip_file) $(cmpi_headers)
