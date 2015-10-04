@@ -63,11 +63,11 @@ Some CMPI-related C preprocessor symbols can be set by users of the CMPI header
 files; they are described in module @ref symbols-user
 "Symbols definable by the CMPI user".
 
+@anchor ref-cmpi-standard
 CMPI 2.1.0 Standard
 -------------------
 
-  * @anchor ref-cmpi-standard
-    The Open Group: Systems Management: Common Manageability Programming
+  * The Open Group: Systems Management: Common Manageability Programming
     Interface (CMPI), Issue 2.1, **TBD: Release date**<br/>
     **TBD: Download link**
 
