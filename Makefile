@@ -32,7 +32,7 @@ doxygen_html_out_updir := ../..
 
 # Doxygen extra CSS stylesheet file.
 # Keep in sync with HTML_EXTRA_STYLESHEET parameter in Doxyfile
-doxygen_css_file := doxygen_cmpi.css
+doxygen_css_file := resources/doxygen_cmpi.css
 
 # Doxygen mainpage file.
 # Keep in sync with USE_MDFILE_AS_MAINPAGE parameter in Doxyfile
