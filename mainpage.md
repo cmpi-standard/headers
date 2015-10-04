@@ -1,48 +1,19 @@
-Common Manageability Programming Interface (CMPI) - Header Files
-================================================================
+Dummy header that will be removed by Doxygen for some reason
+------------------------------------------------------------
 
-@anchor ref-cmpi-standard
-This online documentation has been generated from the header files of the
-Open Group Standard:
+How to use this documentation
+-----------------------------
 
-<div style="margin-left:20px">
-  **Systems Management: Common Manageability Programming Interface (CMPI),
-  Issue 2, Version 1**<br/>
+This is an API reference for programmers. Before digging into it, it is helpful
+to understand the concepts of CMPI, for example by reading the introductory
+chapters of the @ref ref-cmpi-standard "CMPI Standard".
 
-  ISBN: **TBA**<br/>
-  Document Number: **TBA**<br/>
-  Published by The Open Group, **Month** 2015<br/>
-</div>
-
-This standard is referred to as "CMPI Standard" in this online documentation.
-
-The specification is available from the OpengGroup at:
-    **TBA**
-
-Comments relating to the CMPI Standard, to this online documentation, or to
-the CMPI header files may be submitted to:
-
-<div style="margin-left:20px">
-  The Open Group<br/>
-  Apex Plaza, Forbury Road<br/>
-  Reading, Berkshire, RG1 1AX<br/>
-  United Kingdom<br/>
-</div>
-
-or by electronic mail to:
-
-<div style="margin-left:20px">
-  ogspecs@opengroup.org<br/>
-</div>
-
-Structure of this online documentation
---------------------------------------
-
-The [<b>Modules</b>](modules.html) tab (at the top of this page) attempts to
-resemble the heading structure of the CMPI Standard as much as possible. In
-addition, it has modules for preprocessor symbols and for the CMPI convenience
-functions (also known as CMPI macros). This tab should be used as a general
-entry point, unless you know exactly what you are looking for.
+The [<b>Modules</b>](modules.html) tab (at the top of this page) resembles the
+heading structure of the CMPI Standard as much as possible (except for the
+introductory chapters). In addition, it has modules for preprocessor symbols and
+for the CMPI convenience functions (also known as CMPI macros). This tab should
+be used as a general entry point, unless you know exactly what you are looking
+for.
 
 The [<b>Related Pages</b>](pages.html) tab provides automatically generated
 lists, such as things added in CMPI 2.1, or things made mandatory in CMPI 2.1,
@@ -84,9 +55,6 @@ The CMPI header files are:
     MIs and MBs do not need to include this header file because it is already
     included when including the main header file `cmpift.h`.
 
-For the benefit of developers, copies of these header files are downloadable
-from the CMPI website
-([www.opengroup.org/tech/management/cmpi](http://www.opengroup.org/tech/management/cmpi)).
 These files are provided as a convenience only. In the case of any discrepancy
 between the header files and the CMPI Standard (incorporating any subsequent
 Technical Corrigenda), the CMPI Standard shall be definitive.
@@ -94,6 +62,14 @@ Technical Corrigenda), the CMPI Standard shall be definitive.
 Some CMPI-related C preprocessor symbols can be set by users of the CMPI header
 files; they are described in module @ref symbols-user
 "Symbols definable by the CMPI user".
+
+CMPI 2.1.0 Standard
+-------------------
+
+  * @anchor ref-cmpi-standard
+    The Open Group: Systems Management: Common Manageability Programming
+    Interface (CMPI), Issue 2.1, **TBD: Release date**<br/>
+    **TBD: Download link**
 
 References
 ----------
