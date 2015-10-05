@@ -39,3 +39,63 @@ dl.statusopenpegasus
     margin-left: 0px;
     padding-left: 0px;
 }
+
+/*
+ * Font modifications
+ */
+body, table, div, p, dl {
+  font: normal 14px/22px 'Lucida Grande',Verdana,sans-serif;
+}
+
+.title {
+  font: bold 14px/22px 'Lucida Grande',Verdana,sans-serif;
+  font-size: 150%;
+}
+
+code {
+  font-family: "Courier 10 Pitch","Courier New",fixed;
+}
+
+pre.fragment {
+  font-family: "Courier 10 Pitch","Courier New",fixed;
+}
+
+div.line {
+  font-family: "Courier 10 Pitch","Courier New",fixed;
+}
+
+.params .paramdir {
+  font-family: "Courier 10 Pitch","Courier New",fixed;
+}
+
+.navpath li.navelem a
+{
+  font-family: 'Lucida Grande',Verdana,sans-serif;
+}
+
+#projectname
+{
+  font: 300% 'Lucida Grande',Verdana,sans-serif;
+}
+    
+#projectbrief
+{
+  font: 120% 'Lucida Grande',Verdana,sans-serif;
+}
+
+#projectnumber
+{
+  font: 80% 'Lucida Grande',Verdana,sans-serif;
+}
+
+div.toc li {
+  font: 10px/1.2 'Lucida Grande',Verdana,sans-serif;
+}
+
+div.toc h3 {
+  font: bold 12px/1.2 'Lucida Grande',Verdana,sans-serif;
+}
+
+#powerTip div {
+  font: 12px/16px 'Lucida Grande',Verdana,sans-serif;
+}
